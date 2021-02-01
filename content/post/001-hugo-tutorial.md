@@ -22,9 +22,10 @@ tags = ['hugo', '博客']
 ### Step 2
 还是按照模版里指示的，修改一下配置文件`config.toml`里的相关配置，一些需要更改的内容：
 1. 包含`yourname`的部分
-2. `defaultContentLanguage = "en"`
-3. `[[menu.main]]`的相关内容 (视情况进行保留和删除)
-4. **不要**更改 `[params]` 中的 `version="4.x"`
+2. `newContentEditor = ""`
+3. `defaultContentLanguage = "en"`
+4. `[[menu.main]]`的相关内容 (视情况进行保留和删除)
+5. **不要**更改 `[params]` 中的 `version="4.x"`
 
 ### Step 2.5
 因为我打算部署到github pages上，就在github上创建一个新的repository，叫`tom0727.github.io`
@@ -51,13 +52,25 @@ tags = ['hugo', '博客']
 我们配置一下Github actions，它能自动化部署流程。参考资料:
 > https://segmentfault.com/a/1190000021815477
 
-需要注意，因为源代码和网页内容在同一个repository里，就不用折腾secret key之类的了，直接修改一下 `hugo-blog/.github/workflows/deploy.yml` (这个是template里自带的) 即可：
+需要注意，因为源代码和网页内容在同一个repository里，就不用在github上折腾secret key之类的了，直接修改一下 `hugo-blog/.github/workflows/deploy.yml` (这个是template里自带的) 即可：
 1. `personal_token: ${{ secrets.GITHUB_TOKEN }}`
 2. `publish_dir: ./public`
 3. `publish_branch: publish`
 4. 将 `depth` 改成 `fetch-depth`  (不然build的时候会报错)
 
-这样就完成了，从此以后，我们只要修改 `content/post/`里的博客文章，然后把源代码push到`master`就可以了，不必切branch然后push网页内容了。
+这样就完成了，从此以后，写一篇新文章的步骤就变成：
+1. `hugo new post/article.md`
+2. 修改位于`content/post/article.md`的博客文章
+3. add, commit, 把源代码push到`master`
+
+这样就可以了，不必切branch然后push网页内容了。
+
+> push到`master`以后，可以在repository的`Actions`页面查看一下deploy的情况：
+> ![image](/images/001/2.png)
+
+## TODO LIST
+1. 打开评论区功能
+2. 搞明白baidu push是什么
 
 ## 结语
 

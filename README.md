@@ -1,8 +1,8 @@
 [![hugo](https://img.shields.io/badge/powered%20by-hugo-orange)](https://gohugo.io/)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/yourname/hugo-blog/Deploy)](https://github.com/yourname/hugo-blog/actions)
-[![Website](https://img.shields.io/website?url=https%3A%2F%2Fyourname.github.io)](https://yourname.github.io)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/tom0727/tom0727.github.io/Deploy)](https://github.com/tom0727/tom0727.github.io/actions)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Ftom0727.github.io)](https://tom0727.github.io)
 
-这里是 yourname 的博客的源码，访问地址：<https://yourname.github.io>
+This is the source code of tom0727's blog, please visit the blog at: <https://tom0727.github.io>
 
 ## LICENSE
 
@@ -10,7 +10,7 @@ All components in the `content` folder, `static/post_doc` folder, `static/post_i
 
 ---
 
-使用方式：
+## Usage
 
 ```bash
 git clone --recurse-submodules https://github.com/ouuan/hugo-blog-template hugo-blog
@@ -18,6 +18,6 @@ cd hugo-blog
 hugo server
 ```
 
-使用 VS Code 或 grep 命令等方式，将所有含有 `yourname` 的地方进行修改。（并不是所有 `yourname` 都是用户名，只是为了方便搜索全用的 `yourname` 。）
+Please modify all the occurences of `yourname` according to your need.
 
-参照 [GitHub Actions 的文档](https://docs.github.com/en/free-pro-team@latest/actions/reference) 按需修改 [Workflows](.github/workflows)，尤其是 Deploy 方式，secrets 等需要修改。
+Refer to [GitHub Actions Document](https://docs.github.com/en/free-pro-team@latest/actions/reference) to customize [Workflows](.github/workflows).

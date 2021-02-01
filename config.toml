@@ -1,4 +1,4 @@
-newContentEditor = "code"
+newContentEditor = ""
 baseURL = "https://tom0727.github.io"
 languageCode = "en"
 defaultContentLanguage = "en"                             # en / zh-cn / ... (This field determines which i18n file to use)

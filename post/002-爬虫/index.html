@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>002 爬虫 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="写博客好累啊，是我太久没有写作了吗 这次来记录一下我第一次学习爬虫的经历 起因 补完とにかくかわいい的番，感觉真好看啊，漫画也不错，就打算补补とに" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/002-%E7%88%AC%E8%99%AB/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.2ccc99aa18501eb0a20678a919404779fa1d9f66663cef10606eef97052b4b73.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="002 爬虫" />
+<meta property="og:description" content="写博客好累啊，是我太久没有写作了吗 这次来记录一下我第一次学习爬虫的经历 起因 补完とにかくかわいい的番，感觉真好看啊，漫画也不错，就打算补补とに" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/002-%E7%88%AC%E8%99%AB/" />
+<meta property="article:published_time" content="2021-02-01T22:45:03+08:00" />
+<meta property="article:modified_time" content="2021-02-01T23:59:43+08:00" />
+<meta itemprop="name" content="002 爬虫">
+<meta itemprop="description" content="写博客好累啊，是我太久没有写作了吗 这次来记录一下我第一次学习爬虫的经历 起因 补完とにかくかわいい的番，感觉真好看啊，漫画也不错，就打算补补とに">
+<meta itemprop="datePublished" content="2021-02-01T22:45:03&#43;08:00" />
+<meta itemprop="dateModified" content="2021-02-01T23:59:43&#43;08:00" />
+<meta itemprop="wordCount" content="1096">
+
+
+
+<meta itemprop="keywords" content="爬虫,python," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="002 爬虫"/>
+<meta name="twitter:description" content="写博客好累啊，是我太久没有写作了吗 这次来记录一下我第一次学习爬虫的经历 起因 补完とにかくかわいい的番，感觉真好看啊，漫画也不错，就打算补补とに"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">002 爬虫</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-02-01 22:45:03 &#43;0800 &#43;0800"> 2021-02-01 </span>
+        <div class="post-category">
+            <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#起因">起因</a></li>
+        <li><a href="#过程">过程</a></li>
+        <li><a href="#爬-manga1001com">爬 manga1001.com</a></li>
+        <li><a href="#爬manhuaguicom">爬manhuagui.com</a>
+          <ul>
+            <li><a href="#step-1">Step 1</a></li>
+            <li><a href="#step-2">Step 2</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p><del>写博客好累啊，是我太久没有写作了吗</del></p>
+<p>这次来记录一下我第一次学习爬虫的经历</p>
+<h2 id="起因">起因</h2>
+<p>补完とにかくかわいい的番，感觉真好看啊，漫画也不错，就打算补补<a href="https://manga1001.com/%E3%80%90%E7%AC%AC1%E8%A9%B1%E3%80%91%E3%83%88%E3%83%8B%E3%82%AB%E3%82%AF%E3%82%AB%E3%83%AF%E3%82%A4%E3%82%A4-raw/" target="_blank">とにかくかわいい的生肉漫画</a>，但是这网站广告特别多，还会检测我adblocker，禁用javascript的话漫画就加载不出来了，气死我了，一怒之下决定学习爬虫把漫画爬下来看。</p>
+<h2 id="过程">过程</h2>
+<p>爬虫教程有很多，这里特别推荐一个Jack Cui的教程：</p>
+<blockquote>
+<p><a href="http://www.soolco.com/post/73836_1_1.html" target="_blank">[资源分享]     Python3 网络爬虫：漫画下载，动态加载、反爬虫这都不叫事</a></p>
+</blockquote>
+<h2 id="爬-manga1001com">爬 manga1001.com</h2>
+<p>这个网站设置的比较粗糙，图片都是静态加载的(F12就能看见图片链接)，根据标签<code>soup.find_all()</code>一下即可。对于这个网站的话，简单说一下爬虫的基本流程吧。</p>
+<div class="admonition question">
+  <p class="admonition-title">基本流程</p>
+<ol>
+<li>
+<p>观察一下页面的HTML，用F12打开可以看到大致结构，如果要看源代码的话，可以选择：</p>
+<p>1.1. <code>res = requests.get(url), print(res.txt)</code>
+或</p>
+<p>1.2. 在url前加上<code>view-source:</code>，然后用浏览器打开。</p>
+</li>
+<li>
+<p>找到包含图片的tag， 找一下规律，然后用 <code>soup.find_all()</code> 即可。</p>
+</li>
+<li>
+<p>获取所有章节的URL，然后分别去每个URL里抓取。</p>
+</li>
+</ol>
+</div>
+<details class="admonition note"><summary class="admonition-title">参考代码</summary>
+<pre><code>import requests
+from bs4 import BeautifulSoup
+import os
+import random
+import time
+
+def create_dir(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+root_folder = '/Users/huzhenwei/Desktop/manga/'
+create_dir(root_folder)
+USER_AGENTS = [
+    &quot;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)&quot;,
+    &quot;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Acoo Browser; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.0.04506)&quot;,
+    &quot;Mozilla/4.0 (compatible; MSIE 7.0; AOL 9.5; AOLBuild 4337.35; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)&quot;,
+    &quot;Mozilla/5.0 (Windows; U; MSIE 9.0; Windows NT 9.0; en-US)&quot;,
+    &quot;Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 2.0.50727; Media Center PC 6.0)&quot;,
+    &quot;Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 1.0.3705; .NET CLR 1.1.4322)&quot;,
+    &quot;Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 5.2; .NET CLR 1.1.4322; .NET CLR 2.0.50727; InfoPath.2; .NET CLR 3.0.04506.30)&quot;,
+    &quot;Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN) AppleWebKit/523.15 (KHTML, like Gecko, Safari/419.3) Arora/0.3 (Change: 287 c9dfb30)&quot;,
+    &quot;Mozilla/5.0 (X11; U; Linux; en-US) AppleWebKit/527+ (KHTML, like Gecko, Safari/419.3) Arora/0.6&quot;,
+    &quot;Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.2pre) Gecko/20070215 K-Ninja/2.1.1&quot;,
+    &quot;Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9) Gecko/20080705 Firefox/3.0 Kapiko/3.0&quot;,
+    &quot;Mozilla/5.0 (X11; Linux i686; U;) Gecko/20070322 Kazehakase/0.4.5&quot;,
+    &quot;Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.8) Gecko Fedora/1.9.0.8-1.fc10 Kazehakase/0.5.6&quot;,
+    &quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11&quot;,
+    &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.20 (KHTML, like Gecko) Chrome/19.0.1036.7 Safari/535.20&quot;,
+    &quot;Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; fr) Presto/2.9.168 Version/11.52&quot;,
+]
+
+
+# get content of one chapter
+def get_content(folder, prefix, url):
+
+    res = requests.get(url)
+    soup = BeautifulSoup(res.content, 'html.parser')
+    items = soup.find_all('figure')
+
+    i = 1
+
+    folder_name = os.path.join(folder, f'Chapter_{prefix:03}/')
+    create_dir(folder_name)
+
+    for item in items:
+
+        for child in item.children:
+            if i != 1:
+                img_url = child.get('data-src')
+            else:
+                img_url = child.get('src')
+
+            print(img_url)
+            headers = random.choice(USER_AGENTS)
+            img_html = requests.get(img_url, headers)
+
+            img_name = os.path.join(folder_name, f'{i:02}.jpg')
+            with open(img_name, 'wb') as file:
+                file.write(img_html.content)
+                file.flush()
+
+            i += 1
+            time.sleep(random.uniform(0, 3.33))  # sleep random time
+
+
+# get manga url list
+def get_url_list(manga_name, url):
+    res = requests.get(url)
+    soup = BeautifulSoup(res.content, 'html.parser')
+
+    items = soup.find_all('option')
+
+    for i in range(len(items) - 2, -1, -1):
+        if items[i] == items[-1]:  # get manga chapter url list without duplicates
+            items = items[i+1:]
+            break
+
+    chapter = 1
+    folder = os.path.join(root_folder, f'{manga_name}/')
+
+    for item in items:
+        manga_url = item.get('value')
+        get_content(folder, chapter, manga_url)
+
+        print(manga_url)
+        chapter += 1
+
+
+def main():
+    url1 = &quot;https://manga1001.com/%e3%80%90%e7%ac%ac1%e8%a9%b1%e3%80%91%e3%83%88%e3%83%8b%e3%82%ab%e3%82%af%e3%82%ab%e3%83%af%e3%82%a4%e3%82%a4-raw/&quot;
+    name1 = 'Tonikaku_Kawaii'
+    get_url_list(name1, url1)
+
+    url2 = &quot;https://manga1001.com/%e3%80%90%e7%ac%ac1%e8%a9%b1%e3%80%91%e5%b9%b2%e7%89%a9%e5%a6%b9%e3%81%86%e3%81%be%e3%82%8b%e3%81%a1%e3%82%83%e3%82%93-raw/&quot;
+    name2 = 'Umaru_Chan'
+    get_url_list(name2, url2)
+
+main()
+</code></pre>
+</details>
+<blockquote>
+<p>注: 这里用的<code>USER_AGENT</code>和<code>sleep()</code>都是为了防止被发现然后封IP</p>
+</blockquote>
+<h2 id="爬manhuaguicom">爬manhuagui.com</h2>
+<p>上面那个太没挑战性了，于是我打算再爬一个。</p>
+<p>打开<a href="https://www.manhuagui.com/comic/27099/354852.html" target="_blank">漫画网站</a>，
+<img src="/images/002/1.png" alt="image">
+发现没有图片链接，说明是动态加载的图片(用javascript加载的)，那怎么办呢？</p>
+<h3 id="step-1">Step 1</h3>
+<p>首先我们要获得某一话的所有图片链接，可以从图上看出似乎有一大段像是加密后的字符串，我们打开<a href="https://www.manhuagui.com/comic/27099/354390.html" target="_blank">第一话</a>和<a href="https://www.manhuagui.com/comic/27099/" target="_blank">第二话</a>的HTML，用命令行<code>diff</code>一下以后，会发现差异就刚好出现在这串字符串上：<img src="/images/002/2.JPG" alt="image">我们可以肯定这里面包含了图片链接相关的信息。</p>
+<h3 id="step-2">Step 2</h3>
+<p><del>太晚了，睡觉去了，明早起来接着写</del></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-02-01 23:59:43 &#43;0800 &#43;0800">2021-02-01</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/e24bf75f4e4d87906cb6f6f2eaadf39e676ab9d4" title="Fix bugs in links" target="_blank">(e24bf75)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/002-%e7%88%ac%e8%99%ab.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%88%AC%E8%99%AB/">爬虫</a>
+          <a href="/tags/python/">python</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/001-hugo-tutorial/">
+            <span class="next-text nav-default">Hugo博客搭建小记</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

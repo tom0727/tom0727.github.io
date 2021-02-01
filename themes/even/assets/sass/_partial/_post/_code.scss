@@ -1,0 +1,314 @@
+code, pre {
+  padding: 7px;
+  font-size: $code-font-size;
+  font-family: $code-font-family;
+}
+
+code {
+  background: $code-background;
+}
+
+pre {
+  background: $pre-background;
+}
+
+code {
+  padding: 3px 5px;
+  border-radius: 4px;
+  color: $code-color;
+}
+
+.highlight-wrapper {
+  position: relative;
+}
+
+.copy-code {
+  position: absolute;
+  right: 0;
+  z-index: 2;
+  font-size: .9em !important;
+  padding: 1px 7px !important;
+  border-radius: 5px !important;
+  font-family: Microsoft YaHei;
+}
+
+.copy-code:hover {
+  cursor: pointer;
+}
+
+pre > code {
+  display: block;
+}
+
+// highlight.js
+figure.highlight {
+  margin: 1em 0;
+  border-radius: 5px;
+  overflow-x: auto;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.125);
+  position: relative;
+  padding: 0;
+
+  table {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      padding: 2px 7px;
+      font-size: $code-font-size;
+      font-weight: bold;
+      color: darken($gray, 10%);
+      background: darken($pre-background, 3%);
+      content: 'Code';
+    }
+  }
+
+  @each $sign, $text in $code-type-list {
+    &.#{$sign} > table::after {
+      content: $text;
+    }
+  }
+
+  .code {
+    pre {
+      margin: 0;
+      padding: 30px 10px 10px;
+    }
+  }
+
+  .gutter {
+    width: 10px;
+    color: $gray;
+
+    pre {
+      margin: 0;
+      padding: 30px 7px 10px;
+
+      div {
+        text-align: right;
+      }
+    }
+  }
+
+  .line {
+    // Fix code block null line height and
+    // Synchronous gutter and code line highly.
+    height: $code-font-size * 1.25;
+  }
+
+  table, tr, td {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border-collapse: collapse;
+  }
+}
+
+// chroma
+.highlight > .chroma {
+  margin: 1em 0;
+  border-radius: 5px;
+  overflow-x: auto;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.125);
+  position: relative;
+  background: $pre-background;
+
+  code {
+    padding: 0;
+  }
+
+  table {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      padding: 2px 7px;
+      font-size: $code-font-size;
+      font-weight: bold;
+      color: darken($gray, 10%);
+      background: darken($pre-background, 3%);
+      content: 'Code';
+    }
+  }
+
+  @each $sign, $text in $code-type-list {
+    &.#{$sign} > table::after {
+      content: $text;
+    }
+  }
+
+  .lntd {
+    // Fix code block null line height and
+    // Synchronous gutter and code line highly.
+    line-height: round($code-font-size * 1.5);
+
+    &:first-child {
+      width: 10px;
+
+      pre {
+        margin: 0;
+        padding: 30px 7px 10px;
+      }
+    }
+
+    &:last-child {
+      vertical-align: top;
+
+      pre {
+        margin: 0;
+        padding: 30px 10px 10px;
+      }
+    }
+  }
+
+  table, tr, td {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  /* LineNumbersTable */  .lnt { color: $gray; }
+  /* LineHighlight */  .hl { display: block; width: 100%; background-color: #ffffcc }
+
+  /* Keyword */  .k { color: #859900 }
+  /* KeywordConstant */  .kc { color: #859900; font-weight: bold }
+  /* KeywordDeclaration */  .kd { color: #859900 }
+  /* KeywordNamespace */  .kn { color: #dc322f; font-weight: bold }
+  /* KeywordPseudo */  .kp { color: #859900 }
+  /* KeywordReserved */  .kr { color: #859900 }
+  /* KeywordType */  .kt { color: #859900; font-weight: bold }
+  /* Name */  .n { color: #268bd2 }
+  /* NameAttribute */  .na { color: #268bd2 }
+  /* NameBuiltin */  .nb { color: #cb4b16 }
+  /* NameBuiltinPseudo */  .bp { color: #268bd2 }
+  /* NameClass */  .nc { color: #cb4b16 }
+  /* NameConstant */  .no { color: #268bd2 }
+  /* NameDecorator */  .nd { color: #268bd2 }
+  /* NameEntity */  .ni { color: #268bd2 }
+  /* NameException */  .ne { color: #268bd2 }
+  /* NameFunction */  .nf { color: #268bd2 }
+  /* NameFunctionMagic */  .fm { color: #268bd2 }
+  /* NameLabel */  .nl { color: #268bd2 }
+  /* NameNamespace */  .nn { color: #268bd2 }
+  /* NameOther */  .nx { color: #268bd2 }
+  /* NameProperty */  .py { color: #268bd2 }
+  /* NameTag */  .nt { color: #268bd2; font-weight: bold }
+  /* NameVariable */  .nv { color: #268bd2 }
+  /* NameVariableClass */  .vc { color: #268bd2 }
+  /* NameVariableGlobal */  .vg { color: #268bd2 }
+  /* NameVariableInstance */  .vi { color: #268bd2 }
+  /* NameVariableMagic */  .vm { color: #268bd2 }
+  /* Literal */  .l { color: #2aa198 }
+  /* LiteralDate */  .ld { color: #2aa198 }
+  /* LiteralString */  .s { color: #2aa198 }
+  /* LiteralStringAffix */  .sa { color: #2aa198 }
+  /* LiteralStringBacktick */  .sb { color: #2aa198 }
+  /* LiteralStringChar */  .sc { color: #2aa198 }
+  /* LiteralStringDelimiter */  .dl { color: #2aa198 }
+  /* LiteralStringDoc */  .sd { color: #2aa198 }
+  /* LiteralStringDouble */  .s2 { color: #2aa198 }
+  /* LiteralStringEscape */  .se { color: #2aa198 }
+  /* LiteralStringHeredoc */  .sh { color: #2aa198 }
+  /* LiteralStringInterpol */  .si { color: #2aa198 }
+  /* LiteralStringOther */  .sx { color: #2aa198 }
+  /* LiteralStringRegex */  .sr { color: #2aa198 }
+  /* LiteralStringSingle */  .s1 { color: #2aa198 }
+  /* LiteralStringSymbol */  .ss { color: #2aa198 }
+  /* LiteralNumber */  .m { color: #2aa198; font-weight: bold }
+  /* LiteralNumberBin */  .mb { color: #2aa198; font-weight: bold }
+  /* LiteralNumberFloat */  .mf { color: #2aa198; font-weight: bold }
+  /* LiteralNumberHex */  .mh { color: #2aa198; font-weight: bold }
+  /* LiteralNumberInteger */  .mi { color: #2aa198; font-weight: bold }
+  /* LiteralNumberIntegerLong */  .il { color: #2aa198; font-weight: bold }
+  /* LiteralNumberOct */  .mo { color: #2aa198; font-weight: bold }
+  /* OperatorWord */  .ow { color: #859900 }
+  /* Comment */  .c { color: #93a1a1; font-style: italic }
+  /* CommentHashbang */  .ch { color: #93a1a1; font-style: italic }
+  /* CommentMultiline */  .cm { color: #93a1a1; font-style: italic }
+  /* CommentSingle */  .c1 { color: #93a1a1; font-style: italic }
+  /* CommentSpecial */  .cs { color: #93a1a1; font-style: italic }
+  /* CommentPreproc */  .cp { color: #93a1a1; font-style: italic }
+  /* CommentPreprocFile */  .cpf { color: #93a1a1; font-style: italic }
+  /* Generic */  .g { color: #d33682 }
+  /* GenericDeleted */  .gd { color: #b58900 }
+  /* GenericEmph */  .ge { color: #d33682 }
+  /* GenericError */  .gr { color: #d33682 }
+  /* GenericHeading */  .gh { color: #d33682 }
+  /* GenericInserted */  .gi { color: #859900 }
+  /* GenericOutput */  .go { color: #d33682 }
+  /* GenericPrompt */  .gp { color: #d33682 }
+  /* GenericStrong */  .gs { color: #d33682 }
+  /* GenericSubheading */  .gu { color: #d33682 }
+  /* GenericTraceback */  .gt { color: #d33682 }
+}
+
+// bootstray.css
+
+.btn{
+  display:inline-block;
+  font-weight:400;
+  color:#212529;
+  text-align:center;
+  vertical-align:middle;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  background-color:transparent;
+  border:1px solid transparent;
+  padding:.375rem .75rem;
+  font-size:1rem;
+  line-height:1.5;
+  border-radius:.25rem;
+  transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out
+}
+@media (prefers-reduced-motion:reduce){
+  .btn{
+      transition:none
+  }
+}
+.btn:hover{
+  color:#212529;
+  text-decoration:none
+}
+.btn.focus,.btn:focus{
+  outline:0;
+  box-shadow:0 0 0 .2rem rgba(0,123,255,.25)
+}
+.btn.disabled,.btn:disabled{
+  opacity:.65
+}
+a.btn.disabled,fieldset:disabled a.btn{
+  pointer-events:none
+}
+.btn-outline-secondary{
+  color:#6c757d;
+  border-color:#6c757d
+}
+.btn-outline-secondary:hover{
+  color:#fff;
+  background-color:#6c757d;
+  border-color:#6c757d
+}
+.btn-outline-secondary.focus,.btn-outline-secondary:focus{
+  box-shadow:0 0 0 .2rem rgba(108,117,125,.5)
+}
+.btn-outline-secondary.disabled,.btn-outline-secondary:disabled{
+  color:#6c757d;
+  background-color:transparent
+}
+.btn-outline-secondary:not(:disabled):not(.disabled).active,.btn-outline-secondary:not(:disabled):not(.disabled):active,.show>.btn-outline-secondary.dropdown-toggle{
+  color:#fff;
+  background-color:#6c757d;
+  border-color:#6c757d
+}
+.btn-outline-secondary:not(:disabled):not(.disabled).active:focus,.btn-outline-secondary:not(:disabled):not(.disabled):active:focus,.show>.btn-outline-secondary.dropdown-toggle:focus{
+  box-shadow:0 0 0 .2rem rgba(108,117,125,.5)
+}

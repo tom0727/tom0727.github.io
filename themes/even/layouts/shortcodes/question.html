@@ -1,0 +1,11 @@
+{{ if .Get 1 -}}
+<div class="admonition question">
+  <p class="admonition-title"><a href="{{ .Get 1 }}" target="_blank">{{ .Get 0 }}</a></p>
+  {{ .Inner }}
+</div>
+{{- else -}}
+<div class="admonition question">
+  <p class="admonition-title">{{ with .Get 0 }}{{ safeHTML . }}{{ else }}题目描述{{ end }}</p>
+  {{ .Inner }}
+</div>
+{{- end }}

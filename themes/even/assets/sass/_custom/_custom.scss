@@ -1,0 +1,41 @@
+// ==============================
+// Custom style
+// ==============================
+// You can override the variables in _variables.scss to customize the style
+
+.comments {
+    position: relative;
+    min-height: 10rem;
+
+    div.utterances {
+        background-color: $global-background;
+        z-index: 1;
+    }
+
+    .loading {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+        text-align: center;
+
+        img {
+            position: relative;
+            display: block;
+            width: 5rem;
+            height: 5rem;
+            left: 50%;
+            margin-left: -2.5rem;
+        }
+    }
+}
+
+// https://github.com/theme-next/hexo-theme-next/pull/1314#discussion_r376763718
+
+mjx-container[jax="CHTML"][display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container + br {
+  display: none;
+}

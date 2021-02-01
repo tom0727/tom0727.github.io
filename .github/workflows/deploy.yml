@@ -1,0 +1,45 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          depth: 0
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.69.2'
+          extended: true
+
+      - name: Build
+        run: |
+          git config core.quotePath false
+          hugo --minify
+
+      - name: Check links
+        id: check-links
+        uses: peter-evans/link-checker@v1
+        with:
+          args: -r public -d public -x "https?:\/\/"
+
+      - name: Fail on link errors
+        run: exit ${{ steps.check-links.outputs.exit_code }}
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          external_repository: tom0727/tom0727.github.io
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: publish
+          commit_message: ${{ github.event.head_commit.message }}

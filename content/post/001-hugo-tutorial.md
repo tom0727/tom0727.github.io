@@ -68,6 +68,15 @@ tags = ['hugo', '博客']
 > push到`master`以后，可以在repository的`Actions`页面查看一下deploy的情况：
 > ![image](/images/001/2.png)
 
+
+### Step 6:
+因为github.io似乎被墙了，所以学ouuan弄了一个gitee镜像，教程的话参照这两个就可以了：
+> https://jasonkayzk.github.io/2020/09/18/%E5%9C%A8Gitee%E6%90%AD%E5%BB%BAGithub-Pages/
+
+> https://github.com/yanglbme/gitee-pages-action
+
+gitee镜像的访问网址：tom0727.gitee.io
+
 ## TODO LIST
 1. 打开评论区功能
 2. 搞明白baidu push是什么

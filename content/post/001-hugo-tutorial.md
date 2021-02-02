@@ -79,7 +79,7 @@ gitee镜像的访问网址：[tom0727.gitee.io](tom0727.github.io)
 
 注：在 `hugo-blog/.github/workflows/sync.yml`里记得设置一下`on`，不然触发不了自动部署。
 
-我这里设置的是 `on: Deploy`（依赖我的deploy.yml事件），也可以设置成
+我这里设置的是：
 ```
 on:
   push:

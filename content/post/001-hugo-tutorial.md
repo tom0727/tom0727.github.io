@@ -2,7 +2,7 @@
 title = 'Hugo博客搭建小记'
 date = 2021-02-01T21:21:41+08:00
 draft = false
-categories = ['技术']
+categories = ['工程']
 tags = ['hugo', '博客']
 +++
 

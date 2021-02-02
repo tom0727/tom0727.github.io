@@ -85,6 +85,7 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 ```
 
 ## TODO LIST

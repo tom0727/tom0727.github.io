@@ -1,6 +1,6 @@
 name: Sync
 
-on: page_build
+on: Deploy
 
 jobs:
   build:

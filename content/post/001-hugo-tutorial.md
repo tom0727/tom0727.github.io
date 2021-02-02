@@ -45,6 +45,8 @@ tags = ['hugo', '博客']
 ![image](/images/001/1.png)
 
 > 需要在博文里插入图片的话，假设图片位于 `static/images/001/1.png`，就写上`![image](/images/001/1.png)`
+> 
+> 如果是插入link的话，就写 `[link_name](https://...)` 即可，外部链接记得加`https://`，不然会被当作本地的某个文件位置。
 
 这些步骤做完就可以了，当然这种修改然后发布的方式太麻烦了，切branch也很累，所以就有了Step 5:
 
@@ -75,7 +77,7 @@ tags = ['hugo', '博客']
 
 > https://github.com/yanglbme/gitee-pages-action
 
-gitee镜像的访问网址：[tom0727.gitee.io](tom0727.github.io)
+gitee镜像的访问网址：[tom0727.gitee.io](https://tom0727.gitee.io)
 
 注：在 `hugo-blog/.github/workflows/sync.yml`里记得设置一下`on`，不然触发不了自动部署。
 

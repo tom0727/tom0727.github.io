@@ -10,6 +10,7 @@ date = 2021-01-31T22:57:58+08:00
 - Year 3 Undergraduate student **@ HKU** (The University of Hong Kong), **2018-2022**
 - Major in Computer Science
 - Competitive programming as hobby
+- Please see my resume at: [https://github.com/tom0727/Resume](https://github.com/tom0727/Resume)
 
 # Contact
 

@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/003-crt/" />
 <meta property="article:published_time" content="2021-02-06T10:46:42+08:00" />
-<meta property="article:modified_time" content="2021-02-06T11:57:37+08:00" />
+<meta property="article:modified_time" content="2021-02-06T12:09:58+08:00" />
 <meta itemprop="name" content="中国剩余定理介绍">
 <meta itemprop="description" content="介绍 给定方程组： $$\begin{cases} x\equiv a_1 (\text{mod }m_1) \\ x\equiv a_2 (\text{mod }m_2) \\ &hellip; \\ x\equiv a_k (\text{mod }m_k) \\ \end{cases}$$ 其中 $a_i \geq 0, m_i &gt; 0, a_i,m_i \in \mathbb{Z}$, 且 $m_i$ 之间两两互质。 求满足条件的最小正整数解 $x$ ？ 结论 令 $M = m_1 \cdot m_2 ~&hellip;">
 <meta itemprop="datePublished" content="2021-02-06T10:46:42&#43;08:00" />
-<meta itemprop="dateModified" content="2021-02-06T11:57:37&#43;08:00" />
-<meta itemprop="wordCount" content="591">
+<meta itemprop="dateModified" content="2021-02-06T12:09:58&#43;08:00" />
+<meta itemprop="wordCount" content="594">
 
 
 
@@ -179,9 +179,9 @@ x\equiv a_k (\text{mod }m_k) \\<br>
 <h2 id="证明">证明</h2>
 <p>因为 $\forall i \neq j, M_i \equiv 0 ~(\text{mod } m_j)$</p>
 <p>所以 $\forall i \neq j, a_iM_iM_i^{-1} \equiv 0~ (\text{mod } m_j)$</p>
-<p>所以 $\forall i, x \equiv \sum_{i=1}^{k}a_iM_iM_i^{-1} \equiv a_iM_iM_i^{-1}$</p>
+<p>所以 $\forall i, x \equiv \sum_{i=1}^{k}a_iM_iM_i^{-1} \equiv a_iM_iM_i^{-1} ~ (\bmod ~m_i)$</p>
 <p>又因为 $\forall i, M_iM_i^{-1} \equiv 1 ~(\text{mod } m_i)$</p>
-<p>所以 $\forall i, x \equiv a_iM_iM_i^{-1} \equiv a_i ~ (\text{mod } M_i)$</p>
+<p>所以 $\forall i, x \equiv a_iM_iM_i^{-1} \equiv a_i ~ (\text{mod } m_i)$</p>
 <details class="admonition note"><summary class="admonition-title">证明推导过程</summary>
 <h2 id="证明推导过程">证明推导过程</h2>
 <p>这里直接放参考链接一中的片段：</p>
@@ -287,8 +287,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-02-06 11:57:37 &#43;0800 &#43;0800">2021-02-06</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/335bab74e4445a3cfb4fff8bf902fe98e4ed857d" title="update 003-crt.md" target="_blank">(335bab7)</a>
+        <span title="2021-02-06 12:09:58 &#43;0800 &#43;0800">2021-02-06</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/7d857422ae6a290fbe7ec5a2d088b11292b7798d" title="update 003-crt.md" target="_blank">(7d85742)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/003-crt.md" target="_blank">更新历史</a>
     </span>
   </p>

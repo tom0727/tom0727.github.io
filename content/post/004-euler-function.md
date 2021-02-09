@@ -18,7 +18,7 @@ tags = ['数学', '抽代']
 ## 性质
 1. $\varphi(p) = p-1, ~\forall \text{prime } p$
 2. $\varphi(mn) = \varphi(m)\varphi(n) \iff \gcd(m,n) = 1$
-3. $\varphi(p^k) = p^k - p^{k-1}$
+3. $\varphi(p^k) = p^k - p^{k-1} = p^k(1-\frac{1}{p})$
 4. $\forall n = p_1^{k_1}p_2^{k_2}...p_r^{k_r}, ~\varphi(n) = n\prod_{i=1}^{r}(1-\frac{1}{p_i}) = n(1-\frac{1}{p_1})(1-\frac{1}{p_2})...(1-\frac{1}{p_r})$
 5. $\forall n = p_1^{k_1}p_2^{k_2}...p_r^{k_r}$, 如果 $~\exists ~i, ~s.t. ~k_i > 1$, 则 $\varphi(n) = \varphi(\frac{n}{p_i})*p_i$
 
@@ -58,7 +58,7 @@ tags = ['数学', '抽代']
 {{% /fold %}}
 
 {{% fold 证明性质3 %}}
-求证：$\varphi(p^k) = p^k - p^{k-1}$
+求证：$\varphi(p^k) = p^k - p^{k-1} = p^k(1-\frac{1}{p})$
 > $\forall n = p^k$，所有与它**不互质**的数$m$必然包含$p$这个质数因子，因此满足条件的$m$为：$1p, 2p, 3p, ... , p^{k-1}p$，共 $p^{k-1}$个。
 > 
 > 所以，与$n = p^k$**互质**的数共有 $p^k-p^{k-1}$个。

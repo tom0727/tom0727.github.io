@@ -25,9 +25,17 @@ tags = ['数学', '抽代']
 
 ## 证明
 
+{{% fold 证明性质1 %}}
+求证： $\varphi(p) = p-1, ~\forall \text{prime } p$
+> 由质数的定义可知，小于等于$p$ 且 与$p$互质的数，在$[1,p]$中，除了 $p$以外均满足！
+ 
+ 注： $\varphi(1) = 1$
+
+{{% /fold %}}
+
 {{% fold 证明性质2 %}}
 
-求证: $\varphi(mn) = \varphi(m)\varphi(n) \iff \gcd(m,n) = 1$
+求证： $\varphi(mn) = \varphi(m)\varphi(n) \iff \gcd(m,n) = 1$
 
 > 首先，易知 $\varphi(n) = |\mathbb{Z}_n^{\times}|$
 > , 即 $\mathbb{Z}_n$ 中 **unit**(存在关于$\bmod~ n$乘法逆元的元素)的数量
@@ -87,8 +95,81 @@ tags = ['数学', '抽代']
 > 
 > 即 $\varphi(n) = \varphi(p_1^{k_1})\varphi(p_2^{k_2})... (\varphi(p_i^{k_i-1})*p_i)...\varphi(p_r^{k_r}) = \varphi(\frac{n}{p_i})*p_i$
 
-
 {{% /fold %}}
+
+
+## 求单个数的欧拉函数值
+
+$\forall n = p_1^{k_1}p_2^{k_2}...p_r^{k_r}$，直接质因数分解，由性质4即可求出！
+
+时间复杂度：$O(\sqrt n)$
+
+## 线性筛求1~n的欧拉函数值
+
+和线性筛的基本思路一样，只不过要分类讨论 `i % p == 0` 与否。（`i`是当前处理到的数, `p`是当前用到的质数）
+
+1. 如果 `i % p == 0`，说明 `i * p` 这个数里，包含了**至少2个质因子$p$** (即$p^2$)。
+   
+   由性质5，有 $\varphi(i * p) = \varphi(i) * p$
+2. 如果 `i % p != 0`，说明 $\gcd(i,p) = 1$。
+   
+   由性质2，有 $\varphi(i * p) = \varphi(i) * \varphi(p)$
+
+
+时间复杂度： $O(n)$
+
+## 代码
+
+{{% fold luogu-P2158-AC代码 %}}
+题目链接: https://www.luogu.com.cn/problem/P2158
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+const int mod = 998244352;
+const int maxn = 4e4+5;
+
+int phi[maxn];
+bool p[maxn];
+vector<int> primes;
+
+int main() {
+    int n; cin >> n;
+    if (n <= 1) {
+        cout << 0 << endl;
+        return 0;
+    }
+    phi[1] = 1;
+    fill(p, p+maxn, 1);
+
+    for (int i = 2; i <= n; i++) {
+        if (p[i]) {
+            phi[i] = i-1;
+            primes.push_back(i);
+        }
+
+        for (int j = 0; j < primes.size() && i * primes[j] <= n; j++) {
+            int cur = primes[j];
+            p[i*cur] = 0;
+            if (i % cur == 0) {
+                phi[i*cur] = phi[i] * cur;
+                break;
+            } else {
+                phi[i*cur] = phi[i] * phi[cur];
+            }
+        }
+    }
+    
+    int ans = 3;
+    for (int i = 2; i <= n-1; i++) ans += 2*phi[i];
+    cout << ans << endl;
+    
+}
+```
+{{% /fold %}}
+
+
+
 
 ## 后记
 写这篇文章的时候出了几个数学公式上的问题:

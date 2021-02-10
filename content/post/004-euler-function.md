@@ -169,7 +169,10 @@ int main() {
 {{% /fold %}}
 
 
-
+## 参考链接
+1. https://blog.csdn.net/paxhujing/article/details/51353672
+2. https://www.luogu.com.cn/blog/JustinRochester/solution-p2158
+3. https://blog.nowcoder.net/n/0cbf747dc0874027b5c48cf7fbf27060
 
 ## 后记
 写这篇文章的时候出了几个数学公式上的问题:

@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/001-hugo-tutorial/" />
 <meta property="article:published_time" content="2021-02-01T21:21:41+08:00" />
-<meta property="article:modified_time" content="2021-02-02T16:57:39+08:00" />
+<meta property="article:modified_time" content="2021-02-11T11:45:34+08:00" />
 <meta itemprop="name" content="Hugo博客搭建小记">
 <meta itemprop="description" content="起因 在几天前折腾了爬虫，成功爬下来とにかくかわいい的漫画以后，我发现我折腾似乎上瘾了。聊天时无意提到”要是我有个人网站就好了“，于是就决定动">
 <meta itemprop="datePublished" content="2021-02-01T21:21:41&#43;08:00" />
-<meta itemprop="dateModified" content="2021-02-02T16:57:39&#43;08:00" />
-<meta itemprop="wordCount" content="1726">
+<meta itemprop="dateModified" content="2021-02-11T11:45:34&#43;08:00" />
+<meta itemprop="wordCount" content="1855">
 
 
 
@@ -156,6 +156,7 @@
             <li><a href="#step-4">Step 4</a></li>
             <li><a href="#step-5">Step 5:</a></li>
             <li><a href="#step-6">Step 6:</a></li>
+            <li><a href="#step-7">Step 7:</a></li>
           </ul>
         </li>
         <li><a href="#todo-list">TODO LIST</a></li>
@@ -244,9 +245,14 @@
       - master
   workflow_dispatch:
 </code></pre>
+<h3 id="step-7">Step 7:</h3>
+<p>评论区用很多种，我选用了<code>utterances</code>，部署步骤如下：</p>
+<ol>
+<li>在Github上安装 <a href="https://github.com/apps/utterances" target="_blank">utterances app</a>，选择这个博客的repo</li>
+<li>在 <code>config.toml</code> 中更改配置，将 <code>[params.utterances]</code> 下的 <code>repo</code> 改成这个repo的名字即可。（可以新开一个repo来储存评论，不过评论会以<code>issues</code>的形式出现在repo里，所以没必要新开一个）</li>
+</ol>
 <h2 id="todo-list">TODO LIST</h2>
 <ol>
-<li>打开评论区功能</li>
 <li>搞明白baidu push是什么</li>
 </ol>
 <h2 id="结语">结语</h2>
@@ -262,8 +268,8 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-02-02 16:57:39 &#43;0800 &#43;0800">2021-02-02</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/34769db3eff9b04a640e7ffc10eb951cfceac780" title="Finish 002-爬虫.md" target="_blank">(34769db)</a>
+        <span title="2021-02-11 11:45:34 &#43;0800 &#43;0800">2021-02-11</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/b5c63e03b53970fa30e7f201f776dff5a7fe32fe" title="add comments" target="_blank">(b5c63e0)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/001-hugo-tutorial.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -295,7 +301,7 @@
 
   
     <script src="https://utteranc.es/client.js"
-            repo="tom0727/blog-comments"
+            repo="tom0727/tom0727.github.io"
             issue-term="pathname"
             theme="github-light"
             crossorigin="anonymous"

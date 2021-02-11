@@ -90,9 +90,15 @@ on:
   workflow_dispatch:
 ```
 
+
+### Step 7:
+
+评论区用很多种，我选用了`utterances`，部署步骤如下：
+1. 在Github上安装 [utterances app](https://github.com/apps/utterances)，选择这个博客的repo
+2. 在 `config.toml` 中更改配置，将 `[params.utterances]` 下的 `repo` 改成这个repo的名字即可。（可以新开一个repo来储存评论，不过评论会以`issues`的形式出现在repo里，所以没必要新开一个）
+
 ## TODO LIST
-1. 打开评论区功能
-2. 搞明白baidu push是什么
+1. 搞明白baidu push是什么
 
 ## 结语
 

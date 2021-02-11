@@ -142,9 +142,8 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
     clientSecret = ""       # Your client secret
 
   [params.utterances]       # https://utteranc.es/
-    enable = true
     owner = "tom0727"              # Your GitHub ID
-    repo = "blog-comments"               # The repo to store comments
+    repo = "tom0727.github.io"               # The repo to store comments
 
   [params.gitalk]           # Gitalk is a comment system based on GitHub issues. see https://github.com/gitalk/gitalk
     owner = ""              # Your GitHub ID

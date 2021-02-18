@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Archive - tom0727&#39;s blog</title>
+  <title>CF1159B 题解 - tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="tom0727的博客" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="题目链接 https://codeforces.com/contest/1159/problem/B 题意 给定 $n$ 个非负整数 $a_1,a_2,&amp;hellip;,a_n$，求 $\frac{\min(a_i, a_j)}{|i-j|}$ ？其中 $i, j \in [1,n], i \neq j$ 题解 对于这类的枚举问题，一般套路都是 &amp;" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -26,9 +26,7 @@
 <meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
-<link rel="canonical" href="https://tom0727.github.io/post/" />
-  <link href="https://tom0727.github.io/post/index.xml" rel="alternate" type="application/rss+xml" title="tom0727&#39;s blog" />
-  <link href="https://tom0727.github.io/post/index.xml" rel="feed" type="application/rss+xml" title="tom0727&#39;s blog" />
+<link rel="canonical" href="https://tom0727.github.io/post/006-cf-1159b/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -41,15 +39,23 @@
 
 
 
-<meta property="og:title" content="Posts" />
-<meta property="og:description" content="tom0727的博客" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://tom0727.github.io/post/" />
-<meta property="og:updated_time" content="2021-02-18T15:42:09+08:00" />
-<meta itemprop="name" content="Posts">
-<meta itemprop="description" content="tom0727的博客"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Posts"/>
-<meta name="twitter:description" content="tom0727的博客"/>
+<meta property="og:title" content="CF1159B 题解" />
+<meta property="og:description" content="题目链接 https://codeforces.com/contest/1159/problem/B 题意 给定 $n$ 个非负整数 $a_1,a_2,&hellip;,a_n$，求 $\frac{\min(a_i, a_j)}{|i-j|}$ ？其中 $i, j \in [1,n], i \neq j$ 题解 对于这类的枚举问题，一般套路都是 &" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/006-cf-1159b/" />
+<meta property="article:published_time" content="2021-02-17T15:19:54+08:00" />
+<meta property="article:modified_time" content="2021-02-18T16:46:39+08:00" />
+<meta itemprop="name" content="CF1159B 题解">
+<meta itemprop="description" content="题目链接 https://codeforces.com/contest/1159/problem/B 题意 给定 $n$ 个非负整数 $a_1,a_2,&hellip;,a_n$，求 $\frac{\min(a_i, a_j)}{|i-j|}$ ？其中 $i, j \in [1,n], i \neq j$ 题解 对于这类的枚举问题，一般套路都是 &">
+<meta itemprop="datePublished" content="2021-02-17T15:19:54&#43;08:00" />
+<meta itemprop="dateModified" content="2021-02-18T16:46:39&#43;08:00" />
+<meta itemprop="wordCount" content="249">
+
+
+
+<meta itemprop="keywords" content="枚举," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CF1159B 题解"/>
+<meta name="twitter:description" content="题目链接 https://codeforces.com/contest/1159/problem/B 题意 给定 $n$ 个非负整数 $a_1,a_2,&hellip;,a_n$，求 $\frac{\min(a_i, a_j)}{|i-j|}$ ？其中 $i, j \in [1,n], i \neq j$ 题解 对于这类的枚举问题，一般套路都是 &"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -118,111 +124,117 @@
     <main id="main" class="main">
       <div class="content-wrapper">
         <div id="content" class="content">
-          
-<section id="archive" class="archive">
-    <div class="archive-title">
-      <span class="archive-post-counter">
-        8 Posts In Total
-      </span>
-    </div>
-      <div class="collection-title">
-        <h2 class="archive-year">2021</h2>
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">CF1159B 题解</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-02-17 15:19:54 &#43;0800 &#43;0800"> 2021-02-17 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
+    </header>
 
-    <div class="archive-post">
-      <span class="archive-post-time">
-        02-18
-      </span>
-      <span class="archive-post-title">
-        <a href="/post/008-%E6%A0%91%E5%BD%A2dp/" class="archive-post-link">
-          树形dp
-        </a>
-      </span>
-    </div>
-
-    <div class="archive-post">
-      <span class="archive-post-time">
-        02-17
-      </span>
-      <span class="archive-post-title">
-        <a href="/post/007-01%E5%88%86%E6%95%B0%E8%A7%84%E5%88%92/" class="archive-post-link">
-          01分数规划
-        </a>
-      </span>
-    </div>
-
-    <div class="archive-post">
-      <span class="archive-post-time">
-        02-17
-      </span>
-      <span class="archive-post-title">
-        <a href="/post/006-cf-1159b/" class="archive-post-link">
-          CF1159B 题解
-        </a>
-      </span>
-    </div>
-
-    <div class="archive-post">
-      <span class="archive-post-time">
-        02-10
-      </span>
-      <span class="archive-post-title">
-        <a href="/post/005-%E7%88%AC%E8%99%AB%E7%AC%94%E8%AE%B0/" class="archive-post-link">
-          爬虫笔记
-        </a>
-      </span>
-    </div>
-
-    <div class="archive-post">
-      <span class="archive-post-time">
-        02-06
-      </span>
-      <span class="archive-post-title">
-        <a href="/post/004-euler-function/" class="archive-post-link">
-          欧拉函数
-        </a>
-      </span>
-    </div>
-
-    <div class="archive-post">
-      <span class="archive-post-time">
-        02-06
-      </span>
-      <span class="archive-post-title">
-        <a href="/post/003-crt/" class="archive-post-link">
-          中国剩余定理介绍
-        </a>
-      </span>
-    </div>
-
-    <div class="archive-post">
-      <span class="archive-post-time">
-        02-01
-      </span>
-      <span class="archive-post-title">
-        <a href="/post/002-%E7%88%AC%E8%99%AB/" class="archive-post-link">
-          初学爬虫小记
-        </a>
-      </span>
-    </div>
-
-    <div class="archive-post">
-      <span class="archive-post-time">
-        02-01
-      </span>
-      <span class="archive-post-title">
-        <a href="/post/001-hugo-tutorial/" class="archive-post-link">
-          Hugo博客搭建小记
-        </a>
-      </span>
-    </div></section>
-
-<nav class="pagination">
-  
-  
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#题目链接">题目链接</a></li>
+        <li><a href="#题意">题意</a></li>
+        <li><a href="#题解">题解</a></li>
+        <li><a href="#代码">代码</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="题目链接">题目链接</h2>
+<p><a href="https://codeforces.com/contest/1159/problem/B">https://codeforces.com/contest/1159/problem/B</a></p>
+<h2 id="题意">题意</h2>
+<p>给定 $n$ 个非负整数 $a_1,a_2,&hellip;,a_n$，求 $\frac{\min(a_i, a_j)}{|i-j|}$ ？其中 $i, j \in [1,n], i \neq j$</p>
+<h2 id="题解">题解</h2>
+<p>对于这类的枚举问题，一般套路都是 &ldquo;固定一个数&rdquo;，这里很明显是固定一下 $\min(a_i, a_j)$。</p>
+<p>所以只要从 $a_1$ 遍历到 $a_n$，把当前遍历到的值作为最小值，然后不管最左侧或者最右侧元素是否小于它，直接最大化分母就可以了。</p>
+<p>为什么不会漏解？因为 <strong>每一个 $a_i$ 都当了一次分子</strong>！</p>
+<h2 id="代码">代码</h2>
+<pre><code class="language-cpp">const int maxn = 3e5+5;
+
+int n, arr[maxn];
+int ans = 1e9;
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; arr[i];
+    for (int i = 1; i &lt;= n; i++) {
+        int d = max(i-1, n-i);
+        ans = min(ans, arr[i] / d);
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-02-18 16:46:39 &#43;0800 &#43;0800">2021-02-18</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/45c0ff13a9ea45c86d22f51d9e3735777c3f90af" title="init 006,007,008.md" target="_blank">(45c0ff1)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/006-cf-1159b.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%9E%9A%E4%B8%BE/">枚举</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/007-01%E5%88%86%E6%95%B0%E8%A7%84%E5%88%92/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">01分数规划</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/005-%E7%88%AC%E8%99%AB%E7%AC%94%E8%AE%B0/">
+            <span class="next-text nav-default">爬虫笔记</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
         </div>
         
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
 
 
       </div>
@@ -277,6 +289,14 @@
 
 
 <script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
 
 
 <script type="application/javascript">

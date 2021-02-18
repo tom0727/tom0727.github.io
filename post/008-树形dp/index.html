@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>爬虫笔记 - tom0727&#39;s blog</title>
+  <title>树形dp - tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="这篇博客主要收录一些爬虫相关的知识点： 分段下载 如果我们需要设定下载的timeout怎么办？ 直接指定 requests.get() 中的 timeout 是不行的！因为这里的timeout" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 树形dp就是在树上进行dp，常用于 &amp;ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&amp;rdquo; 的问题。 树形dp实现过" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
-<link rel="canonical" href="https://tom0727.github.io/post/005-%E7%88%AC%E8%99%AB%E7%AC%94%E8%AE%B0/" />
+<link rel="canonical" href="https://tom0727.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,23 +39,23 @@
 
 
 
-<meta property="og:title" content="爬虫笔记" />
-<meta property="og:description" content="这篇博客主要收录一些爬虫相关的知识点： 分段下载 如果我们需要设定下载的timeout怎么办？ 直接指定 requests.get() 中的 timeout 是不行的！因为这里的timeout" />
+<meta property="og:title" content="树形dp" />
+<meta property="og:description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 树形dp实现过" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/005-%E7%88%AC%E8%99%AB%E7%AC%94%E8%AE%B0/" />
-<meta property="article:published_time" content="2021-02-10T22:52:26+08:00" />
-<meta property="article:modified_time" content="2021-02-10T23:31:32+08:00" />
-<meta itemprop="name" content="爬虫笔记">
-<meta itemprop="description" content="这篇博客主要收录一些爬虫相关的知识点： 分段下载 如果我们需要设定下载的timeout怎么办？ 直接指定 requests.get() 中的 timeout 是不行的！因为这里的timeout">
-<meta itemprop="datePublished" content="2021-02-10T22:52:26&#43;08:00" />
-<meta itemprop="dateModified" content="2021-02-10T23:31:32&#43;08:00" />
-<meta itemprop="wordCount" content="486">
+<meta property="og:url" content="https://tom0727.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" />
+<meta property="article:published_time" content="2021-02-18T15:42:09+08:00" />
+<meta property="article:modified_time" content="2021-02-18T16:46:39+08:00" />
+<meta itemprop="name" content="树形dp">
+<meta itemprop="description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 树形dp实现过">
+<meta itemprop="datePublished" content="2021-02-18T15:42:09&#43;08:00" />
+<meta itemprop="dateModified" content="2021-02-18T16:46:39&#43;08:00" />
+<meta itemprop="wordCount" content="1098">
 
 
 
-<meta itemprop="keywords" content="爬虫,python," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="爬虫笔记"/>
-<meta name="twitter:description" content="这篇博客主要收录一些爬虫相关的知识点： 分段下载 如果我们需要设定下载的timeout怎么办？ 直接指定 requests.get() 中的 timeout 是不行的！因为这里的timeout"/>
+<meta itemprop="keywords" content="树形dp,dp优化," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="树形dp"/>
+<meta name="twitter:description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 树形dp实现过"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -127,12 +127,12 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">爬虫笔记</h1>
+      <h1 class="post-title">树形dp</h1>
 
       <div class="post-meta">
-        <span class="post-time" title="2021-02-10 22:52:26 &#43;0800 &#43;0800"> 2021-02-10 </span>
+        <span class="post-time" title="2021-02-18 15:42:09 &#43;0800 &#43;0800"> 2021-02-18 </span>
         <div class="post-category">
-            <a href="/categories/%E5%B7%A5%E7%A8%8B/"> 工程 </a>
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
             </div>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -146,9 +146,12 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#分段下载">分段下载</a></li>
-        <li><a href="#多进程下载">多进程下载</a></li>
-        <li><a href="#正则表达式regex的注意事项">正则表达式Regex的注意事项</a></li>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p2014httpswwwluogucomcnproblemp2014">例1 <a href="https://www.luogu.com.cn/problem/P2014">洛谷P2014</a></a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -156,58 +159,116 @@
   </div>
 </div>
     <div class="post-content">
-      <p>这篇博客主要收录一些爬虫相关的知识点：</p>
-<h2 id="分段下载">分段下载</h2>
-<p>如果我们需要设定下载的timeout怎么办？</p>
-<p>直接指定 <code>requests.get()</code> 中的 <code>timeout</code> 是不行的！因为这里的<code>timeout</code>参数意义是 <strong>&ldquo;从服务器返回任意数据&rdquo;</strong> 的时间差。如果我们想要设定 <code>timeout</code> 使得在<strong>一定时间内下载不完</strong>就break，可以用分段下载！</p>
-<p>分段下载由<code>stream=True</code>实现</p>
-<pre><code class="language-python">def download_img(img_url, path):
-    timeout = 150  # 设定150秒如果下载不完就停止下载
-    try:
-        img_html = requests.get(img_url, headers=get_download_header(), timeout=10, stream=True)
-        if img_html.status_code != 200:
-            return
-
-        body = []
-        start = time.time()
-        for chunk in img_html.iter_content(1024):
-            body.append(chunk)
-
-            if time.time() &gt; start + timeout:
-                print(&quot;Time out!&quot;)
-                break
-
-        else:  # 下载完毕
-            with open(path, 'wb') as file:
-                file.write(b''.join(body))
-                file.flush()
-
-    except BaseException as err:
-        print(err)
-</code></pre>
-<h2 id="多进程下载">多进程下载</h2>
-<p>多进程下载经常在访问一些速度较慢的网站时很有用，因为本地的带宽不是主要限制，所以可以开很多个进程同时访问然后进行下载，这样更快。</p>
-<pre><code class="language-python">def f(arg):
-    ...  # 下载程序
-
-if __name__ == '__main__':
-    processes = []
-    for _ in range(20):
-        p = multiprocessing.Process(target=f, args=(some_arg, ))
-        p.start()
-        processes.append(p)
-
-    for p in processes:
-        p.join()
-</code></pre>
-<h2 id="正则表达式regex的注意事项">正则表达式Regex的注意事项</h2>
+      <h2 id="介绍">介绍</h2>
+<p>树形dp就是在树上进行dp，常用于 <strong>&ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo;</strong> 的问题。</p>
+<p>树形dp实现过程中也有很多需要注意的点，以下放一道经典例题：</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p2014httpswwwluogucomcnproblemp2014">例1 <a href="https://www.luogu.com.cn/problem/P2014" target="_blank">洛谷P2014</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $N$ 门课程，每门课程有 $1$ 或 $0$ 门前置课程，需要上了前置课程才能上这门课。每门课 $i$ 有 $s_i$ 学分。</p>
+<p>现要选 $M$ 门课，使得学分总和最大。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>设 $dp[i][j]$ 为: 以 $i$ 为根的子树当中，选了 $j$ 个课程得到的最大值</p>
+<p>根据前置课程的关系建图(会发现这是一棵树)，因为有前置课程，所以必须选了root才能选别的，故:</p>
+<p>$dp[i][1] = s_i$</p>
+<p>在处理某一个节点i的时候，$dp[i][j]$ 代表的是： 以它为root的 <strong>&ldquo;已探索&rdquo; 子树</strong>中的最大值，所以在探索各个子树过程中有：</p>
+<p>$dp\left[cur\right]\left[j\right]=\max\left(dp\left[cur\right]\left[j\right],dp\left[cur\right]\left[k\right]+dp\left[nei\right]\left[j-k\right]\right),\ k=\left[1,j-1\right]$</p>
+<hr>
+<p><strong>实现细节</strong></p>
 <ol>
-<li>匹配时注意区分懒惰匹配和贪婪匹配，懒惰匹配可以在匹配符号后加上<code>?</code>，如 <code>.*?</code></li>
-<li>如果在匹配过程中需要用到<code>()</code>，但是需要获取整个匹配结果（不想被<code>()</code>框起来的部分干扰），可以使用non-capturing group，即，<code>(?:)</code>，如:</li>
+<li>我们利用 $dp[i][1] = s_i$ 来<strong>处理前置课程</strong>，是非常高效的做法！</li>
+<li>状态转移的时候，要 <strong>倒序枚举 $j$</strong>， 也就是 $j = m &hellip; 1$， 因为此时 $dp[cur][k]$ 代表的是已探索的部分，不能包括 $nei$ (因为 $nei$ 正在被探索)。为了防止同一个 $nei$ 被考虑多次，要倒序枚举！</li>
+<li>给定的图可能是一个森林，所以创建一个<strong>超级root $0$</strong>，并且将 $m$++ (因为 $0$ 肯定要包含进去)，最终答案就是 $dp[0][M+1]$</li>
 </ol>
+<hr>
+<p><strong>算法优化</strong></p>
+<p>注意，在dp状态转移的时候，我们可能用的是如下loop:</p>
+<pre><code class="language-cpp">for (int j = m; j &gt;= 1; j--) {
+    for (int k = 1; k &lt;= j-1; k++) {
+        dp[cur][j] = max(dp[cur][j], dp[cur][j-k] + dp[nei][k]);
+    }
+}
+</code></pre>
+<p>每个节点 <code>cur</code> 都这样loop一次，总复杂度是 $O(nm^2)$，看起来不可接受。</p>
+<p>我们可以优化一下：</p>
+<p>对于每一个root节点 <code>cur</code>，我们记录一下 <code>int sz[cur]</code>，代表 <strong>以<code>cur</code>为根的子树的节点数量</strong>， 这样枚举的时候我们就可以优化成这样：</p>
+<pre><code class="language-cpp">for (int j = min(m, sz[cur]); j &gt;= 1; j--) {  //优化
+    for (int k = 1; k &lt;= min(j-1, sz[nei]); k++) {  //优化
+        dp[cur][j] = max(dp[cur][j], dp[cur][j-k] + dp[nei][k]);
+    }
+}
+</code></pre>
+<p>时间复杂度：$O(n^2)$</p>
+<p>证明：我们考虑每一个 <code>nei</code> <strong>被用来转移</strong> 的次数，会发现它只会在计算它的 parent 的dp值时才会被拿来统计，又因为每一个节点只有1个parent，所以每个节点对应的子树都只会被统计一次。</p>
+<p>所以时间复杂度就是 $T(\sum_{i=1}^n i * sz[i]) = O(n^2)$</p>
+<p>更严谨的数学证明可以参见 <a href="https://www.luogu.com.cn/blog/Chenxiao-Yan/solution-p4322">https://www.luogu.com.cn/blog/Chenxiao-Yan/solution-p4322</a></p>
+</details>
+<details class="admonition note"><summary class="admonition-title">luogu-P2014-AC代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int maxn = 305;
+const int maxm = 305;
+
+int n,m;
+int s[maxn];
+int dp[maxn][maxn];
+int sz[maxn];  //记录i的子树大小
+
+struct Edge {
+    int to, nxt;
+} edges[maxm];
+int head[maxn], ecnt = 1;
+
+void add(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt++;
+}
+
+void init() {
+    scanf(&quot;%d%d&quot;,&amp;n,&amp;m);
+    fill(head, head+n+2, -1);  //因为存在编号为0的节点，所以初始化为-1
+    for (int i = 1; i &lt;= n; i++) {
+        int sc,k;
+        scanf(&quot;%d%d&quot;,&amp;k,&amp;sc);
+        s[i] = sc;
+        add(k, i);
+    }
+}
+
+void dfs(int cur, int par) {
+    if (sz[cur]) return;  // visited
+    dp[cur][1] = s[cur];
+    sz[cur] = 1;
+
+    for (int e = head[cur]; ~e; e = edges[e].nxt) {
+        int nei = edges[e].to;
+        if (par == nei) continue;
+
+        dfs(nei, cur);
+        sz[cur] += sz[nei];
+
+        for (int j = min(m, sz[cur]); j &gt;= 1; j--) {  //优化
+            for (int k = 1; k &lt;= min(j-1, sz[nei]); k++) {  //优化
+                dp[cur][j] = max(dp[cur][j], dp[cur][j-k] + dp[nei][k]);
+            }
+        }
+    }
+}
+
+int main() {
+    init();
+    m++;
+    dfs(0, -1);
+    printf(&quot;%d\n&quot;, dp[0][m]);
+}
+</code></pre>
+</details>
 <blockquote>
-<p><code>re.findall(&quot;https://abc.net/images/.*?(?:jpg|png|jpeg)&quot;, txt)</code></p>
-<p>这样，返回的就是整个匹配的网址，而不是<code>()</code>框起来的部分</p>
+<p>题外话：如果每门课的前置课程不止1门，就不再是一棵树了，这样的话似乎可以用状压dp来解，leetcode某次比赛中出现过。</p>
 </blockquote>
 
     </div>
@@ -220,9 +281,9 @@ if __name__ == '__main__':
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-02-10 23:31:32 &#43;0800 &#43;0800">2021-02-10</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/df4f09094a5fedd9df4d8654fda621e15b220bb9" title="Init 005-爬虫笔记.md" target="_blank">(df4f090)</a>
-        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/005-%e7%88%ac%e8%99%ab%e7%ac%94%e8%ae%b0.md" target="_blank">更新历史</a>
+        <span title="2021-02-18 16:46:39 &#43;0800 &#43;0800">2021-02-18</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/45c0ff13a9ea45c86d22f51d9e3735777c3f90af" title="init 006,007,008.md" target="_blank">(45c0ff1)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/008-%e6%a0%91%e5%bd%a2dp.md" target="_blank">更新历史</a>
     </span>
   </p>
   
@@ -233,17 +294,13 @@ if __name__ == '__main__':
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/%E7%88%AC%E8%99%AB/">爬虫</a>
-          <a href="/tags/python/">python</a>
+          <a href="/tags/%E6%A0%91%E5%BD%A2dp/">树形dp</a>
+          <a href="/tags/dp%E4%BC%98%E5%8C%96/">dp优化</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/006-cf-1159b/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">CF1159B 题解</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/004-euler-function/">
-            <span class="next-text nav-default">欧拉函数</span>
+        
+        <a class="next" href="/post/007-01%E5%88%86%E6%95%B0%E8%A7%84%E5%88%92/">
+            <span class="next-text nav-default">01分数规划</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

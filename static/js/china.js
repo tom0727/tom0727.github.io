@@ -1,4 +1,4 @@
-function isInChina(cb) {
+/*function isInChina(cb) {
   var url = 'https://graph.facebook.com/feed?callback=h';
   var xhr = new XMLHttpRequest();
   var called = false;
@@ -38,5 +38,4 @@ if (!document.referrer.match(/tom0727.github.io|tom0727.gitee.io|localhost/)) {
     china();
 } else {
     window.alert("not changing!");
-}
-
+}*/

@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/010-%E7%BD%91%E9%A1%B5%E5%BC%80%E5%8F%91/" />
 <meta property="article:published_time" content="2021-02-21T23:39:36+08:00" />
-<meta property="article:modified_time" content="2021-02-21T23:54:58+08:00" />
+<meta property="article:modified_time" content="2021-02-24T13:15:00+08:00" />
 <meta itemprop="name" content="HTML/CSS/JS笔记">
 <meta itemprop="description" content="这篇博客主要收录一些关于HTML,CSS,JS的知识点 CSS 当前页面的selector 假设我们有一个nav bar，有很多个link，我们希望检测">
 <meta itemprop="datePublished" content="2021-02-21T23:39:36&#43;08:00" />
-<meta itemprop="dateModified" content="2021-02-21T23:54:58&#43;08:00" />
-<meta itemprop="wordCount" content="269">
+<meta itemprop="dateModified" content="2021-02-24T13:15:00&#43;08:00" />
+<meta itemprop="wordCount" content="425">
 
 
 
@@ -147,7 +147,18 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#css-当前页面的selector">CSS 当前页面的selector</a></li>
+        <li><a href="#css-当前页面的selector">CSS 当前页面的selector</a>
+          <ul>
+            <li><a href="#方案">方案</a></li>
+            <li><a href="#参考链接">参考链接</a></li>
+          </ul>
+        </li>
+        <li><a href="#htmlcss-手机字体大小不一">HTML/CSS 手机字体大小不一</a>
+          <ul>
+            <li><a href="#方案-1">方案</a></li>
+            <li><a href="#参考链接-1">参考链接</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -158,6 +169,7 @@
       <p>这篇博客主要收录一些关于HTML,CSS,JS的知识点</p>
 <h2 id="css-当前页面的selector">CSS 当前页面的selector</h2>
 <p>假设我们有一个nav bar，有很多个link，我们希望检测当前在哪个页面，然后让当前页面对应的link的img更换一个，怎么办？（不使用javascript，仅用CSS）</p>
+<h3 id="方案">方案</h3>
 <p>可以用CSS中的 <code>Pseudo-classes</code> 中的 <code>target</code>，当网页链接中存在 <code>#some_id</code> 时，所有 <code>id = &quot;some_id&quot;</code> 的tag就会变成 <code>:target</code> 的状态。</p>
 <p>所以可以给每个 <code>a</code> 的 <code>href</code> 加上一个 <code>#some_id</code>，然后给 <code>img</code> 加上 <code>id = some_id</code>，如下：</p>
 <details class="admonition note"><summary class="admonition-title">HTML代码</summary>
@@ -177,9 +189,37 @@
 }
 </code></pre>
 </details>
-<p>参考链接：</p>
+<h3 id="参考链接">参考链接</h3>
 <ol>
 <li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:target">https://developer.mozilla.org/zh-CN/docs/Web/CSS/:target</a></li>
+</ol>
+<h2 id="htmlcss-手机字体大小不一">HTML/CSS 手机字体大小不一</h2>
+<p>在手机上发现<code>font-size</code>相同的字体大小不一致，怎么办？</p>
+<h3 id="方案-1">方案</h3>
+<ol>
+<li>
+<p>在HTML文件前面加上</p>
+<pre><code class="language-html">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+</code></pre>
+</li>
+<li>
+<p>添加上述代码后，网页中可能会出现 horizontal scrollbar。可以在css中添加：</p>
+<pre><code class="language-css">@media only screen and (max-width: 600px) {
+   html, body {
+     overflow-x: hidden;
+   }
+   body {
+     position: relative;
+   }
+ }
+</code></pre>
+<p>然后在 media query 里面调整一下字体大小，图片大小之类的属性，保证 <code>overflow-x: hidden;</code> 不会隐藏内容。</p>
+</li>
+</ol>
+<h3 id="参考链接-1">参考链接</h3>
+<ol>
+<li><a href="https://stackoverflow.com/questions/27074259/html-css-table-font-size-different-in-mobile-device">https://stackoverflow.com/questions/27074259/html-css-table-font-size-different-in-mobile-device</a></li>
+<li><a href="https://stackoverflow.com/questions/4192277/disable-horizontal-scroll-on-mobile-web">https://stackoverflow.com/questions/4192277/disable-horizontal-scroll-on-mobile-web</a></li>
 </ol>
 
     </div>
@@ -192,8 +232,8 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-02-21 23:54:58 &#43;0800 &#43;0800">2021-02-21</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/1f1cabe2836856f518f4fca19d8bae09e3ca76a3" title="init 010.md" target="_blank">(1f1cabe)</a>
+        <span title="2021-02-24 13:15:00 &#43;0800 &#43;0800">2021-02-24</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/98819ed1fa5402a182ee740df8443df522f5940e" title="add an example in 004-euler-function" target="_blank">(98819ed)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/010-%e7%bd%91%e9%a1%b5%e5%bc%80%e5%8f%91.md" target="_blank">更新历史</a>
     </span>
   </p>

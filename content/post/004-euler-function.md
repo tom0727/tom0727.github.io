@@ -104,6 +104,21 @@ $\forall n = p_1^{k_1}p_2^{k_2}...p_r^{k_r}$，直接质因数分解，由性质
 
 时间复杂度：$O(\sqrt n)$
 
+### 代码
+```cpp
+ll phi(ll x) {
+    ll res = x;
+    for (ll p = 2; p * p <= x; p++) {
+        if (x % p == 0) {
+            res = (res / p) * (p-1);
+        }
+        while (x % p == 0) x /= p;
+    }
+    if (x > 1) res = res / x * (x-1);
+    return res;
+}
+```
+
 ## 线性筛求1~n的欧拉函数值
 
 和线性筛的基本思路一样，只不过要分类讨论 `i % p == 0` 与否。（`i`是当前处理到的数, `p`是当前用到的质数）
@@ -118,7 +133,7 @@ $\forall n = p_1^{k_1}p_2^{k_2}...p_r^{k_r}$，直接质因数分解，由性质
 
 时间复杂度： $O(n)$
 
-## 代码
+### 代码
 
 {{% fold luogu-P2158-AC代码 %}}
 题目链接: https://www.luogu.com.cn/problem/P2158
@@ -166,6 +181,36 @@ int main() {
     
 }
 ```
+{{% /fold %}}
+
+## 例题
+
+### 例1 [CF1295](https://codeforces.com/contest/1295/problem/D)
+
+{{% question 题意 %}}
+给定两个正整数 $a$, $m$, 求满足以下条件的 $x$ 的数量？
+
+1. $0 \leq x < m$
+2. $\gcd(a,m) = \gcd(a+x,m)$
+
+其中，$1 \leq a < m \leq 10^{10}$
+
+{{% /question %}}
+
+{{% fold "题解" %}}
+
+设 $g = \gcd(a,m)$，则 $g = \gcd(a+x,m)$，所以 $\gcd(\frac{a+x}{g}, \frac{m}{g}) = 1~$ 且 $~g|(a+x)$，又因为 $g|a$，所以 $~g|x$
+
+所以问题转化为：
+
+设 $c = \frac{a}{g}, x = \frac{m}{g}$，求 $k \in [c,c+x)$，使得 $k$ 满足：$gcd(x, k) = 1$ 的  $k$ 的数量？
+
+我们会发现当 $k > x$ 时，因为 $\gcd(x,k) = \gcd(x, k-x)$，所以我们可以将 $k \in (x,c+x)$ 的这一段，映射到 $k \in (0,c)$ 上。
+
+![image](/images/004/1.jpg)
+
+所以最后我们要求的$k$就是： $k \in [1,x]$ 使得 $\gcd(k, x) = 1$，所以满足条件的 $k$ 的数量就等于 $\varphi(x)$
+
 {{% /fold %}}
 
 

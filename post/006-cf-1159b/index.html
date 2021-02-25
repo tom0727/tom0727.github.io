@@ -44,11 +44,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/006-cf-1159b/" />
 <meta property="article:published_time" content="2021-02-17T15:19:54+08:00" />
-<meta property="article:modified_time" content="2021-02-21T23:54:58+08:00" />
+<meta property="article:modified_time" content="2021-02-25T17:27:33+08:00" />
 <meta itemprop="name" content="CF1159B 题解(枚举优化)">
 <meta itemprop="description" content="题目链接 https://codeforces.com/contest/1159/problem/B 题意 给定 $n$ 个非负整数 $a_1,a_2,&hellip;,a_n$，求 $\frac{\min(a_i, a_j)}{|i-j|}$ ？其中 $i, j \in [1,n], i \neq j$ 题解 对于这类的枚举问题，一般套路都是 &">
 <meta itemprop="datePublished" content="2021-02-17T15:19:54&#43;08:00" />
-<meta itemprop="dateModified" content="2021-02-21T23:54:58&#43;08:00" />
+<meta itemprop="dateModified" content="2021-02-25T17:27:33&#43;08:00" />
 <meta itemprop="wordCount" content="249">
 
 
@@ -147,9 +147,6 @@
     <li>
       <ul>
         <li><a href="#题目链接">题目链接</a></li>
-        <li><a href="#题意">题意</a></li>
-        <li><a href="#题解">题解</a></li>
-        <li><a href="#代码">代码</a></li>
       </ul>
     </li>
   </ul>
@@ -159,13 +156,16 @@
     <div class="post-content">
       <h2 id="题目链接">题目链接</h2>
 <p><a href="https://codeforces.com/contest/1159/problem/B">https://codeforces.com/contest/1159/problem/B</a></p>
-<h2 id="题意">题意</h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
 <p>给定 $n$ 个非负整数 $a_1,a_2,&hellip;,a_n$，求 $\frac{\min(a_i, a_j)}{|i-j|}$ ？其中 $i, j \in [1,n], i \neq j$</p>
-<h2 id="题解">题解</h2>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
 <p>对于这类的枚举问题，一般套路都是 &ldquo;固定一个数&rdquo;，这里很明显是固定一下 $\min(a_i, a_j)$。</p>
 <p>所以只要从 $a_1$ 遍历到 $a_n$，把当前遍历到的值作为最小值，然后不管最左侧或者最右侧元素是否小于它，直接最大化分母就可以了。</p>
 <p>为什么不会漏解？因为 <strong>每一个 $a_i$ 都当了一次分子</strong>！</p>
-<h2 id="代码">代码</h2>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">const int maxn = 3e5+5;
 
 int n, arr[maxn];
@@ -181,6 +181,7 @@ int main() {
     cout &lt;&lt; ans &lt;&lt; endl;
 }
 </code></pre>
+</details>
 
     </div>
 
@@ -192,8 +193,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-02-21 23:54:58 &#43;0800 &#43;0800">2021-02-21</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/1f1cabe2836856f518f4fca19d8bae09e3ca76a3" title="init 010.md" target="_blank">(1f1cabe)</a>
+        <span title="2021-02-25 17:27:33 &#43;0800 &#43;0800">2021-02-25</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/079f956192f546c10ec90c215735c985d74a1b6d" title="add 012.md" target="_blank">(079f956)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/006-cf-1159b.md" target="_blank">更新历史</a>
     </span>
   </p>

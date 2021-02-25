@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>HTML/CSS/JS笔记 - tom0727&#39;s blog</title>
+  <title>CF 1492E(暴搜) - tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="这篇博客主要收录一些关于HTML,CSS,JS的知识点 CSS 当前页面的selector 假设我们有一个nav bar，有很多个link，我们希望检测" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="题目链接 https://codeforces.com/contest/1492/problem/E 题意 给定 $n$ 个长度为 $m$ 的正整数array，其中 $n \geq 2, m \geq 1, n \times m \leq 250000$ 问是否存在一个array，使得这个array 与 其他每个array" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
-<link rel="canonical" href="https://tom0727.github.io/post/010-%E7%BD%91%E9%A1%B5%E5%BC%80%E5%8F%91/" />
+<link rel="canonical" href="https://tom0727.github.io/post/011-cf-1492e/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,23 +39,23 @@
 
 
 
-<meta property="og:title" content="HTML/CSS/JS笔记" />
-<meta property="og:description" content="这篇博客主要收录一些关于HTML,CSS,JS的知识点 CSS 当前页面的selector 假设我们有一个nav bar，有很多个link，我们希望检测" />
+<meta property="og:title" content="CF 1492E(暴搜)" />
+<meta property="og:description" content="题目链接 https://codeforces.com/contest/1492/problem/E 题意 给定 $n$ 个长度为 $m$ 的正整数array，其中 $n \geq 2, m \geq 1, n \times m \leq 250000$ 问是否存在一个array，使得这个array 与 其他每个array" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/010-%E7%BD%91%E9%A1%B5%E5%BC%80%E5%8F%91/" />
-<meta property="article:published_time" content="2021-02-21T23:39:36+08:00" />
-<meta property="article:modified_time" content="2021-02-24T13:15:00+08:00" />
-<meta itemprop="name" content="HTML/CSS/JS笔记">
-<meta itemprop="description" content="这篇博客主要收录一些关于HTML,CSS,JS的知识点 CSS 当前页面的selector 假设我们有一个nav bar，有很多个link，我们希望检测">
-<meta itemprop="datePublished" content="2021-02-21T23:39:36&#43;08:00" />
-<meta itemprop="dateModified" content="2021-02-24T13:15:00&#43;08:00" />
-<meta itemprop="wordCount" content="425">
+<meta property="og:url" content="https://tom0727.github.io/post/011-cf-1492e/" />
+<meta property="article:published_time" content="2021-02-24T22:27:41+08:00" />
+<meta property="article:modified_time" content="2021-02-25T17:27:33+08:00" />
+<meta itemprop="name" content="CF 1492E(暴搜)">
+<meta itemprop="description" content="题目链接 https://codeforces.com/contest/1492/problem/E 题意 给定 $n$ 个长度为 $m$ 的正整数array，其中 $n \geq 2, m \geq 1, n \times m \leq 250000$ 问是否存在一个array，使得这个array 与 其他每个array">
+<meta itemprop="datePublished" content="2021-02-24T22:27:41&#43;08:00" />
+<meta itemprop="dateModified" content="2021-02-25T17:27:33&#43;08:00" />
+<meta itemprop="wordCount" content="590">
 
 
 
-<meta itemprop="keywords" content="前端,HTML,js,css," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="HTML/CSS/JS笔记"/>
-<meta name="twitter:description" content="这篇博客主要收录一些关于HTML,CSS,JS的知识点 CSS 当前页面的selector 假设我们有一个nav bar，有很多个link，我们希望检测"/>
+<meta itemprop="keywords" content="搜索,dfs优化," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CF 1492E(暴搜)"/>
+<meta name="twitter:description" content="题目链接 https://codeforces.com/contest/1492/problem/E 题意 给定 $n$ 个长度为 $m$ 的正整数array，其中 $n \geq 2, m \geq 1, n \times m \leq 250000$ 问是否存在一个array，使得这个array 与 其他每个array"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -127,13 +127,12 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">HTML/CSS/JS笔记</h1>
+      <h1 class="post-title">CF 1492E(暴搜)</h1>
 
       <div class="post-meta">
-        <span class="post-time" title="2021-02-21 23:39:36 &#43;0800 &#43;0800"> 2021-02-21 </span>
+        <span class="post-time" title="2021-02-24 22:27:41 &#43;0800 &#43;0800"> 2021-02-24 </span>
         <div class="post-category">
-            <a href="/categories/%E5%B7%A5%E7%A8%8B/"> 工程 </a>
-            <a href="/categories/%E7%AC%94%E8%AE%B0/"> 笔记 </a>
+            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
             </div>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -147,18 +146,7 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#css-当前页面的selector">CSS 当前页面的selector</a>
-          <ul>
-            <li><a href="#方案">方案</a></li>
-            <li><a href="#参考链接">参考链接</a></li>
-          </ul>
-        </li>
-        <li><a href="#htmlcss-手机字体大小不一">HTML/CSS 手机字体大小不一</a>
-          <ul>
-            <li><a href="#方案-1">方案</a></li>
-            <li><a href="#参考链接-1">参考链接</a></li>
-          </ul>
-        </li>
+        <li><a href="#题目链接">题目链接</a></li>
       </ul>
     </li>
   </ul>
@@ -166,62 +154,104 @@
   </div>
 </div>
     <div class="post-content">
-      <p>这篇博客主要收录一些关于HTML,CSS,JS的知识点</p>
-<h2 id="css-当前页面的selector">CSS 当前页面的selector</h2>
-<p>假设我们有一个nav bar，有很多个link，我们希望检测当前在哪个页面，然后让当前页面对应的link的img更换一个，怎么办？（不使用javascript，仅用CSS）</p>
-<h3 id="方案">方案</h3>
-<p>可以用CSS中的 <code>Pseudo-classes</code> 中的 <code>target</code>，当网页链接中存在 <code>#some_id</code> 时，所有 <code>id = &quot;some_id&quot;</code> 的tag就会变成 <code>:target</code> 的状态。</p>
-<p>所以可以给每个 <code>a</code> 的 <code>href</code> 加上一个 <code>#some_id</code>，然后给 <code>img</code> 加上 <code>id = some_id</code>，如下：</p>
-<details class="admonition note"><summary class="admonition-title">HTML代码</summary>
-<pre><code class="language-html">&lt;nav&gt;
-  &lt;div&gt;
-    &lt;a href=&quot;index.html#index&quot;&gt;&lt;img src=&quot;images/1.jpg&quot; id=&quot;index&quot;&gt;&lt;/a&gt;
-    &lt;a href=&quot;aboutus.html#about&quot;&gt;&lt;img src=&quot;images/2.jpg&quot; id=&quot;about&quot;&gt;&lt;/a&gt;
-    &lt;a href=&quot;staff.html#staff&quot;&gt;&lt;img src=&quot;images/3.jpg&quot; id=&quot;staff&quot;&gt;&lt;/a&gt;
-  &lt;/div&gt;
-&lt;/nav&gt;
+      <h2 id="题目链接">题目链接</h2>
+<p><a href="https://codeforces.com/contest/1492/problem/E">https://codeforces.com/contest/1492/problem/E</a></p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个长度为 $m$ 的正整数array，其中 $n \geq 2, m \geq 1, n \times m \leq 250000$</p>
+<p>问是否存在一个array，使得这个array 与 其他每个array的difference（不同元素的个数） $\leq 2$？</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>暴搜，我们可以先令 $ans$ 等于第一个array，然后看一下其他array中，有没有 $diff &gt; 2$ 的，如果有，尝试更改 $ans$ 中的一个元素，更改后再看一下其他array的difference情况，如果还是不行，就继续尝试更改其他元素。
+直到所有array的 $diff \leq 2$</p>
+<p>注意到，因为$ans$基于第一个array，所以最多只能更改两个元素，我们可以给在搜索的时候设置一个深度 <code>left</code>，代表还可以更改几个元素。一开始就是<code>dfs(2)</code>。</p>
+<blockquote>
+<p>注1: 本题时限卡的比较紧，时限为2s，我们可以设定2s内如果搜索不出结果就直接返回&quot;No&rdquo;。</p>
+<pre><code class="language-cpp">double start = clock();
+double passed = clock() - start;
+if (passed &gt; 1950.0) {  // 1950ms
+   cout &lt;&lt; &quot;No&quot; &lt;&lt; &quot;\n&quot;
+   exit(0);
+}
 </code></pre>
+</blockquote>
+<blockquote>
+<p>注2: 暴搜的时候记得回溯！</p>
+</blockquote>
 </details>
-<details class="admonition note"><summary class="admonition-title">CSS代码</summary>
-<p>这里以<code>index</code>为例：</p>
-<pre><code class="language-css">nav &gt; div &gt; a[href*=&quot;index&quot;] &gt; img:target {
-    content:url(&quot;images/index_selected.jpg&quot;);
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int n,m; 
+vector&lt; vector&lt;int&gt; &gt; arr;
+vector&lt;int&gt; ans;
+vector&lt;int&gt; cnt;
+double start;
+
+inline bool check() {
+    for (int i = 0; i &lt; n; i++) {
+        if (cnt[i] &gt; 2) return 0;
+    }
+    return 1;
+}
+
+void dfs(int left) {
+    if (left &lt; 0) return;
+
+    if (clock()-start &gt; 1950) {
+        printf(&quot;No\n&quot;);
+        exit(0);
+    }
+
+    for (int i = 0; i &lt; n; i++) {
+        cnt[i] = 0;
+        vector&lt;int&gt; pos;
+        for (int j = 0; j &lt; m; j++) {
+            if (ans[j] != arr[i][j]) {
+                cnt[i] += 1;
+                pos.push_back(j);
+            }
+        }
+        if (cnt[i]-left &gt; 2) {
+            return;
+        }
+
+        if (cnt[i] &gt; 2) {
+            for (int j : pos) {
+                int pre = ans[j];
+                ans[j] = arr[i][j];
+                dfs(left-1);
+                ans[j] = pre;  //记得回溯
+            }
+        } 
+    }
+
+    if (check()) {
+        printf(&quot;Yes\n&quot;);
+        for (int j = 0; j &lt; m; j++) printf(&quot;%d &quot;, ans[j]);
+        printf(&quot;\n&quot;);
+        exit(0);
+    }
+}
+
+int main() {
+    scanf(&quot;%d%d&quot;,&amp;n,&amp;m);
+    start = clock();
+
+    arr = vector&lt;vector&lt;int&gt; &gt; (n, vector&lt;int&gt;(m,0));
+    for (int i = 0; i &lt; n; i++) {
+        for (int j = 0; j &lt; m; j++) {
+            scanf(&quot;%d&quot;, &amp;arr[i][j]);
+        }
+    }
+    ans = arr[0];
+    cnt = vector&lt;int&gt;(n,0);
+    dfs(2);
+    printf(&quot;No\n&quot;);
 }
 </code></pre>
 </details>
-<h3 id="参考链接">参考链接</h3>
-<ol>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:target">https://developer.mozilla.org/zh-CN/docs/Web/CSS/:target</a></li>
-</ol>
-<h2 id="htmlcss-手机字体大小不一">HTML/CSS 手机字体大小不一</h2>
-<p>在手机上发现<code>font-size</code>相同的字体大小不一致，怎么办？</p>
-<h3 id="方案-1">方案</h3>
-<ol>
-<li>
-<p>在HTML文件前面加上</p>
-<pre><code class="language-html">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
-</code></pre>
-</li>
-<li>
-<p>添加上述代码后，网页中可能会出现 horizontal scrollbar。可以在css中添加：</p>
-<pre><code class="language-css">@media only screen and (max-width: 600px) {
-   html, body {
-     overflow-x: hidden;
-   }
-   body {
-     position: relative;
-   }
- }
-</code></pre>
-<p>然后在 media query 里面调整一下字体大小，图片大小之类的属性，保证 <code>overflow-x: hidden;</code> 不会隐藏内容。</p>
-</li>
-</ol>
-<h3 id="参考链接-1">参考链接</h3>
-<ol>
-<li><a href="https://stackoverflow.com/questions/27074259/html-css-table-font-size-different-in-mobile-device">https://stackoverflow.com/questions/27074259/html-css-table-font-size-different-in-mobile-device</a></li>
-<li><a href="https://stackoverflow.com/questions/4192277/disable-horizontal-scroll-on-mobile-web">https://stackoverflow.com/questions/4192277/disable-horizontal-scroll-on-mobile-web</a></li>
-</ol>
-
     </div>
 
     <div class="post-copyright">
@@ -232,9 +262,9 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-02-24 13:15:00 &#43;0800 &#43;0800">2021-02-24</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/98819ed1fa5402a182ee740df8443df522f5940e" title="add an example in 004-euler-function" target="_blank">(98819ed)</a>
-        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/010-%e7%bd%91%e9%a1%b5%e5%bc%80%e5%8f%91.md" target="_blank">更新历史</a>
+        <span title="2021-02-25 17:27:33 &#43;0800 &#43;0800">2021-02-25</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/079f956192f546c10ec90c215735c985d74a1b6d" title="add 012.md" target="_blank">(079f956)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/011-cf-1492E.md" target="_blank">更新历史</a>
     </span>
   </p>
   
@@ -245,19 +275,17 @@
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/%E5%89%8D%E7%AB%AF/">前端</a>
-          <a href="/tags/html/">HTML</a>
-          <a href="/tags/js/">js</a>
-          <a href="/tags/css/">css</a>
+          <a href="/tags/%E6%90%9C%E7%B4%A2/">搜索</a>
+          <a href="/tags/dfs%E4%BC%98%E5%8C%96/">dfs优化</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/011-cf-1492e/">
+        <a class="prev" href="/post/012-cf-1395e/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">CF 1492E(暴搜)</span>
+            <span class="prev-text nav-default">CF 1395E(集合哈希)</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/009-vim/">
-            <span class="next-text nav-default">vim笔记</span>
+        <a class="next" href="/post/010-%E7%BD%91%E9%A1%B5%E5%BC%80%E5%8F%91/">
+            <span class="next-text nav-default">HTML/CSS/JS笔记</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

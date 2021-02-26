@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>最小环 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="定义 最小环：指图中的一个环，它不包含任何更小的环。 在无向图中，最小的最小环为3个节点。在有向图中，最小的最小环为2个节点。（不考虑self-" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/013-%E6%9C%80%E5%B0%8F%E7%8E%AF/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.2ccc99aa18501eb0a20678a919404779fa1d9f66663cef10606eef97052b4b73.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="最小环" />
+<meta property="og:description" content="定义 最小环：指图中的一个环，它不包含任何更小的环。 在无向图中，最小的最小环为3个节点。在有向图中，最小的最小环为2个节点。（不考虑self-" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/013-%E6%9C%80%E5%B0%8F%E7%8E%AF/" />
+<meta property="article:published_time" content="2021-02-25T23:41:02+08:00" />
+<meta property="article:modified_time" content="2021-02-26T13:03:39+08:00" />
+<meta itemprop="name" content="最小环">
+<meta itemprop="description" content="定义 最小环：指图中的一个环，它不包含任何更小的环。 在无向图中，最小的最小环为3个节点。在有向图中，最小的最小环为2个节点。（不考虑self-">
+<meta itemprop="datePublished" content="2021-02-25T23:41:02&#43;08:00" />
+<meta itemprop="dateModified" content="2021-02-26T13:03:39&#43;08:00" />
+<meta itemprop="wordCount" content="1369">
+
+
+
+<meta itemprop="keywords" content="图论,最小环,dfs," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="最小环"/>
+<meta name="twitter:description" content="定义 最小环：指图中的一个环，它不包含任何更小的环。 在无向图中，最小的最小环为3个节点。在有向图中，最小的最小环为2个节点。（不考虑self-"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">最小环</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-02-25 23:41:02 &#43;0800 &#43;0800"> 2021-02-25 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#定义">定义</a>
+          <ul>
+            <li><a href="#无权无向图求最小环">无权无向图求最小环</a></li>
+            <li><a href="#无权有向图求最小环">无权有向图求最小环</a></li>
+            <li><a href="#有权图求最小环">有权图求最小环</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="定义">定义</h2>
+<p>最小环：指图中的一个环，它<strong>不包含任何更小</strong>的环。</p>
+<p>在无向图中，最小的最小环为3个节点。在有向图中，最小的最小环为2个节点。（不考虑self-loop的情况）</p>
+<h3 id="无权无向图求最小环">无权无向图求最小环</h3>
+<p>例题: <a href="https://codeforces.com/contest/1364/problem/D" target="_blank">https://codeforces.com/contest/1364/problem/D</a></p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 <strong>connected undirected</strong> graph:</p>
+<p>$n$个vertex, 和一个int $k$, 其中 $3 \leq k \leq n$, 请找出 以下的其中之一:</p>
+<ol>
+<li>
+<p>一个独立集(set of vertex， 两两之间没有edge)， 包含 $\lceil\frac{k}{2}\rceil$ 个vertex</p>
+</li>
+<li>
+<p>一个simple cycle (set of vertex, 不包含重复vertex)， 其中 $len \leq k$</p>
+</li>
+</ol>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<ol>
+<li>
+<p>如果这是一个tree ($m = n-1$), 则 (1)很容易找, 只要dfs一下，做一个图的染色 (染成 $0,1$)即可, 最后取 全部的 $0$ 或者 全部的 $1$</p>
+</li>
+<li>
+<p>如果不是tree, 必然存在cycle, 那么我们可以找到一个最小环, 最小环必然满足 (1) 或者 (2)！（易证）</p>
+</li>
+</ol>
+<p>•怎么找最小环? 用DFS!</p>
+<ol>
+<li>维护一个环的长度 <code>len</code></li>
+<li>维护一个 <code>dep[]</code> 数组, 代表每个vertex的depth</li>
+<li>维护一个 <code>pre[]</code> 数组, <code>pre[u]</code> 代表dfs过程中 u的parent</li>
+<li>维护一个 <code>int c</code>, 代表找到的cycle的 终点!</li>
+</ol>
+<p>然后，</p>
+<ol>
+<li>
+<p>从vertex 1开始dfs， <code>dep[to] = dep[cur] + 1</code> 这样来更新 <code>dep[]</code></p>
+</li>
+<li>
+<p>当我们找到一个backward edge时, 更新最小环长度</p>
+<pre><code class="language-cpp">len = min(len, abs(dep[to] - dep[cur]) + 1))
+</code></pre>
+<p>并且更新<code>c</code>, 使得 <code>c = cur</code>, 然后继续探索！</p>
+</li>
+<li>
+<p>dfs结束后, 直接用</p>
+<pre><code class="language-cpp">vector&lt;int&gt; cycle;
+void findcycle() {
+    while (len--) cycle.push_back(c), c = pre[c];
+}
+</code></pre>
+<p>即可找到最小环！</p>
+</li>
+</ol>
+<p>时间复杂度：$O(n+m)$</p>
+</details>
+<h3 id="无权有向图求最小环">无权有向图求最小环</h3>
+<p>例题：<a href="https://atcoder.jp/contests/abc142/tasks/abc142_f" target="_blank">https://atcoder.jp/contests/abc142/tasks/abc142_f</a></p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 <strong>directed</strong> graph，求它的一个 subgraph 满足：</p>
+<ol>
+<li>$V'$ 是 $V$ 的 non-empty subset</li>
+<li>$E'$ 是 $E$ 中，所有两端均在 $V'$ 内的edges</li>
+</ol>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>易知，最小环满足这个条件！</p>
+<p>如何求最小环？可以用 $N$ 次 DFS！</p>
+<ol>
+<li>维护 <code>ed</code> 代表环的终点，维护最小环长度 <code>final</code></li>
+<li>维护一个 <code>dep[]</code> 数组, 代表每个vertex的depth</li>
+<li>维护一个 <code>par[]</code> 数组, <code>par[u]</code> 代表dfs过程中 u的parent</li>
+<li><strong>维护一个 <code>in[]</code></strong> 数组，代表在dfs过程中，当前的某个vertex<strong>是否存在于递归stack中</strong>！</li>
+</ol>
+<p>dfs过程如下：</p>
+<pre><code class="language-cpp">int n,m, dep[maxn], par[maxn];
+int ans = 1e9, ed = -1, final = 1e8;
+vector&lt;int&gt; cycle;
+bool in[maxn];
+
+void dfs(int cur) {
+    in[cur] = 1;
+    dep[cur] = dep[par[cur]] + 1;
+    for (int e = head[cur]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (dep[to]) {
+            if (in[to]) {  // 必须得在递归栈内
+                int res = abs(dep[cur] - dep[to]) + 1;
+                if (res &lt; ans) {
+                    ans = res;
+                    ed = cur;
+                }
+            }
+        } else {
+            par[to] = cur;
+            dfs(to);
+        }
+    }
+    in[cur] = 0;
+}
+</code></pre>
+<blockquote>
+<p>为什么要加 <strong><code>in[]</code></strong> 数组？</p>
+</blockquote>
+<p>如下图：</p>
+<p><img src="/images/013/1.jpg" alt="image"></p>
+<p>我们需要保证这个环必然全部同时出现在递归stack内，否则可能会出问题！</p>
+<p>（如上图，如果不考虑 <code>in[]</code> 数组的话，就有可能<strong>错误的</strong>把 <code>1-&gt;3-&gt;2</code> 当作一个环！</p>
+<blockquote>
+<p>为什么要使用 $N$ 次 dfs ？</p>
+</blockquote>
+<p>如下图：</p>
+<p><img src="/images/013/2.jpg" alt="image"></p>
+<p>如果我们从 $1$ 开始进行 dfs，那么如果是按照图上的访问顺序，会导致我们<strong>找不到</strong>最小环！</p>
+<p>但是如果从 $7$ 开始进行 dfs，就可以找到了！</p>
+<p>所以我们需要每一个点都开始一次dfs，总共 $N$ 次 dfs。</p>
+<blockquote>
+<p>注：优化：可以在每次dfs中找到的环中找最小环，如果不是环中的节点，就不需要考虑了。</p>
+</blockquote>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">using namespace std;
+#include &lt;bits/stdc++.h&gt; 
+
+#define abs(a) ((a&gt;0)?a:-(a))
+
+const int mod = 1e9+7;
+const int maxn = 1e3+5;
+const int maxm = 2e3+10;
+
+struct Edge {
+    int to,nxt;
+} edges[maxm];
+int head[maxn], ecnt = 1;
+
+int n,m, dep[maxn], par[maxn];
+int ans = 1e9, ed = -1, final = 1e8;
+vector&lt;int&gt; cycle;
+bool in[maxn];
+
+void add(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt++;
+}
+
+void init() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        add(u,v);
+    }
+}
+
+void dfs(int cur) {
+    in[cur] = 1;
+    dep[cur] = dep[par[cur]] + 1;
+    for (int e = head[cur]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (dep[to]) {
+            if (in[to]) {
+                int res = abs(dep[cur] - dep[to]) + 1;
+                if (res &lt; ans) {
+                    ans = res;
+                    ed = cur;
+                }
+            }
+        } else {
+            par[to] = cur;
+            dfs(to);
+        }
+    }
+    in[cur] = 0;
+}
+
+void renew() {
+    fill(dep, dep+n+1, 0);
+    fill(par, par+n+1, 0);
+    fill(in, in+n+1, 0);
+    ans = 1e9;
+}
+
+int main() {
+    fastio;
+    init();
+
+    for (int i = 1; i &lt;= n; i++) {
+        dfs(i);
+        if (ans &lt; final) {
+            final = ans;
+            cycle.clear();
+            while (ans--) cycle.push_back(ed), ed = par[ed];
+        }
+        renew();
+    }
+
+    if (final == 1e8) cout &lt;&lt; -1 &lt;&lt; endl;
+    else {
+        cout &lt;&lt; final &lt;&lt; &quot;\n&quot;;
+        for (int a : cycle) cout &lt;&lt; a &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+<h3 id="有权图求最小环">有权图求最小环</h3>
+<p>Floyd $O(n^3)$ 可求！</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-02-26 13:03:39 &#43;0800 &#43;0800">2021-02-26</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/2bde6fc76e70a5a1131aaf055eda3d2cc24d09f8" title="init 013.md" target="_blank">(2bde6fc)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/013-%e6%9c%80%e5%b0%8f%e7%8e%af.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%9B%BE%E8%AE%BA/">图论</a>
+          <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/">最小环</a>
+          <a href="/tags/dfs/">dfs</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/012-cf-1395e/">
+            <span class="next-text nav-default">CF 1395E(集合哈希)</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

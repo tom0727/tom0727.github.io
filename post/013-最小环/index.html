@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/013-%E6%9C%80%E5%B0%8F%E7%8E%AF/" />
 <meta property="article:published_time" content="2021-02-25T23:41:02+08:00" />
-<meta property="article:modified_time" content="2021-02-26T13:03:39+08:00" />
+<meta property="article:modified_time" content="2021-02-28T17:36:34+08:00" />
 <meta itemprop="name" content="最小环">
 <meta itemprop="description" content="定义 最小环：指图中的一个环，它不包含任何更小的环。 在无向图中，最小的最小环为3个节点。在有向图中，最小的最小环为2个节点。（不考虑self-">
 <meta itemprop="datePublished" content="2021-02-25T23:41:02&#43;08:00" />
-<meta itemprop="dateModified" content="2021-02-26T13:03:39&#43;08:00" />
-<meta itemprop="wordCount" content="1369">
+<meta itemprop="dateModified" content="2021-02-28T17:36:34&#43;08:00" />
+<meta itemprop="wordCount" content="1383">
 
 
 
@@ -225,6 +225,7 @@ void findcycle() {
 <ol>
 <li>$V'$ 是 $V$ 的 non-empty subset</li>
 <li>$E'$ 是 $E$ 中，所有两端均在 $V'$ 内的edges</li>
+<li>$V'$ 中，所有的 vertex 的 in-degree 和 out-degree 均为1</li>
 </ol>
 </div>
 <details class="admonition note"><summary class="admonition-title">题解</summary>
@@ -379,8 +380,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-02-26 13:03:39 &#43;0800 &#43;0800">2021-02-26</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/2bde6fc76e70a5a1131aaf055eda3d2cc24d09f8" title="init 013.md" target="_blank">(2bde6fc)</a>
+        <span title="2021-02-28 17:36:34 &#43;0800 &#43;0800">2021-02-28</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/37ab60f5cad0a218c08540a2ddf06b442ed647cf" title="add excrt to 003-crt.md" target="_blank">(37ab60f)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/013-%e6%9c%80%e5%b0%8f%e7%8e%af.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -397,7 +398,11 @@ int main() {
           <a href="/tags/dfs/">dfs</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/014-at-abc162e/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Atcoder ABC 162E</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
         <a class="next" href="/post/012-cf-1395e/">
             <span class="next-text nav-default">CF 1395E(集合哈希)</span>
             <span class="next-text nav-mobile">Next</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Atcoder ABC 162E（数学，计数） - tom0727&#39;s blog</title>
+  <title>Atcoder ABC 127E（数学，计数，概率） - tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="题目链接 https://atcoder.jp/contests/abc162/tasks/abc162_e 题意 给定 $2 \leq N \leq 10^5, 2 \leq K \leq 10^5$，现有长度为 $N$ 的序列 $\{ a_1, a_2, &amp;hellip;, a_N \}$，其中 $1 \leq a_i \leq K$ 这样的序列总共有 $K^N$ 个，求所有这些序列的 $\sum \" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_e 题意 给定一个矩阵，包含 $N \times M$ 个格子，现在从中选出 $K \leq N \times M$ 个不同的格子，记为 $(x_1,y_1), (x_2, y_2), &amp;hellip; , (x_K, y_K)$ ，记 $cost = \sum_{i=1}^{K-1}\sum_{j=i&#43;1}^{K}(|x_i-x_j| &#43; |y_i-y_j|)$ 求：对于所有不同的 $K$ 个格子" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
-<link rel="canonical" href="https://tom0727.github.io/post/014-at-abc162e/" />
+<link rel="canonical" href="https://tom0727.github.io/post/015-at-abc127e/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,23 +39,23 @@
 
 
 
-<meta property="og:title" content="Atcoder ABC 162E（数学，计数）" />
-<meta property="og:description" content="题目链接 https://atcoder.jp/contests/abc162/tasks/abc162_e 题意 给定 $2 \leq N \leq 10^5, 2 \leq K \leq 10^5$，现有长度为 $N$ 的序列 $\{ a_1, a_2, &hellip;, a_N \}$，其中 $1 \leq a_i \leq K$ 这样的序列总共有 $K^N$ 个，求所有这些序列的 $\sum \" />
+<meta property="og:title" content="Atcoder ABC 127E（数学，计数，概率）" />
+<meta property="og:description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_e 题意 给定一个矩阵，包含 $N \times M$ 个格子，现在从中选出 $K \leq N \times M$ 个不同的格子，记为 $(x_1,y_1), (x_2, y_2), &hellip; , (x_K, y_K)$ ，记 $cost = \sum_{i=1}^{K-1}\sum_{j=i&#43;1}^{K}(|x_i-x_j| &#43; |y_i-y_j|)$ 求：对于所有不同的 $K$ 个格子" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/014-at-abc162e/" />
-<meta property="article:published_time" content="2021-02-27T14:59:58+08:00" />
-<meta property="article:modified_time" content="2021-03-01T17:57:49+08:00" />
-<meta itemprop="name" content="Atcoder ABC 162E（数学，计数）">
-<meta itemprop="description" content="题目链接 https://atcoder.jp/contests/abc162/tasks/abc162_e 题意 给定 $2 \leq N \leq 10^5, 2 \leq K \leq 10^5$，现有长度为 $N$ 的序列 $\{ a_1, a_2, &hellip;, a_N \}$，其中 $1 \leq a_i \leq K$ 这样的序列总共有 $K^N$ 个，求所有这些序列的 $\sum \">
-<meta itemprop="datePublished" content="2021-02-27T14:59:58&#43;08:00" />
-<meta itemprop="dateModified" content="2021-03-01T17:57:49&#43;08:00" />
-<meta itemprop="wordCount" content="525">
+<meta property="og:url" content="https://tom0727.github.io/post/015-at-abc127e/" />
+<meta property="article:published_time" content="2021-02-28T23:20:51+08:00" />
+<meta property="article:modified_time" content="2021-03-02T17:53:12+08:00" />
+<meta itemprop="name" content="Atcoder ABC 127E（数学，计数，概率）">
+<meta itemprop="description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_e 题意 给定一个矩阵，包含 $N \times M$ 个格子，现在从中选出 $K \leq N \times M$ 个不同的格子，记为 $(x_1,y_1), (x_2, y_2), &hellip; , (x_K, y_K)$ ，记 $cost = \sum_{i=1}^{K-1}\sum_{j=i&#43;1}^{K}(|x_i-x_j| &#43; |y_i-y_j|)$ 求：对于所有不同的 $K$ 个格子">
+<meta itemprop="datePublished" content="2021-02-28T23:20:51&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-02T17:53:12&#43;08:00" />
+<meta itemprop="wordCount" content="1024">
 
 
 
-<meta itemprop="keywords" content="数学,计数," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Atcoder ABC 162E（数学，计数）"/>
-<meta name="twitter:description" content="题目链接 https://atcoder.jp/contests/abc162/tasks/abc162_e 题意 给定 $2 \leq N \leq 10^5, 2 \leq K \leq 10^5$，现有长度为 $N$ 的序列 $\{ a_1, a_2, &hellip;, a_N \}$，其中 $1 \leq a_i \leq K$ 这样的序列总共有 $K^N$ 个，求所有这些序列的 $\sum \"/>
+<meta itemprop="keywords" content="数学,计数,概率," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Atcoder ABC 127E（数学，计数，概率）"/>
+<meta name="twitter:description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_e 题意 给定一个矩阵，包含 $N \times M$ 个格子，现在从中选出 $K \leq N \times M$ 个不同的格子，记为 $(x_1,y_1), (x_2, y_2), &hellip; , (x_K, y_K)$ ，记 $cost = \sum_{i=1}^{K-1}\sum_{j=i&#43;1}^{K}(|x_i-x_j| &#43; |y_i-y_j|)$ 求：对于所有不同的 $K$ 个格子"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -127,10 +127,10 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Atcoder ABC 162E（数学，计数）</h1>
+      <h1 class="post-title">Atcoder ABC 127E（数学，计数，概率）</h1>
 
       <div class="post-meta">
-        <span class="post-time" title="2021-02-27 14:59:58 &#43;0800 &#43;0800"> 2021-02-27 </span>
+        <span class="post-time" title="2021-02-28 23:20:51 &#43;0800 &#43;0800"> 2021-02-28 </span>
         <div class="post-category">
             <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
             </div>
@@ -147,7 +147,8 @@
     <li>
       <ul>
         <li><a href="#题目链接">题目链接</a></li>
-        <li><a href="#一些拓展">一些拓展</a></li>
+        <li><a href="#参考链接">参考链接</a></li>
+        <li><a href="#一些数学知识">一些数学知识</a></li>
         <li><a href="#其他例题todo">其他例题(TODO)</a></li>
       </ul>
     </li>
@@ -157,69 +158,106 @@
 </div>
     <div class="post-content">
       <h2 id="题目链接">题目链接</h2>
-<p><a href="https://atcoder.jp/contests/abc162/tasks/abc162_e">https://atcoder.jp/contests/abc162/tasks/abc162_e</a></p>
+<p><a href="https://atcoder.jp/contests/abc127/tasks/abc127_e">https://atcoder.jp/contests/abc127/tasks/abc127_e</a></p>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
-<p>给定 $2 \leq N \leq 10^5, 2 \leq K \leq 10^5$，现有长度为 $N$ 的序列 $\{ a_1, a_2, &hellip;, a_N \}$，其中 $1 \leq a_i \leq K$</p>
-<p>这样的序列总共有 $K^N$ 个，求所有这些序列的 $\sum \gcd(a_1,a_2,&hellip;,a_N)$？</p>
+<p>给定一个矩阵，包含 $N \times M$ 个格子，现在从中选出 $K \leq N \times M$ 个不同的格子，记为 $(x_1,y_1), (x_2, y_2), &hellip; , (x_K, y_K)$ ，记</p>
+<p>$cost = \sum_{i=1}^{K-1}\sum_{j=i+1}^{K}(|x_i-x_j| + |y_i-y_j|)$</p>
+<p>求：对于所有不同的 $K$ 个格子的选法，$cost$ 的sum为多少？</p>
 </div>
-<details class="admonition note"><summary class="admonition-title">题解</summary>
-<p>发现我们可以根据 $\gcd$ 的值进行枚举，我们设 $\gcd(a_1,a_2,&hellip;,a_N) = x$ 的序列数量为 $d_x$，则有：</p>
-<p>$d_1 = K^N - d_2 - d_3 - &hellip; - d_k$</p>
-<p>那么 $d_2$ 呢？我们发现如果 $\gcd(a_1,a_2,&hellip;,a_N) = 2$，则所有的 $a_i$ 必然为 <strong>2的倍数</strong>，所以每个位置上有 $\frac{K}{2}$ 种选法，即：</p>
-<p>$d_2 = (\frac{K}{2})^N - d_4 - d_6 - &hellip; - d_{\frac{K}{2} \times 2}$</p>
-<p>同理有：</p>
-<p>$d_3 = (\frac{K}{3})^N - d_6 - d_9 - &hellip; - d_{\frac{K}{3} \times 3}$</p>
-<p>&hellip;</p>
-<p>$d_K = 1$</p>
-<p>这样，直接用一个 <code>dp[]</code> 记录一下 $d_x$ 的值，然后倒着枚举，暴力计算即可。</p>
-<p>最终的答案为 $\sum_{i=1}^K i \times dp[i]$</p>
-<p>时间复杂度：$T(K) = K + \frac{K}{2} + \frac{K}{3} + &hellip; + \frac{K}{K} = K(1+\frac{1}{2}+\frac{1}{3}+&hellip;+\frac{1}{K})$</p>
-<p>发现这个是 <strong>harmonic series</strong> 的和，复杂度大概为： $1+\frac{1}{2}+\frac{1}{3}+&hellip;+\frac{1}{K} = O(\log k)$</p>
-<p>所以最终时间复杂度是 $O(K\log K)$</p>
+<details class="admonition note"><summary class="admonition-title">法一概率</summary>
+<p>选 $k$ 个格子的方案数为 $C(n+m, k)$，在 $k$ 个格子中，任选 $2$ 个出来，有 $C(k,2)$ 种，考虑它们的贡献：</p>
+<p>因为是全部方案，所以可以考虑用 <strong>期望值</strong> 来做！</p>
+<p>问题转化为，从 $N \times M$ 的矩阵中，选择 $2$ 个不同的点 $(x_i, y_i), (x_j,y_j)$ ，求 $|x_i - x_j| + |y_i-y_j|$ 的期望？</p>
+<p>期望为： $\frac{n+m}{3}$</p>
+<hr>
+<p>如果推式子很难，这里是一些小技巧（仅用于 分母中无 $n,m$ ，并且分子中不存在 $nm$ 之类的项）：</p>
+<blockquote>
+<p><strong>打表找规律</strong>：假设期望值 $E(n,m)$ 是一个关于 $n,m$ 的多项式，那么固定一下 $n$ 的值，然后让 $m = 1,2,3&hellip;$ 来打表找出 $E(n,m)$ 和 $m$ 的关系。同理可以找出 $E(n,m)$ 和 $n$ 的关系，相加一下就可以了。</p>
+</blockquote>
+<blockquote>
+<p><strong>拉格朗日插值法</strong>：设 $ans = F(n,m) = E(n,m) * C(nm, 2)$，我们可以固定 $n$，然后用插值法找出 $F(n,m)$ 和 $m$ 的关系。（这个函数有两个变量，按理说应该是固定每一个 $n$ 然后对每一个 $n$ 都进行一次插值法的，以后遇到了可以尝试一下。）</p>
+</blockquote>
+<hr>
+<p>严谨证明：</p>
+<p>考虑一个点 $(x,y)$，那么</p>
+<p><strong>纵向贡献</strong> 为： $v_{x,y} = [(1+2+&hellip;+x-1) + (1+2+&hellip;+n-x)] * m$</p>
+<p><strong>横向贡献</strong> 为： $h_{x,y} = [(1+2+&hellip;y-1) + (1+2+&hellip;+m-y)] * n$</p>
+<p>期望就是 $E(n,m) = \frac{\sum_{x=1}^n \sum_{y=1}^m (v_{x,y} + h_{x,y})}{C(nm,2)} = \frac{n+m}{3}$</p>
+<hr>
+<p>以上，最终的答案就是</p>
+<p>$ans = C(nm,k) * C(k,2) * \frac{n+m}{3}$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">法二计数</summary>
+<p>我们选择 $2$ 个格子，有 $C(nm-2, k-2)$ 种。</p>
+<p>对于横坐标的差值为 $d_x$ 的情况，有 $(n-d_x) m^2$ 种。贡献就是 $(n-d_x)m^2*d_x$</p>
+<p>对于纵坐标的差值为 $d_y$ 的情况，有 $(m-d_y) n^2$ 种。贡献就是 $(m-d_y) n^2*d_y$</p>
+<p>所以答案就是</p>
+<p>$ans = C(nm-2, k-2) (\sum_{d_x=1}^{n-1} (n-d_x)m^2*d_x + \sum_{d_y=1}^{m-1} (m-d_y)n^2*d_y)$</p>
 </details>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">using namespace std;
 #include &lt;bits/stdc++.h&gt;
 
+#define ll long long
 const int mod = 1e9+7;
-const int maxn = 1e5+5;
+const int maxn = 2e5+5;
 
-int n,k;
-ll dp[maxn], ans = 0;
 ll qpow(ll a, ll b) {
     ll res = 1;
     while (b) {
-        if (b&amp;1) (res *= a) %= mod;
-        b &gt;&gt;= 1;
+        if (b&amp;1)
+            (res *= a) %= mod;
         (a *= a) %= mod;
+        b &gt;&gt;= 1;
     }
     return res;
 }
 
-int main() {
-    cin &gt;&gt; n &gt;&gt; k;
-    for (int i = k; i &gt;= 1; i--) {
-        ll d = 0;
-        for (int j = 2; i * j &lt;= k; j++) {
-            d += dp[i*j];
-        }
-        d %= mod;
+ll inv(ll a) {
+    return qpow(a, mod-2);
+}
 
-        ll r = qpow(k/i, n);
-        dp[i] = (r-d+(ll)mod) % mod;
+ll n,m,k;
+ll fac[maxn];
 
-        ans = (ans + (ll)(i) * (ll)(dp[i])) % mod;
+void init() {
+    fac[0] = 1;
+    fac[1] = 1;
+    for (int i = 2; i &lt;= n*m; i++) {
+        fac[i] = (fac[i-1] * (ll)(i)) % mod;
     }
-    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;
+    init();
+
+    ll nu = fac[n*m] * k % mod * (k-1) % mod * (n+m) % mod;
+    ll de = inv(fac[k]) * inv(fac[n*m-k]) % mod * inv(6) % mod;
+    cout &lt;&lt; (nu * de) % mod &lt;&lt; endl;
 }
 </code></pre>
 </details>
-<h2 id="一些拓展">一些拓展</h2>
-<p>在洛谷上看<a href="https://www.luogu.com.cn/problem/solution/AT5310" target="_blank">题解</a>的时候，看到了莫比乌斯反演的方法，如果未来学了的话可以重新来做一下，loj上有加强版的题目 ($K \leq 10^{11}$)</p>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://blog.csdn.net/weixin_30323631/article/details/96351727">https://blog.csdn.net/weixin_30323631/article/details/96351727</a></li>
+<li><a href="https://blog.csdn.net/qq_40655981/article/details/90642350">https://blog.csdn.net/qq_40655981/article/details/90642350</a></li>
+</ol>
+<h2 id="一些数学知识">一些数学知识</h2>
+<p>Q1. 如果<strong>不限定</strong>坐标为整数，长度为 $n$ 的线段上任取两个点，距离期望值是？</p>
+<p>A1. 答案为 $\frac{n}{3}$，有两种方法。</p>
+<p>第一种：先假设坐标只能为 $1,2,&hellip;,n$ 的整数，那么求出的期望是 $E_n = 2\times \frac{\sum_{i=1}^{n}i(n-i)}{n^2} = \frac{n^2-1}{3n}$，取一个 $n$ 趋向无穷，就有 $E = \lim_{n \to \infty}  \frac{n^2-1}{3n} =  \frac{n}{3}$</p>
+<blockquote>
+<p>上述推导需要用到 $1^2 + 2^2 + &hellip; + n^2 = \frac{1}{6}n(n+1)(2n+1)$</p>
+</blockquote>
+<p>第二种：先假设线段长度为 $1$，则有期望为 $\frac{\int_{0}^1 \int_{0}^1 |x-y| ~dydx}{\int_{0}^1 \int_{0}^1 1~ dydx} = \int_{0}^1 \int_{0}^x (x-y) ~ dydx + \int_{0}^1 \int_{x}^1 (y-x) ~dydx = \frac{1}{3}$，对于线段长度为 $n$，乘上 $n$ 即可。（记得分母要除以样本空间，即 $\int_{0}^1 \int_{0}^1 1~ dydx$）</p>
+<hr>
+<p>Q2. 如果<strong>不限定</strong>坐标为整数，$n \times n$ 的正方形中任取两个点，距离期望值是？</p>
+<p>A2. 答案约为 $0.521$，具体分析可以见 <a href="http://mjm1990.com/article/%E9%9A%8F%E6%9C%BA%E4%B8%A4%E7%82%B9%E8%B7%9D%E7%A6%BB%E7%9A%84%E6%9C%9F%E6%9C%9B" target="_blank">这里</a> 和 <a href="https://blog.csdn.net/luixiao1220/article/details/107519712" target="_blank">这里</a></p>
 <h2 id="其他例题todo">其他例题(TODO)</h2>
 <ol>
-<li><a href="https://loj.ac/p/6491" target="_blank">https://loj.ac/p/6491</a> (需要莫比乌斯反演)</li>
+<li><a href="https://www.luogu.com.cn/problem/P4781">https://www.luogu.com.cn/problem/P4781</a></li>
 </ol>
 
     </div>
@@ -232,9 +270,9 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-03-01 17:57:49 &#43;0800 &#43;0800">2021-03-01</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/bce8fc6959ece62f070f225d1fed045e021ecfcf" title="init 015.md" target="_blank">(bce8fc6)</a>
-        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/014-at-abc162E.md" target="_blank">更新历史</a>
+        <span title="2021-03-02 17:53:12 &#43;0800 &#43;0800">2021-03-02</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/8483625ab2c3601b6208e571b3523e182d3a671c" title="init 016" target="_blank">(8483625)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/015-at-abc127E.md" target="_blank">更新历史</a>
     </span>
   </p>
   
@@ -247,15 +285,16 @@ int main() {
       <div class="post-tags">
           <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
           <a href="/tags/%E8%AE%A1%E6%95%B0/">计数</a>
+          <a href="/tags/%E6%A6%82%E7%8E%87/">概率</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/015-at-abc127e/">
+        <a class="prev" href="/post/016-at-abc127f/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Atcoder ABC 127E（数学，计数，概率）</span>
+            <span class="prev-text nav-default">Atcoder ABC 127F（对顶堆动态维护中位数）</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/013-%E6%9C%80%E5%B0%8F%E7%8E%AF/">
-            <span class="next-text nav-default">最小环</span>
+        <a class="next" href="/post/014-at-abc162e/">
+            <span class="next-text nav-default">Atcoder ABC 162E（数学，计数）</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

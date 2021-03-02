@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Atcoder ABC 162E（数学，计数） - tom0727&#39;s blog</title>
+  <title>Atcoder ABC 127F（对顶堆动态维护中位数） - tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="题目链接 https://atcoder.jp/contests/abc162/tasks/abc162_e 题意 给定 $2 \leq N \leq 10^5, 2 \leq K \leq 10^5$，现有长度为 $N$ 的序列 $\{ a_1, a_2, &amp;hellip;, a_N \}$，其中 $1 \leq a_i \leq K$ 这样的序列总共有 $K^N$ 个，求所有这些序列的 $\sum \" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_f 题意 初始时有个函数 $f(x) = 0$，现在有 $Q$ 个询问，询问有两种： 1 a b：令 $f(x) = f(x) &#43; |x-a| &#43; b$ 2：求 $x$ 使得 $f(x)$ 最小，并求出这个 $f(x)$ 的最小值 题解 $f(x)$ 必然" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
-<link rel="canonical" href="https://tom0727.github.io/post/014-at-abc162e/" />
+<link rel="canonical" href="https://tom0727.github.io/post/016-at-abc127f/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,23 +39,23 @@
 
 
 
-<meta property="og:title" content="Atcoder ABC 162E（数学，计数）" />
-<meta property="og:description" content="题目链接 https://atcoder.jp/contests/abc162/tasks/abc162_e 题意 给定 $2 \leq N \leq 10^5, 2 \leq K \leq 10^5$，现有长度为 $N$ 的序列 $\{ a_1, a_2, &hellip;, a_N \}$，其中 $1 \leq a_i \leq K$ 这样的序列总共有 $K^N$ 个，求所有这些序列的 $\sum \" />
+<meta property="og:title" content="Atcoder ABC 127F（对顶堆动态维护中位数）" />
+<meta property="og:description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_f 题意 初始时有个函数 $f(x) = 0$，现在有 $Q$ 个询问，询问有两种： 1 a b：令 $f(x) = f(x) &#43; |x-a| &#43; b$ 2：求 $x$ 使得 $f(x)$ 最小，并求出这个 $f(x)$ 的最小值 题解 $f(x)$ 必然" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/014-at-abc162e/" />
-<meta property="article:published_time" content="2021-02-27T14:59:58+08:00" />
-<meta property="article:modified_time" content="2021-03-01T17:57:49+08:00" />
-<meta itemprop="name" content="Atcoder ABC 162E（数学，计数）">
-<meta itemprop="description" content="题目链接 https://atcoder.jp/contests/abc162/tasks/abc162_e 题意 给定 $2 \leq N \leq 10^5, 2 \leq K \leq 10^5$，现有长度为 $N$ 的序列 $\{ a_1, a_2, &hellip;, a_N \}$，其中 $1 \leq a_i \leq K$ 这样的序列总共有 $K^N$ 个，求所有这些序列的 $\sum \">
-<meta itemprop="datePublished" content="2021-02-27T14:59:58&#43;08:00" />
-<meta itemprop="dateModified" content="2021-03-01T17:57:49&#43;08:00" />
-<meta itemprop="wordCount" content="525">
+<meta property="og:url" content="https://tom0727.github.io/post/016-at-abc127f/" />
+<meta property="article:published_time" content="2021-03-01T21:35:11+08:00" />
+<meta property="article:modified_time" content="2021-03-02T17:53:12+08:00" />
+<meta itemprop="name" content="Atcoder ABC 127F（对顶堆动态维护中位数）">
+<meta itemprop="description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_f 题意 初始时有个函数 $f(x) = 0$，现在有 $Q$ 个询问，询问有两种： 1 a b：令 $f(x) = f(x) &#43; |x-a| &#43; b$ 2：求 $x$ 使得 $f(x)$ 最小，并求出这个 $f(x)$ 的最小值 题解 $f(x)$ 必然">
+<meta itemprop="datePublished" content="2021-03-01T21:35:11&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-02T17:53:12&#43;08:00" />
+<meta itemprop="wordCount" content="702">
 
 
 
-<meta itemprop="keywords" content="数学,计数," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Atcoder ABC 162E（数学，计数）"/>
-<meta name="twitter:description" content="题目链接 https://atcoder.jp/contests/abc162/tasks/abc162_e 题意 给定 $2 \leq N \leq 10^5, 2 \leq K \leq 10^5$，现有长度为 $N$ 的序列 $\{ a_1, a_2, &hellip;, a_N \}$，其中 $1 \leq a_i \leq K$ 这样的序列总共有 $K^N$ 个，求所有这些序列的 $\sum \"/>
+<meta itemprop="keywords" content="数据结构,堆," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Atcoder ABC 127F（对顶堆动态维护中位数）"/>
+<meta name="twitter:description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_f 题意 初始时有个函数 $f(x) = 0$，现在有 $Q$ 个询问，询问有两种： 1 a b：令 $f(x) = f(x) &#43; |x-a| &#43; b$ 2：求 $x$ 使得 $f(x)$ 最小，并求出这个 $f(x)$ 的最小值 题解 $f(x)$ 必然"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -127,10 +127,10 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Atcoder ABC 162E（数学，计数）</h1>
+      <h1 class="post-title">Atcoder ABC 127F（对顶堆动态维护中位数）</h1>
 
       <div class="post-meta">
-        <span class="post-time" title="2021-02-27 14:59:58 &#43;0800 &#43;0800"> 2021-02-27 </span>
+        <span class="post-time" title="2021-03-01 21:35:11 &#43;0800 &#43;0800"> 2021-03-01 </span>
         <div class="post-category">
             <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
             </div>
@@ -147,7 +147,6 @@
     <li>
       <ul>
         <li><a href="#题目链接">题目链接</a></li>
-        <li><a href="#一些拓展">一些拓展</a></li>
         <li><a href="#其他例题todo">其他例题(TODO)</a></li>
       </ul>
     </li>
@@ -157,69 +156,115 @@
 </div>
     <div class="post-content">
       <h2 id="题目链接">题目链接</h2>
-<p><a href="https://atcoder.jp/contests/abc162/tasks/abc162_e">https://atcoder.jp/contests/abc162/tasks/abc162_e</a></p>
+<p><a href="https://atcoder.jp/contests/abc127/tasks/abc127_f">https://atcoder.jp/contests/abc127/tasks/abc127_f</a></p>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
-<p>给定 $2 \leq N \leq 10^5, 2 \leq K \leq 10^5$，现有长度为 $N$ 的序列 $\{ a_1, a_2, &hellip;, a_N \}$，其中 $1 \leq a_i \leq K$</p>
-<p>这样的序列总共有 $K^N$ 个，求所有这些序列的 $\sum \gcd(a_1,a_2,&hellip;,a_N)$？</p>
+<p>初始时有个函数 $f(x) = 0$，现在有 $Q$ 个询问，询问有两种：</p>
+<p><code>1 a b</code>：令 $f(x) = f(x) + |x-a| + b$</p>
+<p><code>2</code>：求 $x$ 使得 $f(x)$ 最小，并求出这个 $f(x)$ 的最小值</p>
 </div>
 <details class="admonition note"><summary class="admonition-title">题解</summary>
-<p>发现我们可以根据 $\gcd$ 的值进行枚举，我们设 $\gcd(a_1,a_2,&hellip;,a_N) = x$ 的序列数量为 $d_x$，则有：</p>
-<p>$d_1 = K^N - d_2 - d_3 - &hellip; - d_k$</p>
-<p>那么 $d_2$ 呢？我们发现如果 $\gcd(a_1,a_2,&hellip;,a_N) = 2$，则所有的 $a_i$ 必然为 <strong>2的倍数</strong>，所以每个位置上有 $\frac{K}{2}$ 种选法，即：</p>
-<p>$d_2 = (\frac{K}{2})^N - d_4 - d_6 - &hellip; - d_{\frac{K}{2} \times 2}$</p>
-<p>同理有：</p>
-<p>$d_3 = (\frac{K}{3})^N - d_6 - d_9 - &hellip; - d_{\frac{K}{3} \times 3}$</p>
-<p>&hellip;</p>
-<p>$d_K = 1$</p>
-<p>这样，直接用一个 <code>dp[]</code> 记录一下 $d_x$ 的值，然后倒着枚举，暴力计算即可。</p>
-<p>最终的答案为 $\sum_{i=1}^K i \times dp[i]$</p>
-<p>时间复杂度：$T(K) = K + \frac{K}{2} + \frac{K}{3} + &hellip; + \frac{K}{K} = K(1+\frac{1}{2}+\frac{1}{3}+&hellip;+\frac{1}{K})$</p>
-<p>发现这个是 <strong>harmonic series</strong> 的和，复杂度大概为： $1+\frac{1}{2}+\frac{1}{3}+&hellip;+\frac{1}{K} = O(\log k)$</p>
-<p>所以最终时间复杂度是 $O(K\log K)$</p>
+<p>$f(x)$ 必然长这样：$f(x) = |x-a_1| + |x-a_2| + &hellip; + |x-a_n| + \sum_{i=1}^{n}b_i$</p>
+<p>要让 $f(x)$ 最小，就令 $x$ 等于 $a_1,a_2,&hellip;,a_n$ 的中位数。</p>
+<p>那么已知中位数 $a_k$ 的话，如何找到 $\sum_{i=1}^{n} |a_k - a_i|$ ？</p>
+<p>假设 $n$ 为奇数，那如果我们将 $a_i$ sort 一下，有：</p>
+<p>$\sum_{i=1}^{n} |a_{\frac{n+1}{2}} - a_i| = \sum_{i=1}^{\frac{n}{2}}(a_{\frac{n+1}{2}+i} - a_{\frac{n+1}{2}-i})$</p>
+<p>如果我们分开维护中位数 $a_{\frac{n+1}{2}}$ 左右两边的 <code>sum</code> 就可以 $O(1)$ 求和了！</p>
+<hr>
+<p>用<strong>对顶堆</strong>！</p>
+<p>我们维护两个 <code>multiset&lt;ll&gt;</code>，一个是大顶堆（叫做<code>small</code>），维护<strong>小于等于中位数</strong>的部分。一个是小顶堆（叫做<code>big</code>），小顶堆维护<strong>大于等于中位数</strong>的部分，并且保证两者的 <code>size</code> 之差 $\leq 1$。</p>
+<p><img src="/images/016/1.jpg" alt="images"></p>
+<blockquote>
+<p>插入新值的时候，就和当前中位数比较一下，如果小于等于中位数就插入<code>small</code>，否则插入<code>big</code>，然后看一下<code>size</code>之差，如果 <code>size</code>之差 $&gt; 1$ 就从多的那个堆取出来，插入另外一个堆，这样就动态调整了中位数。</p>
+</blockquote>
+<p>这样我们可以 $O(1)$ 求出中位数，并且 $\sum_{i=1}^{n} |a_k - a_i|$ 也可以 $O(1)$ 得出，用<code>big</code>的$sum$ 减去 <code>small</code>的 $sum$ 即可。（写的时候需要讨论一下 <code>size</code> 之差为 <code>1,0,-1</code> 的三种情况）。</p>
+<p>细节部分直接看代码吧。</p>
 </details>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">using namespace std;
 #include &lt;bits/stdc++.h&gt;
 
-const int mod = 1e9+7;
-const int maxn = 1e5+5;
+#define ll long long
 
-int n,k;
-ll dp[maxn], ans = 0;
-ll qpow(ll a, ll b) {
-    ll res = 1;
-    while (b) {
-        if (b&amp;1) (res *= a) %= mod;
-        b &gt;&gt;= 1;
-        (a *= a) %= mod;
+const int mod = 1e9+7;
+const int maxn = 1e3+5;
+const int maxm = 2e5+10;
+
+ll c = 0, ssum = 0, bsum = 0;
+multiset&lt;ll&gt; big;
+multiset&lt;ll, greater&lt;ll&gt; &gt; small;
+
+void ins(ll a, ll b) {
+    c += b;
+
+    if (!small.size()) {
+        ssum += a;
+        small.insert(a); return;
     }
-    return res;
+
+    if (a &lt;= *small.begin()) {
+        small.insert(a);
+        ssum += a;
+    } else {
+        big.insert(a);
+        bsum += a;
+    }
+
+    if (small.size() &gt; big.size() + 1) {
+        auto p = small.begin();
+        bsum += *p, ssum -= *p;
+        big.insert(*p);
+        small.erase(p);
+    }
+
+    if (big.size() &gt; small.size() + 1) {
+        auto p = big.begin();
+        bsum -= *p, ssum += *p;
+        small.insert(*p);
+        big.erase(p);
+    }
+}
+
+void query() {
+
+    ll ans = bsum - ssum + c;
+    if (small.size() == big.size()) {
+        cout &lt;&lt; *small.begin() &lt;&lt; &quot; &quot; &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+        return;
+    }
+
+    if (small.size() == big.size() + 1) {
+        ans += *small.begin();
+        cout &lt;&lt; *small.begin() &lt;&lt; &quot; &quot; &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+        return;
+    }
+
+    if (big.size() == small.size() + 1) {
+        ans -= *big.begin();
+        cout &lt;&lt; *big.begin() &lt;&lt; &quot; &quot; &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+    }
 }
 
 int main() {
-    cin &gt;&gt; n &gt;&gt; k;
-    for (int i = k; i &gt;= 1; i--) {
-        ll d = 0;
-        for (int j = 2; i * j &lt;= k; j++) {
-            d += dp[i*j];
+    fastio;
+
+    int Q; cin &gt;&gt; Q;
+    while (Q--) {
+        int op; cin &gt;&gt; op;
+        if (op == 1) {
+            int a,b;
+            cin &gt;&gt; a &gt;&gt; b;
+            ins(a,b);
+        } else {
+            query();
         }
-        d %= mod;
-
-        ll r = qpow(k/i, n);
-        dp[i] = (r-d+(ll)mod) % mod;
-
-        ans = (ans + (ll)(i) * (ll)(dp[i])) % mod;
     }
-    cout &lt;&lt; ans &lt;&lt; endl;
 }
 </code></pre>
 </details>
-<h2 id="一些拓展">一些拓展</h2>
-<p>在洛谷上看<a href="https://www.luogu.com.cn/problem/solution/AT5310" target="_blank">题解</a>的时候，看到了莫比乌斯反演的方法，如果未来学了的话可以重新来做一下，loj上有加强版的题目 ($K \leq 10^{11}$)</p>
 <h2 id="其他例题todo">其他例题(TODO)</h2>
 <ol>
-<li><a href="https://loj.ac/p/6491" target="_blank">https://loj.ac/p/6491</a> (需要莫比乌斯反演)</li>
+<li><a href="https://www.luogu.com.cn/problem/P3644">https://www.luogu.com.cn/problem/P3644</a></li>
 </ol>
 
     </div>
@@ -232,9 +277,9 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-03-01 17:57:49 &#43;0800 &#43;0800">2021-03-01</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/bce8fc6959ece62f070f225d1fed045e021ecfcf" title="init 015.md" target="_blank">(bce8fc6)</a>
-        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/014-at-abc162E.md" target="_blank">更新历史</a>
+        <span title="2021-03-02 17:53:12 &#43;0800 &#43;0800">2021-03-02</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/8483625ab2c3601b6208e571b3523e182d3a671c" title="init 016" target="_blank">(8483625)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/016-at-abc127F.md" target="_blank">更新历史</a>
     </span>
   </p>
   
@@ -245,17 +290,13 @@ int main() {
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
-          <a href="/tags/%E8%AE%A1%E6%95%B0/">计数</a>
+          <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+          <a href="/tags/%E5%A0%86/">堆</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/015-at-abc127e/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Atcoder ABC 127E（数学，计数，概率）</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/013-%E6%9C%80%E5%B0%8F%E7%8E%AF/">
-            <span class="next-text nav-default">最小环</span>
+        
+        <a class="next" href="/post/015-at-abc127e/">
+            <span class="next-text nav-default">Atcoder ABC 127E（数学，计数，概率）</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

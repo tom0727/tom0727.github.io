@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Luogu P5664 Emiya家今天的饭（计数，dp） - tom0727&#39;s blog</title>
+  <title>三分法 - tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="题目链接 https://www.luogu.com.cn/problem/P1450 题意 有 $n$ 种烹饪方法，$m$ 种主要食材。每道菜都只用 恰好一种 烹饪方法和主要食材，同时对于 每种烹饪方法 $i$ 和 主要食材 $j$，有 $a_{ij}$ 种不同的" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 三分法 (tenary search) 和 二分法(binary search) 类似，只不过三分法可以用于搜索一个 二次函数 的最值。 以搜索二次函数最值为例，假如有一个二次函数存在最大值" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
-<link rel="canonical" href="https://tom0727.github.io/post/019-luogu-p5664/" />
+<link rel="canonical" href="https://tom0727.github.io/post/020-%E4%B8%89%E5%88%86%E6%B3%95/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,23 +39,23 @@
 
 
 
-<meta property="og:title" content="Luogu P5664 Emiya家今天的饭（计数，dp）" />
-<meta property="og:description" content="题目链接 https://www.luogu.com.cn/problem/P1450 题意 有 $n$ 种烹饪方法，$m$ 种主要食材。每道菜都只用 恰好一种 烹饪方法和主要食材，同时对于 每种烹饪方法 $i$ 和 主要食材 $j$，有 $a_{ij}$ 种不同的" />
+<meta property="og:title" content="三分法" />
+<meta property="og:description" content="介绍 三分法 (tenary search) 和 二分法(binary search) 类似，只不过三分法可以用于搜索一个 二次函数 的最值。 以搜索二次函数最值为例，假如有一个二次函数存在最大值" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/019-luogu-p5664/" />
-<meta property="article:published_time" content="2021-03-05T14:58:19+08:00" />
-<meta property="article:modified_time" content="2021-03-05T16:19:40+08:00" />
-<meta itemprop="name" content="Luogu P5664 Emiya家今天的饭（计数，dp）">
-<meta itemprop="description" content="题目链接 https://www.luogu.com.cn/problem/P1450 题意 有 $n$ 种烹饪方法，$m$ 种主要食材。每道菜都只用 恰好一种 烹饪方法和主要食材，同时对于 每种烹饪方法 $i$ 和 主要食材 $j$，有 $a_{ij}$ 种不同的">
-<meta itemprop="datePublished" content="2021-03-05T14:58:19&#43;08:00" />
-<meta itemprop="dateModified" content="2021-03-05T16:19:40&#43;08:00" />
-<meta itemprop="wordCount" content="897">
+<meta property="og:url" content="https://tom0727.github.io/post/020-%E4%B8%89%E5%88%86%E6%B3%95/" />
+<meta property="article:published_time" content="2021-03-05T22:20:54+08:00" />
+<meta property="article:modified_time" content="2021-03-05T23:00:54+08:00" />
+<meta itemprop="name" content="三分法">
+<meta itemprop="description" content="介绍 三分法 (tenary search) 和 二分法(binary search) 类似，只不过三分法可以用于搜索一个 二次函数 的最值。 以搜索二次函数最值为例，假如有一个二次函数存在最大值">
+<meta itemprop="datePublished" content="2021-03-05T22:20:54&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-05T23:00:54&#43;08:00" />
+<meta itemprop="wordCount" content="763">
 
 
 
-<meta itemprop="keywords" content="数学,计数,dp," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Luogu P5664 Emiya家今天的饭（计数，dp）"/>
-<meta name="twitter:description" content="题目链接 https://www.luogu.com.cn/problem/P1450 题意 有 $n$ 种烹饪方法，$m$ 种主要食材。每道菜都只用 恰好一种 烹饪方法和主要食材，同时对于 每种烹饪方法 $i$ 和 主要食材 $j$，有 $a_{ij}$ 种不同的"/>
+<meta itemprop="keywords" content="三分搜索," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="三分法"/>
+<meta name="twitter:description" content="介绍 三分法 (tenary search) 和 二分法(binary search) 类似，只不过三分法可以用于搜索一个 二次函数 的最值。 以搜索二次函数最值为例，假如有一个二次函数存在最大值"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -127,12 +127,12 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Luogu P5664 Emiya家今天的饭（计数，dp）</h1>
+      <h1 class="post-title">三分法</h1>
 
       <div class="post-meta">
-        <span class="post-time" title="2021-03-05 14:58:19 &#43;0800 &#43;0800"> 2021-03-05 </span>
+        <span class="post-time" title="2021-03-05 22:20:54 &#43;0800 &#43;0800"> 2021-03-05 </span>
         <div class="post-category">
-            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
             </div>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -146,7 +146,13 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#题目链接">题目链接</a></li>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p3382httpswwwluogucomcnproblemp3382">例1 <a href="https://www.luogu.com.cn/problem/P3382">洛谷P3382</a></a></li>
+            <li><a href="#例2-cf1355ehttpscodeforcescomproblemsetproblem1355e">例2 <a href="https://codeforces.com/problemset/problem/1355/E">CF1355E</a></a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -154,89 +160,91 @@
   </div>
 </div>
     <div class="post-content">
-      <h2 id="题目链接">题目链接</h2>
-<p><a href="https://www.luogu.com.cn/problem/P1450">https://www.luogu.com.cn/problem/P1450</a></p>
-<div class="admonition question">
-  <p class="admonition-title">题意</p>
-<p>有 $n$ 种烹饪方法，$m$ 种主要食材。每道菜都只用 <strong>恰好一种</strong> 烹饪方法和主要食材，同时对于 每种烹饪方法 $i$ 和 主要食材 $j$，有 $a_{ij}$ 种不同的菜。所以总共有 $\sum\limits_{i=1}^n \sum\limits_{j=1}^m a_{ij}$ 道不同的菜。</p>
-<p>现在需要求做菜方案 （设总共有 $k$ 道菜，$k$ 可以取任何数），满足：</p>
+      <h2 id="介绍">介绍</h2>
+<p>三分法 (tenary search) 和 二分法(binary search) 类似，只不过三分法可以用于搜索一个 <strong>二次函数</strong> 的最值。</p>
+<p>以搜索二次函数最值为例，假如有一个二次函数存在最大值。</p>
+<p>要搜索这个最大值，可以令 $mid = \frac{l+r}{2}$，然后令 $lmid = mid - eps$，$rmid = mid + eps$，然后比较一下 $f(lmid)$ 和 $f(rmid)$ 的大小。</p>
 <ol>
-<li>$k \geq 1$</li>
-<li>每道菜的烹饪方法 $i$ 各不相同</li>
-<li>每种主要食材 $j$ 最多在一半（$\lfloor \frac{k}{2} \rfloor$）的菜中出现</li>
-</ol>
-<p>求满足上述条件的做菜方案个数？</p>
-<p>$1 \leq n \leq 100, 1 \leq m \leq 2000, 0 \leq a_{ij} &lt; 998244353$</p>
-</div>
-<details class="admonition note"><summary class="admonition-title">题解</summary>
-<p>首先考虑条件1和2，满足这些条件的总方案数有 $((s_1+1) * (s_2+1) * (s_3+1) * &hellip; * (s_n+1) - 1)$ 种，其中 $s_i = \sum\limits_{j=1}^m a_{ij}$</p>
-<p>（因为对于每种烹饪方法 $i$，还可以 <strong>不选</strong>，所以是 $(s_i+1)$，最后减去 <strong>全部不选</strong> 的情况）</p>
-<p>这样，我们减去 <strong>不满足条件3</strong> 的方案数即可！</p>
-<p>我们<strong>枚举</strong>超过限制的主要食材 $j$，然后设 $dp[i][k]$ 为：当前到了第 $i$ 种烹饪方法，使用了 $k$ 种主要食材 $j$ 的方案数。</p>
-<p>那么问题关键在于，对于某一种烹饪方法 $i$，我们可以<strong>不选任何菜</strong>，这怎么办？</p>
-<p>我们假设有 $t$ 个不选的，那么总共就选了 $n-t$ 个菜，要保证 $k &gt; \lfloor \frac{n-t}{2} \rfloor$，即 $2k + t &gt; n$。</p>
-<p>所以，我们可以改变一下状态的定义，我们可以将 <strong>不选</strong> 变成 <strong>选了一种主要食材 $j$</strong>，而 <strong>选择主要食材 $j$</strong> 就变成 <strong>选择了两个主要食材 $j$</strong>。这样，只要满足 <code>不选的数量 + 2 * 选择主要食材 &gt; n</code>，就<strong>不满足条件3</strong>了！</p>
-<p>转移方程就很好写了，对于每一种烹饪方法 $i$，有 $3$ 种决策方案：</p>
-<ol>
-<li>选择主要食材 $j$：<code>dp[i][k] += dp[i-1][k-2] * a[i][j];</code></li>
-<li>不选任何菜： <code>dp[i][k] += dp[i-1][k-1];</code></li>
-<li>选择<strong>非主要</strong>食材：<code>dp[i][k] += (dp[i-1][k] * (sum[i] - a[i][j]));</code></li>
+<li>$f(lmid) &lt; f(rmid)$：最大值一定在 $[lmid, r]$ 之间。</li>
+<li>$f(lmid) &gt; f(rmid)$：最大值一定在 $[l, rmid]$ 之间。</li>
 </ol>
 <blockquote>
-<p>注意，<strong>不能</strong>将 <code>dp</code> 数组变成一维然后倒序转移！</p>
-<p>比如，在第三种转移时，<code>(sum[i] - a[i][j]) == 0</code>，那么如果是二维的，此时 <code>dp[i][k] = 0</code>，而如果是一维的，就会变成 <code>dp[i][k] = dp[i-1][k]</code>。</p>
+<p>证明：假如 $f(lmid) &lt; f(rmid)$，那么如果最大值在 $lmid$ 的左边则必然不可能，因为 $rmid$ 离最大值比 $lmid$ 更远。另外一种情况亦然。</p>
 </blockquote>
-</details>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p3382httpswwwluogucomcnproblemp3382">例1 <a href="https://www.luogu.com.cn/problem/P3382" target="_blank">洛谷P3382</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $N$ 次函数，保证 $[l,r]$ 内存在一个点 $x$，使得 $[l,x]$ 单调增，$[x,r]$ 单调减，求 $x$</p>
+</div>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define ll long long
+using namespace std;
 
-const int mod = 998244353;
-const int maxn = 1e5+5;
+const double eps = (double)1e-7;
+int n;
+double l,r;
+double arr[16];
 
-ll dp[103][205];
-ll sum[105];
-ll a[103][2003];
-int n,m; 
+double get(double x) {
+    double res = 0;
+    double cur = 1.0;
+    for (int i = 1; i &lt;= n+1; i++) {
+        res += cur * arr[i];
+        cur *= x;
+    }
+    return res;
+}
 
 int main() {
+    cin &gt;&gt; n;
+    cin &gt;&gt; l &gt;&gt; r;
+    for (int i = n+1; i &gt;= 1; i--) cin &gt;&gt; arr[i];
 
-    fastio;
+    double low = l, high = r;
 
-    ll ans = 1;
-    cin &gt;&gt; n &gt;&gt; m;
-    for (int i = 1; i &lt;= n; i++) {
-        for (int j = 1; j &lt;= m; j++) {
-            cin &gt;&gt; a[i][j];
-            sum[i] = (sum[i] + a[i][j]) % mod;
-        }
-        ans = (ans * (sum[i]+1LL)) % mod;
+    while (high - low &gt; 5e-7) {
+        double mid = (low + high) * 0.5;
+        double lmid = mid - eps, rmid = mid + eps;
+        if (get(lmid) &lt; get(rmid)) low = lmid;
+        else high = rmid;
     }
+    printf(&quot;%.7f\n&quot;, low);
+}
+</code></pre>
+</details>
+<h3 id="例2-cf1355ehttpscodeforcescomproblemsetproblem1355e">例2 <a href="https://codeforces.com/problemset/problem/1355/E" target="_blank">CF1355E</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $N$ 个柱子，高度分别为 $h_1, h_2, &hellip; h_N$。现在有3种操作：</p>
+<ol>
+<li>令一个柱子的高度+1，cost为 $A$</li>
+<li>令一个柱子的高度-1，cost为 $R$</li>
+<li>令一个柱子的高度+1，且令另外一个柱子的高度-1，cost为 $M$</li>
+</ol>
+<p>求最小的cost使得所有柱子高度相等？</p>
+<p>其中 $1 \leq N \leq 10^5, 0 \leq h_i \leq 10^9$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>如果我们枚举最终的高度 $h$，对于每一个 $h$ 都可以在 $\log(N)$ 的时间内计算出来对应的 $cost$。</p>
+<p>然后我们会发现，随着 $h$ 的增加，$cost$ 是一个二次函数，具有一个最小值。（证明略）</p>
+<p>所以就可以使用三分搜索了！</p>
+<blockquote>
+<p>因为三分搜索的边界不太好处理，所以可以限定一个范围，在范围之内就停止搜索开始暴力枚举。</p>
+</blockquote>
+<p>搜索的部分代码：</p>
+<pre><code class="language-cpp">ll low = 1, high = 1e9;
+while (high - low &gt;= 10) {
+    ll mid = (low + high) &gt;&gt; 1;
+    ll lmid = mid-1, rmid = mid+1;
+    ll lv = solve(lmid), rv = solve(rmid);
+    if (lv &gt; rv) low = lmid;
+    else high = rmid;
+}
 
-    ll delta = 1LL;
-
-    for (int j = 1; j &lt;= m; j++) {
-        memset(dp, 0, sizeof(dp));
-        dp[0][0] = 1;
-
-        for (int i = 1; i &lt;= n; i++) {
-            for (int k = 0; k &lt;= 2*n; k++) {
-                dp[i][k] = (dp[i][k] + dp[i-1][k] * (sum[i] - a[i][j]) % mod) % mod;
-                if (k &gt;= 1) {
-                    (dp[i][k] += dp[i-1][k-1]) %= mod;
-                }
-                if (k &gt;= 2) {
-                    dp[i][k] = (dp[i][k] + dp[i-1][k-2] * a[i][j] % mod) % mod;
-                }
-            }
-        }
-
-        for (int k = n+1; k &lt;= 2*n; k++) (delta += dp[n][k]) %= mod;
-    }
-    ans -= delta;
-    (ans %= mod) += mod;
-    ans %= mod;
-    cout &lt;&lt; ans &lt;&lt; endl;
+for (ll p = low; p &lt;= high; p++) {
+    ll r = solve(p);
+    ans = min(ans, r);
 }
 </code></pre>
 </details>
@@ -250,9 +258,9 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-03-05 16:19:40 &#43;0800 &#43;0800">2021-03-05</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/0a5152fcc4d10f442f6badaaa694e8cd4dd873f7" title="init 018,019" target="_blank">(0a5152f)</a>
-        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/019-luogu-P5664.md" target="_blank">更新历史</a>
+        <span title="2021-03-05 23:00:54 &#43;0800 &#43;0800">2021-03-05</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/faea35eccf6f6ded8f70cb52cb17c38e829872f1" title="init 020" target="_blank">(faea35e)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/020-%e4%b8%89%e5%88%86%e6%b3%95.md" target="_blank">更新历史</a>
     </span>
   </p>
   
@@ -263,18 +271,12 @@ int main() {
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
-          <a href="/tags/%E8%AE%A1%E6%95%B0/">计数</a>
-          <a href="/tags/dp/">dp</a>
+          <a href="/tags/%E4%B8%89%E5%88%86%E6%90%9C%E7%B4%A2/">三分搜索</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/020-%E4%B8%89%E5%88%86%E6%B3%95/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">三分法</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/018-luogu-p1450/">
-            <span class="next-text nav-default">Luogu P1450 硬币购物（计数，容斥）</span>
+        
+        <a class="next" href="/post/019-luogu-p5664/">
+            <span class="next-text nav-default">Luogu P5664 Emiya家今天的饭（计数，dp）</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

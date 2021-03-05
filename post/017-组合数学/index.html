@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>组合数学 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="记录一些组合数学的公式。 公式 组合数 $C(n,m)$ $C_n^0 = C_n^n = 1$ $C_n^k = C_{n-1}^k &#43; C_{n-1}^{k-1}$ $C_n^k = \frac{n!}{k!(n-k)!}$ 注：$0! = 1, (0!)^{-1} = 1$ 证明公式2 $n$ 个中选 $k$ 个， 考虑 $n$ 个元素中的第一个元素： 如果它" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/017-%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.2ccc99aa18501eb0a20678a919404779fa1d9f66663cef10606eef97052b4b73.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="组合数学" />
+<meta property="og:description" content="记录一些组合数学的公式。 公式 组合数 $C(n,m)$ $C_n^0 = C_n^n = 1$ $C_n^k = C_{n-1}^k &#43; C_{n-1}^{k-1}$ $C_n^k = \frac{n!}{k!(n-k)!}$ 注：$0! = 1, (0!)^{-1} = 1$ 证明公式2 $n$ 个中选 $k$ 个， 考虑 $n$ 个元素中的第一个元素： 如果它" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/017-%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" />
+<meta property="article:published_time" content="2021-03-02T18:35:43+08:00" />
+<meta property="article:modified_time" content="2021-03-05T16:19:40+08:00" />
+<meta itemprop="name" content="组合数学">
+<meta itemprop="description" content="记录一些组合数学的公式。 公式 组合数 $C(n,m)$ $C_n^0 = C_n^n = 1$ $C_n^k = C_{n-1}^k &#43; C_{n-1}^{k-1}$ $C_n^k = \frac{n!}{k!(n-k)!}$ 注：$0! = 1, (0!)^{-1} = 1$ 证明公式2 $n$ 个中选 $k$ 个， 考虑 $n$ 个元素中的第一个元素： 如果它">
+<meta itemprop="datePublished" content="2021-03-02T18:35:43&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-05T16:19:40&#43;08:00" />
+<meta itemprop="wordCount" content="1259">
+
+
+
+<meta itemprop="keywords" content="数学," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="组合数学"/>
+<meta name="twitter:description" content="记录一些组合数学的公式。 公式 组合数 $C(n,m)$ $C_n^0 = C_n^n = 1$ $C_n^k = C_{n-1}^k &#43; C_{n-1}^{k-1}$ $C_n^k = \frac{n!}{k!(n-k)!}$ 注：$0! = 1, (0!)^{-1} = 1$ 证明公式2 $n$ 个中选 $k$ 个， 考虑 $n$ 个元素中的第一个元素： 如果它"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">组合数学</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-03-02 18:35:43 &#43;0800 &#43;0800"> 2021-03-02 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#公式">公式</a>
+          <ul>
+            <li><a href="#组合数-cnm">组合数 $C(n,m)$</a></li>
+            <li><a href="#二项式定理">二项式定理</a></li>
+            <li><a href="#卡特兰数-catalan">卡特兰数 (Catalan)</a></li>
+            <li><a href="#第二类斯特林数">第二类斯特林数</a></li>
+          </ul>
+        </li>
+        <li><a href="#经典例题">经典例题</a>
+          <ul>
+            <li><a href="#例1-男女生排列问题">例1 男女生排列问题</a></li>
+            <li><a href="#例2-小球放盒子问题">例2 小球放盒子问题</a></li>
+            <li><a href="#例3-错排问题">例3 错排问题</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>记录一些组合数学的公式。</p>
+<h2 id="公式">公式</h2>
+<h3 id="组合数-cnm">组合数 $C(n,m)$</h3>
+<ol>
+<li>$C_n^0 = C_n^n = 1$</li>
+<li>$C_n^k = C_{n-1}^k + C_{n-1}^{k-1}$</li>
+<li>$C_n^k = \frac{n!}{k!(n-k)!}$</li>
+</ol>
+<blockquote>
+<p>注：$0! = 1, (0!)^{-1} = 1$</p>
+</blockquote>
+<details class="admonition note"><summary class="admonition-title">证明公式2</summary>
+<p>$n$ 个中选 $k$ 个，
+考虑 $n$ 个元素中的第一个元素：</p>
+<ol>
+<li>如果它被选中，有 $C_{n-1}^{k-1}$ 种。</li>
+<li>如果它没有被选中，有 $C_{n-1}^k$ 种。</li>
+</ol>
+</details>
+<hr>
+<h3 id="二项式定理">二项式定理</h3>
+<p>$(a+b)^n = \sum\limits_{k=0}^n C_n^ka^kb^{n-k}$</p>
+<hr>
+<h3 id="卡特兰数-catalan">卡特兰数 (Catalan)</h3>
+<p>通项公式：</p>
+<ol start="0">
+<li>
+<p>$H_n = 1 ~ (n=0,1)$</p>
+</li>
+<li>
+<p>$H_n = \frac{C_{2n}^n}{n+1}~(n \geq 2)$</p>
+</li>
+<li>
+<p>$H_n = C_{2n}^n - C_{2n}^{n-1}$</p>
+</li>
+</ol>
+<p>递推式：</p>
+<ol>
+<li>
+<p>$H_n = \sum\limits_{i=0}^{n-1}H_{i}H_{n-i-1} = H_0H_{n-1} + H_1H_{n-2} + &hellip; + H_{n-1}H_0$</p>
+</li>
+<li>
+<p>$H_n = \frac{(4n-2)}{n+1} H_{n-1}$</p>
+</li>
+</ol>
+<hr>
+<h3 id="第二类斯特林数">第二类斯特林数</h3>
+<p>$S(n,m)$ 代表将 $n$ 个不同的小球，放进 $m$ 个<strong>相同，非空</strong>盒子的方案数</p>
+<p>通项公式：</p>
+<p>$S(n,m) = \sum\limits_{i=0}^m (-1)^{m-i}\frac{i^n}{i!(m-i)!}$</p>
+<p>递推式：</p>
+<p>$S(n,m) = m*S(n-1,m) + S(n-1,m-1)$</p>
+<details class="admonition note"><summary class="admonition-title">证明</summary>
+<p>考虑第一个小球，有两种情况：</p>
+<ol>
+<li>独占一个盒子：相当于，其他 $n-1$ 个小球要放进 $m-1$ 个盒子中，且盒子不为空，所以为 $S(n-1,m-1)$</li>
+<li>不独占一个盒子：相当于，先将其他 $n-1$ 个小球放进 $m$ 个盒子中，且盒子不为空，然后从 $m$ 个盒子中选一个，把当前小球放进去，所以为 $m*S(n-1,m)$</li>
+</ol>
+</details>
+<h2 id="经典例题">经典例题</h2>
+<h3 id="例1-男女生排列问题">例1 男女生排列问题</h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>三个女生和五个男生站成一排。</p>
+<ol>
+<li>
+<p>如果女生必须全排在一起，有多少种排法？</p>
+</li>
+<li>
+<p>如果女生不能相邻，有多少种排法？</p>
+</li>
+<li>
+<p>如果两端都不排女生，有多少种排法？</p>
+</li>
+<li>
+<p>如果两端不都排女生，有多少种排法？</p>
+</li>
+</ol>
+</div>
+<details class="admonition note"><summary class="admonition-title">第一题答案</summary>
+<p>将3个女生看作1个，所以就有 $A_6^6$ 种。对于女生内部的排列有 $A_3^3$ 种。所以总共为 $A_6^6A_3^3$ 种。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">第二题答案</summary>
+<p>先排男生，有 $A_5^5$ 种，然后将女生插入6个空位中，有 $A_6^3$ 种。所以总共为 $A_5^5A_6^3$ 种。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">第三题答案</summary>
+<p>先排好两个男生在两边，有 $A_5^2$ 种，两个男生中间的人就可以随便排了，就有 $A_6^6$ 种。所以总共为 $A_5^2A_6^6$ 种。</p>
+<p>也可以这么想，让女生在中间的6个位置先选好3个，有 $A_6^3$ 种，剩下的男生随便排，有 $A_5^5$ 种。所以总共为 $A_6^3A_5^5$ 种，答案和上面一样。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">第四题答案</summary>
+<p>所有排列情况有 $A_8^8$ 种，如果两边都排女生，有 $A_3^2A_6^6$ 种。所以总共为 $A_8^8 - A_3^2A_6^6$ 种。</p>
+</details>
+<hr>
+<h3 id="例2-小球放盒子问题">例2 小球放盒子问题</h3>
+<p>假设有 $n$ 个小球，$m$ 个盒子。</p>
+<details class="admonition note"><summary class="admonition-title">小球无区别-盒子无区别-不允许空盒</summary>
+<p>略（还没遇到）</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">小球无区别-盒子无区别-允许空盒</summary>
+<p>略（还没遇到）</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">小球无区别-盒子有区别-不允许空盒</summary>
+<p>使用隔板法，在 $n$ 个小球中间放置 $m-1$ 块挡板，将小球分为不为空的 $m$ 部分。小球之间的空位有 $n-1$ 个。所以答案为</p>
+<p>$C_{n-1}^{m-1}$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">小球无区别-盒子有区别-允许空盒</summary>
+<p>先多加 $m$ 个小球，转化为 <strong>不允许空盒</strong> 的问题后，再把多加的 $m$ 个小球拿出来即可。所以答案为</p>
+<p>$C_{n+m-1}^{m-1}$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">小球有区别-盒子无区别-不允许空盒</summary>
+<p>答案就是第二类斯特林数 $S(n,m)$，递推式如上：</p>
+<p>$S(n,m) = m*S(n-1,m) + S(n-1,m-1)$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">小球有区别-盒子无区别-允许空盒</summary>
+<p>在 <strong>不允许空盒</strong> 的基础上，枚举一下 <strong>空盒的个数</strong>。所以答案为</p>
+<p>$\sum\limits_{i=1}^{\min(n,m)}S(n,i)$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">小球有区别-盒子有区别-不允许空盒</summary>
+<p>在 <strong>盒子无区别</strong> 的基础上，乘上盒子的排列 $m!$ 即可，所以答案为：</p>
+<p>$S(n,m) * m!$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">小球有区别-盒子有区别-允许空盒</summary>
+<p>每个小球可以随便选，互不影响，所以答案为：</p>
+<p>$n^m$</p>
+</details>
+<hr>
+<h3 id="例3-错排问题">例3 错排问题</h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $1,2,3,&hellip;,n$ 这些数字，重新排序使得不存在任何一个数字的位置和原来相同，有多少种方法？</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">答案</summary>
+<p>$D_n = (n-1)(D_{n-1} + D_{n-2})$，其中 $D_1 = 0, D_2 = 1$</p>
+<p>证明：初始情况下如图：</p>
+<p><img src="/images/017/1.jpg" alt="img"></p>
+<p>在图中，上下两行对应的元素需要错开。我们设这种情况下，排序的方法有 $f(n)$ 种。</p>
+<p>对于元素 $1$，我们可以选择除 $1$ 以外的任何一个元素，所以有 $n-1$ 种。</p>
+<p>假设我们选了 $1 \rightarrow 2$，就会变成下图：</p>
+<p><img src="/images/017/2.jpg" alt="img"></p>
+<p>那么，再看元素 $2$：</p>
+<ol>
+<li>
+<p>如果 $2 \rightarrow 1$，那么就会变成下图，即 $f(n-2)$ 种。
+<img src="/images/017/3.jpg" alt="img"></p>
+</li>
+<li>
+<p>如果 $2 \rightarrow 3 ~ or ~ 4 ~ or ~ &hellip; ~ n$，就相当于 $2$ 和 $1$ <strong>必须错开</strong>，那就相当于下图，即 $f(n-1)$ 种。</p>
+<p><img src="/images/017/4.jpg" alt="img"></p>
+</li>
+</ol>
+<p>所以最终就可以得到 $f(n) = (n-1)(f(n-1) + f(n-2))$</p>
+</details>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-03-05 16:19:40 &#43;0800 &#43;0800">2021-03-05</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0a5152fcc4d10f442f6badaaa694e8cd4dd873f7" title="init 018,019" target="_blank">(0a5152f)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/017-%e7%bb%84%e5%90%88%e6%95%b0%e5%ad%a6.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/018-luogu-p1450/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Luogu P1450 硬币购物（计数，容斥）</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/016-at-abc127f/">
+            <span class="next-text nav-default">Atcoder ABC 127F（对顶堆动态维护中位数）</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

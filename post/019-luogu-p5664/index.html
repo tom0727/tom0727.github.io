@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Atcoder ABC 127F（对顶堆动态维护中位数） - tom0727&#39;s blog</title>
+  <title>Luogu P5664 Emiya家今天的饭（计数，dp） - tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_f 题意 初始时有个函数 $f(x) = 0$，现在有 $Q$ 个询问，询问有两种： 1 a b：令 $f(x) = f(x) &#43; |x-a| &#43; b$ 2：求 $x$ 使得 $f(x)$ 最小，并求出这个 $f(x)$ 的最小值 题解 $f(x)$ 必然" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="题目链接 https://www.luogu.com.cn/problem/P1450 题意 有 $n$ 种烹饪方法，$m$ 种主要食材。每道菜都只用 恰好一种 烹饪方法和主要食材，同时对于 每种烹饪方法 $i$ 和 主要食材 $j$，有 $a_{ij}$ 种不同的" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
-<link rel="canonical" href="https://tom0727.github.io/post/016-at-abc127f/" />
+<link rel="canonical" href="https://tom0727.github.io/post/019-luogu-p5664/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,23 +39,23 @@
 
 
 
-<meta property="og:title" content="Atcoder ABC 127F（对顶堆动态维护中位数）" />
-<meta property="og:description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_f 题意 初始时有个函数 $f(x) = 0$，现在有 $Q$ 个询问，询问有两种： 1 a b：令 $f(x) = f(x) &#43; |x-a| &#43; b$ 2：求 $x$ 使得 $f(x)$ 最小，并求出这个 $f(x)$ 的最小值 题解 $f(x)$ 必然" />
+<meta property="og:title" content="Luogu P5664 Emiya家今天的饭（计数，dp）" />
+<meta property="og:description" content="题目链接 https://www.luogu.com.cn/problem/P1450 题意 有 $n$ 种烹饪方法，$m$ 种主要食材。每道菜都只用 恰好一种 烹饪方法和主要食材，同时对于 每种烹饪方法 $i$ 和 主要食材 $j$，有 $a_{ij}$ 种不同的" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/016-at-abc127f/" />
-<meta property="article:published_time" content="2021-03-01T21:35:11+08:00" />
+<meta property="og:url" content="https://tom0727.github.io/post/019-luogu-p5664/" />
+<meta property="article:published_time" content="2021-03-05T14:58:19+08:00" />
 <meta property="article:modified_time" content="2021-03-05T16:19:40+08:00" />
-<meta itemprop="name" content="Atcoder ABC 127F（对顶堆动态维护中位数）">
-<meta itemprop="description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_f 题意 初始时有个函数 $f(x) = 0$，现在有 $Q$ 个询问，询问有两种： 1 a b：令 $f(x) = f(x) &#43; |x-a| &#43; b$ 2：求 $x$ 使得 $f(x)$ 最小，并求出这个 $f(x)$ 的最小值 题解 $f(x)$ 必然">
-<meta itemprop="datePublished" content="2021-03-01T21:35:11&#43;08:00" />
+<meta itemprop="name" content="Luogu P5664 Emiya家今天的饭（计数，dp）">
+<meta itemprop="description" content="题目链接 https://www.luogu.com.cn/problem/P1450 题意 有 $n$ 种烹饪方法，$m$ 种主要食材。每道菜都只用 恰好一种 烹饪方法和主要食材，同时对于 每种烹饪方法 $i$ 和 主要食材 $j$，有 $a_{ij}$ 种不同的">
+<meta itemprop="datePublished" content="2021-03-05T14:58:19&#43;08:00" />
 <meta itemprop="dateModified" content="2021-03-05T16:19:40&#43;08:00" />
-<meta itemprop="wordCount" content="695">
+<meta itemprop="wordCount" content="897">
 
 
 
-<meta itemprop="keywords" content="数据结构,堆," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Atcoder ABC 127F（对顶堆动态维护中位数）"/>
-<meta name="twitter:description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_f 题意 初始时有个函数 $f(x) = 0$，现在有 $Q$ 个询问，询问有两种： 1 a b：令 $f(x) = f(x) &#43; |x-a| &#43; b$ 2：求 $x$ 使得 $f(x)$ 最小，并求出这个 $f(x)$ 的最小值 题解 $f(x)$ 必然"/>
+<meta itemprop="keywords" content="数学,计数,dp," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Luogu P5664 Emiya家今天的饭（计数，dp）"/>
+<meta name="twitter:description" content="题目链接 https://www.luogu.com.cn/problem/P1450 题意 有 $n$ 种烹饪方法，$m$ 种主要食材。每道菜都只用 恰好一种 烹饪方法和主要食材，同时对于 每种烹饪方法 $i$ 和 主要食材 $j$，有 $a_{ij}$ 种不同的"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -127,10 +127,10 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Atcoder ABC 127F（对顶堆动态维护中位数）</h1>
+      <h1 class="post-title">Luogu P5664 Emiya家今天的饭（计数，dp）</h1>
 
       <div class="post-meta">
-        <span class="post-time" title="2021-03-01 21:35:11 &#43;0800 &#43;0800"> 2021-03-01 </span>
+        <span class="post-time" title="2021-03-05 14:58:19 &#43;0800 &#43;0800"> 2021-03-05 </span>
         <div class="post-category">
             <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
             </div>
@@ -147,7 +147,6 @@
     <li>
       <ul>
         <li><a href="#题目链接">题目链接</a></li>
-        <li><a href="#其他例题todo">其他例题(TODO)</a></li>
       </ul>
     </li>
   </ul>
@@ -156,117 +155,91 @@
 </div>
     <div class="post-content">
       <h2 id="题目链接">题目链接</h2>
-<p><a href="https://atcoder.jp/contests/abc127/tasks/abc127_f">https://atcoder.jp/contests/abc127/tasks/abc127_f</a></p>
+<p><a href="https://www.luogu.com.cn/problem/P1450">https://www.luogu.com.cn/problem/P1450</a></p>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
-<p>初始时有个函数 $f(x) = 0$，现在有 $Q$ 个询问，询问有两种：</p>
-<p><code>1 a b</code>：令 $f(x) = f(x) + |x-a| + b$</p>
-<p><code>2</code>：求 $x$ 使得 $f(x)$ 最小，并求出这个 $f(x)$ 的最小值</p>
+<p>有 $n$ 种烹饪方法，$m$ 种主要食材。每道菜都只用 <strong>恰好一种</strong> 烹饪方法和主要食材，同时对于 每种烹饪方法 $i$ 和 主要食材 $j$，有 $a_{ij}$ 种不同的菜。所以总共有 $\sum\limits_{i=1}^n \sum\limits_{j=1}^m a_{ij}$ 道不同的菜。</p>
+<p>现在需要求做菜方案 （设总共有 $k$ 道菜，$k$ 可以取任何数），满足：</p>
+<ol>
+<li>$k \geq 1$</li>
+<li>每道菜的烹饪方法 $i$ 各不相同</li>
+<li>每种主要食材 $j$ 最多在一半（$\lfloor \frac{k}{2} \rfloor$）的菜中出现</li>
+</ol>
+<p>求满足上述条件的做菜方案个数？</p>
+<p>$1 \leq n \leq 100, 1 \leq m \leq 2000, 0 \leq a_{ij} &lt; 998244353$</p>
 </div>
 <details class="admonition note"><summary class="admonition-title">题解</summary>
-<p>$f(x)$ 必然长这样：$f(x) = |x-a_1| + |x-a_2| + &hellip; + |x-a_n| + \sum\limits_{i=1}^{n}b_i$</p>
-<p>要让 $f(x)$ 最小，就令 $x$ 等于 $a_1,a_2,&hellip;,a_n$ 的中位数。</p>
-<p>那么已知中位数 $a_k$ 的话，如何找到 $\sum\limits_{i=1}^{n} |a_k - a_i|$ ？</p>
-<p>假设 $n$ 为奇数，那如果我们将 $a_i$ sort 一下，有：</p>
-<p>$\sum\limits_{i=1}^{n} |a_{\frac{n+1}{2}} - a_i| = \sum\limits_{i=1}^{\frac{n}{2}}(a_{\frac{n+1}{2}+i} - a_{\frac{n+1}{2}-i})$</p>
-<p>如果我们分开维护中位数 $a_{\frac{n+1}{2}}$ 左右两边的 <code>sum</code> 就可以 $O(1)$ 求和了！</p>
-<hr>
-<p>用<strong>对顶堆</strong>！</p>
-<p>我们维护两个 <code>multiset&lt;ll&gt;</code>，一个是大顶堆（叫做<code>small</code>），维护<strong>小于等于中位数</strong>的部分。一个是小顶堆（叫做<code>big</code>），小顶堆维护<strong>大于等于中位数</strong>的部分，并且保证两者的 <code>size</code> 之差 $\leq 1$。</p>
-<p><img src="/images/016/1.jpg" alt="images"></p>
+<p>首先考虑条件1和2，满足这些条件的总方案数有 $((s_1+1) * (s_2+1) * (s_3+1) * &hellip; * (s_n+1) - 1)$ 种，其中 $s_i = \sum\limits_{j=1}^m a_{ij}$</p>
+<p>（因为对于每种烹饪方法 $i$，还可以 <strong>不选</strong>，所以是 $(s_i+1)$，最后减去 <strong>全部不选</strong> 的情况）</p>
+<p>这样，我们减去 <strong>不满足条件3</strong> 的方案数即可！</p>
+<p>我们<strong>枚举</strong>超过限制的主要食材 $j$，然后设 $dp[i][k]$ 为：当前到了第 $i$ 种烹饪方法，使用了 $k$ 种主要食材 $j$ 的方案数。</p>
+<p>那么问题关键在于，对于某一种烹饪方法 $i$，我们可以<strong>不选任何菜</strong>，这怎么办？</p>
+<p>我们假设有 $t$ 个不选的，那么总共就选了 $n-t$ 个菜，要保证 $k &gt; \lfloor \frac{n-t}{2} \rfloor$，即 $2k + t &gt; n$。</p>
+<p>所以，我们可以改变一下状态的定义，我们可以将 <strong>不选</strong> 变成 <strong>选了一种主要食材 $j$</strong>，而 <strong>选择主要食材 $j$</strong> 就变成 <strong>选择了两个主要食材 $j$</strong>。这样，只要满足 <code>不选的数量 + 2 * 选择主要食材 &gt; n</code>，就<strong>不满足条件3</strong>了！</p>
+<p>转移方程就很好写了，对于每一种烹饪方法 $i$，有 $3$ 种决策方案：</p>
+<ol>
+<li>选择主要食材 $j$：<code>dp[i][k] += dp[i-1][k-2] * a[i][j];</code></li>
+<li>不选任何菜： <code>dp[i][k] += dp[i-1][k-1];</code></li>
+<li>选择<strong>非主要</strong>食材：<code>dp[i][k] += (dp[i-1][k] * (sum[i] - a[i][j]));</code></li>
+</ol>
 <blockquote>
-<p>插入新值的时候，就和当前中位数比较一下，如果小于等于中位数就插入<code>small</code>，否则插入<code>big</code>，然后看一下<code>size</code>之差，如果 <code>size</code>之差 $&gt; 1$ 就从多的那个堆取出来，插入另外一个堆，这样就动态调整了中位数。</p>
+<p>注意，<strong>不能</strong>将 <code>dp</code> 数组变成一维然后倒序转移！</p>
+<p>比如，在第三种转移时，<code>(sum[i] - a[i][j]) == 0</code>，那么如果是二维的，此时 <code>dp[i][k] = 0</code>，而如果是一维的，就会变成 <code>dp[i][k] = dp[i-1][k]</code>。</p>
 </blockquote>
-<p>这样我们可以 $O(1)$ 求出中位数，并且 $\sum\limits_{i=1}^{n} |a_k - a_i|$ 也可以 $O(1)$ 得出，用<code>big</code>的$sum$ 减去 <code>small</code>的 $sum$ 即可。（写的时候需要讨论一下 <code>size</code> 之差为 <code>1,0,-1</code> 的三种情况）。</p>
-<p>细节部分直接看代码吧。</p>
 </details>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
-<pre><code class="language-cpp">using namespace std;
-#include &lt;bits/stdc++.h&gt;
-
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
 #define ll long long
 
-const int mod = 1e9+7;
-const int maxn = 1e3+5;
-const int maxm = 2e5+10;
+const int mod = 998244353;
+const int maxn = 1e5+5;
 
-ll c = 0, ssum = 0, bsum = 0;
-multiset&lt;ll&gt; big;
-multiset&lt;ll, greater&lt;ll&gt; &gt; small;
-
-void ins(ll a, ll b) {
-    c += b;
-
-    if (!small.size()) {
-        ssum += a;
-        small.insert(a); return;
-    }
-
-    if (a &lt;= *small.begin()) {
-        small.insert(a);
-        ssum += a;
-    } else {
-        big.insert(a);
-        bsum += a;
-    }
-
-    if (small.size() &gt; big.size() + 1) {
-        auto p = small.begin();
-        bsum += *p, ssum -= *p;
-        big.insert(*p);
-        small.erase(p);
-    }
-
-    if (big.size() &gt; small.size() + 1) {
-        auto p = big.begin();
-        bsumssum += *p;
-        small.insert(*p);
-        big.erase(p);
-    }
-}
-
-void query() {
-
-    ll ans = bsum
-    if (small.size() == big.size()) {
-        cout &lt;&lt; *small.begin() &lt;&lt; &quot; &quot; &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
-        return;
-    }
-
-    if (small.size() == big.size() + 1) {
-        ans += *small.begin();
-        cout &lt;&lt; *small.begin() &lt;&lt; &quot; &quot; &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
-        return;
-    }
-
-    if (big.size() == small.size() + 1) {
-        ans -= *big.begin();
-        cout &lt;&lt; *big.begin() &lt;&lt; &quot; &quot; &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
-    }
-}
+ll dp[103][205];
+ll sum[105];
+ll a[103][2003];
+int n,m; 
 
 int main() {
+
     fastio;
 
-    int Q; cin &gt;&gt; Q;
-    while (Q--) {
-        int op; cin &gt;&gt; op;
-        if (op == 1) {
-            int a,b;
-            cin &gt;&gt; a &gt;&gt; b;
-            ins(a,b);
-        } else {
-            query();
+    ll ans = 1;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            cin &gt;&gt; a[i][j];
+            sum[i] = (sum[i] + a[i][j]) % mod;
         }
+        ans = (ans * (sum[i]+1LL)) % mod;
     }
+
+    ll delta = 1LL;
+
+    for (int j = 1; j &lt;= m; j++) {
+        memset(dp, 0, sizeof(dp));
+        dp[0][0] = 1;
+
+        for (int i = 1; i &lt;= n; i++) {
+            for (int k = 0; k &lt;= 2*n; k++) {
+                dp[i][k] = (dp[i][k] + dp[i-1][k] * (sum[i] - a[i][j]) % mod) % mod;
+                if (k &gt;= 1) {
+                    (dp[i][k] += dp[i-1][k-1]) %= mod;
+                }
+                if (k &gt;= 2) {
+                    dp[i][k] = (dp[i][k] + dp[i-1][k-2] * a[i][j] % mod) % mod;
+                }
+            }
+        }
+
+        for (int k = n+1; k &lt;= 2*n; k++) (delta += dp[n][k]) %= mod;
+    }
+    ans -= delta;
+    (ans %= mod) += mod;
+    ans %= mod;
+    cout &lt;&lt; ans &lt;&lt; endl;
 }
 </code></pre>
 </details>
-<h2 id="其他例题todo">其他例题(TODO)</h2>
-<ol>
-<li><a href="https://www.luogu.com.cn/problem/P3644">https://www.luogu.com.cn/problem/P3644</a></li>
-</ol>
-
     </div>
 
     <div class="post-copyright">
@@ -279,7 +252,7 @@ int main() {
     <span class="item-content">
         <span title="2021-03-05 16:19:40 &#43;0800 &#43;0800">2021-03-05</span>
         <a href="https://github.com/tom0727/hugo-blog/commit/0a5152fcc4d10f442f6badaaa694e8cd4dd873f7" title="init 018,019" target="_blank">(0a5152f)</a>
-        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/016-at-abc127F.md" target="_blank">更新历史</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/019-luogu-P5664.md" target="_blank">更新历史</a>
     </span>
   </p>
   
@@ -290,17 +263,14 @@ int main() {
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
-          <a href="/tags/%E5%A0%86/">堆</a>
+          <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
+          <a href="/tags/%E8%AE%A1%E6%95%B0/">计数</a>
+          <a href="/tags/dp/">dp</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/017-%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">组合数学</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/015-at-abc127e/">
-            <span class="next-text nav-default">Atcoder ABC 127E（数学，计数，概率）</span>
+        
+        <a class="next" href="/post/018-luogu-p1450/">
+            <span class="next-text nav-default">Luogu P1450 硬币购物（计数，容斥）</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

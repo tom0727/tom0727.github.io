@@ -44,11 +44,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/003-crt/" />
 <meta property="article:published_time" content="2021-02-06T10:46:42+08:00" />
-<meta property="article:modified_time" content="2021-03-01T17:57:49+08:00" />
+<meta property="article:modified_time" content="2021-03-05T16:19:40+08:00" />
 <meta itemprop="name" content="中国剩余定理介绍">
 <meta itemprop="description" content="中国剩余定理 (crt) 定义 给定方程组： $$\begin{cases} x\equiv a_1 (\text{mod }m_1) \\ x\equiv a_2 (\text{mod }m_2) \\ &hellip; \\ x\equiv a_k (\text{mod }m_k) \\ \end{cases}$$ 其中 $a_i \geq 0, m_i &gt; 0, a_i,m_i \in \mathbb{Z}$, 且 $m_i$ 之间两两互质。 求满足条件的最小非负整数解 $x$ ？ 结">
 <meta itemprop="datePublished" content="2021-02-06T10:46:42&#43;08:00" />
-<meta itemprop="dateModified" content="2021-03-01T17:57:49&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-05T16:19:40&#43;08:00" />
 <meta itemprop="wordCount" content="1623">
 
 
@@ -189,11 +189,11 @@ x\equiv a_k (\text{mod }m_k) \\<br>
 <h3 id="结论">结论</h3>
 <p>令 $M = m_1 \cdot m_2 ~&hellip; ~m_k$, $M_i = \frac{M}{m_i}$</p>
 <p>令 $M_i^{-1}$ 为 $M_i$ 在 $\color{red} \text{mod }m_i$ 意义下的逆元</p>
-<p>则，答案为: $x = \sum_{i=1}^{k}a_iM_iM_i^{-1} ~ (\text{mod }M)$</p>
+<p>则，答案为: $x = \sum\limits_{i=1}^{k}a_iM_iM_i^{-1} ~ (\text{mod }M)$</p>
 <h3 id="证明">证明</h3>
 <p>因为 $\forall i \neq j, M_i \equiv 0 ~(\text{mod } m_j)$</p>
 <p>所以 $\forall i \neq j, a_iM_iM_i^{-1} \equiv 0~ (\text{mod } m_j)$</p>
-<p>所以 $\forall i, x \equiv \sum_{i=1}^{k}a_iM_iM_i^{-1} \equiv a_iM_iM_i^{-1} ~ (\bmod ~m_i)$</p>
+<p>所以 $\forall i, x \equiv \sum\limits_{i=1}^{k}a_iM_iM_i^{-1} \equiv a_iM_iM_i^{-1} ~ (\bmod ~m_i)$</p>
 <p>又因为 $\forall i, M_iM_i^{-1} \equiv 1 ~(\text{mod } m_i)$</p>
 <p>所以 $\forall i, x \equiv a_iM_iM_i^{-1} \equiv a_i ~ (\text{mod } m_i)$</p>
 <h3 id="证明推导过程">证明推导过程</h3>
@@ -442,8 +442,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-03-01 17:57:49 &#43;0800 &#43;0800">2021-03-01</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/bce8fc6959ece62f070f225d1fed045e021ecfcf" title="init 015.md" target="_blank">(bce8fc6)</a>
+        <span title="2021-03-05 16:19:40 &#43;0800 &#43;0800">2021-03-05</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0a5152fcc4d10f442f6badaaa694e8cd4dd873f7" title="init 018,019" target="_blank">(0a5152f)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/003-crt.md" target="_blank">更新历史</a>
     </span>
   </p>

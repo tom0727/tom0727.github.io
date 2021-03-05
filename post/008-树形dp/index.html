@@ -44,11 +44,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" />
 <meta property="article:published_time" content="2021-02-18T15:42:09+08:00" />
-<meta property="article:modified_time" content="2021-02-21T23:54:58+08:00" />
+<meta property="article:modified_time" content="2021-03-05T16:19:40+08:00" />
 <meta itemprop="name" content="树形dp">
 <meta itemprop="description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 树形dp实现过">
 <meta itemprop="datePublished" content="2021-02-18T15:42:09&#43;08:00" />
-<meta itemprop="dateModified" content="2021-02-21T23:54:58&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-05T16:19:40&#43;08:00" />
 <meta itemprop="wordCount" content="1098">
 
 
@@ -202,7 +202,7 @@
 </code></pre>
 <p>时间复杂度：$O(n^2)$</p>
 <p>证明：我们考虑每一个 <code>nei</code> <strong>被用来转移</strong> 的次数，会发现它只会在计算它的 parent 的dp值时才会被拿来统计，又因为每一个节点只有1个parent，所以每个节点对应的子树都只会被统计一次。</p>
-<p>所以时间复杂度就是 $T(\sum_{i=1}^n i * sz[i]) = O(n^2)$</p>
+<p>所以时间复杂度就是 $T(\sum\limits_{i=1}^n i * sz[i]) = O(n^2)$</p>
 <p>更严谨的数学证明可以参见 <a href="https://www.luogu.com.cn/blog/Chenxiao-Yan/solution-p4322">https://www.luogu.com.cn/blog/Chenxiao-Yan/solution-p4322</a></p>
 </details>
 <details class="admonition note"><summary class="admonition-title">luogu-P2014-AC代码</summary>
@@ -281,8 +281,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-02-21 23:54:58 &#43;0800 &#43;0800">2021-02-21</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/1f1cabe2836856f518f4fca19d8bae09e3ca76a3" title="init 010.md" target="_blank">(1f1cabe)</a>
+        <span title="2021-03-05 16:19:40 &#43;0800 &#43;0800">2021-03-05</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0a5152fcc4d10f442f6badaaa694e8cd4dd873f7" title="init 018,019" target="_blank">(0a5152f)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/008-%e6%a0%91%e5%bd%a2dp.md" target="_blank">更新历史</a>
     </span>
   </p>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Atcoder ABC 194F（计数dp，进制处理） - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="题目链接 https://atcoder.jp/contests/abc194/tasks/abc194_f 题意 给定一个数 $1\leq N \leq 16^{2\times10^5}$，求： 在 16进制 下，满足以下条件的整数 $x$ 数量： 拥有 Exactly $K$ 个不同的digit （例" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/023-at-abc194f/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.2ccc99aa18501eb0a20678a919404779fa1d9f66663cef10606eef97052b4b73.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="Atcoder ABC 194F（计数dp，进制处理）" />
+<meta property="og:description" content="题目链接 https://atcoder.jp/contests/abc194/tasks/abc194_f 题意 给定一个数 $1\leq N \leq 16^{2\times10^5}$，求： 在 16进制 下，满足以下条件的整数 $x$ 数量： 拥有 Exactly $K$ 个不同的digit （例" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/023-at-abc194f/" />
+<meta property="article:published_time" content="2021-03-06T22:16:46+08:00" />
+<meta property="article:modified_time" content="2021-03-06T22:52:52+08:00" />
+<meta itemprop="name" content="Atcoder ABC 194F（计数dp，进制处理）">
+<meta itemprop="description" content="题目链接 https://atcoder.jp/contests/abc194/tasks/abc194_f 题意 给定一个数 $1\leq N \leq 16^{2\times10^5}$，求： 在 16进制 下，满足以下条件的整数 $x$ 数量： 拥有 Exactly $K$ 个不同的digit （例">
+<meta itemprop="datePublished" content="2021-03-06T22:16:46&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-06T22:52:52&#43;08:00" />
+<meta itemprop="wordCount" content="1159">
+
+
+
+<meta itemprop="keywords" content="计数,dp,进制," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Atcoder ABC 194F（计数dp，进制处理）"/>
+<meta name="twitter:description" content="题目链接 https://atcoder.jp/contests/abc194/tasks/abc194_f 题意 给定一个数 $1\leq N \leq 16^{2\times10^5}$，求： 在 16进制 下，满足以下条件的整数 $x$ 数量： 拥有 Exactly $K$ 个不同的digit （例"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Atcoder ABC 194F（计数dp，进制处理）</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-03-06 22:16:46 &#43;0800 &#43;0800"> 2021-03-06 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#题目链接">题目链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="题目链接">题目链接</h2>
+<p><a href="https://atcoder.jp/contests/abc194/tasks/abc194_f">https://atcoder.jp/contests/abc194/tasks/abc194_f</a></p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个数 $1\leq N \leq 16^{2\times10^5}$，求：</p>
+<p>在 <strong>16进制</strong> 下，满足以下条件的整数 $x$ 数量：</p>
+<ol>
+<li>拥有 <strong>Exactly</strong> $K$ 个不同的digit （例如 $x = 1F21$，就有3个不同的digit）</li>
+<li>$x \in [1,N]$</li>
+</ol>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们使用 <code>dp</code>，为了方便处理 $x \leq N$ 的问题，我们从最高位（Most significant digit）开始处理。</p>
+<p>我们设 <code>dp[i][j]</code> 为，我们处理到了第 <code>i</code> 位，使用了 <code>j</code> 个不同的digit，且满足以下条件的数字 $x$ 的数量：</p>
+<ol>
+<li>$x$ <strong>严格小于</strong> $N$ 的前 <code>i</code> 位</li>
+<li>$x \neq 0$</li>
+</ol>
+<blockquote>
+<p>注意，$x$ 不一定完全有 <code>i</code> 个digit，但是它至少有一个有效的digit。</p>
+</blockquote>
+<p>由上，因为第一个条件，我们无论在这一位选择什么digit，都必然会仍然满足条件 $1$ 中的 <strong>严格小于</strong> $N$。</p>
+<p>所以我们可以得到第一个转移方程：</p>
+<pre><code class="language-cpp">for (ll j = 2; j &lt;= k; j++) {
+    dp[i][j] = (dp[i][j] + dp[i-1][j-1] * (16-j+1)) % mod;
+    dp[i][j] = (dp[i][j] + dp[i-1][j] * j) % mod;
+}
+</code></pre>
+<hr>
+<p>我们发现，这样只考虑到了前 <code>i-1</code> 位至少有一个有效digit的情况，没有考虑全部为前缀0的情况。</p>
+<p>如果前 <code>i-1</code> 位全是前缀0，那么无论在这一位选择任何数，都必然满足条件 $1$ 中的 <strong>严格小于</strong> $N$。</p>
+<p>所以我们可以得到第二个转移方程：</p>
+<pre><code class="language-cpp">dp[i][1] = (dp[i-1][1] + 15) % mod;
+</code></pre>
+<hr>
+<p>注意到，我们的 <code>dp</code> 数组里，并没有包含 $x$ 的前 <code>i-1</code> 位 <strong>完全等同于</strong> $N$ 的前 <code>i-1</code> 位的情况。我们需要单独处理它！</p>
+<p>我们在当前这一位（第<code>i</code>位），能够计入 <code>dp</code> 数组的只有 <strong>第 <code>i</code> 位小于 $N$ 的第 <code>i</code> 位</strong>的情况。</p>
+<p>并且，我们可以很容易得到 $N$ 的前 <code>i-1</code> 位有多少个不同的digit（这样就得到了 <code>dp</code> 数组里的 <code>j</code>）。</p>
+<p>所以，我们只要枚举一下，第 <code>i</code> 位可以选择的所有digit，计算一下不同的digit数量，然后计入 <code>dp</code> 数组即可。</p>
+<p>所以我们得到了第三个转移方程：</p>
+<pre><code class="language-cpp">map&lt;char, int&gt; dict;   // 用于将 0123456789ABCDEF map到对应的int
+set&lt;int&gt; used;  // 记录N的前i-1位用了哪些数字
+
+char c = s[i-1];  // N的第i位数字
+int cur = dict[c];
+int pre = used.size();
+for (int j = 0; j &lt; cur; j++) {  //枚举所有可以选择的digit
+    if (!used.count(j)) {   // 计算不同digit的数量
+        dp[i][pre+1]++;
+    } else dp[i][pre]++;
+}
+used.insert(cur);
+</code></pre>
+<hr>
+<p>最后别忘记，看一下 $N$ 自己是否也满足条件（拥有Exactly $K$ 个不同的digit）。</p>
+<blockquote>
+<p>小结：</p>
+<p>本题是一个非常不错的dp，主要用了以下几个关键的trick：</p>
+<ol>
+<li>对于 <strong>Exactly $K$</strong> 不同的digit，我们不关心具体是哪几个digit，只需知道不同的digit数量就可以计数了。</li>
+<li>通过限制 <code>dp</code> 数组的定义，让 <code>dp</code> 数组仅记录 <strong>严格小于</strong> $N$ 的数字，方便计数。</li>
+<li>单独处理 $x$ 与 $N$ 的前 <code>i</code> 位相同的情况，并且将符合条件的计数加到 <code>dp</code> 数组当中去。</li>
+</ol>
+<p>需要重点关注的是这个 <strong>DP并不记录最终答案</strong>，而是记录 <strong>满足某种条件的部分答案</strong>，<strong>其余特殊情况单独处理</strong>的思想。</p>
+</blockquote>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">using namespace std;
+#include &lt;bits/stdc++.h&gt;
+
+#define ll long long
+
+const int mod = 1e9+7;
+const int maxn = 2e5+5;
+
+ll dp[maxn][18];
+string s;
+int k;
+
+map&lt;char, int&gt; dict;
+set&lt;int&gt; used;
+
+int main() {
+    fastio;
+
+    for (int i = 0; i &lt;= 9; i++) dict[(char)(i+'0')] = i;
+    int o = 10;
+    for (char c = 'A'; c &lt;= 'F'; c++) dict[c] = o++;
+
+    cin &gt;&gt; s &gt;&gt; k;
+    int n = s.size();
+    dp[1][1] = dict[s[0]] - 1;
+    used.insert(dict[s[0]]);
+
+    for (ll i = 2; i &lt;= n; i++) {
+        char c = s[i-1];
+        dp[i][1] = (dp[i-1][1] + 15) % mod;
+        int cur = dict[c];
+
+        for (ll j = 2; j &lt;= k; j++) {
+            dp[i][j] = (dp[i][j] + dp[i-1][j-1] * (16-j+1)) % mod;
+            dp[i][j] = (dp[i][j] + dp[i-1][j] * j) % mod;
+        }
+
+        int pre = used.size();
+        for (int j = 0; j &lt; cur; j++) {
+            if (!used.count(j)) {
+                dp[i][pre+1]++;
+            } else dp[i][pre]++;
+        }
+
+        used.insert(cur);
+    }
+    if (used.size() == k) dp[n][k]++;
+    ll ans = dp[n][k] % mod;
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-03-06 22:52:52 &#43;0800 &#43;0800">2021-03-06</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/d5e8c3ed8d11bd28ef9392663be20090f17409e1" title="init 023" target="_blank">(d5e8c3e)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/023-at-abc194F.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%A1%E6%95%B0/">计数</a>
+          <a href="/tags/dp/">dp</a>
+          <a href="/tags/%E8%BF%9B%E5%88%B6/">进制</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/022-%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/">
+            <span class="next-text nav-default">树链剖分</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>三分法 - tom0727&#39;s blog</title>
+  <title>最近公共祖先 LCA - tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="介绍 三分法 (tenary search) 和 二分法(binary search) 类似，只不过三分法可以用于搜索一个 二次函数 的最值。 以搜索二次函数最值为例，假如有一个二次函数存在最大值" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 给定一棵有根树（不一定为binary tree），求两个节点的最近公共祖先？ 算法 LCA的思路和ST表比较相似，都是利用了倍增思想，大概流程" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
-<link rel="canonical" href="https://tom0727.github.io/post/020-%E4%B8%89%E5%88%86%E6%B3%95/" />
+<link rel="canonical" href="https://tom0727.github.io/post/021-lca/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,23 +39,23 @@
 
 
 
-<meta property="og:title" content="三分法" />
-<meta property="og:description" content="介绍 三分法 (tenary search) 和 二分法(binary search) 类似，只不过三分法可以用于搜索一个 二次函数 的最值。 以搜索二次函数最值为例，假如有一个二次函数存在最大值" />
+<meta property="og:title" content="最近公共祖先 LCA" />
+<meta property="og:description" content="介绍 给定一棵有根树（不一定为binary tree），求两个节点的最近公共祖先？ 算法 LCA的思路和ST表比较相似，都是利用了倍增思想，大概流程" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/020-%E4%B8%89%E5%88%86%E6%B3%95/" />
-<meta property="article:published_time" content="2021-03-05T22:20:54+08:00" />
-<meta property="article:modified_time" content="2021-03-05T23:00:54+08:00" />
-<meta itemprop="name" content="三分法">
-<meta itemprop="description" content="介绍 三分法 (tenary search) 和 二分法(binary search) 类似，只不过三分法可以用于搜索一个 二次函数 的最值。 以搜索二次函数最值为例，假如有一个二次函数存在最大值">
-<meta itemprop="datePublished" content="2021-03-05T22:20:54&#43;08:00" />
-<meta itemprop="dateModified" content="2021-03-05T23:00:54&#43;08:00" />
-<meta itemprop="wordCount" content="763">
+<meta property="og:url" content="https://tom0727.github.io/post/021-lca/" />
+<meta property="article:published_time" content="2021-03-06T11:57:25+08:00" />
+<meta property="article:modified_time" content="2021-03-06T17:16:49+08:00" />
+<meta itemprop="name" content="最近公共祖先 LCA">
+<meta itemprop="description" content="介绍 给定一棵有根树（不一定为binary tree），求两个节点的最近公共祖先？ 算法 LCA的思路和ST表比较相似，都是利用了倍增思想，大概流程">
+<meta itemprop="datePublished" content="2021-03-06T11:57:25&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-06T17:16:49&#43;08:00" />
+<meta itemprop="wordCount" content="674">
 
 
 
-<meta itemprop="keywords" content="三分搜索," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="三分法"/>
-<meta name="twitter:description" content="介绍 三分法 (tenary search) 和 二分法(binary search) 类似，只不过三分法可以用于搜索一个 二次函数 的最值。 以搜索二次函数最值为例，假如有一个二次函数存在最大值"/>
+<meta itemprop="keywords" content="LCA,最近公共祖先," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="最近公共祖先 LCA"/>
+<meta name="twitter:description" content="介绍 给定一棵有根树（不一定为binary tree），求两个节点的最近公共祖先？ 算法 LCA的思路和ST表比较相似，都是利用了倍增思想，大概流程"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -127,10 +127,10 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">三分法</h1>
+      <h1 class="post-title">最近公共祖先 LCA</h1>
 
       <div class="post-meta">
-        <span class="post-time" title="2021-03-05 22:20:54 &#43;0800 &#43;0800"> 2021-03-05 </span>
+        <span class="post-time" title="2021-03-06 11:57:25 &#43;0800 &#43;0800"> 2021-03-06 </span>
         <div class="post-category">
             <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
             </div>
@@ -147,12 +147,13 @@
     <li>
       <ul>
         <li><a href="#介绍">介绍</a></li>
-        <li><a href="#例题">例题</a>
+        <li><a href="#算法">算法</a>
           <ul>
-            <li><a href="#例1-洛谷p3382httpswwwluogucomcnproblemp3382">例1 <a href="https://www.luogu.com.cn/problem/P3382">洛谷P3382</a></a></li>
-            <li><a href="#例2-cf1355ehttpscodeforcescomproblemsetproblem1355e">例2 <a href="https://codeforces.com/problemset/problem/1355/E">CF1355E</a></a></li>
+            <li><a href="#预处理">预处理：</a></li>
+            <li><a href="#询问-uv-的lca">询问 $u,v$ 的LCA：</a></li>
           </ul>
         </li>
+        <li><a href="#代码">代码</a></li>
       </ul>
     </li>
   </ul>
@@ -161,90 +162,109 @@
 </div>
     <div class="post-content">
       <h2 id="介绍">介绍</h2>
-<p>三分法 (tenary search) 和 二分法(binary search) 类似，只不过三分法可以用于搜索一个 <strong>二次函数</strong> 的最值。</p>
-<p>以搜索二次函数最值为例，假如有一个二次函数存在最大值。</p>
-<p>要搜索这个最大值，可以令 $mid = \frac{l+r}{2}$，然后令 $lmid = mid - eps$，$rmid = mid + eps$，然后比较一下 $f(lmid)$ 和 $f(rmid)$ 的大小。</p>
+<p>给定一棵<strong>有根树</strong>（不一定为binary tree），求两个节点的最近公共祖先？</p>
+<h2 id="算法">算法</h2>
+<p>LCA的思路和ST表比较相似，都是利用了<strong>倍增</strong>思想，大概流程如下：</p>
+<h3 id="预处理">预处理：</h3>
 <ol>
-<li>$f(lmid) &lt; f(rmid)$：最大值一定在 $[lmid, r]$ 之间。</li>
-<li>$f(lmid) &gt; f(rmid)$：最大值一定在 $[l, rmid]$ 之间。</li>
+<li>
+<p>用dfs预处理出每一个节点 $u$ 的第$1,2,4,8,&hellip;,$ 个parent（即，如果从$u$ 开始，往上跳 $1,2,4,8,&hellip;,$ 格，是哪个节点）</p>
+</li>
+<li>
+<p>记录每一个节点的深度(depth)</p>
+</li>
 </ol>
-<blockquote>
-<p>证明：假如 $f(lmid) &lt; f(rmid)$，那么如果最大值在 $lmid$ 的左边则必然不可能，因为 $rmid$ 离最大值比 $lmid$ 更远。另外一种情况亦然。</p>
-</blockquote>
-<h2 id="例题">例题</h2>
-<h3 id="例1-洛谷p3382httpswwwluogucomcnproblemp3382">例1 <a href="https://www.luogu.com.cn/problem/P3382" target="_blank">洛谷P3382</a></h3>
-<div class="admonition question">
-  <p class="admonition-title">题意</p>
-<p>给定一个 $N$ 次函数，保证 $[l,r]$ 内存在一个点 $x$，使得 $[l,x]$ 单调增，$[x,r]$ 单调减，求 $x$</p>
-</div>
-<details class="admonition note"><summary class="admonition-title">代码</summary>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-using namespace std;
+<p>预处理parent的时候，利用了倍增的思想：</p>
+<pre><code class="language-cpp">for (int j = 1; j &lt;= lg[d[cur]]; j++) 
+    par[cur][j] = par[par[cur][j-1]][j-1];
+</code></pre>
+<hr>
+<h3 id="询问-uv-的lca">询问 $u,v$ 的LCA：</h3>
+<ol>
+<li>
+<p>先比较 $u,v$ 的深度，将深的那个往上跳（使用倍增来跳），<strong>跳到同一深度</strong>。</p>
+</li>
+<li>
+<p>比较一下当前 $u,v$ <strong>是否相等</strong>，如果已经相等了就直接返回 $u$。</p>
+</li>
+<li>
+<p>否则，尝试同时将 $u,v$ 往上跳，从 <strong>步幅最大</strong> 的开始尝试，如果发现 <strong>步幅过大</strong>（即 $u,v$ 的第 $j$ 个parent相同），就<strong>不跳</strong>（防止跳过头了），否则就两者<strong>同时往上跳</strong>。</p>
+</li>
+<li>
+<p>最后，$u,v$ 必然不相同，此时再让它们同时往上<strong>跳 $1$ 格</strong>就是LCA了。</p>
+</li>
+</ol>
+<h2 id="代码">代码</h2>
+<details class="admonition note"><summary class="admonition-title">Luogu-P3379-代码</summary>
+<pre><code class="language-cpp">using namespace std;
+#include &lt;bits/stdc++.h&gt;
+ 
+const int maxn = 5e5+5;
+const int maxm = 1e6+10;
 
-const double eps = (double)1e-7;
-int n;
-double l,r;
-double arr[16];
+struct Edge {
+    int to, nxt;
+} edges[maxm];
+int head[maxn], ecnt = 1;
 
-double get(double x) {
-    double res = 0;
-    double cur = 1.0;
-    for (int i = 1; i &lt;= n+1; i++) {
-        res += cur * arr[i];
-        cur *= x;
+void add(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int par[maxn][33];  //记录parent
+int d[maxn];  //深度
+int n,m,s;
+int lg[maxn];  //log2预处理
+
+void dfs(int cur, int p) {
+    par[cur][0] = p;
+    d[cur] = d[p] + 1;
+    for (int j = 1; j &lt;= lg[d[cur]]; j++) par[cur][j] = par[par[cur][j-1]][j-1];
+    for (int e = head[cur]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        dfs(to, cur);
     }
-    return res;
+}
+
+int query(int u, int v) {
+    if (d[u] &lt; d[v]) swap(u,v);
+    int diff = d[u] - d[v];
+    for (int j = 0; (1&lt;&lt;j) &lt;= diff; j++) {
+        if (diff &amp; (1&lt;&lt;j)) {
+            u = par[u][j];
+        }
+    }
+    if (u == v) return u;
+    for (int j = lg[d[u]]; j &gt;= 0; j--) {
+        if (par[u][j] != par[v][j]) {  // 不相同就往上跳
+            u = par[u][j], v = par[v][j];
+        }
+    }
+    return par[u][0];
+}
+
+void init() {
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; s;  // s是树的root
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        add(u,v); add(v,u);
+    }
+    lg[1] = 0, lg[2] = 1;
+    for (int i = 3; i &lt;= 5e5; i++) lg[i] = lg[i&gt;&gt;1] + 1;
 }
 
 int main() {
-    cin &gt;&gt; n;
-    cin &gt;&gt; l &gt;&gt; r;
-    for (int i = n+1; i &gt;= 1; i--) cin &gt;&gt; arr[i];
+    init();
+    dfs(s, 0);
 
-    double low = l, high = r;
-
-    while (high - low &gt; 5e-7) {
-        double mid = (low + high) * 0.5;
-        double lmid = mid - eps, rmid = mid + eps;
-        if (get(lmid) &lt; get(rmid)) low = lmid;
-        else high = rmid;
+    while (m--) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        int a = query(u,v);
+        cout &lt;&lt; a &lt;&lt; &quot;\n&quot;;
     }
-    printf(&quot;%.7f\n&quot;, low);
-}
-</code></pre>
-</details>
-<h3 id="例2-cf1355ehttpscodeforcescomproblemsetproblem1355e">例2 <a href="https://codeforces.com/problemset/problem/1355/E" target="_blank">CF1355E</a></h3>
-<div class="admonition question">
-  <p class="admonition-title">题意</p>
-<p>有 $N$ 个柱子，高度分别为 $h_1, h_2, &hellip; h_N$。现在有3种操作：</p>
-<ol>
-<li>令一个柱子的高度+1，cost为 $A$</li>
-<li>令一个柱子的高度-1，cost为 $R$</li>
-<li>令一个柱子的高度+1，且令另外一个柱子的高度-1，cost为 $M$</li>
-</ol>
-<p>求最小的cost使得所有柱子高度相等？</p>
-<p>其中 $1 \leq N \leq 10^5, 0 \leq h_i \leq 10^9$</p>
-</div>
-<details class="admonition note"><summary class="admonition-title">题解</summary>
-<p>如果我们枚举最终的高度 $h$，对于每一个 $h$ 都可以在 $\log(N)$ 的时间内计算出来对应的 $cost$。</p>
-<p>然后我们会发现，随着 $h$ 的增加，$cost$ 是一个二次函数，具有一个最小值。（证明略）</p>
-<p>所以就可以使用三分搜索了！</p>
-<blockquote>
-<p>因为三分搜索的边界不太好处理，所以可以限定一个范围，在范围之内就停止搜索开始暴力枚举。</p>
-</blockquote>
-<p>搜索的部分代码：</p>
-<pre><code class="language-cpp">ll low = 1, high = 1e9;
-while (high - low &gt;= 10) {
-    ll mid = (low + high) &gt;&gt; 1;
-    ll lmid = mid-1, rmid = mid+1;
-    ll lv = solve(lmid), rv = solve(rmid);
-    if (lv &gt; rv) low = lmid;
-    else high = rmid;
-}
-
-for (ll p = low; p &lt;= high; p++) {
-    ll r = solve(p);
-    ans = min(ans, r);
 }
 </code></pre>
 </details>
@@ -258,9 +278,9 @@ for (ll p = low; p &lt;= high; p++) {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-03-05 23:00:54 &#43;0800 &#43;0800">2021-03-05</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/faea35eccf6f6ded8f70cb52cb17c38e829872f1" title="init 020" target="_blank">(faea35e)</a>
-        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/020-%e4%b8%89%e5%88%86%e6%b3%95.md" target="_blank">更新历史</a>
+        <span title="2021-03-06 17:16:49 &#43;0800 &#43;0800">2021-03-06</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0f34c72e612fb27f32eca00ab2451186472078e3" title="init 021,022" target="_blank">(0f34c72)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/021-lca.md" target="_blank">更新历史</a>
     </span>
   </p>
   
@@ -271,16 +291,17 @@ for (ll p = low; p &lt;= high; p++) {
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/%E4%B8%89%E5%88%86%E6%90%9C%E7%B4%A2/">三分搜索</a>
+          <a href="/tags/lca/">LCA</a>
+          <a href="/tags/%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/">最近公共祖先</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/021-lca/">
+        <a class="prev" href="/post/022-%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">最近公共祖先 LCA</span>
+            <span class="prev-text nav-default">树链剖分</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/019-luogu-p5664/">
-            <span class="next-text nav-default">Luogu P5664 Emiya家今天的饭（计数，dp）</span>
+        <a class="next" href="/post/020-%E4%B8%89%E5%88%86%E6%B3%95/">
+            <span class="next-text nav-default">三分法</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

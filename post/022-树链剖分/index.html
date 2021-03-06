@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>树链剖分 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 如题，已知一" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/022-%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.2ccc99aa18501eb0a20678a919404779fa1d9f66663cef10606eef97052b4b73.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="树链剖分" />
+<meta property="og:description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 如题，已知一" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/022-%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/" />
+<meta property="article:published_time" content="2021-03-06T15:58:27+08:00" />
+<meta property="article:modified_time" content="2021-03-06T17:16:49+08:00" />
+<meta itemprop="name" content="树链剖分">
+<meta itemprop="description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 如题，已知一">
+<meta itemprop="datePublished" content="2021-03-06T15:58:27&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-06T17:16:49&#43;08:00" />
+<meta itemprop="wordCount" content="2754">
+
+
+
+<meta itemprop="keywords" content="树链剖分," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="树链剖分"/>
+<meta name="twitter:description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 如题，已知一"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">树链剖分</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-03-06 15:58:27 &#43;0800 &#43;0800"> 2021-03-06 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#前置知识回顾">前置知识回顾</a>
+          <ul>
+            <li><a href="#dfs序">DFS序</a></li>
+            <li><a href="#lca最近公共祖先">LCA（最近公共祖先）</a></li>
+            <li><a href="#线段树">线段树</a></li>
+          </ul>
+        </li>
+        <li><a href="#概念定义">概念定义</a></li>
+        <li><a href="#算法">算法</a>
+          <ul>
+            <li><a href="#第一次dfs">第一次DFS</a></li>
+            <li><a href="#第二次dfs">第二次DFS</a></li>
+            <li><a href="#建线段树">建线段树</a></li>
+            <li><a href="#将树上操作对应到区间上">将树上操作对应到区间上</a></li>
+          </ul>
+        </li>
+        <li><a href="#时间复杂度">时间复杂度</a>
+          <ul>
+            <li><a href="#性质1">性质1</a></li>
+            <li><a href="#性质2">性质2</a></li>
+          </ul>
+        </li>
+        <li><a href="#代码">代码</a></li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>树链剖分主要用于将 <strong>树上修改/查询</strong> 通过 <strong>DFS序</strong> 变成 <strong>区间修改/查询</strong>，然后利用 <strong>线段树</strong> 进行修改/查询。</p>
+<p>我们可以用模版来举个例子：</p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>如题，已知一棵包含 $N$ 个结点的树（连通且无环），每个节点上包含一个数值，需要支持以下操作：</p>
+<p>$1\ x\ y\ z$ ：将树从 $x$ 到 $y$ 结点最短路径上所有节点的值都加上 $z$。</p>
+<p>$2\ x\ y$ ：求树从 $x$ 到 $y$ 结点最短路径上所有节点的值之和。</p>
+<p>$3\ x\ z$ ：将以 $x$ 为根节点的子树内所有节点值都加上 $z$。</p>
+<p>$4\ x$ ：求以 $x$ 为根节点的子树内所有节点值之和。</p>
+</div>
+<p>主要知识点有三个：DFS序，LCA，线段树</p>
+<h2 id="前置知识回顾">前置知识回顾</h2>
+<h3 id="dfs序">DFS序</h3>
+<p>DFS序的作用是，根据DFS的顺序将节点编号，就可以得到以下性质：</p>
+<ol>
+<li><strong>同一个subtree</strong>内的编号是<strong>连续</strong>的，且parent的编号最小。</li>
+<li>在从上到下的DFS过程中，一条<strong>链</strong>上的编号也是连续的，且越靠上，编号越小。</li>
+</ol>
+<hr>
+<h3 id="lca最近公共祖先">LCA（最近公共祖先）</h3>
+<p>在 LCA 中，寻找共同祖先的过程中，要注意不能往上跳过头了，在树链剖分中也一样，只不过没有采用倍增思想。</p>
+<hr>
+<h3 id="线段树">线段树</h3>
+<p>在树链剖分中，线段树的应用并没有什么变化。</p>
+<hr>
+<h2 id="概念定义">概念定义</h2>
+<ol>
+<li>
+<p>重儿子：每一个节点的child中，<strong>所在subtree（包括它自己）节点数最多</strong>的child 叫做该节点的重儿子（每个节点<strong>有且仅有一个</strong>重儿子）。</p>
+</li>
+<li>
+<p>轻儿子：除了重儿子的所有节点，都是轻儿子。（我们可以把 <strong>root</strong> 看作一个轻儿子）</p>
+</li>
+<li>
+<p>重边：一个节点连接它的重儿子的edge就是重边。</p>
+</li>
+<li>
+<p>重链：<strong>以轻儿子作为起点</strong>，向下延伸，连接<strong>子树内的所有重儿子</strong>，形成的链叫做重链。</p>
+<p>（对于一个<strong>leaf</strong>，如果它是一个<strong>轻儿子</strong>，那么它自己形成一条重链）</p>
+</li>
+</ol>
+<p><img src="/images/022/1.png" alt="images"></p>
+<h2 id="算法">算法</h2>
+<p>算法步骤如下：</p>
+<ol>
+<li>进行第一次DFS <code>dfs1()</code></li>
+<li>进行第二次DFS <code>dfs2()</code></li>
+<li>建线段树</li>
+<li>将树上操作 对应到 区间上，然后用线段树解决</li>
+</ol>
+<h3 id="第一次dfs">第一次DFS</h3>
+<p>第一次DFS，我们需要维护的信息有：</p>
+<ol>
+<li>记录每个点的 <strong>深度</strong>： <code>dep[]</code></li>
+<li>记录每个点的 <strong>parent</strong>： <code>par[]</code></li>
+<li>记录每个点的 <strong>subtree</strong>大小（包括它自己）：<code>sz[]</code></li>
+<li>记录每个点的 <strong>重儿子</strong>：<code>son[]</code></li>
+</ol>
+<pre><code class="language-cpp">int dep[maxn], par[maxn], sz[maxn], son[maxn];
+
+void dfs1(int cur, int p) {
+    dep[cur] = dep[p] + 1;
+    par[cur] = p;
+    sz[cur] = 1;  // subtree包括自己
+    int maxsz = -1;
+    for (int e = head[cur]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+
+        dfs1(to, cur);
+        sz[cur] += sz[to];
+        if (sz[to] &gt; maxsz) {  // 判断重儿子
+            maxsz = sz[to];
+            son[cur] = to;
+        }
+    }
+}
+</code></pre>
+<h3 id="第二次dfs">第二次DFS</h3>
+<p>第二次DFS，我们需要维护的信息有：</p>
+<ol>
+<li>记录每个点的 <strong>DFS序编号</strong>：<code>id[]</code></li>
+<li>记录每个点 <strong>所在重链的最顶端</strong>：<code>top[]</code></li>
+<li>（如果有），将树上的信息通过DFS序编号 转移到 区间上</li>
+</ol>
+<blockquote>
+<p>注意：<code>dfs2()</code> 过程中，我们需要 <strong>优先处理重儿子</strong>，这是为了保证 <strong>同一条重链</strong> 对应的必然是 <strong>一段连续的区间</strong>。</p>
+</blockquote>
+<p>这样处理以后，我们能得到如下的DFS序编号：</p>
+<p><img src="/images/022/2.png" alt="img"></p>
+<pre><code class="language-cpp">int w[maxn];  //weight
+int arr[maxn];  // array for segment tree to use
+
+int top[maxn], id[maxn];
+int cnt = 1;  //current id
+
+void dfs2(int cur, int t) {
+    id[cur] = cnt++;
+    top[cur] = t;
+    arr[id[cur]] = w[cur];
+
+    if (!son[cur]) return;  // 这个节点是leaf
+    dfs2(son[cur], t);  // 优先处理重儿子
+
+    for (int e = head[cur]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == par[cur] || to == son[cur]) continue;  //重儿子处理过了
+        dfs2(to, to);  // 轻儿子是重链的开始
+    }
+}
+</code></pre>
+<h3 id="建线段树">建线段树</h3>
+<p>常规操作，并没有什么不同。</p>
+<h3 id="将树上操作对应到区间上">将树上操作对应到区间上</h3>
+<p>操作 $3,4$ （更新/查询一个子树内的值）：</p>
+<p>在DFS序中，同一个子树内的DFS序编号是连续的，我们有了 parent 对应的编号，就有了区间上的<strong>左端点</strong>，利用 <code>sz[]</code> 来找到 <strong>右端点</strong>，左右端点都有了，就用线段树处理即可。</p>
+<pre><code class="language-cpp">void update_tree(int u, ll x) {
+    update(1, id[u], id[u]+sz[u]-1, x);
+}
+
+ll query_tree(int u) {
+    return query(1, id[u], id[u]+sz[u]-1);
+}
+</code></pre>
+<hr>
+<p>操作 $1,2$ （更新/查询两个点之间最短路径的值）：</p>
+<p>给定两个点 <code>u,v</code>：</p>
+<ol>
+<li>
+<p>如果 <code>u,v</code> 在<strong>同一条重链</strong>上，那么对应的是区间上的一段连续区间（<code>dep</code> 较小的那个对应左端点，<code>dep</code>较深的那个对应右端点），直接用线段树即可。</p>
+</li>
+<li>
+<p>否则，比较 <code>top[u]</code> 和 <code>top[v]</code>，如果 <code>dep[top[u]] &gt; dep[top[v]]</code> （<code>top[u]</code> 比 <code>top[v]</code> 更深），就将 <code>u</code> 往上跳，在线段树上操作 <strong><code>u</code> 到 <code>top[u]</code></strong> 的这一段操作，然后跳到 <code>par[top[u]]</code> 上（即，重链顶端<strong>再往上一格</strong>），然后重新执行上述判断。</p>
+</li>
+</ol>
+<blockquote>
+<p>为什么要让 <code>top</code> 更深的来跳？为了保证不会跳过头！</p>
+</blockquote>
+<p>证明：无论怎么跳，我们都不能超过 <code>u,v</code> 的LCA。设 <code>LCA(u,v) = x</code>，因为它们不在同一条链上，那么 <code>u,v</code> 必然在 <code>x</code> 的两边（或者，其中之一刚好等于 <code>x</code>，另外一个被一个轻儿子挡住了）。无论是哪种情况，因为重链有可能直接从 <code>root</code> 一直延伸下来，所以肯定不能选 <code>top</code> 更靠上层的那个。</p>
+<p>而选择 <code>top</code> 更深的那个，能够保证我们 <strong>最远只能刚好跳到x处</strong>（因为 <code>x</code> 有且仅有一个重儿子，如果不跳这个重儿子，必然不会跳出 <code>x</code> 的范围）。</p>
+<p>• 由上分析，我们还能发现：在往上跳的过程中，如果发现 <code>u,v</code> 在同一条重链上，那么 <code>dep</code> 较小的那个节点，就是 <strong><code>u,v</code> 的LCA</strong>！</p>
+<pre><code class="language-cpp">void update_path(int u, int v, ll x) {
+    while (top[u] != top[v]) {  // u,v 还不是同一个重链上
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        update(1, id[top[u]], id[u], x);
+        u = par[top[u]];  // 往上跳
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v);  // dep较小的是左端点
+    update(1, id[u], id[v], x);
+}
+
+ll query_path(int u, int v) {
+    ll res = 0;
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        res = (res + query(1, id[top[u]], id[u])) % mod;
+        u = par[top[u]];
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v);
+    res = (res + query(1, id[u], id[v])) % mod;
+    return res;
+}
+</code></pre>
+<h2 id="时间复杂度">时间复杂度</h2>
+<h3 id="性质1">性质1</h3>
+<p>如果 $v$ 是 $u$ 的轻儿子，那么 $size(v) \leq \frac{size(u)}{2}$</p>
+<p>证明：根据定义即可。</p>
+<hr>
+<h3 id="性质2">性质2</h3>
+<p>树中任意两条节点之间，重链的数量 $\leq \log_2(n)$</p>
+<p>证明：因为每出现一个重链，意味着出现了一个轻儿子，根据性质1，size减少一半，所以</p>
+<p><code>#重链</code> $=$ <code>#轻儿子</code> $= log_2(n)$</p>
+<hr>
+<p>由性质1，2，我们可知：</p>
+<ol>
+<li>
+<p>路径修改/查询：每个重链进行一次线段树操作，有 $log_2(n)$ 个重链，每次线段树操作复杂度为 $log_2(n)$，所以每次路径操作的总复杂度为 $(log_2(n))^2$</p>
+</li>
+<li>
+<p>子树修改/查询：只有一次线段树操作，所以复杂度为 $log_2(n)$</p>
+</li>
+</ol>
+<h2 id="代码">代码</h2>
+<pre><code class="language-cpp">using namespace std;
+#include &lt;bits/stdc++.h&gt;
+
+#define ll long long
+const int maxn = 1e5+5;
+const int maxm = 2e5+10;
+
+struct Edge {
+    int to, nxt;
+} edges[maxm];
+int head[maxn], ecnt = 1;
+void add(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int n,m,root,mod;
+int w[maxn];  //weight
+int dep[maxn], par[maxn], sz[maxn], son[maxn];
+int top[maxn], id[maxn];
+int arr[maxn];  // array for segment tree to use
+int cnt = 1;  //current id
+
+void dfs1(int cur, int p) {
+    dep[cur] = dep[p] + 1;
+    par[cur] = p;
+    sz[cur] = 1;  // 包括自己
+    int maxsz = -1;
+    for (int e = head[cur]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+
+        dfs1(to, cur);
+        sz[cur] += sz[to];
+        if (sz[to] &gt; maxsz) {  // 更新重儿子
+            maxsz = sz[to];
+            son[cur] = to;
+        }
+    }
+}
+
+void dfs2(int cur, int t) {
+    id[cur] = cnt++;
+    top[cur] = t;
+    arr[id[cur]] = w[cur];
+
+    if (!son[cur]) return;  // leaf
+    dfs2(son[cur], t);
+
+    for (int e = head[cur]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == par[cur] || to == son[cur]) continue;
+        dfs2(to, to);  // 轻儿子是重链的开始
+    }
+}
+
+struct node {
+    int l,r;
+    ll sum = 0;
+    ll lazy = 0;
+} tr[4*maxn];
+
+inline ll len(int cur) {
+    return tr[cur].r - tr[cur].l + 1;
+}
+
+void push_up(int cur) {
+    tr[cur].sum = (tr[cur&lt;&lt;1].sum + tr[cur&lt;&lt;1|1].sum) % mod;
+}
+
+void push_down(int cur) {
+    if (!tr[cur].lazy) return;
+    int lc = cur&lt;&lt;1, rc = lc|1;
+    tr[lc].lazy = (tr[lc].lazy + tr[cur].lazy) % mod;
+    tr[rc].lazy = (tr[rc].lazy + tr[cur].lazy) % mod;
+    tr[lc].sum = (tr[lc].sum + len(lc) * tr[cur].lazy) % mod;
+    tr[rc].sum = (tr[rc].sum + len(rc) * tr[cur].lazy) % mod;
+    tr[cur].lazy = 0;
+}
+
+void build(int cur, int L, int R) {
+    tr[cur].l = L, tr[cur].r = R;
+    if (L == R) {
+        tr[cur].sum = arr[L];
+        return;
+    }
+    int mid = (L+R) &gt;&gt; 1;
+    build(cur&lt;&lt;1, L, mid);
+    build(cur&lt;&lt;1|1, mid+1, R);
+    push_up(cur);
+}
+
+void update(int cur, int L, int R, ll x) {
+    int l = tr[cur].l, r = tr[cur].r;
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        tr[cur].lazy = (tr[cur].lazy + x) % mod;
+        tr[cur].sum = (tr[cur].sum + x * len(cur)) % mod;
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    push_down(cur);
+    if (L &lt;= mid) update(cur&lt;&lt;1, L, R, x);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, L, R, x);
+    push_up(cur);
+}
+
+ll query(int cur, int L, int R) {
+    ll res = 0;
+    int l = tr[cur].l, r = tr[cur].r;
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        return tr[cur].sum;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    push_down(cur);
+    if (L &lt;= mid) res += query(cur&lt;&lt;1, L, R);
+    if (R &gt; mid) res += query(cur&lt;&lt;1|1, L, R);
+    push_up(cur);
+    return res % mod;
+}
+
+void update_tree(int u, ll x) {
+    update(1, id[u], id[u]+sz[u]-1, x);
+}
+
+ll query_tree(int u) {
+    return query(1, id[u], id[u]+sz[u]-1);
+}
+
+void update_path(int u, int v, ll x) {
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        update(1, id[top[u]], id[u], x);
+        u = par[top[u]];
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v);
+    update(1, id[u], id[v], x);
+}
+
+ll query_path(int u, int v) {
+    ll res = 0;
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        res = (res + query(1, id[top[u]], id[u])) % mod;
+        u = par[top[u]];
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v);
+    res = (res + query(1, id[u], id[v])) % mod;
+    return res;
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; root &gt;&gt; mod;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; w[i];
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        add(u,v); add(v,u);
+    }
+    dfs1(root, 0);
+    dfs2(root, root);
+    build(1, 1, n);
+
+    while (m--) {
+        int op; cin &gt;&gt; op;
+        if (op == 1) {
+            int u,v,x;
+            cin &gt;&gt; u &gt;&gt; v &gt;&gt; x;
+            update_path(u,v,x);
+        } else if (op == 2) {
+            int u,v; cin &gt;&gt; u &gt;&gt; v;
+            ll res = query_path(u,v);
+            cout &lt;&lt; res &lt;&lt; &quot;\n&quot;;
+        } else if (op == 3) {
+            int u,x; cin &gt;&gt; u &gt;&gt; x;
+            update_tree(u, x);
+        } else {
+            int u; cin &gt;&gt; u;
+            ll res = query_tree(u);
+            cout &lt;&lt; res &lt;&lt; &quot;\n&quot;;
+        }
+    }
+}
+</code></pre>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://www.luogu.com.cn/problem/P3384">https://www.luogu.com.cn/problem/P3384</a>  （模版题，上面的AC代码）</li>
+<li><a href="https://www.cnblogs.com/chinhhh/p/7965433.html">https://www.cnblogs.com/chinhhh/p/7965433.html</a> （强烈推荐）</li>
+<li><a href="https://www.cnblogs.com/zwfymqz/p/8094500.html">https://www.cnblogs.com/zwfymqz/p/8094500.html</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-03-06 17:16:49 &#43;0800 &#43;0800">2021-03-06</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0f34c72e612fb27f32eca00ab2451186472078e3" title="init 021,022" target="_blank">(0f34c72)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/022-%e6%a0%91%e9%93%be%e5%89%96%e5%88%86.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/">树链剖分</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/021-lca/">
+            <span class="next-text nav-default">最近公共祖先 LCA</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>数论分块 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 数论分块一般用于解决 $\sum\limits_{i}^{\frac{N}{i}}$ 的求和问题。（即，含有 $\lfloor \frac{N}{i} \rfloor$ 的求和式子） 数论分块主要利用了 $\lfloor \frac{N}{i} \rfloor$ 的取值范围相当有限的特点，所以有 $$i \leq j, ~\lfloor \frac{N}{i} \rfloor = \lfloor \frac{N}{j}" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/027-%E6%95%B0%E8%AE%BA%E5%88%86%E5%9D%97/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.2ccc99aa18501eb0a20678a919404779fa1d9f66663cef10606eef97052b4b73.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="数论分块" />
+<meta property="og:description" content="介绍 数论分块一般用于解决 $\sum\limits_{i}^{\frac{N}{i}}$ 的求和问题。（即，含有 $\lfloor \frac{N}{i} \rfloor$ 的求和式子） 数论分块主要利用了 $\lfloor \frac{N}{i} \rfloor$ 的取值范围相当有限的特点，所以有 $$i \leq j, ~\lfloor \frac{N}{i} \rfloor = \lfloor \frac{N}{j}" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/027-%E6%95%B0%E8%AE%BA%E5%88%86%E5%9D%97/" />
+<meta property="article:published_time" content="2021-03-10T15:49:46+08:00" />
+<meta property="article:modified_time" content="2021-03-10T16:46:12+08:00" />
+<meta itemprop="name" content="数论分块">
+<meta itemprop="description" content="介绍 数论分块一般用于解决 $\sum\limits_{i}^{\frac{N}{i}}$ 的求和问题。（即，含有 $\lfloor \frac{N}{i} \rfloor$ 的求和式子） 数论分块主要利用了 $\lfloor \frac{N}{i} \rfloor$ 的取值范围相当有限的特点，所以有 $$i \leq j, ~\lfloor \frac{N}{i} \rfloor = \lfloor \frac{N}{j}">
+<meta itemprop="datePublished" content="2021-03-10T15:49:46&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-10T16:46:12&#43;08:00" />
+<meta itemprop="wordCount" content="1095">
+
+
+
+<meta itemprop="keywords" content="数学," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="数论分块"/>
+<meta name="twitter:description" content="介绍 数论分块一般用于解决 $\sum\limits_{i}^{\frac{N}{i}}$ 的求和问题。（即，含有 $\lfloor \frac{N}{i} \rfloor$ 的求和式子） 数论分块主要利用了 $\lfloor \frac{N}{i} \rfloor$ 的取值范围相当有限的特点，所以有 $$i \leq j, ~\lfloor \frac{N}{i} \rfloor = \lfloor \frac{N}{j}"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">数论分块</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-03-10 15:49:46 &#43;0800 &#43;0800"> 2021-03-10 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#证明">证明</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-求-sumlimits_i1n-lfloor-fracni-rfloor">例1 求 $\sum\limits_{i=1}^N \lfloor \frac{N}{i} \rfloor$</a></li>
+            <li><a href="#例2-洛谷p2261-余数求和httpswwwluogucomcnproblemp2261">例2 <a href="https://www.luogu.com.cn/problem/P2261">洛谷P2261 余数求和</a></a></li>
+            <li><a href="#例3-atcoder-abc132f-small-productshttpsatcoderjpcontestsabc132tasksabc132_f">例3 <a href="https://atcoder.jp/contests/abc132/tasks/abc132_f">Atcoder ABC132F Small Products</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>数论分块一般用于解决 $\sum\limits_{i}^{\frac{N}{i}}$ 的求和问题。（即，含有 $\lfloor \frac{N}{i} \rfloor$ 的求和式子）</p>
+<p>数论分块主要利用了 $\lfloor \frac{N}{i} \rfloor$ 的取值范围相当有限的特点，所以有</p>
+<p>$$i \leq j, ~\lfloor \frac{N}{i} \rfloor = \lfloor \frac{N}{j} \rfloor$$</p>
+<p>这样一些求和问题就可以转化为 $(j-i+1) \times \lfloor \frac{N}{j} \rfloor$ （或者类似的形式）</p>
+<p>时间复杂度：$O(\sqrt n)$</p>
+<h2 id="证明">证明</h2>
+<p>$\forall i \leq n,$ $\exists$ 最大的 $j$ 使得 $~i \leq j \leq n$，且 $\lfloor \frac{n}{i} \rfloor = \lfloor \frac{n}{j} \rfloor$</p>
+<p>则
+$$j = \lfloor \frac{n}{\lfloor \frac{n}{i} \rfloor} \rfloor$$</p>
+<hr>
+<p>证明：</p>
+<p>显然 $j \leq n$，只要证 $j \geq i$：</p>
+<p>因为 $j = \lfloor \frac{n}{\lfloor \frac{n}{i} \rfloor} \rfloor$，又因为 $i = \lfloor \frac{n}{\frac{n}{i}} \rfloor$ （分母没有下取整）</p>
+<p>因为 $\lfloor \frac{n}{i} \rfloor \leq \frac{n}{i}$，所以有 $j \geq i$</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-求-sumlimits_i1n-lfloor-fracni-rfloor">例1 求 $\sum\limits_{i=1}^N \lfloor \frac{N}{i} \rfloor$</h3>
+<blockquote>
+<p>以下的代码中，我们令 <code>l,r</code> 代表上文的 <code>i,j</code></p>
+</blockquote>
+<pre><code class="language-cpp">int r;
+for (int l = 1; l &lt;= n; l = r + 1) {  // 注意这里是 l = r+1
+    r = n / (n / i);
+    ans += (n / l) * (r - l + 1);
+}
+</code></pre>
+<p>• 可以发现，数论分块的本质思想是 <strong>枚举</strong> $\lfloor \frac{N}{i} \rfloor$ 的值。</p>
+<h3 id="例2-洛谷p2261-余数求和httpswwwluogucomcnproblemp2261">例2 <a href="https://www.luogu.com.cn/problem/P2261" target="_blank">洛谷P2261 余数求和</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定正整数 $n,k \leq 10^9$，求 $\sum\limits_{i=1}^n k \text{ mod } i$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>因为  （以下略去 <strong>下取整符号</strong>）
+$$k \text{ mod } i = k - \frac{k}{i} \times i$$</p>
+<p>对于 $n &gt; k$ 的部分，就加上 $(n-k) \times k$。</p>
+<p>对于 $n \leq k$ 的部分，有
+$$\sum\limits_{i=1}^n k \text{ mod } i = n\times k - \sum\limits_{i=1}^n \frac{k}{i} \times i$$</p>
+<p>然后数论分块枚举 $\lfloor \frac{k}{i} \rfloor$ 的值，每个值分别用等差数列求和即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+ll n,k;
+int main() {
+    cin &gt;&gt; n &gt;&gt; k;
+    ll ans = 0;
+    if (n &gt; k) {
+        ans += (n-k) * k;
+        n = k;
+    }
+    ll r;
+    ans += (n*k);
+    for (ll l = 1; l &lt;= n; l = r+1) {
+        r = min(n, k / (k/l));   // 注意这里取 min，因为 k/(k/l) 有可能超过n
+        ans -= (k/l) * ((l+r) * (r-l+1) / 2LL);
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例3-atcoder-abc132f-small-productshttpsatcoderjpcontestsabc132tasksabc132_f">例3 <a href="https://atcoder.jp/contests/abc132/tasks/abc132_f" target="_blank">Atcoder ABC132F Small Products</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定正整数 $n \leq 10^9$，$2 \leq k \leq 100$，求满足以下条件的序列数量：</p>
+<ol>
+<li>长度为 $k$</li>
+<li>任意两个相邻元素的乘积 $\leq n$</li>
+</ol>
+<p>答案对 $10^9+7$ 取模。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>很容易发现 <code>dp</code> 思路：</p>
+<p>设 $dp[i][j]$ 为：当前用到第 $i$ 个元素，结尾的元素的值为 $j$ 的数量。则答案为 $\sum\limits_{j=1}^{n}dp[k][j]$</p>
+<p>但是 $n \leq 10^9$，dp数组开不了这么大。</p>
+<p>我们可以考虑只将 <code>dp[][]</code> 的第二维开到 $\sqrt n$ 的大小，对于 $j &gt; \sqrt n$ 的部分用数论分块解决。</p>
+<p>令 $m = \sqrt n$，且维护前缀和 $sum[i][j] = \sum\limits_{k=1}^j dp[i][j]$，转移方程有：</p>
+<p>$$dp[i][1] = \sum\limits_{j=1}^n dp[i-1][j] = \sum\limits_{j=1}^m dp[i-1][j] + \sum\limits_{j=m+1}^n dp[i-1][j]$$</p>
+<p>其中，</p>
+<p>$$\forall j &gt; m, ~dp[i-1][j] = \sum\limits_{k=1}^{\lfloor \frac{n}{j} \rfloor} dp[i-2][k]$$</p>
+<p>会发现，对于不同的 $j$，$\lfloor \frac{n}{j} \rfloor$ 的取值相当有限，所以可以用数论分块。所以有：</p>
+<p>$$dp[i][1] = sum[i-1][j] + \sum\limits_{j=m+1}^n \sum\limits_{k=1}^{\lfloor \frac{n}{j} \rfloor} dp[i-2][k] = sum[i-1][j] + \sum\limits_{j=m+1}^n sum[i-2][\frac{n}{j}]$$</p>
+<p>第二项用数论分块处理即可，注意到随着 $j$ 的增大，$\frac{n}{j}$ 逐渐减小，所以可以反着枚举 $j$ （即 $j = m~&hellip;~1$）</p>
+<p>最后，答案就是 $dp[k+1][1] = \sum\limits_{j=1}^{n}dp[k][j]$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+ll n,k,m;
+ll dp[103][31642];
+ll sum[103][31642];
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; k;
+
+    m = sqrt(n);
+    for (int i = 1; i &lt;= m; i++) dp[1][i] = 1, sum[1][i] = sum[1][i-1] + 1;
+    for (int i = 1; i &lt;= m; i++) dp[2][i] = n/i, sum[2][i] = (sum[2][i-1] + dp[2][i]) % mod;
+
+    for (int i = 3; i &lt;= k+1; i++) {
+        ll cur = 0;
+        ll l = m+1,r;
+        for (int j = m; j &gt;= 1; j--) {  //倒序枚举 j
+            dp[i][j] = sum[i-1][m];
+            if (n/j &lt;= m) {  // 注意这里需要特判，否则 n/j &lt;= m 是有可能的，导致RE
+                continue;
+            }
+            r = min(n/j, n / (n/l));
+            cur = (cur + ((r-l+1) * (sum[i-2][n/l]) % mod)) % mod;
+            l = r + 1;
+            dp[i][j] = (dp[i][j] + cur) % mod;
+        }
+        for (int j = 1; j &lt;= m; j++) sum[i][j] = (sum[i][j-1] + dp[i][j]) % mod;
+    }
+    ll ans = dp[k+1][1];
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-03-10 16:46:12 &#43;0800 &#43;0800">2021-03-10</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/8da4462761cdff180c3abe944f320e3ba74e465b" title="init 027.md" target="_blank">(8da4462)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/027-%e6%95%b0%e8%ae%ba%e5%88%86%e5%9d%97.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/026-cf-1243e/">
+            <span class="next-text nav-default">CF1243E 题解（图论，状压dp）</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

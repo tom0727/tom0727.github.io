@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/026-cf-1243e/" />
 <meta property="article:published_time" content="2021-03-09T12:34:01+08:00" />
-<meta property="article:modified_time" content="2021-03-09T13:10:07+08:00" />
+<meta property="article:modified_time" content="2021-03-10T16:50:25+08:00" />
 <meta itemprop="name" content="CF1243E 题解（图论，状压dp）">
 <meta itemprop="description" content="题目链接 题意 给定 $k$ 个 box，每个 box $i$ 里有 $n_i$ 个整数，所有整数均不同。 现在我们需要执行 Exactly Once 以下操作： 从每一个box中拿一个数出来，然后以perm">
 <meta itemprop="datePublished" content="2021-03-09T12:34:01&#43;08:00" />
-<meta itemprop="dateModified" content="2021-03-09T13:10:07&#43;08:00" />
-<meta itemprop="wordCount" content="1463">
+<meta itemprop="dateModified" content="2021-03-10T16:50:25&#43;08:00" />
+<meta itemprop="wordCount" content="1461">
 
 
 
@@ -166,7 +166,8 @@
 <details class="admonition note"><summary class="admonition-title">题解</summary>
 <p>首先，所有box的sum必须被 $k$ 整除，否则无解。</p>
 <p>令 $tar$ 为最终每个box的sum。</p>
-<p>我们可以枚举 $box ~1$ 要拿哪个数出来（叫做 $a_1$），这样我们就可以知道它需要被放入哪个数（叫做 $b_1$）。又因为所有数字都不相同，故我们就可以知道 $b_1$ 的来源是哪个box，假设来自 $box_i$，那么我们就可以得到 $a_i = b_1$，于是就可以计算出 $b_i$，一直这么继续下去，如果最终形成了一个完整的环（以 $box_1$ 作为起点，并且以 $box_2$ 作为终点）的话，就说明这个方案可行。</p>
+<p>我们可以枚举 $box ~1$ 要拿哪个数出来（叫做 $a_1$），这样我们就可以知道它需要被放入哪个数（叫做 $b_1$）。又因为所有数字都不相同，故我们就可以知道 $b_1$ 的来源是哪个box，假设来自 $box_i$，那么我们就可以得到 $a_i = b_1$，于是就可以计算出 $b_i$，一直这么继续下去。</p>
+<p>如果最终形成了一个 <strong>完整环</strong>（以 $box_1$ 作为起点，并且以 $box_1$ 作为终点）的话，就说明这个方案可行。</p>
 <p>但是，这个环不一定覆盖了所有的点。所以我们需要找到所有的环，我们分别以 $1,2,3,&hellip;,k$ 作为起点，并且对于每个box都枚举一下要拿的数。这样我们可以最多形成 $\sum\limits_{i=1}^k n_i \leq 75000$ 个环。并且每个环一定互不相同。</p>
 <hr>
 <p>现在的问题就转化为：给定了这些环，我们能否从中挑选出几个环，使得每个 $box$ <strong>被访问，且仅被访问一次</strong>？</p>
@@ -193,7 +194,7 @@
 }
 </code></pre>
 <hr>
-<p>最后就是实现了，本题实现起来相当麻烦，找 <strong>完整环</strong> 我用的是 $dfs$ + $bitmask$ + 记录起点（和起点使用的数），每次找到一个环，就把 <strong>起点</strong> 放在对应的 $bitmask$ 数组 <code>plan[]</code> 里。</p>
+<p>最后就是实现了，本题实现起来相当麻烦，找 <strong>完整环</strong> 用的是 $dfs$ + $bitmask$ + 记录起点（和起点使用的数），每次找到一个环，就把 <strong>起点</strong> 放在对应的 $bitmask$ 数组 <code>plan[]</code> 里。</p>
 <p>在找完所有的环之后，再根据每个 $bitmask$，再进行一次 $dfs$ 来找到这个环的具体路径。</p>
 </details>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
@@ -321,8 +322,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-03-09 13:10:07 &#43;0800 &#43;0800">2021-03-09</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/8a183c4be04e416d9c16bd935eba21115312e667" title="init 026.md" target="_blank">(8a183c4)</a>
+        <span title="2021-03-10 16:50:25 &#43;0800 &#43;0800">2021-03-10</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/7fe0996defa12f8c4c301ad6cd837c644dd16a2e" title="update 026.md" target="_blank">(7fe0996)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/026-cf-1243E.md" target="_blank">更新历史</a>
     </span>
   </p>

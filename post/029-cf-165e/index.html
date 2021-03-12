@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>CF 165E题解（状压dp） - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="题目链接 题意 给定 $n$ 个数 $a_1,a_2,&amp;hellip;,a_n$，对于每一个 $a_i$，找出是否存在 $a_j$ 使得 $a_i$ &amp;amp; $a_j = 0$？ 其中 $1 \leq n \leq 10^6, 1 \leq" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/029-cf-165e/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.2ccc99aa18501eb0a20678a919404779fa1d9f66663cef10606eef97052b4b73.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="CF 165E题解（状压dp）" />
+<meta property="og:description" content="题目链接 题意 给定 $n$ 个数 $a_1,a_2,&hellip;,a_n$，对于每一个 $a_i$，找出是否存在 $a_j$ 使得 $a_i$ &amp; $a_j = 0$？ 其中 $1 \leq n \leq 10^6, 1 \leq" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/029-cf-165e/" />
+<meta property="article:published_time" content="2021-03-11T23:20:32+08:00" />
+<meta property="article:modified_time" content="2021-03-12T22:09:37+08:00" />
+<meta itemprop="name" content="CF 165E题解（状压dp）">
+<meta itemprop="description" content="题目链接 题意 给定 $n$ 个数 $a_1,a_2,&hellip;,a_n$，对于每一个 $a_i$，找出是否存在 $a_j$ 使得 $a_i$ &amp; $a_j = 0$？ 其中 $1 \leq n \leq 10^6, 1 \leq">
+<meta itemprop="datePublished" content="2021-03-11T23:20:32&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-12T22:09:37&#43;08:00" />
+<meta itemprop="wordCount" content="943">
+
+
+
+<meta itemprop="keywords" content="状压dp," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CF 165E题解（状压dp）"/>
+<meta name="twitter:description" content="题目链接 题意 给定 $n$ 个数 $a_1,a_2,&hellip;,a_n$，对于每一个 $a_i$，找出是否存在 $a_j$ 使得 $a_i$ &amp; $a_j = 0$？ 其中 $1 \leq n \leq 10^6, 1 \leq"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">CF 165E题解（状压dp）</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-03-11 23:20:32 &#43;0800 &#43;0800"> 2021-03-11 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#题目链接">题目链接</a></li>
+        <li><a href="#高维前缀和">高维前缀和</a>
+          <ul>
+            <li><a href="#法一枚举dp数组位置--容斥-on2d">法一：枚举dp数组位置 + 容斥： $O(n2^d)$</a></li>
+            <li><a href="#法二枚举维度不用容斥-ond">法二：枚举维度，不用容斥： $O(nd)$</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="题目链接">题目链接</h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个数 $a_1,a_2,&hellip;,a_n$，对于每一个 $a_i$，找出是否存在 $a_j$ 使得 $a_i$ &amp; $a_j = 0$？</p>
+<p>其中 $1 \leq n \leq 10^6, 1 \leq a_i \leq 4\times10^6$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>结论1：如果 $a_i$ &amp; $a_j = 0$，则对于 $a_j$ 的任何一个子集 $b$（$a_j \subset b$），都有 $a_i$ &amp; $b = 0$</p>
+<p>结论2：$\forall i, ~a_i$ &amp; $($~$a_i) = 0$</p>
+<hr>
+<p>由上，对于每一个 $a_i$，我们都知道 ~$a_i$ 必然满足条件。所以只要找<strong>是否存在</strong> $a_j$ 使得 $a_j \subset$ ~$a_i$ 即可。</p>
+<p>换而言之，我们可以从高往低进行 <code>dp</code>，从每一个 ~$a_i$ 开始，枚举 ~$a_i$ 的子集，将满足条件的信息传递到子集中，最后看是否存在 $a_j$ 被传递了即可。</p>
+<p>然而直接枚举子集复杂度太高，我们可以考虑按照 <strong>位数</strong> 进行dp：</p>
+<p>我们从 $111&hellip;111$ 开始枚举，然后枚举少一个 $1$ 的情况：即 $011&hellip;11, 101&hellip;11, 110&hellip;11$ 等等。然后继续往下传递即可。</p>
+<hr>
+<p>状态转移方程：</p>
+<p>令 <code>dp[mask]</code> 为：这个mask是否存在 $a_j$ 使得 $mask$ &amp; $a_j = 0$，如果存在，就是 $a_j$ 的值，否则为 $-1$</p>
+<p>转移过程就是上述的，枚举 <strong>少一个</strong> $1$ 的子集过程。</p>
+<p>• 实现代码中，是从 <strong>多一个</strong> $1$ 转移过来的，本质相同。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int maxn = 1e6+5;
+const int maxm = (1&lt;&lt;22);  // 1&lt;&lt;22 == 4.1e6
+ 
+int n;
+int arr[maxn];
+int dp[maxm];
+ 
+int INF = (1&lt;&lt;22) - 1;  // 注意INF &gt; 4e6，我们要根据 位数 取INF，而不是根据数据范围
+ 
+int inv(int x) {
+    return (~x) &amp; INF;  // 注意这里有 &amp; INF 的操作，否则会得到负数
+}
+ 
+int main() { 
+    fill(dp, dp+maxm, -1);
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; arr[i], dp[inv(arr[i])] = arr[i];
+ 
+    for (int mask = INF; mask &gt;= 1; mask--) {  // 注意从 INF开始，而不是从 4e6开始，因为 inv(arr[i]) 有可能 &gt; 4e6
+        if (dp[mask] != -1) continue;
+        for (int j = 0; j &lt; 22; j++) {  
+            int a = mask | (1&lt;&lt;j);  // 枚举多一位
+            if (a == mask) continue;
+            if (dp[a] != -1) {
+                dp[mask] = dp[a];
+                break;
+            }
+        }
+    }
+ 
+    for (int i = 1; i &lt;= n; i++) {
+        int a = arr[i];
+        cout &lt;&lt; dp[a] &lt;&lt; &quot; &quot;;
+    }
+    cout &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h2 id="高维前缀和">高维前缀和</h2>
+<p>本题似乎与高维前缀和有关，这里介绍一下高维前缀和的知识。</p>
+<p>高维前缀和主要用于解决 $dp[S] = \sum\limits_{T \subset S}a[T]$ 的问题。</p>
+<p>在我们求一个多维度的前缀和时，有两种方法：（以下，使用求一个矩阵的前缀和来举例）</p>
+<h3 id="法一枚举dp数组位置--容斥-on2d">法一：枚举dp数组位置 + 容斥： $O(n2^d)$</h3>
+<pre><code class="language-cpp">for (int i = 1; i &lt;= n; i++)
+    for (int j = 1; j &lt;= m; j++)
+        a[i][j] += a[i - 1][j] + a[i][j - 1] - a[i - 1][j - 1];
+</code></pre>
+<h3 id="法二枚举维度不用容斥-ond">法二：枚举维度，不用容斥： $O(nd)$</h3>
+<pre><code class="language-cpp">for (int i = 1; i &lt;= n; i++)
+    for (int j = 1; j &lt;= m; j++) a[i][j] += a[i][j - 1];
+
+for (int i = 1; i &lt;= n; i++)
+    for (int j = 1; j &lt;= m; j++) a[i][j] += a[i - 1][j];
+</code></pre>
+<p>• 如上，先枚举了第一维，然后枚举第二维。</p>
+<p>• 这种方法的复杂度远低于法一！</p>
+<hr>
+<p>如果有更多维度的话，也是枚举每一个维度，然后求每个维度的前缀和：</p>
+<pre><code class="language-cpp">for (int i = 0; i &lt; d; i++) {  // 枚举每一个维度
+    for (int mask = 0; mask &lt; (1&lt;&lt;d); mask++) {  //求前缀和
+        if (mask &amp; (1&lt;&lt;i)) dp[mask] += dp[mask ^ (1&lt;&lt;i)];
+    }
+}
+</code></pre>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-03-12 22:09:37 &#43;0800 &#43;0800">2021-03-12</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/b175465fdd4e1733473fcff61f30d00e67d2784f" title="init 029,030" target="_blank">(b175465)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/029-cf-165E.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%8A%B6%E5%8E%8Bdp/">状压dp</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/030-at-abc131f/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Atcoder ABC 131F（图论）</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/028-cf-1188b/">
+            <span class="next-text nav-default">CF 1188B（枚举优化）</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

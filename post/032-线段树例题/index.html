@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>线段树/分块 例题 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="主要记录一些遇到的线段树/分块例题。 例1 CF438D 题意 给定 $N$ 个正整数和 $M$ 个询问，询问有 3 种： $1 ~ l ~ r$：输出 $\sum\limits_{i=l}^r a_i$ $2 ~ l ~ r ~ x$：将 $a_l$ 到 $a_r$ 的所有数" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/032-%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%BE%8B%E9%A2%98/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.2ccc99aa18501eb0a20678a919404779fa1d9f66663cef10606eef97052b4b73.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="线段树/分块 例题" />
+<meta property="og:description" content="主要记录一些遇到的线段树/分块例题。 例1 CF438D 题意 给定 $N$ 个正整数和 $M$ 个询问，询问有 3 种： $1 ~ l ~ r$：输出 $\sum\limits_{i=l}^r a_i$ $2 ~ l ~ r ~ x$：将 $a_l$ 到 $a_r$ 的所有数" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/032-%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%BE%8B%E9%A2%98/" />
+<meta property="article:published_time" content="2021-03-16T22:10:22+08:00" />
+<meta property="article:modified_time" content="2021-03-16T22:47:31+08:00" />
+<meta itemprop="name" content="线段树/分块 例题">
+<meta itemprop="description" content="主要记录一些遇到的线段树/分块例题。 例1 CF438D 题意 给定 $N$ 个正整数和 $M$ 个询问，询问有 3 种： $1 ~ l ~ r$：输出 $\sum\limits_{i=l}^r a_i$ $2 ~ l ~ r ~ x$：将 $a_l$ 到 $a_r$ 的所有数">
+<meta itemprop="datePublished" content="2021-03-16T22:10:22&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-16T22:47:31&#43;08:00" />
+<meta itemprop="wordCount" content="1767">
+
+
+
+<meta itemprop="keywords" content="暴力优化,线段树," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="线段树/分块 例题"/>
+<meta name="twitter:description" content="主要记录一些遇到的线段树/分块例题。 例1 CF438D 题意 给定 $N$ 个正整数和 $M$ 个询问，询问有 3 种： $1 ~ l ~ r$：输出 $\sum\limits_{i=l}^r a_i$ $2 ~ l ~ r ~ x$：将 $a_l$ 到 $a_r$ 的所有数"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">线段树/分块 例题</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-03-16 22:10:22 &#43;0800 &#43;0800"> 2021-03-16 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#例1-cf438dhttpscodeforcescomproblemsetproblem438d">例1 <a href="https://codeforces.com/problemset/problem/438/D">CF438D</a></a></li>
+        <li><a href="#例2-cf558ehttpscodeforcescomcontest558probleme">例2 <a href="https://codeforces.com/contest/558/problem/E">CF558E</a></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>主要记录一些遇到的线段树/分块例题。</p>
+<h2 id="例1-cf438dhttpscodeforcescomproblemsetproblem438d">例1 <a href="https://codeforces.com/problemset/problem/438/D" target="_blank">CF438D</a></h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $N$ 个正整数和 $M$ 个询问，询问有 3 种：</p>
+<p>$1 ~ l ~ r$：输出 $\sum\limits_{i=l}^r a_i$</p>
+<p>$2 ~ l ~ r ~ x$：将 $a_l$ 到 $a_r$ 的所有数取 $\text{mod } x$</p>
+<p>$3 ~ k ~ x$：将 $a_k = x$</p>
+<p>其中，$1 \leq N,M \leq 10^5, 1 \leq a_i,x \leq 10^9$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>本题分块和线段树都可以做，我们这里用 <strong>线段树</strong> 来做。</p>
+<p>主要是需要考虑 <strong>区间取模</strong> 怎么办？</p>
+<p>回忆一下分块例题中的 <strong>区间开方</strong>，我们维护了一个额外的tag表示这个区间是否为 <strong>全0/全1</strong>，如果不是 <strong>全0/全1</strong> 就暴力开方。</p>
+<p>取模操作同理，我们发现，如果 $a_i &gt; x$，那么 $a_i \text{ mod } x \leq \frac{a_i}{2}$，所以对于每个 $a_i$，最多只会被 $\text{mod}$ $\log (a_i)$ 次！</p>
+<p>所以，我们维护一个 <strong>区间最大值</strong>，取模时，检查一下 <strong>区间最大值是否大于 $x$</strong>：</p>
+<ol>
+<li>如果大于 $x$，就继续往下递归。</li>
+<li>如果小于 $x$，就直接返回。</li>
+</ol>
+<p>base case 就是区间长度为 $1$ 时，直接对这个元素开方即可。</p>
+</details>
+<h2 id="例2-cf558ehttpscodeforcescomcontest558probleme">例2 <a href="https://codeforces.com/contest/558/problem/E" target="_blank">CF558E</a></h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的string，仅包含小写字母。给 $q$ 个询问：</p>
+<p>$l,r,k$：将string的 $[l,r]$ 进行sort，如果 $k=1$ 就升序，$k=0$ 降序。</p>
+<p>输出所有询问结束后的string。</p>
+<p>其中，$1\leq n \leq 10^5, 1 \leq q\leq 50000$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>线段树来处理。</p>
+<p>首先，string只包含小写字母。所以每个 <code>node</code> 可以维护一个 <code>cnt[26]</code> 代表这个node里的每个字母出现的次数。</p>
+<p>其次，对于排序，我们在每个 <code>node</code> 中维护一个标记 $k$ 来代表该区间是否排序好了。若 $k=0$ 代表降序，$k=1$ 代表升序，$k = -1$ 代表乱序。</p>
+<p>最后，维护一个 $lazy$ 标记，我们会注意到对于一个<code>node</code>而言，若 $lazy = 1$，那么这个 <code>node</code> 必然是排序好了的！（要么 $k=0$ ，要么 $k=1$）。</p>
+<p>有了以上信息，我们就可以进行 <code>sort</code> 操作了！</p>
+<hr>
+<p><code>sort</code> $[L,R]$ 的时候，步骤如下：</p>
+<ol>
+<li>提取出 $[L,R]$ 内每个字母出现的次数。</li>
+<li>求出 $[L,R]$ 与 $[l,mid]$（当前node 左child的范围）的<strong>区间交集</strong> $[l_1,r_1]$</li>
+<li>求出 $[L,R]$ 与 $[mid+1, r]$（当前node 右child的范围）的<strong>区间交集</strong> $[l_2,r_2]$</li>
+<li>用指针遍历 $a-z$（或者 $z-a$），根据升序/降序 将 <strong>字母出现的次数分别填充</strong> 到 <strong>左child和右child</strong>的 <code>cnt[]</code> 中。（注意，这里的填充是指：先填充进一个 <code>int* buf = new int[26];</code> 的动态数组，然后<strong>将 <code>buf[]</code> 作为参数，再往下传递</strong>，直到区间完全覆盖，再将 <code>buf[]</code> 的内容复制进 <code>cnt[]</code> 里）。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">using namespace std;
+#include &lt;bits/stdc++.h&gt;
+const int maxn = 1e5+5;
+const int maxm = 2e5+10;
+ 
+int n,q;
+char arr[maxn];
+ 
+struct Node {
+    int l,r,k,cnt[26];
+    bool lazy = 0;
+} tr[4*maxn];
+int tmp[26];
+ 
+inline int len(int cur) { return tr[cur].r - tr[cur].l + 1; }
+ 
+void push_up(int cur) {
+    int lc = cur&lt;&lt;1, rc = lc+1;
+    for (int i = 0; i &lt; 26; i++) {
+        tr[cur].cnt[i] = tr[lc].cnt[i] + tr[rc].cnt[i];
+    }
+    if (tr[lc].k != -1 &amp;&amp; tr[lc].k == tr[rc].k) tr[cur].k = tr[lc].k;  // k = 1: increasing, k = 0: decreasing
+    else tr[cur].k = -1;
+}
+ 
+void put(int cur, int k) {
+    int lc = cur&lt;&lt;1, rc = lc+1;
+    memset(tr[lc].cnt, 0, sizeof(tr[lc].cnt));
+    memset(tr[rc].cnt, 0, sizeof(tr[rc].cnt));
+    memcpy(tmp, tr[cur].cnt, sizeof(tmp));
+ 
+    int lsz = len(lc), rsz = len(rc);
+    if (k) {
+        int p = 0;
+        while (p &lt; 26 &amp;&amp; lsz) {
+            int delta = min(lsz, tmp[p]);
+            tr[lc].cnt[p] += delta;
+            lsz -= delta;
+            tmp[p] -= delta;
+            if (!tmp[p]) p++;
+        }
+        while (p &lt; 26 &amp;&amp; rsz) {
+            int delta = min(rsz, tmp[p]);
+            tr[rc].cnt[p] += delta;
+            rsz -= delta;
+            tmp[p] -= delta;
+            if (!tmp[p]) p++;
+        }
+    } else {
+        int p = 25;
+        while (p &gt;= 0 &amp;&amp; lsz) {
+            int delta = min(lsz, tmp[p]);
+            tr[lc].cnt[p] += delta;
+            lsz -= delta;
+            tmp[p] -= delta;
+            if (!tmp[p]) p--;
+        }
+        while (p &gt;= 0 &amp;&amp; rsz) {
+            int delta = min(rsz, tmp[p]);
+            tr[rc].cnt[p] += delta;
+            rsz -= delta;
+            tmp[p] -= delta;
+            if (!tmp[p]) p--;
+        }
+    }
+    assert(lsz == 0);
+    assert(rsz == 0);
+}
+ 
+void push_down(int cur) {
+    if (!tr[cur].lazy) return;
+    int lc = cur&lt;&lt;1, rc = lc+1;
+    tr[cur].lazy = 0;
+    tr[lc].lazy = tr[rc].lazy = 1;
+    assert(tr[cur].k != -1);
+ 
+    int k = tr[cur].k;
+    tr[lc].k = k;
+    tr[rc].k = k;
+    put(cur,k);
+}
+ 
+void build(int cur, int L, int R) {
+    tr[cur].l = L, tr[cur].r = R;
+    if (L == R) {
+        memset(tr[cur].cnt, 0, sizeof(tr[cur].cnt));
+        tr[cur].cnt[arr[L]-'a'] = 1;
+        return;
+    }
+    int mid = (L+R) &gt;&gt; 1;
+    build(cur&lt;&lt;1, L, mid);
+    build(cur&lt;&lt;1|1, mid+1, R);
+    push_up(cur);
+}
+ 
+int ress[26];  // 每次query的结果会存到这里
+ 
+void clear(int* buf) {
+    for (int i = 0; i &lt; 26; i++) buf[i] = 0;
+}
+ 
+int inter(int l1, int r1, int l2, int r2) {  // 求区间交集的长度
+    int l = max(l1,l2), r = min(r1,r2);
+    return max(0,r-l+1);
+}
+ 
+void update(int cur, int L, int R, int k, int* res) {  // 注意参数里有个动态数组 res
+    int lc = cur&lt;&lt;1, rc = lc+1;
+    int l = tr[cur].l, r = tr[cur].r;
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        tr[cur].k = k;
+        tr[cur].lazy = 1;
+        for (int i = 0; i &lt; 26; i++) tr[cur].cnt[i] = res[i];  // 区间完全覆盖，复制到 cnt 中。
+        clear(res);  // 记得清空，之后可能还要用
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    int lsz = inter(l,mid,L,R), rsz = inter(mid+1,r,L,R);
+ 
+    int* buf = new int[26];  // 这里采用了动态数组
+    for (int i = 0; i &lt; 26; i++) buf[i] = 0;  //注意new出来的需要先清空一下，另外不能使用 memset(因为是指针)
+ 
+    if (k) {
+        int p = 0;
+        while (p &lt; 26 &amp;&amp; lsz) {
+            int delta = min(lsz, res[p]);
+            buf[p] += delta;
+            lsz -= delta;
+            res[p] -= delta;
+            if (!res[p]) p++;
+        }
+        if (L &lt;= mid) {
+            update(lc, L, R, k, buf);  // 传递 buf
+        }
+ 
+        while (p &lt; 26 &amp;&amp; rsz) {
+            int delta = min(rsz, res[p]);
+            buf[p] += delta;
+            rsz -= delta;
+            res[p] -= delta;
+            if (!res[p]) p++;
+        }
+ 
+        if (R &gt; mid) {
+            update(rc, L, R, k, buf);  // 传递 buf
+        }
+ 
+    } else {
+        int p = 25;
+        while (p &gt;= 0 &amp;&amp; lsz) {
+            int delta = min(lsz, res[p]);
+            buf[p] += delta;
+            lsz -= delta;
+            res[p] -= delta;
+            if (!res[p]) p--;
+        }
+        if (L &lt;= mid) {
+            update(lc, L, R, k, buf);  // 传递 buf
+        }
+        while (p &gt;= 0 &amp;&amp; rsz) {
+            int delta = min(rsz, res[p]);
+            buf[p] += delta;
+            rsz -= delta;
+            res[p] -= delta;
+            if (!res[p]) p--;
+        }
+        if (R &gt; mid) {
+            update(rc, L, R, k, buf);  // 传递 buf
+        }
+    }
+    delete[] buf;
+ 
+    assert(lsz == 0);
+    assert(rsz == 0);
+    push_up(cur);
+}
+ 
+void query(int cur, int L, int R) {  // 求区间内每个字母出现的个数
+    int l = tr[cur].l, r = tr[cur].r;
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        for (int i = 0; i &lt; 26; i++) ress[i] += tr[cur].cnt[i];
+        return;
+    }
+ 
+    int lc = cur&lt;&lt;1, rc = lc+1;
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) query(lc, L, R);
+    if (R &gt; mid) query(rc, L, R);
+    push_up(cur);
+}
+ 
+void printans() {
+    for (int i = 1; i &lt;= n; i++) {
+        memset(ress, 0, sizeof(ress));
+        query(1,i,i);
+        for (int j = 0; j &lt; 26; j++) {
+            if (ress[j]) {
+                printf(&quot;%c&quot;,(char)('a'+j));
+                ress[j]--;
+                break;
+            }
+        }
+    }
+    printf(&quot;\n&quot;);
+}
+ 
+int main() {
+ 
+    scanf(&quot;%d%d&quot;,&amp;n,&amp;q);
+    scanf(&quot;%s&quot;, arr+1);
+    build(1, 1, n);
+    while (q--) {
+        int l,r,k; scanf(&quot;%d%d%d&quot;,&amp;l,&amp;r,&amp;k);
+        memset(ress, 0, sizeof(ress));
+        query(1,l,r);
+        update(1,l,r,k,ress);
+    }
+    printans();
+}
+</code></pre>
+</details>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-03-16 22:47:31 &#43;0800 &#43;0800">2021-03-16</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f0b68d53c42338257fa5714351cdbb1f7b5ddb9a" title="init 032.md" target="_blank">(f0b68d5)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/032-%e7%ba%bf%e6%ae%b5%e6%a0%91%e4%be%8b%e9%a2%98.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%9A%B4%E5%8A%9B%E4%BC%98%E5%8C%96/">暴力优化</a>
+          <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">线段树</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/031-%E6%A0%91%E4%B8%8A%E5%90%AF%E5%8F%91%E5%BC%8F%E5%90%88%E5%B9%B6/">
+            <span class="next-text nav-default">树上启发式合并（DSU on Tree）</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

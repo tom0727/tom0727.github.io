@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>树上启发式合并（DSU on Tree） - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 树上启发式合并 一般用于 满足以下条件的问题： 所有询问离线，无修改，仅询问子树的信息（不能用于链的询问） $ans[u]$ 可以转化为 $\sum\limits_{v}ans[v]$ 的形式（其中，$v$ 是" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/031-%E6%A0%91%E4%B8%8A%E5%90%AF%E5%8F%91%E5%BC%8F%E5%90%88%E5%B9%B6/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.2ccc99aa18501eb0a20678a919404779fa1d9f66663cef10606eef97052b4b73.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="树上启发式合并（DSU on Tree）" />
+<meta property="og:description" content="介绍 树上启发式合并 一般用于 满足以下条件的问题： 所有询问离线，无修改，仅询问子树的信息（不能用于链的询问） $ans[u]$ 可以转化为 $\sum\limits_{v}ans[v]$ 的形式（其中，$v$ 是" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/031-%E6%A0%91%E4%B8%8A%E5%90%AF%E5%8F%91%E5%BC%8F%E5%90%88%E5%B9%B6/" />
+<meta property="article:published_time" content="2021-03-15T20:53:14+08:00" />
+<meta property="article:modified_time" content="2021-03-16T16:11:41+08:00" />
+<meta itemprop="name" content="树上启发式合并（DSU on Tree）">
+<meta itemprop="description" content="介绍 树上启发式合并 一般用于 满足以下条件的问题： 所有询问离线，无修改，仅询问子树的信息（不能用于链的询问） $ans[u]$ 可以转化为 $\sum\limits_{v}ans[v]$ 的形式（其中，$v$ 是">
+<meta itemprop="datePublished" content="2021-03-15T20:53:14&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-16T16:11:41&#43;08:00" />
+<meta itemprop="wordCount" content="5381">
+
+
+
+<meta itemprop="keywords" content="树上启发式合并," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="树上启发式合并（DSU on Tree）"/>
+<meta name="twitter:description" content="介绍 树上启发式合并 一般用于 满足以下条件的问题： 所有询问离线，无修改，仅询问子树的信息（不能用于链的询问） $ans[u]$ 可以转化为 $\sum\limits_{v}ans[v]$ 的形式（其中，$v$ 是"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">树上启发式合并（DSU on Tree）</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-03-15 20:53:14 &#43;0800 &#43;0800"> 2021-03-15 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#思想">思想</a>
+          <ul>
+            <li><a href="#暴力做法">暴力做法</a></li>
+            <li><a href="#优化思路">优化思路</a></li>
+          </ul>
+        </li>
+        <li><a href="#算法步骤">算法步骤</a></li>
+        <li><a href="#伪代码">伪代码</a></li>
+        <li><a href="#复杂度证明">复杂度证明</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-cf600ehttpscodeforcescomcontest600probleme">例1 <a href="https://codeforces.com/contest/600/problem/E">CF600E</a></a></li>
+            <li><a href="#例2-cf208ehttpscodeforcescomcontest208probleme">例2 <a href="https://codeforces.com/contest/208/problem/E">CF208E</a></a></li>
+            <li><a href="#例3-cf1009fhttpscodeforcescomcontest1009problemf">例3 <a href="https://codeforces.com/contest/1009/problem/F">CF1009F</a></a></li>
+            <li><a href="#例4-cf741dhttpscodeforcescomcontest741problemd">例4 <a href="https://codeforces.com/contest/741/problem/D">CF741D</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>树上启发式合并 一般用于 满足以下条件的问题：</p>
+<ol>
+<li>所有询问<strong>离线</strong>，无修改，仅询问<strong>子树</strong>的信息（不能用于链的询问）</li>
+<li>$ans[u]$ 可以转化为 $\sum\limits_{v}ans[v]$ 的形式（其中，$v$ 是 $u$ 的child）</li>
+<li>如果已知 $ans[v]$，可以在 $O(1)$ 的时间（或者无需任何操作）添加到 $ans[u]$ (其中，$v$ 是 $u$ 的child）</li>
+</ol>
+<hr>
+<p>先用 <a href="https://codeforces.com/contest/600/problem/E" target="_blank">CF600E</a> 来举个例子。</p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>已知一棵包含 $N$ 个节点的有根树（root为 $1$），每个节点 $i$ 有一个颜色 $c_i$。</p>
+<p>对于每一个节点 $i$，我们都要求出它的 subtree（包含自己）中，出现颜色次数最多的所有颜色编号和（可能不止一种颜色）。</p>
+<p>例：$1$ 的subtree中，共有 5 个节点，颜色分别为 $2,2,5,5,1$，那么出现颜色次数最多的颜色编号为 $2,5$，所求的和为 $2+5 = 7$，所以 $ans_1 = 7$。</p>
+<p>输出对于每一个 $i$ 的 $ans_i$</p>
+<p>其中，$1\leq n \leq 10^5, 1 \leq c_i \leq n$</p>
+</div>
+<h2 id="思想">思想</h2>
+<h3 id="暴力做法">暴力做法</h3>
+<p>首先，我们开一个全局的数组 <code>cnt[]</code>，记录每一种颜色出现的次数。再开一个全局数组 <code>sum[]</code>，其中 <code>sum[i]</code> 代表出现次数为 <code>i</code> 的颜色的编号和。</p>
+<p>然后，对于每一个节点 $i$，遍历它 subtree 中的所有节点，统计答案。统计完以后，清空这两个全局数组，再换下一个节点重复此步骤。</p>
+<p>复杂度：$O(n^2)$</p>
+<h3 id="优化思路">优化思路</h3>
+<p>• 注：以下 $u$ 均表示parent，$v$ 表示 $u$ 的child。</p>
+<p>我们发现，对于任何一个节点 $u$ ，$cnt[u] = \sum\limits_v cnt[v]$ ，$sum[u] = \sum\limits_v sum[v]$ （这里不是指真的sum，而是说我们可以通过所有child的信息合并，得到 $u$ 的信息）。</p>
+<p>那么，我们的暴力思路是：</p>
+<p>来到节点 $u$ 时，</p>
+<ol>
+<li>先统计所有 $v$ 的答案 $ans_v$（代表 $v$ 对应subtree的答案），每统计完一个 $v$ 就<strong>清空一次全局数组</strong>。</li>
+<li>全部的 $v$ 统计完以后，再<strong>遍历</strong>所有的 $v$ 的subtree，把所有 $v$ 的 <code>cnt[], sum[]</code> 进行合并。</li>
+<li>加上 $u$ 本身，就得到了 $u$ 所在subtree的答案 $ans_u$。</li>
+</ol>
+<p>这里我们发现了一个可以优化的地方：</p>
+<p>对于最后一个 $v$，我们统计完它以后，<strong>不需要清空全局数组</strong>，因为我们马上就要进行 Step 2，刚好需要合并所有 $v$ 的信息，所以保留它就可以节省一些时间。</p>
+<p>那么这最后一个 $v$，所对应的subtree 自然是 <strong>size 越大越好</strong>。所以我们就选择 $u$ 的<strong>重儿子</strong>作为最后一个 $v$。</p>
+<p>这就是树上启发式合并了，复杂度为 $O(n\log n)$，证明见下面。</p>
+<h2 id="算法步骤">算法步骤</h2>
+<ol>
+<li>创建全局数组（一般是 <code>cnt[]</code> 一类的数颜色数组）。</li>
+<li>进行第一次 $DFS$（$dfs_1$），获得每个节点的 <code>sz[]</code>（subtree大小），<code>son[]</code>（重儿子）。</li>
+<li>进行第二次 $DFS$（$dfs_2$），来到节点 $u$ 后：
+<ol>
+<li>先递归 $DFS(v)$，对于每一个 $v$（除了重儿子以外），获得 $ans_v$。然后清空全局数组。</li>
+<li>递归 $DFS(x)$，获得 $ans_x$（其中，$x$ 是 $u$ 的重儿子）。<strong>不清空全局数组</strong>。</li>
+<li>遍历所有 $v$ 的subtree（除了重儿子以外），把信息加到全局数组上。（注意，这里的遍历并不是上面的 $DFS(v)$，一般实现过程中，用 <code>add(v, 1)</code> 来表示）。</li>
+<li>加上 $u$ 自己的信息，得到 $ans_u$。</li>
+</ol>
+</li>
+</ol>
+<h2 id="伪代码">伪代码</h2>
+<pre><code class="language-cpp">
+void dfs1(int u, int p) { //略，普通的统计 sz[] 和 son[] }
+
+void add(int u, int f) {  // 单点更新信息
+    cnt[u] += f;
+    if (f &lt; 0) maxcnt = 0;  //因为 f &lt; 0 时意味着全局数组清空，所以一些额外的全局变量也会清空
+}
+
+void add(int u, int p, int f) {  // 遍历subtree，加到数组上。f = 1（加上信息）或者 -1（清空信息）
+    add(u, f);  // 单点更新
+    for (v : child[u]) {
+        if (v == p) continue;
+        add(v, u, f);
+    }
+}
+
+void dfs2(int u, int p, bool keep) {   // keep 代表该节点是否为重儿子（如果keep = 1就不清空数组）
+    for (v : child[u]) {
+        if (v == p || v == son[u]) continue;
+        dfs2(v, u, 0);  // Step1: 轻儿子不保留信息，keep = 0表示，在dfs2(v)结束后，全局数组不会有任何变化。
+    }
+
+    if (son[u]) dfs2(son[u], u, 1);   // Step2: 重儿子保留信息
+
+    for (v : child[u]) {
+        if (v == p || v == son[u]) continue;
+        add(v, u, 1);  // Step3: 遍历所有v（除了重儿子以外），加上信息
+    }
+
+    add(u, 1);
+    ans[u] = (cnt[u] + ...);  // Step4: 得到 ans[u]
+
+    if (!keep) add(u, p, -1);  // 如果keep = 0，说明需要清空数组，就把整个subtree(u)的影响再减掉就可以了
+}
+
+
+int main() {
+    init();  // 建树，预处理查询等
+    dfs(1, 0);
+    dfs2(1, 0, 1);
+}
+</code></pre>
+<h2 id="复杂度证明">复杂度证明</h2>
+<p>对于任何一个节点 $u$，如果它被清空了，那么这说明它的某个祖先是轻儿子。而轻儿子的数量 = 重链数量 = $O(\log n)$，所以每个节点最多被清空 $\log n$ 次。总复杂度为 $O(n\log n)$</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-cf600ehttpscodeforcescomcontest600probleme">例1 <a href="https://codeforces.com/contest/600/problem/E" target="_blank">CF600E</a></h3>
+<p>题意和题解都讲了，就直接放代码了：</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">using namespace std;
+#include &lt;bits/stdc++.h&gt;
+ 
+const int maxn = 1e5+5;
+const int maxm = 2e5+5;
+
+int n, sz[maxn], head[maxn], ecnt = 1, color[maxn], son[maxn];
+ll cnt[maxn], sum[maxn], ans[maxn], maxcnt = 0;
+
+struct Edge {
+    int to, nxt;
+} edges[maxm];
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+void dfs(int u, int p) {
+    sz[u] = 1;
+    int maxsz = -1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        dfs(to, u);
+        sz[u] += sz[to];
+        if (sz[to] &gt; maxsz) {
+            maxsz = sz[to];
+            son[u] = to;
+        }
+    }
+}
+
+void update(int u, int f) {  // 单点更新
+    int c = color[u];
+    cnt[c] += (ll)f;
+    sum[cnt[c]-f] -= (ll)c;
+    sum[cnt[c]] += (ll)c;
+
+    while (f &gt; 0 &amp;&amp; sum[maxcnt+1]) maxcnt++;
+    if (f &lt; 0) maxcnt = 0;
+}
+
+void add(int u, int p, int f) {  // f = 1: add, f = -1: del
+    update(u, f);
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        add(to, u, f);
+    }
+}
+
+void dfs2(int u, int p, bool keep) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p || to == son[u]) continue;
+        dfs2(to, u, 0);
+    }
+
+    if (son[u]) dfs2(son[u], u, 1);
+
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p || to == son[u]) continue;
+        add(to, u, 1);
+    }
+
+    update(u, 1);
+    ans[u] = sum[maxcnt];
+
+    if (!keep) add(u, p, -1);
+}
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; color[i];
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        addEdge(u,v); addEdge(v,u);
+    }
+
+    dfs(1,0);
+    dfs2(1, 0, 1);
+
+    for (int i = 1; i &lt;= n; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例2-cf208ehttpscodeforcescomcontest208probleme">例2 <a href="https://codeforces.com/contest/208/problem/E" target="_blank">CF208E</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>已知一棵包含 $N$ 个节点的森林（可能有多个root），并且给出 $M$ 个询问。</p>
+<p>$v, p$：输出存在多少个点 $u$，使得 $u$ 和 $v$ 的第 $p$ 个祖先相同。</p>
+<p>其中，$1\leq n,m \leq 10^5$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">法一树上莫队</summary>
+<p>每次询问 $v,p$ 时，我们先用倍增求出 $v$ 的第 $p$ 个祖先 $x$。那么，问题转化为：</p>
+<p>在 $x$ 的 subtree中，有多少个 $u$，使得 <code>dep[u] = dep[x] + p</code>？</p>
+<p>那么，用 <strong>DFS序</strong> 先把树上问题转化为区间问题，就变成了：</p>
+<p>在区间 $[L,R]$ 内，有多少个 $u \in [L,R]$ 使得 <code>dep[u] = dep[x] + p</code> ？</p>
+<p>然后用 <strong>莫队</strong> 来处理每个询问即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">树上莫队代码</summary>
+<pre><code class="language-cpp">using namespace std;
+#include &lt;bits/stdc++.h&gt;
+
+const int mod = 1e9+7;
+const int maxn = 1e5+5;
+const int maxm = 2e5+5;
+
+int dep[maxn], sz[maxn], head[maxn], ecnt = 1, ans[maxn], n, m, tmp[maxn];
+int par[maxn][22];
+int cnt[maxn], id[maxn], idcnt = 1;
+struct Edge {
+    int to, nxt;
+} edges[maxm];
+
+struct Query {
+    int l,r,id,d;
+} q[maxn];
+
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+void dfs(int u) {
+    sz[u] = 1;
+    id[u] = idcnt++;
+    dep[u] = dep[par[u][0]] + 1;
+    for (int j = 1; j &lt; 22; j++) {  // 注意这里先处理parent，之后再 dfs(to)
+        par[u][j] = par[par[u][j-1]][j-1];
+    }
+
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        dfs(to);
+        sz[u] += sz[to];
+    }
+}
+
+int jump(int u, int p) {
+    for (int j = 0; (1&lt;&lt;j) &lt;= p; j++) {
+        if ((1&lt;&lt;j) &amp; p)
+            u = par[u][j];
+    }
+    return u;
+}
+
+void add(int x) {
+    cnt[dep[x]]++;
+}
+
+void del(int x) {
+    cnt[dep[x]]--;
+}
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        int u; cin &gt;&gt; u;
+        if (u) {
+            addEdge(u, i);
+            par[i][0] = u;
+        }
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        if (!par[i][0]) dfs(i);
+    }
+
+    memcpy(tmp, dep, sizeof(dep));
+    for (int i = 1; i &lt;= n; i++) dep[id[i]] = tmp[i];
+
+    cin &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int u,p; cin &gt;&gt; u &gt;&gt; p;
+        p = jump(u, p);
+        int l,r,d;
+        if (!p) l = 0;
+        else l = id[p];
+        r = l + sz[p] - 1;
+        d = dep[id[u]];  // find number of vertices in subtree of u, which has depth d
+        q[i] = {l,r,i,d};
+    }
+    int BLOCK = sqrt(n);
+    sort(q+1, q+m+1, [&amp;](auto a, auto b) {
+        int be1 = (a.l-1) / BLOCK, be2 = (b.l-1) / BLOCK;
+        if (be1 == be2) return a.r &lt; b.r;
+        return be1 &lt; be2;
+    });
+
+    int l = 1, r = 0;
+    for (int i = 1; i &lt;= m; i++) {
+        int L,R,ID,D;
+        L = q[i].l, R = q[i].r, ID = q[i].id, D = q[i].d;
+        if (!L) {
+            ans[ID] = 0;
+            continue;
+        }
+        while (r &lt; R) add(++r);
+        while (r &gt; R) del(r--);
+        while (l &gt; L) add(--l);
+        while (l &lt; L) del(l++);
+        ans[ID] = cnt[D] - 1;
+    }
+    for (int i = 1; i &lt;= m; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<details class="admonition note"><summary class="admonition-title">法二树上启发式合并</summary>
+<p>每次询问 $v,p$ 时，我们先用倍增求出 $v$ 的第 $p$ 个祖先 $x$。那么，问题转化为：</p>
+<p>在 $x$ 的 subtree中，有多少个 $u$，使得 <code>dep[u] = dep[x] + p</code>？</p>
+<p>可以发现，如果我们求出来了 child $v$ 的 <code>cnt[]</code> 信息（即，在 $v$ 的subtree内，每个 <code>dep</code> 对应的节点数量），则直接把 <code>cnt[]</code> 数组加到 parent $u$ 上即可。所以在继承重儿子 <code>cnt[]</code> 信息时，无需任何操作。</p>
+<p>这样就可以 树上启发式合并了！</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">树上启发式合并代码</summary>
+<pre><code class="language-cpp">using namespace std;
+#include &lt;bits/stdc++.h&gt;
+
+const int maxn = 1e5+5;
+const int maxm = 2e5+5;
+ 
+int dep[maxn], sz[maxn], head[maxn], ecnt = 1, ans[maxn], n, m, son[maxn];
+int par[maxn][22];
+int cnt[maxn];
+struct Edge {
+    int to, nxt;
+} edges[maxm];
+ 
+struct Query {
+    int id, d;
+};
+vector&lt;Query&gt; q[maxn];
+ 
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+ 
+void dfs(int u) {
+    sz[u] = 1;
+    dep[u] = dep[par[u][0]] + 1;
+    for (int j = 1; j &lt; 22; j++) {
+        par[u][j] = par[par[u][j-1]][j-1];
+    }
+ 
+    int maxsz = -1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        dfs(to);
+        sz[u] += sz[to];
+        if (sz[to] &gt; maxsz) {
+            maxsz = sz[to];
+            son[u] = to;
+        }
+    }
+}
+ 
+void add(int u, int f) {
+    cnt[dep[u]] += f;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        add(to, f);
+    }
+}
+ 
+void dfs2(int u, bool keep) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == son[u]) continue;
+        dfs2(to, 0);
+    }
+    if (son[u]) dfs2(son[u], 1);
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == son[u]) continue;
+        add(to, 1);
+    }
+    cnt[dep[u]]++;
+    for (Query que : q[u]) {
+        int id = que.id, d = que.d;
+        ans[id] = cnt[d] - 1;
+    }
+    if (!keep) add(u, -1);
+}
+ 
+int jump(int u, int p) {
+    for (int j = 0; (1&lt;&lt;j) &lt;= p; j++) {
+        if ((1&lt;&lt;j) &amp; p)
+            u = par[u][j];
+    }
+    return u;
+}
+ 
+void debug() {
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 0; j &lt;= 2; j++) {
+            printf(&quot;i = %d, j = %d, par = %d\n&quot;,i,j,par[i][j]);
+        }
+    }
+}
+ 
+int main() {
+    fastio;
+ 
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        int u; cin &gt;&gt; u;
+        if (u) {
+            addEdge(u, i);
+            par[i][0] = u;
+        }
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        if (!par[i][0]) dfs(i);
+    }
+ 
+    cin &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int u,p; cin &gt;&gt; u &gt;&gt; p;
+        p = jump(u, p);
+        int d = dep[u];  // find number of vertices in subtree of u, which has depth d
+        if (!p) ans[i] = 0;
+        else {
+            q[p].push_back({i,d});
+        }
+    }
+ 
+    for (int i = 1; i &lt;= n; i++) {
+        if (!par[i][0]) dfs2(i, 0);
+    }
+ 
+    for (int i = 1; i &lt;= m; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例3-cf1009fhttpscodeforcescomcontest1009problemf">例3 <a href="https://codeforces.com/contest/1009/problem/F" target="_blank">CF1009F</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>已知一棵包含 $N$ 个节点的有根树。</p>
+<p>设 $d(u,k)$ 为 $u$ 的subtree中，到 $u$ 距离为 $k$ 的节点数量。</p>
+<p>对于每一个点 $u$，输出一个最小的 $k$，使得 $d(u,k)$ 最大。</p>
+<p>其中，$1\leq N \leq 10^6$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<blockquote>
+<p>注意对于这一类型的问题，有些信息看起来是 <strong>vertex-dependent</strong>（和vertex本身有关，例如 到 $u$ 距离为 $k$）。但是我们转化一下，就可以将它变成一个<strong>静态的信息</strong>，比如：</p>
+<p><strong>到 $u$ 距离为 $k$</strong> $\iff$ <strong>深度等于 $dep[u] + k$</strong></p>
+<p>这样，这个信息用一个 <code>cnt[]</code> 数组就可以继承了，例二也是同理。</p>
+</blockquote>
+<p>用 <code>cnt[]</code> 数组记录每一个深度 $d$ 对应的数量，维护一个 <code>maxcnt</code> 和 <code>cur</code>，分别代表 $\max\limits_k \{d(u,k)\}$ 和 $k$ 的值。</p>
+<p>剩下就是启发式合并的板子了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">using namespace std;
+#include &lt;bits/stdc++.h&gt;
+
+const int maxn = 1e6+5;
+const int maxm = 2e6+10;
+
+int head[maxn], dep[maxn], sz[maxn], son[maxn], n, ecnt = 1, cnt[maxn], ans[maxn];
+struct Edge {
+    int to, nxt;
+} edges[maxm];
+
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+void dfs1(int u, int p) {
+    sz[u] = 1;
+    dep[u] = dep[p] + 1;
+    int maxsz = -1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        dfs1(to, u);
+        sz[u] += sz[to];
+        if (sz[to] &gt; maxsz) maxsz = sz[to], son[u] = to;
+    }
+}
+
+int maxcnt = 0, cur = 1e9;
+
+void add(int u, int f) {
+    int d = dep[u];
+    if (f &gt; 0) {
+        cnt[d]++;
+        if (maxcnt &lt; cnt[d]) {
+            maxcnt = cnt[d];
+            cur = d;
+        }
+        if (maxcnt == cnt[d] &amp;&amp; cur &gt; d) cur = d;
+    } else {
+        cnt[d]--;
+        maxcnt = 0, cur = 1e9;
+    }
+}
+
+void add(int u, int p, int f) {
+    add(u,f);
+
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        add(to, u, f);
+    }
+}
+
+void dfs2(int u, int p, bool keep) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p || to == son[u]) continue;
+        dfs2(to, u, 0);
+    }
+    if (son[u]) dfs2(son[u], u, 1);
+    add(u, 1);
+
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p || to == son[u]) continue;
+        add(to, u, 1);
+    }
+    ans[u] = cur;
+    if (!keep) add(u, p, -1);
+}
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v; addEdge(u,v); addEdge(v,u);
+    }
+    dfs1(1,0);
+    dfs2(1, 0, 1);
+    for (int i = 1; i &lt;= n; i++) cout &lt;&lt; ans[i] - dep[i] &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<h3 id="例4-cf741dhttpscodeforcescomcontest741problemd">例4 <a href="https://codeforces.com/contest/741/problem/D" target="_blank">CF741D</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>已知一棵包含 $N$ 个节点的有根树，每条边上有一个字符（a-v共22种）。</p>
+<p>定义 Dokhtar-kosh 路径为满足以下条件的路径：</p>
+<ol>
+<li>简单路径（无环）</li>
+<li>路径上的字符经过重新排序后，可以形成一个回文串</li>
+</ol>
+<p>对于每一个节点 $u$，求 $u$ 所在子树中，最长的 Dokhtar-kosh 路径长度。</p>
+<p>其中，$1\leq N \leq 5 \times 10^5$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>2900分的压轴题，很难。</p>
+<p>首先定义 $f_u$ 为：从 $1$（root）开始，一直到节点 $u$ 的路径所组成的字符序列。</p>
+<p>因为字符只有 a-v 22种，并且我们并不关心字符具体数量，只关心奇偶性，所以可以用 <strong>状压</strong> 来表示一个字符序列。</p>
+<p>例如：$1 \rightarrow u$ 的路径上有 $a,a,b,b,b,c$，则对应的bitmask为：$000&hellip;110$（$a$有偶数个，$b,c$有奇数个）。</p>
+<p>我们可以预处理出所有的 $f_u$，怎么得到 $u,v$ 之间路径对应的 $f$ 值？</p>
+<p>会发现：</p>
+<p>$$f_{u,v} = (f_u \text{ xor } f_x) \text{ xor } (f_v \text{ xor } f_x) = f_u \text{ xor } f_v$$</p>
+<p>其中，$f_{u,v}$ 代表 $u,v$ 之间路径对应的 $f$ 值，$x = LCA(u,v)$。</p>
+<hr>
+<p>又发现，一个 Dokhtar-kosh 路径只要满足：$f_{u,v}$ 所包含的 $1$ 的数量 $\leq 1$ 即可。</p>
+<p>例如 $f_{u,v} = 000&hellip;000$ 或 $000&hellip;001$ 或 $000&hellip;010$ 等等…… 均满足条件。</p>
+<hr>
+<p>所以，问题转化为：</p>
+<p>对于每一个节点 $x$，求 $x$ 所在子树中，距离最长的 $u,v$，使得 $f_{u,v} = f_u \text{ xor } f_v$ 包含最多一个 $1$。</p>
+<hr>
+<p>那么这就是一个比较标准的 <strong>树形dp</strong> 问题：</p>
+<p>定义 $dp[mask]$ 为，在当前的节点 $x$ 的 <strong>已探索子树</strong> 中，$f_u = mask$ 的 <strong>最深深度</strong>。（因为 $x$ 太多了，所以不能定义二维数组，只能用一个全局数组）。</p>
+<p>又发现这是关于<strong>深度</strong>的信息，可以直接向上传递，所以可以采用 <strong>树上启发式合并</strong> 进行转移。</p>
+<p>对于每一个节点 $u$，dp的转移方程如下：</p>
+<ol>
+<li>
+<p>路径完全存在于某一个child的子树内：从所有的child的子树中取最大值即可！
+$$ans_u = \max\limits_v \{ ans_v \}$$</p>
+</li>
+<li>
+<p>$u$ 本身和某一个 child 的子树中某一个节点 $v$ 组成路径：
+$$ans_u = \max\limits_v \{dp[f_v] + dep[u]\} - 2\times dep[u]$$</p>
+<p>其中 $f_u \text{ xor } f_v$ 只能包含最多一个 $1$。</p>
+</li>
+<li>
+<p>$u$ 的子树中有两个节点 $a,b$ 跨过了 $u$，组成一条路径：
+$$ans_u = \max\limits_b \{dp[f_a] + dep[b]\} - 2 \times dep[u]$$</p>
+<p>其中 $f_a \text{ xor } f_b$ 只能包含最多一个 $1$。</p>
+</li>
+</ol>
+<p>其中，Case $1,2$ 都比较好处理。对于第三种情况，我们可以在 <code>add()</code> 函数中，遍历子树的时候顺便处理。</p>
+<blockquote>
+<p>注意，树形dp中一定要注意更新的先后顺序，以免出现某个节点自己和自己形成路径的情况！</p>
+</blockquote>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int maxn = 5e5+5;
+const int maxm = 1e6+10;
+ 
+int head[maxn], ecnt = 1, dep[maxn], sz[maxn], son[maxn], ans[maxn], f[maxn], dp[(1&lt;&lt;22) + 5], masks[25], n;
+struct Edge {
+    int to, nxt;
+    char c;
+} edges[maxm];
+ 
+void addEdge(int u, int v, char c) {
+    Edge e = {v, head[u], c};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+ 
+void dfs(int u, int p, int mask) {
+    sz[u] = 1;
+    dep[u] = dep[p] + 1;
+    int maxsz = -1;
+    f[u] = mask;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        int c = edges[e].c - 'a' + 1;
+        dfs(to, u, mask ^ masks[c]);
+        sz[u] += sz[to];
+        if (maxsz &lt; sz[to]) {
+            maxsz = sz[to];
+            son[u] = to;
+        }
+    }
+}
+ 
+int ori;
+void add(int u, int p, int sgn) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        add(to, u, sgn);
+    }
+ 
+    if (sgn &gt; 0) {
+        for (int j = 0; j &lt;= 22; j++) {
+            int tar = f[u] ^ masks[j];
+            ans[ori] = max(ans[ori], dp[tar] + dep[u]);  // 注意这里是 ori，因为更新的是 ans[ancestor]
+        }
+    }
+ 
+    if (sgn &lt; 0) dp[f[u]] = -1e9;  // 这里清空，必须初始化为负无穷
+}
+ 
+void update(int u, int p) {
+    dp[f[u]] = max(dp[f[u]], dep[u]);
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        update(to, u);
+    }
+}
+ 
+void add(int u) {
+    for (int j = 0; j &lt;= 22; j++) {
+        int tar = f[u] ^ masks[j];
+        ans[u] = max(ans[u], dp[tar] + dep[u]);  // Case 2: u 本身和 子树内某个节点
+    }
+}
+ 
+void update(int u) {
+    dp[f[u]] = max(dp[f[u]], dep[u]);
+}
+ 
+void dfs2(int u, int p, bool keep) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p || to == son[u]) continue;
+        dfs2(to, u, 0);
+    }
+    if (son[u]) dfs2(son[u], u, 1);
+ 
+    ori = u;  // Case 3: 因为 add过程中，需要更新的是 ans[u]，所以用全局变量 ori 来传递。
+ 
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p || to == son[u]) continue;
+        add(to, u, 1);  // 树形dp注意点：先更新ans
+        update(to, u);  // 更新ans后，再更新dp数组！
+    }
+ 
+    add(u);  // 注意这里单点更新
+    update(u);  // 注意这里单点更新
+ 
+    ans[u] -= 2 * dep[u];  // 这里要减去 2*dep[u]
+    ans[u] = max(ans[u], 0);  // 需要大于0，因为有可能是负数
+ 
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        // Case1: 取每个子树的最大值
+        ans[u] = max(ans[u], ans[to]);  // 注意，是在减去 2*dep[u] 以后，才取的max！
+    }
+    if (!keep) add(u, p, -1);
+}
+ 
+int main() {
+    fastio;
+ 
+    cin &gt;&gt; n;
+    for (int i = 2; i &lt;= n; i++) {
+        int p; char c; cin &gt;&gt; p &gt;&gt; c;
+        addEdge(i, p, c); addEdge(p, i, c);
+    }
+    for (int i = 1; i &lt;= 22; i++) masks[i] = (1&lt;&lt;(i-1));
+    fill(dp, dp+(1&lt;&lt;22)+5, -1e9);
+ 
+    dfs(1, 0, 0);
+    dfs2(1, 0, 1);
+ 
+    for (int i = 1; i &lt;= n; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}
+</code></pre>
+</details>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-03-16 16:11:41 &#43;0800 &#43;0800">2021-03-16</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/e916a5d2604cde3d2c3e58d263ff5adf2c44a1fd" title="init 031.md" target="_blank">(e916a5d)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/031-%e6%a0%91%e4%b8%8a%e5%90%af%e5%8f%91%e5%bc%8f%e5%90%88%e5%b9%b6.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%A0%91%E4%B8%8A%E5%90%AF%E5%8F%91%E5%BC%8F%E5%90%88%E5%B9%B6/">树上启发式合并</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/030-at-abc131f/">
+            <span class="next-text nav-default">Atcoder ABC 131F（图论）</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

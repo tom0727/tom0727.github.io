@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 如题，已知一" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 已知一棵包含" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -40,22 +40,22 @@
 
 
 <meta property="og:title" content="树链剖分" />
-<meta property="og:description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 如题，已知一" />
+<meta property="og:description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 已知一棵包含" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/022-%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/" />
 <meta property="article:published_time" content="2021-03-06T15:58:27+08:00" />
-<meta property="article:modified_time" content="2021-03-06T22:52:52+08:00" />
+<meta property="article:modified_time" content="2021-03-16T16:11:41+08:00" />
 <meta itemprop="name" content="树链剖分">
-<meta itemprop="description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 如题，已知一">
+<meta itemprop="description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 已知一棵包含">
 <meta itemprop="datePublished" content="2021-03-06T15:58:27&#43;08:00" />
-<meta itemprop="dateModified" content="2021-03-06T22:52:52&#43;08:00" />
-<meta itemprop="wordCount" content="2759">
+<meta itemprop="dateModified" content="2021-03-16T16:11:41&#43;08:00" />
+<meta itemprop="wordCount" content="2793">
 
 
 
 <meta itemprop="keywords" content="树链剖分," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="树链剖分"/>
-<meta name="twitter:description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 如题，已知一"/>
+<meta name="twitter:description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 已知一棵包含"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -184,7 +184,7 @@
 <p>我们可以用模版来举个例子：</p>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
-<p>如题，已知一棵包含 $N$ 个结点的树（连通且无环），每个节点上包含一个数值，需要支持以下操作：</p>
+<p>已知一棵包含 $N$ 个结点的树（连通且无环），每个节点上包含一个数值，需要支持以下操作：</p>
 <p>$1\ x\ y\ z$ ：将树从 $x$ 到 $y$ 结点最短路径上所有节点的值都加上 $z$。</p>
 <p>$2\ x\ y$ ：求树从 $x$ 到 $y$ 结点最短路径上所有节点的值之和。</p>
 <p>$3\ x\ z$ ：将以 $x$ 为根节点的子树内所有节点值都加上 $z$。</p>
@@ -198,6 +198,9 @@
 <li><strong>同一个subtree</strong>内的编号是<strong>连续</strong>的，且parent的编号最小。</li>
 <li>在从上到下的DFS过程中，一条<strong>链</strong>上的编号也是连续的，且越靠上，编号越小。</li>
 </ol>
+<blockquote>
+<p>注：记得将原array中的节点权值（或者其他信息） map 到dfs序上的新节点。</p>
+</blockquote>
 <hr>
 <h3 id="lca最近公共祖先">LCA（最近公共祖先）</h3>
 <p>在 LCA 中，寻找共同祖先的过程中，要注意不能往上跳过头了，在树链剖分中也一样，只不过没有采用倍增思想。</p>
@@ -567,8 +570,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-03-06 22:52:52 &#43;0800 &#43;0800">2021-03-06</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/d5e8c3ed8d11bd28ef9392663be20090f17409e1" title="init 023" target="_blank">(d5e8c3e)</a>
+        <span title="2021-03-16 16:11:41 &#43;0800 &#43;0800">2021-03-16</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/e916a5d2604cde3d2c3e58d263ff5adf2c44a1fd" title="init 031.md" target="_blank">(e916a5d)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/022-%e6%a0%91%e9%93%be%e5%89%96%e5%88%86.md" target="_blank">更新历史</a>
     </span>
   </p>

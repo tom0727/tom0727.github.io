@@ -44,11 +44,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/024-%E8%8E%AB%E9%98%9F/" />
 <meta property="article:published_time" content="2021-03-07T21:50:41+08:00" />
-<meta property="article:modified_time" content="2021-03-08T21:51:51+08:00" />
+<meta property="article:modified_time" content="2021-03-23T21:47:06+08:00" />
 <meta itemprop="name" content="莫队">
 <meta itemprop="description" content="介绍 莫队算法是一种基于分块思想的暴力算法，一般应用于同时满足以下条件的区间问题中： 已知 $[L,R]$ 之间的答案，能在 $O(1)$ 时间内转移到 $[L&#43;1,R], [L-1,R], [L,R&#43;1], [L,R-1]$ 的答案。 所有询">
 <meta itemprop="datePublished" content="2021-03-07T21:50:41&#43;08:00" />
-<meta itemprop="dateModified" content="2021-03-08T21:51:51&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-23T21:47:06&#43;08:00" />
 <meta itemprop="wordCount" content="2432">
 
 
@@ -188,7 +188,7 @@
 <h3 id="part1-o1的状态转移">Part1 O(1)的状态转移</h3>
 <p>对于上面的例题，我们可以发现从 $[L,R]$ 转移到 $[L,R+1]$ 是 $O(1)$ 的。</p>
 <p>我们维护两个指针 $l,r$，并且维护一个 <code>cnt[]</code> 数组来记录当前区间的 $c_i$，在 $r$ 右移一格的时候，加上对应的 $cnt$，然后要维护的 $\sum_{i=1}^kc_i^2$ 也很好转移，计算一下，就会得到</p>
-<p>$s_{l,r+1} = s_{l,r} + 2\times c_{a_{r+1}} + 1$</p>
+<p>$$s_{l,r+1} = s_{l,r} + 2\times c_{a_{r+1}} + 1$$</p>
 <p>同理对于其他三种情况，转移都是 $O(1)$ 的。</p>
 <p>所以，假设我们有两个询问 $[L_1, R_1], [L_2, R_2]$，我们在询问完 $[L_1, R_1]$ 后，将左右指针一个个移动到 $[L_2, R_2]$ 似乎就可以节省一点时间了。（如果它们离得比较近的话）</p>
 <h3 id="part2-莫队思路">Part2 莫队思路</h3>
@@ -475,8 +475,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-03-08 21:51:51 &#43;0800 &#43;0800">2021-03-08</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/31fda77d9a77e1ff83b9c9f3ac815f4549ba0274" title="init 025.md" target="_blank">(31fda77)</a>
+        <span title="2021-03-23 21:47:06 &#43;0800 &#43;0800">2021-03-23</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/e19fba76fbb7fd8cf77a0e2d7395a7240e7bae95" title="init 033,034.md" target="_blank">(e19fba7)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/024-%e8%8e%ab%e9%98%9f.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -497,7 +497,7 @@ int main() {
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="/post/023-at-abc194f/">
-            <span class="next-text nav-default">Atcoder ABC 194F（计数dp，进制处理）</span>
+            <span class="next-text nav-default">Atcoder ABC 194F（数位DP，进制处理）</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

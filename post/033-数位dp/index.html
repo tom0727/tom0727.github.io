@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>数位DP - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 数位DP是指这样一类题型： 给定一些限定条件，求 $[L,R]$ 内满足这些条件的数字数量，一般 $L,R$ 可能非常大（例如$10^{18}, 10^{1000}$）" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/033-%E6%95%B0%E4%BD%8Ddp/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.2ccc99aa18501eb0a20678a919404779fa1d9f66663cef10606eef97052b4b73.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="数位DP" />
+<meta property="og:description" content="介绍 数位DP是指这样一类题型： 给定一些限定条件，求 $[L,R]$ 内满足这些条件的数字数量，一般 $L,R$ 可能非常大（例如$10^{18}, 10^{1000}$）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/033-%E6%95%B0%E4%BD%8Ddp/" />
+<meta property="article:published_time" content="2021-03-18T10:53:51+08:00" />
+<meta property="article:modified_time" content="2021-03-23T21:47:06+08:00" />
+<meta itemprop="name" content="数位DP">
+<meta itemprop="description" content="介绍 数位DP是指这样一类题型： 给定一些限定条件，求 $[L,R]$ 内满足这些条件的数字数量，一般 $L,R$ 可能非常大（例如$10^{18}, 10^{1000}$）">
+<meta itemprop="datePublished" content="2021-03-18T10:53:51&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-23T21:47:06&#43;08:00" />
+<meta itemprop="wordCount" content="4444">
+
+
+
+<meta itemprop="keywords" content="数位dp,数学,dp," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="数位DP"/>
+<meta name="twitter:description" content="介绍 数位DP是指这样一类题型： 给定一些限定条件，求 $[L,R]$ 内满足这些条件的数字数量，一般 $L,R$ 可能非常大（例如$10^{18}, 10^{1000}$）"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">数位DP</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-03-18 10:53:51 &#43;0800 &#43;0800"> 2021-03-18 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#算法">算法</a>
+          <ul>
+            <li><a href="#记忆化搜索">记忆化搜索</a></li>
+            <li><a href="#dp">DP</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p2657-windy数httpswwwluogucomcnproblemp2657">例1 <a href="https://www.luogu.com.cn/problem/P2657">洛谷P2657 Windy数</a></a></li>
+            <li><a href="#例2-洛谷p2602-数字计数httpswwwluogucomcnproblemp2602"><a href="https://www.luogu.com.cn/problem/P2602">例2 洛谷P2602 数字计数</a></a></li>
+            <li><a href="#例3-洛谷p3413-萌数httpswwwluogucomcnproblemp3413"><a href="https://www.luogu.com.cn/problem/P3413">例3 洛谷P3413 萌数</a></a></li>
+            <li><a href="#例4-洛谷p4127-同类分布httpswwwluogucomcnproblemp4127"><a href="https://www.luogu.com.cn/problem/P4127">例4 洛谷P4127 同类分布</a></a></li>
+            <li><a href="#例5-cf55d-beautiful-numbershttpswwwluogucomcnproblemcf55d"><a href="https://www.luogu.com.cn/problem/CF55D">例5 CF55D Beautiful numbers</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>数位DP是指这样一类题型：</p>
+<p>给定一些限定条件，求 $[L,R]$ 内满足这些条件的数字数量，一般 $L,R$ 可能非常大（例如$10^{18}, 10^{1000}$）</p>
+<p>限定条件的一些例子：</p>
+<p>例1. 不含前导0，相邻两个数字差至少为2</p>
+<p>例2. 不包含4，不包含62</p>
+<p>例3. 存在长度至少为2的回文子串</p>
+<h2 id="算法">算法</h2>
+<p>首先，求 $[L,R]$ 内满足条件的数字数量，可以转化为 <strong>先求 $[1,R]$，再减去 $[1,L-1]$ 的部分</strong>。</p>
+<p>然后，因为数字很大，所以把它拆成每一位数来看，就可以进行 <strong>DP</strong> 或者 <strong>记忆化搜索</strong> 了。</p>
+<h3 id="记忆化搜索">记忆化搜索</h3>
+<p>经典的搜索状态有：</p>
+<ol>
+<li>当前在第几位数：<code>int pos</code></li>
+<li>是否含有前导0：<code>bool zero</code></li>
+<li>当前数字的前面部分，是否受到最大值限制：<code>bool limit</code></li>
+<li>前一位使用的数字 <code>int pre</code></li>
+</ol>
+<p>• 上述部分状态，有可能用不到。</p>
+<p>• 可能有额外状态，根据题目具体来定。</p>
+<p>• 一般来说，记忆化用到的 <code>dp</code> 数组，<strong>不需要记录</strong> <code>zero</code> 和 <code>limit</code>。</p>
+<p>• 记忆化搜索的代码难度远远小于递推。</p>
+<hr>
+<p>记忆化搜索时，有以下需要注意的点：</p>
+<ol>
+<li>将数位 <strong>从低到高</strong> 进行排列（因为也许可以重复利用），从高位开始，往低位搜。</li>
+<li>有前缀 $0$ 时（<code>zero = 1</code>），注意其他的搜索状态全部清零。（因为有前缀 $0$ 就相当于我们刚刚开始搜索）</li>
+<li><code>dp</code> 数组初始化为 <code>-1</code>，一般每次搜索都要重新 <code>memset(dp, -1, sizeof(dp))</code></li>
+<li><code>dp</code> 数组记录的状态是 <code>(!limit &amp;&amp; !zero)</code> 的状态（即，无任何限制的情况），这样才可以利用。当 <code>(limit || zero)</code> 时，我们需要继续搜索。</li>
+</ol>
+<h3 id="dp">DP</h3>
+<details class="admonition note"><summary class="admonition-title">DP</summary>
+<p>• 因为不推荐这么写，所以折叠了。</p>
+<p>本质和记忆化搜索相同，DP速度可能较快，但是一般很难写，一般有两种写法：</p>
+<hr>
+<p>写法一：</p>
+<p>令 <code>dp</code> 数组记录 <strong>严格小于数字 $x$</strong> 的满足条件的数量。</p>
+<p>将数位按照 <strong>高位到低位</strong> 排好，然后对于前缀等于 $x$ 的那些数，进行单独处理。</p>
+<p>这种写法可以见 <a href="/post/023-at-abc194f/">ABC194F的题解</a></p>
+<hr>
+<p>写法二：</p>
+<p>将数位按照 <strong>低位到高位</strong> 排好。（注意，和上面相反）</p>
+<p>预处理出 <code>dp</code> 数组（不带任何限制）。</p>
+<p>预处理以后，对于每一个询问，都直接进行处理，有3种情况：</p>
+<p>(以下的 $n$ 指的是当前询问数字 $x$ 的数位个数)</p>
+<ol>
+<li>数字使用的位数 $&lt; n$，则没有任何限制，直接加上即可。</li>
+<li>数字使用的位数 $= n$，且最高位的数字 $&lt; arr[n]$，也没有任何限制，直接加上即可。</li>
+<li>数字使用的位数 $= n$，且最高位的数字 $= arr[n]$，则我们需要从最高位的前一位 <code>n-1</code> 开始，对于每一位 <code>i</code>，都枚举当前使用的数字 <code>j = 0,1,...,arr[i]-1</code>，然后再到前一位 <code>i-1</code>。</li>
+</ol>
+<blockquote>
+<p>为什么不枚举 <code>j = arr[i]</code> 的情况？</p>
+</blockquote>
+<p>注意到 <code>dp</code> 数组里表示的是不带任何限制的数量，当 <code>j = arr[i]</code> 时，更高位的数字都被固定为 $x$ 的高位部分了，所以是有限制的，不能算进去。</p>
+<p>以下给出 <a href="https://www.luogu.com.cn/problem/P2657" target="_blank">SCOI2009 windy 数</a> 的写法：</p>
+<pre><code class="language-cpp">ll dp[12][12];
+int arr[12];
+
+void init() {  // 处理无限制的部分
+    for (int j = 0; j &lt;= 9; j++) dp[1][j] = 1;
+    for (int i = 2; i &lt;= 11; i++) {
+        for (int j = 0; j &lt;= 9; j++) {
+            for (int k = 0; k &lt;= 9; k++) {
+                if (abs(j-k) &lt; 2) continue;
+                dp[i][j] += dp[i-1][k];
+            }
+        }
+    }
+}
+
+ll solve(int a) {
+    if (!a) return 0;
+    p = 0;
+    while (a) {
+        arr[++p] = a % 10;
+        a /= 10;
+    }
+    ll ans = 0;
+    for (int i = 1; i &lt;= p-1; i++) {
+        for (int j = 1; j &lt;= 9; j++) ans += dp[i][j];  // Case1: 位数 &lt; p
+    }
+
+    for (int j = 1; j &lt; arr[p]; j++) ans += dp[p][j];  // Case2: 位数 = p，最高位 &lt; p
+
+    for (int i = p-1; i &gt;= 1; i--) {  // Case3: 位数 = p，最高位 == arr[p]
+        for (int j = 0; j &lt;= arr[i]-1; j++) {  // 枚举第i位 &lt; arr[i]的情况 (等于的情况需要单独来处理)
+            if (abs(j - arr[i+1]) &lt; 2) continue;
+            ans += dp[i][j];
+        }
+        // 第i位 == arr[i] 时, 如果高位固定的部分已经不满足了，就不用看后面了
+        if (abs(arr[i] - arr[i+1]) &lt; 2) break;
+    }
+    if (check()) ans++;  // 检查一下这个数字 arr[] 本身是否满足条件
+    return ans;
+}
+</code></pre>
+<p>注：在DP处理<strong>高位 等于 $x$的高位</strong> 时，一定要注意 <strong>高位的数字都已经被固定了</strong>，所以需要算进答案里，或者需要检查一下被固定的数是否满足条件了。</p>
+<p>注：最后要单独检查一下 这个数字 $x$ <strong>本身是否满足条件</strong>。</p>
+</details>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p2657-windy数httpswwwluogucomcnproblemp2657">例1 <a href="https://www.luogu.com.cn/problem/P2657" target="_blank">洛谷P2657 Windy数</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $a,b \leq 2 \times 10^9$，求 $[a,b]$ 内满足以下条件的数字数量：</p>
+<ol>
+<li>不含前导 $0$</li>
+<li>两个数字之差至少为 $2$</li>
+</ol>
+</div>
+<details class="admonition note"><summary class="admonition-title">代码-DP法二</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ll dp[12][12];
+int arr[12];
+
+void init() {
+    for (int j = 0; j &lt;= 9; j++) dp[1][j] = 1;
+
+    for (int i = 2; i &lt;= 11; i++) {
+        for (int j = 0; j &lt;= 9; j++) {
+            for (int k = 0; k &lt;= 9; k++) {
+                if (abs(j-k) &lt; 2) continue;
+                dp[i][j] += dp[i-1][k];
+            }
+        }
+    }
+}
+
+int p;
+bool check() {
+    for (int i = 2; i &lt;= p; i++) {
+        if (abs(arr[i] - arr[i-1]) &lt; 2) return 0;
+    }
+    return 1;
+}
+ll solve(int a) {
+    if (!a) return 0;
+    p = 0;
+    while (a) {
+        arr[++p] = a % 10;
+        a /= 10;
+    }
+    ll ans = 0;
+    for (int i = 1; i &lt;= p-1; i++) {
+        for (int j = 1; j &lt;= 9; j++) ans += dp[i][j];  // Case1: 位数 &lt; p
+    }
+
+    for (int j = 1; j &lt; arr[p]; j++) ans += dp[p][j];  // Case2: 位数=p，最高位 &lt; p
+
+    for (int i = p-1; i &gt;= 1; i--) {  // Case3: 位数=p，最高位=p
+        for (int j = 0; j &lt;= arr[i]-1; j++) {  // 枚举第i位 &lt; arr[i]的情况 (等于的情况需要单独来处理)
+            if (abs(j - arr[i+1]) &lt; 2) continue;
+            ans += dp[i][j];
+        }
+        // 第i位 == arr[i] 时, 如果前缀已经不满足了，就不用看后面了
+        if (abs(arr[i] - arr[i+1]) &lt; 2) break;
+    }
+    if (check()) ans++;
+    return ans;
+}
+
+int main() {
+    init();
+    int a,b; cin &gt;&gt; b &gt;&gt; a;
+    int r = solve(a) - solve(b-1);
+    cout &lt;&lt; r &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例2-洛谷p2602-数字计数httpswwwluogucomcnproblemp2602"><a href="https://www.luogu.com.cn/problem/P2602" target="_blank">例2 洛谷P2602 数字计数</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个正整数 $a \leq b \leq 10^{12}$，求 $[a,b]$ 内的所有整数中，每个 digit 出现的次数。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们枚举每一个digit，然后进行记忆化搜索即可。</p>
+<p>记忆化搜索一般比较模版化，其中 <code>zero, limit</code> 的套路是可以背下来的。</p>
+<p>对于本题，枚举每一个digit  $cur$，令 $dp[i][j]$ 表示到了 第 $i$ 位，包含 $j$ 个 $cur$的数字数量。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ll a,b;
+ll dp[14][14];  // dp[i][j]: 到第i位，包含j个cur的数的数量
+
+int arr[14];  // 数字x的各个数位 （从低位到高位）
+int n;  // 数字x的长度
+int cur;  // 当前枚举的数字 (0...9)
+
+// pos: 当前到了第几位
+// cnt: 当前数字包含了 cnt 个 cur
+// zero: 是否有前缀 0
+// limit: 前面部分是否完全等于高位
+ll dfs(int pos, int cnt, bool zero, bool limit) {
+    if (pos &lt;= 0) {
+        return cnt;
+    }
+    if (!zero &amp;&amp; !limit &amp;&amp; dp[pos][cnt] != -1)  // 只有在 (!zero &amp;&amp; !limit) 时获得dp值，否则继续往下搜索
+        return dp[pos][cnt];  
+    int ed = 9;
+    if (limit) ed = arr[pos];  // 如果前面完全等于高位，那么这一位不能超过当前位
+
+    ll res = 0;
+    for (int j = 0; j &lt;= ed; j++) {
+        if (!j &amp;&amp; zero) res += dfs(pos-1, 0, 1, 0);  // 如果仍然保持前缀 0，那么记得将 cnt 清零，limit也要清零。
+        else {
+            res += dfs(pos-1, cnt + (j == cur), 0, limit &amp;&amp; (j == arr[pos]));
+        }
+    }
+    if (!zero &amp;&amp; !limit) dp[pos][cnt] = res;  // 只有在 (!zero &amp;&amp; !limit) 时记录dp值
+    return res;
+}
+
+ll solve(ll x) {
+    n = 0;
+    memset(dp, -1, sizeof(dp));
+    while (x) {
+        arr[++n] = x % 10;
+        x /= 10;
+    }
+    return dfs(n, 0, 1, 1);  // 从高位开始
+}
+
+int main() {
+    cin &gt;&gt; a &gt;&gt; b;
+    for (cur = 0; cur &lt;= 9; cur++) {
+        cout &lt;&lt; solve(b) - solve(a-1) &lt;&lt; &quot; &quot;;
+    }
+    cout &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例3-洛谷p3413-萌数httpswwwluogucomcnproblemp3413"><a href="https://www.luogu.com.cn/problem/P3413" target="_blank">例3 洛谷P3413 萌数</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个正整数 $L \leq R \leq 10^{1000}$，求满足以下条件的数字数量：</p>
+<ol>
+<li>$x \in [L,R]$</li>
+<li>$x$ 包含长度至少为2的回文子串</li>
+<li>$x$ 没有前缀 $0$</li>
+</ol>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们只需要考虑长度为 $2$ 或者 $3$ 的回文子串即可（因为 $&gt;3$ 的情况已经被它们两个包含了）。</p>
+<p>那么我们可以设定 <code>dp</code> 数组为：</p>
+<p>$dp[i][j][k][0/1]$：我们当前在第 $i$ 位，往前 $2$ 位的数字为 $j$，往前 $1$ 位的数字为 $k$，且 <strong>不包含（0）/ 包含（1） 回文子串</strong> 的数字数量。</p>
+<p>注意到，最后一维度判断了是否包含回文子串。因为一个数有可能 <strong>前面几位没有回文子串</strong>，但是 <strong>后来又有了</strong>。如果我们只记录 <strong>包含</strong> 的情况，会漏掉很多答案。</p>
+<p>而 <code>dfs()</code> 函数的意思是：我们从当前这个状态出发，能获得多少符合条件的数字。</p>
+<blockquote>
+<p>注：因为本题数字过大，所以不采用减去 $dfs(L-1)$ 的形式，而是 减去 $dfs(L)$，然后特判一下 $L$ 本身是否满足。</p>
+</blockquote>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+ll dp[1002][11][11][2]; 
+string s;
+int n;
+
+ll dfs(int pos, int pre2, int pre1, bool zero, bool limit, bool moe) {
+    if (pos &gt;= n) {
+        return moe;
+    }
+    int ed = 9;
+    if (limit) ed = s[pos] - '0';
+    if (!limit &amp;&amp; !zero &amp;&amp; dp[pos][pre2][pre1][moe] != -1) return dp[pos][pre2][pre1][moe];
+
+    ll res = 0;
+    for (int j = 0; j &lt;= ed; j++) {
+        if (!j &amp;&amp; zero) (res += dfs(pos+1, 10, 10, 1, 0, 0)) %= mod;
+        else {
+            (res += dfs(pos+1, pre1, j, 0, limit &amp;&amp; (j == ed), moe || (j == pre1 || j == pre2))) %= mod;
+        }
+    }
+    if (!limit &amp;&amp; !zero) dp[pos][pre2][pre1][moe] = res;
+    return res;
+}
+
+ll solve(string a) {
+    n = a.size();
+    if (n &lt;= 1) return 0;
+    memset(dp, -1, sizeof(dp));
+    s = a;
+    return dfs(0, 10, 10, 1, 1, 0);
+}
+
+bool check(string s) {
+    int n = s.size();
+    for (int i = 0; i &lt; n-1; i++) {
+        if (s[i] == s[i+1]) return 1;
+        if (i+2 &lt; n &amp;&amp; s[i] == s[i+2]) return 1;
+    }
+    return 0;
+}
+
+int main() {
+    string a,b;
+    cin &gt;&gt; a &gt;&gt; b;
+    ll r = solve(b) - solve(a);
+    r += check(a);
+    cout &lt;&lt; (r % mod + mod) % mod &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例4-洛谷p4127-同类分布httpswwwluogucomcnproblemp4127"><a href="https://www.luogu.com.cn/problem/P4127" target="_blank">例4 洛谷P4127 同类分布</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个正整数 $a,b \leq 10^{18}$，求 $[a,b]$ 中，<strong>各位置上数字之和 能够整除该数字</strong> 的数字个数。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>可以发现最大的数字只有 $18$ 个 $9$，所以最大的数位和就是 $18 \times 9 = 162$。</p>
+<p>所以我们可以枚举数位和 $cur$，然后找到符合以下条件的数字 $x$ 的数量：</p>
+<ol>
+<li>$x \in [a,b]$</li>
+<li>$x$ 各位置上数位和 等于 $cur$</li>
+<li>$x \text{ mod } cur = 0$</li>
+</ol>
+<p>令 <code>dp</code> 数组为：</p>
+<p>$dp[i][j][k]$：当前到了第 $i$ 位，数位和为 $j$，数字本身 $\text{mod } cur = k$ 的数字数量。</p>
+<hr>
+<p>注意到本题不关心前缀 $0$，因为就算有前缀 $0$，也不会对 <code>dfs()</code> 内的其他参数 $sum, v$ 产生任何影响，也不会对枚举当前位使用的数字 $j$ 产生影响，所以可以舍去了。</p>
+<hr>
+<p>有一个很重要的优化（在多testcase的情况下，优化程度极大）：</p>
+<p>注意到代码里面：</p>
+<pre><code class="language-cpp">for (cur = 1; cur &lt;= 162; cur++) {
+    memset(dp, -1, sizeof(dp));
+    ans += solve(b) - solve(a-1);
+}
+</code></pre>
+<p>我们在 <code>solve(b)</code> 结束后，并没有 <code>memset(dp, -1, sizeof(dp));</code></p>
+<p>这是因为我们的 <code>dfs()</code> 是从高位开始，枚举到低位。因为 <code>dp[]</code> 数组里保存的都是 <code>!limit</code> 的无限制情况，所以这里面的内容是<strong>可以重复利用的</strong>！</p>
+<p>但是对于 <strong>不同的 <code>cur</code> 就不能重复利用了</strong>，因为数组本身的意义已经不同了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+ll dp[19][163][163];
+int arr[19];
+int n;
+int cur;
+
+ll dfs(int pos, int sum, int v, bool limit) {  // sum为数位和，v为 x % cur 的值
+    if (!pos) {
+        return (sum == cur) &amp;&amp; (!v);
+    }
+    if (!limit &amp;&amp; dp[pos][sum][v] != -1) return dp[pos][sum][v];
+    int ed = 9;
+    if (limit) ed = arr[pos];
+
+    ll res = 0;
+    for (int j = 0; j &lt;= ed; j++) {
+        res += dfs(pos-1, sum + j, (v * 10 + j) % cur, limit &amp;&amp; (j == ed));
+    }
+    if (!limit) dp[pos][sum][v] = res;
+    return res;
+}
+
+ll solve(ll x) {
+    n = 0;
+    while (x) {
+        arr[++n] = x % 10;
+        x /= 10;
+    }
+    return dfs(n, 0, 0, 1);
+}
+
+int main() {
+    memset(dp, -1, sizeof(dp));
+    ll a,b; cin &gt;&gt; a &gt;&gt; b;
+    ll ans = 0;
+    for (cur = 1; cur &lt;= 162; cur++) {
+        memset(dp, -1, sizeof(dp));
+        ans += solve(b) - solve(a-1);
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例5-cf55d-beautiful-numbershttpswwwluogucomcnproblemcf55d"><a href="https://www.luogu.com.cn/problem/CF55D" target="_blank">例5 CF55D Beautiful numbers</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定正整数 $L \leq R \leq 9 \times 10^{18}$，求满足以下条件的数字 $x$ 的数量：</p>
+<ol>
+<li>$x \in [L,R]$</li>
+<li>$x$ 能够被它每一位上的数字整除</li>
+</ol>
+<p>共有 $T \leq 10$ 个 testcase</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>$x$ 可以被每一位上的数字整除 $\iff$ $x \text { mod } lcm = 0$</p>
+<p>其中 $lcm$ 是 $x$ 每一位上的数字的 $lcm$。</p>
+<p>发现 $lcm(1,2,&hellip;,9) = 2520$，所以我们可以大致得出以下的状态：</p>
+<p>$dp[i][j][k]$：我们来到了第 $i$ 位，$j$ 表示我们使用了哪些数字，$k$ 代表当前数字 $x \text { mod } 2520$ 的值。</p>
+<p>这样最后在 <code>pos == 0</code> 时，判断一下 $j$ 对应的 $lcm$，然后判断 $k \text { mod } lcm_j = 0$ 是否成立即可。</p>
+<hr>
+<p>现在问题是，这个 $j$ 怎么表示？（$j$ 代表 $x$ 用了 $0,1,2,&hellip;9$ 中的哪些数字）</p>
+<p>可以用状压来实现，其中忽略掉 $0,1$，只记录是否包含 $2,3,&hellip;,9$。大概有 $2^8 - 1$ 种状态，但是这样仍然会 $TLE$，怎么办？</p>
+<p>我们发现，记录使用了哪些数字，只是为了求出这些数字的 $lcm$，那我们直接记录 $lcm$ 作为状态即可！</p>
+<p>但是好像维度反而变大了，因为 $lcm$ 最大可以达到 $2520$，比之前状压的 $2^8 - 1$ 还大。</p>
+<hr>
+<p>再观察一下，发现我们只关心有效的 $lcm$ 值，$2520$ 内的绝大多数值是无效的，所以我们可以枚举出<strong>所有 有效的 $lcm$</strong>，而这些有效的 $lcm$ 就是 <strong>$2520$ 的所有因子</strong>。总共只有 $48$ 个。</p>
+<p>所以我们只需要进行一次 <strong>离散化</strong> 的操作，将这些因子 map 到 $0,1,2,&hellip;,47$，这样 $j$ 就可以只用 $48$ 个数字来表示了。</p>
+<hr>
+<p>最后就是 <code>memset(dp, -1, sizeof(dp))</code> 的优化了，因为本题的 <code>dp[]</code> 数组在不同的 case 之间的含义没有任何变化（都是 $\text {mod } 2520$），所以只在一开始 <code>memset</code> 一次，之后就一直重复利用。</p>
+<p>• 本题的 <code>memset</code> 优化非常重要，因为有 $T = 10$ 个 case ，大概会有 $2 \times T = 20$ 倍左右的速度差（如果不优化会 $TLE$ 的很惨）。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int mod = 2520;
+
+ll dp[20][49][2520];
+int idx[2521];
+int n = 0, arr[20];
+
+int gcd(int a, int b) {
+    if (!b) return a;
+    return gcd(b, a%b);
+}
+
+int LCM(int a, int b) {
+    return a/gcd(a,b)*b;
+}
+
+vector&lt;int&gt; fac;
+void init() {
+    for (int i = 1; i &lt;= sqrt(mod); i++) {
+        if (mod % i == 0) {
+            fac.push_back(i);
+            if (i != mod/i) fac.push_back(mod/i);
+        }
+    }
+    sort(fac.begin(), fac.end());
+    for (int i = 0; i &lt; fac.size(); i++) {
+        idx[fac[i]] = i;  // 离散化，例如 idx[1] = 0, idx[2520] = 47
+    }
+}
+
+// lc 代表当前的 lcm, v 代表 x % 2520 的值
+ll dfs(int pos, int lc, int v, bool limit) {
+    if (pos &lt;= 0) {
+        return v % lc == 0;  // 注意，只有在 pos == 0时，才判断 % lc，其余情况都是 % 2520
+    }
+
+    if (!limit &amp;&amp; dp[pos][idx[lc]][v] != -1) 
+        return dp[pos][idx[lc]][v];
+
+    int ed = 9;
+    if (limit) ed = arr[pos];
+    ll res = 0;
+    for (int j = 0; j &lt;= ed; j++) {
+        int newval = (v * 10 + j) % mod;
+        if (j &lt; 2) res += dfs(pos-1, lc, newval, limit &amp;&amp; (j == ed));
+        else res += dfs(pos-1, lcm(lc, j), newval, limit &amp;&amp; (j == ed));
+    }
+
+    if (!limit) dp[pos][idx[lc]][v] = res;
+    return res;
+}
+
+ll solve(ll x) {
+    n = 0;
+    while (x) {
+        arr[++n] = x % 10;
+        x /= 10;
+    }
+    return dfs(n,1,0,1);
+}
+
+int main() {
+    init();
+    int T; cin &gt;&gt; T;
+    memset(dp, -1, sizeof(dp));  // 注意，只进行一次 memset
+    while (T--) {
+        ll l,r; cin &gt;&gt; l &gt;&gt; r;
+        l--;
+        cout &lt;&lt; solve(r) - solve(l) &lt;&lt; endl;
+    }
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-03-23 21:47:06 &#43;0800 &#43;0800">2021-03-23</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/e19fba76fbb7fd8cf77a0e2d7395a7240e7bae95" title="init 033,034.md" target="_blank">(e19fba7)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/033-%e6%95%b0%e4%bd%8ddp.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%95%B0%E4%BD%8Ddp/">数位dp</a>
+          <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
+          <a href="/tags/dp/">dp</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/034-cf-1499d/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">CF 1499D（数学，筛法）</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/032-%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%BE%8B%E9%A2%98/">
+            <span class="next-text nav-default">线段树/分块 例题</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

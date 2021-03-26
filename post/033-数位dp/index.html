@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/033-%E6%95%B0%E4%BD%8Ddp/" />
 <meta property="article:published_time" content="2021-03-18T10:53:51+08:00" />
-<meta property="article:modified_time" content="2021-03-23T21:47:06+08:00" />
+<meta property="article:modified_time" content="2021-03-26T12:02:34+08:00" />
 <meta itemprop="name" content="数位DP">
 <meta itemprop="description" content="介绍 数位DP是指这样一类题型： 给定一些限定条件，求 $[L,R]$ 内满足这些条件的数字数量，一般 $L,R$ 可能非常大（例如$10^{18}, 10^{1000}$）">
 <meta itemprop="datePublished" content="2021-03-18T10:53:51&#43;08:00" />
-<meta itemprop="dateModified" content="2021-03-23T21:47:06&#43;08:00" />
-<meta itemprop="wordCount" content="4444">
+<meta itemprop="dateModified" content="2021-03-26T12:02:34&#43;08:00" />
+<meta itemprop="wordCount" content="6248">
 
 
 
@@ -160,6 +160,7 @@
             <li><a href="#例3-洛谷p3413-萌数httpswwwluogucomcnproblemp3413"><a href="https://www.luogu.com.cn/problem/P3413">例3 洛谷P3413 萌数</a></a></li>
             <li><a href="#例4-洛谷p4127-同类分布httpswwwluogucomcnproblemp4127"><a href="https://www.luogu.com.cn/problem/P4127">例4 洛谷P4127 同类分布</a></a></li>
             <li><a href="#例5-cf55d-beautiful-numbershttpswwwluogucomcnproblemcf55d"><a href="https://www.luogu.com.cn/problem/CF55D">例5 CF55D Beautiful numbers</a></a></li>
+            <li><a href="#例6-hdu4507-恨7不成妻httpacmhdueducnshowproblemphppid4507"><a href="http://acm.hdu.edu.cn/showproblem.php?pid=4507">例6 HDU4507 恨7不成妻</a></a></li>
           </ul>
         </li>
       </ul>
@@ -418,6 +419,9 @@ int main() {
 <p>注意到，最后一维度判断了是否包含回文子串。因为一个数有可能 <strong>前面几位没有回文子串</strong>，但是 <strong>后来又有了</strong>。如果我们只记录 <strong>包含</strong> 的情况，会漏掉很多答案。</p>
 <p>而 <code>dfs()</code> 函数的意思是：我们从当前这个状态出发，能获得多少符合条件的数字。</p>
 <blockquote>
+<p>注：有的时候，前 $1$ 位，前 $2$ 位上可能没有数字，我们可以设定这些空着的位为 $10$。</p>
+</blockquote>
+<blockquote>
 <p>注：因为本题数字过大，所以不采用减去 $dfs(L-1)$ 的形式，而是 减去 $dfs(L)$，然后特判一下 $L$ 本身是否满足。</p>
 </blockquote>
 </details>
@@ -652,6 +656,180 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例6-hdu4507-恨7不成妻httpacmhdueducnshowproblemphppid4507"><a href="http://acm.hdu.edu.cn/showproblem.php?pid=4507" target="_blank">例6 HDU4507 恨7不成妻</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个正整数 $L \leq R \leq 10^{18}$，求满足以下条件的数字的<strong>平方之和</strong>：</p>
+<ol>
+<li>整数中不含 $7$</li>
+<li>整数中每一位加起来的和 不是 $7$ 的整数倍</li>
+<li>这个整数不被 $7$ 整除</li>
+</ol>
+<p>输出对 $10^9+7$ 取模的结果，共有 $T \leq 50$ 个 testcase</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">错误做法</summary>
+<p>$dp[i][j][k]$：使用到 $i$ 位，每一位的和 $\text{mod } 7 = j$，数字本身 $\text{mod } 7 = k$ 的<strong>平方和</strong>。</p>
+<p>将返回值设定为该数字的平方，然后将 <code>dp</code> 数组的值作为平方之和。</p>
+<blockquote>
+<p>为什么是错的？</p>
+</blockquote>
+<p>考虑记忆化状态：</p>
+<p>那么，数字 $10,80$ 的状态完全相同，但是因为我们先 <code>dfs</code> 到了 $10$，然后到了 $80$ 的时候就会直接返回，没有计算 $80^2$ 的值，导致答案错误。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">正确做法</summary>
+<p>注意这个题和其他例题完全不一样，因为其他题求的都是 <strong>数字的数量</strong>，而只有这个题求的是 <strong>平方之和</strong>。</p>
+<p>这直接导致，我们在状态转移的时候 <strong>不能简单的相加</strong>。</p>
+<p>上面做法的 <code>dp</code> 状态没有问题：</p>
+<p>$dp[i][j][k]$：使用到 $i$ 位，每一位的和 $\text{mod } 7 = j$，数字本身 $\text{mod } 7 = k$</p>
+<p>但是 <code>dp[]</code> 数组对应的值，不能简单的设定为平方和。</p>
+<hr>
+<blockquote>
+<p>如果这个题求的是满足条件的数字数量，是不是就可以了？</p>
+</blockquote>
+<p>是的！比如 $2$ 和 $9$ 对应的状态相同，无论后缀是什么，只要满足条件，它们就完全等价。</p>
+<p>比如后缀是数字 $3$，那么 $23, 93$ 就完全等价，所以我们来到前缀 $9$ 的时候就可以直接利用前缀 $2$ 的信息。</p>
+<p>但是在本题中，$23$ 和 $93$ 并不等价，因为 $23^2 \neq 93^2$。</p>
+<hr>
+<p>所以我们要考虑一下组合数学/计数题中的 <strong>贡献</strong> 套路。</p>
+<p>我们在 <code>dfs</code> 过程中，先算出来了前缀 $2$ 的相关信息。我们假设前缀 $2$ 有着 三个有效的后缀 $2,3,4$，那么数字就是 $22,23,24$。</p>
+<p>此时，我们已经算出了这些后缀的相关信息，怎么把它合并上去？</p>
+<p>$$22^2 + 23 ^ 2 + 24^2 = (20+2)^2 + (20+3)^2 + (20+4)^2$$
+$$= 3\times 20^2 + 2 \times 20 \times (2+3+4) + (2^2+3^2+4^2)$$</p>
+<p>如果这里还不太清楚，还可以再举一个例子：</p>
+<p>我们有一个前缀 $1$，后缀是 $21,22$，那么合并的过程就是：</p>
+<p>$$121^2+122^2 = (100+21)^2 + (100+22)^2 $$
+$$=2 \times 100^2 + 2 \times 100 \times (21+22) + (21^2+22^2)$$</p>
+<hr>
+<p>更 General 的写法是，给定一个前缀 $a$（$a$ 实际上就是 <code>dfs()</code> 过程中，当前使用的数字），然后假设我们有 $n$ 个后缀 $b_1,b_2,&hellip;,b_n$，那么：</p>
+<p>$$(ab_1)^2 + (ab_2)^2 + &hellip; + (ab_n)^2 = (a \times 10^p + b_1) ^ 2 + (a \times 10^p + b_2) ^ 2 + &hellip;+(a \times 10^p + b_n) ^ 2$$</p>
+<p>$$= n \times a^2 \times 10^{2p} + 2\times10^p \times (b_1+b_2+&hellip;+b_n) + (b_1^2+b_2^2+&hellip;+b_n^2)$$</p>
+<p>$$= \sum\limits_{i=1}^n ((a^2\times 10^{2p}) + (2\times10^p\times b_i) + (b_i^2))$$</p>
+<p>• 其中，$p$ 就是 $pos-1$</p>
+<p>但是注意到，$b_i$ 是一个后缀，它代表的是 <code>dp[]</code> 数组里面，<code>pos-1</code> 的部分，所以它<strong>本身也是一个贡献</strong>（它并不是一个数字）。</p>
+<p>比如上面的第二个例子中，前缀为 $1$，后缀 $b_1$ 实际上是 $2$，这个 $b_1$ 有两个后缀 $2,3$，所以 $c_1 = 2, c_2 = 3$</p>
+<hr>
+<p>那么，我们单独看一下每一个 $b$ 带来的贡献是多少。</p>
+<p>对于某一个后缀 $b$，我们继续考虑它的后缀 $c_j$，$b$ 带给 前缀 $a$ 的贡献可以这么表示：</p>
+<p>$$\sum\limits_{j=1}^m ((a^2\times 10^{2p}) + (2\times10^p\times c_j) + (c_j^2))$$</p>
+<p>$$=m\times a^2\times 10^{2p} + (2\times 10^p \times \sum\limits_{j=1}^mc_j) + (\sum\limits_{j=1}^m c_j^2)$$</p>
+<p>其中，$m$ 是 $b$ 的 <strong>后缀数量</strong>，$\sum\limits_{j=1}^mc_j$ 是 $b$ 的后缀的值之和， $\sum\limits_{j=1}^m c_j^2$ 是 $b$ 的后缀的平方和。</p>
+<hr>
+<p>由上，我们可以看出，对于每一个后缀 $b$，我们都要维护它的</p>
+<ol>
+<li>后缀 <strong>数量</strong> $cnt$</li>
+<li>后缀值 <strong>之和</strong>  $sum_1$</li>
+<li>后缀值的 <strong>平方和</strong>  $sum_2$</li>
+</ol>
+<p>则，这个 $b$ 带给 $a$ 的 <strong>平方和</strong> 的贡献就是：</p>
+<p>$$\sum ((a^2\times 10^{2p}) + (2\times10^p\times c_j) + (c_j^2))$$</p>
+<p>$$= (\sum a^2\times 10^{2p}) + (2\times10^p\times \sum c_j) + \sum c_j^2$$</p>
+<p>$$ = cnt \times (a^2\times 10^{2p}) + (2\times10^p\times sum_1) + (sum_2)$$</p>
+<hr>
+<p>那么 $b$ 带给 $a$ 的 <strong>后缀和</strong> 的贡献呢？</p>
+<p>$$a \times 10^p + b$$</p>
+<p>$$= \sum (a \times 10^p) + \sum c_j$$</p>
+<p>$$= (cnt \times a \times 10^p) + sum_1$$</p>
+<hr>
+<p>那么 $b$ 带给 $a$ 的 <strong>后缀数量</strong> 的贡献呢？</p>
+<p>$$1= \sum_j 1 = cnt$$</p>
+<hr>
+<p>下面会给一个并不严谨，但是比较好理解的公式推导。</p>
+<blockquote>
+<p>注：实现过程中，我们用 <code>struct node</code> 来维护这些信息。</p>
+</blockquote>
+</details>
+<details class="admonition note"><summary class="admonition-title">公式</summary>
+<p><strong>平方和</strong>：</p>
+<p>$$(a \times 10^p + b)^2$$</p>
+<p>$$= (a^2\times 10^{2p}) + (2\times10^p) \times b + (b^2)$$</p>
+<p>然后对其进行求和操作，有：</p>
+<p>$$\sum (a^2\times 10^{2p}) + (2\times10^p) \times \sum b + \sum b^2$$</p>
+<p>$$= cnt \times (a^2\times 10^{2p}) + (2\times10^p\times sum_1) + (sum_2)$$</p>
+<hr>
+<p><strong>值的和</strong>：</p>
+<p>$$(a \times 10^p + b)$$</p>
+<p>对其进行求和操作：</p>
+<p>$$\sum a\times10^p \times \sum b$$</p>
+<p>$$=cnt \times a \times 10^p + sum_1$$</p>
+<hr>
+<p><strong>数量之和</strong>：</p>
+<p>$$1$$</p>
+<p>对其进行求和：</p>
+<p>$$\sum 1$$</p>
+<p>$$=cnt$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+struct node {
+    ll cnt, sum1, sum2;
+};
+
+ll pow10[20];
+node dp[20][7][7];
+bool vis[20][7][7];
+int n, arr[20];
+node dfs(int pos, int sum, int md, bool limit) {
+    if (!pos) {
+        if (!md) return {0,0,0};
+        if (!sum) return {0,0,0};
+        return {1,0,0};  // 注意这里是 {1,0,0}，因为没有选择任何值
+    }
+    if (!limit &amp;&amp; vis[pos][sum][md]) {
+        return dp[pos][sum][md];
+    }
+    ll cnt = 0, sum1 = 0, sum2 = 0;
+    int ed = 9;
+    if (limit) ed = arr[pos];
+    for (ll j = 0; j &lt;= ed; j++) {
+        if (j == 7) continue;
+
+        node res = dfs(pos-1, (sum+j) % 7, (md*10+j) % 7, limit &amp;&amp; (j==ed));
+        ll c = res.cnt, s1 = res.sum1, s2 = res.sum2;
+
+        cnt = (cnt + c) % mod;
+
+        sum1 = (sum1 + j * pow10[pos-1] % mod * c % mod + s1) % mod;
+
+        sum2 = (sum2 + j * j * pow10[pos-1] % mod * pow10[pos-1] % mod * c % mod) % mod;
+        sum2 = (sum2 + 2LL * j * pow10[pos-1] % mod * s1 % mod) % mod;
+        sum2 = (sum2 + s2) % mod;
+    }
+    if (!limit) {
+        vis[pos][sum][md] = 1;
+        dp[pos][sum][md] = {cnt, sum1, sum2};
+    }
+    
+    return {cnt, sum1, sum2};
+}
+
+node solve(ll x) {
+    n = 0;
+    while (x) {
+        arr[++n] = x % 10;
+        x /= 10;
+    }
+    return dfs(n, 0, 0, 1);
+}
+
+int main() {
+    memset(vis, 0, sizeof(vis));
+    pow10[0] = 1LL;
+    for (int i = 1; i &lt;= 19; i++) pow10[i] = pow10[i-1] * 10LL % mod;
+    int T; cin &gt;&gt; T;
+
+    while (T--) {
+        ll l,r; cin &gt;&gt; l &gt;&gt; r;
+        ll ans = solve(r).sum2 - solve(l-1).sum2;  // 如果是求值的和，改成 sum1 即可
+        ans = (ans + (ll)(mod)) % mod;
+        cout &lt;&lt; ans &lt;&lt; endl;
+    }
+}```
+
+
+&lt;/details&gt;
+</code></pre>
 
     </div>
 
@@ -663,8 +841,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-03-23 21:47:06 &#43;0800 &#43;0800">2021-03-23</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/e19fba76fbb7fd8cf77a0e2d7395a7240e7bae95" title="init 033,034.md" target="_blank">(e19fba7)</a>
+        <span title="2021-03-26 12:02:34 &#43;0800 &#43;0800">2021-03-26</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/76fa63a23742045378d1e53d09f4a014abf72488" title="update 033,034.md" target="_blank">(76fa63a)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/033-%e6%95%b0%e4%bd%8ddp.md" target="_blank">更新历史</a>
     </span>
   </p>

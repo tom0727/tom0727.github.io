@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>权值线段树（动态开点） - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 权值线段树 权值线段树用于维护一定值域内，各个元素出现的次数，结合动态开点可以 避免离散化的处理。 举个例子，我们现在有一个长度为 $10$ 的数组 $[1,5,2,3,4,1,3,4,4,4]$ $1$" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/035-%E6%9D%83%E5%80%BC%E7%BA%BF%E6%AE%B5%E6%A0%91/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.2ccc99aa18501eb0a20678a919404779fa1d9f66663cef10606eef97052b4b73.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="权值线段树（动态开点）" />
+<meta property="og:description" content="介绍 权值线段树 权值线段树用于维护一定值域内，各个元素出现的次数，结合动态开点可以 避免离散化的处理。 举个例子，我们现在有一个长度为 $10$ 的数组 $[1,5,2,3,4,1,3,4,4,4]$ $1$" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/035-%E6%9D%83%E5%80%BC%E7%BA%BF%E6%AE%B5%E6%A0%91/" />
+<meta property="article:published_time" content="2021-03-27T20:13:23+08:00" />
+<meta property="article:modified_time" content="2021-04-04T23:45:08+08:00" />
+<meta itemprop="name" content="权值线段树（动态开点）">
+<meta itemprop="description" content="介绍 权值线段树 权值线段树用于维护一定值域内，各个元素出现的次数，结合动态开点可以 避免离散化的处理。 举个例子，我们现在有一个长度为 $10$ 的数组 $[1,5,2,3,4,1,3,4,4,4]$ $1$">
+<meta itemprop="datePublished" content="2021-03-27T20:13:23&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-04T23:45:08&#43;08:00" />
+<meta itemprop="wordCount" content="2885">
+
+
+
+<meta itemprop="keywords" content="线段树," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="权值线段树（动态开点）"/>
+<meta name="twitter:description" content="介绍 权值线段树 权值线段树用于维护一定值域内，各个元素出现的次数，结合动态开点可以 避免离散化的处理。 举个例子，我们现在有一个长度为 $10$ 的数组 $[1,5,2,3,4,1,3,4,4,4]$ $1$"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">权值线段树（动态开点）</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-03-27 20:13:23 &#43;0800 &#43;0800"> 2021-03-27 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a>
+          <ul>
+            <li><a href="#权值线段树">权值线段树</a></li>
+            <li><a href="#动态开点">动态开点</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p1908-逆序对httpswwwluogucomcnproblemp1908">例1 <a href="https://www.luogu.com.cn/problem/P1908">洛谷P1908 逆序对</a></a></li>
+            <li><a href="#例2-cf69e-subsegmentshttpswwwluogucomcnproblemcf69e">例2 <a href="https://www.luogu.com.cn/problem/CF69E">CF69E Subsegments</a></a></li>
+            <li><a href="#例3-cf474e-pillarshttpswwwluogucomcnproblemcf474e">例3 <a href="https://www.luogu.com.cn/problem/CF474E">CF474E Pillars</a></a></li>
+            <li><a href="#例4-hdu6183-color-ithttpacmhdueducnshowproblemphppid6183">例4 <a href="http://acm.hdu.edu.cn/showproblem.php?pid=6183">HDU6183 Color it</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<h3 id="权值线段树">权值线段树</h3>
+<p>权值线段树用于维护<strong>一定值域内，各个元素出现的次数</strong>，结合<strong>动态开点</strong>可以 <strong>避免离散化的处理</strong>。</p>
+<p>举个例子，我们现在有一个长度为 $10$ 的数组 $[1,5,2,3,4,1,3,4,4,4]$</p>
+<p>$1$ 出现了 $2$ 次，$2$ 出现了 $1$ 次，$3$ 出现了 $2$ 次，$4$ 出现了 $4$ 次，$5$ 出现了 $1$ 次。</p>
+<p>则这个线段树长这样：</p>
+<p><img src="/images/035/1.png" alt="images"></p>
+<p>每个叶子节点的值： 代表 <strong>这个值的出现次数</strong>。</p>
+<p>非叶子节点的值：代表了<strong>某一个值域内，所有值出现次数的和</strong>。</p>
+<hr>
+<h3 id="动态开点">动态开点</h3>
+<p>我们会发现，在上面的线段树中，$6,7,8$ 都没有出现过，所以值为 $0$。</p>
+<p>$7,8$ 对应节点的 parent 的值也为 $0$，这样很浪费空间。而且在值域较大的时候（如维护 $[1,10^{18}]$ 的权值线段树）时，这样开点是不可行的。</p>
+<p>所以我们可以用 <strong>动态开点</strong> 来解决空间问题。</p>
+<p>动态开点与普通线段树的区别，主要在于以下几个方面：</p>
+<ol>
+<li>一个节点的左右 child 不一定为 <code>cur&lt;&lt;1, cur&lt;&lt;1|1</code>，而是以 <code>lc, rc</code> 的形式储存在 <code>struct</code> 中。</li>
+<li>更改某一个节点的值，或者 <code>push_down()</code> 时，如果节点不存在，则创建一个。</li>
+<li>询问某一个节点的值时，如果节点不存在，直接返回 $0$。</li>
+<li>不需要 <code>build()</code> 线段树，因为在一开始，整个线段树没有任何节点。</li>
+</ol>
+<p>这样做有什么好处呢？</p>
+<ol>
+<li>大幅度节省空间，尤其对于值域较大的权值线段树。</li>
+<li>如果一个数组初始状态均为 $0$，就避免了普通线段树需要 <code>build()</code> 的过程。如果需要初始化，则一个个 <code>insert()</code> 进去也可以。</li>
+<li>在需要维护多棵线段树时（比如 $HDU ~6183$ 需要开 $51$ 棵动态开点线段树），可以将它们维护在同一个数组上，大幅度节省空间。</li>
+</ol>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p1908-逆序对httpswwwluogucomcnproblemp1908">例1 <a href="https://www.luogu.com.cn/problem/P1908" target="_blank">洛谷P1908 逆序对</a></h3>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>求逆序对，我们可以从左往右遍历数组，遍历到 $i$ 时，检查一下已经遍历的值中，有多少比它大的即可。</p>
+<p>这可以用权值线段树来实现。</p>
+<p>因为每个数字的范围是 $[1,10^9]$，所以需要动态开点。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e7+5;
+
+struct node {
+    int lc, rc, cnt;  // 记录左右child的编号，如果不存在，则为 0
+} tr[maxn];
+int id = 0;   // 动态开点用的pointer
+int root = 0;  // 根节点编号
+
+void push_up(int cur) {
+    int lc = tr[cur].lc, rc = tr[cur].rc;
+    tr[cur].cnt = tr[lc].cnt + tr[rc].cnt;
+}
+
+// 插入一个值为 p 的元素
+void insert(int&amp; cur, int l, int r, int p) {
+    if (!cur) cur = ++id;  // 动态开点
+    if (l == r) {
+        tr[cur].cnt++;
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    if (p &lt;= mid) insert(tr[cur].lc, l, mid, p);
+    if (p &gt; mid) insert(tr[cur].rc, mid+1, r, p);
+    push_up(cur);
+}
+
+// 询问 值在 [L,R] 之间的元素有多少个
+ll query(int cur, int l, int r, int L, int R) {
+    if (!cur) return 0;
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        return (ll)tr[cur].cnt;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    ll res = 0;
+    if (L &lt;= mid) res += query(tr[cur].lc, l, mid, L, R);
+    if (R &gt; mid) res += query(tr[cur].rc, mid+1, r, L, R);
+    return res;
+}
+
+int main() {
+    int n; cin &gt;&gt; n;
+    ll ans = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        int x;
+        cin &gt;&gt; x;
+        insert(root, 1, 1e9+1, x);
+        ans += query(1, 1, 1e9+1, x+1, 1e9+1);
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例2-cf69e-subsegmentshttpswwwluogucomcnproblemcf69e">例2 <a href="https://www.luogu.com.cn/problem/CF69E" target="_blank">CF69E Subsegments</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定正整数 $n,k$，给定一个长度为 $n$ 的数组 $a_1,a_2,&hellip;,a_n$。</p>
+<p>输出 $n-k+1$ 个数，每个数字代表 $[a_{i},&hellip;, a_{i+k-1}]$ 中，仅出现一次的元素的最大值。</p>
+<p>如果不存在仅出现一次的元素，输出 $-1$。</p>
+<p>其中，$n \leq 10^5, 1 \leq k \leq n, |a_i| \leq 10^9$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>在线段树节点里面额外维护一个信息 <code>bool one</code>，代表这个值域内，是否存在仅出现一次的元素。然后询问时，优先询问右边（值域较大的部分）。</p>
+<p>还有一个问题，$a_i$ 的值<strong>可以为负数</strong>，怎么维护？</p>
+<p>我们可以将 $a_i$ 都加上一个 <code>delta = 1e9</code>，这样让每一个 $a_i \geq 0$，然后就可以用权值线段树来维护了。记得在 <code>insert(), query()</code> 时，也要加上这个 <code>delta = 1e9</code>。</p>
+<blockquote>
+<p>注：我们用 <code>int mid = (r-l) / 2 + l</code> 来代替 <code>int mid = (l+r) &gt;&gt; 1</code>，防止 overflow。</p>
+<p>证明它们两个的等效性：因为 <code>(r-l)</code> 和 <code>(l+r)</code> 的奇偶性一样，且均为非负数，所以它们等效。</p>
+</blockquote>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int maxn = 1e7+5;
+const int maxm = 1e5+10;
+
+int n,k,id = 0, root = 0;
+struct node {
+    int lc,rc,cnt;
+    bool one;  // 这个值域内，是否存在unique的元素
+} tr[maxn];
+int arr[maxm];
+
+void push_up(int cur) {
+    int lc = tr[cur].lc, rc = tr[cur].rc;
+    tr[cur].one = tr[lc].one | tr[rc].one;
+    tr[cur].cnt = tr[lc].cnt + tr[rc].cnt;
+}
+
+void insert(int&amp; cur, int l, int r, int p, int f) {
+    if (!cur) cur = ++id;
+    if (l == r) {
+        tr[cur].cnt += f;
+        if (tr[cur].cnt == 1) tr[cur].one = 1;
+        else tr[cur].one = 0;
+        return;
+    }
+    int mid = (r - l) / 2 + l;
+    if (p &lt;= mid) insert(tr[cur].lc, l, mid, p, f);
+    if (p &gt; mid) insert(tr[cur].rc, mid+1, r, p, f);
+    push_up(cur);
+}
+
+int query(int cur, int l, int r) {
+    if (!tr[cur].one) return -1;
+    if (l == r) return l;
+    int lc = tr[cur].lc, rc = tr[cur].rc;
+    int mid = (r - l) / 2 + l;
+    if (tr[rc].one) return query(rc, mid+1, r);
+    else return query(lc, l, mid);
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; k;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; arr[i];
+    for (int i = 1; i &lt;= k-1; i++) {
+        insert(root, 0, 2e9, arr[i]+1e9, 1);
+    }
+    for (int i = k; i &lt;= n; i++) {
+        insert(root, 0, 2e9, arr[i]+1e9, 1);
+        int a = query(root, 0, 2e9);
+        if (a == -1) {
+            cout &lt;&lt; &quot;Nothing&quot; &lt;&lt; &quot;\n&quot;;
+        } else {
+            cout &lt;&lt; (a - (int)1e9) &lt;&lt; &quot;\n&quot;;
+        }
+        insert(root, 0, 2e9, arr[i-k+1]+1e9, -1);
+    }
+}
+
+</code></pre>
+</details>
+<h3 id="例3-cf474e-pillarshttpswwwluogucomcnproblemcf474e">例3 <a href="https://www.luogu.com.cn/problem/CF474E" target="_blank">CF474E Pillars</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定正整数 $n,d$，还有长度为 $n$ 的数组 $h_1,h_2,&hellip;,h_n$。</p>
+<p>求数组中 <strong>最长的 subsequence</strong> $b$（不一定连续），使得 $\forall i, |b_{i+1} - b_i| \geq d$。</p>
+<p>其中，$n \leq 10^5, 0 \leq d \leq 10^9, 1 \leq h_i \leq 10^{15}$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>一个很明显的 dp 思路：</p>
+<p>当我们遍历到 $i$ 时，令 $dp[j]$ 为：目前为止，结尾的值为 $j$ 的 subsequence 的最大长度。</p>
+<p>那么 $dp[h_i] = \max\limits_j \{ dp[j]+1 \}$，其中 $|h_i - j| \geq d$</p>
+<p>那么，这个 <code>dp</code> 数组就可以用权值线段树来维护。</p>
+<p>查询的时候，分别查询 $j \geq h_i + d$ 和 $j \leq h_i - d$ 的部分即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 8e6;
+const int maxm = 1e5+10;
+
+int n, pre[maxm], dp[maxm];
+ll arr[maxm], d;
+int root,id;
+struct node {
+    int lc,rc,m,idx;  // m: dp数组的值，idx: 该值域内，具有最大的 m 对应的原来array中的index
+} tr[maxn];
+
+void push_up(int cur) {
+    int lc = tr[cur].lc, rc = tr[cur].rc;
+    if (tr[lc].m &gt; tr[rc].m) tr[cur].m = tr[lc].m, tr[cur].idx = tr[lc].idx;
+    else tr[cur].m = tr[rc].m, tr[cur].idx = tr[rc].idx;
+}
+
+void insert(int&amp; cur, ll l, ll r, ll h, ll m, int idx) {
+    if (!cur) cur = ++id;
+    if (l == r) {
+        if (m &gt; tr[cur].m) {
+            tr[cur].m = m;
+            tr[cur].idx = idx;
+        }
+        return;
+    }
+    ll mid = (l+r) &gt;&gt; 1;
+    if (h &lt;= mid) insert(tr[cur].lc, l, mid, h, m, idx);
+    if (h &gt; mid) insert(tr[cur].rc, mid+1, r, h, m, idx);
+    push_up(cur);
+}
+
+// return the index with maximum m value
+pll query(int cur, ll l, ll r, ll L, ll R) {
+    if (!cur) return {0,0};
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        return {tr[cur].m, tr[cur].idx};
+    }
+    ll mid = (l+r) &gt;&gt; 1;
+    pll r1, r2;
+    if (L &lt;= mid) r1 = query(tr[cur].lc, l, mid, L, R);
+    if (R &gt; mid) r2 = query(tr[cur].rc, mid+1, r, L, R);
+    if (r1.first &gt; r2.first) return r1;
+    return r2;
+}
+
+const ll up = 1e15 + 2e9 - 1LL;
+const ll delta = 1e9-1;
+int ans = 0, maxi = 0;
+int main() {
+    cin &gt;&gt; n &gt;&gt; d;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; arr[i];
+    for (int i = 1; i &lt;= n; i++) {
+        ll h = arr[i];
+        pll r1 = query(root, 0, up, 0, h-d+delta);
+        pll r2 = query(root, 0, up, h+d+delta, up);
+        pll r;
+        if (r1.first &gt; r2.first) r = r1;
+        else r = r2;
+        dp[i] = dp[r.second] + 1;
+        pre[i] = r.second;
+        insert(root, 0, up, h+delta, dp[i], i);
+        if (ans &lt; dp[i]) ans = dp[i], maxi = i;
+    }
+    vector&lt;int&gt; vec;
+    while (maxi) {
+        vec.push_back(maxi);
+        maxi = pre[maxi];
+    }
+    cout &lt;&lt; vec.size() &lt;&lt; endl;
+    for (int i = vec.size()-1; i &gt;= 0; i--) {
+        cout &lt;&lt; vec[i] &lt;&lt; &quot; &quot;;
+    }
+    cout &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例4-hdu6183-color-ithttpacmhdueducnshowproblemphppid6183">例4 <a href="http://acm.hdu.edu.cn/showproblem.php?pid=6183" target="_blank">HDU6183 Color it</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个二维平面，初始状态下，整个平面为空，现在有以下 3 种操作：</p>
+<p>$0$： 清空平面</p>
+<p>$1 ~ x ~ y ~ c$：在 $(x,y)$ 添加一种颜色 $c$</p>
+<p>$2 ~x~ y_1~ y_2$：查询所有 $(a,b)$ 的不同颜色数量，其中 $1 \leq a \leq x, y_1 \leq b \leq y_2$</p>
+<p>其中，$1\leq x,y \leq 10^6, 0 \leq c \leq 50$</p>
+<p>数据保证，最多有 $150000$ 个连续的询问 $1$，最多有 $10$ 个询问 $0$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先，发现 颜色 $c$ 只有 $51$ 种，所以我们可以分开维护每一种颜色，统计的时候加起来就可以了。</p>
+<p>其次，发现本题询问 $2 ~x~ y_1~ y_2$ 时，我们只关心 $1 \leq a \leq x$ 的部分，也就是说，对于<strong>同一种颜色和同一个 $y$ 坐标</strong>而言，我们只关心 <strong>最小的那个 $x$ 坐标</strong>。</p>
+<p>所以，我们可以根据 $y$ 轴开一棵线段树，维护 $y$ 坐标对应的<strong>最小 $x$ 值</strong>。</p>
+<p>有 $51$ 种颜色，所以我们开 $51$ 棵线段树即可。</p>
+<blockquote>
+<p>注：如果开51棵普通的线段树会 $MLE$，所以用动态开点，把它们开在同一个数组上，使用 <code>int root[51]</code> 来维护 $51$ 棵线段树的 root 即可。</p>
+</blockquote>
+<blockquote>
+<p>注：如果询问是 $1 ~ x_1 ~ x_2 ~ y_1 ~ y_2$ 的这种形式，似乎要用 <strong>线段树套线段树</strong> （还没学）。</p>
+</blockquote>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int maxn = 8e6;
+
+int id = 0;
+int root[51];
+struct node {
+    int lc,rc,x = 1e9;
+} tr[maxn];
+
+void push_up(int cur) {
+    int lc = tr[cur].lc, rc = tr[cur].rc;
+    tr[cur].x = min(tr[lc].x, tr[rc].x);
+}
+
+void insert(int&amp; cur, int l, int r, int c, int x, int y) {
+    if (!cur) cur = ++id;
+    if (l == r) {
+        tr[cur].x = min(tr[cur].x, x);
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    if (y &lt;= mid) insert(tr[cur].lc, l, mid, c, x, y);
+    else insert(tr[cur].rc, mid+1, r, c, x, y);
+    push_up(cur);
+}
+
+bool query(int cur, int l, int r, int c, int x, int L, int R) {
+    if (!cur) return 0;
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        return tr[cur].x &lt;= x;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    bool res = 0;
+    if (L &lt;= mid) res |= query(tr[cur].lc, l, mid, c, x, L, R);
+    if (res) return 1;
+    if (R &gt; mid) res |= query(tr[cur].rc, mid+1, r, c, x, L, R);
+    return res;
+}
+
+void init(int i) {
+    tr[i].lc = tr[i].rc = 0;
+    tr[i].x = (int)1e9;
+}
+
+void clearall() {
+    for (int i = 0; i &lt;= 50; i++) {
+        root[i] = 0;
+    }
+    for (int i = 1; i &lt;= id; i++) init(i);
+    id = 0;
+}
+
+int main() {
+    int op;
+    while (1) {
+        cin &gt;&gt; op;
+        if (op == 0) clearall();
+        if (op == 1) {
+            int x,y,c;
+            cin &gt;&gt; x &gt;&gt; y &gt;&gt; c;
+            insert(root[c], 1, 1e6, c, x, y);
+        }
+        if (op == 2) {
+            int ans = 0;
+            int x,y1,y2; cin &gt;&gt; x &gt;&gt; y1 &gt;&gt; y2;
+            if (y1 &gt; y2) swap(y1,y2);
+            for (int c = 0; c &lt;= 50; c++) {
+                ans += query(root[c], 1, 1e6, c, x, y1, y2);
+            }
+            cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+        }
+        if (op == 3) {
+            return 0;
+        }
+    }
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-04-04 23:45:08 &#43;0800 &#43;0800">2021-04-04</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/d2ee6ae76160dcd8b3c0748759e20181276beefa" title="init 036" target="_blank">(d2ee6ae)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/035-%e6%9d%83%e5%80%bc%e7%ba%bf%e6%ae%b5%e6%a0%91.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">线段树</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/036-%E4%B8%BB%E5%B8%AD%E6%A0%91/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">主席树</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/034-cf-1499d/">
+            <span class="next-text nav-default">CF 1499D（数学，筛法）</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

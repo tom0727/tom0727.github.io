@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/032-%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%BE%8B%E9%A2%98/" />
 <meta property="article:published_time" content="2021-03-16T22:10:22+08:00" />
-<meta property="article:modified_time" content="2021-03-16T22:47:31+08:00" />
+<meta property="article:modified_time" content="2021-04-04T23:45:08+08:00" />
 <meta itemprop="name" content="线段树/分块 例题">
 <meta itemprop="description" content="主要记录一些遇到的线段树/分块例题。 例1 CF438D 题意 给定 $N$ 个正整数和 $M$ 个询问，询问有 3 种： $1 ~ l ~ r$：输出 $\sum\limits_{i=l}^r a_i$ $2 ~ l ~ r ~ x$：将 $a_l$ 到 $a_r$ 的所有数">
 <meta itemprop="datePublished" content="2021-03-16T22:10:22&#43;08:00" />
-<meta itemprop="dateModified" content="2021-03-16T22:47:31&#43;08:00" />
-<meta itemprop="wordCount" content="1767">
+<meta itemprop="dateModified" content="2021-04-04T23:45:08&#43;08:00" />
+<meta itemprop="wordCount" content="3467">
 
 
 
@@ -148,6 +148,8 @@
       <ul>
         <li><a href="#例1-cf438dhttpscodeforcescomproblemsetproblem438d">例1 <a href="https://codeforces.com/problemset/problem/438/D">CF438D</a></a></li>
         <li><a href="#例2-cf558ehttpscodeforcescomcontest558probleme">例2 <a href="https://codeforces.com/contest/558/problem/E">CF558E</a></a></li>
+        <li><a href="#例3-洛谷p1972-hh的项链httpswwwluogucomcnproblemp1972">例3 <a href="https://www.luogu.com.cn/problem/P1972">洛谷P1972 HH的项链</a></a></li>
+        <li><a href="#例4-cf1000f-one-occurrencehttpswwwluogucomcnproblemcf1000f">例4 <a href="https://www.luogu.com.cn/problem/CF1000F">CF1000F One Occurrence</a></a></li>
       </ul>
     </li>
   </ul>
@@ -423,6 +425,191 @@ int main() {
 }
 </code></pre>
 </details>
+<h2 id="例3-洛谷p1972-hh的项链httpswwwluogucomcnproblemp1972">例3 <a href="https://www.luogu.com.cn/problem/P1972" target="_blank">洛谷P1972 HH的项链</a></h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $N$ 的数组 $a_1,a_2,&hellip;,a_n$，以及 $m$ 个询问，每次询问 $[L,R]$ 之间有多少个不同的数。</p>
+<p>其中，$1 \leq n,m,a_i \leq 10^6$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们可以发现，如果我们固定了询问的右端点 $R$，那么无论 $L$ 为多少，在 $R$ 的左侧的所有重复数字中，仅保留<strong>最靠右的一个 copy</strong> 即可。</p>
+<p>例如 $arr = 1,3,2,1,7,1$，那么我们在遍历到 $i = 4$ 时，我们仅需要保留最后一个 $1$ （也就是 index 为 $4$ 的数字）。</p>
+<p>由上，在处理 <strong>区间内不同的数</strong> 时，一个常见的套路是：</p>
+<ol>
+<li>离线处理所有询问，按右端点 $R$ 排序。</li>
+<li>从左到右遍历数组，遍历到 $i$ 时，对于所有 $a_i$ 的 copy，<strong>仅保留最靠右的那一个</strong>（也就是 $i$），之前的所有 copy 全部删除。</li>
+<li>回答所有 $[L, i]$ 的询问。</li>
+</ol>
+<p>那么对于本题，第一步是离线处理询问，按右端点 $R$ 排序。</p>
+<p>第二步是遍历数组，遍历过程中维护一个 <code>int pos[]</code> 数组，其中 <code>pos[val]</code> 代表：在 $arr[1&hellip;i]$ 中，<strong>值为 <code>val</code> 的数 最靠右的 index</strong>。</p>
+<p>当我们遍历到 $i$ 时，令 <code>int val = arr[i]</code>，将 <code>pos[val]</code> 处的数字 <strong>删掉</strong>（更新线段树），然后将 $i$ 处的数字 <strong>加入线段树</strong>，最后更新一下 <code>pos[val] = i;</code></p>
+<p>•本题中，删掉就是将 线段树的位置 $i$ 的值 减去$1$，加上就是将 线段树的位置 $i$ 的值 加上$1$。</p>
+<p>然后回答所有 以 $i$ 为右端点的询问（求 $[L,i]$ 的和即可）。</p>
+<blockquote>
+<p>注：如果询问 <strong>在线</strong> 怎么办？可以使用主席树！（对于 <code>pr[i]</code> 建主席树）</p>
+<p>具体做法参考：<a href="/post/036-%e4%b8%bb%e5%b8%ad%e6%a0%91/#%e4%be%8b3-cf1422f-boring-querieshttpswwwluogucomcnproblemcf1422f">CF1422F Boring Queries</a></p>
+</blockquote>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int mod = 1e9+7;
+const int maxn = 1e6+5;
+
+int n, m, arr[maxn];
+struct node {
+    int sum;
+} tr[maxn&lt;&lt;2];
+
+void push_up(int cur) {
+    tr[cur].sum = tr[cur&lt;&lt;1].sum + tr[cur&lt;&lt;1|1].sum;
+}
+
+void update(int cur, int l, int r, int p, int x) {
+    if (l == r) {
+        tr[cur].sum += x; return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    if (p &lt;= mid) update(cur&lt;&lt;1, l, mid, p, x);
+    else update(cur&lt;&lt;1|1, mid+1, r, p, x);
+    push_up(cur);
+} 
+
+int query(int cur, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) return tr[cur].sum;
+    int mid = (l+r) &gt;&gt; 1;
+    int res = 0;
+    if (L &lt;= mid) res += query(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) res += query(cur&lt;&lt;1|1, mid+1, r, L, R);
+    return res;
+}
+
+int ans[maxn];
+int pos[maxn];
+struct Query {
+    int id,l,r;
+} q[maxn];
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; arr[i];
+    cin &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int l,r;
+        cin &gt;&gt; l &gt;&gt; r;
+        q[i] = {i,l,r};
+    }
+    
+    sort(q+1,q+m+1, [](auto a, auto b) {
+        return a.r &lt; b.r;  // 根据右端点离线
+    });
+    int ptr = 1;
+    for (int i = 1; i &lt;= n; i++) {
+        int val = arr[i];
+        if (pos[val]) update(1, 1, n, pos[val], -1);  // 删去 pos[val]
+        update(1, 1, n, i, 1);  // 加上 i 
+
+        pos[val] = i;  // 更新 pos[val]
+        while (ptr &lt;= m &amp;&amp; q[ptr].r == i) {  // 回答所有以 i 作为右端点的询问
+            int id = q[ptr].id, L = q[ptr].l, R = q[ptr].r;
+            ans[id] = query(1, 1, n, L, R);
+            ptr++;
+        }
+        if (ptr &gt; m) break;
+    }
+    for (int i = 1; i &lt;= m; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<h2 id="例4-cf1000f-one-occurrencehttpswwwluogucomcnproblemcf1000f">例4 <a href="https://www.luogu.com.cn/problem/CF1000F" target="_blank">CF1000F One Occurrence</a></h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的数组，$m$ 个询问，每次询问一个区间 $[l,r]$，如果这个区间里存在只出现一次的数，输出这个数（如果有多个就输出任意一个），没有就输出 $0$。</p>
+<p>其中 $n,m \leq 5 \times 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>和例3类似的套路，也是离线处理询问（根据右端点sort），从左往右遍历，仅保留最靠右的复制。</p>
+<p>问题在于<strong>怎么删除 和 加入数字</strong>？因为本题不再是求数量了，所以不能简单的加 $1$ 或者 减 $1$。</p>
+<p>会发现，我们仅关心一个区间内是否存在 unique 的数字，对于一个询问 $[L,R]$ 内，我们只要看，是否存在 $i$ 使得 $arr[i]$ <strong>的前一个复制 不在 $[L,R]$ 内</strong>。（也就是说，<code>pos[val]</code> 是否小于 $L$）</p>
+<p>那么，我们用线段树维护一下 <strong>区间最小值</strong> 即可，其中 $[L,R]$ 的区间最小值就代表着所有$i \in [L,R]$ 中，<code>pos[arr[i]]</code> 的最小值。如果一个区间 $[L,R]$ 的最小值 $\geq L$，那么答案不存在，否则答案存在。</p>
+<p>那么，删除位置 $i$ 就是将它这个位置上的值设为 $inf$。</p>
+<p>加入位置 $i$ 的数，就是将它这个位置上的值设为 <code>pos[arr[i]]</code>。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 5e5+5;
+
+struct node {
+    int pre = 1e9, idx = 0;  // pre 代表 pos[val] 的值，idx代表这个最小值对应的 index
+} tr[maxn&lt;&lt;2];
+int pos[maxn], n, m, arr[maxn];
+struct Query {
+    int id,l,r;
+} q[maxn];
+
+void push_up(int cur) {
+    int lpre = tr[cur&lt;&lt;1].pre, rpre = tr[cur&lt;&lt;1|1].pre;
+    if (lpre &lt; rpre) tr[cur].pre = lpre, tr[cur].idx = tr[cur&lt;&lt;1].idx;
+    else tr[cur].pre = rpre, tr[cur].idx = tr[cur&lt;&lt;1|1].idx;
+}
+
+void update(int cur, int l, int r, int p, int x) {
+    if (l == r) {
+        tr[cur].pre = x, tr[cur].idx = l;
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    if (p &lt;= mid) update(cur&lt;&lt;1, l, mid, p, x);
+    else update(cur&lt;&lt;1|1, mid+1, r, p, x);
+    push_up(cur);
+}
+
+pii query(int cur, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) return {tr[cur].pre, tr[cur].idx};
+    int mid = (l+r) &gt;&gt; 1;
+    pii r1 = {1e9, 0}, r2 = {1e9, 0};
+    if (L &lt;= mid) r1 = query(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) r2 = query(cur&lt;&lt;1|1, mid+1, r, L, R);
+    if (r1.first &gt; r2.first) return r2;
+    else return r1;
+}
+int ans[maxn];
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; arr[i];
+    cin &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int l,r; cin &gt;&gt; l &gt;&gt; r;
+        q[i] = {i,l,r};
+    }
+    sort(q+1, q+m+1, [](auto a, auto b) {
+        return a.r &lt; b.r;
+    });
+
+    int ptr = 1;
+    for (int i = 1; i &lt;= n; i++) {
+        int val = arr[i];
+        update(1, 1, n, i, pos[val]);  // 在i处 加入数字 pos[val]
+        if (pos[val]) update(1, 1, n, pos[val], 1e9);  // 在pos[val] 处删除数字（设为 inf）
+        pos[val] = i;
+        while (ptr &lt;= m &amp;&amp; q[ptr].r == i) {
+            int L = q[ptr].l, R = q[ptr].r;
+            pii res = query(1, 1, n, L, R);
+            int id = q[ptr].id;
+
+            if (res.first &gt;= L) ans[id] = 0;  // 如果这个区间内，所有 pos[val] 都 &gt;= L
+            else ans[id] = arr[res.second];  //  否则，答案存在
+            ptr++;
+        }
+        if (ptr &gt; m) break;
+    }
+    for (int i = 1; i &lt;= m; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+
     </div>
 
     <div class="post-copyright">
@@ -433,8 +620,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-03-16 22:47:31 &#43;0800 &#43;0800">2021-03-16</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/f0b68d53c42338257fa5714351cdbb1f7b5ddb9a" title="init 032.md" target="_blank">(f0b68d5)</a>
+        <span title="2021-04-04 23:45:08 &#43;0800 &#43;0800">2021-04-04</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/d2ee6ae76160dcd8b3c0748759e20181276beefa" title="init 036" target="_blank">(d2ee6ae)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/032-%e7%ba%bf%e6%ae%b5%e6%a0%91%e4%be%8b%e9%a2%98.md" target="_blank">更新历史</a>
     </span>
   </p>

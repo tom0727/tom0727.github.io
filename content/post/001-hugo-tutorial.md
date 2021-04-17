@@ -16,10 +16,10 @@ tags = ['hugo', '博客']
 
 ## 搭建过程
 
-### Step 1
+### Step 1 阅读指南
 首先阅读ouuan的指南(上述链接)，然后使用他的[hugo模版](https://github.com/ouuan/hugo-blog-template)，按照模版里指示的进行clone。
 
-### Step 2
+### Step 2 Config的修改
 还是按照模版里指示的，修改一下配置文件`config.toml`里的相关配置，一些需要更改的内容：
 1. 包含`yourname`的部分
 2. `newContentEditor = ""`
@@ -27,10 +27,10 @@ tags = ['hugo', '博客']
 4. `[[menu.main]]`的相关内容 (视情况进行保留和删除)
 5. **不要**更改 `[params]` 中的 `version="4.x"`
 
-### Step 2.5
+### Step 2.5 创建repository
 因为我打算部署到github pages上，就在github上创建一个新的repository，叫`tom0727.github.io`
 
-### Step 3
+### Step 3 本地测试
 配置完成后，可以 `hugo new post/test.md` 创建一个新的post(在`hugo-blog/content/post/test.md`), 按照markdown随便写点东西以后保存，然后 `hugo server`，打开localhost看一下效果(也可以边写边看效果，热加载真香)。最后用`hugo`命令生成静态文件，就是`hugo-blog/public/`文件夹，把这个文件夹内的内容push到github上就可以了。
 
 注： blog的源代码和网页内容并不是一个东西!
@@ -40,7 +40,7 @@ tags = ['hugo', '博客']
 
 既然两者有别，就要分开管理，我把它们放在同一个repository里，分成2个branch。源代码就放在了`master`里，网页内容就放在`publish`上了。
 
-### Step 4
+### Step 4 Github Settings
 这个时候网页上应该是没有内容的，因为github pages需要设置一下指定deploy的branch，在repository的`Settings`里，拉到下面看到`GitHub Pages`，改一下Source branch就可以了：
 ![image](/images/001/1.png)
 
@@ -50,7 +50,7 @@ tags = ['hugo', '博客']
 
 这些步骤做完就可以了，当然这种修改然后发布的方式太麻烦了，切branch也很累，所以就有了Step 5:
 
-### Step 5:
+### Step 5 Github Actions
 我们配置一下Github actions，它能自动化部署流程。参考资料:
 > https://segmentfault.com/a/1190000021815477
 
@@ -71,7 +71,7 @@ tags = ['hugo', '博客']
 > ![image](/images/001/2.png)
 
 
-### Step 6:
+### Step 6 gitee镜像
 因为github.io似乎被墙了，所以学ouuan弄了一个gitee镜像，教程的话参照这两个就可以了：
 > https://jasonkayzk.github.io/2020/09/18/%E5%9C%A8Gitee%E6%90%AD%E5%BB%BAGithub-Pages/
 
@@ -91,14 +91,20 @@ on:
 ```
 
 
-### Step 7:
+### Step 7 评论区
 
 评论区用很多种，我选用了`utterances`，部署步骤如下：
 1. 在Github上安装 [utterances app](https://github.com/apps/utterances)，选择这个博客的repo
 2. 在 `config.toml` 中更改配置，将 `[params.utterances]` 下的 `repo` 改成这个repo的名字即可。（可以新开一个repo来储存评论，不过评论会以`issues`的形式出现在repo里，所以没必要新开一个）
 
-## TODO LIST
-1. 搞明白baidu push是什么
+
+## 一些其他的魔改
+
+### 更改右上方的导航栏
+
+先打开 `view-source` 的博客，找到导航栏的 `class="post-toc"`。
+
+然后利用 [Linux的根据content搜索文件](https://stackoverflow.com/questions/16956810/how-do-i-find-all-files-containing-specific-text-on-linux)，使用 `grep -rnwl '.' -e 'post-toc-title'` 找到相应的文件。最后在 `./themes/even/assets/sass/_partial/_post/_toc.scss` 和 `./themes/even/assets/sass/_variables.scss` 找到了相关信息。
 
 ## 结语
 

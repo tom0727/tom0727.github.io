@@ -35,7 +35,7 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.2ccc99aa18501eb0a20678a919404779fa1d9f66663cef10606eef97052b4b73.css" rel="stylesheet">
+<link href="/sass/main.min.01351798594008a854e2f051e77ca2accca6f8acaa785ac33305f3af890f00fc.css" rel="stylesheet">
 
 
 
@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/022-%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/" />
 <meta property="article:published_time" content="2021-03-06T15:58:27+08:00" />
-<meta property="article:modified_time" content="2021-03-16T16:11:41+08:00" />
+<meta property="article:modified_time" content="2021-04-17T16:55:29+08:00" />
 <meta itemprop="name" content="树链剖分">
 <meta itemprop="description" content="介绍 树链剖分主要用于将 树上修改/查询 通过 DFS序 变成 区间修改/查询，然后利用 线段树 进行修改/查询。 我们可以用模版来举个例子： 题意 已知一棵包含">
 <meta itemprop="datePublished" content="2021-03-06T15:58:27&#43;08:00" />
-<meta itemprop="dateModified" content="2021-03-16T16:11:41&#43;08:00" />
-<meta itemprop="wordCount" content="2793">
+<meta itemprop="dateModified" content="2021-04-17T16:55:29&#43;08:00" />
+<meta itemprop="wordCount" content="4294">
 
 
 
@@ -163,6 +163,7 @@
             <li><a href="#将树上操作对应到区间上">将树上操作对应到区间上</a></li>
           </ul>
         </li>
+        <li><a href="#树链剖分变种询问边">树链剖分变种（询问边）</a></li>
         <li><a href="#时间复杂度">时间复杂度</a>
           <ul>
             <li><a href="#性质1">性质1</a></li>
@@ -170,6 +171,11 @@
           </ul>
         </li>
         <li><a href="#代码">代码</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p2486-sdoi2011染色httpswwwluogucomcnproblemp2486">例1 <a href="https://www.luogu.com.cn/problem/P2486">洛谷P2486 [SDOI2011]染色</a></a></li>
+          </ul>
+        </li>
         <li><a href="#其他例题">其他例题</a></li>
         <li><a href="#参考链接">参考链接</a></li>
       </ul>
@@ -346,6 +352,18 @@ ll query_path(int u, int v) {
     return res;
 }
 </code></pre>
+<h2 id="树链剖分变种询问边">树链剖分变种（询问边）</h2>
+<p>如果我们把问题稍微改一下：</p>
+<p>假如现在不再是点上有权值，而是 <strong>边上有权值</strong>，修改/询问 $(u,v)$ 之间路径上<strong>所有边的权值</strong>，怎么处理？</p>
+<p>注意到树有一个特别的性质：</p>
+<p><strong>每个节点只有 $1$ 个parent</strong>。</p>
+<p>所以我们可以将 <strong>边</strong> 转化为 <strong>点</strong>。</p>
+<p>对于一个节点 $u$，如果它有一个parent $p$，那么我们就可以将 $(u,p)$ 这条边，转化为 $u$ 这个点。</p>
+<p>对于每次修改/询问 $(u,v)$，先找到 $LCA(u,v) = x$，然后正常更新，最后将 $x$ 的修改/询问全部撤销掉即可。</p>
+<hr>
+<p><img src="/images/022/3.png" alt="img"></p>
+<p>如上图，$(6,2)$ 这个边，就可以用 $6$ 这个点来表示。</p>
+<p>修改 $6,5$ 之间的路径，就相当于修改 $[6,2]$ 和 修改 $[5,3]$。</p>
 <h2 id="时间复杂度">时间复杂度</h2>
 <h3 id="性质1">性质1</h3>
 <p>如果 $v$ 是 $u$ 的轻儿子，那么 $size(v) \leq \frac{size(u)}{2}$</p>
@@ -549,6 +567,206 @@ int main() {
     }
 }
 </code></pre>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p2486-sdoi2011染色httpswwwluogucomcnproblemp2486">例1 <a href="https://www.luogu.com.cn/problem/P2486" target="_blank">洛谷P2486 [SDOI2011]染色</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个节点的树，每个节点都有一个初始的颜色 $c_i$。</p>
+<p>有 $m$ 个操作，操作共两种：</p>
+<p>$C ~ a ~ b ~ c$：将 $a$ 到 $b$ 的路径上的所有节点染色为 $c$。</p>
+<p>$Q ~ a ~ b$：输出 $a$ 到 $b$ 的路径上的颜色段数量。</p>
+<p>• 颜色段的定义：每个最长的同颜色的连续子序列，叫做一个颜色段。例如 $[2,1,1,2,2,1]$ 具有 $4$ 个颜色段。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>比较明显的树剖思路。问题在于如何维护颜色段的数量？</p>
+<p>先思考一下在一个 <strong>数组</strong> 上，如何维护？</p>
+<blockquote>
+<p>如果两个相邻的区间，相邻的部分的颜色相同，那么它们将合并为一个颜色段。</p>
+</blockquote>
+<p>所以，对于每一个区间，我们维护它 <strong>左端点的颜色</strong> 和 <strong>右端点的颜色</strong>，并且维护 <strong>区间内颜色段的数量</strong>。</p>
+<p>在 <code>push_up()</code> 的时候，记得检查一下左区间的右端点 和 右区间的左端点颜色是否相同即可。</p>
+<hr>
+<p>那么如何在树上进行查询？</p>
+<p>需要注意的是 在树剖中，查询的不一定是数组上的连续区间，但是在树上是连续的。</p>
+<p>所以每次查询完一段区间 $[top[u], u]$，要记录<strong>这段区间的左端点</strong> $top[u]$ 的颜色。</p>
+<p>继续往上跳的时候，<strong>下一段区间的右端点</strong>是 $par[top[u]]$。</p>
+<p>所以要比较一下 $top[u]$ 和 $par[top[u]]$ 的颜色是否相同。相同的话，把答案减 $1$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+struct node {
+    int l,r;
+    int lc, rc, cnt;  //left color, right color
+    bool lazy = 0;
+} tr[maxn&lt;&lt;2];
+int color[maxn], last, ori[maxn], par[maxn];  // ori[u] 代表u的颜色
+int n,m; 
+
+void push_up(int cur) {
+    int l = cur&lt;&lt;1, r = cur&lt;&lt;1|1;
+    tr[cur].cnt = tr[l].cnt + tr[r].cnt;
+    tr[cur].lc = tr[l].lc, tr[cur].rc = tr[r].rc;
+    if (tr[l].rc == tr[r].lc) tr[cur].cnt--;  // 合并颜色段
+}
+
+void push_down(int cur) {
+    if (!tr[cur].lazy) return;
+    int l = cur&lt;&lt;1, r = cur&lt;&lt;1|1;
+    tr[cur].lazy = 0;
+
+    tr[l].cnt = tr[r].cnt = 1;
+    tr[l].lazy = tr[r].lazy = 1;
+
+    int c = tr[cur].lc;
+    tr[l].lc = tr[r].lc = tr[l].rc = tr[r].rc = c;
+}
+
+void build(int cur, int l, int r) {
+    tr[cur].l = l, tr[cur].r = r;
+    if (l == r) {
+        tr[cur].cnt = 1;
+        tr[cur].lc = tr[cur].rc = color[l];
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    build(cur&lt;&lt;1, l, mid);
+    build(cur&lt;&lt;1|1, mid+1, r);
+    push_up(cur);
+}
+
+void update(int cur, int l, int r, int L, int R, int c) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        tr[cur].cnt = 1;
+        tr[cur].lc = tr[cur].rc = c;
+        tr[cur].lazy = 1;
+        return;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, c);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, c);
+    push_up(cur);
+}
+
+int query(int cur, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        return tr[cur].cnt;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    int res = 0;
+    if (L &lt;= mid) res += query(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) res += query(cur&lt;&lt;1|1, mid+1, r, L, R);
+    if (L &lt;= mid &amp;&amp; R &gt; mid &amp;&amp; tr[cur&lt;&lt;1].rc == tr[cur&lt;&lt;1|1].lc) res--;  // 合并颜色段
+    return res;
+}
+
+int head[maxn], ecnt = 1, son[maxn], id[maxn], idcnt = 0, top[maxn], sz[maxn], dep[maxn];
+struct Edge {
+    int to,nxt;
+} edges[maxn&lt;&lt;1];
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+void dfs(int u, int p) {
+    sz[u] = 1;
+    par[u] = p;
+    dep[u] = dep[p] + 1;
+    int maxsz = -1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        dfs(to, u);
+        sz[u] += sz[to];
+        if (sz[to] &gt; maxsz) son[u] = to, maxsz = sz[to];
+    }
+}
+
+void dfs2(int u, int p, int topf) {
+    id[u] = ++idcnt;
+    color[idcnt] = ori[u];
+    top[u] = topf;
+    if (son[u]) dfs2(son[u], u, topf);
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p || to == son[u]) continue;
+        dfs2(to, u, to);
+    }
+}
+
+void update(int u, int v, int c) {
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        int p = top[u];
+        int L = id[p], R = id[u];
+        update(1, 1, n, L, R, c);
+        u = par[p];
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v);
+    update(1, 1, n, id[u], id[v], c);
+}
+
+int query_color(int cur, int l, int r, int p) {
+    if (l == r) return tr[cur].lc;
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    if (p &lt;= mid) return query_color(cur&lt;&lt;1, l, mid, p);
+    else return query_color(cur&lt;&lt;1|1, mid+1, r, p);
+}
+
+void query(int u, int v) {
+    int ans = 0;
+    int lastu = -1, lastv = -1;  // u和v 的上一次查询的左端点
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v), swap(lastu, lastv);
+        int p = top[u];
+        int L = id[p], R = id[u];
+        ans += query(1, 1, n, L, R);
+        if (lastu == query_color(1, 1, n, R)) {  // 如果上一次查询的左端点，等于这次查询的右端点
+            ans--;
+        }
+        lastu = query_color(1, 1, n, L);  // u和v 的上一次查询的左端点
+        u = par[p];
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v), swap(lastu, lastv);
+    ans += query(1, 1, n, id[u], id[v]);
+
+    if (lastv == query_color(1, 1, n, id[v])) ans--;
+    if (lastu == query_color(1, 1, n, id[u])) ans--;
+    cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; ori[i];
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        addEdge(u,v); addEdge(v,u);
+    }
+    dfs(1, 0);
+    dfs2(1, 0, 1);
+    build(1, 1, n);
+
+    while (m--) {
+        char op;
+        int u,v; cin &gt;&gt; op &gt;&gt; u &gt;&gt; v;
+        if (op == 'Q') {
+            query(u,v);
+        } else {
+            int c; cin &gt;&gt; c;
+            update(u,v,c);
+        }
+    }
+}
+</code></pre>
+</details>
 <h2 id="其他例题">其他例题</h2>
 <ol>
 <li><a href="https://codeforces.com/problemset/problem/343/D">https://codeforces.com/problemset/problem/343/D</a></li>
@@ -570,8 +788,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-03-16 16:11:41 &#43;0800 &#43;0800">2021-03-16</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/e916a5d2604cde3d2c3e58d263ff5adf2c44a1fd" title="init 031.md" target="_blank">(e916a5d)</a>
+        <span title="2021-04-17 16:55:29 &#43;0800 &#43;0800">2021-04-17</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/9936beb0e00afe403971fe0f9787587358a832ab" title="init 037-041.md, update title-toc width=250" target="_blank">(9936beb)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/022-%e6%a0%91%e9%93%be%e5%89%96%e5%88%86.md" target="_blank">更新历史</a>
     </span>
   </p>

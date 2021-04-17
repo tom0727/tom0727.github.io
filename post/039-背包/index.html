@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>背包问题 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="多重背包二进制 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &amp;gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; V; while (n--) { int v,w,s; cin &amp;gt;&amp;gt; v &amp;gt;&amp;gt; w &amp;gt;&amp;gt; s; int k = 1; while (k &amp;lt;= s) { pack01(v*k, w*k); s -= k; k &amp;lt;&amp;lt;= 1; } pack01(v*s, w*s); } int ans = 0; for (int j = 0; j &amp;lt;= V; j&#43;&#43;) ans = max(ans, dp[j]); cout &amp;lt;&amp;lt; ans &amp;lt;&amp;lt; endl; }  多重背包（单调队列优化） struct node { int pos, val; } q[20005]; int head = -1, tail = 0, n, V, dp[20005]; void solve(int v, int w, int s) { for (int j = 0; j &amp;lt; v; j&#43;&#43;) { head = 0, tail = -1; q[&#43;&#43;tail] = {0,0}; for (int i = 1; i*v &#43; j &amp;lt;= V; i&#43;&#43;) { while (i - q[head].pos &amp;gt; s) head&#43;&#43;; int cur = i*v &#43; j; int val = dp[cur] - i*w; dp[cur] = max(dp[cur], q[head].val &#43; i*w); while (head &amp;lt;= tail &amp;amp;&amp;amp; val &amp;gt;= q[tail].val) tail--; q[&#43;&#43;tail] = {i, val}; } } } int main() { cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; V; for (int i = 1; i &amp;lt;= n; i&#43;&#43;) { int v,w,s; cin &amp;gt;&amp;gt; v &amp;gt;&amp;gt; w &amp;gt;&amp;gt; s; solve(v,w,s); } int ans = 0; for (int j = 0; j &amp;lt;= V; j&#43;&#43;) ans = max(ans, dp[j]); cout &amp;lt;&amp;lt; ans &amp;lt;&amp;lt; endl; } " /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/039-%E8%83%8C%E5%8C%85/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.01351798594008a854e2f051e77ca2accca6f8acaa785ac33305f3af890f00fc.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="背包问题" />
+<meta property="og:description" content="多重背包二进制
+int n, V;
+int dp[2005];
+
+void pack01(int v, int w) {
+    for (int j = V; j &gt;= v; j--) {
+        dp[j] = max(dp[j], dp[j-v] &#43; w);
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; V;
+    while (n--) {
+        int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s;
+        int k = 1;
+        while (k &lt;= s) {
+            pack01(v*k, w*k);
+            s -= k;
+            k &lt;&lt;= 1;
+        }
+        pack01(v*s, w*s);
+    }
+    int ans = 0;
+    for (int j = 0; j &lt;= V; j&#43;&#43;) ans = max(ans, dp[j]);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+多重背包（单调队列优化）
+struct node {
+    int pos, val;
+} q[20005];
+int head = -1, tail = 0, n, V, dp[20005];
+
+void solve(int v, int w, int s) {
+    for (int j = 0; j &lt; v; j&#43;&#43;) {
+        head = 0, tail = -1;
+        q[&#43;&#43;tail] = {0,0};
+        for (int i = 1; i*v &#43; j &lt;= V; i&#43;&#43;) {
+            while (i - q[head].pos &gt; s) head&#43;&#43;;
+            int cur = i*v &#43; j;
+            int val = dp[cur] - i*w;
+            dp[cur] = max(dp[cur], q[head].val &#43; i*w);
+
+            while (head &lt;= tail &amp;&amp; val &gt;= q[tail].val) tail--;
+            q[&#43;&#43;tail] = {i, val};
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; V;
+    for (int i = 1; i &lt;= n; i&#43;&#43;) {
+        int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s;
+        solve(v,w,s);
+    }
+    int ans = 0;
+    for (int j = 0; j &lt;= V; j&#43;&#43;) ans = max(ans, dp[j]);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/039-%E8%83%8C%E5%8C%85/" />
+<meta property="article:published_time" content="2021-04-11T21:42:06+08:00" />
+<meta property="article:modified_time" content="2021-04-17T16:55:29+08:00" />
+<meta itemprop="name" content="背包问题">
+<meta itemprop="description" content="多重背包二进制
+int n, V;
+int dp[2005];
+
+void pack01(int v, int w) {
+    for (int j = V; j &gt;= v; j--) {
+        dp[j] = max(dp[j], dp[j-v] &#43; w);
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; V;
+    while (n--) {
+        int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s;
+        int k = 1;
+        while (k &lt;= s) {
+            pack01(v*k, w*k);
+            s -= k;
+            k &lt;&lt;= 1;
+        }
+        pack01(v*s, w*s);
+    }
+    int ans = 0;
+    for (int j = 0; j &lt;= V; j&#43;&#43;) ans = max(ans, dp[j]);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+多重背包（单调队列优化）
+struct node {
+    int pos, val;
+} q[20005];
+int head = -1, tail = 0, n, V, dp[20005];
+
+void solve(int v, int w, int s) {
+    for (int j = 0; j &lt; v; j&#43;&#43;) {
+        head = 0, tail = -1;
+        q[&#43;&#43;tail] = {0,0};
+        for (int i = 1; i*v &#43; j &lt;= V; i&#43;&#43;) {
+            while (i - q[head].pos &gt; s) head&#43;&#43;;
+            int cur = i*v &#43; j;
+            int val = dp[cur] - i*w;
+            dp[cur] = max(dp[cur], q[head].val &#43; i*w);
+
+            while (head &lt;= tail &amp;&amp; val &gt;= q[tail].val) tail--;
+            q[&#43;&#43;tail] = {i, val};
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; V;
+    for (int i = 1; i &lt;= n; i&#43;&#43;) {
+        int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s;
+        solve(v,w,s);
+    }
+    int ans = 0;
+    for (int j = 0; j &lt;= V; j&#43;&#43;) ans = max(ans, dp[j]);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+">
+<meta itemprop="datePublished" content="2021-04-11T21:42:06&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-17T16:55:29&#43;08:00" />
+<meta itemprop="wordCount" content="262">
+
+
+
+<meta itemprop="keywords" content="DP,背包," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="背包问题"/>
+<meta name="twitter:description" content="多重背包二进制
+int n, V;
+int dp[2005];
+
+void pack01(int v, int w) {
+    for (int j = V; j &gt;= v; j--) {
+        dp[j] = max(dp[j], dp[j-v] &#43; w);
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; V;
+    while (n--) {
+        int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s;
+        int k = 1;
+        while (k &lt;= s) {
+            pack01(v*k, w*k);
+            s -= k;
+            k &lt;&lt;= 1;
+        }
+        pack01(v*s, w*s);
+    }
+    int ans = 0;
+    for (int j = 0; j &lt;= V; j&#43;&#43;) ans = max(ans, dp[j]);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+多重背包（单调队列优化）
+struct node {
+    int pos, val;
+} q[20005];
+int head = -1, tail = 0, n, V, dp[20005];
+
+void solve(int v, int w, int s) {
+    for (int j = 0; j &lt; v; j&#43;&#43;) {
+        head = 0, tail = -1;
+        q[&#43;&#43;tail] = {0,0};
+        for (int i = 1; i*v &#43; j &lt;= V; i&#43;&#43;) {
+            while (i - q[head].pos &gt; s) head&#43;&#43;;
+            int cur = i*v &#43; j;
+            int val = dp[cur] - i*w;
+            dp[cur] = max(dp[cur], q[head].val &#43; i*w);
+
+            while (head &lt;= tail &amp;&amp; val &gt;= q[tail].val) tail--;
+            q[&#43;&#43;tail] = {i, val};
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; V;
+    for (int i = 1; i &lt;= n; i&#43;&#43;) {
+        int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s;
+        solve(v,w,s);
+    }
+    int ans = 0;
+    for (int j = 0; j &lt;= V; j&#43;&#43;) ans = max(ans, dp[j]);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">背包问题</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-04-11 21:42:06 &#43;0800 &#43;0800"> 2021-04-11 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#多重背包二进制">多重背包二进制</a></li>
+            <li><a href="#多重背包单调队列优化">多重背包（单调队列优化）</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="多重背包二进制">多重背包二进制</h3>
+<pre><code class="language-cpp">int n, V;
+int dp[2005];
+
+void pack01(int v, int w) {
+    for (int j = V; j &gt;= v; j--) {
+        dp[j] = max(dp[j], dp[j-v] + w);
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; V;
+    while (n--) {
+        int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s;
+        int k = 1;
+        while (k &lt;= s) {
+            pack01(v*k, w*k);
+            s -= k;
+            k &lt;&lt;= 1;
+        }
+        pack01(v*s, w*s);
+    }
+    int ans = 0;
+    for (int j = 0; j &lt;= V; j++) ans = max(ans, dp[j]);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+<h3 id="多重背包单调队列优化">多重背包（单调队列优化）</h3>
+<pre><code class="language-cpp">struct node {
+    int pos, val;
+} q[20005];
+int head = -1, tail = 0, n, V, dp[20005];
+
+void solve(int v, int w, int s) {
+    for (int j = 0; j &lt; v; j++) {
+        head = 0, tail = -1;
+        q[++tail] = {0,0};
+        for (int i = 1; i*v + j &lt;= V; i++) {
+            while (i - q[head].pos &gt; s) head++;
+            int cur = i*v + j;
+            int val = dp[cur] - i*w;
+            dp[cur] = max(dp[cur], q[head].val + i*w);
+
+            while (head &lt;= tail &amp;&amp; val &gt;= q[tail].val) tail--;
+            q[++tail] = {i, val};
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; V;
+    for (int i = 1; i &lt;= n; i++) {
+        int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s;
+        solve(v,w,s);
+    }
+    int ans = 0;
+    for (int j = 0; j &lt;= V; j++) ans = max(ans, dp[j]);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-04-17 16:55:29 &#43;0800 &#43;0800">2021-04-17</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/9936beb0e00afe403971fe0f9787587358a832ab" title="init 037-041.md, update title-toc width=250" target="_blank">(9936beb)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/039-%e8%83%8c%e5%8c%85.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/dp/">DP</a>
+          <a href="/tags/%E8%83%8C%E5%8C%85/">背包</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/040-tarjan/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">强连通分量（SCC）</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/037-%E6%A0%91%E4%B8%8A%E5%B7%AE%E5%88%86/">
+            <span class="next-text nav-default">树上差分</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

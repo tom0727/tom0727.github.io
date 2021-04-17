@@ -1,0 +1,3730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>割点 桥 点/边双连通分量（BCC） - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="定义 割点 在一个 无向图 中，如果删掉节点 $u$ 使得整个图的连通分量增加，那么 $u$ 是一个割点。
+桥 在一个 无向图 中，如果删掉一条边 $(u,v)$ 使得整个图的连通分量增加，那么 $(u,v)$ 是一个桥。
+ 点双连通 一个 无向图 是 点双连通 的，当且仅当（以下表达是 equivalent 的）：
+ 如果删去任意一个节点，其他节点仍然互相连通。 不包含割点（注意，这个割点是对于 这个子图 而言）。 任取两个点 $u,v$，$u,v$ 之间都存在两条 点不重复 路径。 任取 $2$ 条边，都存在一个简单环（环内不包含其他环），使得这 $2$ 条边在这个简单环内。  • 注意，如果图内只有 $2$ 个连起来的节点，它们仍然点双连通。
+• 点双连通 不具有传递性：
+如上图，$a,b$ 点双连通，$b,c$ 点双连通，但是 $a,c$ 并不点双连通（$a,c$ 不在同一个点双分量内）。
+ 边双连通 一个 无向图 是 边双连通 的，当且仅当（以下表达是 equivalent 的）：
+ 一个 无向图 中，如果删去任意一条边，其他节点仍然互相连通。 一个 无向图 中，不包含桥（注意，这个桥是对于 整个图 而言）。 一个 无向图 中，任取两个点 $u,v$，$u,v$ 之间都存在两条 边不重复 路径。 一个 无向图 中，任取 $1$ 条边，都存在一个简单环（环内不包含其他环），使得这条边在这个简单环内。  • 点双连通 具有传递性：
+如果 $a,b$ 边双连通，$b,c$ 边双连通，则 $a,c$ 边双连通。
+证明：$a,b$ 边双连通说明 删去图中任意一条边，$a,b$ 仍连通。同理，删去图中任意一条边，$b,c$ 仍连通。所以删去任意一条边，$a,c$ 仍连通。
+ 点双连通分量 点双连通分量：一个极大的点双连通的子图。
+ 如果把这个子图 单独拿出来，它不存在割点，但是它在原图中，如果它与其他点双分量相连，那么它一定包含 至少一个原图中的割点。 原图中，每个割点 存在于至少 $2$ 个点双分量中。 任意一个 非割点 只存在于一个点双分量中。  点双缩点 利用点双缩点后，得到的新图有以下性质：
+ 新图 是一棵树，每个节点要么是一个点双，要么是一个割点。 所有 割点 单独成为一个节点。 点双之间以 割点 相连，并且所有割点的 degree 至少为 $2$。（任意两个点双之间，有且仅有一个公共点，且这个公共点是 割点）。  例1：
+图中的所有点双分量为：$\{1,2,3\}, \{3,4,5\}$
+图中所有割点为：$3$
+例2：
+图中的所有点双分量为：$\{1,2\}, \{1,3\}, \{2,4\}, \{2,5\}, \{3,6\}, \{3,7\}$
+图中所有割点为：$1,2,3$
+ 边双连通分量 边双连通分量：一个极大的边双连通子图。
+相比点双分量来说，边双分量的定义简单很多，因为它 不需要区分 原图和子图！
+ 将原图中的所有桥删掉，剩下的分量就是边双连通分量。 桥不属于任何一个边双分量，边双分量之间以桥连接。  例1：
+图中的所有边双分量为：$\{1,2,7\}, \{4,5,6\}, \{3\}$
+图中所有桥为：$(2,3), (2,4)$
+边双缩点 利用边双缩点后，得到的新图有以下性质：
+ 新图是 一棵树，每个节点都是一个边双。 原图中 所有的桥，在新图中仍然是桥。   算法 我们利用 tarjan 算法求 割点，桥，点双，边双。
+这里的 tarjan 和 有向图求SCC 的tarjan略有不同，主要体现在：
+ 有向图tarjan求SCC：需要记录当前在 栈内 的有哪些元素，更新 low[] 时，需要 to 在栈内才更新。 无向图求割点/桥/点双/边双：需要检查 to 是不是 u 的直接 parent p。（这里指的是 dfs树 内的parent关系），不需要考虑是否在栈内。  另外，求 割点 和 桥 时，也略有不同，主要体现在：
+ 求割点时，需要讨论当前节点是否为DFS树的根。但是求桥时，不需要。 求割点时，条件是 $low[to] \geq dfn[u]$。求桥时，条件是 $low[to] &amp;gt; dfn[u]$。   以下的算法，都要检查 to 是不是 u 的直接 parent p。
+割点 对于一个节点 $u$，在DFS树中，如果：
+ 它是DFS树的 根节点：如果 $u$ 拥有 $\geq 2$ 个子树，那么 $u$ 就是一个割点。 它不是DFS树的 根节点：如果 $u$ 存在一个 direct child $~to$，使得 $low[to] \geq dfn[u]$。那么 $u$ 就是一个割点。（因为这说明 $to$ 无法到达 $u$ 的上方）  模版题
+题意
+给定一个无向图，求图的所有割点。
+ 代码 #include &amp;lt;bits/stdc&#43;&#43;.h&amp;gt; using namespace std; const int maxn = 2e4&#43;5; const int maxm = 1e5&#43;10; struct Edge { int to, nxt; } edges[maxm&amp;lt;&amp;lt;1]; int dfn[maxn], low[maxn], head[maxn], ecnt = 1, n, m, id; void addEdge(int u, int v) { Edge e = {v, head[u]}; edges[ecnt] = e; head[u] = ecnt&#43;&#43;; } vector&amp;lt;int&amp;gt; ans; void dfs(int u, int p) { dfn[u] = &#43;&#43;id; low[u] = id; int child = 0; // 子树数量 bool cut = 0; // 是否为割点 for (int e = head[u]; e; e = edges[e].nxt) { int to = edges[e].to; if (to == p) continue; // 不能直接用parent if (dfn[to]) { low[u] = min(low[u], dfn[to]); continue; } dfs(to, u); child&#43;&#43;; low[u] = min(low[u], low[to]); if (p &amp;amp;&amp;amp; low[to] &amp;gt;= dfn[u]) cut = 1; // 如果u不是根节点，且存在 direct child使得 low[to] &amp;gt;= dfn[u]，则u是割点 } if (!p &amp;amp;&amp;amp; child &amp;gt;= 2) cut = 1; // 如果为根节点，且有 &amp;gt;= 2个子树 if (cut) ans.push_back(u); } void tarjan() { for (int i = 1; i &amp;lt;= n; i&#43;&#43;) { if (!dfn[i]) dfs(i, 0); } } int main() { cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; m; for (int i = 1; i &amp;lt;= m; i&#43;&#43;) { int u,v; cin &amp;gt;&amp;gt; u &amp;gt;&amp;gt; v; addEdge(u,v); addEdge(v,u); } tarjan(); sort(ans.begin(), ans.end()); cout &amp;lt;&amp;lt; ans.size() &amp;lt;&amp;lt; endl; for (int a : ans) cout &amp;lt;&amp;lt; a &amp;lt;&amp;lt; &amp;quot; &amp;quot;; cout &amp;lt;&amp;lt; endl; }   桥 判断一个边 $(u,to)$ 是不是桥，我们设 $u$ 在DFS树中，是 $to$ 的parent。
+如果 $low[to] &amp;gt; dfn[u]$，则 $(u,to)$ 是一个桥。（因为这说明 $to$ 无法到达 $u$ 和 $u$ 的上方）。
+ 实现过程中，需要注意以下几点：
+ 边的编号从 $0$ 开始（记得将 head[] 初始化为 -1），这样保证了 e 和 e^1 刚好为 $(u,v)$ 和 $(v,u)$。 标记桥的时候，一次标记两个边 e 和 e^1。  代码 void tarjan(int u, int p) { dfn[u] = low[u] = &#43;&#43;id; for (int e = head[u]; ~e; e = edges[e].nxt) { int to = edges[e].to; if (to == p) continue; // 注意不能用parent if (dfn[to]) low[u] = min(low[u], dfn[to]); else { tarjan(to, u); low[u] = min(low[u], low[to]); if (low[to] &amp;gt; dfn[u]) { // 注意这里的条件 bridge[e] = bridge[e^1] = 1; } } } }   点双连通分量（dcc） 求点双分量，可以在求割点的时候顺便求出来。
+当我们发现 $low[to] \geq dfn[u]$ 时，就说明 $to$ 及其子树（加上 $u$）一起形成了一个点双。
+此时，我们将 栈内的点一直pop，pop 到 to 为止（包括 to），但是 不包括 u。这是因为 u 作为割点，可能还属于别的点双分量，之后还要用到。
+• 求点双时，我们并不关心 $u$ 本身是否为割点，只要出现了 $low[to] \geq dfn[u]$，就说明出现了一个新点双。（例如，在只有 $1,2$ 这两个点的情况下，不存在割点，但是 $1,2$ 仍然是一个点双）。
+代码 bool cut[maxn]; vector&amp;lt;int&amp;gt; dcc_list[maxn]; void dfs(int u, int p) { dfn[u] = low[u] = &#43;&#43;id; st[&#43;&#43;tail] = u; int child = 0; for (int e = head[u]; e; e = edges[e].nxt) { int to = edges[e].to; if (to == p) continue; if (dfn[to]) { low[u] = min(low[u], dfn[to]); } else { child&#43;&#43;; dfs(to, u); low[u] = min(low[u], low[to]); if (low[to] &amp;gt;= dfn[u]) { // 不关心 u 是否为割点，直接开始pop from[to] = &#43;&#43;dcc; while (st[tail] != to) { // 注意是 pop 到 to 为止（包括to） int cur = st[tail--]; from[cur] = from[to]; dcc_list[dcc].push_back(cur); } tail--; // tail--后，指向的是 u dcc_list[dcc].push_back(to); dcc_list[dcc].push_back(u); // 注意 u是割点，也要进入该分量 // from[u] = dcc; // from[u] 实际上没有意义 } if (low[to] &amp;gt;= dfn[u] &amp;amp;&amp;amp; p) cut[u] = 1; // 割点（非根节点） } } if (!p &amp;amp;&amp;amp; child &amp;gt;= 2) cut[u] = 1; // 割点（根节点） }   边双连通分量（ecc） 求边双分量，可以根据定义：删去所有的桥，剩下的连通分量，就是边双分量。
+所以求边双分量，分以下两步：
+ tarjan 求出所有的桥。 进行一次 dfs()，如果 $(u,to)$ 是桥，则不经过这条边。以此求出所有的连通分量。  代码 int from[maxn]; bool bridge[maxm&amp;lt;&amp;lt;1]; void tarjan(int u, int p) { dfn[u] = low[u] = &#43;&#43;id; for (int e = head[u]; ~e; e = edges[e].nxt) { int to = edges[e].to; if (to == p) continue; if (dfn[to]) low[u] = min(low[u], dfn[to]); else { tarjan(to, u); low[u] = min(low[u], low[to]); if (low[to] &amp;gt; dfn[u]) { bridge[e] = bridge[e^1] = 1; } } } } // dfs求出所有的边双 // f 代表 from (ecc编号) void dfs(int u, int f) { from[u] = f; for (int e = head[u]; ~e; e = edges[e].nxt) { int to = edges[e].to; if (from[to] || bridge[e]) continue; // to已访问，或者该边是桥 dfs(to, f); } } int main() { // ... for (int i = 1; i &amp;lt;= n; i&#43;&#43;) if (!from[i]) dfs(i, &#43;&#43;ecc); // ... }   例题 例1 洛谷P3225 [HNOI2012]矿场搭建 题意
+给定 $M$ 条边的无向图。初始状态下，每个节点没有标记。
+我们需要给节点打上标记，使得：
+删去图中的任意一个节点，其他的所有节点均可到达一个有标记的节点。
+求：标记节点的最少数量，最少标记数量的方案总数。
+其中，$M \leq 500$，数据保证不存在单个独立点。
+ 题解 首先根据 点双连通 进行缩点。缩点以后，整个图会变成一个由 割点 和 点双分量 组成的 树。
+由于点双的性质，我们知道，如果删去点双分量中的任意一个点（除割点以外），该分量仍然和其他的分量连通。
+所以我们不需要考虑删去 非割点 的情况，我们只关心如果删去了一个 割点，会不会使得有些节点无法到达有标记的节点。
+由上可知，我们 不需要标记割点（因为我们只考虑删去 割点 的情况，如果要删去割点，那说明标记割点是无意义的）。
+ 对于一个点双分量而言，可以分以下情况讨论：
+ 点双内含有 $\geq 2$ 个割点：无论删去哪个割点，该分量仍然和其他分量连通，所以无需在该分量内标记。 点双内含有 $1$ 个割点：如果该割点被删了，那么这个分量就断开了，所以该分量内部需要标记 $1$ 个节点。（不标记割点），方案数为 $(sz-1)$ （因为分量里面有一个割点，要去掉标记它的可能性）。 点双内没有割点：说明这个分量本来就是独立开的（在缩点后，是单个独立节点）。所以该分量内需要标记 $2$ 个节点。方案数为 $C_{sz}^2$。   实现中的一些细节：
+ 由于一个割点可能属于多个点双分量，所以我们采用 vector&amp;lt;int&amp;gt; dcc_list[maxn]; 来记录每个点双里面的节点。 对于一个割点 $u$ 来说，它的 from[] 数组没有意义。（如果需要缩点，则后续会让 from[u] = &#43;&#43;dcc，缩点后的 from[u] 就有意义了） 与 tarjan 求 SCC 不同，我们不需要记录节点是否在栈内。 在 pop 栈的时候，注意我们是 pop 到 to 为止（包括 to），但是 不包括 u。这是因为 u 作为割点，可能还属于别的点双分量，之后还要用到。   代码 #include &amp;lt;bits/stdc&#43;&#43;.h&amp;gt; using namespace std; const int maxn = 1005; int n,m, head[maxn], ecnt = 1; struct Edge { int to, nxt; } edges[maxn]; void addEdge(int u, int v) { Edge e = {v, head[u]}; edges[ecnt] = e; head[u] = ecnt&#43;&#43;; } int dfn[maxn], low[maxn], id, st[maxn], tail, from[maxn], dcc; bool cut[maxn]; vector&amp;lt;int&amp;gt; dcc_list[maxn]; void dfs(int u, int p) { dfn[u] = low[u] = &#43;&#43;id; st[&#43;&#43;tail] = u; int child = 0; for (int e = head[u]; e; e = edges[e].nxt) { int to = edges[e].to; if (to == p) continue; if (dfn[to]) { low[u] = min(low[u], dfn[to]); } else { child&#43;&#43;; dfs(to, u); low[u] = min(low[u], low[to]); if (low[to] &amp;gt;= dfn[u]) { from[to] = &#43;&#43;dcc; while (st[tail] != to) { // 注意是 pop 到 to 为止（包括to） int cur = st[tail--]; from[cur] = from[to]; dcc_list[dcc].push_back(cur); } tail--; // tail--后，指向的是 u dcc_list[dcc].push_back(to); dcc_list[dcc].push_back(u); // 注意 u是割点，也要进入该分量 // from[u] = dcc; // from[u] 实际上没有意义 } if (low[to] &amp;gt;= dfn[u] &amp;amp;&amp;amp; p) cut[u] = 1; // 割点（非根节点） } } if (!p &amp;amp;&amp;amp; child &amp;gt;= 2) cut[u] = 1; // 割点（根节点） } void tarjan() { for (int i = 1; i &amp;lt;= n; i&#43;&#43;) { if (!dfn[i]) dfs(i, 0); } } void init() { for (int i = 1; i &amp;lt;= dcc; i&#43;&#43;) dcc_list[i].clear(); id = 0; tail = -1; dcc = 0; n = 0; ecnt = 1; fill(cut, cut&#43;maxn, 0); fill(from, from&#43;maxn, 0); fill(head, head&#43;maxn, 0); fill(dfn, dfn&#43;maxn, 0); fill(low, low&#43;maxn, 0); } void solve(int T) { init(); for (int i = 1; i &amp;lt;= m; i&#43;&#43;) { int u,v; cin &amp;gt;&amp;gt; u &amp;gt;&amp;gt; v; n = max(n,u); n = max(n,v); addEdge(u,v); addEdge(v,u); } tarjan(); int ans1 = 0; ll ans2 = 1; for (int i = 1; i &amp;lt;= dcc; i&#43;&#43;) { int cut_cnt = 0; int sz = dcc_list[i].size(); for (int j = 0; j &amp;lt; dcc_list[i].size(); j&#43;&#43;) { int cur = dcc_list[i][j]; if (cut[cur]) cut_cnt&#43;&#43;; } if (cut_cnt &amp;gt;= 2) continue; if (cut_cnt == 1) ans1&#43;&#43;, ans2 *= (ll)(sz - 1); if (cut_cnt == 0) ans1&#43;=2, ans2 *= (ll)(sz) * (ll)(sz-1LL) / 2LL; } printf(&amp;quot;Case %d: %d %lld\n&amp;quot;, T, max(ans1, 2), ans2); } int main() { int T = 0; while (cin &amp;gt;&amp;gt; m &amp;amp;&amp;amp; m) { T&#43;&#43;; solve(T); } }   例2 洛谷P5058 [ZJOI2004]嗅探器 题意
+现有 $n$ 个节点的无向图。
+给定两个节点 $a,b$，输出 最小编号的 $u$ 使得 $a,b$ 之间所有的路径都需要经过 $u$，且 $u \neq a, u \neq b$。
+如果无解，则输出 &amp;ldquo;No solution&amp;rdquo;。
+ 题解 先点双缩点，如果 $a,b$ 在同一个点双内必然无解（根据定义，大小等于 $3$ 的点双内，任意两点之间有点不重复的路径）。
+如果 $a,b$ 在不同的点双内则说明有解，缩点后，$a,b$ 就是树上的两个节点，它们之间有唯一路径，取这个路径上编号最小的割点即可。
+ 一些注意事项：
+ 每个割点单独形成一个点双。 缩点得到的树，所有的边必然和 割点 相连，所以建边的时候只需要考虑割点所在的dcc，还有它旁边有哪些dcc就可以了。本题中在缩点建树的过程中，使用了数组 vector&amp;lt;int&amp;gt; cut_from[maxn];。其中 cut_from[u] 代表以 $u$ 作为割点，它neighbor的dcc编号。   代码 #include &amp;lt;bits/stdc&#43;&#43;.h&amp;gt; using namespace std; const int maxn = 2e5&#43;5; const int maxm = 5e5&#43;5; int n,a,b,head[maxn],ecnt = 0; struct Edge { int to, nxt; } edges[maxm&amp;lt;&amp;lt;1]; void addEdge(int u, int v) { Edge e = {v, head[u]}; head[u] = ecnt; edges[ecnt&#43;&#43;] = e; } int dfn[maxn], low[maxn], dcc = 0, id = 0, st[maxn], from[maxn], tail = -1; bool cut[maxn]; vector&amp;lt;int&amp;gt; dcc_list[maxn&amp;lt;&amp;lt;1]; vector&amp;lt;int&amp;gt; cut_from[maxn]; // cut_from[u] 代表以 u 作为割点，它neighbor的dcc编号 void tarjan(int u, int p) { dfn[u] = low[u] = &#43;&#43;id; st[&#43;&#43;tail] = u; int child = 0; for (int e = head[u]; ~e; e = edges[e].nxt) { int to = edges[e].to; if (to == p) continue; if (dfn[to]) low[u] = min(low[u], dfn[to]); else { child&#43;&#43;; tarjan(to, u); low[u] = min(low[u], low[to]); if (low[to] &amp;gt;= dfn[u]) { from[u] = &#43;&#43;dcc; while (st[tail] != to) { int cur = st[tail--]; from[cur] = from[u]; dcc_list[dcc].push_back(cur); } tail--; from[to] = from[u]; dcc_list[dcc].push_back(to); dcc_list[dcc].push_back(u); } if (low[to] &amp;gt;= dfn[u] &amp;amp;&amp;amp; p) { cut[u] = 1; } } } if (child &amp;gt;= 2 &amp;amp;&amp;amp; !p) cut[u] = 1; } vector&amp;lt;int&amp;gt; adj[maxn&amp;lt;&amp;lt;1]; // 缩点后的图 int par[maxn&amp;lt;&amp;lt;1], dep[maxn&amp;lt;&amp;lt;1]; // 缩点后，dfs树用到的数组 int mp[maxn&amp;lt;&amp;lt;1]; // map: dcc -&amp;gt; cut vertex id (只有该dcc对应的是 单个割点形成的 dcc才有用) void dfs(int u, int p) { par[u] = p; dep[u] = dep[p] &#43; 1; for (int to : adj[u]) { if (to == p) continue; dfs(to, u); } } int ans = 1e9; void LCA(int u, int v) { int f1 = mp[u], f2 = mp[v]; if (dep[u] &amp;lt; dep[v]) swap(u,v); int d = dep[u] - dep[v]; vector&amp;lt;int&amp;gt; path; while (d--) { path.push_back(u); u = par[u]; } path.push_back(u); while (u != v) { path.push_back(u); path.push_back(v); u = par[u], v = par[v]; } path.push_back(u); path.push_back(v); for (int c : path) { if (mp[c] == f1 || mp[c] == f2) continue; if (cut[mp[c]]) ans = min(ans, mp[c]); } } void rebuild() { for (int i = 1; i &amp;lt;= dcc; i&#43;&#43;) { for (int j : dcc_list[i]) { if (cut[j]) cut_from[j].push_back(i); } } for (int u = 1; u &amp;lt;= n; u&#43;&#43;) { if (cut[u]) { int fu = from[u] = &#43;&#43;dcc; mp[dcc] = u; dcc_list[dcc].push_back(u); for (int fv : cut_from[u]) { adj[fu].push_back(fv); adj[fv].push_back(fu); } } } } int main() { cin &amp;gt;&amp;gt; n; int u,v; fill(head, head&#43;maxn, -1); while (cin &amp;gt;&amp;gt; u &amp;gt;&amp;gt; v &amp;amp;&amp;amp; u &amp;amp;&amp;amp; v) { addEdge(u,v); addEdge(v,u); } cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b; for (int i = 1; i &amp;lt;= n; i&#43;&#43;) { if (!dfn[i]) tarjan(i,0); } rebuild(); for (int i = 1; i &amp;lt;= dcc; i&#43;&#43;) { if (!dep[i]) dfs(i,0); } LCA(from[a], from[b]); if (ans == 0 || ans == 1e9) cout &amp;lt;&amp;lt; &amp;quot;No solution&amp;quot; &amp;lt;&amp;lt; endl; else cout &amp;lt;&amp;lt; ans &amp;lt;&amp;lt; endl; }   例3 POJ3694 Network 题意
+给定 $N$ 个节点和 $M$ 条边的无向图，初始图是连通的。
+现在要加 $Q$ 条边（可重复），每次加边后，回答图中有多少个桥。
+其中，$1 \leq N \leq 10^5, N-1 \leq M \leq 2 \times 10^5, 1\leq Q \leq 1000$
+ 题解 既然是桥，那么就直接先求一个边双，然后缩点。
+边双缩点后可以得到一棵树，所有加边操作都放到这个树上来考虑。
+首先会发现，加上的新边必不可能是桥（因为图原本是连通的）。
+每次加边 $(u,v)$，如果 $u,v$ 在同一个边双里，那么不会有任何影响。
+如果 $u,v$ 不在同一个边双里，那么加上的这条新边就会在树上形成一个环，使得环内的所有边均 不再是桥。
+ 那么，回忆一下 AcWing 352 暗之连锁 中，我们可以将树边看作主要边，新加上的边就转化为主要边。
+比如，我们加上 $(u,v)$，那么就给 $u,v$ 之间路径上所有的边打一个标记。被标记过的就不是桥，没标记的就都是桥。
+然而树上差分的做法只适用于离线，只有所有修改操作结束后询问才有效。
+在线的做法我们可以利用 树链剖分（询问边），每次修改前，先进行一下询问，查询有多少个在修改前是无标记的，将答案减去这个数量即可。
+ 代码 #include &amp;lt;bits/stdc&#43;&#43;.h&amp;gt; using namespace std; const int maxn = 1e5&#43;5; const int maxm = 2e5&#43;5; int n,m, head[maxn], ecnt = 0, dfn[maxn], low[maxn], id = 0, from[maxn], ecc = 0; bool bridge[maxm&amp;lt;&amp;lt;1]; struct Edge { int to, nxt; } edges[maxm&amp;lt;&amp;lt;1]; void addEdge(int u, int v) { Edge e = {v, head[u]}; edges[ecnt] = e; head[u] = ecnt&#43;&#43;; } void tarjan(int u, int p) { dfn[u] = low[u] = &#43;&#43;id; for (int e = head[u]; ~e; e = edges[e].nxt) { int to = edges[e].to; if (to == p) continue; if (dfn[to]) low[u] = min(low[u], dfn[to]); else { tarjan(to, u); low[u] = min(low[u], low[to]); if (low[to] &amp;gt; dfn[u]) { bridge[e] = bridge[e^1] = 1; } } } } // f 代表 from (ecc编号) void dfs(int u, int f) { from[u] = f; for (int e = head[u]; ~e; e = edges[e].nxt) { int to = edges[e].to; if (from[to] || bridge[e]) continue; // to已访问，或者该边是桥 dfs(to, f); } } vector&amp;lt;int&amp;gt; adj[maxn]; void rebuild() { for (int u = 1; u &amp;lt;= n; u&#43;&#43;) { for (int e = head[u]; ~e; e = edges[e].nxt) { int v = edges[e].to; int fu = from[u], fv = from[v]; if (fu == fv) continue; adj[fu].push_back(fv); } } } int sz[maxn], son[maxn], top[maxn], tr_id[maxn]; int par[maxn][20], dep[maxn]; void dfs2(int u, int p) { sz[u] = 1; dep[u] = dep[p] &#43; 1; par[u][0] = p; for (int j = 1; j &amp;lt;= 19; j&#43;&#43;) par[u][j] = par[par[u][j-1]][j-1]; int maxsz = -1; for (int i = 0; i &amp;lt; adj[u].size(); i&#43;&#43;) { int to = adj[u][i]; if (to == p) continue; dfs2(to, u); sz[u] &#43;= sz[to]; if (sz[to] &amp;gt; maxsz) maxsz = sz[to], son[u] = to; } } void dfs3(int u, int p, int topf) { top[u] = topf; tr_id[u] = &#43;&#43;id; if (son[u]) dfs3(son[u], u, topf); for (int i = 0; i &amp;lt; adj[u].size(); i&#43;&#43;) { int to = adj[u][i]; if (to == p || to == son[u]) continue; dfs3(to, u, to); } } struct tree_node { int sum; bool lazy; } tr[maxn&amp;lt;&amp;lt;2]; void push_up(int cur) { tr[cur].sum = tr[cur&amp;lt;&amp;lt;1].sum &#43; tr[cur&amp;lt;&amp;lt;1|1].sum; } void push_down(int cur) { if (!tr[cur].lazy) return; tr[cur].lazy = 0; int l = cur&amp;lt;&amp;lt;1, r = cur&amp;lt;&amp;lt;1|1; tr[l].lazy = tr[r].lazy = 1; tr[l].sum = tr[r].sum = 0; } void update(int cur, int l, int r, int L, int R) { if (l &amp;gt;= L &amp;amp;&amp;amp; r &amp;lt;= R) { tr[cur].lazy = 1; tr[cur].sum = 0; return; } push_down(cur); int mid = (l&#43;r) &amp;gt;&amp;gt; 1; if (L &amp;lt;= mid) update(cur&amp;lt;&amp;lt;1, l, mid, L, R); if (R &amp;gt; mid) update(cur&amp;lt;&amp;lt;1|1, mid&#43;1, r, L, R); push_up(cur); } int query(int cur, int l, int r, int L, int R) { if (l &amp;gt;= L &amp;amp;&amp;amp; r &amp;lt;= R) return tr[cur].sum; push_down(cur); int mid = (l&#43;r) &amp;gt;&amp;gt; 1; int res = 0; if (L &amp;lt;= mid) res &#43;= query(cur&amp;lt;&amp;lt;1, l, mid, L, R); if (R &amp;gt; mid) res &#43;= query(cur&amp;lt;&amp;lt;1|1, mid&#43;1, r, L, R); return res; } void build_tree(int cur, int l, int r) { if (l == r) { tr[cur].sum = 1; return; } int mid = (l&#43;r) &amp;gt;&amp;gt; 1; build_tree(cur&amp;lt;&amp;lt;1, l, mid); build_tree(cur&amp;lt;&amp;lt;1|1, mid&#43;1, r); push_up(cur); } int jump(int u, int d) { int j = 0; while (d) { if (d&amp;amp;1) u = par[u][j]; j&#43;&#43;, d &amp;gt;&amp;gt;= 1; } return u; } int LCA(int u, int v) { if (dep[u] &amp;lt; dep[v]) swap(u,v); int d = dep[u] - dep[v]; u = jump(u, d); if (u == v) return u; for (int j = 19; j &amp;gt;= 0; j--) { if (par[u][j] != par[v][j]) u = par[u][j], v = par[v][j]; } return par[u][0]; } int curans; void update_path_helper(int u, int v) { if (v == -1) return; while (top[u] != top[v]) { if (dep[top[u]] &amp;lt; dep[top[v]]) swap(u,v); curans -= query(1, 2, ecc, tr_id[top[u]], tr_id[u]); update(1, 2, ecc, tr_id[top[u]], tr_id[u]); u = par[top[u]][0]; } if (dep[u] &amp;gt; dep[v]) swap(u,v); curans -= query(1, 2, ecc, tr_id[u], tr_id[v]); update(1, 2, ecc, tr_id[u], tr_id[v]); } void update_path(int u, int v) { int x = LCA(u,v); int d,ux,vx; d = dep[u] - dep[x]; if (!d) ux = -1; else ux = jump(u, d-1); d = dep[v] - dep[x]; if (!d) vx = -1; else vx = jump(v, d-1); update_path_helper(u, ux); update_path_helper(v, vx); } void clearall() { fill(head, head&#43;n&#43;1, -1); fill(dfn, dfn&#43;n&#43;1, 0); fill(low, low&#43;n&#43;1, 0); fill(from, from&#43;n&#43;1, 0); fill(bridge, bridge&#43;(m&amp;lt;&amp;lt;1)&#43;2, 0); fill(sz, sz&#43;ecc&#43;1, 0); fill(son, son&#43;ecc&#43;1, 0); fill(top, top&#43;ecc&#43;1, 0); fill(tr_id, tr_id&#43;ecc&#43;1, 0); for (int i = 1; i &amp;lt;= 4*ecc&#43;5; i&#43;&#43;) tr[i].lazy = 0; for (int i = 1; i &amp;lt;= ecc; i&#43;&#43;) for (int j = 0; j &amp;lt;= 19; j&#43;&#43;) par[i][j] = 0; fill(dep, dep&#43;ecc&#43;1, 0); for (int i = 1; i &amp;lt;= n; i&#43;&#43;) adj[i].clear(); ecnt = id = ecc = 0; } int main() { fastio; int T = 0; fill(head, head&#43;maxn, -1); while (cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; m &amp;amp;&amp;amp; n &amp;amp;&amp;amp; m) { T&#43;&#43;; for (int i = 1; i &amp;lt;= m; i&#43;&#43;) { int u,v; cin &amp;gt;&amp;gt; u &amp;gt;&amp;gt; v; addEdge(u,v); addEdge(v,u); } tarjan(1, 0); for (int i = 1; i &amp;lt;= n; i&#43;&#43;) { if (!from[i]) dfs(i, &#43;&#43;ecc); } rebuild(); id = 0; dfs2(1, 0); dfs3(1, 0, 1); curans = ecc-1; cout &amp;lt;&amp;lt; &amp;quot;Case &amp;quot; &amp;lt;&amp;lt; T &amp;lt;&amp;lt; &amp;quot;:\n&amp;quot;; int Q; cin &amp;gt;&amp;gt; Q; if (ecc == 1) { while (Q--) { int u,v; cin &amp;gt;&amp;gt; u &amp;gt;&amp;gt; v; cout &amp;lt;&amp;lt; 0 &amp;lt;&amp;lt; &amp;quot;\n&amp;quot;; } } else { build_tree(1, 2, ecc); while (Q--) { int u,v; cin &amp;gt;&amp;gt; u &amp;gt;&amp;gt; v; update_path(from[u],from[v]); cout &amp;lt;&amp;lt; curans &amp;lt;&amp;lt; &amp;quot;\n&amp;quot;; } cout &amp;lt;&amp;lt; &amp;quot;\n&amp;quot;; } clearall(); } }  " /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/041-%E5%89%B2%E7%82%B9-%E6%A1%A5-bcc/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.01351798594008a854e2f051e77ca2accca6f8acaa785ac33305f3af890f00fc.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="割点 桥 点/边双连通分量（BCC）" />
+<meta property="og:description" content="定义
+割点
+在一个 无向图 中，如果删掉节点 $u$ 使得整个图的连通分量增加，那么 $u$ 是一个割点。
+桥
+在一个 无向图 中，如果删掉一条边 $(u,v)$ 使得整个图的连通分量增加，那么 $(u,v)$ 是一个桥。
+
+点双连通
+一个 无向图 是 点双连通 的，当且仅当（以下表达是 equivalent 的）：
+
+如果删去任意一个节点，其他节点仍然互相连通。
+不包含割点（注意，这个割点是对于 这个子图 而言）。
+任取两个点 $u,v$，$u,v$ 之间都存在两条 点不重复 路径。
+任取 $2$ 条边，都存在一个简单环（环内不包含其他环），使得这 $2$ 条边在这个简单环内。
+
+• 注意，如果图内只有 $2$ 个连起来的节点，它们仍然点双连通。
+• 点双连通 不具有传递性：
+
+如上图，$a,b$ 点双连通，$b,c$ 点双连通，但是 $a,c$ 并不点双连通（$a,c$ 不在同一个点双分量内）。
+
+边双连通
+一个 无向图 是 边双连通 的，当且仅当（以下表达是 equivalent 的）：
+
+一个 无向图 中，如果删去任意一条边，其他节点仍然互相连通。
+一个 无向图 中，不包含桥（注意，这个桥是对于 整个图 而言）。
+一个 无向图 中，任取两个点 $u,v$，$u,v$ 之间都存在两条 边不重复 路径。
+一个 无向图 中，任取 $1$ 条边，都存在一个简单环（环内不包含其他环），使得这条边在这个简单环内。
+
+• 点双连通 具有传递性：
+如果 $a,b$ 边双连通，$b,c$ 边双连通，则 $a,c$ 边双连通。
+证明：$a,b$ 边双连通说明 删去图中任意一条边，$a,b$ 仍连通。同理，删去图中任意一条边，$b,c$ 仍连通。所以删去任意一条边，$a,c$ 仍连通。
+
+点双连通分量
+点双连通分量：一个极大的点双连通的子图。
+
+如果把这个子图 单独拿出来，它不存在割点，但是它在原图中，如果它与其他点双分量相连，那么它一定包含 至少一个原图中的割点。
+原图中，每个割点 存在于至少 $2$ 个点双分量中。
+任意一个 非割点 只存在于一个点双分量中。
+
+点双缩点
+利用点双缩点后，得到的新图有以下性质：
+
+新图 是一棵树，每个节点要么是一个点双，要么是一个割点。
+所有 割点 单独成为一个节点。
+点双之间以 割点 相连，并且所有割点的 degree 至少为 $2$。（任意两个点双之间，有且仅有一个公共点，且这个公共点是 割点）。
+
+例1：
+图中的所有点双分量为：$\{1,2,3\}, \{3,4,5\}$
+图中所有割点为：$3$
+
+例2：
+图中的所有点双分量为：$\{1,2\}, \{1,3\}, \{2,4\}, \{2,5\}, \{3,6\}, \{3,7\}$
+图中所有割点为：$1,2,3$
+
+
+边双连通分量
+边双连通分量：一个极大的边双连通子图。
+相比点双分量来说，边双分量的定义简单很多，因为它 不需要区分 原图和子图！
+
+将原图中的所有桥删掉，剩下的分量就是边双连通分量。
+桥不属于任何一个边双分量，边双分量之间以桥连接。
+
+例1：
+图中的所有边双分量为：$\{1,2,7\}, \{4,5,6\}, \{3\}$
+图中所有桥为：$(2,3), (2,4)$
+
+边双缩点
+利用边双缩点后，得到的新图有以下性质：
+
+新图是 一棵树，每个节点都是一个边双。
+原图中 所有的桥，在新图中仍然是桥。
+
+
+算法
+我们利用 tarjan 算法求 割点，桥，点双，边双。
+这里的 tarjan 和 有向图求SCC 的tarjan略有不同，主要体现在：
+
+有向图tarjan求SCC：需要记录当前在 栈内 的有哪些元素，更新 low[] 时，需要 to 在栈内才更新。
+无向图求割点/桥/点双/边双：需要检查 to 是不是 u 的直接 parent p。（这里指的是 dfs树 内的parent关系），不需要考虑是否在栈内。
+
+另外，求 割点 和 桥 时，也略有不同，主要体现在：
+
+求割点时，需要讨论当前节点是否为DFS树的根。但是求桥时，不需要。
+求割点时，条件是 $low[to] \geq dfn[u]$。求桥时，条件是 $low[to] &gt; dfn[u]$。
+
+
+以下的算法，都要检查 to 是不是 u 的直接 parent p。
+割点
+对于一个节点 $u$，在DFS树中，如果：
+
+它是DFS树的 根节点：如果 $u$ 拥有 $\geq 2$ 个子树，那么 $u$ 就是一个割点。
+它不是DFS树的 根节点：如果 $u$ 存在一个 direct child $~to$，使得 $low[to] \geq dfn[u]$。那么 $u$ 就是一个割点。（因为这说明 $to$ 无法到达 $u$ 的上方）
+
+模版题
+
+  题意
+给定一个无向图，求图的所有割点。
+
+代码
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+const int maxn = 2e4&#43;5;
+const int maxm = 1e5&#43;10;
+
+struct Edge {
+    int to, nxt;
+} edges[maxm&lt;&lt;1];
+
+int dfn[maxn], low[maxn], head[maxn], ecnt = 1, n, m, id;
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt&#43;&#43;;
+}
+vector&lt;int&gt; ans;
+
+void dfs(int u, int p) {
+    dfn[u] = &#43;&#43;id;
+    low[u] = id;
+    int child = 0;  // 子树数量
+    bool cut = 0;  // 是否为割点
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;  // 不能直接用parent
+
+        if (dfn[to]) {
+            low[u] = min(low[u], dfn[to]);
+            continue;
+        }
+
+        dfs(to, u);
+        child&#43;&#43;;
+        low[u] = min(low[u], low[to]);
+        if (p &amp;&amp; low[to] &gt;= dfn[u]) cut = 1;  
+        // 如果u不是根节点，且存在 direct child使得 low[to] &gt;= dfn[u]，则u是割点
+    }
+    if (!p &amp;&amp; child &gt;= 2) cut = 1;  // 如果为根节点，且有 &gt;= 2个子树
+    if (cut) ans.push_back(u);
+}
+
+void tarjan() {
+    for (int i = 1; i &lt;= n; i&#43;&#43;) {
+        if (!dfn[i]) dfs(i, 0);
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i&#43;&#43;) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        addEdge(u,v); addEdge(v,u);
+    }
+    tarjan();
+
+    sort(ans.begin(), ans.end());
+    cout &lt;&lt; ans.size() &lt;&lt; endl;
+    for (int a : ans) cout &lt;&lt; a &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}
+
+
+桥
+判断一个边 $(u,to)$ 是不是桥，我们设 $u$ 在DFS树中，是 $to$ 的parent。
+如果 $low[to] &gt; dfn[u]$，则 $(u,to)$ 是一个桥。（因为这说明 $to$ 无法到达 $u$ 和 $u$ 的上方）。
+
+实现过程中，需要注意以下几点：
+
+边的编号从 $0$ 开始（记得将 head[] 初始化为 -1），这样保证了 e 和 e^1 刚好为 $(u,v)$ 和 $(v,u)$。
+标记桥的时候，一次标记两个边 e 和 e^1。
+
+代码
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;  // 注意不能用parent
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt; dfn[u]) {  // 注意这里的条件
+                bridge[e] = bridge[e^1] = 1;
+            }
+        }
+    }
+}
+
+
+点双连通分量（dcc）
+求点双分量，可以在求割点的时候顺便求出来。
+当我们发现 $low[to] \geq dfn[u]$ 时，就说明 $to$ 及其子树（加上 $u$）一起形成了一个点双。
+此时，我们将 栈内的点一直pop，pop 到 to 为止（包括 to），但是 不包括 u。这是因为 u 作为割点，可能还属于别的点双分量，之后还要用到。
+• 求点双时，我们并不关心 $u$ 本身是否为割点，只要出现了 $low[to] \geq dfn[u]$，就说明出现了一个新点双。（例如，在只有 $1,2$ 这两个点的情况下，不存在割点，但是 $1,2$ 仍然是一个点双）。
+代码
+bool cut[maxn];
+vector&lt;int&gt; dcc_list[maxn];
+void dfs(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    st[&#43;&#43;tail] = u;
+    int child = 0;
+
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) {
+            low[u] = min(low[u], dfn[to]);
+        } else {
+            child&#43;&#43;;
+            dfs(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt;= dfn[u]) {  // 不关心 u 是否为割点，直接开始pop
+                from[to] = &#43;&#43;dcc;
+                while (st[tail] != to) {  // 注意是 pop 到 to 为止（包括to）
+                    int cur = st[tail--];
+                    from[cur] = from[to];
+                    dcc_list[dcc].push_back(cur);
+                }
+                tail--;  // tail--后，指向的是 u
+                dcc_list[dcc].push_back(to);
+                dcc_list[dcc].push_back(u);  // 注意 u是割点，也要进入该分量
+                // from[u] = dcc;  // from[u] 实际上没有意义
+            }
+            if (low[to] &gt;= dfn[u] &amp;&amp; p) cut[u] = 1;  // 割点（非根节点）
+        }
+    }
+    if (!p &amp;&amp; child &gt;= 2) cut[u] = 1;  // 割点（根节点）
+}
+
+
+边双连通分量（ecc）
+求边双分量，可以根据定义：删去所有的桥，剩下的连通分量，就是边双分量。
+所以求边双分量，分以下两步：
+
+tarjan 求出所有的桥。
+进行一次 dfs()，如果 $(u,to)$ 是桥，则不经过这条边。以此求出所有的连通分量。
+
+代码
+int from[maxn];
+bool bridge[maxm&lt;&lt;1];
+
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt; dfn[u]) {
+                bridge[e] = bridge[e^1] = 1;
+            }
+        }
+    }
+}
+
+// dfs求出所有的边双
+// f 代表 from (ecc编号)
+void dfs(int u, int f) {
+    from[u] = f;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (from[to] || bridge[e]) continue;  // to已访问，或者该边是桥
+        dfs(to, f);
+    }
+}
+
+int main() {
+    // ...
+    for (int i = 1; i &lt;= n; i&#43;&#43;) 
+        if (!from[i]) 
+            dfs(i, &#43;&#43;ecc);
+    // ...
+}
+
+
+例题
+例1 洛谷P3225 [HNOI2012]矿场搭建
+
+  题意
+给定 $M$ 条边的无向图。初始状态下，每个节点没有标记。
+我们需要给节点打上标记，使得：
+删去图中的任意一个节点，其他的所有节点均可到达一个有标记的节点。
+求：标记节点的最少数量，最少标记数量的方案总数。
+其中，$M \leq 500$，数据保证不存在单个独立点。
+
+题解
+首先根据 点双连通 进行缩点。缩点以后，整个图会变成一个由 割点 和 点双分量 组成的 树。
+由于点双的性质，我们知道，如果删去点双分量中的任意一个点（除割点以外），该分量仍然和其他的分量连通。
+所以我们不需要考虑删去 非割点 的情况，我们只关心如果删去了一个 割点，会不会使得有些节点无法到达有标记的节点。
+由上可知，我们 不需要标记割点（因为我们只考虑删去 割点 的情况，如果要删去割点，那说明标记割点是无意义的）。
+
+对于一个点双分量而言，可以分以下情况讨论：
+
+点双内含有 $\geq 2$ 个割点：无论删去哪个割点，该分量仍然和其他分量连通，所以无需在该分量内标记。
+点双内含有 $1$ 个割点：如果该割点被删了，那么这个分量就断开了，所以该分量内部需要标记 $1$ 个节点。（不标记割点），方案数为 $(sz-1)$ （因为分量里面有一个割点，要去掉标记它的可能性）。
+点双内没有割点：说明这个分量本来就是独立开的（在缩点后，是单个独立节点）。所以该分量内需要标记 $2$ 个节点。方案数为 $C_{sz}^2$。
+
+
+实现中的一些细节：
+
+由于一个割点可能属于多个点双分量，所以我们采用 vector&lt;int&gt; dcc_list[maxn]; 来记录每个点双里面的节点。
+对于一个割点 $u$ 来说，它的 from[] 数组没有意义。（如果需要缩点，则后续会让 from[u] = &#43;&#43;dcc，缩点后的 from[u] 就有意义了）
+与 tarjan 求 SCC 不同，我们不需要记录节点是否在栈内。
+在 pop 栈的时候，注意我们是 pop 到 to 为止（包括 to），但是 不包括 u。这是因为 u 作为割点，可能还属于别的点双分量，之后还要用到。
+
+
+代码
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+const int maxn = 1005;
+
+int n,m, head[maxn], ecnt = 1;
+struct Edge {
+    int to, nxt;
+} edges[maxn];
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt&#43;&#43;;
+}
+
+int dfn[maxn], low[maxn], id, st[maxn], tail, from[maxn], dcc;
+bool cut[maxn];
+vector&lt;int&gt; dcc_list[maxn];
+void dfs(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    st[&#43;&#43;tail] = u;
+    int child = 0;
+
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) {
+            low[u] = min(low[u], dfn[to]);
+        } else {
+            child&#43;&#43;;
+            dfs(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt;= dfn[u]) {
+                from[to] = &#43;&#43;dcc;
+                while (st[tail] != to) {  // 注意是 pop 到 to 为止（包括to）
+                    int cur = st[tail--];
+                    from[cur] = from[to];
+                    dcc_list[dcc].push_back(cur);
+                }
+                tail--;  // tail--后，指向的是 u
+                dcc_list[dcc].push_back(to);
+                dcc_list[dcc].push_back(u);  // 注意 u是割点，也要进入该分量
+                // from[u] = dcc;  // from[u] 实际上没有意义
+            }
+            if (low[to] &gt;= dfn[u] &amp;&amp; p) cut[u] = 1;  // 割点（非根节点）
+        }
+    }
+    if (!p &amp;&amp; child &gt;= 2) cut[u] = 1;  // 割点（根节点）
+}
+
+void tarjan() {
+    for (int i = 1; i &lt;= n; i&#43;&#43;) {
+        if (!dfn[i]) dfs(i, 0);
+    }
+}
+
+void init() {
+    for (int i = 1; i &lt;= dcc; i&#43;&#43;) dcc_list[i].clear();
+    id = 0;
+    tail = -1;
+    dcc = 0;
+    n = 0;
+    ecnt = 1;
+
+    fill(cut, cut&#43;maxn, 0);
+    fill(from, from&#43;maxn, 0);
+    fill(head, head&#43;maxn, 0);
+    fill(dfn, dfn&#43;maxn, 0);
+    fill(low, low&#43;maxn, 0);
+}
+
+void solve(int T) {
+    init();
+    for (int i = 1; i &lt;= m; i&#43;&#43;) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        n = max(n,u); n = max(n,v);
+        addEdge(u,v); addEdge(v,u);
+    }
+    tarjan();
+
+    int ans1 = 0;
+    ll ans2 = 1;
+
+    for (int i = 1; i &lt;= dcc; i&#43;&#43;) {
+        int cut_cnt = 0;
+        int sz = dcc_list[i].size();
+        for (int j = 0; j &lt; dcc_list[i].size(); j&#43;&#43;) {
+            int cur = dcc_list[i][j];
+            if (cut[cur]) cut_cnt&#43;&#43;;
+        }
+        if (cut_cnt &gt;= 2) continue;
+        if (cut_cnt == 1) ans1&#43;&#43;, ans2 *= (ll)(sz - 1);
+        if (cut_cnt == 0) ans1&#43;=2, ans2 *= (ll)(sz) * (ll)(sz-1LL) / 2LL;
+    }
+
+    printf(&quot;Case %d: %d %lld\n&quot;, T, max(ans1, 2), ans2);
+}
+
+int main() {
+    int T = 0;
+    while (cin &gt;&gt; m &amp;&amp; m) {
+        T&#43;&#43;;
+        solve(T);
+    }
+}
+
+
+例2 洛谷P5058 [ZJOI2004]嗅探器
+
+  题意
+现有 $n$ 个节点的无向图。
+给定两个节点 $a,b$，输出 最小编号的 $u$ 使得 $a,b$ 之间所有的路径都需要经过 $u$，且 $u \neq a, u \neq b$。
+如果无解，则输出 &ldquo;No solution&rdquo;。
+
+题解
+先点双缩点，如果 $a,b$ 在同一个点双内必然无解（根据定义，大小等于 $3$ 的点双内，任意两点之间有点不重复的路径）。
+如果 $a,b$ 在不同的点双内则说明有解，缩点后，$a,b$ 就是树上的两个节点，它们之间有唯一路径，取这个路径上编号最小的割点即可。
+
+一些注意事项：
+
+每个割点单独形成一个点双。
+缩点得到的树，所有的边必然和 割点 相连，所以建边的时候只需要考虑割点所在的dcc，还有它旁边有哪些dcc就可以了。本题中在缩点建树的过程中，使用了数组 vector&lt;int&gt; cut_from[maxn];。其中 cut_from[u] 代表以 $u$ 作为割点，它neighbor的dcc编号。
+
+
+代码
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+const int maxn = 2e5&#43;5;
+const int maxm = 5e5&#43;5;
+
+int n,a,b,head[maxn],ecnt = 0;
+struct Edge {
+    int to, nxt;
+} edges[maxm&lt;&lt;1];
+
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt&#43;&#43;] = e;
+}
+
+int dfn[maxn], low[maxn], dcc = 0, id = 0, st[maxn], from[maxn], tail = -1;
+bool cut[maxn];
+vector&lt;int&gt; dcc_list[maxn&lt;&lt;1];
+vector&lt;int&gt; cut_from[maxn];  // cut_from[u] 代表以 u 作为割点，它neighbor的dcc编号
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    st[&#43;&#43;tail] = u;
+    int child = 0;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            child&#43;&#43;;
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt;= dfn[u]) {
+                from[u] = &#43;&#43;dcc;
+                while (st[tail] != to) {
+                    int cur = st[tail--];
+                    from[cur] = from[u];
+                    dcc_list[dcc].push_back(cur);
+                }
+                tail--;
+                from[to] = from[u];
+                dcc_list[dcc].push_back(to);
+                dcc_list[dcc].push_back(u);
+            }
+
+            if (low[to] &gt;= dfn[u] &amp;&amp; p) {
+                cut[u] = 1;
+            }
+        }
+    }
+    if (child &gt;= 2 &amp;&amp; !p)
+        cut[u] = 1;
+}
+
+vector&lt;int&gt; adj[maxn&lt;&lt;1];  // 缩点后的图
+int par[maxn&lt;&lt;1], dep[maxn&lt;&lt;1];  // 缩点后，dfs树用到的数组
+int mp[maxn&lt;&lt;1];  // map: dcc -&gt; cut vertex id (只有该dcc对应的是 单个割点形成的 dcc才有用)
+
+void dfs(int u, int p) {
+    par[u] = p;
+    dep[u] = dep[p] &#43; 1;
+    for (int to : adj[u]) {
+        if (to == p) continue;
+        dfs(to, u);
+    }
+}
+
+int ans = 1e9;
+void LCA(int u, int v) {
+    int f1 = mp[u], f2 = mp[v];
+    if (dep[u] &lt; dep[v]) swap(u,v);
+    int d = dep[u] - dep[v];
+    vector&lt;int&gt; path;
+    while (d--) {
+        path.push_back(u);
+        u = par[u];
+    }
+    path.push_back(u);
+    while (u != v) {
+        path.push_back(u);
+        path.push_back(v);
+        u = par[u], v = par[v];
+    }
+    path.push_back(u);
+    path.push_back(v);
+    for (int c : path) {
+        if (mp[c] == f1 || mp[c] == f2) continue;
+        if (cut[mp[c]]) ans = min(ans, mp[c]);
+    }
+}
+
+void rebuild() {
+    for (int i = 1; i &lt;= dcc; i&#43;&#43;) {
+        for (int j : dcc_list[i]) {
+            if (cut[j]) cut_from[j].push_back(i);
+        }
+    }
+
+    for (int u = 1; u &lt;= n; u&#43;&#43;) {
+        if (cut[u]) {
+            int fu = from[u] = &#43;&#43;dcc;
+            mp[dcc] = u;
+            dcc_list[dcc].push_back(u);
+            for (int fv : cut_from[u]) {
+                adj[fu].push_back(fv);
+                adj[fv].push_back(fu);
+            }
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n;
+    int u,v;
+    fill(head, head&#43;maxn, -1);
+    while (cin &gt;&gt; u &gt;&gt; v &amp;&amp; u &amp;&amp; v) {
+        addEdge(u,v); addEdge(v,u);
+    }
+    cin &gt;&gt; a &gt;&gt; b;
+    for (int i = 1; i &lt;= n; i&#43;&#43;) {
+        if (!dfn[i]) tarjan(i,0);
+    }
+    rebuild();
+    for (int i = 1; i &lt;= dcc; i&#43;&#43;) {
+        if (!dep[i]) dfs(i,0);
+    }
+    LCA(from[a], from[b]);
+
+    if (ans == 0 || ans == 1e9) cout &lt;&lt; &quot;No solution&quot; &lt;&lt; endl;
+    else cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+
+例3 POJ3694 Network
+
+  题意
+给定 $N$ 个节点和 $M$ 条边的无向图，初始图是连通的。
+现在要加 $Q$ 条边（可重复），每次加边后，回答图中有多少个桥。
+其中，$1 \leq N \leq 10^5, N-1 \leq M \leq 2 \times 10^5, 1\leq Q \leq 1000$
+
+题解
+既然是桥，那么就直接先求一个边双，然后缩点。
+边双缩点后可以得到一棵树，所有加边操作都放到这个树上来考虑。
+首先会发现，加上的新边必不可能是桥（因为图原本是连通的）。
+每次加边 $(u,v)$，如果 $u,v$ 在同一个边双里，那么不会有任何影响。
+如果 $u,v$ 不在同一个边双里，那么加上的这条新边就会在树上形成一个环，使得环内的所有边均 不再是桥。
+
+那么，回忆一下 AcWing 352 暗之连锁 中，我们可以将树边看作主要边，新加上的边就转化为主要边。
+比如，我们加上 $(u,v)$，那么就给 $u,v$ 之间路径上所有的边打一个标记。被标记过的就不是桥，没标记的就都是桥。
+然而树上差分的做法只适用于离线，只有所有修改操作结束后询问才有效。
+在线的做法我们可以利用 树链剖分（询问边），每次修改前，先进行一下询问，查询有多少个在修改前是无标记的，将答案减去这个数量即可。
+
+代码
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+const int maxn = 1e5&#43;5;
+const int maxm = 2e5&#43;5;
+
+int n,m, head[maxn], ecnt = 0, dfn[maxn], low[maxn], id = 0, from[maxn], ecc = 0;
+bool bridge[maxm&lt;&lt;1];
+struct Edge {
+    int to, nxt;
+} edges[maxm&lt;&lt;1];
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt&#43;&#43;;
+}
+
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt; dfn[u]) {
+                bridge[e] = bridge[e^1] = 1;
+            }
+        }
+    }
+}
+
+// f 代表 from (ecc编号)
+void dfs(int u, int f) {
+    from[u] = f;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (from[to] || bridge[e]) continue;  // to已访问，或者该边是桥
+        dfs(to, f);
+    }
+}
+
+vector&lt;int&gt; adj[maxn];
+void rebuild() {
+    for (int u = 1; u &lt;= n; u&#43;&#43;) {
+        for (int e = head[u]; ~e; e = edges[e].nxt) {
+            int v = edges[e].to;
+            int fu = from[u], fv = from[v];
+            if (fu == fv) continue;
+            adj[fu].push_back(fv);
+        }
+    }
+}
+
+int sz[maxn], son[maxn], top[maxn], tr_id[maxn];
+int par[maxn][20], dep[maxn];
+void dfs2(int u, int p) {
+    sz[u] = 1;
+    dep[u] = dep[p] &#43; 1;
+    par[u][0] = p;
+    for (int j = 1; j &lt;= 19; j&#43;&#43;) par[u][j] = par[par[u][j-1]][j-1];
+    int maxsz = -1;
+    for (int i = 0; i &lt; adj[u].size(); i&#43;&#43;) {
+        int to = adj[u][i];
+        if (to == p) continue;
+        dfs2(to, u);
+        sz[u] &#43;= sz[to];
+        if (sz[to] &gt; maxsz) maxsz = sz[to], son[u] = to;
+    }
+}
+
+void dfs3(int u, int p, int topf) {
+    top[u] = topf;
+    tr_id[u] = &#43;&#43;id;
+    if (son[u]) dfs3(son[u], u, topf);
+    for (int i = 0; i &lt; adj[u].size(); i&#43;&#43;) {
+        int to = adj[u][i];
+        if (to == p || to == son[u]) continue;
+        dfs3(to, u, to);
+    }
+}
+
+struct tree_node {
+    int sum;
+    bool lazy;
+} tr[maxn&lt;&lt;2];
+
+void push_up(int cur) {
+    tr[cur].sum = tr[cur&lt;&lt;1].sum &#43; tr[cur&lt;&lt;1|1].sum;
+}
+
+void push_down(int cur) {
+    if (!tr[cur].lazy) return;
+    tr[cur].lazy = 0;
+    int l = cur&lt;&lt;1, r = cur&lt;&lt;1|1;
+    tr[l].lazy = tr[r].lazy = 1;
+    tr[l].sum = tr[r].sum = 0;
+}
+
+void update(int cur, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        tr[cur].lazy = 1;
+        tr[cur].sum = 0;
+        return;
+    }
+    push_down(cur);
+    int mid = (l&#43;r) &gt;&gt; 1;
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid&#43;1, r, L, R);
+    push_up(cur);
+}
+
+int query(int cur, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) return tr[cur].sum;
+    push_down(cur);
+    int mid = (l&#43;r) &gt;&gt; 1;
+    int res = 0;
+    if (L &lt;= mid) res &#43;= query(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) res &#43;= query(cur&lt;&lt;1|1, mid&#43;1, r, L, R);
+    return res;
+}
+
+void build_tree(int cur, int l, int r) {
+    if (l == r) {
+        tr[cur].sum = 1;
+        return;
+    }
+    int mid = (l&#43;r) &gt;&gt; 1;
+    build_tree(cur&lt;&lt;1, l, mid);
+    build_tree(cur&lt;&lt;1|1, mid&#43;1, r);
+    push_up(cur);
+}
+
+int jump(int u, int d) {
+    int j = 0;
+    while (d) {
+        if (d&amp;1) u = par[u][j];
+        j&#43;&#43;, d &gt;&gt;= 1;
+    }
+    return u;
+}
+
+int LCA(int u, int v) {
+    if (dep[u] &lt; dep[v]) swap(u,v);
+    int d = dep[u] - dep[v];
+    u = jump(u, d);
+    if (u == v) return u;
+    for (int j = 19; j &gt;= 0; j--) {
+        if (par[u][j] != par[v][j]) 
+            u = par[u][j], v = par[v][j];
+    }
+    return par[u][0];
+}
+
+
+int curans;
+
+void update_path_helper(int u, int v) {
+    if (v == -1) return;
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        curans -= query(1, 2, ecc, tr_id[top[u]], tr_id[u]);
+        update(1, 2, ecc, tr_id[top[u]], tr_id[u]);
+        u = par[top[u]][0];
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v);
+    curans -= query(1, 2, ecc, tr_id[u], tr_id[v]);
+    update(1, 2, ecc, tr_id[u], tr_id[v]);
+}
+
+void update_path(int u, int v) {
+    int x = LCA(u,v);
+    int d,ux,vx;
+
+    d = dep[u] - dep[x];
+    if (!d) ux = -1;
+    else ux = jump(u, d-1);
+
+    d = dep[v] - dep[x];
+    if (!d) vx = -1;
+    else vx = jump(v, d-1);
+
+    update_path_helper(u, ux);
+    update_path_helper(v, vx);
+}
+
+void clearall() {
+    fill(head, head&#43;n&#43;1, -1);
+    fill(dfn, dfn&#43;n&#43;1, 0);
+    fill(low, low&#43;n&#43;1, 0);
+    fill(from, from&#43;n&#43;1, 0);
+    fill(bridge, bridge&#43;(m&lt;&lt;1)&#43;2, 0);
+    fill(sz, sz&#43;ecc&#43;1, 0);
+    fill(son, son&#43;ecc&#43;1, 0);
+    fill(top, top&#43;ecc&#43;1, 0);
+    fill(tr_id, tr_id&#43;ecc&#43;1, 0);
+    for (int i = 1; i &lt;= 4*ecc&#43;5; i&#43;&#43;) tr[i].lazy = 0;
+    for (int i = 1; i &lt;= ecc; i&#43;&#43;) 
+        for (int j = 0; j &lt;= 19; j&#43;&#43;) par[i][j] = 0;
+    fill(dep, dep&#43;ecc&#43;1, 0);
+    for (int i = 1; i &lt;= n; i&#43;&#43;) adj[i].clear();
+    ecnt = id = ecc = 0;
+}
+
+int main() {
+    fastio;
+    int T = 0;
+    fill(head, head&#43;maxn, -1);
+    while (cin &gt;&gt; n &gt;&gt; m &amp;&amp; n &amp;&amp; m) {
+        T&#43;&#43;;
+        for (int i = 1; i &lt;= m; i&#43;&#43;) {
+            int u,v; cin &gt;&gt; u &gt;&gt; v;
+            addEdge(u,v); addEdge(v,u);
+        }
+        tarjan(1, 0);
+        for (int i = 1; i &lt;= n; i&#43;&#43;) {
+            if (!from[i]) dfs(i, &#43;&#43;ecc);
+        }
+        rebuild();
+
+        id = 0;
+        dfs2(1, 0);
+        dfs3(1, 0, 1);
+        curans = ecc-1;
+
+        cout &lt;&lt; &quot;Case &quot; &lt;&lt; T &lt;&lt; &quot;:\n&quot;;
+        int Q; cin &gt;&gt; Q;
+        if (ecc == 1) {
+            while (Q--) {
+                int u,v; cin &gt;&gt; u &gt;&gt; v;
+                cout &lt;&lt; 0 &lt;&lt; &quot;\n&quot;;
+            }
+        } else {
+            build_tree(1, 2, ecc);
+            while (Q--) {
+                int u,v; cin &gt;&gt; u &gt;&gt; v;
+                update_path(from[u],from[v]);
+                cout &lt;&lt; curans &lt;&lt; &quot;\n&quot;;
+            }
+            cout &lt;&lt; &quot;\n&quot;;
+        }
+
+        clearall();
+    }
+}
+
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/041-%E5%89%B2%E7%82%B9-%E6%A1%A5-bcc/" />
+<meta property="article:published_time" content="2021-04-14T11:23:25+08:00" />
+<meta property="article:modified_time" content="2021-04-17T16:55:29+08:00" />
+<meta itemprop="name" content="割点 桥 点/边双连通分量（BCC）">
+<meta itemprop="description" content="定义
+割点
+在一个 无向图 中，如果删掉节点 $u$ 使得整个图的连通分量增加，那么 $u$ 是一个割点。
+桥
+在一个 无向图 中，如果删掉一条边 $(u,v)$ 使得整个图的连通分量增加，那么 $(u,v)$ 是一个桥。
+
+点双连通
+一个 无向图 是 点双连通 的，当且仅当（以下表达是 equivalent 的）：
+
+如果删去任意一个节点，其他节点仍然互相连通。
+不包含割点（注意，这个割点是对于 这个子图 而言）。
+任取两个点 $u,v$，$u,v$ 之间都存在两条 点不重复 路径。
+任取 $2$ 条边，都存在一个简单环（环内不包含其他环），使得这 $2$ 条边在这个简单环内。
+
+• 注意，如果图内只有 $2$ 个连起来的节点，它们仍然点双连通。
+• 点双连通 不具有传递性：
+
+如上图，$a,b$ 点双连通，$b,c$ 点双连通，但是 $a,c$ 并不点双连通（$a,c$ 不在同一个点双分量内）。
+
+边双连通
+一个 无向图 是 边双连通 的，当且仅当（以下表达是 equivalent 的）：
+
+一个 无向图 中，如果删去任意一条边，其他节点仍然互相连通。
+一个 无向图 中，不包含桥（注意，这个桥是对于 整个图 而言）。
+一个 无向图 中，任取两个点 $u,v$，$u,v$ 之间都存在两条 边不重复 路径。
+一个 无向图 中，任取 $1$ 条边，都存在一个简单环（环内不包含其他环），使得这条边在这个简单环内。
+
+• 点双连通 具有传递性：
+如果 $a,b$ 边双连通，$b,c$ 边双连通，则 $a,c$ 边双连通。
+证明：$a,b$ 边双连通说明 删去图中任意一条边，$a,b$ 仍连通。同理，删去图中任意一条边，$b,c$ 仍连通。所以删去任意一条边，$a,c$ 仍连通。
+
+点双连通分量
+点双连通分量：一个极大的点双连通的子图。
+
+如果把这个子图 单独拿出来，它不存在割点，但是它在原图中，如果它与其他点双分量相连，那么它一定包含 至少一个原图中的割点。
+原图中，每个割点 存在于至少 $2$ 个点双分量中。
+任意一个 非割点 只存在于一个点双分量中。
+
+点双缩点
+利用点双缩点后，得到的新图有以下性质：
+
+新图 是一棵树，每个节点要么是一个点双，要么是一个割点。
+所有 割点 单独成为一个节点。
+点双之间以 割点 相连，并且所有割点的 degree 至少为 $2$。（任意两个点双之间，有且仅有一个公共点，且这个公共点是 割点）。
+
+例1：
+图中的所有点双分量为：$\{1,2,3\}, \{3,4,5\}$
+图中所有割点为：$3$
+
+例2：
+图中的所有点双分量为：$\{1,2\}, \{1,3\}, \{2,4\}, \{2,5\}, \{3,6\}, \{3,7\}$
+图中所有割点为：$1,2,3$
+
+
+边双连通分量
+边双连通分量：一个极大的边双连通子图。
+相比点双分量来说，边双分量的定义简单很多，因为它 不需要区分 原图和子图！
+
+将原图中的所有桥删掉，剩下的分量就是边双连通分量。
+桥不属于任何一个边双分量，边双分量之间以桥连接。
+
+例1：
+图中的所有边双分量为：$\{1,2,7\}, \{4,5,6\}, \{3\}$
+图中所有桥为：$(2,3), (2,4)$
+
+边双缩点
+利用边双缩点后，得到的新图有以下性质：
+
+新图是 一棵树，每个节点都是一个边双。
+原图中 所有的桥，在新图中仍然是桥。
+
+
+算法
+我们利用 tarjan 算法求 割点，桥，点双，边双。
+这里的 tarjan 和 有向图求SCC 的tarjan略有不同，主要体现在：
+
+有向图tarjan求SCC：需要记录当前在 栈内 的有哪些元素，更新 low[] 时，需要 to 在栈内才更新。
+无向图求割点/桥/点双/边双：需要检查 to 是不是 u 的直接 parent p。（这里指的是 dfs树 内的parent关系），不需要考虑是否在栈内。
+
+另外，求 割点 和 桥 时，也略有不同，主要体现在：
+
+求割点时，需要讨论当前节点是否为DFS树的根。但是求桥时，不需要。
+求割点时，条件是 $low[to] \geq dfn[u]$。求桥时，条件是 $low[to] &gt; dfn[u]$。
+
+
+以下的算法，都要检查 to 是不是 u 的直接 parent p。
+割点
+对于一个节点 $u$，在DFS树中，如果：
+
+它是DFS树的 根节点：如果 $u$ 拥有 $\geq 2$ 个子树，那么 $u$ 就是一个割点。
+它不是DFS树的 根节点：如果 $u$ 存在一个 direct child $~to$，使得 $low[to] \geq dfn[u]$。那么 $u$ 就是一个割点。（因为这说明 $to$ 无法到达 $u$ 的上方）
+
+模版题
+
+  题意
+给定一个无向图，求图的所有割点。
+
+代码
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+const int maxn = 2e4&#43;5;
+const int maxm = 1e5&#43;10;
+
+struct Edge {
+    int to, nxt;
+} edges[maxm&lt;&lt;1];
+
+int dfn[maxn], low[maxn], head[maxn], ecnt = 1, n, m, id;
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt&#43;&#43;;
+}
+vector&lt;int&gt; ans;
+
+void dfs(int u, int p) {
+    dfn[u] = &#43;&#43;id;
+    low[u] = id;
+    int child = 0;  // 子树数量
+    bool cut = 0;  // 是否为割点
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;  // 不能直接用parent
+
+        if (dfn[to]) {
+            low[u] = min(low[u], dfn[to]);
+            continue;
+        }
+
+        dfs(to, u);
+        child&#43;&#43;;
+        low[u] = min(low[u], low[to]);
+        if (p &amp;&amp; low[to] &gt;= dfn[u]) cut = 1;  
+        // 如果u不是根节点，且存在 direct child使得 low[to] &gt;= dfn[u]，则u是割点
+    }
+    if (!p &amp;&amp; child &gt;= 2) cut = 1;  // 如果为根节点，且有 &gt;= 2个子树
+    if (cut) ans.push_back(u);
+}
+
+void tarjan() {
+    for (int i = 1; i &lt;= n; i&#43;&#43;) {
+        if (!dfn[i]) dfs(i, 0);
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i&#43;&#43;) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        addEdge(u,v); addEdge(v,u);
+    }
+    tarjan();
+
+    sort(ans.begin(), ans.end());
+    cout &lt;&lt; ans.size() &lt;&lt; endl;
+    for (int a : ans) cout &lt;&lt; a &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}
+
+
+桥
+判断一个边 $(u,to)$ 是不是桥，我们设 $u$ 在DFS树中，是 $to$ 的parent。
+如果 $low[to] &gt; dfn[u]$，则 $(u,to)$ 是一个桥。（因为这说明 $to$ 无法到达 $u$ 和 $u$ 的上方）。
+
+实现过程中，需要注意以下几点：
+
+边的编号从 $0$ 开始（记得将 head[] 初始化为 -1），这样保证了 e 和 e^1 刚好为 $(u,v)$ 和 $(v,u)$。
+标记桥的时候，一次标记两个边 e 和 e^1。
+
+代码
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;  // 注意不能用parent
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt; dfn[u]) {  // 注意这里的条件
+                bridge[e] = bridge[e^1] = 1;
+            }
+        }
+    }
+}
+
+
+点双连通分量（dcc）
+求点双分量，可以在求割点的时候顺便求出来。
+当我们发现 $low[to] \geq dfn[u]$ 时，就说明 $to$ 及其子树（加上 $u$）一起形成了一个点双。
+此时，我们将 栈内的点一直pop，pop 到 to 为止（包括 to），但是 不包括 u。这是因为 u 作为割点，可能还属于别的点双分量，之后还要用到。
+• 求点双时，我们并不关心 $u$ 本身是否为割点，只要出现了 $low[to] \geq dfn[u]$，就说明出现了一个新点双。（例如，在只有 $1,2$ 这两个点的情况下，不存在割点，但是 $1,2$ 仍然是一个点双）。
+代码
+bool cut[maxn];
+vector&lt;int&gt; dcc_list[maxn];
+void dfs(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    st[&#43;&#43;tail] = u;
+    int child = 0;
+
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) {
+            low[u] = min(low[u], dfn[to]);
+        } else {
+            child&#43;&#43;;
+            dfs(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt;= dfn[u]) {  // 不关心 u 是否为割点，直接开始pop
+                from[to] = &#43;&#43;dcc;
+                while (st[tail] != to) {  // 注意是 pop 到 to 为止（包括to）
+                    int cur = st[tail--];
+                    from[cur] = from[to];
+                    dcc_list[dcc].push_back(cur);
+                }
+                tail--;  // tail--后，指向的是 u
+                dcc_list[dcc].push_back(to);
+                dcc_list[dcc].push_back(u);  // 注意 u是割点，也要进入该分量
+                // from[u] = dcc;  // from[u] 实际上没有意义
+            }
+            if (low[to] &gt;= dfn[u] &amp;&amp; p) cut[u] = 1;  // 割点（非根节点）
+        }
+    }
+    if (!p &amp;&amp; child &gt;= 2) cut[u] = 1;  // 割点（根节点）
+}
+
+
+边双连通分量（ecc）
+求边双分量，可以根据定义：删去所有的桥，剩下的连通分量，就是边双分量。
+所以求边双分量，分以下两步：
+
+tarjan 求出所有的桥。
+进行一次 dfs()，如果 $(u,to)$ 是桥，则不经过这条边。以此求出所有的连通分量。
+
+代码
+int from[maxn];
+bool bridge[maxm&lt;&lt;1];
+
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt; dfn[u]) {
+                bridge[e] = bridge[e^1] = 1;
+            }
+        }
+    }
+}
+
+// dfs求出所有的边双
+// f 代表 from (ecc编号)
+void dfs(int u, int f) {
+    from[u] = f;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (from[to] || bridge[e]) continue;  // to已访问，或者该边是桥
+        dfs(to, f);
+    }
+}
+
+int main() {
+    // ...
+    for (int i = 1; i &lt;= n; i&#43;&#43;) 
+        if (!from[i]) 
+            dfs(i, &#43;&#43;ecc);
+    // ...
+}
+
+
+例题
+例1 洛谷P3225 [HNOI2012]矿场搭建
+
+  题意
+给定 $M$ 条边的无向图。初始状态下，每个节点没有标记。
+我们需要给节点打上标记，使得：
+删去图中的任意一个节点，其他的所有节点均可到达一个有标记的节点。
+求：标记节点的最少数量，最少标记数量的方案总数。
+其中，$M \leq 500$，数据保证不存在单个独立点。
+
+题解
+首先根据 点双连通 进行缩点。缩点以后，整个图会变成一个由 割点 和 点双分量 组成的 树。
+由于点双的性质，我们知道，如果删去点双分量中的任意一个点（除割点以外），该分量仍然和其他的分量连通。
+所以我们不需要考虑删去 非割点 的情况，我们只关心如果删去了一个 割点，会不会使得有些节点无法到达有标记的节点。
+由上可知，我们 不需要标记割点（因为我们只考虑删去 割点 的情况，如果要删去割点，那说明标记割点是无意义的）。
+
+对于一个点双分量而言，可以分以下情况讨论：
+
+点双内含有 $\geq 2$ 个割点：无论删去哪个割点，该分量仍然和其他分量连通，所以无需在该分量内标记。
+点双内含有 $1$ 个割点：如果该割点被删了，那么这个分量就断开了，所以该分量内部需要标记 $1$ 个节点。（不标记割点），方案数为 $(sz-1)$ （因为分量里面有一个割点，要去掉标记它的可能性）。
+点双内没有割点：说明这个分量本来就是独立开的（在缩点后，是单个独立节点）。所以该分量内需要标记 $2$ 个节点。方案数为 $C_{sz}^2$。
+
+
+实现中的一些细节：
+
+由于一个割点可能属于多个点双分量，所以我们采用 vector&lt;int&gt; dcc_list[maxn]; 来记录每个点双里面的节点。
+对于一个割点 $u$ 来说，它的 from[] 数组没有意义。（如果需要缩点，则后续会让 from[u] = &#43;&#43;dcc，缩点后的 from[u] 就有意义了）
+与 tarjan 求 SCC 不同，我们不需要记录节点是否在栈内。
+在 pop 栈的时候，注意我们是 pop 到 to 为止（包括 to），但是 不包括 u。这是因为 u 作为割点，可能还属于别的点双分量，之后还要用到。
+
+
+代码
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+const int maxn = 1005;
+
+int n,m, head[maxn], ecnt = 1;
+struct Edge {
+    int to, nxt;
+} edges[maxn];
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt&#43;&#43;;
+}
+
+int dfn[maxn], low[maxn], id, st[maxn], tail, from[maxn], dcc;
+bool cut[maxn];
+vector&lt;int&gt; dcc_list[maxn];
+void dfs(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    st[&#43;&#43;tail] = u;
+    int child = 0;
+
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) {
+            low[u] = min(low[u], dfn[to]);
+        } else {
+            child&#43;&#43;;
+            dfs(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt;= dfn[u]) {
+                from[to] = &#43;&#43;dcc;
+                while (st[tail] != to) {  // 注意是 pop 到 to 为止（包括to）
+                    int cur = st[tail--];
+                    from[cur] = from[to];
+                    dcc_list[dcc].push_back(cur);
+                }
+                tail--;  // tail--后，指向的是 u
+                dcc_list[dcc].push_back(to);
+                dcc_list[dcc].push_back(u);  // 注意 u是割点，也要进入该分量
+                // from[u] = dcc;  // from[u] 实际上没有意义
+            }
+            if (low[to] &gt;= dfn[u] &amp;&amp; p) cut[u] = 1;  // 割点（非根节点）
+        }
+    }
+    if (!p &amp;&amp; child &gt;= 2) cut[u] = 1;  // 割点（根节点）
+}
+
+void tarjan() {
+    for (int i = 1; i &lt;= n; i&#43;&#43;) {
+        if (!dfn[i]) dfs(i, 0);
+    }
+}
+
+void init() {
+    for (int i = 1; i &lt;= dcc; i&#43;&#43;) dcc_list[i].clear();
+    id = 0;
+    tail = -1;
+    dcc = 0;
+    n = 0;
+    ecnt = 1;
+
+    fill(cut, cut&#43;maxn, 0);
+    fill(from, from&#43;maxn, 0);
+    fill(head, head&#43;maxn, 0);
+    fill(dfn, dfn&#43;maxn, 0);
+    fill(low, low&#43;maxn, 0);
+}
+
+void solve(int T) {
+    init();
+    for (int i = 1; i &lt;= m; i&#43;&#43;) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        n = max(n,u); n = max(n,v);
+        addEdge(u,v); addEdge(v,u);
+    }
+    tarjan();
+
+    int ans1 = 0;
+    ll ans2 = 1;
+
+    for (int i = 1; i &lt;= dcc; i&#43;&#43;) {
+        int cut_cnt = 0;
+        int sz = dcc_list[i].size();
+        for (int j = 0; j &lt; dcc_list[i].size(); j&#43;&#43;) {
+            int cur = dcc_list[i][j];
+            if (cut[cur]) cut_cnt&#43;&#43;;
+        }
+        if (cut_cnt &gt;= 2) continue;
+        if (cut_cnt == 1) ans1&#43;&#43;, ans2 *= (ll)(sz - 1);
+        if (cut_cnt == 0) ans1&#43;=2, ans2 *= (ll)(sz) * (ll)(sz-1LL) / 2LL;
+    }
+
+    printf(&quot;Case %d: %d %lld\n&quot;, T, max(ans1, 2), ans2);
+}
+
+int main() {
+    int T = 0;
+    while (cin &gt;&gt; m &amp;&amp; m) {
+        T&#43;&#43;;
+        solve(T);
+    }
+}
+
+
+例2 洛谷P5058 [ZJOI2004]嗅探器
+
+  题意
+现有 $n$ 个节点的无向图。
+给定两个节点 $a,b$，输出 最小编号的 $u$ 使得 $a,b$ 之间所有的路径都需要经过 $u$，且 $u \neq a, u \neq b$。
+如果无解，则输出 &ldquo;No solution&rdquo;。
+
+题解
+先点双缩点，如果 $a,b$ 在同一个点双内必然无解（根据定义，大小等于 $3$ 的点双内，任意两点之间有点不重复的路径）。
+如果 $a,b$ 在不同的点双内则说明有解，缩点后，$a,b$ 就是树上的两个节点，它们之间有唯一路径，取这个路径上编号最小的割点即可。
+
+一些注意事项：
+
+每个割点单独形成一个点双。
+缩点得到的树，所有的边必然和 割点 相连，所以建边的时候只需要考虑割点所在的dcc，还有它旁边有哪些dcc就可以了。本题中在缩点建树的过程中，使用了数组 vector&lt;int&gt; cut_from[maxn];。其中 cut_from[u] 代表以 $u$ 作为割点，它neighbor的dcc编号。
+
+
+代码
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+const int maxn = 2e5&#43;5;
+const int maxm = 5e5&#43;5;
+
+int n,a,b,head[maxn],ecnt = 0;
+struct Edge {
+    int to, nxt;
+} edges[maxm&lt;&lt;1];
+
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt&#43;&#43;] = e;
+}
+
+int dfn[maxn], low[maxn], dcc = 0, id = 0, st[maxn], from[maxn], tail = -1;
+bool cut[maxn];
+vector&lt;int&gt; dcc_list[maxn&lt;&lt;1];
+vector&lt;int&gt; cut_from[maxn];  // cut_from[u] 代表以 u 作为割点，它neighbor的dcc编号
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    st[&#43;&#43;tail] = u;
+    int child = 0;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            child&#43;&#43;;
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt;= dfn[u]) {
+                from[u] = &#43;&#43;dcc;
+                while (st[tail] != to) {
+                    int cur = st[tail--];
+                    from[cur] = from[u];
+                    dcc_list[dcc].push_back(cur);
+                }
+                tail--;
+                from[to] = from[u];
+                dcc_list[dcc].push_back(to);
+                dcc_list[dcc].push_back(u);
+            }
+
+            if (low[to] &gt;= dfn[u] &amp;&amp; p) {
+                cut[u] = 1;
+            }
+        }
+    }
+    if (child &gt;= 2 &amp;&amp; !p)
+        cut[u] = 1;
+}
+
+vector&lt;int&gt; adj[maxn&lt;&lt;1];  // 缩点后的图
+int par[maxn&lt;&lt;1], dep[maxn&lt;&lt;1];  // 缩点后，dfs树用到的数组
+int mp[maxn&lt;&lt;1];  // map: dcc -&gt; cut vertex id (只有该dcc对应的是 单个割点形成的 dcc才有用)
+
+void dfs(int u, int p) {
+    par[u] = p;
+    dep[u] = dep[p] &#43; 1;
+    for (int to : adj[u]) {
+        if (to == p) continue;
+        dfs(to, u);
+    }
+}
+
+int ans = 1e9;
+void LCA(int u, int v) {
+    int f1 = mp[u], f2 = mp[v];
+    if (dep[u] &lt; dep[v]) swap(u,v);
+    int d = dep[u] - dep[v];
+    vector&lt;int&gt; path;
+    while (d--) {
+        path.push_back(u);
+        u = par[u];
+    }
+    path.push_back(u);
+    while (u != v) {
+        path.push_back(u);
+        path.push_back(v);
+        u = par[u], v = par[v];
+    }
+    path.push_back(u);
+    path.push_back(v);
+    for (int c : path) {
+        if (mp[c] == f1 || mp[c] == f2) continue;
+        if (cut[mp[c]]) ans = min(ans, mp[c]);
+    }
+}
+
+void rebuild() {
+    for (int i = 1; i &lt;= dcc; i&#43;&#43;) {
+        for (int j : dcc_list[i]) {
+            if (cut[j]) cut_from[j].push_back(i);
+        }
+    }
+
+    for (int u = 1; u &lt;= n; u&#43;&#43;) {
+        if (cut[u]) {
+            int fu = from[u] = &#43;&#43;dcc;
+            mp[dcc] = u;
+            dcc_list[dcc].push_back(u);
+            for (int fv : cut_from[u]) {
+                adj[fu].push_back(fv);
+                adj[fv].push_back(fu);
+            }
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n;
+    int u,v;
+    fill(head, head&#43;maxn, -1);
+    while (cin &gt;&gt; u &gt;&gt; v &amp;&amp; u &amp;&amp; v) {
+        addEdge(u,v); addEdge(v,u);
+    }
+    cin &gt;&gt; a &gt;&gt; b;
+    for (int i = 1; i &lt;= n; i&#43;&#43;) {
+        if (!dfn[i]) tarjan(i,0);
+    }
+    rebuild();
+    for (int i = 1; i &lt;= dcc; i&#43;&#43;) {
+        if (!dep[i]) dfs(i,0);
+    }
+    LCA(from[a], from[b]);
+
+    if (ans == 0 || ans == 1e9) cout &lt;&lt; &quot;No solution&quot; &lt;&lt; endl;
+    else cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+
+例3 POJ3694 Network
+
+  题意
+给定 $N$ 个节点和 $M$ 条边的无向图，初始图是连通的。
+现在要加 $Q$ 条边（可重复），每次加边后，回答图中有多少个桥。
+其中，$1 \leq N \leq 10^5, N-1 \leq M \leq 2 \times 10^5, 1\leq Q \leq 1000$
+
+题解
+既然是桥，那么就直接先求一个边双，然后缩点。
+边双缩点后可以得到一棵树，所有加边操作都放到这个树上来考虑。
+首先会发现，加上的新边必不可能是桥（因为图原本是连通的）。
+每次加边 $(u,v)$，如果 $u,v$ 在同一个边双里，那么不会有任何影响。
+如果 $u,v$ 不在同一个边双里，那么加上的这条新边就会在树上形成一个环，使得环内的所有边均 不再是桥。
+
+那么，回忆一下 AcWing 352 暗之连锁 中，我们可以将树边看作主要边，新加上的边就转化为主要边。
+比如，我们加上 $(u,v)$，那么就给 $u,v$ 之间路径上所有的边打一个标记。被标记过的就不是桥，没标记的就都是桥。
+然而树上差分的做法只适用于离线，只有所有修改操作结束后询问才有效。
+在线的做法我们可以利用 树链剖分（询问边），每次修改前，先进行一下询问，查询有多少个在修改前是无标记的，将答案减去这个数量即可。
+
+代码
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+const int maxn = 1e5&#43;5;
+const int maxm = 2e5&#43;5;
+
+int n,m, head[maxn], ecnt = 0, dfn[maxn], low[maxn], id = 0, from[maxn], ecc = 0;
+bool bridge[maxm&lt;&lt;1];
+struct Edge {
+    int to, nxt;
+} edges[maxm&lt;&lt;1];
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt&#43;&#43;;
+}
+
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt; dfn[u]) {
+                bridge[e] = bridge[e^1] = 1;
+            }
+        }
+    }
+}
+
+// f 代表 from (ecc编号)
+void dfs(int u, int f) {
+    from[u] = f;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (from[to] || bridge[e]) continue;  // to已访问，或者该边是桥
+        dfs(to, f);
+    }
+}
+
+vector&lt;int&gt; adj[maxn];
+void rebuild() {
+    for (int u = 1; u &lt;= n; u&#43;&#43;) {
+        for (int e = head[u]; ~e; e = edges[e].nxt) {
+            int v = edges[e].to;
+            int fu = from[u], fv = from[v];
+            if (fu == fv) continue;
+            adj[fu].push_back(fv);
+        }
+    }
+}
+
+int sz[maxn], son[maxn], top[maxn], tr_id[maxn];
+int par[maxn][20], dep[maxn];
+void dfs2(int u, int p) {
+    sz[u] = 1;
+    dep[u] = dep[p] &#43; 1;
+    par[u][0] = p;
+    for (int j = 1; j &lt;= 19; j&#43;&#43;) par[u][j] = par[par[u][j-1]][j-1];
+    int maxsz = -1;
+    for (int i = 0; i &lt; adj[u].size(); i&#43;&#43;) {
+        int to = adj[u][i];
+        if (to == p) continue;
+        dfs2(to, u);
+        sz[u] &#43;= sz[to];
+        if (sz[to] &gt; maxsz) maxsz = sz[to], son[u] = to;
+    }
+}
+
+void dfs3(int u, int p, int topf) {
+    top[u] = topf;
+    tr_id[u] = &#43;&#43;id;
+    if (son[u]) dfs3(son[u], u, topf);
+    for (int i = 0; i &lt; adj[u].size(); i&#43;&#43;) {
+        int to = adj[u][i];
+        if (to == p || to == son[u]) continue;
+        dfs3(to, u, to);
+    }
+}
+
+struct tree_node {
+    int sum;
+    bool lazy;
+} tr[maxn&lt;&lt;2];
+
+void push_up(int cur) {
+    tr[cur].sum = tr[cur&lt;&lt;1].sum &#43; tr[cur&lt;&lt;1|1].sum;
+}
+
+void push_down(int cur) {
+    if (!tr[cur].lazy) return;
+    tr[cur].lazy = 0;
+    int l = cur&lt;&lt;1, r = cur&lt;&lt;1|1;
+    tr[l].lazy = tr[r].lazy = 1;
+    tr[l].sum = tr[r].sum = 0;
+}
+
+void update(int cur, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        tr[cur].lazy = 1;
+        tr[cur].sum = 0;
+        return;
+    }
+    push_down(cur);
+    int mid = (l&#43;r) &gt;&gt; 1;
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid&#43;1, r, L, R);
+    push_up(cur);
+}
+
+int query(int cur, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) return tr[cur].sum;
+    push_down(cur);
+    int mid = (l&#43;r) &gt;&gt; 1;
+    int res = 0;
+    if (L &lt;= mid) res &#43;= query(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) res &#43;= query(cur&lt;&lt;1|1, mid&#43;1, r, L, R);
+    return res;
+}
+
+void build_tree(int cur, int l, int r) {
+    if (l == r) {
+        tr[cur].sum = 1;
+        return;
+    }
+    int mid = (l&#43;r) &gt;&gt; 1;
+    build_tree(cur&lt;&lt;1, l, mid);
+    build_tree(cur&lt;&lt;1|1, mid&#43;1, r);
+    push_up(cur);
+}
+
+int jump(int u, int d) {
+    int j = 0;
+    while (d) {
+        if (d&amp;1) u = par[u][j];
+        j&#43;&#43;, d &gt;&gt;= 1;
+    }
+    return u;
+}
+
+int LCA(int u, int v) {
+    if (dep[u] &lt; dep[v]) swap(u,v);
+    int d = dep[u] - dep[v];
+    u = jump(u, d);
+    if (u == v) return u;
+    for (int j = 19; j &gt;= 0; j--) {
+        if (par[u][j] != par[v][j]) 
+            u = par[u][j], v = par[v][j];
+    }
+    return par[u][0];
+}
+
+
+int curans;
+
+void update_path_helper(int u, int v) {
+    if (v == -1) return;
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        curans -= query(1, 2, ecc, tr_id[top[u]], tr_id[u]);
+        update(1, 2, ecc, tr_id[top[u]], tr_id[u]);
+        u = par[top[u]][0];
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v);
+    curans -= query(1, 2, ecc, tr_id[u], tr_id[v]);
+    update(1, 2, ecc, tr_id[u], tr_id[v]);
+}
+
+void update_path(int u, int v) {
+    int x = LCA(u,v);
+    int d,ux,vx;
+
+    d = dep[u] - dep[x];
+    if (!d) ux = -1;
+    else ux = jump(u, d-1);
+
+    d = dep[v] - dep[x];
+    if (!d) vx = -1;
+    else vx = jump(v, d-1);
+
+    update_path_helper(u, ux);
+    update_path_helper(v, vx);
+}
+
+void clearall() {
+    fill(head, head&#43;n&#43;1, -1);
+    fill(dfn, dfn&#43;n&#43;1, 0);
+    fill(low, low&#43;n&#43;1, 0);
+    fill(from, from&#43;n&#43;1, 0);
+    fill(bridge, bridge&#43;(m&lt;&lt;1)&#43;2, 0);
+    fill(sz, sz&#43;ecc&#43;1, 0);
+    fill(son, son&#43;ecc&#43;1, 0);
+    fill(top, top&#43;ecc&#43;1, 0);
+    fill(tr_id, tr_id&#43;ecc&#43;1, 0);
+    for (int i = 1; i &lt;= 4*ecc&#43;5; i&#43;&#43;) tr[i].lazy = 0;
+    for (int i = 1; i &lt;= ecc; i&#43;&#43;) 
+        for (int j = 0; j &lt;= 19; j&#43;&#43;) par[i][j] = 0;
+    fill(dep, dep&#43;ecc&#43;1, 0);
+    for (int i = 1; i &lt;= n; i&#43;&#43;) adj[i].clear();
+    ecnt = id = ecc = 0;
+}
+
+int main() {
+    fastio;
+    int T = 0;
+    fill(head, head&#43;maxn, -1);
+    while (cin &gt;&gt; n &gt;&gt; m &amp;&amp; n &amp;&amp; m) {
+        T&#43;&#43;;
+        for (int i = 1; i &lt;= m; i&#43;&#43;) {
+            int u,v; cin &gt;&gt; u &gt;&gt; v;
+            addEdge(u,v); addEdge(v,u);
+        }
+        tarjan(1, 0);
+        for (int i = 1; i &lt;= n; i&#43;&#43;) {
+            if (!from[i]) dfs(i, &#43;&#43;ecc);
+        }
+        rebuild();
+
+        id = 0;
+        dfs2(1, 0);
+        dfs3(1, 0, 1);
+        curans = ecc-1;
+
+        cout &lt;&lt; &quot;Case &quot; &lt;&lt; T &lt;&lt; &quot;:\n&quot;;
+        int Q; cin &gt;&gt; Q;
+        if (ecc == 1) {
+            while (Q--) {
+                int u,v; cin &gt;&gt; u &gt;&gt; v;
+                cout &lt;&lt; 0 &lt;&lt; &quot;\n&quot;;
+            }
+        } else {
+            build_tree(1, 2, ecc);
+            while (Q--) {
+                int u,v; cin &gt;&gt; u &gt;&gt; v;
+                update_path(from[u],from[v]);
+                cout &lt;&lt; curans &lt;&lt; &quot;\n&quot;;
+            }
+            cout &lt;&lt; &quot;\n&quot;;
+        }
+
+        clearall();
+    }
+}
+
+">
+<meta itemprop="datePublished" content="2021-04-14T11:23:25&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-17T16:55:29&#43;08:00" />
+<meta itemprop="wordCount" content="6113">
+
+
+
+<meta itemprop="keywords" content="割点,桥,双连通分量," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="割点 桥 点/边双连通分量（BCC）"/>
+<meta name="twitter:description" content="定义
+割点
+在一个 无向图 中，如果删掉节点 $u$ 使得整个图的连通分量增加，那么 $u$ 是一个割点。
+桥
+在一个 无向图 中，如果删掉一条边 $(u,v)$ 使得整个图的连通分量增加，那么 $(u,v)$ 是一个桥。
+
+点双连通
+一个 无向图 是 点双连通 的，当且仅当（以下表达是 equivalent 的）：
+
+如果删去任意一个节点，其他节点仍然互相连通。
+不包含割点（注意，这个割点是对于 这个子图 而言）。
+任取两个点 $u,v$，$u,v$ 之间都存在两条 点不重复 路径。
+任取 $2$ 条边，都存在一个简单环（环内不包含其他环），使得这 $2$ 条边在这个简单环内。
+
+• 注意，如果图内只有 $2$ 个连起来的节点，它们仍然点双连通。
+• 点双连通 不具有传递性：
+
+如上图，$a,b$ 点双连通，$b,c$ 点双连通，但是 $a,c$ 并不点双连通（$a,c$ 不在同一个点双分量内）。
+
+边双连通
+一个 无向图 是 边双连通 的，当且仅当（以下表达是 equivalent 的）：
+
+一个 无向图 中，如果删去任意一条边，其他节点仍然互相连通。
+一个 无向图 中，不包含桥（注意，这个桥是对于 整个图 而言）。
+一个 无向图 中，任取两个点 $u,v$，$u,v$ 之间都存在两条 边不重复 路径。
+一个 无向图 中，任取 $1$ 条边，都存在一个简单环（环内不包含其他环），使得这条边在这个简单环内。
+
+• 点双连通 具有传递性：
+如果 $a,b$ 边双连通，$b,c$ 边双连通，则 $a,c$ 边双连通。
+证明：$a,b$ 边双连通说明 删去图中任意一条边，$a,b$ 仍连通。同理，删去图中任意一条边，$b,c$ 仍连通。所以删去任意一条边，$a,c$ 仍连通。
+
+点双连通分量
+点双连通分量：一个极大的点双连通的子图。
+
+如果把这个子图 单独拿出来，它不存在割点，但是它在原图中，如果它与其他点双分量相连，那么它一定包含 至少一个原图中的割点。
+原图中，每个割点 存在于至少 $2$ 个点双分量中。
+任意一个 非割点 只存在于一个点双分量中。
+
+点双缩点
+利用点双缩点后，得到的新图有以下性质：
+
+新图 是一棵树，每个节点要么是一个点双，要么是一个割点。
+所有 割点 单独成为一个节点。
+点双之间以 割点 相连，并且所有割点的 degree 至少为 $2$。（任意两个点双之间，有且仅有一个公共点，且这个公共点是 割点）。
+
+例1：
+图中的所有点双分量为：$\{1,2,3\}, \{3,4,5\}$
+图中所有割点为：$3$
+
+例2：
+图中的所有点双分量为：$\{1,2\}, \{1,3\}, \{2,4\}, \{2,5\}, \{3,6\}, \{3,7\}$
+图中所有割点为：$1,2,3$
+
+
+边双连通分量
+边双连通分量：一个极大的边双连通子图。
+相比点双分量来说，边双分量的定义简单很多，因为它 不需要区分 原图和子图！
+
+将原图中的所有桥删掉，剩下的分量就是边双连通分量。
+桥不属于任何一个边双分量，边双分量之间以桥连接。
+
+例1：
+图中的所有边双分量为：$\{1,2,7\}, \{4,5,6\}, \{3\}$
+图中所有桥为：$(2,3), (2,4)$
+
+边双缩点
+利用边双缩点后，得到的新图有以下性质：
+
+新图是 一棵树，每个节点都是一个边双。
+原图中 所有的桥，在新图中仍然是桥。
+
+
+算法
+我们利用 tarjan 算法求 割点，桥，点双，边双。
+这里的 tarjan 和 有向图求SCC 的tarjan略有不同，主要体现在：
+
+有向图tarjan求SCC：需要记录当前在 栈内 的有哪些元素，更新 low[] 时，需要 to 在栈内才更新。
+无向图求割点/桥/点双/边双：需要检查 to 是不是 u 的直接 parent p。（这里指的是 dfs树 内的parent关系），不需要考虑是否在栈内。
+
+另外，求 割点 和 桥 时，也略有不同，主要体现在：
+
+求割点时，需要讨论当前节点是否为DFS树的根。但是求桥时，不需要。
+求割点时，条件是 $low[to] \geq dfn[u]$。求桥时，条件是 $low[to] &gt; dfn[u]$。
+
+
+以下的算法，都要检查 to 是不是 u 的直接 parent p。
+割点
+对于一个节点 $u$，在DFS树中，如果：
+
+它是DFS树的 根节点：如果 $u$ 拥有 $\geq 2$ 个子树，那么 $u$ 就是一个割点。
+它不是DFS树的 根节点：如果 $u$ 存在一个 direct child $~to$，使得 $low[to] \geq dfn[u]$。那么 $u$ 就是一个割点。（因为这说明 $to$ 无法到达 $u$ 的上方）
+
+模版题
+
+  题意
+给定一个无向图，求图的所有割点。
+
+代码
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+const int maxn = 2e4&#43;5;
+const int maxm = 1e5&#43;10;
+
+struct Edge {
+    int to, nxt;
+} edges[maxm&lt;&lt;1];
+
+int dfn[maxn], low[maxn], head[maxn], ecnt = 1, n, m, id;
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt&#43;&#43;;
+}
+vector&lt;int&gt; ans;
+
+void dfs(int u, int p) {
+    dfn[u] = &#43;&#43;id;
+    low[u] = id;
+    int child = 0;  // 子树数量
+    bool cut = 0;  // 是否为割点
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;  // 不能直接用parent
+
+        if (dfn[to]) {
+            low[u] = min(low[u], dfn[to]);
+            continue;
+        }
+
+        dfs(to, u);
+        child&#43;&#43;;
+        low[u] = min(low[u], low[to]);
+        if (p &amp;&amp; low[to] &gt;= dfn[u]) cut = 1;  
+        // 如果u不是根节点，且存在 direct child使得 low[to] &gt;= dfn[u]，则u是割点
+    }
+    if (!p &amp;&amp; child &gt;= 2) cut = 1;  // 如果为根节点，且有 &gt;= 2个子树
+    if (cut) ans.push_back(u);
+}
+
+void tarjan() {
+    for (int i = 1; i &lt;= n; i&#43;&#43;) {
+        if (!dfn[i]) dfs(i, 0);
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i&#43;&#43;) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        addEdge(u,v); addEdge(v,u);
+    }
+    tarjan();
+
+    sort(ans.begin(), ans.end());
+    cout &lt;&lt; ans.size() &lt;&lt; endl;
+    for (int a : ans) cout &lt;&lt; a &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}
+
+
+桥
+判断一个边 $(u,to)$ 是不是桥，我们设 $u$ 在DFS树中，是 $to$ 的parent。
+如果 $low[to] &gt; dfn[u]$，则 $(u,to)$ 是一个桥。（因为这说明 $to$ 无法到达 $u$ 和 $u$ 的上方）。
+
+实现过程中，需要注意以下几点：
+
+边的编号从 $0$ 开始（记得将 head[] 初始化为 -1），这样保证了 e 和 e^1 刚好为 $(u,v)$ 和 $(v,u)$。
+标记桥的时候，一次标记两个边 e 和 e^1。
+
+代码
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;  // 注意不能用parent
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt; dfn[u]) {  // 注意这里的条件
+                bridge[e] = bridge[e^1] = 1;
+            }
+        }
+    }
+}
+
+
+点双连通分量（dcc）
+求点双分量，可以在求割点的时候顺便求出来。
+当我们发现 $low[to] \geq dfn[u]$ 时，就说明 $to$ 及其子树（加上 $u$）一起形成了一个点双。
+此时，我们将 栈内的点一直pop，pop 到 to 为止（包括 to），但是 不包括 u。这是因为 u 作为割点，可能还属于别的点双分量，之后还要用到。
+• 求点双时，我们并不关心 $u$ 本身是否为割点，只要出现了 $low[to] \geq dfn[u]$，就说明出现了一个新点双。（例如，在只有 $1,2$ 这两个点的情况下，不存在割点，但是 $1,2$ 仍然是一个点双）。
+代码
+bool cut[maxn];
+vector&lt;int&gt; dcc_list[maxn];
+void dfs(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    st[&#43;&#43;tail] = u;
+    int child = 0;
+
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) {
+            low[u] = min(low[u], dfn[to]);
+        } else {
+            child&#43;&#43;;
+            dfs(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt;= dfn[u]) {  // 不关心 u 是否为割点，直接开始pop
+                from[to] = &#43;&#43;dcc;
+                while (st[tail] != to) {  // 注意是 pop 到 to 为止（包括to）
+                    int cur = st[tail--];
+                    from[cur] = from[to];
+                    dcc_list[dcc].push_back(cur);
+                }
+                tail--;  // tail--后，指向的是 u
+                dcc_list[dcc].push_back(to);
+                dcc_list[dcc].push_back(u);  // 注意 u是割点，也要进入该分量
+                // from[u] = dcc;  // from[u] 实际上没有意义
+            }
+            if (low[to] &gt;= dfn[u] &amp;&amp; p) cut[u] = 1;  // 割点（非根节点）
+        }
+    }
+    if (!p &amp;&amp; child &gt;= 2) cut[u] = 1;  // 割点（根节点）
+}
+
+
+边双连通分量（ecc）
+求边双分量，可以根据定义：删去所有的桥，剩下的连通分量，就是边双分量。
+所以求边双分量，分以下两步：
+
+tarjan 求出所有的桥。
+进行一次 dfs()，如果 $(u,to)$ 是桥，则不经过这条边。以此求出所有的连通分量。
+
+代码
+int from[maxn];
+bool bridge[maxm&lt;&lt;1];
+
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt; dfn[u]) {
+                bridge[e] = bridge[e^1] = 1;
+            }
+        }
+    }
+}
+
+// dfs求出所有的边双
+// f 代表 from (ecc编号)
+void dfs(int u, int f) {
+    from[u] = f;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (from[to] || bridge[e]) continue;  // to已访问，或者该边是桥
+        dfs(to, f);
+    }
+}
+
+int main() {
+    // ...
+    for (int i = 1; i &lt;= n; i&#43;&#43;) 
+        if (!from[i]) 
+            dfs(i, &#43;&#43;ecc);
+    // ...
+}
+
+
+例题
+例1 洛谷P3225 [HNOI2012]矿场搭建
+
+  题意
+给定 $M$ 条边的无向图。初始状态下，每个节点没有标记。
+我们需要给节点打上标记，使得：
+删去图中的任意一个节点，其他的所有节点均可到达一个有标记的节点。
+求：标记节点的最少数量，最少标记数量的方案总数。
+其中，$M \leq 500$，数据保证不存在单个独立点。
+
+题解
+首先根据 点双连通 进行缩点。缩点以后，整个图会变成一个由 割点 和 点双分量 组成的 树。
+由于点双的性质，我们知道，如果删去点双分量中的任意一个点（除割点以外），该分量仍然和其他的分量连通。
+所以我们不需要考虑删去 非割点 的情况，我们只关心如果删去了一个 割点，会不会使得有些节点无法到达有标记的节点。
+由上可知，我们 不需要标记割点（因为我们只考虑删去 割点 的情况，如果要删去割点，那说明标记割点是无意义的）。
+
+对于一个点双分量而言，可以分以下情况讨论：
+
+点双内含有 $\geq 2$ 个割点：无论删去哪个割点，该分量仍然和其他分量连通，所以无需在该分量内标记。
+点双内含有 $1$ 个割点：如果该割点被删了，那么这个分量就断开了，所以该分量内部需要标记 $1$ 个节点。（不标记割点），方案数为 $(sz-1)$ （因为分量里面有一个割点，要去掉标记它的可能性）。
+点双内没有割点：说明这个分量本来就是独立开的（在缩点后，是单个独立节点）。所以该分量内需要标记 $2$ 个节点。方案数为 $C_{sz}^2$。
+
+
+实现中的一些细节：
+
+由于一个割点可能属于多个点双分量，所以我们采用 vector&lt;int&gt; dcc_list[maxn]; 来记录每个点双里面的节点。
+对于一个割点 $u$ 来说，它的 from[] 数组没有意义。（如果需要缩点，则后续会让 from[u] = &#43;&#43;dcc，缩点后的 from[u] 就有意义了）
+与 tarjan 求 SCC 不同，我们不需要记录节点是否在栈内。
+在 pop 栈的时候，注意我们是 pop 到 to 为止（包括 to），但是 不包括 u。这是因为 u 作为割点，可能还属于别的点双分量，之后还要用到。
+
+
+代码
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+const int maxn = 1005;
+
+int n,m, head[maxn], ecnt = 1;
+struct Edge {
+    int to, nxt;
+} edges[maxn];
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt&#43;&#43;;
+}
+
+int dfn[maxn], low[maxn], id, st[maxn], tail, from[maxn], dcc;
+bool cut[maxn];
+vector&lt;int&gt; dcc_list[maxn];
+void dfs(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    st[&#43;&#43;tail] = u;
+    int child = 0;
+
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) {
+            low[u] = min(low[u], dfn[to]);
+        } else {
+            child&#43;&#43;;
+            dfs(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt;= dfn[u]) {
+                from[to] = &#43;&#43;dcc;
+                while (st[tail] != to) {  // 注意是 pop 到 to 为止（包括to）
+                    int cur = st[tail--];
+                    from[cur] = from[to];
+                    dcc_list[dcc].push_back(cur);
+                }
+                tail--;  // tail--后，指向的是 u
+                dcc_list[dcc].push_back(to);
+                dcc_list[dcc].push_back(u);  // 注意 u是割点，也要进入该分量
+                // from[u] = dcc;  // from[u] 实际上没有意义
+            }
+            if (low[to] &gt;= dfn[u] &amp;&amp; p) cut[u] = 1;  // 割点（非根节点）
+        }
+    }
+    if (!p &amp;&amp; child &gt;= 2) cut[u] = 1;  // 割点（根节点）
+}
+
+void tarjan() {
+    for (int i = 1; i &lt;= n; i&#43;&#43;) {
+        if (!dfn[i]) dfs(i, 0);
+    }
+}
+
+void init() {
+    for (int i = 1; i &lt;= dcc; i&#43;&#43;) dcc_list[i].clear();
+    id = 0;
+    tail = -1;
+    dcc = 0;
+    n = 0;
+    ecnt = 1;
+
+    fill(cut, cut&#43;maxn, 0);
+    fill(from, from&#43;maxn, 0);
+    fill(head, head&#43;maxn, 0);
+    fill(dfn, dfn&#43;maxn, 0);
+    fill(low, low&#43;maxn, 0);
+}
+
+void solve(int T) {
+    init();
+    for (int i = 1; i &lt;= m; i&#43;&#43;) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        n = max(n,u); n = max(n,v);
+        addEdge(u,v); addEdge(v,u);
+    }
+    tarjan();
+
+    int ans1 = 0;
+    ll ans2 = 1;
+
+    for (int i = 1; i &lt;= dcc; i&#43;&#43;) {
+        int cut_cnt = 0;
+        int sz = dcc_list[i].size();
+        for (int j = 0; j &lt; dcc_list[i].size(); j&#43;&#43;) {
+            int cur = dcc_list[i][j];
+            if (cut[cur]) cut_cnt&#43;&#43;;
+        }
+        if (cut_cnt &gt;= 2) continue;
+        if (cut_cnt == 1) ans1&#43;&#43;, ans2 *= (ll)(sz - 1);
+        if (cut_cnt == 0) ans1&#43;=2, ans2 *= (ll)(sz) * (ll)(sz-1LL) / 2LL;
+    }
+
+    printf(&quot;Case %d: %d %lld\n&quot;, T, max(ans1, 2), ans2);
+}
+
+int main() {
+    int T = 0;
+    while (cin &gt;&gt; m &amp;&amp; m) {
+        T&#43;&#43;;
+        solve(T);
+    }
+}
+
+
+例2 洛谷P5058 [ZJOI2004]嗅探器
+
+  题意
+现有 $n$ 个节点的无向图。
+给定两个节点 $a,b$，输出 最小编号的 $u$ 使得 $a,b$ 之间所有的路径都需要经过 $u$，且 $u \neq a, u \neq b$。
+如果无解，则输出 &ldquo;No solution&rdquo;。
+
+题解
+先点双缩点，如果 $a,b$ 在同一个点双内必然无解（根据定义，大小等于 $3$ 的点双内，任意两点之间有点不重复的路径）。
+如果 $a,b$ 在不同的点双内则说明有解，缩点后，$a,b$ 就是树上的两个节点，它们之间有唯一路径，取这个路径上编号最小的割点即可。
+
+一些注意事项：
+
+每个割点单独形成一个点双。
+缩点得到的树，所有的边必然和 割点 相连，所以建边的时候只需要考虑割点所在的dcc，还有它旁边有哪些dcc就可以了。本题中在缩点建树的过程中，使用了数组 vector&lt;int&gt; cut_from[maxn];。其中 cut_from[u] 代表以 $u$ 作为割点，它neighbor的dcc编号。
+
+
+代码
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+const int maxn = 2e5&#43;5;
+const int maxm = 5e5&#43;5;
+
+int n,a,b,head[maxn],ecnt = 0;
+struct Edge {
+    int to, nxt;
+} edges[maxm&lt;&lt;1];
+
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt&#43;&#43;] = e;
+}
+
+int dfn[maxn], low[maxn], dcc = 0, id = 0, st[maxn], from[maxn], tail = -1;
+bool cut[maxn];
+vector&lt;int&gt; dcc_list[maxn&lt;&lt;1];
+vector&lt;int&gt; cut_from[maxn];  // cut_from[u] 代表以 u 作为割点，它neighbor的dcc编号
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    st[&#43;&#43;tail] = u;
+    int child = 0;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            child&#43;&#43;;
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt;= dfn[u]) {
+                from[u] = &#43;&#43;dcc;
+                while (st[tail] != to) {
+                    int cur = st[tail--];
+                    from[cur] = from[u];
+                    dcc_list[dcc].push_back(cur);
+                }
+                tail--;
+                from[to] = from[u];
+                dcc_list[dcc].push_back(to);
+                dcc_list[dcc].push_back(u);
+            }
+
+            if (low[to] &gt;= dfn[u] &amp;&amp; p) {
+                cut[u] = 1;
+            }
+        }
+    }
+    if (child &gt;= 2 &amp;&amp; !p)
+        cut[u] = 1;
+}
+
+vector&lt;int&gt; adj[maxn&lt;&lt;1];  // 缩点后的图
+int par[maxn&lt;&lt;1], dep[maxn&lt;&lt;1];  // 缩点后，dfs树用到的数组
+int mp[maxn&lt;&lt;1];  // map: dcc -&gt; cut vertex id (只有该dcc对应的是 单个割点形成的 dcc才有用)
+
+void dfs(int u, int p) {
+    par[u] = p;
+    dep[u] = dep[p] &#43; 1;
+    for (int to : adj[u]) {
+        if (to == p) continue;
+        dfs(to, u);
+    }
+}
+
+int ans = 1e9;
+void LCA(int u, int v) {
+    int f1 = mp[u], f2 = mp[v];
+    if (dep[u] &lt; dep[v]) swap(u,v);
+    int d = dep[u] - dep[v];
+    vector&lt;int&gt; path;
+    while (d--) {
+        path.push_back(u);
+        u = par[u];
+    }
+    path.push_back(u);
+    while (u != v) {
+        path.push_back(u);
+        path.push_back(v);
+        u = par[u], v = par[v];
+    }
+    path.push_back(u);
+    path.push_back(v);
+    for (int c : path) {
+        if (mp[c] == f1 || mp[c] == f2) continue;
+        if (cut[mp[c]]) ans = min(ans, mp[c]);
+    }
+}
+
+void rebuild() {
+    for (int i = 1; i &lt;= dcc; i&#43;&#43;) {
+        for (int j : dcc_list[i]) {
+            if (cut[j]) cut_from[j].push_back(i);
+        }
+    }
+
+    for (int u = 1; u &lt;= n; u&#43;&#43;) {
+        if (cut[u]) {
+            int fu = from[u] = &#43;&#43;dcc;
+            mp[dcc] = u;
+            dcc_list[dcc].push_back(u);
+            for (int fv : cut_from[u]) {
+                adj[fu].push_back(fv);
+                adj[fv].push_back(fu);
+            }
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n;
+    int u,v;
+    fill(head, head&#43;maxn, -1);
+    while (cin &gt;&gt; u &gt;&gt; v &amp;&amp; u &amp;&amp; v) {
+        addEdge(u,v); addEdge(v,u);
+    }
+    cin &gt;&gt; a &gt;&gt; b;
+    for (int i = 1; i &lt;= n; i&#43;&#43;) {
+        if (!dfn[i]) tarjan(i,0);
+    }
+    rebuild();
+    for (int i = 1; i &lt;= dcc; i&#43;&#43;) {
+        if (!dep[i]) dfs(i,0);
+    }
+    LCA(from[a], from[b]);
+
+    if (ans == 0 || ans == 1e9) cout &lt;&lt; &quot;No solution&quot; &lt;&lt; endl;
+    else cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+
+例3 POJ3694 Network
+
+  题意
+给定 $N$ 个节点和 $M$ 条边的无向图，初始图是连通的。
+现在要加 $Q$ 条边（可重复），每次加边后，回答图中有多少个桥。
+其中，$1 \leq N \leq 10^5, N-1 \leq M \leq 2 \times 10^5, 1\leq Q \leq 1000$
+
+题解
+既然是桥，那么就直接先求一个边双，然后缩点。
+边双缩点后可以得到一棵树，所有加边操作都放到这个树上来考虑。
+首先会发现，加上的新边必不可能是桥（因为图原本是连通的）。
+每次加边 $(u,v)$，如果 $u,v$ 在同一个边双里，那么不会有任何影响。
+如果 $u,v$ 不在同一个边双里，那么加上的这条新边就会在树上形成一个环，使得环内的所有边均 不再是桥。
+
+那么，回忆一下 AcWing 352 暗之连锁 中，我们可以将树边看作主要边，新加上的边就转化为主要边。
+比如，我们加上 $(u,v)$，那么就给 $u,v$ 之间路径上所有的边打一个标记。被标记过的就不是桥，没标记的就都是桥。
+然而树上差分的做法只适用于离线，只有所有修改操作结束后询问才有效。
+在线的做法我们可以利用 树链剖分（询问边），每次修改前，先进行一下询问，查询有多少个在修改前是无标记的，将答案减去这个数量即可。
+
+代码
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+const int maxn = 1e5&#43;5;
+const int maxm = 2e5&#43;5;
+
+int n,m, head[maxn], ecnt = 0, dfn[maxn], low[maxn], id = 0, from[maxn], ecc = 0;
+bool bridge[maxm&lt;&lt;1];
+struct Edge {
+    int to, nxt;
+} edges[maxm&lt;&lt;1];
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt&#43;&#43;;
+}
+
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = &#43;&#43;id;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt; dfn[u]) {
+                bridge[e] = bridge[e^1] = 1;
+            }
+        }
+    }
+}
+
+// f 代表 from (ecc编号)
+void dfs(int u, int f) {
+    from[u] = f;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (from[to] || bridge[e]) continue;  // to已访问，或者该边是桥
+        dfs(to, f);
+    }
+}
+
+vector&lt;int&gt; adj[maxn];
+void rebuild() {
+    for (int u = 1; u &lt;= n; u&#43;&#43;) {
+        for (int e = head[u]; ~e; e = edges[e].nxt) {
+            int v = edges[e].to;
+            int fu = from[u], fv = from[v];
+            if (fu == fv) continue;
+            adj[fu].push_back(fv);
+        }
+    }
+}
+
+int sz[maxn], son[maxn], top[maxn], tr_id[maxn];
+int par[maxn][20], dep[maxn];
+void dfs2(int u, int p) {
+    sz[u] = 1;
+    dep[u] = dep[p] &#43; 1;
+    par[u][0] = p;
+    for (int j = 1; j &lt;= 19; j&#43;&#43;) par[u][j] = par[par[u][j-1]][j-1];
+    int maxsz = -1;
+    for (int i = 0; i &lt; adj[u].size(); i&#43;&#43;) {
+        int to = adj[u][i];
+        if (to == p) continue;
+        dfs2(to, u);
+        sz[u] &#43;= sz[to];
+        if (sz[to] &gt; maxsz) maxsz = sz[to], son[u] = to;
+    }
+}
+
+void dfs3(int u, int p, int topf) {
+    top[u] = topf;
+    tr_id[u] = &#43;&#43;id;
+    if (son[u]) dfs3(son[u], u, topf);
+    for (int i = 0; i &lt; adj[u].size(); i&#43;&#43;) {
+        int to = adj[u][i];
+        if (to == p || to == son[u]) continue;
+        dfs3(to, u, to);
+    }
+}
+
+struct tree_node {
+    int sum;
+    bool lazy;
+} tr[maxn&lt;&lt;2];
+
+void push_up(int cur) {
+    tr[cur].sum = tr[cur&lt;&lt;1].sum &#43; tr[cur&lt;&lt;1|1].sum;
+}
+
+void push_down(int cur) {
+    if (!tr[cur].lazy) return;
+    tr[cur].lazy = 0;
+    int l = cur&lt;&lt;1, r = cur&lt;&lt;1|1;
+    tr[l].lazy = tr[r].lazy = 1;
+    tr[l].sum = tr[r].sum = 0;
+}
+
+void update(int cur, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        tr[cur].lazy = 1;
+        tr[cur].sum = 0;
+        return;
+    }
+    push_down(cur);
+    int mid = (l&#43;r) &gt;&gt; 1;
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid&#43;1, r, L, R);
+    push_up(cur);
+}
+
+int query(int cur, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) return tr[cur].sum;
+    push_down(cur);
+    int mid = (l&#43;r) &gt;&gt; 1;
+    int res = 0;
+    if (L &lt;= mid) res &#43;= query(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) res &#43;= query(cur&lt;&lt;1|1, mid&#43;1, r, L, R);
+    return res;
+}
+
+void build_tree(int cur, int l, int r) {
+    if (l == r) {
+        tr[cur].sum = 1;
+        return;
+    }
+    int mid = (l&#43;r) &gt;&gt; 1;
+    build_tree(cur&lt;&lt;1, l, mid);
+    build_tree(cur&lt;&lt;1|1, mid&#43;1, r);
+    push_up(cur);
+}
+
+int jump(int u, int d) {
+    int j = 0;
+    while (d) {
+        if (d&amp;1) u = par[u][j];
+        j&#43;&#43;, d &gt;&gt;= 1;
+    }
+    return u;
+}
+
+int LCA(int u, int v) {
+    if (dep[u] &lt; dep[v]) swap(u,v);
+    int d = dep[u] - dep[v];
+    u = jump(u, d);
+    if (u == v) return u;
+    for (int j = 19; j &gt;= 0; j--) {
+        if (par[u][j] != par[v][j]) 
+            u = par[u][j], v = par[v][j];
+    }
+    return par[u][0];
+}
+
+
+int curans;
+
+void update_path_helper(int u, int v) {
+    if (v == -1) return;
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        curans -= query(1, 2, ecc, tr_id[top[u]], tr_id[u]);
+        update(1, 2, ecc, tr_id[top[u]], tr_id[u]);
+        u = par[top[u]][0];
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v);
+    curans -= query(1, 2, ecc, tr_id[u], tr_id[v]);
+    update(1, 2, ecc, tr_id[u], tr_id[v]);
+}
+
+void update_path(int u, int v) {
+    int x = LCA(u,v);
+    int d,ux,vx;
+
+    d = dep[u] - dep[x];
+    if (!d) ux = -1;
+    else ux = jump(u, d-1);
+
+    d = dep[v] - dep[x];
+    if (!d) vx = -1;
+    else vx = jump(v, d-1);
+
+    update_path_helper(u, ux);
+    update_path_helper(v, vx);
+}
+
+void clearall() {
+    fill(head, head&#43;n&#43;1, -1);
+    fill(dfn, dfn&#43;n&#43;1, 0);
+    fill(low, low&#43;n&#43;1, 0);
+    fill(from, from&#43;n&#43;1, 0);
+    fill(bridge, bridge&#43;(m&lt;&lt;1)&#43;2, 0);
+    fill(sz, sz&#43;ecc&#43;1, 0);
+    fill(son, son&#43;ecc&#43;1, 0);
+    fill(top, top&#43;ecc&#43;1, 0);
+    fill(tr_id, tr_id&#43;ecc&#43;1, 0);
+    for (int i = 1; i &lt;= 4*ecc&#43;5; i&#43;&#43;) tr[i].lazy = 0;
+    for (int i = 1; i &lt;= ecc; i&#43;&#43;) 
+        for (int j = 0; j &lt;= 19; j&#43;&#43;) par[i][j] = 0;
+    fill(dep, dep&#43;ecc&#43;1, 0);
+    for (int i = 1; i &lt;= n; i&#43;&#43;) adj[i].clear();
+    ecnt = id = ecc = 0;
+}
+
+int main() {
+    fastio;
+    int T = 0;
+    fill(head, head&#43;maxn, -1);
+    while (cin &gt;&gt; n &gt;&gt; m &amp;&amp; n &amp;&amp; m) {
+        T&#43;&#43;;
+        for (int i = 1; i &lt;= m; i&#43;&#43;) {
+            int u,v; cin &gt;&gt; u &gt;&gt; v;
+            addEdge(u,v); addEdge(v,u);
+        }
+        tarjan(1, 0);
+        for (int i = 1; i &lt;= n; i&#43;&#43;) {
+            if (!from[i]) dfs(i, &#43;&#43;ecc);
+        }
+        rebuild();
+
+        id = 0;
+        dfs2(1, 0);
+        dfs3(1, 0, 1);
+        curans = ecc-1;
+
+        cout &lt;&lt; &quot;Case &quot; &lt;&lt; T &lt;&lt; &quot;:\n&quot;;
+        int Q; cin &gt;&gt; Q;
+        if (ecc == 1) {
+            while (Q--) {
+                int u,v; cin &gt;&gt; u &gt;&gt; v;
+                cout &lt;&lt; 0 &lt;&lt; &quot;\n&quot;;
+            }
+        } else {
+            build_tree(1, 2, ecc);
+            while (Q--) {
+                int u,v; cin &gt;&gt; u &gt;&gt; v;
+                update_path(from[u],from[v]);
+                cout &lt;&lt; curans &lt;&lt; &quot;\n&quot;;
+            }
+            cout &lt;&lt; &quot;\n&quot;;
+        }
+
+        clearall();
+    }
+}
+
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">割点 桥 点/边双连通分量（BCC）</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-04-14 11:23:25 &#43;0800 &#43;0800"> 2021-04-14 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#定义">定义</a>
+          <ul>
+            <li><a href="#割点">割点</a></li>
+            <li><a href="#桥">桥</a></li>
+            <li><a href="#点双连通">点双连通</a></li>
+            <li><a href="#边双连通">边双连通</a></li>
+            <li><a href="#点双连通分量">点双连通分量</a>
+              <ul>
+                <li><a href="#点双缩点"><strong>点双缩点</strong></a></li>
+              </ul>
+            </li>
+            <li><a href="#边双连通分量">边双连通分量</a>
+              <ul>
+                <li><a href="#边双缩点"><strong>边双缩点</strong></a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#算法">算法</a>
+          <ul>
+            <li><a href="#割点-1">割点</a></li>
+            <li><a href="#桥-1">桥</a></li>
+            <li><a href="#点双连通分量dcc">点双连通分量（dcc）</a></li>
+            <li><a href="#边双连通分量ecc">边双连通分量（ecc）</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p3225-hnoi2012矿场搭建httpswwwluogucomcnproblemp3225">例1 <a href="https://www.luogu.com.cn/problem/P3225">洛谷P3225 [HNOI2012]矿场搭建</a></a></li>
+            <li><a href="#例2-洛谷p5058-zjoi2004嗅探器httpswwwluogucomcnproblemp5058">例2 <a href="https://www.luogu.com.cn/problem/P5058">洛谷P5058 [ZJOI2004]嗅探器</a></a></li>
+            <li><a href="#例3-poj3694-networkhttpsvjudgenetproblempoj-3694">例3 <a href="https://vjudge.net/problem/POJ-3694">POJ3694 Network</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="定义">定义</h2>
+<h3 id="割点">割点</h3>
+<p>在一个 <strong>无向图</strong> 中，如果删掉节点 $u$ 使得整个图的连通分量增加，那么 $u$ 是一个割点。</p>
+<h3 id="桥">桥</h3>
+<p>在一个 <strong>无向图</strong> 中，如果删掉一条边 $(u,v)$ 使得整个图的连通分量增加，那么 $(u,v)$ 是一个桥。</p>
+<hr>
+<h3 id="点双连通">点双连通</h3>
+<p>一个 <strong>无向图</strong> 是 <strong>点双连通</strong> 的，当且仅当（以下表达是 equivalent 的）：</p>
+<ol>
+<li>如果删去任意一个<strong>节点</strong>，其他节点仍然互相连通。</li>
+<li><strong>不包含割点</strong>（注意，这个割点是对于 <strong>这个子图</strong> 而言）。</li>
+<li><strong>任取两个点 $u,v$</strong>，$u,v$ 之间都存在两条 <strong>点不重复</strong> 路径。</li>
+<li><strong>任取 $2$ 条边</strong>，都存在一个简单环（环内不包含其他环），使得这 $2$ 条边在这个简单环内。</li>
+</ol>
+<p>• 注意，如果图内只有 $2$ 个连起来的节点，它们仍然点双连通。</p>
+<p>• 点双连通 <strong>不具有传递性</strong>：</p>
+<p><img src="/images/041/4.png" alt="img"></p>
+<p>如上图，$a,b$ 点双连通，$b,c$ 点双连通，但是 $a,c$ <strong>并不点双连通</strong>（$a,c$ 不在同一个点双分量内）。</p>
+<hr>
+<h3 id="边双连通">边双连通</h3>
+<p>一个 <strong>无向图</strong> 是 <strong>边双连通</strong> 的，当且仅当（以下表达是 equivalent 的）：</p>
+<ol>
+<li>一个 <strong>无向图</strong> 中，如果删去任意一条<strong>边</strong>，其他节点仍然互相连通。</li>
+<li>一个 <strong>无向图</strong> 中，<strong>不包含桥</strong>（注意，这个桥是对于 <strong>整个图</strong> 而言）。</li>
+<li>一个 <strong>无向图</strong> 中，<strong>任取两个点 $u,v$</strong>，$u,v$ 之间都存在两条 <strong>边不重复</strong> 路径。</li>
+<li>一个 <strong>无向图</strong> 中，<strong>任取 $1$ 条边</strong>，都存在一个简单环（环内不包含其他环），使得这条边在这个简单环内。</li>
+</ol>
+<p>• 点双连通 <strong>具有传递性</strong>：</p>
+<p>如果 $a,b$ 边双连通，$b,c$ 边双连通，则 $a,c$ 边双连通。</p>
+<p>证明：$a,b$ 边双连通说明 删去图中任意一条边，$a,b$ 仍连通。同理，删去图中任意一条边，$b,c$ 仍连通。所以删去任意一条边，$a,c$ 仍连通。</p>
+<hr>
+<h3 id="点双连通分量">点双连通分量</h3>
+<p>点双连通分量：一个极大的点双连通的子图。</p>
+<ol>
+<li>如果把这个子图 <strong>单独拿出来，它不存在割点</strong>，但是它在原图中，<strong>如果它与其他点双分量相连</strong>，那么它一定包含 至少一个原图中的割点。</li>
+<li>原图中，<strong>每个割点</strong> 存在于至少 $2$ 个点双分量中。</li>
+<li>任意一个 <strong>非割点</strong> 只存在于一个点双分量中。</li>
+</ol>
+<h4 id="点双缩点"><strong>点双缩点</strong></h4>
+<p>利用点双缩点后，得到的新图有以下性质：</p>
+<ol>
+<li>新图 <strong>是一棵树</strong>，每个节点要么是一个<strong>点双</strong>，要么是一个<strong>割点</strong>。</li>
+<li>所有 <strong>割点</strong> 单独成为一个节点。</li>
+<li>点双之间以 <strong>割点</strong> 相连，并且所有割点的 degree 至少为 $2$。（任意两个点双之间，有且仅有一个公共点，且这个公共点是 <strong>割点</strong>）。</li>
+</ol>
+<p>例1：</p>
+<p>图中的所有点双分量为：$\{1,2,3\}, \{3,4,5\}$</p>
+<p>图中所有割点为：$3$</p>
+<p><img src="/images/041/1.jpg" alt="img"></p>
+<p>例2：</p>
+<p>图中的所有点双分量为：$\{1,2\}, \{1,3\}, \{2,4\}, \{2,5\}, \{3,6\}, \{3,7\}$</p>
+<p>图中所有割点为：$1,2,3$</p>
+<p><img src="/images/041/2.jpg" alt="img"></p>
+<hr>
+<h3 id="边双连通分量">边双连通分量</h3>
+<p>边双连通分量：一个极大的边双连通子图。</p>
+<p>相比点双分量来说，边双分量的定义简单很多，因为它 <strong>不需要区分</strong> 原图和子图！</p>
+<ol>
+<li>将原图中的所有桥删掉，剩下的分量就是边双连通分量。</li>
+<li><strong>桥不属于任何一个边双分量</strong>，边双分量之间以桥连接。</li>
+</ol>
+<p>例1：</p>
+<p>图中的所有边双分量为：$\{1,2,7\}, \{4,5,6\}, \{3\}$</p>
+<p>图中所有桥为：$(2,3), (2,4)$</p>
+<p><img src="/images/041/3.jpg" alt="img"></p>
+<h4 id="边双缩点"><strong>边双缩点</strong></h4>
+<p>利用边双缩点后，得到的新图有以下性质：</p>
+<ol>
+<li>新图是 <strong>一棵树</strong>，每个节点都是一个<strong>边双</strong>。</li>
+<li>原图中 <strong>所有的桥</strong>，在新图中仍然是桥。</li>
+</ol>
+<hr>
+<h2 id="算法">算法</h2>
+<p>我们利用 tarjan 算法求 <strong>割点，桥，点双，边双</strong>。</p>
+<p>这里的 tarjan 和 有向图求SCC 的tarjan略有不同，主要体现在：</p>
+<ol>
+<li>有向图tarjan求SCC：需要记录当前在 <strong>栈内</strong> 的有哪些元素，更新 <code>low[]</code> 时，需要 <code>to</code> 在栈内才更新。</li>
+<li>无向图求割点/桥/点双/边双：需要检查 <code>to</code> 是不是 <code>u</code> 的直接 <strong>parent <code>p</code></strong>。（这里指的是 dfs树 内的parent关系），<strong>不需要</strong>考虑是否在栈内。</li>
+</ol>
+<p>另外，求 <strong>割点 和 桥</strong> 时，也略有不同，主要体现在：</p>
+<ol>
+<li>求割点时，需要讨论当前节点<strong>是否为DFS树的根</strong>。但是求桥时，不需要。</li>
+<li>求割点时，条件是 $low[to] \geq dfn[u]$。求桥时，条件是 $low[to] &gt; dfn[u]$。</li>
+</ol>
+<hr>
+<p>以下的算法，都要检查 <code>to</code> 是不是 <code>u</code> 的直接 <strong>parent <code>p</code></strong>。</p>
+<h3 id="割点-1">割点</h3>
+<p>对于一个节点 $u$，在DFS树中，如果：</p>
+<ol>
+<li>它<strong>是</strong>DFS树的 <strong>根节点</strong>：如果 $u$ 拥有 $\geq 2$ 个子树，那么 $u$ 就是一个割点。</li>
+<li>它<strong>不是</strong>DFS树的 根节点：如果 $u$ 存在一个 direct child $~to$，使得 $low[to] \geq dfn[u]$。那么 $u$ 就是一个割点。（因为这说明 $to$ 无法到达 $u$ 的上方）</li>
+</ol>
+<p><a href="https://www.luogu.com.cn/problem/P3388" target="_blank">模版题</a></p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个无向图，求图的所有割点。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e4+5;
+const int maxm = 1e5+10;
+
+struct Edge {
+    int to, nxt;
+} edges[maxm&lt;&lt;1];
+
+int dfn[maxn], low[maxn], head[maxn], ecnt = 1, n, m, id;
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt++;
+}
+vector&lt;int&gt; ans;
+
+void dfs(int u, int p) {
+    dfn[u] = ++id;
+    low[u] = id;
+    int child = 0;  // 子树数量
+    bool cut = 0;  // 是否为割点
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;  // 不能直接用parent
+
+        if (dfn[to]) {
+            low[u] = min(low[u], dfn[to]);
+            continue;
+        }
+
+        dfs(to, u);
+        child++;
+        low[u] = min(low[u], low[to]);
+        if (p &amp;&amp; low[to] &gt;= dfn[u]) cut = 1;  
+        // 如果u不是根节点，且存在 direct child使得 low[to] &gt;= dfn[u]，则u是割点
+    }
+    if (!p &amp;&amp; child &gt;= 2) cut = 1;  // 如果为根节点，且有 &gt;= 2个子树
+    if (cut) ans.push_back(u);
+}
+
+void tarjan() {
+    for (int i = 1; i &lt;= n; i++) {
+        if (!dfn[i]) dfs(i, 0);
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        addEdge(u,v); addEdge(v,u);
+    }
+    tarjan();
+
+    sort(ans.begin(), ans.end());
+    cout &lt;&lt; ans.size() &lt;&lt; endl;
+    for (int a : ans) cout &lt;&lt; a &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="桥-1">桥</h3>
+<p>判断一个边 $(u,to)$ 是不是桥，我们设 $u$ 在DFS树中，是 $to$ 的parent。</p>
+<p>如果 $low[to] &gt; dfn[u]$，则 $(u,to)$ 是一个桥。（因为这说明 $to$ 无法到达 $u$ 和 $u$ 的上方）。</p>
+<hr>
+<p>实现过程中，需要注意以下几点：</p>
+<ol>
+<li>边的编号从 $0$ 开始（记得将 <code>head[]</code> 初始化为 -1），这样保证了 <code>e</code> 和 <code>e^1</code> 刚好为 $(u,v)$ 和 $(v,u)$。</li>
+<li>标记桥的时候，一次标记两个边 <code>e</code> 和 <code>e^1</code>。</li>
+</ol>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">void tarjan(int u, int p) {
+    dfn[u] = low[u] = ++id;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;  // 注意不能用parent
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt; dfn[u]) {  // 注意这里的条件
+                bridge[e] = bridge[e^1] = 1;
+            }
+        }
+    }
+}
+</code></pre>
+</details>
+<h3 id="点双连通分量dcc">点双连通分量（dcc）</h3>
+<p>求点双分量，可以在<strong>求割点的时候顺便求出来</strong>。</p>
+<p>当我们发现 $low[to] \geq dfn[u]$ 时，就说明 $to$ 及其子树（加上 $u$）一起形成了一个点双。</p>
+<p>此时，我们将 栈内的点一直pop，<code>pop</code> 到 <code>to</code> 为止（<strong>包括 <code>to</code></strong>），但是 <strong>不包括 <code>u</code></strong>。这是因为 <code>u</code> 作为割点，可能还属于别的点双分量，之后还要用到。</p>
+<p>• 求点双时，我们并<strong>不关心 $u$ 本身是否为割点</strong>，只要出现了 $low[to] \geq dfn[u]$，就说明出现了一个新点双。（例如，在只有 $1,2$ 这两个点的情况下，不存在割点，但是 $1,2$ 仍然是一个点双）。</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">bool cut[maxn];
+vector&lt;int&gt; dcc_list[maxn];
+void dfs(int u, int p) {
+    dfn[u] = low[u] = ++id;
+    st[++tail] = u;
+    int child = 0;
+
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) {
+            low[u] = min(low[u], dfn[to]);
+        } else {
+            child++;
+            dfs(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt;= dfn[u]) {  // 不关心 u 是否为割点，直接开始pop
+                from[to] = ++dcc;
+                while (st[tail] != to) {  // 注意是 pop 到 to 为止（包括to）
+                    int cur = st[tail--];
+                    from[cur] = from[to];
+                    dcc_list[dcc].push_back(cur);
+                }
+                tail--;  // tail--后，指向的是 u
+                dcc_list[dcc].push_back(to);
+                dcc_list[dcc].push_back(u);  // 注意 u是割点，也要进入该分量
+                // from[u] = dcc;  // from[u] 实际上没有意义
+            }
+            if (low[to] &gt;= dfn[u] &amp;&amp; p) cut[u] = 1;  // 割点（非根节点）
+        }
+    }
+    if (!p &amp;&amp; child &gt;= 2) cut[u] = 1;  // 割点（根节点）
+}
+</code></pre>
+</details>
+<h3 id="边双连通分量ecc">边双连通分量（ecc）</h3>
+<p>求边双分量，可以根据定义：删去所有的桥，剩下的连通分量，就是边双分量。</p>
+<p>所以求边双分量，分以下两步：</p>
+<ol>
+<li>tarjan 求出所有的桥。</li>
+<li>进行一次 <code>dfs()</code>，如果 $(u,to)$ 是桥，则不经过这条边。以此求出所有的连通分量。</li>
+</ol>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">int from[maxn];
+bool bridge[maxm&lt;&lt;1];
+
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = ++id;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt; dfn[u]) {
+                bridge[e] = bridge[e^1] = 1;
+            }
+        }
+    }
+}
+
+// dfs求出所有的边双
+// f 代表 from (ecc编号)
+void dfs(int u, int f) {
+    from[u] = f;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (from[to] || bridge[e]) continue;  // to已访问，或者该边是桥
+        dfs(to, f);
+    }
+}
+
+int main() {
+    // ...
+    for (int i = 1; i &lt;= n; i++) 
+        if (!from[i]) 
+            dfs(i, ++ecc);
+    // ...
+}
+</code></pre>
+</details>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p3225-hnoi2012矿场搭建httpswwwluogucomcnproblemp3225">例1 <a href="https://www.luogu.com.cn/problem/P3225" target="_blank">洛谷P3225 [HNOI2012]矿场搭建</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $M$ 条边的无向图。初始状态下，每个节点没有标记。</p>
+<p>我们需要给节点打上标记，使得：</p>
+<p>删去图中的任意一个节点，其他的所有节点均可到达一个有标记的节点。</p>
+<p>求：标记节点的最少数量，最少标记数量的方案总数。</p>
+<p>其中，$M \leq 500$，数据保证不存在单个独立点。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先根据 <strong>点双连通</strong> 进行缩点。缩点以后，整个图会变成一个由 <strong>割点</strong> 和 <strong>点双分量</strong> 组成的 <strong>树</strong>。</p>
+<p>由于点双的性质，我们知道，如果删去点双分量中的任意一个点（除割点以外），该分量仍然和其他的分量连通。</p>
+<p>所以我们不需要考虑删去 <strong>非割点</strong> 的情况，我们只关心如果删去了一个 <strong>割点</strong>，会不会使得有些节点无法到达有标记的节点。</p>
+<p>由上可知，我们 <strong>不需要标记割点</strong>（因为我们只考虑删去 <strong>割点</strong> 的情况，如果要删去割点，那说明标记割点是无意义的）。</p>
+<hr>
+<p>对于一个点双分量而言，可以分以下情况讨论：</p>
+<ol>
+<li>点双内含有 $\geq 2$ 个割点：无论删去哪个割点，该分量仍然和其他分量连通，所以无需在该分量内标记。</li>
+<li>点双内含有 $1$ 个割点：如果该割点被删了，那么这个分量就断开了，所以该分量内部需要标记 $1$ 个节点。（不标记割点），方案数为 $(sz-1)$ （因为分量里面有一个割点，要去掉标记它的可能性）。</li>
+<li>点双内没有割点：说明这个分量本来就是独立开的（在缩点后，是单个独立节点）。所以该分量内需要标记 $2$ 个节点。方案数为 $C_{sz}^2$。</li>
+</ol>
+<hr>
+<p>实现中的一些细节：</p>
+<ol>
+<li>由于一个割点可能属于多个点双分量，所以我们采用 <code>vector&lt;int&gt; dcc_list[maxn];</code> 来记录每个点双里面的节点。</li>
+<li>对于一个割点 $u$ 来说，它的 <code>from[]</code> 数组没有意义。（如果需要缩点，则后续会让 <code>from[u] = ++dcc</code>，缩点后的 <code>from[u]</code> 就有意义了）</li>
+<li>与 tarjan 求 SCC 不同，我们<strong>不需要</strong>记录节点是否在栈内。</li>
+<li>在 <code>pop</code> 栈的时候，注意我们是 <code>pop</code> 到 <code>to</code> 为止（<strong>包括 <code>to</code></strong>），但是 <strong>不包括 <code>u</code></strong>。这是因为 <code>u</code> 作为割点，可能还属于别的点双分量，之后还要用到。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1005;
+
+int n,m, head[maxn], ecnt = 1;
+struct Edge {
+    int to, nxt;
+} edges[maxn];
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt++;
+}
+
+int dfn[maxn], low[maxn], id, st[maxn], tail, from[maxn], dcc;
+bool cut[maxn];
+vector&lt;int&gt; dcc_list[maxn];
+void dfs(int u, int p) {
+    dfn[u] = low[u] = ++id;
+    st[++tail] = u;
+    int child = 0;
+
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) {
+            low[u] = min(low[u], dfn[to]);
+        } else {
+            child++;
+            dfs(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt;= dfn[u]) {
+                from[to] = ++dcc;
+                while (st[tail] != to) {  // 注意是 pop 到 to 为止（包括to）
+                    int cur = st[tail--];
+                    from[cur] = from[to];
+                    dcc_list[dcc].push_back(cur);
+                }
+                tail--;  // tail--后，指向的是 u
+                dcc_list[dcc].push_back(to);
+                dcc_list[dcc].push_back(u);  // 注意 u是割点，也要进入该分量
+                // from[u] = dcc;  // from[u] 实际上没有意义
+            }
+            if (low[to] &gt;= dfn[u] &amp;&amp; p) cut[u] = 1;  // 割点（非根节点）
+        }
+    }
+    if (!p &amp;&amp; child &gt;= 2) cut[u] = 1;  // 割点（根节点）
+}
+
+void tarjan() {
+    for (int i = 1; i &lt;= n; i++) {
+        if (!dfn[i]) dfs(i, 0);
+    }
+}
+
+void init() {
+    for (int i = 1; i &lt;= dcc; i++) dcc_list[i].clear();
+    id = 0;
+    tail = -1;
+    dcc = 0;
+    n = 0;
+    ecnt = 1;
+
+    fill(cut, cut+maxn, 0);
+    fill(from, from+maxn, 0);
+    fill(head, head+maxn, 0);
+    fill(dfn, dfn+maxn, 0);
+    fill(low, low+maxn, 0);
+}
+
+void solve(int T) {
+    init();
+    for (int i = 1; i &lt;= m; i++) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        n = max(n,u); n = max(n,v);
+        addEdge(u,v); addEdge(v,u);
+    }
+    tarjan();
+
+    int ans1 = 0;
+    ll ans2 = 1;
+
+    for (int i = 1; i &lt;= dcc; i++) {
+        int cut_cnt = 0;
+        int sz = dcc_list[i].size();
+        for (int j = 0; j &lt; dcc_list[i].size(); j++) {
+            int cur = dcc_list[i][j];
+            if (cut[cur]) cut_cnt++;
+        }
+        if (cut_cnt &gt;= 2) continue;
+        if (cut_cnt == 1) ans1++, ans2 *= (ll)(sz - 1);
+        if (cut_cnt == 0) ans1+=2, ans2 *= (ll)(sz) * (ll)(sz-1LL) / 2LL;
+    }
+
+    printf(&quot;Case %d: %d %lld\n&quot;, T, max(ans1, 2), ans2);
+}
+
+int main() {
+    int T = 0;
+    while (cin &gt;&gt; m &amp;&amp; m) {
+        T++;
+        solve(T);
+    }
+}
+</code></pre>
+</details>
+<h3 id="例2-洛谷p5058-zjoi2004嗅探器httpswwwluogucomcnproblemp5058">例2 <a href="https://www.luogu.com.cn/problem/P5058" target="_blank">洛谷P5058 [ZJOI2004]嗅探器</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>现有 $n$ 个节点的无向图。</p>
+<p>给定两个节点 $a,b$，输出 最小编号的 $u$ 使得 $a,b$ 之间所有的路径都需要经过 $u$，且 $u \neq a, u \neq b$。</p>
+<p>如果无解，则输出 &ldquo;No solution&rdquo;。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>先<strong>点双缩点</strong>，如果 $a,b$ 在同一个点双内必然无解（根据定义，大小等于 $3$ 的点双内，任意两点之间有<strong>点不重复</strong>的路径）。</p>
+<p>如果 $a,b$ 在不同的点双内则说明有解，缩点后，$a,b$ 就是树上的两个节点，它们之间有唯一路径，取这个路径上编号最小的割点即可。</p>
+<hr>
+<p>一些注意事项：</p>
+<ol>
+<li>每个割点单独形成一个点双。</li>
+<li>缩点得到的树，所有的边必然和 <strong>割点</strong> 相连，所以建边的时候<strong>只需要考虑割点所在的dcc</strong>，还有它旁边有哪些dcc就可以了。本题中在缩点建树的过程中，使用了数组 <code>vector&lt;int&gt; cut_from[maxn];</code>。其中 <code>cut_from[u]</code> 代表以 $u$ 作为割点，它neighbor的dcc编号。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e5+5;
+const int maxm = 5e5+5;
+
+int n,a,b,head[maxn],ecnt = 0;
+struct Edge {
+    int to, nxt;
+} edges[maxm&lt;&lt;1];
+
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int dfn[maxn], low[maxn], dcc = 0, id = 0, st[maxn], from[maxn], tail = -1;
+bool cut[maxn];
+vector&lt;int&gt; dcc_list[maxn&lt;&lt;1];
+vector&lt;int&gt; cut_from[maxn];  // cut_from[u] 代表以 u 作为割点，它neighbor的dcc编号
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = ++id;
+    st[++tail] = u;
+    int child = 0;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            child++;
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt;= dfn[u]) {
+                from[u] = ++dcc;
+                while (st[tail] != to) {
+                    int cur = st[tail--];
+                    from[cur] = from[u];
+                    dcc_list[dcc].push_back(cur);
+                }
+                tail--;
+                from[to] = from[u];
+                dcc_list[dcc].push_back(to);
+                dcc_list[dcc].push_back(u);
+            }
+
+            if (low[to] &gt;= dfn[u] &amp;&amp; p) {
+                cut[u] = 1;
+            }
+        }
+    }
+    if (child &gt;= 2 &amp;&amp; !p)
+        cut[u] = 1;
+}
+
+vector&lt;int&gt; adj[maxn&lt;&lt;1];  // 缩点后的图
+int par[maxn&lt;&lt;1], dep[maxn&lt;&lt;1];  // 缩点后，dfs树用到的数组
+int mp[maxn&lt;&lt;1];  // map: dcc -&gt; cut vertex id (只有该dcc对应的是 单个割点形成的 dcc才有用)
+
+void dfs(int u, int p) {
+    par[u] = p;
+    dep[u] = dep[p] + 1;
+    for (int to : adj[u]) {
+        if (to == p) continue;
+        dfs(to, u);
+    }
+}
+
+int ans = 1e9;
+void LCA(int u, int v) {
+    int f1 = mp[u], f2 = mp[v];
+    if (dep[u] &lt; dep[v]) swap(u,v);
+    int d = dep[u] - dep[v];
+    vector&lt;int&gt; path;
+    while (d--) {
+        path.push_back(u);
+        u = par[u];
+    }
+    path.push_back(u);
+    while (u != v) {
+        path.push_back(u);
+        path.push_back(v);
+        u = par[u], v = par[v];
+    }
+    path.push_back(u);
+    path.push_back(v);
+    for (int c : path) {
+        if (mp[c] == f1 || mp[c] == f2) continue;
+        if (cut[mp[c]]) ans = min(ans, mp[c]);
+    }
+}
+
+void rebuild() {
+    for (int i = 1; i &lt;= dcc; i++) {
+        for (int j : dcc_list[i]) {
+            if (cut[j]) cut_from[j].push_back(i);
+        }
+    }
+
+    for (int u = 1; u &lt;= n; u++) {
+        if (cut[u]) {
+            int fu = from[u] = ++dcc;
+            mp[dcc] = u;
+            dcc_list[dcc].push_back(u);
+            for (int fv : cut_from[u]) {
+                adj[fu].push_back(fv);
+                adj[fv].push_back(fu);
+            }
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n;
+    int u,v;
+    fill(head, head+maxn, -1);
+    while (cin &gt;&gt; u &gt;&gt; v &amp;&amp; u &amp;&amp; v) {
+        addEdge(u,v); addEdge(v,u);
+    }
+    cin &gt;&gt; a &gt;&gt; b;
+    for (int i = 1; i &lt;= n; i++) {
+        if (!dfn[i]) tarjan(i,0);
+    }
+    rebuild();
+    for (int i = 1; i &lt;= dcc; i++) {
+        if (!dep[i]) dfs(i,0);
+    }
+    LCA(from[a], from[b]);
+
+    if (ans == 0 || ans == 1e9) cout &lt;&lt; &quot;No solution&quot; &lt;&lt; endl;
+    else cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例3-poj3694-networkhttpsvjudgenetproblempoj-3694">例3 <a href="https://vjudge.net/problem/POJ-3694" target="_blank">POJ3694 Network</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $N$ 个节点和 $M$ 条边的无向图，初始图是连通的。</p>
+<p>现在要加 $Q$ 条边（可重复），每次加边后，回答图中有多少个桥。</p>
+<p>其中，$1 \leq N \leq 10^5, N-1 \leq M \leq 2 \times 10^5, 1\leq Q \leq 1000$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>既然是桥，那么就直接先求一个边双，然后缩点。</p>
+<p>边双缩点后可以得到一棵树，所有加边操作都放到这个树上来考虑。</p>
+<p>首先会发现，加上的新边<strong>必不可能</strong>是桥（因为图原本是连通的）。</p>
+<p>每次加边 $(u,v)$，如果 $u,v$ 在同一个边双里，那么不会有任何影响。</p>
+<p>如果 $u,v$ 不在同一个边双里，那么加上的这条新边就会在树上形成一个环，使得环内的所有边均 <strong>不再是桥</strong>。</p>
+<hr>
+<p>那么，回忆一下 <a href="/post/037-%e6%a0%91%e4%b8%8a%e5%b7%ae%e5%88%86/#%e4%be%8b1-acwing-352-%e6%9a%97%e4%b9%8b%e8%bf%9e%e9%94%81httpswwwacwingcomproblemcontentdescription354">AcWing 352 暗之连锁</a> 中，我们可以将树边看作主要边，新加上的边就转化为主要边。</p>
+<p>比如，我们加上 $(u,v)$，那么就给 $u,v$ 之间路径上所有的边打一个标记。被标记过的就不是桥，没标记的就都是桥。</p>
+<p>然而树上差分的做法只适用于离线，只有所有修改操作结束后询问才有效。</p>
+<p>在线的做法我们可以利用 <strong>树链剖分</strong>（询问边），每次修改前，先进行一下询问，查询有多少个在修改前是无标记的，将答案减去这个数量即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+const int maxm = 2e5+5;
+
+int n,m, head[maxn], ecnt = 0, dfn[maxn], low[maxn], id = 0, from[maxn], ecc = 0;
+bool bridge[maxm&lt;&lt;1];
+struct Edge {
+    int to, nxt;
+} edges[maxm&lt;&lt;1];
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt++;
+}
+
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = ++id;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            tarjan(to, u);
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt; dfn[u]) {
+                bridge[e] = bridge[e^1] = 1;
+            }
+        }
+    }
+}
+
+// f 代表 from (ecc编号)
+void dfs(int u, int f) {
+    from[u] = f;
+    for (int e = head[u]; ~e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (from[to] || bridge[e]) continue;  // to已访问，或者该边是桥
+        dfs(to, f);
+    }
+}
+
+vector&lt;int&gt; adj[maxn];
+void rebuild() {
+    for (int u = 1; u &lt;= n; u++) {
+        for (int e = head[u]; ~e; e = edges[e].nxt) {
+            int v = edges[e].to;
+            int fu = from[u], fv = from[v];
+            if (fu == fv) continue;
+            adj[fu].push_back(fv);
+        }
+    }
+}
+
+int sz[maxn], son[maxn], top[maxn], tr_id[maxn];
+int par[maxn][20], dep[maxn];
+void dfs2(int u, int p) {
+    sz[u] = 1;
+    dep[u] = dep[p] + 1;
+    par[u][0] = p;
+    for (int j = 1; j &lt;= 19; j++) par[u][j] = par[par[u][j-1]][j-1];
+    int maxsz = -1;
+    for (int i = 0; i &lt; adj[u].size(); i++) {
+        int to = adj[u][i];
+        if (to == p) continue;
+        dfs2(to, u);
+        sz[u] += sz[to];
+        if (sz[to] &gt; maxsz) maxsz = sz[to], son[u] = to;
+    }
+}
+
+void dfs3(int u, int p, int topf) {
+    top[u] = topf;
+    tr_id[u] = ++id;
+    if (son[u]) dfs3(son[u], u, topf);
+    for (int i = 0; i &lt; adj[u].size(); i++) {
+        int to = adj[u][i];
+        if (to == p || to == son[u]) continue;
+        dfs3(to, u, to);
+    }
+}
+
+struct tree_node {
+    int sum;
+    bool lazy;
+} tr[maxn&lt;&lt;2];
+
+void push_up(int cur) {
+    tr[cur].sum = tr[cur&lt;&lt;1].sum + tr[cur&lt;&lt;1|1].sum;
+}
+
+void push_down(int cur) {
+    if (!tr[cur].lazy) return;
+    tr[cur].lazy = 0;
+    int l = cur&lt;&lt;1, r = cur&lt;&lt;1|1;
+    tr[l].lazy = tr[r].lazy = 1;
+    tr[l].sum = tr[r].sum = 0;
+}
+
+void update(int cur, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        tr[cur].lazy = 1;
+        tr[cur].sum = 0;
+        return;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R);
+    push_up(cur);
+}
+
+int query(int cur, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) return tr[cur].sum;
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    int res = 0;
+    if (L &lt;= mid) res += query(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) res += query(cur&lt;&lt;1|1, mid+1, r, L, R);
+    return res;
+}
+
+void build_tree(int cur, int l, int r) {
+    if (l == r) {
+        tr[cur].sum = 1;
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    build_tree(cur&lt;&lt;1, l, mid);
+    build_tree(cur&lt;&lt;1|1, mid+1, r);
+    push_up(cur);
+}
+
+int jump(int u, int d) {
+    int j = 0;
+    while (d) {
+        if (d&amp;1) u = par[u][j];
+        j++, d &gt;&gt;= 1;
+    }
+    return u;
+}
+
+int LCA(int u, int v) {
+    if (dep[u] &lt; dep[v]) swap(u,v);
+    int d = dep[u] - dep[v];
+    u = jump(u, d);
+    if (u == v) return u;
+    for (int j = 19; j &gt;= 0; j--) {
+        if (par[u][j] != par[v][j]) 
+            u = par[u][j], v = par[v][j];
+    }
+    return par[u][0];
+}
+
+
+int curans;
+
+void update_path_helper(int u, int v) {
+    if (v == -1) return;
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        curans -= query(1, 2, ecc, tr_id[top[u]], tr_id[u]);
+        update(1, 2, ecc, tr_id[top[u]], tr_id[u]);
+        u = par[top[u]][0];
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v);
+    curans -= query(1, 2, ecc, tr_id[u], tr_id[v]);
+    update(1, 2, ecc, tr_id[u], tr_id[v]);
+}
+
+void update_path(int u, int v) {
+    int x = LCA(u,v);
+    int d,ux,vx;
+
+    d = dep[u] - dep[x];
+    if (!d) ux = -1;
+    else ux = jump(u, d-1);
+
+    d = dep[v] - dep[x];
+    if (!d) vx = -1;
+    else vx = jump(v, d-1);
+
+    update_path_helper(u, ux);
+    update_path_helper(v, vx);
+}
+
+void clearall() {
+    fill(head, head+n+1, -1);
+    fill(dfn, dfn+n+1, 0);
+    fill(low, low+n+1, 0);
+    fill(from, from+n+1, 0);
+    fill(bridge, bridge+(m&lt;&lt;1)+2, 0);
+    fill(sz, sz+ecc+1, 0);
+    fill(son, son+ecc+1, 0);
+    fill(top, top+ecc+1, 0);
+    fill(tr_id, tr_id+ecc+1, 0);
+    for (int i = 1; i &lt;= 4*ecc+5; i++) tr[i].lazy = 0;
+    for (int i = 1; i &lt;= ecc; i++) 
+        for (int j = 0; j &lt;= 19; j++) par[i][j] = 0;
+    fill(dep, dep+ecc+1, 0);
+    for (int i = 1; i &lt;= n; i++) adj[i].clear();
+    ecnt = id = ecc = 0;
+}
+
+int main() {
+    fastio;
+    int T = 0;
+    fill(head, head+maxn, -1);
+    while (cin &gt;&gt; n &gt;&gt; m &amp;&amp; n &amp;&amp; m) {
+        T++;
+        for (int i = 1; i &lt;= m; i++) {
+            int u,v; cin &gt;&gt; u &gt;&gt; v;
+            addEdge(u,v); addEdge(v,u);
+        }
+        tarjan(1, 0);
+        for (int i = 1; i &lt;= n; i++) {
+            if (!from[i]) dfs(i, ++ecc);
+        }
+        rebuild();
+
+        id = 0;
+        dfs2(1, 0);
+        dfs3(1, 0, 1);
+        curans = ecc-1;
+
+        cout &lt;&lt; &quot;Case &quot; &lt;&lt; T &lt;&lt; &quot;:\n&quot;;
+        int Q; cin &gt;&gt; Q;
+        if (ecc == 1) {
+            while (Q--) {
+                int u,v; cin &gt;&gt; u &gt;&gt; v;
+                cout &lt;&lt; 0 &lt;&lt; &quot;\n&quot;;
+            }
+        } else {
+            build_tree(1, 2, ecc);
+            while (Q--) {
+                int u,v; cin &gt;&gt; u &gt;&gt; v;
+                update_path(from[u],from[v]);
+                cout &lt;&lt; curans &lt;&lt; &quot;\n&quot;;
+            }
+            cout &lt;&lt; &quot;\n&quot;;
+        }
+
+        clearall();
+    }
+}
+</code></pre>
+</details>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-04-17 16:55:29 &#43;0800 &#43;0800">2021-04-17</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/9936beb0e00afe403971fe0f9787587358a832ab" title="init 037-041.md, update title-toc width=250" target="_blank">(9936beb)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/041-%e5%89%b2%e7%82%b9-%e6%a1%a5-BCC.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%89%B2%E7%82%B9/">割点</a>
+          <a href="/tags/%E6%A1%A5/">桥</a>
+          <a href="/tags/%E5%8F%8C%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/">双连通分量</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/040-tarjan/">
+            <span class="next-text nav-default">强连通分量（SCC）</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

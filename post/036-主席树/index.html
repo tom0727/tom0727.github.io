@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/036-%E4%B8%BB%E5%B8%AD%E6%A0%91/" />
 <meta property="article:published_time" content="2021-03-31T10:42:02+08:00" />
-<meta property="article:modified_time" content="2021-04-17T16:55:29+08:00" />
+<meta property="article:modified_time" content="2021-04-18T18:53:31+08:00" />
 <meta itemprop="name" content="主席树">
 <meta itemprop="description" content="介绍 主席树全名叫做 可持久化权值线段树，一般用于一个数组上，有以下的功能： 对于每一个区间 都能 开一个权值线段树。 能够维护数组的 历史版本。（仅用于">
 <meta itemprop="datePublished" content="2021-03-31T10:42:02&#43;08:00" />
-<meta itemprop="dateModified" content="2021-04-17T16:55:29&#43;08:00" />
-<meta itemprop="wordCount" content="5930">
+<meta itemprop="dateModified" content="2021-04-18T18:53:31&#43;08:00" />
+<meta itemprop="wordCount" content="9258">
 
 
 
@@ -160,6 +160,7 @@
             <li><a href="#例4-洛谷p2468-sdoi2010粟粟的书架httpswwwluogucomcnproblemp2468">例4 <a href="https://www.luogu.com.cn/problem/P2468">洛谷P2468 [SDOI2010]粟粟的书架</a></a></li>
             <li><a href="#例5-洛谷p2633-count-on-a-treehttpswwwluogucomcnproblemp2633">例5 <a href="https://www.luogu.com.cn/problem/P2633">洛谷P2633 Count on a tree</a></a></li>
             <li><a href="#例6-cf813e-army-creationhttpswwwluogucomcnproblemcf813e">例6 <a href="https://www.luogu.com.cn/problem/CF813E">CF813E Army Creation</a></a></li>
+            <li><a href="#例7-cf1404c-fixed-point-removalhttpscodeforcescomcontest1404problemc">例7 <a href="https://codeforces.com/contest/1404/problem/C">CF1404C Fixed Point Removal</a></a></li>
           </ul>
         </li>
         <li><a href="#参考链接">参考链接</a></li>
@@ -1027,6 +1028,458 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例7-cf1404c-fixed-point-removalhttpscodeforcescomcontest1404problemc">例7 <a href="https://codeforces.com/contest/1404/problem/C" target="_blank">CF1404C Fixed Point Removal</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定长度为 $n$ 的数组 $a_1,a_2,&hellip;,a_n$。</p>
+<p>我们每次可以选择 $i$ 使得 $a_i = i$，然后将它删掉。删掉后，剩下的部分会合并在一起。</p>
+<p>现在有 $q$ 个询问，每次询问 $(x,y)$，回答：</p>
+<p>如果将 $a_1,a_2,&hellip;,a_x$ 赋值为 $n+1$，$a_n,a_{n-1},&hellip;,a_{n-y+1}$ 赋值为 $n+1$ （实际上，就是让 $a$ 的前 $x$ 个元素 和 后 $y$ 个元素变得无法删除。），我们能最多删除多少个元素？</p>
+<p>询问之间完全独立，互不影响。</p>
+<p>其中，$1 \leq n,q \leq 3 \times 10^5, a_i \in [1,n], x,y \geq 0, x+y &lt; n$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先，我们先不考虑询问的问题。</p>
+<p>对于原数组，如何求出最多删除的元素个数？</p>
+<p>我们会发现，当我们删除一个元素时，它右边的所有元素的 index 都会减少 $1$，这可能导致右边的元素又出现了可删除的。</p>
+<p>同时我们发现，如果对于 $i$，有 $a_i &gt; i$，则无论怎么删除，$i$ 只减不增，这样 $a_i = i$ 永远不可能成立。</p>
+<p>这意味着，当出现 $a_i = i$ 时，就要立刻删除，如果它左边的元素被删了，它就再也删不掉了。</p>
+<p>所以对于原数组，最优的删除方法是：</p>
+<p><strong>从右侧开始删</strong>，删完一个数字后，判断右边有没有出现新的可删数字，如果有的话继续从右开始。</p>
+<hr>
+<p>有了贪心的删除策略，我们不能简单的模拟删除过程，因为这是 $O(n^2)$ 的。</p>
+<p>每次删除操作，我们需要对右边的元素的index 进行<strong>区间减 $1$</strong>，很明显可以用线段树来维护。</p>
+<p>不妨将问题转化一下，令 $b_i = i - a_i$：</p>
+<ol>
+<li>当 $b_i = 0$ 时，可以删除，删除时，将 $[i+1,n]$ 的所有 $b_i$ 都减去 $1$。</li>
+<li>当 $b_i &lt; 0$ 时，永远都不可能删除。</li>
+<li>当 $b_i &gt; 0$ 时，如果它未来的某时刻被减为 $0$ 了，则可以被删掉。</li>
+</ol>
+<p>那我们在线段树里面维护一个 $min$，代表区间最小值。</p>
+<p>如果一个元素 $&lt; 0$，则直接把它赋值为 $10^9$，无论怎么减，它都不可能等于 $0$，代表着它是一个无效元素（永远不可能被删除，或者已经被删除）。</p>
+<p>每次询问一下区间最小值的位置，如果最小值为 $0$，就把这个位置 $i$ 的元素删掉，然后将 $[i+1,n]$ 都减去 $1$，然后将 $b_i$ 设为 $10^9$（代表已删除）。</p>
+<hr>
+<p>现在有了 <strong>无询问</strong> 情况下的解，<strong>有询问</strong>怎么办？</p>
+<p>我们观察一下样例数组（长度为 $13$）</p>
+<p>$[2,2,3 ,9 ,5 ,4 ,6 ,5 ,7, 8, 3, 11, 13]$</p>
+<p>我们删除的 index 顺序（指原数组的index）是：$13,5,12,7,10,9,3,8,6,2,11$。</p>
+<p>假设我们询问了 $x=3, y=1$，这意味着 $1,2,3$ 和 $13$ 都不能出现在这个删除序列中了（我们给它们 <strong>打上标记</strong>），并且它<strong>后面的</strong> 所有 <strong>比它大</strong> 的数字也被打上标记了（因为它实际上依赖前面的数字，但是前面的这些数字无法被删了）！如下：</p>
+<p>找 $1$，$1$ 不在删除序列中，忽略。</p>
+<p>找 $2$，$2$ 在删除序列中，后面比它大的数字有 $11$，所以 $2,11$ 打上标记。</p>
+<p>找 $3$，$3$ 在删除序列中，后面比它大的数字有 $8,6,2,11$，所以 $3,8,6,2,11$ 打上标记。</p>
+<p>找 $13$，$13$ 在删除序列中，后面不存在比它大的数字。所以 $13$ 打上标记。</p>
+<p>以上，剩下没有被标记的，只有 $5,12,7,10,9$，共 $5$ 个数字，所以答案为 $5$。</p>
+<hr>
+<p>将上述的模拟过程，总结一下就是：</p>
+<p>设删除序列（就是上面的 $13,5,12,7,10,9,3,8,6,2,11$）为 $c$。</p>
+<p>那么，每次询问 $(x,y)$，所有 <strong>未被标记</strong> 的index $i$，必须得满足以下的所有条件：</p>
+<ol>
+<li>$c_i \in [x+1, n-y]$</li>
+<li>$pre_i \geq x+1$</li>
+</ol>
+<p>其中，$pre_i$ 代表 $\min \{ c_1,c_2,&hellip;,c_{i-1}\}$。这是因为，如果 $pre_i \leq x$，则 $i$ 前面必然存在一个数字被标记了，所以 $i$ 也要被标记。</p>
+<hr>
+<p>现在问题就转化为：</p>
+<p>给定一个长度为 $n$ 的数组，每个元素是 $(c, pre)$ 的形式。</p>
+<p>每次询问 $(x,y)$，求有多少个 $i \in [1,n]$ 满足以下所有条件：</p>
+<ol>
+<li>$c_i \in [x+1, n-y]$</li>
+<li>$pre_i \geq x+1$</li>
+</ol>
+<p>有离线和在线两种方法。</p>
+<hr>
+<p>在线做法：</p>
+<p>将数组根据 $c$ 的值，sort一下。</p>
+<p>每次询问的时候，先用二分找到左边界 $l$，满足 $c_l \geq x+1$，且 $l$ 尽可能小。</p>
+<p>再二分找到右边界 $r$，满足 $c_r \leq n-y$，且 $r$ 尽可能大。</p>
+<p>然后问题就转化为，求 $[l,r]$ 之间，有多少个元素 $i$，满足：</p>
+<ol>
+<li>$i \in [l,r]$</li>
+<li>$pre_i \geq x+1$</li>
+</ol>
+<p>那这就是一个标准的主席树问题了。</p>
+<p>复杂度：$O(n\log^2n)$</p>
+<hr>
+<p>离线做法：</p>
+<p>将所有的询问，根据 $x$ 的值，<strong>从大到小</strong> 进行sort。</p>
+<p>然后，将数组根据 $pre$ 的值，<strong>从大到小</strong> 进行sort。</p>
+<p>所以，我们在回答每个询问 $(x,y)$ 的时候，我们只需要考虑 $pre_i \geq x+1$ 的部分。</p>
+<p>也就是说我们可以开一个线段树，维护 $c_i$ 的值。</p>
+<p>假如我们当前处理到了 询问 $(x,y)$，我们只在线段树内维护所有满足 $pre_i \geq x+1$ 的 $c_i$ 即可。</p>
+<p>• 这本质上是一个，将数组内的元素，根据 $pre_i$ 的值，<strong>逐一插入到线段树中</strong>的过程。</p>
+<p>复杂度：$O(n\log n)$</p>
+<hr>
+<p>总结：</p>
+<p>本题的思考流程分为以下几个步骤：</p>
+<ol>
+<li>找到最优的删除策略。</li>
+<li>对于无询问状态下，如何模拟删除过程。</li>
+<li>对于有询问状态下，如何模拟删除过程。</li>
+<li>如何处理一个 <strong>类似二维数点</strong> 的问题。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">在线做法（主席树）</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 3e5+5;
+ 
+int n,q;
+struct node {
+    int idx, val;
+} arr[maxn];
+ 
+struct tree_node {
+    int minval, idx;
+    int lazy = 0;
+} tr[maxn&lt;&lt;2];
+ 
+void push_up(int cur) {
+    tr[cur].minval = min(tr[cur&lt;&lt;1].minval, tr[cur&lt;&lt;1|1].minval);
+}
+ 
+void push_down(int cur) {
+    if (tr[cur].lazy == 0) return;
+    int lazy = tr[cur].lazy;
+    tr[cur].lazy = 0;
+    int l = cur&lt;&lt;1, r = cur&lt;&lt;1|1;
+    tr[l].lazy += lazy, tr[r].lazy += lazy;
+    tr[l].minval += lazy, tr[r].minval += lazy;
+}
+ 
+void build(int cur, int l, int r) {
+    if (l == r) {
+        tr[cur].minval = arr[l].val;
+        tr[cur].idx = arr[l].idx;
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    build(cur&lt;&lt;1, l, mid);
+    build(cur&lt;&lt;1|1, mid+1, r);
+    push_up(cur);
+}
+ 
+void update(int cur, int l, int r, int L, int R, int x) {
+    if (L &gt; R) return;
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        tr[cur].lazy += x;
+        tr[cur].minval += x;
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    push_down(cur);
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, x);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+    push_up(cur);
+}
+ 
+// query if [1,n] has minval = 0, (query right first), if yes, return the idx (original)
+int query(int cur, int l, int r) {
+    if (tr[cur].minval != 0) return -1;
+    if (l == r) {
+        return tr[cur].idx;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    if (tr[cur&lt;&lt;1|1].minval == 0) return query(cur&lt;&lt;1|1, mid+1, r);
+    return query(cur&lt;&lt;1, l, mid);
+}
+ 
+// delete the element in p
+void del(int cur, int l, int r, int p) {
+    if (l == r) {
+        tr[cur].minval = 1e9;
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    push_down(cur);
+    if (p &lt;= mid) del(cur&lt;&lt;1, l, mid, p);
+    if (p &gt; mid) del(cur&lt;&lt;1|1, mid+1, r, p);
+    push_up(cur);
+}
+ 
+struct Num {
+    int val, pre;
+} seq[maxn];
+int tail = 0;
+ 
+void init() {
+    build(1, 1, n);
+    while (1) {
+        int p = query(1, 1, n);
+        if (p == -1) break;
+        del(1, 1, n, p);
+        seq[++tail] = {p, (int)1e9};
+        update(1, 1, n, p+1, n, -1);
+    }
+    if (!tail) return;
+    for (int i = 2; i &lt;= tail; i++) {
+        seq[i].pre = min(seq[i-1].pre, seq[i-1].val);
+    }
+    sort(seq+1, seq+tail+1, [](auto a, auto b) {
+        return a.val &lt; b.val;  // 根据 c 的值先进行sort
+    });
+}
+ 
+void debug() {
+    printf(&quot;tail = %d\n&quot;,tail);
+    for (int i = 1; i &lt;= tail; i++) {
+        printf(&quot;%d &quot;, seq[i].val);
+    }
+    printf(&quot;\n&quot;);
+}
+ 
+struct persistent_tree_node {
+    int lc, rc, cnt;
+} ptr[maxn&lt;&lt;5];
+int root[maxn], id = 0;
+ 
+int insert(int pre, int l, int r, int p) {
+    int cur = ++id;
+    ptr[cur] = ptr[pre];
+    ptr[cur].cnt++;
+    if (l == r) return cur;
+    int mid = (l+r) &gt;&gt; 1;
+    if (p &lt;= mid) ptr[cur].lc = insert(ptr[pre].lc, l, mid, p);
+    if (p &gt; mid) ptr[cur].rc = insert(ptr[pre].rc, mid+1, r, p);
+    return cur;
+}
+ 
+int query(int cur, int pre, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) return ptr[cur].cnt - ptr[pre].cnt;
+    int mid = (l+r) &gt;&gt; 1;
+    int res = 0;
+    if (L &lt;= mid) res += query(ptr[cur].lc, ptr[pre].lc, l, mid, L, R);
+    if (R &gt; mid) res += query(ptr[cur].rc, ptr[pre].rc, mid+1, r, L, R);
+    return res;
+}
+ 
+// return the smallest index, where seq[i].val &gt;= x
+int search_down(int x) {
+    int l = 1, r = tail;
+    int ans = tail+1;
+    while (l &lt;= r) {
+        int mid = (l+r) &gt;&gt; 1;
+        if (seq[mid].val &gt;= x) {
+            ans = mid;
+            r = mid-1;
+        } else l = mid+1;
+    }
+    return ans;
+}
+ 
+// return the largest index, where seq[i].val &lt;= x
+int search_up(int x) {
+    int l = 1, r = tail;
+    int ans = 0;
+    while (l &lt;= r) {
+        int mid = (l+r) &gt;&gt; 1;
+        if (seq[mid].val &lt;= x) {
+            ans = mid;
+            l = mid+1;
+        } else r = mid-1;
+    }
+    return ans;
+}
+ 
+int main() {
+    cin &gt;&gt; n &gt;&gt; q;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; arr[i].val;
+        arr[i].idx = i;
+        int val = arr[i].val, idx = i;
+        if (val &gt; idx) arr[i].val = 1e9;
+        else arr[i].val = i - val;
+    }
+    init();
+    for (int i = 1; i &lt;= tail; i++) {
+        root[i] = insert(root[i-1], 1, n, seq[i].pre);
+    }
+ 
+    while (q--) {
+        int x,y; cin &gt;&gt; x &gt;&gt; y;
+        int ans = 0;
+ 
+        int l = search_down(x+1);
+        int r = search_up(n-y);
+        if (l &gt; r) ans = 0;
+        else {
+            ans = query(root[r], root[l-1], 1, n, x+1, n);
+        }
+ 
+        // 以下是暴力的做法：
+        // for (int i = 1; i &lt;= tail; i++) {
+        //     if (seq[i].val &gt;= x+1 &amp;&amp; seq[i].val &lt;= n-y &amp;&amp; seq[i].pre &gt;= x+1) ans++;
+        // }
+
+        cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+<details class="admonition note"><summary class="admonition-title">离线做法</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 3e5+5;
+ 
+int n,q;
+struct node {
+    int idx, val;
+} arr[maxn];
+ 
+struct tree_node {
+    int minval, idx;
+    int lazy = 0;
+} tr[maxn&lt;&lt;2];
+ 
+void push_up(int cur) {
+    tr[cur].minval = min(tr[cur&lt;&lt;1].minval, tr[cur&lt;&lt;1|1].minval);
+}
+ 
+void push_down(int cur) {
+    if (tr[cur].lazy == 0) return;
+    int lazy = tr[cur].lazy;
+    tr[cur].lazy = 0;
+    int l = cur&lt;&lt;1, r = cur&lt;&lt;1|1;
+    tr[l].lazy += lazy, tr[r].lazy += lazy;
+    tr[l].minval += lazy, tr[r].minval += lazy;
+}
+ 
+void build(int cur, int l, int r) {
+    if (l == r) {
+        tr[cur].minval = arr[l].val;
+        tr[cur].idx = arr[l].idx;
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    build(cur&lt;&lt;1, l, mid);
+    build(cur&lt;&lt;1|1, mid+1, r);
+    push_up(cur);
+}
+ 
+void update(int cur, int l, int r, int L, int R, int x) {
+    if (L &gt; R) return;
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        tr[cur].lazy += x;
+        tr[cur].minval += x;
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    push_down(cur);
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, x);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+    push_up(cur);
+}
+ 
+// query if [1,n] has minval = 0, (query right first), if yes, return the idx (original)
+int query(int cur, int l, int r) {
+    if (tr[cur].minval != 0) return -1;
+    if (l == r) {
+        return tr[cur].idx;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    if (tr[cur&lt;&lt;1|1].minval == 0) return query(cur&lt;&lt;1|1, mid+1, r);
+    return query(cur&lt;&lt;1, l, mid);
+}
+ 
+// delete the element in p
+void del(int cur, int l, int r, int p) {
+    if (l == r) {
+        tr[cur].minval = 1e9;
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    push_down(cur);
+    if (p &lt;= mid) del(cur&lt;&lt;1, l, mid, p);
+    if (p &gt; mid) del(cur&lt;&lt;1|1, mid+1, r, p);
+    push_up(cur);
+}
+ 
+struct Num {
+    int val, pre;
+} seq[maxn];
+int tail = 0;
+ 
+void init() {
+    build(1, 1, n);
+    while (1) {
+        int p = query(1, 1, n);
+        if (p == -1) break;
+        del(1, 1, n, p);
+        seq[++tail] = {p, (int)1e9};
+        update(1, 1, n, p+1, n, -1);
+    }
+    if (!tail) return;
+    for (int i = 2; i &lt;= tail; i++) {
+        seq[i].pre = min(seq[i-1].pre, seq[i-1].val);
+    }
+    sort(seq+1, seq+tail+1, [](auto a, auto b) {
+        return a.pre &gt; b.pre;  // 根据 pre 进行 sort
+    });
+}
+ 
+struct Query_node {
+    int x,y,id;
+} que[maxn];
+int ans[maxn];
+ 
+struct tree_node2 {
+    int cnt;
+} tr2[maxn&lt;&lt;2];
+ 
+void insert(int cur, int l, int r, int p) {
+    tr2[cur].cnt++;
+    if (l == r) {
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    if (p &lt;= mid) insert(cur&lt;&lt;1, l, mid, p);
+    else insert(cur&lt;&lt;1|1, mid+1, r, p);
+}
+ 
+int Query(int cur, int l, int r, int L, int R) {
+    if (L &gt; R) return 0;
+    if (l &gt;= L &amp;&amp; r &lt;= R) return tr2[cur].cnt;
+    int mid = (l+r) &gt;&gt; 1;
+    int res = 0;
+    if (L &lt;= mid) res += Query(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) res += Query(cur&lt;&lt;1|1, mid+1, r, L, R);
+    return res;
+}
+ 
+int main() {
+    cin &gt;&gt; n &gt;&gt; q;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; arr[i].val;
+        arr[i].idx = i;
+        int val = arr[i].val, idx = i;
+        if (val &gt; idx) arr[i].val = 1e9;
+        else arr[i].val = i - val;
+    }
+    init();
+ 
+    for (int i = 1; i &lt;= q; i++) {
+        cin &gt;&gt; que[i].x &gt;&gt; que[i].y;
+        que[i].id = i;
+    }
+    sort(que+1, que+q+1, [](auto a, auto b){
+        return a.x &gt; b.x;
+    });
+ 
+    int p = 0;
+    for (int i = 1; i &lt;= q; i++) {        
+        int x = que[i].x, y = que[i].y, id = que[i].id;
+        while (p+1 &lt;= tail &amp;&amp; seq[p+1].pre &gt;= x+1) {  // 满足 pre &gt;= x+1 就插入
+            p++;
+            insert(1, 1, n, seq[p].val);  // 逐一插入进线段树
+        }
+        ans[id] = Query(1, 1, n, x+1, n-y);
+    }
+ 
+    for (int i = 1; i &lt;= q; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
 <h2 id="参考链接">参考链接</h2>
 <ol>
 <li><a href="https://www.luogu.com.cn/blog/Fighting-Naruto/solution-p3834">https://www.luogu.com.cn/blog/Fighting-Naruto/solution-p3834</a></li>
@@ -1042,8 +1495,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-04-17 16:55:29 &#43;0800 &#43;0800">2021-04-17</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/9936beb0e00afe403971fe0f9787587358a832ab" title="init 037-041.md, update title-toc width=250" target="_blank">(9936beb)</a>
+        <span title="2021-04-18 18:53:31 &#43;0800 &#43;0800">2021-04-18</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/2a126d55fdda19a47992b3d9577c27ade5535b08" title="init 042.md, fix problem of --more--" target="_blank">(2a126d5)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/036-%e4%b8%bb%e5%b8%ad%e6%a0%91.md" target="_blank">更新历史</a>
     </span>
   </p>

@@ -106,6 +106,12 @@ on:
 
 然后利用 [Linux的根据content搜索文件](https://stackoverflow.com/questions/16956810/how-do-i-find-all-files-containing-specific-text-on-linux)，使用 `grep -rnwl '.' -e 'post-toc-title'` 找到相应的文件。最后在 `./themes/even/assets/sass/_partial/_post/_toc.scss` 和 `./themes/even/assets/sass/_variables.scss` 找到了相关信息。
 
+
+## 一些注意事项
+
+1. 博客默认模版的最底部有一个 `<!--more-->`，要把它删掉，否则预览的时候整个博客都会被预览出来。
+
+
 ## 结语
 
 新的一轮折腾结束了，总体来说还是比较满意这个博客的，个人很喜欢这种极简风的博客，功能也比较全，某种意义上算是告别了在Microsoft Word里做笔记的生活（？），之后打算先补上爬虫的一些笔记，还有搬运一点Word上的笔记吧。

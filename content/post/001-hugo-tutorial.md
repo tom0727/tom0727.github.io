@@ -106,10 +106,22 @@ on:
 
 然后利用 [Linux的根据content搜索文件](https://stackoverflow.com/questions/16956810/how-do-i-find-all-files-containing-specific-text-on-linux)，使用 `grep -rnwl '.' -e 'post-toc-title'` 找到相应的文件。最后在 `./themes/even/assets/sass/_partial/_post/_toc.scss` 和 `./themes/even/assets/sass/_variables.scss` 找到了相关信息。
 
+### 修改内容的宽度
+
+ouuan大佬在 2021年04月11日 更新了一下博客的内容宽度，在大屏上显示效果更加优秀了。
+
+以下是ouuan的commit链接：
+
+[feat: use scrollbar for TOC](https://github.com/ouuan/hugo-theme-even/commit/4f41ce38317307279fb2899d141d7a4afe881523)
+[feat: adjust widths](https://github.com/ouuan/hugo-theme-even/commit/768ba022c3fdfa057bd8013a76db996b08030721)
+
+修改了 `themes/even/assets/js/even.js`，`themes/even/assets/sass/_partial/_post/_toc.scss`，`themes/even/assets/sass/_variables.scss`。
+
+我在 2021年04月20日 直接复制并替换了这三个文件，之后如果需要revert，可以从github里找对应版本。
 
 ## 一些注意事项
 
-1. 博客默认模版的最底部有一个 `<!--more-->`，要把它删掉，否则预览的时候整个博客都会被预览出来。
+1. 博客默认模版的最底部有一个 `--more--`，要把它删掉，否则预览的时候整个博客都会被预览出来。
 
 
 ## 结语

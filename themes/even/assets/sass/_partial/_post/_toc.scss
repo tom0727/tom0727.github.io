@@ -1,7 +1,9 @@
 .post-toc {
-  position: absolute;
+  position: sticky;
+  top: 10%;
+  margin-right: $post-toc-margin-right;
   width: $post-toc-width;
-  margin-left: $post-toc-margin-left;
+  float: right;
   padding: 10px;
   font-family: $global-serif-font-family;
   border-radius: 5px;
@@ -19,6 +21,8 @@
 
   .post-toc-content {
     font-size: $post-toc-content;
+    max-height: 70vh;
+    overflow: auto;
 
     &.always-active ul {
       display: block;

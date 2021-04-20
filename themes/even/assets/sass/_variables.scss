@@ -46,7 +46,7 @@ $global-font-color: #34495e !default;
 $global-font-size: 16px !default;
 
 // Global width of '<body>'.
-$global-body-width: 800px !default;
+$global-body-width: m#{a}x(60vw, 800px) !default;
 
 // Padding of container main
 $global-container-padding: 0 20px !default;
@@ -150,13 +150,12 @@ $post-nav-font-size: 18px !default;
 
 // ========== TOC ========== //
 // Width of the post toc.
-$post-toc-width: 250px !default;
+$post-toc-width: 200px !default;
 
 // Backgroud color of the post toc.
 $post-toc-backgroud: rgba($deputy-color, 0.6) !default;
 
-// Margin left of the post toc.
-$post-toc-margin-left: $global-body-width - 15px !default;
+$post-toc-margin-right: calc((#{$global-body-width} - 100vw) / 4 - #{$post-toc-width / 2}) !default;
 
 // Font size of the post toc title.
 $post-toc-title-size: 20px !default;
@@ -168,7 +167,7 @@ $post-toc-content: 15px !default;
 $post-toc-list-style: square !default;
 
 // Max screen media of the post toc.
-$toc-max-sreen-width: 2 * $post-toc-width + $post-toc-margin-left !default;
+$toc-max-sreen-width: calc(#{$global-body-width} - 2 * #{$post-toc-margin-right}) !default;
 
 // ========== Content ========== //
 // Headings anchor.

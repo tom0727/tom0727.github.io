@@ -53,38 +53,6 @@ Even._initToc = function() {
   const $toc = $('.post-toc');
   const $footer = $('.post-footer');
 
-  if ($toc.length) {
-    const minScrollTop = $toc.offset().top - SPACING;
-    const maxScrollTop = 1000000; // INF
-
-    const tocState = {
-      start: {
-        'position': 'absolute',
-        'top': minScrollTop,
-      },
-      process: {
-        'position': 'fixed',
-        'top': SPACING,
-      },
-      end: {
-        'position': 'absolute',
-        'top': maxScrollTop,
-      },
-    };
-
-    $(window).scroll(function() {
-      const scrollTop = $(window).scrollTop();
-
-      if (scrollTop < minScrollTop) {
-        $toc.css(tocState.start);
-      } else if (scrollTop > maxScrollTop) {
-        $toc.css(tocState.end);
-      } else {
-        $toc.css(tocState.process);
-      }
-    });
-  }
-
   const HEADERFIX = 30;
   const $toclink = $('.toc-link');
   const $headerlink = $('.headerlink');
@@ -276,4 +244,3 @@ Even.responsiveTable = function() {
     wrapper.appendChild(table);
   }
 };
-

@@ -35,7 +35,7 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.01351798594008a854e2f051e77ca2accca6f8acaa785ac33305f3af890f00fc.css" rel="stylesheet">
+<link href="/sass/main.min.444107aa3d9e98d30a13b802fe721a7241527e38084e01cfa2ad193749dbaec2.css" rel="stylesheet">
 
 
 
@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/037-%E6%A0%91%E4%B8%8A%E5%B7%AE%E5%88%86/" />
 <meta property="article:published_time" content="2021-04-05T15:02:19+08:00" />
-<meta property="article:modified_time" content="2021-04-17T16:55:29+08:00" />
+<meta property="article:modified_time" content="2021-04-21T12:54:52+08:00" />
 <meta itemprop="name" content="树上差分">
 <meta itemprop="description" content="介绍 树上差分就是将数组上的差分思想，转化到树上。 树上差分是一种思想，很多时候树链剖分可以代替树上差分，如果询问不复杂的时候，就可以用树上差分">
 <meta itemprop="datePublished" content="2021-04-05T15:02:19&#43;08:00" />
-<meta itemprop="dateModified" content="2021-04-17T16:55:29&#43;08:00" />
-<meta itemprop="wordCount" content="6546">
+<meta itemprop="dateModified" content="2021-04-21T12:54:52&#43;08:00" />
+<meta itemprop="wordCount" content="9167">
 
 
 
@@ -160,6 +160,8 @@
             <li><a href="#例2-cf1076e-vasya-and-a-treehttpswwwluogucomcnproblemcf1076e">例2 <a href="https://www.luogu.com.cn/problem/CF1076E">CF1076E Vasya and a Tree</a></a></li>
             <li><a href="#例3-cf1467e-distinctive-roots-in-a-treehttpscodeforcescomcontest1467probleme">例3 <a href="https://codeforces.com/contest/1467/problem/E">CF1467E Distinctive Roots in a Tree</a></a></li>
             <li><a href="#例4-洛谷p1600-noip2016-提高组-天天爱跑步httpswwwluogucomcnproblemp1600">例4 <a href="https://www.luogu.com.cn/problem/P1600">洛谷P1600 [NOIP2016 提高组] 天天爱跑步</a></a></li>
+            <li><a href="#例5-loj146-dfs序3-树上差分1httpslojacp146">例5 <a href="https://loj.ac/p/146">LOJ146 DFS序3 树上差分1</a></a></li>
+            <li><a href="#例6-loj147-dfs序4httpslojacp147localezh_cn">例6 <a href="https://loj.ac/p/147?locale=zh_CN">LOJ147 DFS序4</a></a></li>
           </ul>
         </li>
         <li><a href="#参考链接">参考链接</a></li>
@@ -907,9 +909,368 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例5-loj146-dfs序3-树上差分1httpslojacp146">例5 <a href="https://loj.ac/p/146" target="_blank">LOJ146 DFS序3 树上差分1</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定有 $N$ 个节点的树，根节点为 $R$。每个节点 $i$ 具有初始权值 $V_i$。</p>
+<p>给定 $M$ 个操作，有三种：</p>
+<p>$1 ~ a ~ b ~ x$：将 $a,b$ 之间的路径上所有节点权值加上 $x$。（链修改）</p>
+<p>$2 ~ a$：求节点 $a$ 的权值。（点查询）</p>
+<p>$3 ~ a$：求节点 $a$ 子树的权值和。（子树查询）</p>
+<p>其中，$1 \leq N,M \leq 10^6$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>看起来是树链剖分的模版题，但是 $O(n\log^2n)$ 是过不了的。</p>
+<p>本题可以利用 DFS序 + 树上差分 达到 $O(n\log n)$ 的复杂度！</p>
+<p>首先，对于一个链 $(u,v)$，常见套路就是树上差分：</p>
+<p>令 $x = LCA(u,v)$。</p>
+<p>令 $f_u$ 为 从 $root$ 到 $u$ 的路径上，被加上了多少。</p>
+<p>令 $val$ 为本次修改的值。</p>
+<p>然后链修改就被转化为 $f_u+val, f_v + val, f_x - val, f_{par(x)} - val$ 了。</p>
+<hr>
+<p>现在问题是，有了 $f_u$ 的值，怎么查询？</p>
+<p>在树上差分中，一个很常见的套路是 <strong>贡献</strong> 思想。</p>
+<p>对于每一个修改，我们都考虑，它对<strong>哪些节点的查询具有贡献</strong>？</p>
+<p>注意到 $f_u$ 是从 $root$ 到 $u$ 的路径上，被修改的值。</p>
+<hr>
+<p>对于单点查询 $a$，我们可以发现：</p>
+<p>只要 $u$ 在 $a$ 的子树内，那么 $f_u$ 就可以被加到 $a$ 上，作为 $u$ 对 $a$ 的贡献。</p>
+<p>所以，单点查询 $a$ 就变成了：</p>
+<p>求 $a$ 的子树中的所有节点 $u$ 的 $f_u$ 之和。</p>
+<p>$$ans = \sum\limits_u f_u$$</p>
+<p>拿线段树维护一下子树中，$f_u$ 的 sum 即可。</p>
+<hr>
+<p>对于子树查询 $a$，可以发现：</p>
+<p>当我们修改 $f_u$ 的时候，如果 $u$ 在 $a$ 的子树内，那么从 $a$ 到 $u$ 的这一条链上所有的节点，都应该被算入贡献当中。</p>
+<p>而这个贡献，刚好就是 $(d_u - d_a + 1) \times f_u$。（$d_u$ 为 $u$ 的depth）</p>
+<p>但是，我们不能直接把 $(d_u - d_a + 1) \times f_u$ 加到 $a$ 上面，因为 $a$ 的子树中，每个节点的depth不相同。</p>
+<p>$$ans = \sum\limits_u (d_u - d_a + 1) \times f_u = \sum\limits_u d_uf_u + (1-d_a)\sum\limits_u f_u$$</p>
+<p>所以，线段树还需要再维护一下子树中，$d_uf_u$ 的 sum。</p>
+<hr>
+<p>最后注意一下，每个节点有个初始的权值 $V_i$，这个拿一个 <code>sum[]</code> 数组单独维护一下就行，每次查询的时候记得加上。</p>
+<hr>
+<p>本题卡常，一些卡常小技巧：</p>
+<ol>
+<li>使用树链剖分来求 $LCA$，复杂度仍然是 $O(\log n)$，但是常数小。</li>
+<li>线段树query的时候，使用传入sum的reference，来进行查询。这样就不用返回查询值了。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e6+5;
+
+int n, m, root, in[maxn], out[maxn], par[maxn], idcnt = 0, ecnt = 1, head[maxn], V[maxn];
+ll sum[maxn];
+struct Edge {
+    int to, nxt;
+} edges[maxn&lt;&lt;1];
+
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int top[maxn], son[maxn], dep[maxn];
+void dfs(int u, int p) {
+    sum[u] += (ll)(V[u]);
+    in[u] = ++idcnt;
+    par[u] = p;
+    dep[u] = dep[p] + 1;
+    int maxsz = -1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        dfs(to, u);
+        int sz = out[to] - in[to] + 1;
+        if (sz &gt; maxsz) {
+            maxsz = sz;
+            son[u] = to;
+        }
+        sum[u] += sum[to];
+    }
+    out[u] = idcnt;
+}
+
+void dfs2(int u, int p, int topf) {
+    top[u] = topf;
+    if (son[u]) dfs2(son[u], u, topf);
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p || to == son[u]) continue;
+        dfs2(to, u, to);
+    }
+}
+
+int LCA(int u, int v) {
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        u = par[top[u]];
+    }
+    if (dep[u] &lt; dep[v]) return u;
+    return v;
+}
+
+struct tree_node {
+    ll fsum, dfsum;
+} tr[maxn&lt;&lt;2];
+
+void update(int cur, int l, int r, int p, int val1, ll val2) {
+    tr[cur].fsum += (ll)val1;
+    tr[cur].dfsum += val2;
+    if (l == r) return;
+    int mid = (l+r) &gt;&gt; 1;
+    if (p &lt;= mid) update(cur&lt;&lt;1, l, mid, p, val1, val2);
+    else update(cur&lt;&lt;1|1, mid+1, r, p, val1, val2);
+}
+
+void query(int cur, int l, int r, int L, int R, ll&amp; fsum, ll&amp; dfsum) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        fsum += (ll)(tr[cur].fsum);
+        dfsum += (ll)(tr[cur].dfsum);
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) query(cur&lt;&lt;1, l, mid, L, R, fsum, dfsum);
+    if (R &gt; mid) query(cur&lt;&lt;1|1, mid+1, r, L, R, fsum, dfsum);
+}
+
+int main() {
+    read(n); read(m); read(root);
+    for (int i = 1; i &lt;= n; i++) read(V[i]);
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v; read(u); read(v);
+        addEdge(u, v); addEdge(v, u);
+    }
+    dfs(root, 0);
+    dfs2(root, 0, root);
+    while (m--) {
+        int op; read(op);
+        if (op == 1) {
+            int a,b,x; read(a); read(b); read(x);
+            int lca = LCA(a,b), p = par[lca];
+            update(1, 1, n, in[a], x, (ll)(dep[a]) * (ll)(x));
+            update(1, 1, n, in[b], x, (ll)(dep[b]) * (ll)(x));
+            update(1, 1, n, in[lca], -x, -(ll)(dep[lca]) * (ll)(x));
+            update(1, 1, n, in[p], -x, -(ll)(dep[p]) * (ll)(x));
+        } else if (op == 2) {
+            int a; read(a);
+            int L = in[a], R = out[a];
+            ll fsum = 0, dfsum = 0;
+            query(1, 1, n, L, R, fsum, dfsum);
+            fsum += (ll)(V[a]);
+            write(fsum);
+        } else {
+            int a; read(a);
+            ll fsum = 0, dfsum = 0;
+            int L = in[a], R = out[a];
+            query(1, 1, n, L, R, fsum, dfsum);
+            ll res = dfsum;
+            ll d = dep[a];
+            res += (1LL - d) * fsum;
+            res += sum[a];
+            write(res);
+        }
+    }
+}
+</code></pre>
+</details>
+<h3 id="例6-loj147-dfs序4httpslojacp147localezh_cn">例6 <a href="https://loj.ac/p/147?locale=zh_CN" target="_blank">LOJ147 DFS序4</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定有 $N$ 个节点的树，根节点为 $R$。每个节点 $i$ 具有初始权值 $V_i$。</p>
+<p>给定 $M$ 个操作，有三种：</p>
+<p>$1 ~ a ~ x$：将节点 $a$ 的权值加上 $x$。（点修改）</p>
+<p>$2 ~ a ~ x$：将节点 $a$ 的子树中，所有节点权值加上 $x$。（子树修改）</p>
+<p>$3 ~ a ~ b$：求 $a,b$ 之间的路径上所有节点权值和。（链查询）</p>
+<p>其中，$1 \leq N,M \leq 10^6$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>和上一题思路几乎一致，仍然是考虑每个修改，对于查询的贡献。</p>
+<p>主要的原因在于 <strong>链</strong> 是只能通过 $f_u$ 来维护的。</p>
+<hr>
+<p>考虑 <strong>单点修改</strong> $a$ 对于 $f_u$ 的贡献？</p>
+<p>如果 $u$ 在 $a$ 的子树内，则 单点修改 $a$ 对于 $f_u$ 具有贡献 $val$。</p>
+<p>所以单点修改 $a$，就变成了：</p>
+<p>将 $a$ 的子树内，所有的 $f_u$ 加上 $val$。</p>
+<hr>
+<p>考虑 <strong>修改 $a$ 的子树</strong> 对于 $f_u$ 的贡献？</p>
+<p>如果 $u$ 在 $a$ 的子树内，则修改 $a$ 的子树 对于 $f_u$ 具有贡献 $(d_u - d_a + 1) \times val$</p>
+<p>所以单点修改 $a$，就变成了：</p>
+<p>将 $a$ 的子树内，所有的 $f_u$ 加上 $(d_u - d_a + 1) \times val$。</p>
+<p>然而由于 $d_u$ 对于每个 $u$ 均不同，拆开的话就是：</p>
+<p>$$d_u \times val + (1-d_a) \times val$$</p>
+<p>对于 $d_u \times val$，我们直接维护 $val$ 的 sum，在<strong>询问的时候再把 $d_u$ 乘上去</strong>。</p>
+<p>对于 $(1-d_a) \times val$，我们直接加到 $f_u$ 上即可。</p>
+<hr>
+<p>所以，在线段树中，我们维护两个值，$f_u$ 和 $g_u$。</p>
+<p>单点修改 $a$ 的时候，将 $a$ 的子树内，所有的 $f_u$ 加上 $val$。</p>
+<p>修改 $a$ 的子树时，将 $a$ 的子树内，所有的 $f_u$ 加上 $(1-d_a) \times val$，所有的 $g_u$ 加上 $val$。</p>
+<p>查询 $f_u$ 的真正值 $ans$ 时，有：</p>
+<p>$$ans = f_u + d_u g_u$$</p>
+<hr>
+<p>对于每个节点的初始值 $V_i$，仍然用一个 <code>sum[]</code> 数组单独维护一下，查询的时候记得加上。</p>
+<hr>
+<p>注：线段树在 <code>push_down()</code> 和 <code>update(L,R)</code> 的时候，记得要考虑到当前节点的区间长度 <code>len = (r-l+1)</code>。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e6+5;
+
+int n, m, root, in[maxn], out[maxn], par[maxn], idcnt = 0, ecnt = 1, head[maxn], V[maxn];
+ll sum[maxn];  // sum[u] 代表 root -&gt; u 的链sum
+struct Edge {
+    int to, nxt;
+} edges[maxn&lt;&lt;1];
+
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int top[maxn], son[maxn], dep[maxn];
+void dfs(int u, int p) {
+    sum[u] += (ll)(V[u]);
+    in[u] = ++idcnt;
+    par[u] = p;
+    dep[u] = dep[p] + 1;
+    int maxsz = -1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        sum[to] += sum[u];
+        dfs(to, u);
+        int sz = out[to] - in[to] + 1;
+        if (sz &gt; maxsz) {
+            maxsz = sz;
+            son[u] = to;
+        }
+    }
+    out[u] = idcnt;
+}
+
+void dfs2(int u, int p, int topf) {
+    top[u] = topf;
+    if (son[u]) dfs2(son[u], u, topf);
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p || to == son[u]) continue;
+        dfs2(to, u, to);
+    }
+}
+
+int LCA(int u, int v) {
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        u = par[top[u]];
+    }
+    if (dep[u] &lt; dep[v]) return u;
+    return v;
+}
+
+struct tree_node {
+    ll fsum, dfsum;
+    bool lazy = 0;
+    ll lazy_fsum, lazy_dfsum;
+} tr[maxn&lt;&lt;2];
+
+void push_down(int cur, int L, int R) {
+    if (!tr[cur].lazy) return;
+    ll lazy_fsum = tr[cur].lazy_fsum, lazy_dfsum = tr[cur].lazy_dfsum;
+    tr[cur].lazy = 0;
+    tr[cur].lazy_fsum = tr[cur].lazy_dfsum = 0;
+
+    int l = cur&lt;&lt;1, r = l|1;
+    tr[l].lazy = 1, tr[r].lazy = 1;
+    tr[l].lazy_fsum += lazy_fsum; tr[r].lazy_fsum += lazy_fsum;
+    tr[l].lazy_dfsum += lazy_dfsum; tr[r].lazy_dfsum += lazy_dfsum;
+
+    int mid = (L+R) &gt;&gt; 1;
+    ll llen = (mid-L+1), rlen = (R-mid);  // 记得这里有 len
+    tr[l].fsum += llen * lazy_fsum, tr[r].fsum += rlen * lazy_fsum;
+    tr[l].dfsum += llen * lazy_dfsum, tr[r].dfsum += rlen * lazy_dfsum;
+}
+
+void push_up(int cur) {
+    tr[cur].fsum = tr[cur&lt;&lt;1].fsum + tr[cur&lt;&lt;1|1].fsum;
+    tr[cur].dfsum = tr[cur&lt;&lt;1].dfsum + tr[cur&lt;&lt;1|1].dfsum;
+}
+
+void update(int cur, int l, int r, int L, int R, ll val1, ll val2) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        ll len = (r-l+1);  // 记得这里有 len
+        tr[cur].fsum += len * val1;
+        tr[cur].dfsum += len * val2;
+        tr[cur].lazy_fsum += val1;
+        tr[cur].lazy_dfsum += val2;
+        tr[cur].lazy = 1;
+        return;
+    }
+    
+    push_down(cur, l, r);
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, val1, val2);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, val1, val2);
+    push_up(cur);
+}
+
+void query(int cur, int l, int r, int L, int R, ll&amp; fsum, ll&amp; dfsum) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        fsum += (ll)(tr[cur].fsum);
+        dfsum += (ll)(tr[cur].dfsum);
+        return;
+    }
+    push_down(cur, l, r);
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) query(cur&lt;&lt;1, l, mid, L, R, fsum, dfsum);
+    if (R &gt; mid) query(cur&lt;&lt;1|1, mid+1, r, L, R, fsum, dfsum);
+}
+
+// get the result of vertex u
+ll get_res(int u) {
+    if (!u) return 0;
+    ll fsum = 0, dfsum = 0;
+    query(1, 1, n, in[u], in[u], fsum, dfsum);
+    ll res = fsum + (ll)(dep[u]) * dfsum + sum[u];
+    return res;
+}
+
+int main() {
+    read(n); read(m); read(root);
+    for (int i = 1; i &lt;= n; i++) read(V[i]);
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v; read(u); read(v);
+        addEdge(u, v); addEdge(v, u);
+    }
+    dfs(root, 0);
+    dfs2(root, 0, root);
+    while (m--) {
+        int op; read(op);
+        if (op == 1) {
+            int a,x; read(a); read(x);
+            update(1, 1, n, in[a], out[a], x, 0);
+        } else if (op == 2) {
+            int a,x; read(a); read(x);
+            ll fsum = (ll)(1-dep[a]) * (ll)(x);
+            update(1, 1, n, in[a], out[a], fsum, x);
+        } else {
+            int a,b; read(a); read(b);
+            int lca = LCA(a,b), p = par[lca];
+            ll r1 = get_res(a), r2 = get_res(b), r3 = get_res(lca), r4 = get_res(p);
+            ll res = r1+r2-r3-r4;
+            write(res);
+        }
+    }
+}
+</code></pre>
+</details>
 <h2 id="参考链接">参考链接</h2>
 <ol>
 <li><a href="https://www.acwing.com/blog/content/324/">https://www.acwing.com/blog/content/324/</a></li>
+<li><a href="https://loj.ac/d/1698">https://loj.ac/d/1698</a></li>
 </ol>
 
     </div>
@@ -922,8 +1283,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-04-17 16:55:29 &#43;0800 &#43;0800">2021-04-17</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/9936beb0e00afe403971fe0f9787587358a832ab" title="init 037-041.md, update title-toc width=250" target="_blank">(9936beb)</a>
+        <span title="2021-04-21 12:54:52 &#43;0800 &#43;0800">2021-04-21</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/4ca855781db47062a8c6332178b267b4bc6e7319" title="update 037.md with example 5,6" target="_blank">(4ca8557)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/037-%e6%a0%91%e4%b8%8a%e5%b7%ae%e5%88%86.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -1019,7 +1380,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

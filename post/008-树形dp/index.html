@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="介绍 树形dp就是在树上进行dp，常用于 &amp;ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&amp;rdquo; 的问题。 树形dp实现过" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 树形dp就是在树上进行dp，常用于 &amp;ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&amp;rdquo; 的问题。 一般来说，DP" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -35,27 +35,27 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.01351798594008a854e2f051e77ca2accca6f8acaa785ac33305f3af890f00fc.css" rel="stylesheet">
+<link href="/sass/main.min.444107aa3d9e98d30a13b802fe721a7241527e38084e01cfa2ad193749dbaec2.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="树形dp" />
-<meta property="og:description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 树形dp实现过" />
+<meta property="og:description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" />
 <meta property="article:published_time" content="2021-02-18T15:42:09+08:00" />
-<meta property="article:modified_time" content="2021-03-05T16:19:40+08:00" />
+<meta property="article:modified_time" content="2021-04-21T12:54:52+08:00" />
 <meta itemprop="name" content="树形dp">
-<meta itemprop="description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 树形dp实现过">
+<meta itemprop="description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP">
 <meta itemprop="datePublished" content="2021-02-18T15:42:09&#43;08:00" />
-<meta itemprop="dateModified" content="2021-03-05T16:19:40&#43;08:00" />
-<meta itemprop="wordCount" content="1098">
+<meta itemprop="dateModified" content="2021-04-21T12:54:52&#43;08:00" />
+<meta itemprop="wordCount" content="3091">
 
 
 
 <meta itemprop="keywords" content="树形dp,dp优化," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="树形dp"/>
-<meta name="twitter:description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 树形dp实现过"/>
+<meta name="twitter:description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -147,9 +147,16 @@
     <li>
       <ul>
         <li><a href="#介绍">介绍</a></li>
+        <li><a href="#优化">优化</a>
+          <ul>
+            <li><a href="#子树-size-优化">子树 size 优化</a></li>
+            <li><a href="#dfs序-优化">DFS序 优化</a></li>
+          </ul>
+        </li>
         <li><a href="#例题">例题</a>
           <ul>
             <li><a href="#例1-洛谷p2014httpswwwluogucomcnproblemp2014">例1 <a href="https://www.luogu.com.cn/problem/P2014">洛谷P2014</a></a></li>
+            <li><a href="#例2-洛谷p2515-haoi2010软件安装httpswwwluogucomcnproblemp2515">例2 <a href="https://www.luogu.com.cn/problem/P2515">洛谷P2515 [HAOI2010]软件安装</a></a></li>
           </ul>
         </li>
       </ul>
@@ -161,7 +168,54 @@
     <div class="post-content">
       <h2 id="介绍">介绍</h2>
 <p>树形dp就是在树上进行dp，常用于 <strong>&ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo;</strong> 的问题。</p>
-<p>树形dp实现过程中也有很多需要注意的点，以下放一道经典例题：</p>
+<p>一般来说，DP的形式为：</p>
+<p>设 $dp[i][j]$ 为: 以 $i$ 为根的子树当中，选了 $j$ 个元素得到的最大值。</p>
+<p>这样，状态转移就有：</p>
+<p>$dp[u][j] = \max\limits_{to} \{ dp[u][j-k] + dp[to][k]\}$</p>
+<p>代码如下：</p>
+<pre><code class="language-cpp">for (int j = m; j &gt;= 1; j--) {
+    for (int k = 1; k &lt;= j-1; k++) {
+        dp[cur][j] = max(dp[cur][j], dp[cur][j-k] + dp[nei][k]);
+    }
+}
+</code></pre>
+<p>需要注意的点：</p>
+<ol>
+<li>类似于 $01$ 背包，在枚举 <code>j</code> 的值时，要<strong>从大到小</strong>，防止一个child被重复选择。</li>
+<li>对于依赖关系（例如，child需要依赖parent），可以利用DP过程中，调整状态转移的 <strong>上下限</strong> 来达到！</li>
+</ol>
+<p>时间复杂度：$O(nm^2)$，其中 $n$ 为节点数，$m$ 为第二维的大小。</p>
+<h2 id="优化">优化</h2>
+<h3 id="子树-size-优化">子树 size 优化</h3>
+<p>对于一个子树，可能它第二维的上限并没有这么高，我们需要尽量避免枚举一些无用的范围。</p>
+<p>我们可以优化一下：</p>
+<p>对于每一个root节点 <code>cur</code>，我们记录一下 <code>int sz[cur]</code>，代表 <strong>以<code>cur</code>为根的子树的节点数量</strong>， 这样枚举的时候我们就可以优化成这样：</p>
+<pre><code class="language-cpp">for (int j = min(m, sz[cur]); j &gt;= 1; j--) {  //优化
+    for (int k = 1; k &lt;= min(j-1, sz[nei]); k++) {  //优化
+        dp[cur][j] = max(dp[cur][j], dp[cur][j-k] + dp[nei][k]);
+    }
+}
+</code></pre>
+<p>例题可见 <a href="/post/008-%e6%a0%91%e5%bd%a2dp/#%e4%be%8b1-%e6%b4%9b%e8%b0%b7p2014httpswwwluogucomcnproblemp2014">例1</a></p>
+<p>复杂度：$O(nm)$</p>
+<h3 id="dfs序-优化">DFS序 优化</h3>
+<p>有的时候，第二维表示的不一定是 <strong>选择 $j$ 个元素</strong>，而可能是<strong>某一种权值</strong>，此时上面的优化的效果就不显著了。</p>
+<p>我们可以利用 DFS序 进行优化。</p>
+<p>令 $i$ 为 $u$ 的DFS序编号，则对于当前节点 $u$，我们有两种选择：</p>
+<ol>
+<li>
+<p>选择当前节点：$dp[i+1][j+w_u] = \max \{dp[i][j] + v_u \}$</p>
+</li>
+<li>
+<p>不选当前节点：$dp[i + sz_i][j] = \max \{ dp[i][j]\}$</p>
+</li>
+</ol>
+<p>解释：</p>
+<p>如果选择当前节点，说明可以继续往<strong>子树</strong>里传递，所以传递到 $dp[i+1][j+w_u]$。</p>
+<p>如果不选择当前节点，由于依赖关系，就必须<strong>跳过子树</strong>，所以传递到 $dp[i + sz_i][j]$。</p>
+<p>最终的答案就是 $ans = \max\limits_{j=0}^m \{dp[n+1][j] \}$。</p>
+<p>复杂度：$O(nm)$</p>
+<p>例题可见 <a href="/post/008-%E6%A0%91%E5%BD%A2dp/#%E4%BE%8B2-%E6%B4%9B%E8%B0%B7p2515-haoi2010%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85httpswwwluogucomcnproblemp2515">例2</a></p>
 <h2 id="例题">例题</h2>
 <h3 id="例1-洛谷p2014httpswwwluogucomcnproblemp2014">例1 <a href="https://www.luogu.com.cn/problem/P2014" target="_blank">洛谷P2014</a></h3>
 <div class="admonition question">
@@ -268,8 +322,190 @@ int main() {
 </code></pre>
 </details>
 <blockquote>
-<p>题外话：如果每门课的前置课程不止1门，就不再是一棵树了，这样的话似乎可以用状压dp来解，leetcode某次比赛中出现过。</p>
+<p>如果每门课的前置课程不止1门，就不再是一棵树了，这样的话似乎可以用状压dp来解，leetcode某次比赛中出现过。</p>
 </blockquote>
+<h3 id="例2-洛谷p2515-haoi2010软件安装httpswwwluogucomcnproblemp2515">例2 <a href="https://www.luogu.com.cn/problem/P2515" target="_blank">洛谷P2515 [HAOI2010]软件安装</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $N$ 个软件，每个软件 $i$ 要占用 $W_i$ 的空间，价值为 $V_i$，并且每个软件 $i$ 会依赖最多一个软件 $D_i$。</p>
+<p>如果要安装软件 $i$，必须要安装所有的直接/间接依赖软件。</p>
+<p>电脑的空间为 $M$，求最大价值。</p>
+<p>其中，$1 \leq N \leq 100, 0 \leq M \leq 500, 0 \leq W_i \leq M, 0 \leq V_i \leq 1000, D_i \in [0,N], D_i \neq i$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>注意到，本题可能有 <strong>循环依赖</strong>。</p>
+<p>对于循环依赖，直接用 SCC 缩点，剩下的就是一个标准的有依赖背包（本质上，树形DP）问题了：</p>
+<p>如果 $i$ 依赖 $D_i$，那么将 $D_i$ 所在的 SCC 连一条有向边，指向 $i$ 所在的 SCC 即可。</p>
+<p>另外需要注意，本题可能是一个森林。所以缩点后，对于所有入度为 $0$ 的点 $u$，需要用 $0$ 连一条有向边指向 $u$。</p>
+<p>最后，从 $0$ 开始 DP 即可。</p>
+<hr>
+<p>DP 的核心代码：</p>
+<pre><code class="language-cpp">void dfs(int u) {
+    if (wei[u] &lt;= m) dp[u][wei[u]] = val[u];
+    for (int to : adj2[u]) {
+        dfs(to);
+        for (int i = m; i &gt;= wei[u]; i--) {
+            for (int j = wei[to]; j &lt;= i - wei[u]; j++) {
+                dp[u][i] = max(dp[u][i], dp[u][i-j] + dp[to][j]);
+            }
+        }
+    }
+}
+</code></pre>
+<p>注意几点：</p>
+<ol>
+<li><code>dp[u][wei[u]] = val[u];</code> 放在最前面。</li>
+<li>DP的过程中，类似于 $01$ 背包，$i$ 是<strong>从大到小</strong>的，并且<strong>下限是 <code>wei[u]</code></strong>。</li>
+<li>DP的过程中，$j$ 的<strong>下限是 <code>wei[to]</code></strong>，<strong>上限是 <code>i - wei[u]</code></strong>（因为 <code>i-j</code> 的有效值必须 $\geq$ <code>wei[u]</code>）。</li>
+</ol>
+<p>• 另外，别忘记 tarjan 过程中，更新 <code>low[]</code> 要判断是否在栈内。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">树形DP（无优化版本）代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int n, m, w[105], v[105], d[105];
+int dp[103][503];
+
+vector&lt;int&gt; adj1[103];
+set&lt;int&gt; adj2[103];
+
+int dfn[103], low[103], id = 0, st[103], tail = -1;
+bool in[103];
+int from[103], scc = 0;
+void tarjan(int u) {
+    in[u] = 1;
+    st[++tail] = u;
+    dfn[u] = low[u] = ++id;
+    for (int to : adj1[u]) {
+        if (!dfn[to]) {
+            tarjan(to);
+            low[u] = min(low[u], low[to]);
+        } else if (in[to]) {  // 注意这里有 in[to]
+            low[u] = min(low[u], dfn[to]);
+        }
+    }
+    if (low[u] == dfn[u]) {
+        from[u] = ++scc;
+        while (tail &gt;= 0 &amp;&amp; st[tail] != u) {
+            int cur = st[tail--];
+            in[cur] = 0;
+            from[cur] = scc;
+        }
+        tail--;
+        in[u] = 0;
+    }
+}
+
+void init() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; w[i];
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; v[i];
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; d[i];
+        if (d[i] == 0) continue;
+        adj1[d[i]].push_back(i);
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        if (!dfn[i]) tarjan(i);
+    }
+}
+
+int wei[103], val[103], ind[103];
+void rebuild() {
+    for (int i = 1; i &lt;= n; i++) {
+        int fu = from[i];
+        wei[fu] += w[i];
+        val[fu] += v[i];
+        int fv = from[d[i]];
+        if (fu == fv || fv == 0) continue;
+        adj2[fv].insert(fu);
+        ind[fu]++;
+    }
+    for (int i = 1; i &lt;= scc; i++) {
+        if (!ind[i]) adj2[0].insert(i);
+    }
+}
+
+void dfs(int u) {
+    if (wei[u] &lt;= m) dp[u][wei[u]] = val[u];
+    for (int to : adj2[u]) {
+        dfs(to);
+        for (int i = m; i &gt;= wei[u]; i--) {  // 注意从大到小，注意下限
+            for (int j = wei[to]; j &lt;= i - wei[u]; j++) {  // 注意上下限
+                dp[u][i] = max(dp[u][i], dp[u][i-j] + dp[to][j]);
+            }
+        }
+    }
+}
+
+int main() {
+    init();
+    rebuild();
+    dfs(0);
+    int ans = 0;
+    for (int i = 0; i &lt;= m; i++) ans = max(ans, dp[0][i]);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<details class="admonition note"><summary class="admonition-title">DFS序 优化</summary>
+<p>我们可以利用 DFS序 进行优化，让时间复杂度从 $O(nm^2)$ 降到 $O(nm)$。</p>
+<p>令 $i$ 为 $u$ 的DFS序编号，则对于当前节点 $u$，我们有两种选择：</p>
+<ol>
+<li>
+<p>选择当前节点：$dp[i+1][j+w_u] = \max \{dp[i][j] + v_u \}$</p>
+</li>
+<li>
+<p>不选当前节点：$dp[i + sz_i][j] = \max \{ dp[i][j]\}$</p>
+</li>
+</ol>
+<p>解释：</p>
+<p>如果选择当前节点，说明可以继续往<strong>子树</strong>里传递，所以传递到 $dp[i+1][j+w_u]$。</p>
+<p>如果不选择当前节点，由于依赖关系，就必须<strong>跳过子树</strong>，所以传递到 $dp[i + sz_i][j]$。</p>
+<p>最终的答案就是 $ans = \max\limits_{j=0}^m \{dp[n+1][j] \}$。</p>
+<hr>
+<p>另外需要注意，由于依赖问题，我们需要 <strong>记录每一个节点 $u$ 的所有ancestor的权值和</strong>，在枚举的时候，将下限设置为这个权值和。（在代码中，<code>pre[u]</code> 代表 $u$ 所有ancestor的权值和。）</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">优化代码</summary>
+<pre><code class="language-cpp">// 注意 idcnt = -1，因为我们是从 0 开始 DFS的！
+int mp[103], idcnt = -1, sz[103];  // mp[i]: DFS序为 i 的节点编号 u
+int pre[103];  // pre[u] 代表 u 的 ancestor 的 weight的和
+void dfs(int u) {
+    mp[++idcnt] = u;
+    sz[u] = 1;
+    for (int to : adj2[u]) {
+        pre[to] = pre[u] + wei[u];  // ancestor的权值和
+        dfs(to);
+        sz[u] += sz[to];
+    }
+}
+
+
+void solve() {
+    for (int i = 1; i &lt;= scc; i++) {
+        int u = mp[i];
+        for (int j = pre[u]; j &lt;= m; j++) {  // 注意枚举下限从 pre[u] 开始
+            dp[i+sz[u]][j] = max(dp[i+sz[u]][j], dp[i][j]);  // 不选
+
+            if (j + wei[u] &lt;= m)  // 选择（要保证 j+wei[u] &lt;= m）
+                dp[i+1][j+wei[u]] = max(dp[i+1][j+wei[u]], dp[i][j] + val[u]);
+        }
+    }
+}
+
+int main() {
+    init();
+    rebuild();
+    dfs(0);
+    solve();
+    int ans = 0;
+    for (int j = 0; j &lt;= m; j++) ans = max(ans, dp[scc+1][j]);  // 注意是 scc+1
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -281,8 +517,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-03-05 16:19:40 &#43;0800 &#43;0800">2021-03-05</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/0a5152fcc4d10f442f6badaaa694e8cd4dd873f7" title="init 018,019" target="_blank">(0a5152f)</a>
+        <span title="2021-04-21 12:54:52 &#43;0800 &#43;0800">2021-04-21</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/4ca855781db47062a8c6332178b267b4bc6e7319" title="update 037.md with example 5,6" target="_blank">(4ca8557)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/008-%e6%a0%91%e5%bd%a2dp.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -378,7 +614,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.262f18179edf1028d9e6a490b56fbf1be8ccae1bda189f07a3ca83925302f4b8.js"></script>
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

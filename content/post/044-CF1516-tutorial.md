@@ -192,7 +192,7 @@ int main() {
 
 然后得到一个数组 $pr[i]$，其中 $pr[i] = \max\limits_j \\{ pre[j][i]\\}$。
 
-那么，如果 $[L,R]$ 满足条件，那么令 $a = \max\limits_{i=L}^R \\{pr[i]\\}$，则只要满足 $a < L$，说明这个区间 $[L,R]$ 是合法的。（这个 $a$ 可以用 $ST$ 表维护）
+那么，查询一个区间 $[L,R]$ 是否满足条件，令 $a = \max\limits_{i=L}^R \\{pr[i]\\}$，则只要满足 $a < L$，说明这个区间 $[L,R]$ 是合法的。（这个 $a$ 可以用 $ST$ 表维护）
 
 • 注意到我们需要用根号分治（$ST$ 表只维护 $\leq \sqrt {10^5}$ 的部分。
 
@@ -225,7 +225,7 @@ $$dp[i] = \min\limits_p \\{pnxt[p]\\}$$
 
 <hr>
 
-现在我们已知，对于每一个 $L$，它最远可以走到 $R$（不包括），那么每次询问 $[L,R]$，怎么快速得到答案？
+现在我们已知，对于每一个 $L$，它最远可以走到 $x$（不包括），那么每次询问 $[L,R]$，怎么快速得到答案？
 
 模拟肯定不行，如果数组是 $2,2,2,2,2...,2$ 的话，每次询问复杂度为 $O(n)$。
 
@@ -244,12 +244,12 @@ using namespace std;
 const int maxn = 1e5+5;
 const int maxm = 2e5+5;
  
-int n,q,arr[maxn],small[maxn];
+int n, q, arr[maxn], small[maxn];  // small[i] 代表 i 的最小质因子
 bool isprime[maxn];
 vector<int> primes;
 bool have[70][maxn];
 int pre[70][maxn];
-int ptr = 0;
+int ptr = 0;  // 记录小质因子(<=317) 的数量
 int mp[70];  // 1 -> 2, 2 -> 3, 3->5（因为质因数小于70个，节省空间）
 int rmap[maxn];  // mp 的 reverse map
  
@@ -265,8 +265,7 @@ int ask_st(int l, int r) {
 }
  
 void build_st() {
-    bin[1] = 0;
-    bin[2] = 1;
+    bin[1] = 0; bin[2] = 1;
     for (int i = 3; i < maxn; i++) bin[i] = bin[i>>1] + 1;
     for (int i = 1; i <= n; i++) st[i][0] = pr[i];
     for (int k = 1; k < 18; k++) {
@@ -286,7 +285,7 @@ void init() {
             int p = primes[j];
             if (i*p > 1e5) break;
             isprime[i*p] = 0;
-            small[i*p] = p;
+            small[i*p] = p;  // 注意这里，无论是否有 i%p，都要 small[i*p] = p
             if (i % p == 0) {
                 break;
             }

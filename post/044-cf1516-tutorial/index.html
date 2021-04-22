@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/044-cf1516-tutorial/" />
 <meta property="article:published_time" content="2021-04-22T12:07:06+08:00" />
-<meta property="article:modified_time" content="2021-04-22T15:06:04+08:00" />
+<meta property="article:modified_time" content="2021-04-22T18:16:58+08:00" />
 <meta itemprop="name" content="Codeforces Round #717 (Div.2) 解题报告">
 <meta itemprop="description" content="全是数学的一场Div2，$D$ 题是常规操作了，但是考场上没想起来，这里记录一下。 CF1516B AGAGA XOOORRR 题意 给定 $n$ 个元素 $a_1,a_2,&hellip;,a">
 <meta itemprop="datePublished" content="2021-04-22T12:07:06&#43;08:00" />
-<meta itemprop="dateModified" content="2021-04-22T15:06:04&#43;08:00" />
-<meta itemprop="wordCount" content="2836">
+<meta itemprop="dateModified" content="2021-04-22T18:16:58&#43;08:00" />
+<meta itemprop="wordCount" content="2894">
 
 
 
@@ -297,7 +297,7 @@ int main() {
 <li>$x &lt; i$，且 $x$ 尽可能大。</li>
 </ol>
 <p>然后得到一个数组 $pr[i]$，其中 $pr[i] = \max\limits_j \{ pre[j][i]\}$。</p>
-<p>那么，如果 $[L,R]$ 满足条件，那么令 $a = \max\limits_{i=L}^R \{pr[i]\}$，则只要满足 $a &lt; L$，说明这个区间 $[L,R]$ 是合法的。（这个 $a$ 可以用 $ST$ 表维护）</p>
+<p>那么，查询一个区间 $[L,R]$ 是否满足条件，令 $a = \max\limits_{i=L}^R \{pr[i]\}$，则只要满足 $a &lt; L$，说明这个区间 $[L,R]$ 是合法的。（这个 $a$ 可以用 $ST$ 表维护）</p>
 <p>• 注意到我们需要用根号分治（$ST$ 表只维护 $\leq \sqrt {10^5}$ 的部分。</p>
 <p>• 对于大质因子，由于每个位置，出现次数最多只有一次，直接用 <code>map&lt;int,int&gt;</code> 模拟一下前一个和它相等的数的index即可。</p>
 <p>经过上述处理，我们可以在 $O(1)$ 的时间内，查询一个区间 $[L,R]$ 是否合法。</p>
@@ -316,7 +316,7 @@ int main() {
 <p>其中，$p$ 是 $a_i$ 的所有质因子。</p>
 <p>处理出 <code>dp[]</code> 数组，就是我们所求的了。</p>
 <hr>
-<p>现在我们已知，对于每一个 $L$，它最远可以走到 $R$（不包括），那么每次询问 $[L,R]$，怎么快速得到答案？</p>
+<p>现在我们已知，对于每一个 $L$，它最远可以走到 $x$（不包括），那么每次询问 $[L,R]$，怎么快速得到答案？</p>
 <p>模拟肯定不行，如果数组是 $2,2,2,2,2&hellip;,2$ 的话，每次询问复杂度为 $O(n)$。</p>
 <p>使用 $LCA$ 中的<strong>倍增思想</strong>就可以了。</p>
 <p>我们预处理出 $nxt[i][j]$：代表从 $i$ 出发，走 $2^j$ 次，最远能走到哪。（其中，$nxt[i][0]$ 就是上述的 $dp[i]$）。</p>
@@ -327,12 +327,12 @@ using namespace std;
 const int maxn = 1e5+5;
 const int maxm = 2e5+5;
  
-int n,q,arr[maxn],small[maxn];
+int n, q, arr[maxn], small[maxn];  // small[i] 代表 i 的最小质因子
 bool isprime[maxn];
 vector&lt;int&gt; primes;
 bool have[70][maxn];
 int pre[70][maxn];
-int ptr = 0;
+int ptr = 0;  // 记录小质因子(&lt;=317) 的数量
 int mp[70];  // 1 -&gt; 2, 2 -&gt; 3, 3-&gt;5（因为质因数小于70个，节省空间）
 int rmap[maxn];  // mp 的 reverse map
  
@@ -348,8 +348,7 @@ int ask_st(int l, int r) {
 }
  
 void build_st() {
-    bin[1] = 0;
-    bin[2] = 1;
+    bin[1] = 0; bin[2] = 1;
     for (int i = 3; i &lt; maxn; i++) bin[i] = bin[i&gt;&gt;1] + 1;
     for (int i = 1; i &lt;= n; i++) st[i][0] = pr[i];
     for (int k = 1; k &lt; 18; k++) {
@@ -369,7 +368,7 @@ void init() {
             int p = primes[j];
             if (i*p &gt; 1e5) break;
             isprime[i*p] = 0;
-            small[i*p] = p;
+            small[i*p] = p;  // 注意这里，无论是否有 i%p，都要 small[i*p] = p
             if (i % p == 0) {
                 break;
             }
@@ -526,8 +525,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-04-22 15:06:04 &#43;0800 &#43;0800">2021-04-22</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/e2d34ff6892c937d2ea6c3ae61af1534a795bd77" title="init 044.md" target="_blank">(e2d34ff)</a>
+        <span title="2021-04-22 18:16:58 &#43;0800 &#43;0800">2021-04-22</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/eaad2e4daf937249d33570d79517a1a88caafc74" title="update 044.md" target="_blank">(eaad2e4)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/044-CF1516-tutorial.md" target="_blank">更新历史</a>
     </span>
   </p>

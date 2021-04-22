@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Codeforces Round #717 (Div.2) 解题报告 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="全是数学的一场Div2，$D$ 题是常规操作了，但是考场上没想起来，这里记录一下。 CF1516B AGAGA XOOORRR 题意 给定 $n$ 个元素 $a_1,a_2,&amp;hellip;,a" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/044-cf1516-tutorial/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.444107aa3d9e98d30a13b802fe721a7241527e38084e01cfa2ad193749dbaec2.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="Codeforces Round #717 (Div.2) 解题报告" />
+<meta property="og:description" content="全是数学的一场Div2，$D$ 题是常规操作了，但是考场上没想起来，这里记录一下。 CF1516B AGAGA XOOORRR 题意 给定 $n$ 个元素 $a_1,a_2,&hellip;,a" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/044-cf1516-tutorial/" />
+<meta property="article:published_time" content="2021-04-22T12:07:06+08:00" />
+<meta property="article:modified_time" content="2021-04-22T15:06:04+08:00" />
+<meta itemprop="name" content="Codeforces Round #717 (Div.2) 解题报告">
+<meta itemprop="description" content="全是数学的一场Div2，$D$ 题是常规操作了，但是考场上没想起来，这里记录一下。 CF1516B AGAGA XOOORRR 题意 给定 $n$ 个元素 $a_1,a_2,&hellip;,a">
+<meta itemprop="datePublished" content="2021-04-22T12:07:06&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-22T15:06:04&#43;08:00" />
+<meta itemprop="wordCount" content="2836">
+
+
+
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Codeforces Round #717 (Div.2) 解题报告"/>
+<meta name="twitter:description" content="全是数学的一场Div2，$D$ 题是常规操作了，但是考场上没想起来，这里记录一下。 CF1516B AGAGA XOOORRR 题意 给定 $n$ 个元素 $a_1,a_2,&hellip;,a"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Codeforces Round #717 (Div.2) 解题报告</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-04-22 12:07:06 &#43;0800 &#43;0800"> 2021-04-22 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#cf1516b-agaga-xooorrrhttpscodeforcescomcontest1516problemb">CF1516B <a href="https://codeforces.com/contest/1516/problem/B">AGAGA XOOORRR</a></a></li>
+        <li><a href="#cf1516c-baby-ehab-partitions-againhttpscodeforcescomcontest1516problemc">CF1516C <a href="https://codeforces.com/contest/1516/problem/C">Baby Ehab Partitions Again</a></a></li>
+        <li><a href="#cf1516d-cuthttpscodeforcescomcontest1516problemd">CF1516D <a href="https://codeforces.com/contest/1516/problem/D">Cut</a></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>全是数学的一场Div2，$D$ 题是常规操作了，但是考场上没想起来，这里记录一下。</p>
+<h2 id="cf1516b-agaga-xooorrrhttpscodeforcescomcontest1516problemb">CF1516B <a href="https://codeforces.com/contest/1516/problem/B" target="_blank">AGAGA XOOORRR</a></h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个元素 $a_1,a_2,&hellip;,a_n$，每次操作可以任选 $2$ 个相邻元素 $a_i, a_{i+1}$，将它们删去，并且用 $a_i \text{ xor } a_{i+1}$ 来替换（位置不变）。</p>
+<p>问：是否存在一序列操作，使得数组最后只有相同的元素，并且长度 $\geq 2$？</p>
+<p>其中，$2 \leq n \leq 2000$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>可以发现最后数组长度要么为 $2$，要么为 $3$。</p>
+<p>如果最后长度为 $2$，说明 $a_1 \text{ xor }a_2 \text{ xor }&hellip; \text{ xor }a_n = 0$，特判一下即可。</p>
+<p>如果长度为 $3$，则令 $k = a_1 \text{ xor }a_2 \text{ xor }&hellip; \text{ xor }a_n$，则最后数组一定是 $[k,k,k]$。只要判断是否存在连续的 $3$ 段使得它们的$\text{ xor }$为 $k$ 即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2000+5;
+ 
+int arr[maxn];
+int main() {
+    int T; cin &gt;&gt; T;
+    while (T--) {
+        int n; cin &gt;&gt; n;
+        for (int i = 1; i &lt;= n; i++) cin &gt;&gt; arr[i];
+ 
+        int x = arr[1];
+        for (int i = 2; i &lt;= n; i++) x ^= arr[i];
+ 
+        if (x == 0) {
+            cout &lt;&lt; &quot;YES&quot; &lt;&lt; &quot;\n&quot;;
+            continue;
+        }
+ 
+        int cur = 0, cnt = 0;
+        for (int i = 1; i &lt;= n; i++) {
+            cur ^= arr[i];
+            if (cur == x) cnt++, cur = 0;
+            if (cnt &gt;= 2) break;
+        }
+        if (cnt &gt;= 2) cout &lt;&lt; &quot;YES&quot; &lt;&lt; &quot;\n&quot;;
+        else cout &lt;&lt; &quot;NO&quot; &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+<h2 id="cf1516c-baby-ehab-partitions-againhttpscodeforcescomcontest1516problemc">CF1516C <a href="https://codeforces.com/contest/1516/problem/C" target="_blank">Baby Ehab Partitions Again</a></h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的数组 $a_1,a_2,&hellip;,a_n$。</p>
+<p>问：我们最少要从数组中删去几个元素，使得：<strong>不存在</strong>任何一种方案，将数组分为 sum 相同的两半？</p>
+<p>输出这个最少删除数量，并且输出删除的index。</p>
+<p>其中，$2 \leq n \leq 100, 1 \leq a_i \leq 2000$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们按照以下步骤进行check：</p>
+<ol>
+<li>
+<p>如果 $sum$ 是奇数，答案为 $0$。</p>
+</li>
+<li>
+<p>如果这个数组本身就无法分为两半（直接用 <code>bitset</code> 模拟），答案为 $0$。</p>
+</li>
+<li>
+<p>如果这个数组内，存在一个奇数，答案为 $1$，把这个奇数删掉即可。</p>
+</li>
+<li>
+<p>如果数组内，不存在奇数。则我们会发现，把整个数组的所有数除以 $2$，答案不变（因为原先的分配方案不会改变）。所以我们就一直除，直到出现一个奇数。答案也为 $1$。</p>
+</li>
+</ol>
+<p>如上，答案要么为 $0$，要么为 $1$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 105;
+const int maxm = 2e5+5;
+
+int n, arr[maxn], sum = 0, idx = -1;
+bitset&lt;maxm&gt; dp;
+bool check() {
+    dp[0] = 1;
+    for (int i = 1; i &lt;= n; i++) {
+        dp |= (dp &lt;&lt; (arr[i]));
+    }
+    if (dp[sum/2]) return 0;  // can partition into equal parts
+    return 1;  // cannot partition into equal parts
+}
+
+void done() {
+    if (idx == -1) {
+        cout &lt;&lt; 0 &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; 1 &lt;&lt; endl;
+        cout &lt;&lt; idx &lt;&lt; endl;
+    }
+    exit(0);
+}
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; arr[i], sum += arr[i];
+    if (sum &amp; 1) done();
+    if (check()) done();
+
+    bool ok = 0;
+    while (!ok) {
+        for (int i = 1; i &lt;= n; i++) {
+            if (arr[i] &amp; 1) ok = 1, idx = i;
+        }
+        for (int i = 1; i &lt;= n; i++) arr[i] /= 2;
+    }
+    done();
+}
+</code></pre>
+</details>
+<h2 id="cf1516d-cuthttpscodeforcescomcontest1516problemd">CF1516D <a href="https://codeforces.com/contest/1516/problem/D" target="_blank">Cut</a></h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的数组 $a_1,a_2,&hellip;,a_n$。</p>
+<p>给定 $q$ 个询问，每次询问 $l,r$，回答：</p>
+<p>对于 $[a_l, &hellip;, a_r]$，最少需要将它分为几个连续的subarray，使得每一个subarray内，所有元素的 $LCM$ 等于它们的乘积？</p>
+<p>其中，$1 \leq n,q,a_i \leq 10^5, 1 \leq l \leq r \leq n$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>如果一个subarray内，所有元素的 $LCM$ 等于它们的乘积，说明 <strong>任选两个元素</strong>，$gcd = 1$，也就是说<strong>不存在两个元素使得它们共享一个质因子。</strong></p>
+<p>所以一个 trivial 的算法如下：</p>
+<p>每次询问 $L,R$，就从 $L$ 开始出发，一直向右走，直到遇到一个 $x \in [L+1,R]$ 使得 $[a_L,&hellip;,a_x]$ 不满足上述条件。然后将 $ans+1$，令 $L = x$，然后重复此过程。</p>
+<hr>
+<p>现在问题在于，对于每一个 $L$，如何快速得到这样的 $x$？</p>
+<hr>
+<p>法一：（很麻烦）</p>
+<p><strong>根号分治 + 质因数分解</strong>，类似于 <a href="/post/036-%e4%b8%bb%e5%b8%ad%e6%a0%91/#%e4%be%8b3-cf1422f-boring-querieshttpswwwluogucomcnproblemcf1422f">CF1422F Boring Queries</a>。</p>
+<p>我们先对每个数进行质因子分解，如果一个subarray $[L,R]$ 满足条件，那么：</p>
+<p>对于<strong>每一个</strong>质因子 $p_i$，在 $[L,R]$ 内，它<strong>最多只能出现一个位置上</strong>。</p>
+<p>我们就可以处理出一个数组 $pre[j][i] = x$，代表对于第 $j$ 个质数 $p_j$，满足：</p>
+<ol>
+<li>$a_i$ 包含 $p_j$ 这个质因子。</li>
+<li>$a_x$ 包含 $p_j$ 这个质因子。</li>
+<li>$x &lt; i$，且 $x$ 尽可能大。</li>
+</ol>
+<p>然后得到一个数组 $pr[i]$，其中 $pr[i] = \max\limits_j \{ pre[j][i]\}$。</p>
+<p>那么，如果 $[L,R]$ 满足条件，那么令 $a = \max\limits_{i=L}^R \{pr[i]\}$，则只要满足 $a &lt; L$，说明这个区间 $[L,R]$ 是合法的。（这个 $a$ 可以用 $ST$ 表维护）</p>
+<p>• 注意到我们需要用根号分治（$ST$ 表只维护 $\leq \sqrt {10^5}$ 的部分。</p>
+<p>• 对于大质因子，由于每个位置，出现次数最多只有一次，直接用 <code>map&lt;int,int&gt;</code> 模拟一下前一个和它相等的数的index即可。</p>
+<p>经过上述处理，我们可以在 $O(1)$ 的时间内，查询一个区间 $[L,R]$ 是否合法。</p>
+<p>那么，对于每一个 $L$，<strong>二分</strong> 右边界 $R$ 就可以得到最大的合法 $R$ 的值为 $R'$，令 $x = R'+1$ 即可。</p>
+<hr>
+<p>法二：（正解）</p>
+<p><strong>DP + 质因数分解</strong>。</p>
+<p>首先求出每一个数的所有质因子。</p>
+<p>然后我们从 $n$ 遍历到 $1$，维护两个数组 <code>int pnxt[], dp[]</code>：</p>
+<ol>
+<li><code>pnxt[p]</code>：代表当前情况下，对于质因子 $p$，出现最靠前的位置。</li>
+<li><code>dp[i]</code>：对于位置 $i$，最多能往右走到 <code>dp[i]</code> 这个index（不包括）。</li>
+</ol>
+<p>首先我们有 <code>dp[i] = min(dp[i], dp[i+1])</code>，然后对于当前index $i$，我们有：</p>
+<p>$$dp[i] = \min\limits_p \{pnxt[p]\}$$</p>
+<p>其中，$p$ 是 $a_i$ 的所有质因子。</p>
+<p>处理出 <code>dp[]</code> 数组，就是我们所求的了。</p>
+<hr>
+<p>现在我们已知，对于每一个 $L$，它最远可以走到 $R$（不包括），那么每次询问 $[L,R]$，怎么快速得到答案？</p>
+<p>模拟肯定不行，如果数组是 $2,2,2,2,2&hellip;,2$ 的话，每次询问复杂度为 $O(n)$。</p>
+<p>使用 $LCA$ 中的<strong>倍增思想</strong>就可以了。</p>
+<p>我们预处理出 $nxt[i][j]$：代表从 $i$ 出发，走 $2^j$ 次，最远能走到哪。（其中，$nxt[i][0]$ 就是上述的 $dp[i]$）。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">法一代码（根号分治 &#43; 质因数分解 &#43; ST表）</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+const int maxm = 2e5+5;
+ 
+int n,q,arr[maxn],small[maxn];
+bool isprime[maxn];
+vector&lt;int&gt; primes;
+bool have[70][maxn];
+int pre[70][maxn];
+int ptr = 0;
+int mp[70];  // 1 -&gt; 2, 2 -&gt; 3, 3-&gt;5（因为质因数小于70个，节省空间）
+int rmap[maxn];  // mp 的 reverse map
+ 
+int pr[maxn];
+int st[maxn][18];
+int bin[maxn];
+int dp[maxn];
+ 
+int ask_st(int l, int r) {
+    int len = r-l+1;
+    int k = bin[len];
+    return max(st[l][k], st[r-(1&lt;&lt;k)+1][k]);
+}
+ 
+void build_st() {
+    bin[1] = 0;
+    bin[2] = 1;
+    for (int i = 3; i &lt; maxn; i++) bin[i] = bin[i&gt;&gt;1] + 1;
+    for (int i = 1; i &lt;= n; i++) st[i][0] = pr[i];
+    for (int k = 1; k &lt; 18; k++) {
+        for (int i = 1; i + (1&lt;&lt;k) - 1 &lt;= n; i++)
+            st[i][k] = max(st[i][k-1], st[i+(1&lt;&lt;(k-1))][k-1]);
+    }
+}
+ 
+ 
+void init() {
+    fill(isprime, isprime+maxn, 1);
+    isprime[1] = 0;
+    small[1] = 1;
+    for (int i = 2; i &lt;= 1e5; i++) {
+        if (isprime[i]) primes.push_back(i), small[i] = i;
+        for (int j = 0; j &lt; primes.size(); j++) {
+            int p = primes[j];
+            if (i*p &gt; 1e5) break;
+            isprime[i*p] = 0;
+            small[i*p] = p;
+            if (i % p == 0) {
+                break;
+            }
+        }
+    }
+ 
+    for (int i = 0; i &lt; primes.size(); i++) {
+        mp[++ptr] = primes[i];
+        rmap[primes[i]] = ptr;
+        if (primes[i] &gt; 317) break;
+    }
+ 
+    for (int i = 1; i &lt;= n; i++) {
+        while (arr[i] &gt; 1) {
+            int p = small[arr[i]];
+            if (p &gt; 317) break;
+            have[rmap[p]][i] = 1;
+            while (arr[i] % p == 0) arr[i] /= p;
+        }
+    }
+ 
+    for (int j = 1; j &lt;= ptr; j++) {
+        for (int i = 1; i &lt;= n; i++) {
+            if (have[j][i-1]) pre[j][i] = i-1;
+            pre[j][i] = max(pre[j][i], pre[j][i-1]);
+ 
+            if (have[j][i]) {
+                pr[i] = max(pr[i], pre[j][i]);
+            }
+        }
+    }
+ 
+ 
+    unordered_map&lt;int,int&gt; m;
+    for (int i = 1; i &lt;= n; i++) {
+        if (arr[i] &lt;= 317) continue;
+        if (m.count(arr[i])) pr[i] = max(pr[i], m[arr[i]]);
+        m[arr[i]] = i;
+    }
+ 
+    build_st();
+}
+ 
+// 询问 [L,R] 这个区间是否合法
+bool ok(int l, int r) {
+    int a = ask_st(l,r);
+    if (a &lt; l) return 1;
+    return 0;
+}
+ 
+int nxt[maxn][19];  // nxt[i][j]: 从i开始，跳j步能达到的index 
+int main() {
+    read(n); read(q);
+    for (int i = 1; i &lt;= n; i++) read(arr[i]);
+    init();
+    for (int L = 1; L &lt;= n; L++) {
+        int l = L, r = n;
+        int res;
+        while (l &lt;= r) {
+            int mid = (l+r) &gt;&gt; 1;
+            if (ok(L,mid)) {
+                res = mid;
+                l = mid+1;
+            } else r = mid-1;
+        }
+        nxt[L][0] = res + 1;
+    }
+ 
+    fill(nxt[n+1], nxt[n+1] + 19, n+1);
+    for (int k = 1; k &lt;= 18; k++) {
+        for (int i = 1; i &lt;= n; i++) {
+            nxt[i][k] = nxt[nxt[i][k-1]][k-1];
+        }
+    }
+
+    while (q--) {
+        int L, R, ans = 0;
+        read(L), read(R);
+        for (int k = 18; k &gt;= 0; k--) {
+            if (nxt[L][k] &lt;= R) L = nxt[L][k], ans += (1&lt;&lt;k);
+        }
+        ans++;
+        write(ans);
+    }
+}
+</code></pre>
+</details>
+<details class="admonition note"><summary class="admonition-title">法二代码（DP &#43; 质因数分解）</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+int n, q, arr[maxn];
+vector&lt;int&gt; fac[maxn];  // fac[i]: i的质因子 (不重复)
+
+void get_factors() {
+    for (int i = 2; i &lt;= 1e5; i++) {
+        if (fac[i].size() == 0) {  // i为质数
+            fac[i].push_back(i);
+            for (int j = i+i; j &lt;= 1e5; j += i) {
+                fac[j].push_back(i);
+            }
+        }
+    }
+}
+
+int nxt[maxn][18];  // nxt[i][0] = j: 从i开始向右走，最多能走到j（不包括j）
+int pnxt[maxn];  // pnxt[p] = i: 当前状态下，包含了质因子p的最小index i
+void init() {
+    get_factors();
+    fill(pnxt, pnxt+maxn, n+1);
+    fill(nxt[n+1], nxt[n+1] + 18, n+1);
+    for (int i = n; i &gt;= 1; i--) {
+        int cur = arr[i];
+        nxt[i][0] = nxt[i+1][0];
+        for (int p : fac[cur]) {
+            nxt[i][0] = min(nxt[i][0], pnxt[p]);
+            pnxt[p] = i;
+        }
+    }
+    for (int k = 1; k &lt; 18; k++) {
+        for (int i = 1; i &lt;= n; i++) {
+            nxt[i][k] = nxt[nxt[i][k-1]][k-1];
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; q;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; arr[i];
+    init();
+    while (q--) {
+        int L,R; cin &gt;&gt; L &gt;&gt; R;
+        int ans = 0;
+        for (int j = 17; j &gt;= 0; j--) {
+            if (nxt[L][j] &lt;= R) {
+                L = nxt[L][j];
+                ans += (1&lt;&lt;j);
+            }
+        }
+        cout &lt;&lt; ans + 1 &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-04-22 15:06:04 &#43;0800 &#43;0800">2021-04-22</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/e2d34ff6892c937d2ea6c3ae61af1534a795bd77" title="init 044.md" target="_blank">(e2d34ff)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/044-CF1516-tutorial.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/043-%E6%A0%91%E7%9A%84%E7%9B%B4%E5%BE%84/">
+            <span class="next-text nav-default">树的直径</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

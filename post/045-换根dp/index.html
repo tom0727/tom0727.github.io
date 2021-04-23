@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>换根DP - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 换根DP是一种特殊的树形DP。主要特点在于需要进行两次DFS。 第一次DFS：固定任意节点（一般为 $1$）为根。对于每一个节点 $u$，仅考" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/045-%E6%8D%A2%E6%A0%B9dp/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.444107aa3d9e98d30a13b802fe721a7241527e38084e01cfa2ad193749dbaec2.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="换根DP" />
+<meta property="og:description" content="介绍 换根DP是一种特殊的树形DP。主要特点在于需要进行两次DFS。 第一次DFS：固定任意节点（一般为 $1$）为根。对于每一个节点 $u$，仅考" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/045-%E6%8D%A2%E6%A0%B9dp/" />
+<meta property="article:published_time" content="2021-04-22T21:49:20+08:00" />
+<meta property="article:modified_time" content="2021-04-23T10:35:27+08:00" />
+<meta itemprop="name" content="换根DP">
+<meta itemprop="description" content="介绍 换根DP是一种特殊的树形DP。主要特点在于需要进行两次DFS。 第一次DFS：固定任意节点（一般为 $1$）为根。对于每一个节点 $u$，仅考">
+<meta itemprop="datePublished" content="2021-04-22T21:49:20&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-23T10:35:27&#43;08:00" />
+<meta itemprop="wordCount" content="1351">
+
+
+
+<meta itemprop="keywords" content="树形DP,换根DP," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="换根DP"/>
+<meta name="twitter:description" content="介绍 换根DP是一种特殊的树形DP。主要特点在于需要进行两次DFS。 第一次DFS：固定任意节点（一般为 $1$）为根。对于每一个节点 $u$，仅考"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">换根DP</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-04-22 21:49:20 &#43;0800 &#43;0800"> 2021-04-22 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p3478-poi2008sta-stationhttpswwwluogucomcnproblemp3478">例1 <a href="https://www.luogu.com.cn/problem/P3478">洛谷P3478 [POI2008]STA-Station</a></a></li>
+            <li><a href="#例2-cf1324f-maximum-white-subtreehttpscodeforcescomcontest1324problemf">例2 <a href="https://codeforces.com/contest/1324/problem/F">CF1324F Maximum White Subtree</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>换根DP是一种特殊的树形DP。主要特点在于需要进行两次DFS。</p>
+<p>第一次DFS：固定任意节点（一般为 $1$）为根。对于每一个节点 $u$，<strong>仅考虑 $u$ 的subtree</strong>，求出这样的答案 $dp[u]$。</p>
+<p>第二次DFS：令最终答案为 $ans[u]$，则可知 $ans[1] = dp[1]$。然后我们需要通过已知的 $ans[u]$，来推出它的child $ans[to]$ 的值。一般我们由 $ans[u]$ 来推导 $ans[to]$ 时，需要考虑到换根时 $to$ <strong>子树内的贡献，和子树外的贡献</strong> 变化。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p3478-poi2008sta-stationhttpswwwluogucomcnproblemp3478">例1 <a href="https://www.luogu.com.cn/problem/P3478" target="_blank">洛谷P3478 [POI2008]STA-Station</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个节点的树，求一个节点 $u$ 使得 $u$ 到其他节点的距离和最大。</p>
+<p>即，求出 $u$，使得 $\sum\limits_v d(u,v)$ 最大。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先固定 $1$ 为根，进行一次DFS。</p>
+<p>令 <code>dp[u]</code> 为第一次DFS，只考虑 $u$ 的子树内的答案。（考虑深度和即可）</p>
+<p>令 <code>ans[u]</code> 为最终答案，那么有 <code>ans[1] = dp[1]</code>。</p>
+<hr>
+<p>现在我们要从 $1$ 开始换根。</p>
+<p>比如说，我们已知了 $u$ 的答案 $ans[u]$，我们就可以理解成：整棵树，以 $u$ 作为root的答案已经求出来了，怎么求出 $to$ 的答案？</p>
+<p><img src="/images/045/1.jpg" alt="img"></p>
+<p>换根的过程是一个旋转的过程。我们把 $to$ 的子树向上旋转，将 $to$ 外面的部分（$u$ 和其他的子树）向下旋转。</p>
+<p>则，向上旋转的部分，对于答案贡献了 <code>-sz[to]</code>（因为深度减少了），而向下旋转的部分，对于答案贡献了 <code>(n-sz[to])</code>。</p>
+<p>所以，$ans[to] = ans[u] - sz[to] + (n - sz[to]);$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e6+5;
+
+struct Edge {
+    int to, nxt;
+} edges[maxn&lt;&lt;1];
+int n, head[maxn], ecnt = 1;
+
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+ll sz[maxn], dp[maxn];
+void dfs1(int u, int p) {
+    sz[u] = 1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        dfs1(to, u);
+        sz[u] += sz[to];
+        dp[u] += dp[to] + sz[to];
+    }
+}
+
+ll ans[maxn];
+void dfs2(int u, int p) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        ans[to] = ans[u] - sz[to] + ((ll)n - sz[to]);
+        dfs2(to, u);
+    }
+}
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        addEdge(u,v); addEdge(v,u);
+    }
+    dfs1(1, 0);
+    ans[1] = dp[1];
+    dfs2(1, 0);
+
+    ll maxans = 0, idx = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        if (ans[i] &gt; maxans) {
+            maxans = ans[i];
+            idx = i;
+        }
+    }
+    cout &lt;&lt; idx &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例2-cf1324f-maximum-white-subtreehttpscodeforcescomcontest1324problemf">例2 <a href="https://codeforces.com/contest/1324/problem/F" target="_blank">CF1324F Maximum White Subtree</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个节点的树，每个节点有一个值 $1$ 或者 $-1$。</p>
+<p>对于每一个节点 $i$，求 $i$ 所在的连通块中，最大的节点权值和？</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先固定 $1$ 为 root，进行一次DFS。</p>
+<p>这样可以求出一个 <code>dp[u]</code>：代表以 $1$ 为root时，每个节点仅考虑其subtree，得到的最大值。</p>
+<p>在第一次DFS的过程中，再维护一个数组 <code>bool used[]</code>，其中 <code>used[u] = 1</code> 代表 $u$ 的parent $p$ 的答案用到了 $u$ 的这个subtree。</p>
+<hr>
+<p>然后进行第二次DFS，计算出最终答案 <code>ans[]</code>。</p>
+<p>首先有，<code>ans[1] = dp[1]</code>。</p>
+<p>当我们在 <code>dfs2(u)</code> 时，在求一个child <code>to</code> 的答案 <code>ans[to]</code> 时，我们有两种选择：</p>
+<ol>
+<li>
+<p><code>to</code> 不使用外面的节点：$ans[to] = \max(ans[to], dp[to])$</p>
+</li>
+<li>
+<p><code>to</code> 使用外面的节点：分两种情况讨论</p>
+<ol>
+<li>如果 <code>to</code> 已经被包含在 $u$ 的答案中了（<code>used[to] = 1</code>），则 $ans[to] = \max(ans[to], ans[u])$</li>
+<li>如果 <code>to</code> 并没有被包含在 $u$ 的答案中，（<code>used[to] = 0</code>），那么 <code>to</code> 的最终答案，就是由 $to$ 的subtree 和 外面节点的合并而来。即 $ans[to] = \max(ans[to], ans[u] + dp[to])$</li>
+</ol>
+</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e5+5;
+
+struct Edge {
+    int to, nxt;
+} edges[maxn&lt;&lt;1];
+int n, head[maxn], ecnt = 1, val[maxn];
+
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int dp[maxn];
+bool used[maxn];  // when calculating answer, whether used[u] is taken into consideration
+void dfs1(int u, int p) {
+    dp[u] = val[u];
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        dfs1(to, u);
+        if (dp[to] &gt; 0) dp[u] += dp[to], used[to] = 1;
+    }
+}
+
+int ans[maxn];
+void dfs2(int u, int p) {
+    ans[u] = max(ans[u], dp[u]);
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        if (used[to]) ans[to] = max(ans[to], ans[u]);
+        else ans[to] = max(ans[to], ans[u] + dp[to]);
+        dfs2(to, u);
+    }
+}
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; val[i];
+        if (val[i] == 0) val[i] = -1;
+    }
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        addEdge(u,v); addEdge(v,u);
+    }
+    fill(ans, ans+maxn, -1e9);
+    dfs1(1,0);
+    dfs2(1,0);
+    for (int i = 1; i &lt;= n; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-04-23 10:35:27 &#43;0800 &#43;0800">2021-04-23</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f246031ee416d5965d4a4d625b6accbf163be0a1" title="update add CF1514D to 044.md" target="_blank">(f246031)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/045-%e6%8d%a2%e6%a0%b9DP.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%A0%91%E5%BD%A2dp/">树形DP</a>
+          <a href="/tags/%E6%8D%A2%E6%A0%B9dp/">换根DP</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/044-cf1516-tutorial/">
+            <span class="next-text nav-default">Codeforces Round #717 (Div.2) 解题报告</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

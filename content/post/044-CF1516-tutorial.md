@@ -8,6 +8,8 @@ tags = ['', '']
 
 全是数学的一场Div2，$D$ 题是常规操作了，但是考场上没想起来，这里记录一下。
 
+结尾也记录了 CF1514D，一道使用随机算法的神奇题目。
+
 ## CF1516B [AGAGA XOOORRR](https://codeforces.com/contest/1516/problem/B)
 
 {{% question 题意 %}}
@@ -432,6 +434,204 @@ int main() {
             }
         }
         cout << ans + 1 << "\n";
+    }
+}
+```
+
+{{% /fold %}}
+
+
+## [CF1514D Cut and Stick](https://codeforces.com/contest/1514/problem/D)
+
+{{% question 题意 %}}
+
+给定一个长度为 $n$ 的数组 $a_1,a_2,...,a_n$。
+
+给定 $q$ 个询问，每次询问 $l,r$，回答：
+
+对于 $[a_l, ..., a_r]$，最少需要将它分为几个subsequence（不用连续），使得每一个subsequence都满足：如果这个subsequence的长度为 $len$，那么众数的出现次数 $\leq \lceil \frac{len}{2} \rceil$。
+
+{{% /question %}}
+
+
+{{% fold "题解" %}}
+
+对于每次询问，求出 $[l,r]$ 中是否存在出现次数大于一半的数字，这样的数如果有，只能有一个。
+
+假设存在这样的数，那么我们的方案就是将这个众数一个个单独拿出来，每个单独组成一个subsequence，直到剩下的那个大subsequence满足条件为止。
+
+令 $len = (r-l+1)$，$f$ 为众数出现次数。
+
+设我们拿走了 $x$ 个众数。那么有：$\lceil\frac{len-x}{2}\rceil = f-x$，注意到 $\lceil\frac{len-x}{2}\rceil = \frac{len-x+1}{2}$，则有 $\frac{len-x+1}{2} = f-x$，推出 $x = 2f-len-1$，再加上单独分出来的那个大subsequence，答案就是 $x+1 = 2f-len$。
+
+• 当然，如果懒得推公式，也可以直接利用**倍增思想**模拟 $x$ 的值。（见主席树代码中的倍增部分）
+
+<hr>
+
+求一个区间出现次数大于一半的数字，主席树的模版了。具体做法看代码。
+
+<hr>
+
+我们要重点讲一下的是随机化算法。
+
+首先我们要预处理出 **每个数字** 出现的位置，用 `vector<int> pos[maxn]` 来维护。
+
+这样，每次询问 $[l,r]$，我们对于任何一个数字 $x$ 都可以求出 $x$ 在 $[l,r]$ 内出现的次数！
+
+```cpp
+auto itr1 = lower_bound(pos[x].begin(), pos[x].end(), l);
+auto itr2 = upper_bound(pos[x].begin(), pos[x].end(), r);
+int cnt = itr2 - itr1;
+```
+
+现在，我们需要找到这个区间内，最多的出现次数。
+
+那么一个随机化的算法就是：
+
+**有放回的，从 $[l,r]$ 中随机选取 $40$ 个元素，将每个元素的出现次数取最大值**。
+
+假设出现次数超过一半的数字存在，那么它在 $40$ 次随机选择中，都没有被选到的概率最多为 $2^{-40}$。
+
+{{% /fold %}}
+
+
+{{% fold "主席树代码" %}}
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+const int maxn = 3e5+5;
+const int maxm = 2e7+5;
+ 
+struct node {
+    int lc, rc, cnt;
+} tr[maxm];
+int root[maxn], id = 0;
+ 
+int build(int l, int r) {
+    int cur = ++id;
+    if (l == r) {
+        return cur;
+    }
+    int mid = (l+r) >> 1;
+    tr[cur].lc = build(l,mid);
+    tr[cur].rc = build(mid+1, r);
+    return cur;
+}
+ 
+int insert(int pre, int l, int r, int p) {
+    int cur = ++id;
+    tr[cur] = tr[pre];  // 复制一份上个版本
+    tr[cur].cnt++;  // 添加了一个节点
+    if (l == r) return cur;
+    int mid = (l+r) >> 1;
+    if (p <= mid) tr[cur].lc = insert(tr[cur].lc, l, mid, p);
+    if (p > mid) tr[cur].rc = insert(tr[cur].rc, mid+1, r, p);
+    return cur;
+}
+ 
+// query the most number in this segment [pre,cur]
+int query(int pre, int cur, int l, int r, int k) {
+    if (l == r) return tr[cur].cnt - tr[pre].cnt;
+    int prelc = tr[pre].lc, lc = tr[cur].lc;
+    int prerc = tr[pre].rc, rc = tr[cur].rc;
+    int mid = (l+r) >> 1;
+    int lcnt = tr[lc].cnt - tr[prelc].cnt;
+    int rcnt = tr[rc].cnt - tr[prerc].cnt;
+    if (lcnt > k) return query(prelc, lc, l, mid, k);
+    if (rcnt > k) return query(prerc, rc, mid+1, r, k);
+    return -1;
+}
+ 
+int main() {
+    int n,q; 
+    read(n); read(q);
+    root[0] = build(1, n);
+ 
+    for (int i = 1; i <= n; i++) {
+        int a; 
+        read(a);
+        root[i] = insert(root[i-1], 1, n, a);
+    }
+ 
+    while (q--) {
+        int l,r; 
+        read(l); read(r);
+        int len = r-l+1;
+        if (len == 1) {
+            write(1);
+            continue;
+        }
+ 
+        int k = len / 2 + (len&1);
+        int res = query(root[l-1], root[r], 1, n, k);
+        if (res == -1) {
+            write(1);
+            continue;
+        }
+ 
+        int ans = 1;
+        // 懒得推公式，直接用倍增进行模拟
+        for (int j = 19; j >= 0; j--) {
+            int d1 = (1<<j);
+            int len2 = len - d1;
+            int res2 = res - d1;
+            if (res2 > len2/2 + (len2&1)) {
+                res -= d1;
+                len -= d1;
+                ans += d1;
+            }
+        }
+ 
+        while (res > len/2 + (len&1)) {
+            res--;
+            len--;
+            ans++;
+        }
+        write(ans);
+    }
+}
+```
+
+{{% /fold %}}
+
+{{% fold "随机化代码" %}}
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+const int maxn = 3e5+5;
+
+int arr[maxn];
+const int T = 40;
+vector<int> pos[maxn];
+void solve(int l, int r) {
+    int cnt = 0;
+    for (int t = 1; t <= T; t++) {
+        int p = randint(l,r);
+        int cur = arr[p];
+        auto itr1 = lower_bound(pos[cur].begin(), pos[cur].end(), l);
+        auto itr2 = upper_bound(pos[cur].begin(), pos[cur].end(), r);
+        cnt = max(cnt, itr2 - itr1);
+    }
+    int len = r-l+1;
+    if (cnt <= (len+1)/2) {
+        write(1);
+    } else {
+        write(2 * cnt - len);
+    }
+}
+
+int main() {
+    int n,q; 
+    read(n); read(q);
+    for (int i = 1; i <= n; i++) {
+        read(arr[i]);
+        pos[arr[i]].push_back(i);
+    }
+    while (q--) {
+        int l,r; read(l); read(r);
+        solve(l,r);
     }
 }
 ```

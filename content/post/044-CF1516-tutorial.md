@@ -441,7 +441,7 @@ int main() {
 {{% /fold %}}
 
 
-## [CF1514D Cut and Stick](https://codeforces.com/contest/1514/problem/D)
+## CF1514D [Cut and Stick](https://codeforces.com/contest/1514/problem/D)
 
 {{% question 题意 %}}
 

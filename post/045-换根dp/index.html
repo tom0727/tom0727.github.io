@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/045-%E6%8D%A2%E6%A0%B9dp/" />
 <meta property="article:published_time" content="2021-04-22T21:49:20+08:00" />
-<meta property="article:modified_time" content="2021-04-23T10:35:27+08:00" />
+<meta property="article:modified_time" content="2021-05-14T10:05:51+08:00" />
 <meta itemprop="name" content="换根DP">
 <meta itemprop="description" content="介绍 换根DP是一种特殊的树形DP。主要特点在于需要进行两次DFS。 第一次DFS：固定任意节点（一般为 $1$）为根。对于每一个节点 $u$，仅考">
 <meta itemprop="datePublished" content="2021-04-22T21:49:20&#43;08:00" />
-<meta itemprop="dateModified" content="2021-04-23T10:35:27&#43;08:00" />
-<meta itemprop="wordCount" content="1351">
+<meta itemprop="dateModified" content="2021-05-14T10:05:51&#43;08:00" />
+<meta itemprop="wordCount" content="3131">
 
 
 
@@ -151,6 +151,7 @@
           <ul>
             <li><a href="#例1-洛谷p3478-poi2008sta-stationhttpswwwluogucomcnproblemp3478">例1 <a href="https://www.luogu.com.cn/problem/P3478">洛谷P3478 [POI2008]STA-Station</a></a></li>
             <li><a href="#例2-cf1324f-maximum-white-subtreehttpscodeforcescomcontest1324problemf">例2 <a href="https://codeforces.com/contest/1324/problem/F">CF1324F Maximum White Subtree</a></a></li>
+            <li><a href="#例3-洛谷p6419-coci2014-20151-kamphttpswwwluogucomcnproblemp6419">例3 <a href="https://www.luogu.com.cn/problem/P6419">洛谷P6419 [COCI2014-2015#1] Kamp</a></a></li>
           </ul>
         </li>
       </ul>
@@ -327,6 +328,188 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例3-洛谷p6419-coci2014-20151-kamphttpswwwluogucomcnproblemp6419">例3 <a href="https://www.luogu.com.cn/problem/P6419" target="_blank">洛谷P6419 [COCI2014-2015#1] Kamp</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个节点的树。经过每条边都需要时间 $w_i$。</p>
+<p>有 $K$ 个人，初始在 $K$ 个不同的点，他们要集中在一个点聚会。</p>
+<p>聚会结束后，一辆车从聚会点出发（装上所有人），把这 $K$ 个人分别送回去。</p>
+<p>求：如果聚会点在 $i$，则将这些人都送回去，所需最少的时间？</p>
+<p>输出对于所有 $i = 1$ ~ $n$ 的结果。</p>
+<p>其中，$1 \leq K \leq n \leq 5 \times 10^5, 1 \leq w \leq 10^8$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>换根DP首先考虑：如果以 $1$ 作为根，怎么求出 $1$ 的答案？</p>
+<p>• 以下，所有初始点我们都打上标记。</p>
+<p>令 $sz[u]$ 为：$u$ 的 subtree（以 $1$ 为根的版本）中，标记点的数量。</p>
+<p>令 $dp[u]$ 为：从 $u$ 出发，<strong>经过 $u$ 的 subtree（以 $1$ 为根的版本） 所有标记点</strong>，<strong>再回到 $u$</strong>，所需的最少时间（如果子树内无标记，则为0）。</p>
+<p>那么通过第一次DFS，我们可以求出整个dp数组。</p>
+<pre><code class="language-cpp">if (sz[to])
+    dp[u] += dp[to] + 2*w;
+</code></pre>
+<hr>
+<p>有了 $dp[1]$，我们还需要一个 $d[u]$，代表以 $u$ 为根的子树（以 $1$ 为根的版本）<strong>最长的链的长度</strong>。</p>
+<p>同时我们再记录 $f[u]$：代表以u为根，包含了最长链的直接child $to$ 的编号。</p>
+<p>最后 $1$ 对应的答案是：$dp[1] - d[1]$。（因为送到最长链，就不用再回到 $1$ 了）。</p>
+<hr>
+<p>现在问题是，已知 $1$ 的答案，我们需要求出其他点的答案。</p>
+<p>令 $ans[u]$ 为：从 $u$ 出发，<strong>经过整棵树的所有标记点</strong>，<strong>再回到 $u$</strong>，所需的最少时间。</p>
+<p>易证 $ans[1] = dp[1]$。</p>
+<p>然后进行第二次DFS，我们需要改变 $d[u]$ 的意义：此时 $d[u]$ 代表从 $u$ 出发的最长链的长度（<strong>以整棵树而言</strong>）。</p>
+<p>同时，我们再维护一个数组 $s[u]$，代表从 $u$ 出发的<strong>第二长链的长度</strong>（<strong>以整棵树而言</strong>），并且第二长链必须和最长链 <strong>不在同一个子树内</strong>（这里的子树指，以 $u$ 为根的判断标准）。</p>
+<p>我们在从 $u$ 转移到 $to$ 的时候，就有以下的几种情况：</p>
+<ol>
+<li>
+<p>$to$ 内无标记：</p>
+<p>先从 $to$ 走到 $u$，访问所有的点，再从 $u$ 回到 $to$。</p>
+<pre><code class="language-cpp">ans[to] = ans[u] + 2LL * w;
+d[to] = d[u] + w;  // 现在，d[] 表示全局的链
+</code></pre>
+</li>
+<li>
+<p>$to$ 里面包含了整棵树的所有标记点：</p>
+<p>最终答案就 等于 以 $to$ 为根，subtree的答案。</p>
+<pre><code class="language-cpp">ans[to] = dp[to];
+</code></pre>
+</li>
+<li>
+<p>$to$ 里面包含了标记，外面也包含了标记：</p>
+<p>那么对于整棵树而言，从 $to$ 出发，还是从 $u$ 出发都一样。所以 <code>ans[to] = ans[u]</code>。</p>
+<p>但是我们需要更新最长链和次长链。这个时候，我们就要分类讨论 <code>f[u] = to</code> 与否。</p>
+<p>如果 $u$ 原本的最长链就不在 $to$ 的子树内，那么换根以后（旋转），$to$ 的最长链必然是 $to \rightarrow u \rightarrow f[u]$。</p>
+<p>如果 $u$ 原本用到的最长链是 $to$，而旋转后，$to$ 的最长链就有可能用到 $u$ 的其他子树（除了 $to$ 以外的子树），所以我们需要维护次长链 $s[u]$，并且进行比较。</p>
+<p>相应的，换根过程中，我们也要更新次长链 $s[to]$。</p>
+<pre><code class="language-cpp"> ans[to] = ans[u];
+ if (f[u] != to) {  // 原本 to 不是最长，那么现在也必不可能是最长，所以 to 起点的最长链必然继承 u 原来的最长链
+     s[to] = d[to];
+     d[to] = w + d[u];
+     f[to] = u;
+ } else {
+     if (s[u] + w &gt;= d[to]) {
+         s[to] = d[to];
+         d[to] = s[u] + w;
+         f[to] = u;
+     } else if (s[u] + w &gt; s[to]) {
+         s[to] = s[u] + w;
+     }
+ }
+
+</code></pre>
+</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 5e5+5;
+
+int n, K, head[maxn], ecnt = 1;
+bool tag[maxn];
+struct Edge {
+    int to, nxt, w;
+} edges[maxn&lt;&lt;1];
+
+void addEdge(int u, int v, int w) {
+    Edge e = {v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+ll dp[maxn];  // dp[u]: 从u出发，只考虑其subtree中有标记的点，再回到u，得到的答案（如果子树内无标记，则为0）
+ll ans[maxn];  // 从u出发，送完所有人，再回到u得到的答案
+ll d[maxn];  // d[u]: 以u为根的子树内，最长的链的长度
+ll s[maxn];  // s[u]: 以u为根的子树内，次长的链的长度 (不能和d所在的子树相同)
+ll f[maxn];  // f[u]: 以u为根，包含了最深的有标记节点的to编号
+int sz[maxn];  // sz[u]: 以u为根的subtree里的标记点数量
+
+void chmax(int u, ll val) {
+    if (val &gt; d[u]) {
+        s[u] = d[u];
+        d[u] = val;
+    } else {
+        if (val &gt; s[u]) s[u] = val;
+    }
+}
+
+void dfs1(int u, int p) {
+    if (tag[u]) {
+        sz[u] = 1;
+        d[u] = 0;
+        s[u] = -1e15;
+    } else {
+        d[u] = s[u] = -1e15;
+    }
+    
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        ll w = edges[e].w;
+
+        dfs1(to, u);
+        if (!sz[to]) continue;  // 子树内无标记
+
+        dp[u] += dp[to] + 2LL*w;
+        sz[u] += sz[to];
+
+        if (d[to] + w &gt;= d[u]) {
+            s[u] = d[u];
+            d[u] = d[to] + w;
+            f[u] = to;
+        } else if (d[to] + w &gt; s[u]) {
+            s[u] = d[to] + w;
+        }
+    }
+}
+
+void dfs2(int u, int p) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        ll w = edges[e].w;
+        if (to == p) continue;
+        if (!sz[to]) {  // to 里面没有标记点
+            ans[to] = ans[u] + 2LL * w;
+            d[to] = d[u] + w;  // 现在，d[] 表示全局的链
+        } else if (K - sz[to] == 0) {  // to 里面全是标记点
+            ans[to] = dp[to];
+            // 无需更新最长/次长链
+        } else {  // 里外都有标记
+            ans[to] = ans[u];
+            if (f[u] != to) {  // 原本 to 不是最长，那么现在也必不可能是最长，所以 to 起点的最长链必然出现在 u 所在的子树里
+                s[to] = d[to];
+                d[to] = w + d[u];
+                f[to] = u;
+            } else {
+                if (s[u] + w &gt;= d[to]) {
+                    s[to] = d[to];
+                    d[to] = s[u] + w;
+                    f[to] = u;
+                } else if (s[u] + w &gt; s[to]) {
+                    s[to] = s[u] + w;
+                }
+            }
+        }
+        dfs2(to, u);
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; K;
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v,w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u,v,w); addEdge(v,u,w);
+    }
+    for (int i = 1; i &lt;= K; i++) {
+        int a; cin &gt;&gt; a;
+        tag[a] = 1;
+    }
+    dfs1(1,0);
+    ans[1] = dp[1];
+    dfs2(1,0);
+
+    for (int i = 1; i &lt;= n; i++) cout &lt;&lt; ans[i] - d[i] &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -338,8 +521,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-04-23 10:35:27 &#43;0800 &#43;0800">2021-04-23</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/f246031ee416d5965d4a4d625b6accbf163be0a1" title="update add CF1514D to 044.md" target="_blank">(f246031)</a>
+        <span title="2021-05-14 10:05:51 &#43;0800 &#43;0800">2021-05-14</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/3ad40d799f0ef4f78b18ca63e28d7c9e2150cd9f" title="update" target="_blank">(3ad40d7)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/045-%e6%8d%a2%e6%a0%b9DP.md" target="_blank">更新历史</a>
     </span>
   </p>

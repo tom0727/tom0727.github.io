@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="定义 树的直径是指：在一棵有权/无权树中，所有简单路径中，权值和最大的那一条。 树的直径有以下性质：（以下，我们假设所有边上的权值均 $\geq 0$）。 直" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -40,22 +40,22 @@
 
 
 <meta property="og:title" content="树的直径" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="定义 树的直径是指：在一棵有权/无权树中，所有简单路径中，权值和最大的那一条。 树的直径有以下性质：（以下，我们假设所有边上的权值均 $\geq 0$）。 直" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/043-%E6%A0%91%E7%9A%84%E7%9B%B4%E5%BE%84/" />
 <meta property="article:published_time" content="2021-04-18T15:34:17+08:00" />
-<meta property="article:modified_time" content="2021-04-20T22:50:27+08:00" />
+<meta property="article:modified_time" content="2021-05-29T15:06:52+08:00" />
 <meta itemprop="name" content="树的直径">
-<meta itemprop="description" content="">
+<meta itemprop="description" content="定义 树的直径是指：在一棵有权/无权树中，所有简单路径中，权值和最大的那一条。 树的直径有以下性质：（以下，我们假设所有边上的权值均 $\geq 0$）。 直">
 <meta itemprop="datePublished" content="2021-04-18T15:34:17&#43;08:00" />
-<meta itemprop="dateModified" content="2021-04-20T22:50:27&#43;08:00" />
-<meta itemprop="wordCount" content="0">
+<meta itemprop="dateModified" content="2021-05-29T15:06:52&#43;08:00" />
+<meta itemprop="wordCount" content="3655">
 
 
 
 <meta itemprop="keywords" content="树论,树的直径," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="树的直径"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:description" content="定义 树的直径是指：在一棵有权/无权树中，所有简单路径中，权值和最大的那一条。 树的直径有以下性质：（以下，我们假设所有边上的权值均 $\geq 0$）。 直"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -139,9 +139,691 @@
     </header>
 
     
-
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#定义">定义</a></li>
+        <li><a href="#求树的直径">求树的直径</a>
+          <ul>
+            <li><a href="#法一两次dfs推荐">法一：两次DFS（推荐）</a></li>
+            <li><a href="#法二树形dp">法二：树形DP</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-cf911f-tree-destructionhttpscodeforcescomcontest911problemf">例1 <a href="https://codeforces.com/contest/911/problem/F">CF911F Tree Destruction</a></a></li>
+            <li><a href="#例2-cf1192b-dynamic-diameterhttpcodeforcescomproblemsetproblem1192b">例2 <a href="http://codeforces.com/problemset/problem/1192/B">CF1192B Dynamic Diameter</a></a></li>
+            <li><a href="#例3-lightning-routing-ihttpsnantijisuankecomt41398">例3 <a href="https://nanti.jisuanke.com/t/41398">Lightning Routing I</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
     <div class="post-content">
-      
+      <h2 id="定义">定义</h2>
+<p>树的直径是指：在一棵有权/无权树中，所有简单路径中，<strong>权值和最大的那一条</strong>。</p>
+<p>树的直径有以下性质：（以下，我们假设所有边上的权值均 $\geq 0$）。</p>
+<ol>
+<li>直径一定是由两个 leaf 组成</li>
+<li>对于任意一个节点 $u$，距离它最远的一个节点，必然为直径的其中一端。</li>
+</ol>
+<details class="admonition note"><summary class="admonition-title">证明：第二个性质</summary>
+<p>我们设直径是 $(s,t)$，并且设节点 $a$ 距离最远的节点是 $b$，其中 $b \neq s, b \neq t$。</p>
+<p>Case1：$a$ 位于直径 $(s,t)$ 上：</p>
+<p><img src="/images/043/1.png" alt="img"></p>
+<p>如上，有 $L_1 &gt; L_2$，$L_1 &gt; L_3$。且 $L_2 + L_3$ 为直径。</p>
+<p>那么 $L_1 + L_3 &gt; L_2 + L_3$，$L_1 + L_2 &gt; L_2 + L_3$。</p>
+<p>所以 $L_1 + L_3$ 或者 $L_1 + L_2$ 才是直径。contradiction。</p>
+<hr>
+<p>Case2：$(a,b)$ 之间的路径横穿了 $(s,t)$，交点为 $x$。</p>
+<p><img src="/images/043/2.png" alt="img"></p>
+<p>如上，因为距离 $a$ 最远的是 $b$，所以有 $L_1 + L_2 &gt; L_1 + L_3$，$L_1 + L_2 &gt; L_1 + L_3$。</p>
+<p>那么 $L_2 &gt; L_3$，$L_2 &gt; L_4$。</p>
+<p>所以 $L_2 + L_3 &gt; L_3 + L_4$，$L_2 + L_4 &gt; L_3 + L_4$。</p>
+<p>所以 $L_2 + L_3$ 或者 $L_2 + L_4$ 才是直径。contradiction。</p>
+<hr>
+<p>Case3：$(a,b)$ 之间的路径没有穿过 $(s,t)$，但是 $(a,b)$ 路径上，有一个距离 $(s,t)$ 最短的点 $x$，并且这个 $x$ 通过 $y$ 与 $(s,t)$ 相交。</p>
+<p><img src="/images/043/3.png" alt="img"></p>
+<p>如上，因为距离 $a$ 最远的是 $b$，所以有 $L_1 + L_2 &gt; L_1 + L_5 + L_4$，$L_1 + L_2 &gt; L_1 + L_5 + L_3$。</p>
+<p>所以有 $L_2 &gt; L_5 + L_4$，$L_2 &gt; L_5 + L_3$。</p>
+<p>所以 $L_3 + L_5 + L_2 &gt; L_3 + L_4$，$L_4 + L_5 + L_2 &gt; L_3 + L_4$。</p>
+<p>所以 $L_3 + L_5 + L_2$ 或者 $L_4 + L_5 + L_2$ 才是直径。contradiction。</p>
+</details>
+<h2 id="求树的直径">求树的直径</h2>
+<p>求树的直径有两种方法：两次DFS 和 DP。</p>
+<h3 id="法一两次dfs推荐">法一：两次DFS（推荐）</h3>
+<p>由性质 $2$，我们可以以任意节点为根，进行DFS。得到一个距离最远的点 $u$ （这个节点的深度最深）。</p>
+<p>然后再以 $u$ 为根，进行第二次DFS。得到距离最远的点 $v$。那么 $(u,v)$ 就是直径了。</p>
+<details class="admonition note"><summary class="admonition-title">两次DFS：代码</summary>
+<pre><code class="language-cpp">int n, dep[maxn], d1, d2;  // d1: 直径一端，d2: 直径另外一端
+void dfs1(int u, int p) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        dep[to] = dep[u] + 1;
+        dfs1(to, u);
+    }
+}
+int main() {
+    dep[1] = 0; dfs1(1, 0);  // 第一次 DFS (以 1 为根)
+ 
+    d1 = 1;
+    for (int u = 1; u &lt;= n; u++) {
+        if (dep[u] &gt; dep[d1]) {
+            d1 = u;
+        }
+    }
+    dep[d1] = 0; dfs1(d1, 0);  // 第二次 DFS (以直径端点 d1 为根)
+ 
+    d2 = d1;
+    for (int u = 1; u &lt;= n; u++) {
+        if (dep[u] &gt; dep[d2]) {
+            d2 = u;
+        }
+    }
+}
+</code></pre>
+</details>
+<h3 id="法二树形dp">法二：树形DP</h3>
+<p>固定 $1$ 为根。记录每个节点向下，最远能延伸的两个节点的距离 $d_1,d_2$，那么直径就是所有 $d_1+d_2$ 的最大值。</p>
+<details class="admonition note"><summary class="admonition-title">树形DP：代码</summary>
+<pre><code class="language-cpp">int d1[maxn], d2[maxn], d;  // d 是直径的值
+void dfs(int u, int p) {
+    d1[u] = d2[u] = 0;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        dfs(to, u);
+        int t = d1[v] + 1;
+        if (t &gt; d1[u])
+        d2[u] = d1[u], d1[u] = t;
+        else if (t &gt; d2[u])
+        d2[u] = t;
+    }
+    d = max(d, d1[u] + d2[u]);
+}
+
+int main() {
+    dfs(1, 0);
+}
+</code></pre>
+</details>
+<h2 id="例题">例题</h2>
+<h3 id="例1-cf911f-tree-destructionhttpscodeforcescomcontest911problemf">例1 <a href="https://codeforces.com/contest/911/problem/F" target="_blank">CF911F Tree Destruction</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵 $n$ 个节点的无权树，然后进行 $(n-1)$ 次以下操作，每次操作分以下三步：</p>
+<ol>
+<li>选择两个leaf</li>
+<li>将这两个leaf之间的距离，加到 <code>ans</code> 中。</li>
+<li>将这两个leaf其中之一，删掉。</li>
+</ol>
+<p>初始状态下，<code>ans = 0</code>。求 <code>ans</code> 的最大值，并且输出方案。</p>
+<p>其中，$2 \leq n \leq 2 \times 10^5$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>利用树的直径的第二个性质：任意一个节点 $u$，<strong>距离最远的一定是直径的一端</strong>。</p>
+<p>所以我们要最大化最终答案，我们可以最大化每个节点的贡献。所以我们只要保留直径，先将剩下的叶子删掉就行了。</p>
+<p>思路如下：</p>
+<ol>
+<li>找到直径 $(u,v)$</li>
+<li>使用类似于拓扑排序的方法，维护所有 <code>deg = 1</code> 的节点（除了直径两端的两个节点 $u,v$），将它们删去。这个过程，本质上是将直径看作树干，然后逐一拔掉所有的树枝。</li>
+<li>最后只剩下一条直径了，从任意一端开始删除即可。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e5+5; 
+ 
+struct Edge {
+    int to, nxt;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 1, n, dep[maxn], d1, d2;  // d1: 直径一端，d2: 直径另外一端
+ 
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt++;
+}
+ 
+void dfs1(int u, int p) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        dep[to] = dep[u] + 1;
+        dfs1(to, u);
+    }
+}
+ 
+ll ans = 0;
+struct node {
+    int u,v,r;
+} path[maxn];
+int tail = 0;
+ 
+int deg[maxn];
+vector&lt;int&gt; leaf;
+ 
+int dis1[maxn], dis2[maxn];
+// 初始化：找出每个节点到 d1, d2的距离
+void init() {
+    dep[d1] = 0; dfs1(d1, 0);
+    memcpy(dis1, dep, sizeof(dep));
+    dep[d2] = 0; dfs1(d2, 0);
+    memcpy(dis2, dep, sizeof(dep));
+}
+ 
+// 第一步：拔掉所有除了 d1, d2 以外的叶子
+void solve1() {
+    for (int i = 1; i &lt;= n; i++) {
+        if (deg[i] == 1 &amp;&amp; i != d1 &amp;&amp; i != d2) leaf.push_back(i);
+    }
+    while (leaf.size()) {
+        int u = leaf.back(); leaf.pop_back();
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            deg[to]--;
+            if (deg[to] == 1) {
+                leaf.push_back(to);
+            }
+        }
+        int t;
+        if (dis1[u] &gt; dis2[u]) t = d1, ans += (ll)dis1[u];
+        else t = d2, ans += (ll)dis2[u];
+        path[++tail] = {u,t,u};
+    }
+}
+ 
+// 第二步：拔掉直径
+void solve2() {
+    leaf.push_back(d2);
+    while (leaf.size()) {
+        int u = leaf.back(); leaf.pop_back();
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            deg[to]--;
+            if (deg[to] == 1) {
+                leaf.push_back(to);
+            }
+        }
+        ans += (ll)(dis1[u]);
+        path[++tail] = {u, d1, u};
+    }
+}
+  
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        addEdge(u,v); addEdge(v,u);
+        deg[u]++, deg[v]++;
+    }
+    dep[1] = 0; dfs1(1, 0);
+ 
+    d1 = 1;
+    for (int u = 1; u &lt;= n; u++) {
+        if (dep[u] &gt; dep[d1]) {
+            d1 = u;
+        }
+    }
+ 
+    dep[d1] = 0; dfs1(d1, 0);
+ 
+    d2 = d1;
+    for (int u = 1; u &lt;= n; u++) {
+        if (dep[u] &gt; dep[d2]) {
+            d2 = u;
+        }
+    }
+ 
+    init();
+    solve1();
+    solve2();
+ 
+    cout &lt;&lt; ans &lt;&lt; endl;
+    for (int i = 1; i &lt;= n-1; i++) {
+        cout &lt;&lt; path[i].u &lt;&lt; &quot; &quot; &lt;&lt; path[i].v &lt;&lt; &quot; &quot; &lt;&lt; path[i].r &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+<h3 id="例2-cf1192b-dynamic-diameterhttpcodeforcescomproblemsetproblem1192b">例2 <a href="http://codeforces.com/problemset/problem/1192/B" target="_blank">CF1192B Dynamic Diameter</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+</code></pre>
+</details>
+<h3 id="例3-lightning-routing-ihttpsnantijisuankecomt41398">例3 <a href="https://nanti.jisuanke.com/t/41398" target="_blank">Lightning Routing I</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+</details>
+<details class="admonition note"><summary class="admonition-title">法一（欧拉序）代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+const int maxm = 1e6;
+
+struct Edge {
+    int from, to, nxt;
+    ll w;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 2, n, q;
+ll W;
+void addEdge(int u, int v, ll w) {
+    Edge e = {u, v, head[u], w};
+    edges[ecnt] = e;
+    head[u] = ecnt++;
+}
+
+ll dep[maxn&lt;&lt;1];  // 欧拉序的 dep
+int in[maxn], out[maxn];  // in[u]: 节点 u 在欧拉序中的起点
+int ori_dep[maxn];  // 原本在树中的depth(不算weight)
+int id = 0;
+
+void dfs(int u, int p, ll d) {
+    dep[++id] = d;
+    in[u] = out[u] = id;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        ll w = edges[e].w;
+        ori_dep[to] = ori_dep[u] + 1;
+        dfs(to, u, d + w);
+        dep[++id] = d;
+        out[u] = id;
+    }
+}
+
+int m;
+struct tree_node {
+    ll mini, maxi, lmax, rmax, ans;
+    ll lazy = 0;
+    int mini_idx, maxi_idx, lmax_idx, rmax_idx, L, R;
+} tr[maxn&lt;&lt;3];
+
+void push_up(int cur) {
+    int l = cur&lt;&lt;1, r = l+1;
+    if (tr[l].mini &lt; tr[r].mini) {
+        tr[cur].mini = tr[l].mini;
+        tr[cur].mini_idx = tr[l].mini_idx;
+    } else {
+        tr[cur].mini = tr[r].mini;
+        tr[cur].mini_idx = tr[r].mini_idx;
+    }
+
+    if (tr[l].maxi &gt; tr[r].maxi) {
+        tr[cur].maxi = tr[l].maxi;
+        tr[cur].maxi_idx = tr[l].maxi_idx;
+    } else {
+        tr[cur].maxi = tr[r].maxi;
+        tr[cur].maxi_idx = tr[r].maxi_idx;
+    }
+
+    if (tr[l].lmax &gt; tr[r].lmax) {
+        tr[cur].lmax = tr[l].lmax;
+        tr[cur].lmax_idx = tr[l].lmax_idx;
+    } else {
+        tr[cur].lmax = tr[r].lmax;
+        tr[cur].lmax_idx = tr[r].lmax_idx;
+    }
+    if (tr[l].maxi - 2LL * tr[r].mini &gt; tr[cur].lmax) {
+        tr[cur].lmax = tr[l].maxi - 2LL * tr[r].mini;
+        tr[cur].lmax_idx = tr[l].maxi_idx;
+    }
+
+    if (tr[l].rmax &gt; tr[r].rmax) {
+        tr[cur].rmax = tr[l].rmax;
+        tr[cur].rmax_idx = tr[l].rmax_idx;
+    } else {
+        tr[cur].rmax = tr[r].rmax;
+        tr[cur].rmax_idx = tr[r].rmax_idx;
+    }
+    if (tr[r].maxi - 2LL * tr[l].mini &gt; tr[cur].rmax) {
+        tr[cur].rmax = tr[r].maxi - 2LL * tr[l].mini;
+        tr[cur].rmax_idx = tr[r].maxi_idx;
+    }
+
+    if (tr[l].ans &gt; tr[r].ans) {
+        tr[cur].L = tr[l].L;
+        tr[cur].R = tr[l].R;
+        tr[cur].ans = tr[l].ans;
+    } else {
+        tr[cur].L = tr[r].L;
+        tr[cur].R = tr[r].R;
+        tr[cur].ans = tr[r].ans;
+    }
+    if (tr[l].maxi + tr[r].rmax &gt; tr[cur].ans) {
+        tr[cur].ans = tr[l].maxi + tr[r].rmax;
+        tr[cur].L = tr[l].maxi_idx;
+        tr[cur].R = tr[r].rmax_idx;
+    } 
+    if (tr[r].maxi + tr[l].lmax &gt; tr[cur].ans) {
+        tr[cur].ans = tr[r].maxi + tr[l].lmax;
+        tr[cur].L = tr[l].lmax_idx;
+        tr[cur].R = tr[r].maxi_idx;
+    }
+}
+
+void push_down(int cur) {
+    if (!tr[cur].lazy) return;
+    ll lazy = tr[cur].lazy;
+    int l = cur&lt;&lt;1, r = l|1;
+    tr[cur].lazy = 0; 
+    tr[l].lazy += lazy; tr[r].lazy += lazy;
+    tr[l].maxi += lazy; tr[r].maxi += lazy;
+    tr[l].mini += lazy; tr[r].mini += lazy;
+    tr[l].lmax -= lazy; tr[r].lmax -= lazy;
+    tr[l].rmax -= lazy; tr[r].rmax -= lazy;
+}
+
+void build(int cur, int l, int r) {
+    if (l == r) {
+        tr[cur].mini = tr[cur].maxi = dep[l];
+        tr[cur].lmax = tr[cur].rmax = -dep[l];
+        tr[cur].ans = 0;
+        tr[cur].mini_idx = tr[cur].maxi_idx = tr[cur].lmax_idx = tr[cur].rmax_idx = tr[cur].L = tr[cur].R = l;
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    build(cur&lt;&lt;1, l, mid);
+    build(cur&lt;&lt;1|1, mid+1, r);
+    push_up(cur);
+}
+
+void update(int cur, int l, int r, int L, int R, ll x) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        tr[cur].lazy += x;
+        tr[cur].maxi += x;
+        tr[cur].mini += x;
+        tr[cur].lmax -= x;
+        tr[cur].rmax -= x;
+        return;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, x);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+    push_up(cur);
+}
+
+ll query(int cur, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        return tr[cur].ans;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    ll res = 0;
+    if (L &lt;= mid) res += query(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) res += query(cur&lt;&lt;1|1, mid+1, r, L, R);
+    push_up(cur);
+    return res;
+}
+
+ll query_min(int cur, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        return tr[cur].mini;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    ll r1 = 1e18, r2 = 1e18;
+    if (L &lt;= mid) r1 = query_min(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) r2 = query_min(cur&lt;&lt;1|1, mid+1, r, L, R);
+    push_up(cur);
+    return min(r1, r2);
+}
+
+ll dis(int l, int r) {
+    if (l &gt; r) swap(l,r);
+    ll al = query_min(1, 1, m, l, l), ar = query_min(1, 1, m, r, r);
+    ll mi = query_min(1, 1, m, l, r);
+    return al + ar - 2LL * mi;
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt; n; i++) {
+        int u,v; ll w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u,v,w); addEdge(v,u,w);
+    }
+    dfs(1, 0, 0);
+    m = 2*n - 1;
+    assert(id == m);
+    build(1, 1, m);
+
+    cin &gt;&gt; q;
+    while (q--) {
+        char op;
+        cin &gt;&gt; op;
+        if (op == 'C') {
+            // 将第 d 条边的 weight 改为 e
+            ll d,e; cin &gt;&gt; d &gt;&gt; e;
+            d &lt;&lt;= 1;  // 编号从 2 开始
+            ll x = e - edges[d].w;
+            edges[d].w = edges[d^1].w = e;
+            int u = edges[d].from, v = edges[d].to;
+            if (ori_dep[u] &gt; ori_dep[v]) swap(u,v);
+            update(1, 1, m, in[v], out[v], x);
+        } else {
+            int v; cin &gt;&gt; v;
+            v = in[v];
+            int L = tr[1].L, R = tr[1].R;
+            ll dis1 = dis(L, v);
+            ll dis2 = dis(v, R);
+            cout &lt;&lt; max(dis1, dis2) &lt;&lt; &quot;\n&quot;;
+        }
+    }
+}
+</code></pre>
+</details>
+<details class="admonition note"><summary class="admonition-title">法二（DFS序）代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int maxn = 1e5+5;
+const int maxm = 1e6;
+
+struct Edge {
+    int from, to, nxt;
+    ll w;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 2, n, q;
+void addEdge(int u, int v, ll w) {
+    Edge e = {u, v, head[u], w};
+    edges[ecnt] = e;
+    head[u] = ecnt++;
+}
+
+ll dep[maxn];
+int par[maxn][19], idcnt = 0, in[maxn], out[maxn], ver[maxn];  // in[u] ..., ver[id]: the id which corresponds to u
+int ori_dep[maxn];  // 原本在树中的depth(不算weight)
+
+void dfs(int u, int p) {
+    in[u] = ++idcnt;
+    ver[idcnt] = u;
+    par[u][0] = p;
+    for (int j = 1; j &lt;= 18; j++) par[u][j] = par[par[u][j-1]][j-1];
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        ll w = edges[e].w;
+        if (to == p) continue;
+        ori_dep[to] = ori_dep[u] + 1;
+        dep[to] = dep[u] + w;
+        dfs(to, u);
+    }
+    out[u] = idcnt;
+}
+
+int jump(int u, int d) {
+    for (int j = 0; j &lt;= 18; j++) {
+        if (d &amp; (1&lt;&lt;j)) u = par[u][j];
+    }
+    return u;
+}
+
+int lca(int u, int v) {
+    if (ori_dep[u] &lt; ori_dep[v]) swap(u,v);
+    u = jump(u, ori_dep[u] - ori_dep[v]);
+    for (int j = 18; j &gt;= 0; j--) {
+        if (par[u][j] != par[v][j]) u = par[u][j], v = par[v][j];
+    }
+    if (u == v) return u;
+    return par[u][0];
+}
+
+struct tree_1 {
+    struct tree_node_1 {
+        ll d = 0, lazy = 0;
+    };
+    tree_node_1 tr[maxn&lt;&lt;2];
+    void build(int cur, int l, int r) {
+        if (l == r) {
+            tr[cur].d = dep[ver[l]];
+            return;
+        }
+        int mid = (l+r) &gt;&gt; 1;
+        build(cur&lt;&lt;1, l, mid);
+        build(cur&lt;&lt;1|1, mid+1, r);
+    }
+    void push_down(int cur) {
+        if (!tr[cur].lazy) return;
+        int l = cur&lt;&lt;1, r = l|1;
+        ll lazy = tr[cur].lazy;
+        tr[l].lazy += lazy, tr[r].lazy += lazy;
+        tr[l].d += lazy, tr[r].d += lazy;
+        tr[cur].lazy = 0;
+    }
+    void update(int cur, int l, int r, int L, int R, ll delta) {
+        if (l &gt;= L &amp;&amp; r &lt;= R) {
+            tr[cur].lazy += delta;
+            tr[cur].d += delta;
+            return;
+        }
+        push_down(cur);
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, delta);
+        if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, delta);
+    }
+    ll query(int cur, int l, int r, int p) {
+        if (l == r) return tr[cur].d;
+        push_down(cur);
+        int mid = (l+r) &gt;&gt; 1;
+        if (p &lt;= mid) return query(cur&lt;&lt;1, l, mid, p);
+        return query(cur&lt;&lt;1|1, mid+1, r, p);
+    }
+    ll query_dis(int id1, int id2) {
+        ll d1 = query(1, 1, n, id1), d2 = query(1, 1, n, id2);
+        ll u1 = ver[id1], u2 = ver[id2];
+        ll x = lca(u1, u2);
+        int idx = in[x];
+        ll dx = query(1, 1, n, idx);
+        return d1 + d2 - 2LL * dx;
+    }
+} tr1;
+
+struct tree_2 {
+    struct tree_node_2 {
+        int id1, id2;  // 直径的 id
+    };
+    tree_node_2 tr[maxn&lt;&lt;2];
+    void push_up(int cur) {
+        int l = cur&lt;&lt;1, r = cur&lt;&lt;1|1;
+        int l_id1 = tr[l].id1, l_id2 = tr[l].id2, r_id1 = tr[r].id1, r_id2 = tr[r].id2;
+        ll len = -1;
+        ll dis1 = tr1.query_dis(l_id1, r_id1);
+        ll dis2 = tr1.query_dis(l_id1, r_id2);
+        ll dis3 = tr1.query_dis(l_id2, r_id1);
+        ll dis4 = tr1.query_dis(l_id2, r_id2);
+        ll dis5 = tr1.query_dis(l_id1, l_id2);
+        ll dis6 = tr1.query_dis(r_id1, r_id2);
+        if (dis1 &gt; len) tr[cur] = {l_id1, r_id1}, len = dis1;
+        if (dis2 &gt; len) tr[cur] = {l_id1, r_id2}, len = dis2;
+        if (dis3 &gt; len) tr[cur] = {l_id2, r_id1}, len = dis3;
+        if (dis4 &gt; len) tr[cur] = {l_id2, r_id2}, len = dis4;
+        if (dis5 &gt; len) tr[cur] = {l_id1, l_id2}, len = dis5;
+        if (dis6 &gt; len) tr[cur] = {r_id1, r_id2}, len = dis6;
+    }
+    void build(int cur, int l, int r) {
+        if (l == r) {
+            tr[cur].id1 = tr[cur].id2 = l;
+            return;
+        }
+        int mid = (l+r) &gt;&gt; 1;
+        build(cur&lt;&lt;1, l, mid);
+        build(cur&lt;&lt;1|1, mid+1, r);
+        push_up(cur);
+    }
+    void update(int cur, int l, int r, int L, int R) {
+        if (l &gt;= L &amp;&amp; r &lt;= R) return;  // 完全覆盖不用更新
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R);
+        if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R);
+        // if (L &lt;= mid &amp;&amp; R &gt; mid) push_up(cur);  // 只有相交的时候，才更新
+        push_up(cur);
+    }
+} tr2;
+
+void debug() {
+    for (int i = 1; i &lt;= n; i++) {
+        printf(&quot;i = %d, in = %d, out = %d, dep = %d\n&quot;, i,in[i],out[i],tr1.query(1,1,n,in[i]));
+    }
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt; n; i++) {
+        int u,v; ll w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u,v,w); addEdge(v,u,w);
+    }
+    dfs(1, 0);
+    tr1.build(1, 1, n);
+    tr2.build(1, 1, n);
+
+    cin &gt;&gt; q;
+    while (q--) {
+        char op;
+        cin &gt;&gt; op;
+        if (op == 'C') {
+            // 将第 d 条边的 weight 改为 e
+            ll d,e; cin &gt;&gt; d &gt;&gt; e;
+            d &lt;&lt;= 1;  // 编号从 2 开始
+            ll x = e - edges[d].w;
+            edges[d].w = edges[d^1].w = e;
+            int u = edges[d].from, v = edges[d].to;
+            if (ori_dep[u] &gt; ori_dep[v]) swap(u,v);
+            tr1.update(1, 1, n, in[v], out[v], x);
+            tr2.update(1, 1, n, in[v], out[v]);
+        } else {
+            int v; cin &gt;&gt; v;
+            v = in[v];  // v 的 id 编号
+            int id1 = tr2.tr[1].id1, id2 = tr2.tr[1].id2;
+            // printf(&quot;v = %d, id1 = %d, id2 = %d\n&quot;,v,id1,id2);
+            ll dis1 = tr1.query_dis(id1, v);
+            ll dis2 = tr1.query_dis(v, id2);
+            cout &lt;&lt; max(dis1, dis2) &lt;&lt; &quot;\n&quot;;
+        }
+    }
+    // debug();
+}
+</code></pre>
+</details>
     </div>
 
     <div class="post-copyright">
@@ -152,8 +834,8 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-04-20 22:50:27 &#43;0800 &#43;0800">2021-04-20</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/17de55b2eae4ae73f66d3c40168bcca268e9ba07" title="add width of content, update 001.md" target="_blank">(17de55b)</a>
+        <span title="2021-05-29 15:06:52 &#43;0800 &#43;0800">2021-05-29</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/28acbae259e82279f7a6d1b2b2476d215a47fbea" title="update 043 (unfinished)" target="_blank">(28acbae)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/043-%e6%a0%91%e7%9a%84%e7%9b%b4%e5%be%84.md" target="_blank">更新历史</a>
     </span>
   </p>

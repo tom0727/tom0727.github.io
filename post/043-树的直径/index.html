@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/043-%E6%A0%91%E7%9A%84%E7%9B%B4%E5%BE%84/" />
 <meta property="article:published_time" content="2021-04-18T15:34:17+08:00" />
-<meta property="article:modified_time" content="2021-05-29T15:06:52+08:00" />
+<meta property="article:modified_time" content="2021-05-30T15:15:15+08:00" />
 <meta itemprop="name" content="树的直径">
 <meta itemprop="description" content="定义 树的直径是指：在一棵有权/无权树中，所有简单路径中，权值和最大的那一条。 树的直径有以下性质：（以下，我们假设所有边上的权值均 $\geq 0$）。 直">
 <meta itemprop="datePublished" content="2021-04-18T15:34:17&#43;08:00" />
-<meta itemprop="dateModified" content="2021-05-29T15:06:52&#43;08:00" />
-<meta itemprop="wordCount" content="3655">
+<meta itemprop="dateModified" content="2021-05-30T15:15:15&#43;08:00" />
+<meta itemprop="wordCount" content="6453">
 
 
 
@@ -160,6 +160,7 @@
             <li><a href="#例3-lightning-routing-ihttpsnantijisuankecomt41398">例3 <a href="https://nanti.jisuanke.com/t/41398">Lightning Routing I</a></a></li>
           </ul>
         </li>
+        <li><a href="#参考链接">参考链接</a></li>
       </ul>
     </li>
   </ul>
@@ -398,20 +399,247 @@ int main() {
 <h3 id="例2-cf1192b-dynamic-diameterhttpcodeforcescomproblemsetproblem1192b">例2 <a href="http://codeforces.com/problemset/problem/1192/B" target="_blank">CF1192B Dynamic Diameter</a></h3>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
+<p>给定 $n$ 个节点的有权树，和 $q$ 次询问。</p>
+<p>每次询问格式为 $d ~ e$：将第 $d$ 条边的权值改为 $e$。</p>
+<p>在每次询问之后，回答：此时树中直径的长度。</p>
+<p>其中，$2 \leq n \leq 10^5, 1 \leq q \leq 10^5$。</p>
 </div>
-<details class="admonition note"><summary class="admonition-title">题解</summary>
+<details class="admonition note"><summary class="admonition-title">欧拉序介绍</summary>
+<p>欧拉序和DFS序不同的地方在于：</p>
+<p>在一个节点 $u$ 访问完它的一个child $v$ 之后，<strong>回溯到 $u$ 时，也会将 $u$ 记录进序列中</strong>。</p>
+<p><img src="/images/043/4.png" alt="img"></p>
+<p>如上图，访问的顺序如果是 $1 \rightarrow 2 \rightarrow 4 \rightarrow 5 \rightarrow 6 \rightarrow 3$ 的话，得到的欧拉序就是：</p>
+<p>$[1,2,4,5,4,2,6,2,1,3,1]$。</p>
+<p>欧拉序有以下性质：</p>
+<ol>
+<li>对于 $n$ 个节点的树，欧拉序的长度一定为 $2n-1$。</li>
+<li>在欧拉序中任取两个index $i,j$，它分别对应的节点是 $u,v$ 的话。在 $[i,j]$ 这段欧拉序中，<code>depth</code> 最小的index 所对应的节点 $x$ 就是 $LCA(u,v)$。</li>
+</ol>
+<p>• 例如，我们把上述欧拉序按照 <code>depth</code> 重新写一下，就会得到：<code>[0,1,2,3,2,1,2,1,0,1,0]</code>。</p>
+<p>我们任取其中一段，比如：<code>[0,1,2,</code><strong><code>3,2,1,2</code></strong><code>,1,0,1,0]</code>，那么对应的就是 $5,4,2,6$ 这几个节点。可以发现这一段中，<code>depth</code> <strong>最小值</strong>为 $1$，对应的节点是 $2$。而这一段的<strong>两端</strong>，对应的就是节点 $5,6$。这说明 节点 $5,6$ 的 LCA 就是 节点 $2$。</p>
+<hr>
+<p>证明性质 $1$：易知，每条 edge 会在欧拉序中贡献 $2$ 个位置。而根节点 $1$ 又会额外贡献一个。所以总共是 $2 \times (n-1) + 1 = 2n-1$。</p>
+<p>证明性质 $2$：设一段欧拉序的两端，对应的节点分别为 $u,v$。令 $x = LCA(u,v)$。那么这一段欧拉序，一定会经过 $x$，且一定是完全在 $x$ 所在的子树内的，不可能出现在子树外的节点。所以 $x$ 一定是这一段 depth 最小的那个节点。</p>
 </details>
-<details class="admonition note"><summary class="admonition-title">代码</summary>
+<details class="admonition note"><summary class="admonition-title">法一 欧拉序 题解</summary>
+<p>有两种方法，一种是 <strong>欧拉序</strong>，复杂度 $O(n\log n)$。还有一种是 <strong>DFS序</strong>，时间复杂度 $O(n\log^2 n)$。</p>
+<p>这里介绍一下 法一欧拉序。</p>
+<hr>
+<p>我们固定 $1$ 为根。求出每个节点的 <code>depth</code>。然后求出欧拉序。</p>
+<p>有了欧拉序以后，我们可以用线段树维护这个欧拉序序列。我们设这个序列为 $a[]$。</p>
+<p>然后询问两个节点 $u,v$ 之间的距离，就可以先找到 $u$ 对应在欧拉序中的位置 $l$（可能对应多个位置，任选一个即可），$v$ 对应在欧拉序中的位置 $r$。由树上差分，可知 $u,v$ 的距离等于 $d_u + d_v - 2 \times d_x$，则有：</p>
+<p>$$dist(u,v) = a[l] + a[r] - 2 \times \min\limits_{l \leq k \leq r}a[k]$$</p>
+<hr>
+<p>所以整个问题可以转化为一个序列上的问题：给定一个数组 $a[]$，求：</p>
+<p>$$a[l] + a[r] - 2 \times \min\limits_{l \leq k \leq r}a[k]$$</p>
+<p>的<strong>最大值</strong>？（其中 $l,r$ 任选）</p>
+<p>这个式子有 $2$ 个变量，$l,r$，我们需要用线段树来维护一些额外信息，来将其转化为一个变量的问题。</p>
+<p>设</p>
+<p>$$D[L,R] = \max\limits_{l \leq r, l,r \in [L,R]} \{a[l] + a[r] - 2 \times \min\limits_{l \leq k \leq r}a[k]\}$$</p>
+<p>我们考虑固定其中一个变量（比如 $l$），那么剩下的变量就只有 $r$ 了，我们就可以考虑 $a[r] - 2 \times \min\limits_{l \leq k \leq r}a[k]$。</p>
+<p>设</p>
+<p>$$rmax[L,R] = \max\limits_{l \leq r, l,r \in [L,R]} \{a[r] - 2 \times \min\limits_{l \leq k \leq r}a[k] \}$$</p>
+<p>$$lmax[L,R] = \max\limits_{l \leq r, l,r \in [L,R]} \{a[l] - 2 \times \min\limits_{l \leq k \leq r}a[k] \}$$</p>
+<p>则，我们有以下转移方程：</p>
+<p>$$rmax[L,R] = \max \begin{cases}
+rmax[L, mid] \\<br>
+rmax[mid+1, R] \\<br>
+max[mid+1,R] - 2\times min[L, mid]
+\end{cases}
+$$</p>
+<p>$$lmax[L,R] = \max \begin{cases}
+lmax[L, mid] \\<br>
+lmax[mid+1, R] \\<br>
+max[L, mid] - 2\times min[mid+1, R]
+\end{cases}
+$$</p>
+<p>$$D[L,R] = \max \begin{cases}
+D[L, mid] \\<br>
+D[mid+1, R] \\<br>
+max[L, mid] + rmax[mid+1, R]  \\<br>
+lmax[L, mid] + max[mid+1, R]
+\end{cases}
+$$</p>
+<p>最后，答案就是 $D[1,2n-1]$。</p>
+<hr>
+<p>上述转移方程有几个点需要注意：</p>
+<p>Q1. 为什么 $D[L,R]$ 可以由 $max[L, mid] + rmax[mid+1, R]$ 转移而来？$rmax[mid+1, R]$ 并没有考虑到 $[L,mid]$ 这一段中的最小值啊？</p>
+<p>A1. 如果最终答案需要考虑到 $[L,mid]$ 这一段的最小值，那么说明 $D[L,R]$ 应该由 $lmax[L, mid] + max[mid+1, R]$ 或者 $D[L, mid]$ 转移而来。这也说明了为什么我们需要使用 $lmax, rmax$ 进行两次转移。</p>
+<p>• 另外，$rmax[L,R]$ 和 $lmax[L,R]$ 的转移过程同理。</p>
+<hr>
+<p>最后一个问题：修改边的权值，怎么处理？</p>
+<p>因为我们所有的距离都是基于 <code>depth</code> 的，所以，把修改边的权值改为修改 <code>depth</code> 即可。</p>
+<p>假设有一个边 $(u,v)$，令 $v$ 为 child。设原来的权值为 $e_1$，现在改为 $e_2$，那么就相当于给 $v$ 的 subtree 中的所有节点的 <code>depth</code> 加上 $(e_2 - e_1)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">法二 DFS序 题解</summary>
+<p>首先有个结论：</p>
+<blockquote>
+<p>在一棵树上，任取两个点集 $S_1, S_2$，设 $S_1$ 这个点集的直径是 $(u_1,v_1)$，设 $S_2$ 这个点集的直径是 $(u_2, v_2)$，那么令 $S = S_1 \cup S_2$。则点集 $S$ 的直径只可能为以下 $6$ 种的之一：</p>
+<p>$$(u_1, v_1), (u_2, v_2), (u_1, u_2), (u_1, v_2), (v_1, u_2), (v_2, u_2)$$</p>
+<p>即，新的直径一定由原先 $4$ 个端点组成。</p>
+</blockquote>
+<p>证明？<strong>我也不知道，待补</strong>。</p>
+<hr>
+<p>由上，我们可以求出整棵树的欧拉序，然后用线段树维护点集的直径。比如 $[5,8]$ 这个区间，维护的就是欧拉序为 $[5,6,7,8]$ 的点集的直径。</p>
+<p>可得，$[1,n]$ 这个点集的直径就是整棵树的直径。</p>
+<p>然后在合并区间 $[L, mid]$ 和 $[mid+1, R]$ 时，就可以枚举 $6$ 种情况的直径长度，得到 $[L,R]$ 对应点集的直径。</p>
+<hr>
+<p>有几个问题：</p>
+<p>Q1. 怎么得到每种情况的直径长度？</p>
+<p>A1. 和上一个方法一样，固定 $1$ 为根，然后两个节点 $(u,v)$ 之间的距离就可以利用 $d_u + d_v - 2 \times d_{LCA(u,v)}$ 来求出。</p>
+<p>Q2. 修改权值时，直径会受到影响吗？</p>
+<p>A2. 会的。但是如果我们修改了权值，影响了一个 subtree（在DFS序上就是一段连续区间），则如果一个点集完全存在于这个 subtree 之内，就不会受到影响。我们只需要考虑 点集 与 subtree 拥有相交区间，且点集没有被完全覆盖的情况。这实际上就是线段树 update 过程中正常的 lazy tag 和 <code>push_up()</code> 操作。所以不需要特殊处理，该怎么写怎么写就行。</p>
+<hr>
+<p>注：本题没有用法二来写，因为本题不需要求出直径具体的节点，只要长度。下一题会使用到法二，代码可以参见下一个例题。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">法一 欧拉序 代码</summary>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
 using namespace std;
+const int maxn = 1e5+5;
+const int maxm = 1e6;
 
+struct Edge {
+    int from, to, nxt;
+    ll w;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 2, n, q;
+ll W;
+void addEdge(int u, int v, ll w) {
+    Edge e = {u, v, head[u], w};
+    edges[ecnt] = e;
+    head[u] = ecnt++;
+}
+
+ll dep[maxn&lt;&lt;1];  // 欧拉序的 dep
+int in[maxn], out[maxn];  // in[u]: 节点 u 在欧拉序中的起点
+int ori_dep[maxn];  // 原本在树中的depth(不算weight)
+int id = 0;
+
+void dfs(int u, int p, ll d) {
+    dep[++id] = d;
+    in[u] = out[u] = id;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        ll w = edges[e].w;
+        ori_dep[to] = ori_dep[u] + 1;
+        dfs(to, u, d + w);
+        dep[++id] = d;
+        out[u] = id;
+    }
+}
+
+int m;
+struct tree_node {
+    ll mini, maxi, lmax, rmax, ans;
+    ll lazy = 0;
+} tr[maxn&lt;&lt;3];
+
+void push_up(int cur) {
+    int l = cur&lt;&lt;1, r = l+1;
+    tr[cur].mini = min(tr[l].mini, tr[r].mini);
+    tr[cur].maxi = max(tr[l].maxi, tr[r].maxi);
+    tr[cur].lmax = max(max(tr[l].lmax, tr[r].lmax), tr[l].maxi - 2LL * tr[r].mini);
+    tr[cur].rmax = max(max(tr[l].rmax, tr[r].rmax), tr[r].maxi - 2LL * tr[l].mini);
+    tr[cur].ans = max(max(tr[l].ans, tr[r].ans), max(tr[l].maxi + tr[r].rmax, tr[r].maxi + tr[l].lmax));
+}
+
+void push_down(int cur) {
+    if (!tr[cur].lazy) return;
+    ll lazy = tr[cur].lazy;
+    int l = cur&lt;&lt;1, r = l|1;
+    tr[cur].lazy = 0; 
+    tr[l].lazy += lazy; tr[r].lazy += lazy;
+    tr[l].maxi += lazy; tr[r].maxi += lazy;
+    tr[l].mini += lazy; tr[r].mini += lazy;
+    tr[l].lmax -= lazy; tr[r].lmax -= lazy;
+    tr[l].rmax -= lazy; tr[r].rmax -= lazy;
+}
+
+void build(int cur, int l, int r) {
+    if (l == r) {
+        tr[cur].mini = tr[cur].maxi = dep[l];
+        tr[cur].lmax = tr[cur].rmax = -dep[l];
+        tr[cur].ans = 0;
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    build(cur&lt;&lt;1, l, mid);
+    build(cur&lt;&lt;1|1, mid+1, r);
+    push_up(cur);
+}
+
+void update(int cur, int l, int r, int L, int R, ll x) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        tr[cur].lazy += x;
+        tr[cur].maxi += x;
+        tr[cur].mini += x;
+        tr[cur].lmax -= x;
+        tr[cur].rmax -= x;
+        return;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, x);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+    push_up(cur);
+}
+
+ll query(int cur, int l, int r, int L, int R) {
+    if (l &gt;= L &amp;&amp; r &lt;= R) {
+        return tr[cur].ans;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    ll res = 0;
+    if (L &lt;= mid) res += query(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) res += query(cur&lt;&lt;1|1, mid+1, r, L, R);
+    push_up(cur);
+    return res;
+}
+
+ll last = 0;
+int main() {
+    cin &gt;&gt; n &gt;&gt; q &gt;&gt; W;
+    for (int i = 1; i &lt; n; i++) {
+        int u,v; ll w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u,v,w); addEdge(v,u,w);
+    }
+    dfs(1, 0, 0);
+    m = 2*n - 1;
+    build(1, 1, m);
+
+    while (q--) {
+        ll d,e; cin &gt;&gt; d &gt;&gt; e;
+        d = (d + last) % (n-1) + 1;
+        d &lt;&lt;= 1;  // 编号从 2 开始
+        e = (e + last) % W;
+        ll x = e - edges[d].w;
+        edges[d].w = edges[d^1].w = e;
+        int u = edges[d].from, v = edges[d].to;
+        if (ori_dep[u] &gt; ori_dep[v]) swap(u,v);
+        update(1, 1, m, in[v], out[v], x);
+        last = query(1, 1, m, 1, m);
+        cout &lt;&lt; last &lt;&lt; &quot;\n&quot;;
+        // 将第 d 条边的 weight 改为 e
+    }
+}
 </code></pre>
 </details>
 <h3 id="例3-lightning-routing-ihttpsnantijisuankecomt41398">例3 <a href="https://nanti.jisuanke.com/t/41398" target="_blank">Lightning Routing I</a></h3>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
+<p>给定 $n$ 个节点的有权树，和 $q$ 次询问。</p>
+<p>每次询问有 $2$ 种：</p>
+<p>$C ~ e_i ~ w_i$：将第 $e_i$ 条边的权值改为 $w_i$</p>
+<p>$Q ~ v_i$：询问距离 $v_i$ 最远的节点的距离。</p>
+<p>其中，$1 \leq n \leq 10^5, 1 \leq q \leq 10^5$。</p>
 </div>
 <details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>和上一题完全一样。</p>
+<p>需要注意的是 $Q ~ v_i$ 这个询问。由树直径的基本性质，对于任意一个节点 $v$，距离最远的节点一定是直径的其中一端。那么问题可以转化为：</p>
+<p>先求出直径的两端，然后判断一下哪一端距离 $v$ 最远。</p>
+<p>• 这样的话，法一欧拉序就需要在线段树区间合并的时候，加一些额外的信息来 track 具体是哪些index被用到了转移中。</p>
 </details>
 <details class="admonition note"><summary class="admonition-title">法一（欧拉序）代码</summary>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
@@ -774,19 +1002,11 @@ struct tree_2 {
         int mid = (l+r) &gt;&gt; 1;
         if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R);
         if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R);
-        // if (L &lt;= mid &amp;&amp; R &gt; mid) push_up(cur);  // 只有相交的时候，才更新
         push_up(cur);
     }
 } tr2;
 
-void debug() {
-    for (int i = 1; i &lt;= n; i++) {
-        printf(&quot;i = %d, in = %d, out = %d, dep = %d\n&quot;, i,in[i],out[i],tr1.query(1,1,n,in[i]));
-    }
-}
-
 int main() {
-    fastio;
     cin &gt;&gt; n;
     for (int i = 1; i &lt; n; i++) {
         int u,v; ll w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
@@ -814,16 +1034,19 @@ int main() {
             int v; cin &gt;&gt; v;
             v = in[v];  // v 的 id 编号
             int id1 = tr2.tr[1].id1, id2 = tr2.tr[1].id2;
-            // printf(&quot;v = %d, id1 = %d, id2 = %d\n&quot;,v,id1,id2);
             ll dis1 = tr1.query_dis(id1, v);
             ll dis2 = tr1.query_dis(v, id2);
             cout &lt;&lt; max(dis1, dis2) &lt;&lt; &quot;\n&quot;;
         }
     }
-    // debug();
 }
 </code></pre>
 </details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://www.luogu.com.cn/problem/solution/P6845">https://www.luogu.com.cn/problem/solution/P6845</a></li>
+</ol>
+
     </div>
 
     <div class="post-copyright">
@@ -834,8 +1057,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-05-29 15:06:52 &#43;0800 &#43;0800">2021-05-29</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/28acbae259e82279f7a6d1b2b2476d215a47fbea" title="update 043 (unfinished)" target="_blank">(28acbae)</a>
+        <span title="2021-05-30 15:15:15 &#43;0800 &#43;0800">2021-05-30</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/4b52d0de5e74a9967da4570ae6e2bdff7f139dd8" title="finish 043.md" target="_blank">(4b52d0d)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/043-%e6%a0%91%e7%9a%84%e7%9b%b4%e5%be%84.md" target="_blank">更新历史</a>
     </span>
   </p>

@@ -32,7 +32,7 @@ jobs:
       - name: Update resources
         uses: test-room-7/action-update-file@v1
         with:
-            file-path: static/contests.json
+            file-path: public/contests.json
             commit-msg: Update resources
             github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -40,7 +40,7 @@ jobs:
       - name: Commit
         run: |
           git status
-          git add static/contests.json
+          git add public/contests.json
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
           git commit -am "chore: update CF Problems"

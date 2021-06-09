@@ -2,10 +2,10 @@ name: Update CF Problems
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "0 0 */3 * *"
 
 jobs:
-  update-clicks:
+  update-cf-problems:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

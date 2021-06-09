@@ -17,16 +17,6 @@
         vertical-align: middle;
     }
     
-    .btn-group>.btn-group:not(:last-child) > .btn, .btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        margin-left: -1px;
-    }
-    
-    .btn-group>.btn-group:not(:first-child)>.btn, .btn-group>.btn:not(:first-child) {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-    }
     
     .btn {
         color: #fff;
@@ -175,11 +165,28 @@
         height: 12px;
         width: 12px;
     }
+
+    .btn-group>.btn-group:not(:last-child) > .btn, .btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-left: -1px;
+    }
+    
+    .btn-group>.btn-group:not(:first-child)>.btn, .btn-group>.btn:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
 }
 
 
 
 @media screen and (max-width: 799px) {
+
+    .btn-group {
+        position: relative;
+        display: block;
+        vertical-align: middle;
+    }
 
     .container {
         margin: 0 auto;
@@ -206,7 +213,7 @@
         text-align: center;
         cursor: default;
         color: buttontext;
-        padding-top: 0px;
+        padding-top: auto;
         padding-right: 1em;
         border-top-width: 1px;
         border-right-width: 1px;
@@ -229,7 +236,7 @@
         font-size: 13px;
         font-family: Helvetica;
         box-sizing: border-box;
-        margin-top: 0em;
+        margin-top: .5rem;
         color: initial;
         letter-spacing: normal;
         word-spacing: normal;
@@ -240,6 +247,7 @@
         display: inline-block;
         text-align: start;
         writing-mode: horizontal-tb;
+        border-radius: .2rem;
     }
 
     #main-table {

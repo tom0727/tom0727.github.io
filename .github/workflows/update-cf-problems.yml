@@ -1,8 +1,8 @@
-name: Update Clicks
+name: Update CF Problems
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 * * * *"
 
 jobs:
   update-clicks:

@@ -1,0 +1,47 @@
+name: Update Clicks
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  update-clicks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "0.69.2"
+          extended: true
+
+      - name: Build
+        run: |
+          git config core.quotePath false
+          hugo
+
+      - name: Install requirements
+        run: pip install requests
+
+      - run: python scripts/UpdateCF_Problems.py
+
+      - name: Commit
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git commit -am "chore: update CF Problems"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
+      - name: Trigger Deploy
+        uses: benc-uk/workflow-dispatch@v1.1
+        with:
+          workflow: Deploy
+          token: ${{ secrets.PERSONAL_TOKEN }}

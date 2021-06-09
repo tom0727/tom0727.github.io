@@ -28,6 +28,7 @@ def process(p):
 
 
 def load_contest_json():
+    print(f"Current file size = {os.path.getsize(FILE_PATH)}")
     global contest_id_dict
     contest_list_all = json.load(open(FILE_PATH))
     for contest_info in contest_list_all:
@@ -131,6 +132,8 @@ def load_contest_all():
 
         with open(FILE_PATH, "w") as outfile:
             json.dump(contest_list_all, outfile)
+
+        print(f"After update, file size = {os.path.getsize(FILE_PATH)}")
 
     else:
         raise Exception("Load contest list failed.")

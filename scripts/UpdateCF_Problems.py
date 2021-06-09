@@ -51,6 +51,8 @@ def load_contest_byid(id):
     type = "Others"
     if "Global" in name:
         type = "Global"
+    elif "Educational" in name:
+        type = "Educational"
     elif "Div. 1 + Div. 2" in name:
         type = "Div1 + Div2"
     elif "Div. 1" in name:
@@ -79,15 +81,32 @@ def load_contest_byid(id):
     return contest_obj
 
 
+def filter_contest_helper(contest_result):
+
+    if contest_result["phase"] == "FINISHED":
+        if contest_result["type"] == "CF":
+            return True
+        if contest_result["type"] == "ICPC" and ("Div. 3" in contest_result["name"] or "Div.3" in contest_result["name"]):
+            return True
+        if contest_result["type"] == "ICPC" and "Educational" in contest_result["name"]:
+            return True
+
+        return False
+
+    return False
+
+
+
 def load_contest_all():
 
     url = "https://codeforces.com/api/contest.list"
     res = requests.get(url)
     contest_all_info = res.json()
     contest_list_all = []
-    if (contest_all_info["status"] == "OK"):
+    if contest_all_info["status"] == "OK":
         contest_all_info = contest_all_info["result"]
-        contest_all_info = list(filter((lambda obj : obj["phase"] == "FINISHED" and (obj["type"] == "CF" or (obj["type"] == "ICPC" and "Div. 3" in obj["name"]))), contest_all_info))
+        # contest_all_info = list(filter((lambda obj : obj["phase"] == "FINISHED" and (obj["type"] == "CF" or (obj["type"] == "ICPC" and "Div. 3" in obj["name"]))), contest_all_info))
+        contest_all_info = list(filter(filter_contest_helper, contest_all_info))
         for contest in contest_all_info:
             id = contest["id"]
             if id in INVALID_ID:  # ignore all invalid ID

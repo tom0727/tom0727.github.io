@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/001-hugo-tutorial/" />
 <meta property="article:published_time" content="2021-02-01T21:21:41+08:00" />
-<meta property="article:modified_time" content="2021-04-20T22:50:27+08:00" />
+<meta property="article:modified_time" content="2021-06-09T18:55:23+08:00" />
 <meta itemprop="name" content="Hugo博客搭建小记">
 <meta itemprop="description" content="起因 在几天前折腾了爬虫，成功爬下来とにかくかわいい的漫画以后，我发现我折腾似乎上瘾了。聊天时无意提到”要是我有个人网站就好了“，于是就决定动">
 <meta itemprop="datePublished" content="2021-02-01T21:21:41&#43;08:00" />
-<meta itemprop="dateModified" content="2021-04-20T22:50:27&#43;08:00" />
-<meta itemprop="wordCount" content="2301">
+<meta itemprop="dateModified" content="2021-06-09T18:55:23&#43;08:00" />
+<meta itemprop="wordCount" content="2853">
 
 
 
@@ -167,6 +167,7 @@
           <ul>
             <li><a href="#更改右上方的导航栏">更改右上方的导航栏</a></li>
             <li><a href="#修改内容的宽度">修改内容的宽度</a></li>
+            <li><a href="#自定义页面">自定义页面</a></li>
           </ul>
         </li>
         <li><a href="#一些注意事项">一些注意事项</a></li>
@@ -272,6 +273,15 @@
 <a href="https://github.com/ouuan/hugo-theme-even/commit/768ba022c3fdfa057bd8013a76db996b08030721" target="_blank">feat: adjust widths</a></p>
 <p>修改了 <code>themes/even/assets/js/even.js</code>，<code>themes/even/assets/sass/_partial/_post/_toc.scss</code>，<code>themes/even/assets/sass/_variables.scss</code>。</p>
 <p>我在 2021年04月20日 直接复制并替换了这三个文件，之后如果需要revert，可以从github里找对应版本。</p>
+<h3 id="自定义页面">自定义页面</h3>
+<p>在 2021年06月09日，我参考 <a href="https://kenkoooo.com/atcoder#/table/">https://kenkoooo.com/atcoder#/table/</a> ，利用 Codeforces API 高仿一个类似的页面。经 kenkoooo 本人同意，现在已经上线在 <a href="/cf-problems">这里</a> 了。主要的技术点如下：</p>
+<ol>
+<li>利用 python 和 Codeforces API 进行交互（因为 <code>requests</code> 有自动重试功能，而 CF 的 API 并不是太稳定）。数据以 <code>contests.json</code> 的形式存在 <code>/static/</code> 中，<code>/scripts/UpdateCF_Problems.py</code> 用于更新这个 <code>json</code>，这个更新的过程已经设置在 Github Action 中了。</li>
+<li>将写好的 <code>html</code> 文件放在 <code>/layouts/_default/cf-problems.html</code> 中（需要更改一下才能正常使用导航栏等模版，具体的看这个文件里的内容即可），再创建 <code>/content/cf-problems.md</code>（其中需要更改 <code>layout = 'cf-problems'</code>），最后在 <code>/config.toml</code> 中把这个页面挂在导航栏里面。对应的 <code>css</code> 和 <code>js</code> 文件我分别放在了 <code>/static/css/cf-problems.css</code> 和 <code>/static/js/cf-problem.js</code>（在 <code>cf-problems.html</code> 中引用的时候也要注意使用变量名）。</li>
+<li>为了使得用户体验更好，<code>/static/css/cf-problems.css</code> 还 override 了部分模版的 style，比如使得 CF-problems 页面的宽度变成 <code>95%</code> 等等。</li>
+<li>在电脑上测试手机端的 media query 的时候最好使用 <code>Safari</code>（在 <code>Develop &gt; Enter Responsive Design Mode</code>，如果导航栏里面没有 <code>Develop</code> 的话需要手动打开一下），chrome 的体验真的挺差的。</li>
+</ol>
+<p>• 附：kenkoooo 大佬用的是 <code>react</code>，我一是不会写 <code>react</code>，二是不太清楚 hugo 是否支持 <code>react</code> 写的页面，如果以后有需求的时候可以尝试一下。</p>
 <h2 id="一些注意事项">一些注意事项</h2>
 <ol>
 <li>博客默认模版的最底部有一个 <code>--more--</code>，要把它删掉，否则预览的时候整个博客都会被预览出来。</li>
@@ -289,8 +299,8 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-04-20 22:50:27 &#43;0800 &#43;0800">2021-04-20</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/17de55b2eae4ae73f66d3c40168bcca268e9ba07" title="add width of content, update 001.md" target="_blank">(17de55b)</a>
+        <span title="2021-06-09 18:55:23 &#43;0800 &#43;0800">2021-06-09</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/68f19d92b3c048fb43ec472e01f0f0d38f2f0ff5" title="add the content of cf-problems to hugo-tutorial" target="_blank">(68f19d9)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/001-hugo-tutorial.md" target="_blank">更新历史</a>
     </span>
   </p>

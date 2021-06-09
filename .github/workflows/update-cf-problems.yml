@@ -28,6 +28,14 @@ jobs:
 
       - run: python scripts/UpdateCF_Problems.py
 
+      - name: Update resources
+        uses: test-room-7/action-update-file@v1
+        with:
+            file-path: static/contests.json
+            commit-msg: Update resources
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+
+
       - name: Commit
         run: |
           git config user.email "action@github.com"

@@ -3,7 +3,7 @@ import os
 import requests
 
 FILE_PATH = "public/contests.json"
-INVALID_ID = {1410, 1414, 1412, 1258, 1226, 1224, 1222, 1094, 1050, 1049, 1048, 905, 885, 874, 857, 826, 728, 726, 693}
+INVALID_ID = {1410, 1414, 1412, 1258, 1226, 1224, 1222, 1094, 1050, 1049, 1048, 905, 885, 874, 857, 826, 728, 726, 693, 630}
 
 '''
 Format of contest_list_all (list): 

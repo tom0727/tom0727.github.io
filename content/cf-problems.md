@@ -5,5 +5,3 @@ layout = 'cf-problems'
 +++
 
 
-
-<!--more-->

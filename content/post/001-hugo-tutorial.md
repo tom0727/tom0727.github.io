@@ -119,6 +119,18 @@ ouuan大佬在 2021年04月11日 更新了一下博客的内容宽度，在大�
 
 我在 2021年04月20日 直接复制并替换了这三个文件，之后如果需要revert，可以从github里找对应版本。
 
+### 自定义页面
+
+在 2021年06月09日，我参考 https://kenkoooo.com/atcoder#/table/ ，利用 Codeforces API 高仿一个类似的页面。经 kenkoooo 本人同意，现在已经上线在 [这里](/cf-problems) 了。主要的技术点如下：
+
+1. 利用 python 和 Codeforces API 进行交互（因为 `requests` 有自动重试功能，而 CF 的 API 并不是太稳定）。数据以 `contests.json` 的形式存在 `/static/` 中，`/scripts/UpdateCF_Problems.py` 用于更新这个 `json`，这个更新的过程已经设置在 Github Action 中了。
+2. 将写好的 `html` 文件放在 `/layouts/_default/cf-problems.html` 中（需要更改一下才能正常使用导航栏等模版，具体的看这个文件里的内容即可），再创建 `/content/cf-problems.md`（其中需要更改 `layout = 'cf-problems'`），最后在 `/config.toml` 中把这个页面挂在导航栏里面。对应的 `css` 和 `js` 文件我分别放在了 `/static/css/cf-problems.css` 和 `/static/js/cf-problem.js`（在 `cf-problems.html` 中引用的时候也要注意使用变量名）。
+3. 为了使得用户体验更好，`/static/css/cf-problems.css` 还 override 了部分模版的 style，比如使得 CF-problems 页面的宽度变成 `95%` 等等。
+4. 在电脑上测试手机端的 media query 的时候最好使用 `Safari`（在 `Develop > Enter Responsive Design Mode`，如果导航栏里面没有 `Develop` 的话需要手动打开一下），chrome 的体验真的挺差的。
+
+• 附：kenkoooo 大佬用的是 `react`，我一是不会写 `react`，二是不太清楚 hugo 是否支持 `react` 写的页面，如果以后有需求的时候可以尝试一下。
+
+
 ## 一些注意事项
 
 1. 博客默认模版的最底部有一个 `--more--`，要把它删掉，否则预览的时候整个博客都会被预览出来。

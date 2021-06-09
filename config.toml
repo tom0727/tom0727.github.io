@@ -54,8 +54,13 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
   identifier = "about"
   url = "/about/"
 [[menu.main]]
-  name = "Search"
+  name = "CF-Problems"
   weight = 60
+  identifier = "cf-problems"
+  url = "/cf-problems/"
+[[menu.main]]
+  name = "Search"
+  weight = 70
   identifier = "search"
   url = "/search/"
 

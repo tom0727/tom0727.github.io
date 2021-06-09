@@ -1,0 +1,29 @@
+{{- define "title" }}CF Problems - {{ .Site.Title }}{{ end -}}
+{{- define "content" }}
+
+  <link rel="stylesheet" href='{{ "css/cf-problems.css" | absURL }}'>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+  <script src='{{ "js/cf-problem.js" | absURL }}'></script>
+  <div class="main-table-wrapper">
+    <div class="btn-group">
+      <button type="button" class="btn active">Div1</button>
+      <button type="button" class="btn">Div2</button>
+      <button type="button" class="btn">Div3</button>
+      <button type="button" class="btn">Div1 + Div2</button>
+      <button type="button" class="btn">Global</button>
+      <button type="button" class="btn">Others</button>
+    </div>
+  </div>
+
+  <div class='main-table-wrapper'>
+    <table id='main-table'>
+      <thead>
+      </thead>
+
+      <tbody>
+      </tbody>
+    </table>
+    <div class="tooltip-inner" style="display: none;"></div>
+  </div>
+
+{{ end -}}

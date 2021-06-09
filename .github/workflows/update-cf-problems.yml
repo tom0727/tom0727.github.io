@@ -39,6 +39,8 @@ jobs:
 
       - name: Commit
         run: |
+          git status
+          git add static/contests.json
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
           git commit -am "chore: update CF Problems"

@@ -2,6 +2,7 @@ const JSON_FILE_PATH = "../contests.json";
 var PROBLEM_INDEX = "ABCDEFGHI";
 
 var allContestData;
+var isMobile;
 
 function getProblemSpan(contestId, index, problemName, rating) {
   var allContent = "";
@@ -133,12 +134,15 @@ function loadDivContent(activeType) {
 
   // loading table header
   console.log(maxLength);
-  var tableHeaderContent = `<tr><th>Contest</th>`;
-  for (let i = 0; i < maxLength; i++) {
-    tableHeaderContent += `<th>${PROBLEM_INDEX[i]}</th>`;
+
+  if (!isMobile) {
+    var tableHeaderContent = `<tr><th>Contest</th>`;
+    for (let i = 0; i < maxLength; i++) {
+      tableHeaderContent += `<th>${PROBLEM_INDEX[i]}</th>`;
+    }
+    tableHeaderContent += `</tr>`;
+    $("#main-table thead").html(tableHeaderContent);
   }
-  tableHeaderContent += `</tr>`;
-  $("#main-table thead").html(tableHeaderContent);
 
   console.log(allContestData[0]);
 }
@@ -155,6 +159,7 @@ function loadJSON() {
 }
 
 $(function() {
+  isMobile = window.matchMedia("only screen and (max-width: 799px)").matches;
   addButtonListener();
   loadJSON();
   loadDivContent("Div1");

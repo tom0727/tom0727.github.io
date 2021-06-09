@@ -133,7 +133,7 @@ function loadDivContent(activeType) {
   }
 
   // loading table header
-  console.log(maxLength);
+  // console.log(maxLength);
 
   if (!isMobile) {
     var tableHeaderContent = `<tr><th>Contest</th>`;
@@ -144,7 +144,7 @@ function loadDivContent(activeType) {
     $("#main-table thead").html(tableHeaderContent);
   }
 
-  console.log(allContestData[0]);
+  // console.log(allContestData[0]);
 }
 
 function loadJSON() {

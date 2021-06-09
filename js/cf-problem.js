@@ -90,7 +90,7 @@ function loadDivContent(activeType) {
     if (type != activeType) continue;
 
     // var tableRowContent = `<tr><td><a href='https://codeforces.com/contest/${id}' target='_blank' rel='noopener'>CF${id}</a></td>`;
-    var tableRowContent = `<tr><td><a href='https://codeforces.com/contest/${id}' target='_blank' rel='noopener'>${contestName}</a></td>`;
+    var tableRowContent = `<tr><th><a href='https://codeforces.com/contest/${id}' target='_blank' rel='noopener'>${contestName}</a></th>`;
 
     var problemCount = 0;
     for (let j = 0; j < problemList.length; j++) {

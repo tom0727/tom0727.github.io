@@ -283,6 +283,11 @@
         text-align: left;
     }
 
+    td {
+        padding-left: 2rem;
+        max-width: 90%;
+    }
+
     html {
         display: block;
     }

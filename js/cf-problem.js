@@ -4,6 +4,7 @@ var PROBLEM_INDEX = "ABCDEFGHI";
 var allContestData;
 var isMobile;
 var isLoggedin;
+var submission = {};
 
 function getProblemSpan(contestId, index, problemName, rating) {
   var allContent = "";
@@ -74,68 +75,72 @@ function addButtonListener() {
   });
 }
 
+function renderUserACStatus() {
+  for (let probId in submission) {
+    if (probId[probId.length-1] == '1' || probId[probId.length-1] == '2') {
+      let parent = $(probId).parent();
+      probId = probId.slice(0, -1);
+      // console.log(probId);
+      let sub1 = 0, sub2 = 0;
+      if ((probId + '1') in submission) {
+        if (submission[probId + '1'] == "OK") sub1 = 1;
+        else sub1 = 2;
+      }
+      if ((probId + '2') in submission) {
+        if (submission[probId + '2'] == "OK") sub2 = 1;
+        else sub2 = 2;
+      }
+      parent.removeClass();
+      if (sub1 == 0 && sub2 == 1) parent.addClass("OK-2");
+      if (sub1 == 0 && sub2 == 2) parent.addClass("TRY-2");
+      if (sub1 == 1 && sub2 == 0) parent.addClass("OK-1");
+      if (sub1 == 1 && sub2 == 1) parent.addClass("OK");
+      if (sub1 == 1 && sub2 == 2) parent.addClass("OK-TRY");
+      if (sub1 == 2 && sub2 == 0) parent.addClass("TRY-1");
+      if (sub1 == 2 && sub2 == 1) parent.addClass("TRY-OK");
+      if (sub1 == 2 && sub2 == 2) parent.addClass("TRY");
+    } else {
+      let parent = $(probId).parent();
+      parent.removeClass();
+      parent.addClass(submission[probId]);
+    }
+  }
+}
+
 function loadUserACStatus(username) {
   // console.log("username = " + username);
-  $.ajax({
-    url: `https://codeforces.com/api/user.status?handle=${username}`,
-    type: 'GET',
-    retryLimit: 3,
-    success: function(data) {
-      var submission = {};
-
-      for (let i = 0; i < data["result"].length; i++) {
-        let problem = data["result"][i]["problem"];
-        let verdict = data["result"][i]["verdict"];
-        let id = problem["contestId"], index = problem["index"];
-        let probId = `#${id}${index}`;
-        if (verdict == "OK") {
-          submission[probId] = "OK";
-        } else {
-          if (!(probId in submission)) {
-            submission[probId] = "TRY";
+  if ($.isEmptyObject(submission)) {
+    $.ajax({
+      url: `https://codeforces.com/api/user.status?handle=${username}`,
+      type: 'GET',
+      retryLimit: 3,
+      success: function(data) {
+        for (let i = 0; i < data["result"].length; i++) {
+          let problem = data["result"][i]["problem"];
+          let verdict = data["result"][i]["verdict"];
+          let id = problem["contestId"], index = problem["index"];
+          let probId = `#${id}${index}`;
+          if (verdict == "OK") {
+            submission[probId] = "OK";
+          } else {
+            if (!(probId in submission)) {
+              submission[probId] = "TRY";
+            }
           }
         }
-      }
-
-      for (let probId in submission) {
-        if (probId[probId.length-1] == '1' || probId[probId.length-1] == '2') {
-          let parent = $(probId).parent();
-          probId = probId.slice(0, -1);
-          // console.log(probId);
-          let sub1 = 0, sub2 = 0;
-          if ((probId + '1') in submission) {
-            if (submission[probId + '1'] == "OK") sub1 = 1;
-            else sub1 = 2;
-          }
-          if ((probId + '2') in submission) {
-            if (submission[probId + '2'] == "OK") sub2 = 1;
-            else sub2 = 2;
-          }
-          parent.removeClass();
-          if (sub1 == 0 && sub2 == 1) parent.addClass("OK-2");
-          if (sub1 == 0 && sub2 == 2) parent.addClass("TRY-2");
-          if (sub1 == 1 && sub2 == 0) parent.addClass("OK-1");
-          if (sub1 == 1 && sub2 == 1) parent.addClass("OK");
-          if (sub1 == 1 && sub2 == 2) parent.addClass("OK-TRY");
-          if (sub1 == 2 && sub2 == 0) parent.addClass("TRY-1");
-          if (sub1 == 2 && sub2 == 1) parent.addClass("TRY-OK");
-          if (sub1 == 2 && sub2 == 2) parent.addClass("TRY");
-        } else {
-          let parent = $(probId).parent();
-          parent.removeClass();
-          parent.addClass(submission[probId]);
+        renderUserACStatus();
+      }, 
+      error : function(xhr, textStatus, errorThrown) {
+        this.retryLimit--;
+        if (this.retryLimit > 0) {
+          $.ajax(this);  // retry
+          return;
         }
       }
-    }, 
-    error : function(xhr, textStatus, errorThrown) {
-      this.retryLimit--;
-      if (this.retryLimit > 0) {
-        $.ajax(this);  // retry
-        return;
-      }
-    }
-  });
-
+    });
+  } else {
+    renderUserACStatus();
+  }
 }
 
 function loadDivContent(activeType) {
@@ -151,6 +156,11 @@ function loadDivContent(activeType) {
     var problemList = contestInfo["problems"];
     var hasSubProblem = contestInfo["sub"];
     var contestName = contestInfo["name"];
+    if (contestName.startsWith("Codeforces ")) {
+      contestName = contestName.replace("Codeforces ", "");
+    } else if (contestName.startsWith("Educational Codeforces ")) {
+      contestName = contestName.replace("Educational Codeforces ", "Edu ");
+    }
 
     if (type != activeType) continue;
 
@@ -202,8 +212,6 @@ function loadDivContent(activeType) {
         $(".tooltip-inner").hide();
       });
     }
-
-
     maxLength = Math.max(maxLength, problemCount);
   }
 
@@ -260,6 +268,13 @@ function tryLogin(username) {
   });
 }
 
+function logout() {
+  window.localStorage.removeItem("cf-username");
+  for (let key in submission) delete submission[key];
+  loadLoginContent();
+  loadDivContent($(".btn-group .active").text());
+}
+
 function loadLoginContent() {
   $(".navigator-wrapper").empty();
   $(".navigator-wrapper").css("float", "right");
@@ -270,20 +285,15 @@ function loadLoginContent() {
     $(".navigator-wrapper .username-btn").on('click', function() {
       window.open(`https://codeforces.com/profile/${username}`, "_blank", "noopener,noreferrer");
     });
-    $(".navigator-wrapper .logout-btn").on('click', function() {
-      window.localStorage.removeItem("cf-username");
-      loadLoginContent();
-      loadDivContent($(".btn-group .active").text());
-    });
-    loadDivContent($(".btn-group .active").text());
+    $(".navigator-wrapper .logout-btn").on('click', logout);
   } else {
     isLoggedin = false;
     $(".navigator-wrapper").append(`<span class='login-msg' style='color: red'></span><input type="text" placeholder="Your handle"><button type="button" id='login-btn' class="btn">Login</button>`);
     $(".navigator-wrapper button").on('click', function() {
       tryLogin($(".navigator-wrapper input").val());
     });
-    loadDivContent($(".btn-group .active").text());
   }
+  loadDivContent($(".btn-group .active").text());
 }
 
 $(function() {

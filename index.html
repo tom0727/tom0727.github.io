@@ -136,7 +136,7 @@
   
   <div class="post-content">
     <div class="post-summary">
-      #include &lt;bits/stdc++.h&gt; using namespace std; const int maxn = 203; const int maxm = 5005; int n,m,s,t; ll adj[maxn][maxn]; int head[maxn], ecnt = 2, cur[maxn]; // ecnt 从 2 开始，方便取反向边 struct Edge { int to, nxt; ll w; } edges[maxm&lt;&lt;1]; void addEdge(int u, int v, ll w) { Edge e = {v, head[u], w}; head[u] = ecnt; edges[ecnt++] = e; } int
+      #include &lt;bits/stdc++.h&gt; using namespace std; const int maxn = 203; const int maxm = 5005; int n,m,s,t; int head[maxn], ecnt = 2, cur[maxn]; // ecnt 从 2 开始，方便取反向边 struct Edge { int to, nxt; ll w; } edges[maxm&lt;&lt;1]; void addEdge(int u, int v, ll w) { Edge e = {v, head[u], w}; head[u] = ecnt; edges[ecnt++] = e; } int dis[maxn]; bool
     </div>
     <div class="read-more">
       <a href="/post/047-%E7%BD%91%E7%BB%9C%E6%B5%81/" class="read-more-link">Read more...</a>

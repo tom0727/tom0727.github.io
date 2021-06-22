@@ -13,6 +13,7 @@ Format of contest_list_all (list):
     "name": The name of the contest
     "problems": A list, each element is of format: 
         {"contestId": 1536, "index": "B", "name": "Omkar and Bad Story", "rating":1200, "Solved": 1234, "Attempted": 5555}
+        (rating might be optional)
     "sub": Boolean, whether it has some problem (1) or not (0).
 '''
 
@@ -66,6 +67,9 @@ def load_contest_byid(id):
 
     problem_list = info["result"]["problems"]
     problem_list = list(map(process, problem_list))
+
+    if len(problem_list) == 0 or "rating" not in problem_list[0]:
+        return None
 
     for row in info["result"]["rows"]:
         problem_result = row["problemResults"]

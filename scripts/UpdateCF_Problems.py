@@ -5,6 +5,7 @@ import requests
 FILE_PATH = "public/contests.json"
 INVALID_ID = {1410, 1414, 1412, 1258, 1226, 1224, 1222, 1094, 1050, 1049, 1048, 905, 885, 874, 857, 826, 728, 726, 693, 630}
 
+
 '''
 Format of contest_list_all (list): 
     Each Element is a dict, containing the following:
@@ -16,6 +17,7 @@ Format of contest_list_all (list):
         (rating might be optional)
     "sub": Boolean, whether it has some problem (1) or not (0).
 '''
+
 
 contest_id_dict = dict()
 
@@ -122,7 +124,8 @@ def load_contest_all():
                 if contest_obj:   # load the contest only if it exists
                     contest_id_dict[id] = contest_obj
             else:
-                contest_obj = contest_id_dict[id]
+                contest_obj = contest_id_dict[id]  # directly load the contest object from contest.json
+
 
             if contest_obj:   # only append valid info
                 if "sub" not in contest_obj:

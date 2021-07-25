@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="#include &amp;lt;bits/stdc&#43;&#43;.h&amp;gt; using namespace std; const int maxn = 203; const int maxm = 5005; int n,m,s,t; int head[maxn], ecnt = 2, cur[maxn]; // ecnt 从 2 开始，方便取反向边 struct Edge { int to, nxt; ll w; } edges[maxm&amp;lt;&amp;lt;1]; void addEdge(int u, int v, ll w) { Edge e = {v, head[u], w}; head[u] = ecnt; edges[ecnt&#43;&#43;] = e; } int dis[maxn]; bool" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 网络 是一个有向图 $G = (V,E)$，每条边 $(u,v) \in E$ 都拥有一个容量 $c(u,v)$。 在一个网络中，拥有两个特殊的节点 $s, t$ （源点，汇点）。 定义 流" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -40,22 +40,22 @@
 
 
 <meta property="og:title" content="网络流" />
-<meta property="og:description" content="#include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; const int maxn = 203; const int maxm = 5005; int n,m,s,t; int head[maxn], ecnt = 2, cur[maxn]; // ecnt 从 2 开始，方便取反向边 struct Edge { int to, nxt; ll w; } edges[maxm&lt;&lt;1]; void addEdge(int u, int v, ll w) { Edge e = {v, head[u], w}; head[u] = ecnt; edges[ecnt&#43;&#43;] = e; } int dis[maxn]; bool" />
+<meta property="og:description" content="介绍 网络 是一个有向图 $G = (V,E)$，每条边 $(u,v) \in E$ 都拥有一个容量 $c(u,v)$。 在一个网络中，拥有两个特殊的节点 $s, t$ （源点，汇点）。 定义 流" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/047-%E7%BD%91%E7%BB%9C%E6%B5%81/" />
 <meta property="article:published_time" content="2021-06-04T12:03:44+08:00" />
-<meta property="article:modified_time" content="2021-07-22T00:55:59+00:00" />
+<meta property="article:modified_time" content="2021-07-25T14:19:31+08:00" />
 <meta itemprop="name" content="网络流">
-<meta itemprop="description" content="#include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; const int maxn = 203; const int maxm = 5005; int n,m,s,t; int head[maxn], ecnt = 2, cur[maxn]; // ecnt 从 2 开始，方便取反向边 struct Edge { int to, nxt; ll w; } edges[maxm&lt;&lt;1]; void addEdge(int u, int v, ll w) { Edge e = {v, head[u], w}; head[u] = ecnt; edges[ecnt&#43;&#43;] = e; } int dis[maxn]; bool">
+<meta itemprop="description" content="介绍 网络 是一个有向图 $G = (V,E)$，每条边 $(u,v) \in E$ 都拥有一个容量 $c(u,v)$。 在一个网络中，拥有两个特殊的节点 $s, t$ （源点，汇点）。 定义 流">
 <meta itemprop="datePublished" content="2021-06-04T12:03:44&#43;08:00" />
-<meta itemprop="dateModified" content="2021-07-22T00:55:59&#43;00:00" />
-<meta itemprop="wordCount" content="6227">
+<meta itemprop="dateModified" content="2021-07-25T14:19:31&#43;08:00" />
+<meta itemprop="wordCount" content="12318">
 
 
 
 <meta itemprop="keywords" content="网络流,最大流," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="网络流"/>
-<meta name="twitter:description" content="#include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; const int maxn = 203; const int maxm = 5005; int n,m,s,t; int head[maxn], ecnt = 2, cur[maxn]; // ecnt 从 2 开始，方便取反向边 struct Edge { int to, nxt; ll w; } edges[maxm&lt;&lt;1]; void addEdge(int u, int v, ll w) { Edge e = {v, head[u], w}; head[u] = ecnt; edges[ecnt&#43;&#43;] = e; } int dis[maxn]; bool"/>
+<meta name="twitter:description" content="介绍 网络 是一个有向图 $G = (V,E)$，每条边 $(u,v) \in E$ 都拥有一个容量 $c(u,v)$。 在一个网络中，拥有两个特殊的节点 $s, t$ （源点，汇点）。 定义 流"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -150,13 +150,38 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#例题">例题</a>
+        <li><a href="#介绍">介绍</a>
+          <ul>
+            <li><a href="#最大流">最大流</a></li>
+            <li><a href="#最小割">最小割</a></li>
+            <li><a href="#费用流">费用流</a></li>
+          </ul>
+        </li>
+        <li><a href="#算法">算法</a>
+          <ul>
+            <li><a href="#ek算法">EK算法</a></li>
+            <li><a href="#dinic算法">Dinic算法</a></li>
+            <li><a href="#费用流-1">费用流</a></li>
+          </ul>
+        </li>
+        <li><a href="#模版">模版</a></li>
+        <li><a href="#套路">套路</a>
+          <ul>
+            <li><a href="#二元决策最小割模型">二元决策（最小割模型）</a></li>
+            <li><a href="#区间覆盖模型不等式模型">区间覆盖模型（不等式模型）</a></li>
+          </ul>
+        </li>
+        <li><a href="#网络流例题">网络流例题</a>
           <ul>
             <li><a href="#例1-洛谷p4016-负载平衡问题httpswwwluogucomcnproblemp4016">例1 <a href="https://www.luogu.com.cn/problem/P4016">洛谷P4016 负载平衡问题</a></a></li>
             <li><a href="#例2-洛谷p2774-方格取数问题httpswwwluogucomcnproblemp2774">例2 <a href="https://www.luogu.com.cn/problem/P2774">洛谷P2774 方格取数问题</a></a></li>
             <li><a href="#例3-洛谷p1251-餐巾计划问题httpswwwluogucomcnproblemp1251">例3 <a href="https://www.luogu.com.cn/problem/P1251">洛谷P1251 餐巾计划问题</a></a></li>
             <li><a href="#例4-洛谷p2764-最小路径覆盖问题httpswwwluogucomcnproblemp2764">例4 <a href="https://www.luogu.com.cn/problem/P2764">洛谷P2764 最小路径覆盖问题</a></a></li>
             <li><a href="#例5-洛谷p2766-最长不下降子序列问题httpswwwluogucomcnproblemp2766">例5 <a href="https://www.luogu.com.cn/problem/P2766">洛谷P2766 最长不下降子序列问题</a></a></li>
+            <li><a href="#例6-洛谷p1646-happinesshttpswwwluogucomcnproblemp1646">例6 <a href="https://www.luogu.com.cn/problem/P1646">洛谷P1646 Happiness</a></a></li>
+            <li><a href="#例7-cf1404e-brickshttpswwwluogucomcnproblemcf1404e">例7 <a href="https://www.luogu.com.cn/problem/CF1404E">CF1404E Bricks</a></a></li>
+            <li><a href="#例8-noi2008-志愿者招募httpswwwluogucomcnproblemp3980">例8 <a href="https://www.luogu.com.cn/problem/P3980">[NOI2008] 志愿者招募</a></a></li>
+            <li><a href="#例9-洛谷p3358-最长k可重区间集问题httpswwwluogucomcnproblemp3358">例9 <a href="https://www.luogu.com.cn/problem/P3358">洛谷P3358 最长k可重区间集问题</a></a></li>
           </ul>
         </li>
         <li><a href="#参考链接">参考链接</a></li>
@@ -167,12 +192,56 @@
   </div>
 </div>
     <div class="post-content">
-      <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-const int maxn = 203;
-const int maxm = 5005;
-
-int n,m,s,t;
+      <h2 id="介绍">介绍</h2>
+<p><strong>网络</strong> 是一个<strong>有向图</strong> $G = (V,E)$，每条边 $(u,v) \in E$ 都拥有一个容量 $c(u,v)$。</p>
+<p>在一个网络中，拥有两个特殊的节点 $s, t$ （源点，汇点）。</p>
+<p>定义 <strong>流</strong> 为一个函数 $f(u,v)$，其中 $u,v \in V$，满足：</p>
+<ol>
+<li>容量限制：每条边的流不能超过这条边的容量，即 $f(u,v) \leq c(u,v)$。</li>
+<li>斜对称性：每条边的流量，与其相反边的流量，互为相反数，即 $f(u,v) = -f(v,u)$。</li>
+<li>流守恒性：从源点 $s$ 流出的流量，等于汇点 $v$ 流入的流量。同时对于每个点 $u$（除了 $s,t$），流入 $u$ 的流量需要等于 流出 $u$ 的流量。</li>
+</ol>
+<p>定义 <strong>残量网络</strong> 为：对于一个流函数 $f$，残量网络 $G_f$ 是网络 $G$ 中 <strong>所有的节点</strong> 和 <strong>剩余容量 $&gt; 0$ 的边</strong> 组成的子图。</p>
+<p>残量网络中，可能存在 <strong>原图中不存在的边</strong>（一条边剩余流量，产生的反向边，也能算入残量网络）。</p>
+<hr>
+<p>网络流的三种问题类型：<strong>最大流，最小割，费用流</strong>。</p>
+<h3 id="最大流">最大流</h3>
+<p>定义一个网络的流量为：汇入 $t$ 的流量之和。</p>
+<p>最大流就是求：从 $s$ 流到 $t$ 的最大流量。</p>
+<h3 id="最小割">最小割</h3>
+<p>如果我们要从原图中，切掉一个 <strong>边集</strong> $E&rsquo; \subseteq E$，使得 $s,t$ 无法联通。</p>
+<p>让这个边集的容量和 <strong>最小</strong>，就是最小割。</p>
+<p>• 在数值上，<strong>最小割 等于 最大流</strong>，如果要求出具体是哪些边，可以看残量网络。</p>
+<h3 id="费用流">费用流</h3>
+<p>每一条边 $(u,v)$ 都有一个费用 $w(u,v)$，每当有 $1$ 个单位的流量流过这条边，就要付出 $w(u,v)$ 的代价。</p>
+<p>在 <strong>保证最大流</strong> 的基础上，求出 <strong>最小/最大费用</strong>，就是 <strong>费用流</strong>。</p>
+<hr>
+<h2 id="算法">算法</h2>
+<p>定义 <strong>增广路</strong> 为：残量网络中，一条从 $s$ 到 $t$ 的路径。</p>
+<p>如果我们要求最大流，那么 <strong>当前的流是最大流</strong> $\iff$ <strong>残量网络 $G_f$ 中不存在增广路</strong>（即，残量网络中 $s,t$ 不相连）。</p>
+<h3 id="ek算法">EK算法</h3>
+<p>$EK$ 算法的思想就是：每一轮增广，都用 BFS 在 <strong>残量网络</strong> 上找到一个增广路，然后根据这个路径上，<strong>最小</strong> 的剩余流量，来流过这条路径。然后更新残量网络，直到残量网络中不存在增广路。</p>
+<p>由于实践中一般不用，所以就不多赘述。</p>
+<h3 id="dinic算法">Dinic算法</h3>
+<p>思想与 EK 算法相同，在每一轮增广时，按照以下顺序进行操作：</p>
+<ol>
+<li>从源点 $s$ 开始进行 BFS，获得一张分层图。</li>
+<li>利用 DFS 进行增广，增广过程中保证一定是从 第 $x$ 层增广到 第 $(x+1)$ 层。利用 DFS 增广的好处是可以多路增广，在一条路径增广完毕，回溯的时候可以寻找下一条。</li>
+</ol>
+<p>Dinic 算法有几个重要的优化：</p>
+<ol>
+<li>删点：在一个点 $u$ 尝试向外流的时候，如果成功流出的流量为 $0$，说明这个点 $u$ 已经无法向 $t$ 推送流量了，我们将这个点的 <code>dis[u] = -1</code>。意思为删除这个点。</li>
+<li>当前弧优化：在 DFS 过程中，如果我们推完了一条边，然后回溯了，这说明，要么 <strong>走这条边已经无法连通到 $t$</strong>了，要么 <strong>入流量用完了</strong>。无论是哪一种，都说明我们无法再使用这条边了。所以就在本轮增广中，删去这条边。在代码中，使用 <code>cur[]</code> 数组来实现。</li>
+</ol>
+<p>复杂度：$O(n^2m)$，在实际使用中，一般跑的比这个快（所以不用太担心复杂度问题）。</p>
+<h3 id="费用流-1">费用流</h3>
+<p>在 Dinic 的基础上，把 <strong>BFS求分层图</strong> 的过程，改成 <strong>SPFA求最短路</strong> 即可。然后在增广的过程中，只走最短路径。</p>
+<p>同时，如果有费用为 $0$ 的边，使得这条边，及其反向边的费用均为 $0$，这可能会导致算法的最短路一直在这两个节点之间走。为了防止这个问题导致死循环，我们需要一个 <code>vis[]</code> 数组保证在 DFS 过程中每个点只被访问一次。</p>
+<p>复杂度：$O(n^2m^2)$，在实际使用中，一般跑的比这个快（所以不用太担心复杂度问题）。</p>
+<hr>
+<h2 id="模版">模版</h2>
+<details class="admonition note"><summary class="admonition-title">最大流模版</summary>
+<pre><code class="language-cpp">int n,m,s,t;
 int head[maxn], ecnt = 2, cur[maxn];  // ecnt 从 2 开始，方便取反向边
 struct Edge {
     int to, nxt;
@@ -251,12 +320,9 @@ int main() {
     cout &lt;&lt; maxflow() &lt;&lt; endl;
 }
 </code></pre>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-const int maxn = 5e3+5;
-const int maxm = 5e4+5;
-
-int n,m,s,t;
+</details>
+<details class="admonition note"><summary class="admonition-title">费用流模版</summary>
+<pre><code class="language-cpp">int n,m,s,t;
 struct Edge {
     int to, nxt;
     ll w, c;
@@ -271,11 +337,11 @@ void addEdge(int u, int v, ll w, ll c) {
 
 ll dis[maxn];
 bool inq[maxn], vis[maxn];
-bool spfa() {
+bool spfa(bool mincost = true) {
     queue&lt;int&gt; q;
     memset(vis, 0, sizeof(vis));  // 这里一定要记得清空 vis (dfs要用)
     memset(inq, 0, sizeof(inq));
-    fill(dis, dis+maxn, 1e18);
+    fill(dis, dis+maxn, mincost ? 1e18 : -1e18);
     memcpy(cur, head, sizeof(head));  // 当前弧优化用到的数组 cur
     dis[s] = 0;
     inq[s] = 1;
@@ -287,7 +353,7 @@ bool spfa() {
             int to = edges[e].to;
             ll w = edges[e].w, c = edges[e].c;
             if (w == 0) continue;
-            if (dis[u] + c &lt; dis[to]) {
+            if ((mincost &amp;&amp; dis[u] + c &lt; dis[to]) || (!mincost &amp;&amp; dis[u] + c &gt; dis[to])) {
                 dis[to] = dis[u] + c;
                 if (!inq[to]) {
                     inq[to] = 1;
@@ -296,7 +362,7 @@ bool spfa() {
             }
         }
     }
-    return dis[t] != 1e18;
+    return dis[t] != (mincost ? 1e18 : -1e18);
 }
 
 ll dfs(int u, ll in) {
@@ -323,13 +389,13 @@ ll dfs(int u, ll in) {
     return out;
 }
 
-ll mincost = 0;
+ll cost = 0;
 ll mcmf() {
     ll maxflow = 0;
     while (spfa()) {
         ll res = dfs(s, 1e18);
         maxflow += res;
-        mincost += res * dis[t];  // cost += (流量 * 最短路长度)
+        cost += res * dis[t];  // cost += (流量 * 最短路长度)
     }
     return maxflow;
 }
@@ -347,10 +413,38 @@ int main() {
         add(u,v,w,c);
     }
     ll maxflow = mcmf();
-    cout &lt;&lt; maxflow &lt;&lt; &quot; &quot; &lt;&lt; mincost &lt;&lt; endl;
+    cout &lt;&lt; maxflow &lt;&lt; &quot; &quot; &lt;&lt; cost &lt;&lt; endl;
 }
 </code></pre>
-<h2 id="例题">例题</h2>
+</details>
+<br>
+<h2 id="套路">套路</h2>
+<h3 id="二元决策最小割模型">二元决策（最小割模型）</h3>
+<p>有一类问题：有 $n$ 个元素，每个元素要么放入集合 $A$，要么放入集合 $B$，放入集合 $A,B$ 会产生不同的收益，同时可能还会有 <strong>相邻</strong> 的元素 / 特定的一些元素组合 在同一个集合/不同集合中，就产生额外的收益。求最大/最小的收益。</p>
+<p>一般套路为：对于每个元素 $u$，连 $(s,u), (u,t)$ 的边。</p>
+<p>例如我们用 $s$ 表示集合 $A$，用 $t$ 表示 $B$。哪条边 <strong>被保留下来</strong>了，就代表选择了这个元素 $u$ 被放入了哪个集合。</p>
+<p>在最小割中，要么 $(s,u)$ 被割掉，要么 $(u,t)$ 被割掉，这说明每个元素最终只会被放入其中的一个集合。</p>
+<hr>
+<p>对于 <strong>特定元素组合</strong> 产生的额外收益，举个例子：</p>
+<p>比如 $u,v$ 都放入集合 $A$ (与 $s$ 相连) 就会产生额外收益 $k$ 的话。就创造一个额外的节点 $x$，连接有向边 $(x,u), (x,v), (s,x)$，其中令 $(x,u), (x,v)$ 的流量为 $inf$，而令 $(s,x)$ 的流量为 $k$。</p>
+<p><img src="/images/047/1.png" alt="img"></p>
+<p>解释：流量为 $inf$ 的边代表在最小割中一定不会被割去，而如果 $u,v$ 之间，有任何一个元素 <strong>没有被放入集合 $A$</strong>，那么它就一定会与 $t$ 相连，此时，为了保证图不联通，在最小割中，就一定会割掉 $(s,x)$ 这条边，所以就损失了 $k$ 的收益。</p>
+<h3 id="区间覆盖模型不等式模型">区间覆盖模型（不等式模型）</h3>
+<p>给定多种区间，每种区间可以使用一定次数，每次使用有一个代价 cost，在一条直线上，有一些点我们需要覆盖多次。求最小的 cost 使得这些覆盖条件被满足？</p>
+<p>我们以直线上，每个点作为一个节点。</p>
+<p>对于一个区间 $[a,b]$，使用次数限制为 $w$，代价为 $c$。</p>
+<p>则：由 $a$ 对应的节点 $u$，连一条边到 $b$ 对应的节点 $v$，容量为 $w$（代表这个区间可以被选择 $w$ 次），代价为 $c$。</p>
+<hr>
+<p>怎么满足/限制 直线上每个点，被覆盖的次数呢？</p>
+<p>直觉上说，由每个节点连边到 $t$。但是这样不对，因为这里的区间是 <strong>强制覆盖 $[a,b]$</strong>，并不能覆盖一半的。</p>
+<hr>
+<p>正确的方法是：将所有的点，连边连成一条直线。相当于，原本直线上每个点对应一个节点，现在我们把这些节点按照它们原来的方式连边。</p>
+<p>如果第 $i$ 个点，需要被覆盖 $a_i$ 次，那么就连一条边 $(i,i+1,-a_i,0)$（流量为负数，实现中，可以使用 $inf - a_i$ 来代替），代表这里少了 $a_i$ 个点。</p>
+<p>如何保证这些点一定被覆盖了呢？用最大流来限制即可。</p>
+<p>由 $s$ 向 $1$ 连接容量为 $inf$ 的边，cost 为 0；由 $n$ 向 $t$ 连接容量为 $inf$ 的边，cost 为 0。</p>
+<p>费用流保证最大流的过程中，就会保证每个点被覆盖了相应的次数。</p>
+<hr>
+<h2 id="网络流例题">网络流例题</h2>
 <h3 id="例1-洛谷p4016-负载平衡问题httpswwwluogucomcnproblemp4016">例1 <a href="https://www.luogu.com.cn/problem/P4016" target="_blank">洛谷P4016 负载平衡问题</a></h3>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
@@ -905,8 +999,16 @@ int main() {
 <hr>
 <p>现在考虑第二问：<strong>每个元素只允许使用一次</strong>。我们发现之前的建图就已经足够了，跑最大流即可。</p>
 <p>第三问：$x_1, x_n$ 允许使用多次。我们可以通过控制 <strong>流量</strong> 来控制这个变量。</p>
+<blockquote>
 <p>如何控制一个<strong>节点的入流量和出流量</strong>？<strong>拆点</strong>！</p>
+</blockquote>
 <p>将每个节点 $u$ 拆成两个节点，分别代表入点 $u_{in}$ 和 出点 $u_{out}$。</p>
+<p>所有原先 <strong>进入</strong> $u$ 的边，现在都改为 <strong>进入</strong> $u_{in}$，所有原先 **离开** $u$ 的边，现在都改为 **离开** $u_{out}$。</p>
+<p>连一条边 $u_{in} \rightarrow u_{out}$。这一条边的流量，就代表了这个节点 $u$ 被限制的入流量和出流量。</p>
+<hr>
+<p>综上，第二问和第三问的模型都可以拆点，只不过第二问对于每一个节点 $u$，限制的流量均为 $1$。</p>
+<p>而第三问中，对于节点 $1,n$，不限制流量（即 $in, out$ 中间这条边的流量为 $\inf$）。</p>
+<p>参考链接：https://oi-wiki.org/graph/node/</p>
 </details>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
@@ -1047,6 +1149,565 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例6-洛谷p1646-happinesshttpswwwluogucomcnproblemp1646">例6 <a href="https://www.luogu.com.cn/problem/P1646" target="_blank">洛谷P1646 Happiness</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n \times m$ 的座位表，每个同学要选择理科或者文科，每个人选择理科时，会获得喜悦值 $a_{ij}$，选择文科时会获得喜悦值 $b_{ij}$。</p>
+<p>位于 $(i,j)$ 的同学，如果和 $(i+1, j)$ 的同学同时选择了理科，会获得额外 $c_{ij}$ 的喜悦值，如果同时选择文科，会获得 $d_{ij}$ 的喜悦值。</p>
+<p>位于 $(i,j)$ 的同学，如果和 $(i, j+1)$ 的同学同时选择了理科，会获得额外 $e_{ij}$ 的喜悦值，如果同时选择文科，会获得 $f_{ij}$ 的喜悦值。</p>
+<p>求喜悦值的最大和。</p>
+<p>其中，$n,m \leq 100$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>最小割的二元选择模型。</p>
+<p>首先每个同学是一个节点 $u$，然后连接 $(s,u,a), (u,t,b)$。</p>
+<p>然后对于两个相邻的同学，创造一个新的节点 $x$，连接 $(s,x,c), (x,u,inf), (x,v,inf)$。（其中 $c$ 代表同时选择文科的额外喜悦值），再创造一个节点 $y$，连接 $(y,t,d), (u,y,inf), (v,y,inf)$</p>
+<p><img src="/images/047/2.png" alt="img"></p>
+<p>上面已经解释过了，意思就是只要两个人中，任何一个人选了文，则 <strong>理理</strong> 的额外收益就没了（被割掉）。任何一个人选了理，则 <strong>文文</strong> 的额外收益就没了（被割掉）。由此建图即可。</p>
+<p>注意，我们计算的是 <strong>最小割</strong>，意思是 <strong>损失的最小收益</strong>，所以最终的答案（最大收益）应该是由 <strong>所有可能获得的收益</strong> 减去 <strong>最小割</strong>。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 7e4+5;
+const int maxm = 5e5+5;
+
+int n,m,s,t;
+int head[maxn], ecnt = 2, cur[maxn];  // ecnt 从 2 开始，方便取反向边
+struct Edge {
+    int to, nxt;
+    ll w;
+} edges[maxm&lt;&lt;1];
+
+void addEdge(int u, int v, ll w) {
+    Edge e = {v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int dis[maxn];
+bool bfs() {
+    queue&lt;int&gt; q;
+    memset(dis, -1, sizeof(dis));
+    memcpy(cur, head, sizeof(head));
+    dis[s] = 0;
+    q.push(s);
+    while (!q.empty()) {
+        int u = q.front(); q.pop();
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            ll w = edges[e].w;
+            if (dis[to] &gt;= 0 || w == 0) continue;  // visited 或者 edge 已经不存在
+            dis[to] = dis[u] + 1;
+            q.push(to);
+            if (to == t) return 1;  // 仍然存在增广路，直接返回
+        }
+    }
+    return 0;
+}
+
+ll dfs(int u, ll in) {
+    if (u == t) return in;  // 如果已经运到了终点，直接返回入量
+    ll out = 0;
+    for (int e = cur[u]; e; e = edges[e].nxt) {
+        cur[u] = e;
+        int to = edges[e].to;
+        ll w = edges[e].w;
+        if (dis[to] != dis[u] + 1 || w == 0) continue;  // 不是下一层 或者 edge已经不存在
+
+        // 否则，可以往外运输流量
+        ll res = dfs(to, min(in, w));
+        in -= res;
+        out += res;
+        edges[e].w -= res;
+        edges[e^1].w += res;
+
+        if (in == 0) break;  // 如果已经没有可以向外流的了，直接 break
+    }
+    if (out == 0) dis[u] = -1;  // 说明当前节点已经不能向外运输流量了，忽略不计
+    return out;
+}
+
+void add(int u, int v, ll w) {
+    addEdge(u, v, w);
+    addEdge(v, u, 0);
+}
+
+ll maxflow() {
+    ll ans = 0;
+    while (bfs()) {
+        ans += dfs(s, 1e18);
+    }
+    return ans;
+}
+
+
+int a[103][103], b[103][103];
+int N = 0, id[103][103];
+ll sum = 0;
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    s = 5*n*m+1, t = s+1;
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            cin &gt;&gt; a[i][j], id[i][j] = ++N;
+            add(s, N, a[i][j]);
+            sum += a[i][j];
+        }
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            cin &gt;&gt; b[i][j];
+            add(id[i][j], t, b[i][j]);
+            sum += b[i][j];
+        }
+    }
+    
+    for (int i = 1; i &lt;= n-1; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            int aa; cin &gt;&gt; aa;  // 文文
+            add(s, ++N, aa);
+            add(N, id[i][j], 1e9);
+            add(N, id[i+1][j], 1e9);
+            sum += aa;
+        }
+    }
+
+    for (int i = 1; i &lt;= n-1; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            int bb; cin &gt;&gt; bb;  // 理理
+            add(++N, t, bb);
+            add(id[i][j], N, 1e9);
+            add(id[i+1][j], N, 1e9);
+            sum += bb;
+        }
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= m-1; j++) {
+            int aa; cin &gt;&gt; aa;
+            add(s, ++N, aa);
+            add(N, id[i][j], 1e9);
+            add(N, id[i][j+1], 1e9);
+            sum += aa;
+        }
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= m-1; j++) {
+            int bb; cin &gt;&gt; bb;  // 理理
+            add(++N, t, bb);
+            add(id[i][j], N, 1e9);
+            add(id[i][j+1], N, 1e9);
+            sum += bb;
+        }
+    }
+
+    cout &lt;&lt; sum - maxflow() &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例7-cf1404e-brickshttpswwwluogucomcnproblemcf1404e">例7 <a href="https://www.luogu.com.cn/problem/CF1404E" target="_blank">CF1404E Bricks</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n \times m$ 的网格，每个格子要么为黑，要么为白。</p>
+<p>定义一个 brick 为：一个长方形，要么长度为 $1$，宽度任意；要么宽度为 $1$，长度任意。</p>
+<p>我们需要用 brick 来覆盖所有的黑色格子，要求不能覆盖到白色格子上，并且一个黑格子只能被覆盖一次。</p>
+<p>求最少的 brick 数量？</p>
+<p>其中，$1 \leq n,m \leq 200$，保证至少有一个黑格子。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>一个 brick 可以横着摆，也可以纵着摆。</p>
+<p>所以，每个黑格子要么被一个 <strong>横brick</strong> 覆盖，要么被一个 <strong>纵brick</strong> 覆盖。</p>
+<p>如果被 <strong>横brick</strong> 覆盖，就相当于给这个格子填上 $1$。被 <strong>纵brick</strong> 覆盖就相当于给这个格子填上 $0$。</p>
+<p>我们会发现，如果在横方向上，有两个连续的 $1$，那么这两个格子就可以合并为一个（相当于只用了一个横brick就覆盖了它们两个），纵向同理。</p>
+<p>问题就转化为，怎么给每个格子填上 $0/1$，使得这种合并的发生次数最多。</p>
+<p>让合并的发生次数最多，实际上就和上一题一样了。就是定义两个相邻的格子，同时选0/1时，可以获得一些额外收益，这个收益就是合并次数。</p>
+<p>最终的答案就是 黑格子数量 减去 合并发生次数。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e5+5;
+const int maxm = 7e5+5;
+int n,m,s,t;
+int head[maxn], ecnt = 2, cur[maxn];  // ecnt 从 2 开始，方便取反向边
+struct Edge {
+    int to, nxt;
+    ll w;
+} edges[maxm&lt;&lt;1];
+
+void addEdge(int u, int v, ll w) {
+    Edge e = {v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int dis[maxn];
+bool bfs() {
+    queue&lt;int&gt; q;
+    memset(dis, -1, sizeof(dis));
+    memcpy(cur, head, sizeof(head));
+    dis[s] = 0;
+    q.push(s);
+    while (!q.empty()) {
+        int u = q.front(); q.pop();
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            ll w = edges[e].w;
+            if (dis[to] &gt;= 0 || w == 0) continue;  // visited 或者 edge 已经不存在
+            dis[to] = dis[u] + 1;
+            q.push(to);
+            if (to == t) return 1;  // 仍然存在增广路，直接返回
+        }
+    }
+    return 0;
+}
+
+ll dfs(int u, ll in) {
+    if (u == t) return in;  // 如果已经运到了终点，直接返回入量
+    ll out = 0;
+    for (int e = cur[u]; e; e = edges[e].nxt) {
+        cur[u] = e;
+        int to = edges[e].to;
+        ll w = edges[e].w;
+        if (dis[to] != dis[u] + 1 || w == 0) continue;  // 不是下一层 或者 edge已经不存在
+
+        // 否则，可以往外运输流量
+        ll res = dfs(to, min(in, w));
+        in -= res;
+        out += res;
+        edges[e].w -= res;
+        edges[e^1].w += res;
+
+        if (in == 0) break;  // 如果已经没有可以向外流的了，直接 break
+    }
+    if (out == 0) dis[u] = -1;  // 说明当前节点已经不能向外运输流量了，忽略不计
+    return out;
+}
+
+void add(int u, int v, ll w) {
+    addEdge(u, v, w);
+    addEdge(v, u, 0);
+}
+
+ll maxflow() {
+    ll ans = 0;
+    while (bfs()) {
+        ans += dfs(s, 1e18);
+    }
+    return ans;
+}
+
+int grid[205][205], id[205][205], N = 0;
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m;
+    int sum = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        string ss; cin &gt;&gt; ss;
+        for (int j = 1; j &lt;= m; j++) {
+            if (ss[j-1] == '#') grid[i][j] = 1, id[i][j] = ++N, sum++;
+        }
+    }
+    int tmp = sum;
+    s = N+1, t = s+1;
+    for (int i = 1; i &lt;= N; i++) {
+        add(s, i, 1);
+        add(i, t, 1);
+    }
+    N += 3;
+    int delta[2][2] = {{1, 0}, {0, 1}};
+    int inf = 1e9;
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            if (!id[i][j]) continue;
+            for (int o = 0; o &lt; 2; o++) {
+                int di = delta[o][0] + i, dj = delta[o][1] + j;
+                if (di &gt;= 1 &amp;&amp; di &lt;= n &amp;&amp; dj &gt;= 1 &amp;&amp; dj &lt;= m &amp;&amp; id[di][dj]) {
+                    if (o == 0) {   // 纵向
+                        add(s, ++N, 1);
+                        add(N, id[i][j], inf);
+                        add(N, id[di][dj], inf);
+                        sum++;
+                    } else {  // 横向
+                        add(++N, t, 1);
+                        add(id[i][j], N, inf);
+                        add(id[di][dj], N, inf);
+                        sum++;
+                    }
+                }
+            }
+        }
+    }
+    cout &lt;&lt; tmp - sum + maxflow() &lt;&lt; endl;
+}
+
+</code></pre>
+</details>
+<h3 id="例8-noi2008-志愿者招募httpswwwluogucomcnproblemp3980">例8 <a href="https://www.luogu.com.cn/problem/P3980" target="_blank">[NOI2008] 志愿者招募</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $n$ 天，每天需要 $a_i$ 个人。我们有 $m$ 种人可以招募，第 $i$ 种人会从 第 $s_i$ 天 工作到 第 $t_i$ 天，并且花费 $c_i$ 元。</p>
+<p>求最少费用的方案，满足每天工作的人数？</p>
+<p>其中 $1 \leq n \leq 1000, 1 \leq m \leq 10000$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>区间覆盖模型，上面讲过了。</p>
+<p>连 $(s,1,inf,0), (n+1,t,inf,0)$，同时对于每一个 $i$，连 $(i,i+1,inf-a_i,0)$。</p>
+<p>对于每种工人，连 $(s_i, t_i, inf, c_i)$。</p>
+<p>跑最小费用最大流即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e4+5;
+const int maxm = 5e4+5;
+
+int n,m,s,t;
+struct Edge {
+    int to, nxt;
+    ll w, c;
+} edges[maxm&lt;&lt;1];
+int head[maxn], ecnt = 2, cur[maxn];  // ecnt 从 2 开始，方便取反向边
+
+void addEdge(int u, int v, ll w, ll c) {
+    Edge e = {v, head[u], w, c};
+    edges[ecnt] = e;
+    head[u] = ecnt++;
+}
+
+ll dis[maxn];
+bool inq[maxn], vis[maxn];
+bool spfa(bool mincost = true) {
+    queue&lt;int&gt; q;
+    memset(vis, 0, sizeof(vis));  // 这里一定要记得清空 vis (dfs要用)
+    memset(inq, 0, sizeof(inq));
+    fill(dis, dis+maxn, mincost ? 1e18 : -1e18);
+    memcpy(cur, head, sizeof(head));  // 当前弧优化用到的数组 cur
+    dis[s] = 0;
+    inq[s] = 1;
+    q.push(s);
+    while (!q.empty()) {
+        int u = q.front(); q.pop();
+        inq[u] = 0;
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            ll w = edges[e].w, c = edges[e].c;
+            if (w == 0) continue;
+            if ((mincost &amp;&amp; dis[u] + c &lt; dis[to]) || (!mincost &amp;&amp; dis[u] + c &gt; dis[to])) {
+                dis[to] = dis[u] + c;
+                if (!inq[to]) {
+                    inq[to] = 1;
+                    q.push(to);
+                }
+            }
+        }
+    }
+    return dis[t] != (mincost ? 1e18 : -1e18);
+}
+
+ll dfs(int u, ll in) {
+    if (u == t) return in;  // 如果已经运到了终点，直接返回入量
+    vis[u] = 1;
+    ll out = 0;
+    for (int e = cur[u]; e; e = edges[e].nxt) {
+        cur[u] = e;
+        int to = edges[e].to;
+        ll w = edges[e].w, c = edges[e].c;
+        if (vis[to] || w == 0 || dis[to] != dis[u] + c) continue;
+        // 检测: 1. 是否vis过  2. 这条边是否存在  3. 是否是最短路径
+
+        ll res = dfs(to, min(in, w));
+
+        in -= res;
+        out += res;
+        edges[e].w -= res;
+        edges[e^1].w += res;
+
+        if (in == 0) break;
+    }
+    if (out == 0) dis[u] = -1e18;
+    return out;
+}
+
+ll cost = 0;
+ll mcmf() {
+    ll maxflow = 0;
+    while (spfa()) {
+        ll res = dfs(s, 1e18);
+        maxflow += res;
+        cost += res * dis[t];  // cost += (流量 * 最短路长度)
+    }
+    return maxflow;
+}
+
+void add(int u, int v, ll w, ll c) {
+    addEdge(u,v,w,c);
+    addEdge(v,u,0,-c);
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    s = n+2, t = n+3;
+    ll inf = 4e9;
+    add(s, 1, inf, 0);
+    for (int i = 1; i &lt;= n; i++) {
+        ll a; cin &gt;&gt; a;
+        add(i, i+1, inf-a, 0);
+    }
+    add(n+1, t, inf, 0);
+    while (m--) {
+        int l,r,c; cin &gt;&gt; l &gt;&gt; r &gt;&gt; c;
+        add(l, r+1, inf, c);
+    }
+    ll maxflow = mcmf();
+    cout &lt;&lt; cost &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例9-洛谷p3358-最长k可重区间集问题httpswwwluogucomcnproblemp3358">例9 <a href="https://www.luogu.com.cn/problem/P3358" target="_blank">洛谷P3358 最长k可重区间集问题</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个左闭右开的区间，请选出一些区间，使得直线上任意一点，被覆盖的次数不超过 $k$ 次。</p>
+<p>求这些区间的长度之和的最大值。</p>
+<p>其中，$1 \leq n \leq 500, 1\leq k \leq 3$，保证每个区间的左右端点为整数，且长度大于等于 $1$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>由于区间左右端点可能会有很大的值，甚至负数，所以第一步肯定是离散化。</p>
+<p>如何限定被覆盖的次数不超过 $k$ 次？</p>
+<p>我们只要限制 <strong>流量</strong> 最多为 $k$ 即可。</p>
+<p>对于区间，仍然是和上面一样的套路。</p>
+<hr>
+<p>所以建图：</p>
+<p>离散化出直线上的关键点，将它们作为节点，编号为 $1, 2, &hellip;, N$。</p>
+<p>对于 $\forall i \in [1,N-1]$，连 $(i,i+1,inf,0)$。</p>
+<p>同时连 $(s,1,k,0), (N,t,k,0)$。</p>
+<p>对于每个区间 $[l,r]$，连接 $(a_l, a_r, 1, r-l)$，其中 $a_l$ 就是 $l$ 在离散化之后对应的节点。</p>
+<p>跑一个最大费用最大流即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+const int maxm = 5e5+5;
+
+int n,m,s,t,k;
+struct Edge {
+    int to, nxt;
+    ll w, c;
+} edges[maxm&lt;&lt;1];
+int head[maxn], ecnt = 2, cur[maxn];  // ecnt 从 2 开始，方便取反向边
+
+void addEdge(int u, int v, ll w, ll c) {
+    Edge e = {v, head[u], w, c};
+    edges[ecnt] = e;
+    head[u] = ecnt++;
+}
+
+ll dis[maxn];
+bool inq[maxn], vis[maxn];
+bool spfa(bool mincost = true) {
+    queue&lt;int&gt; q;
+    memset(vis, 0, sizeof(vis));  // 这里一定要记得清空 vis (dfs要用)
+    memset(inq, 0, sizeof(inq));
+    fill(dis, dis+maxn, mincost ? 1e18 : -1e18);
+    memcpy(cur, head, sizeof(head));  // 当前弧优化用到的数组 cur
+    dis[s] = 0;
+    inq[s] = 1;
+    q.push(s);
+    while (!q.empty()) {
+        int u = q.front(); q.pop();
+        inq[u] = 0;
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            ll w = edges[e].w, c = edges[e].c;
+            if (w == 0) continue;
+            if ((mincost &amp;&amp; dis[u] + c &lt; dis[to]) || (!mincost &amp;&amp; dis[u] + c &gt; dis[to])) {
+                dis[to] = dis[u] + c;
+                if (!inq[to]) {
+                    inq[to] = 1;
+                    q.push(to);
+                }
+            }
+        }
+    }
+    return dis[t] != (ll)(mincost ? 1e18 : -1e18);
+}
+
+ll dfs(int u, ll in) {
+    if (u == t) return in;  // 如果已经运到了终点，直接返回入量
+    vis[u] = 1;
+    ll out = 0;
+    for (int e = cur[u]; e; e = edges[e].nxt) {
+        cur[u] = e;
+        int to = edges[e].to;
+        ll w = edges[e].w, c = edges[e].c;
+        if (vis[to] || w == 0 || dis[to] != dis[u] + c) continue;
+        // 检测: 1. 是否vis过  2. 这条边是否存在  3. 是否是最短路径
+
+        ll res = dfs(to, min(in, w));
+
+        in -= res;
+        out += res;
+        edges[e].w -= res;
+        edges[e^1].w += res;
+
+        if (in == 0) break;
+    }
+    if (out == 0) dis[u] = -1e18;
+    return out;
+}
+
+ll cost = 0;
+ll mcmf() {
+    ll maxflow = 0;
+    while (spfa(false)) {
+        ll res = dfs(s, 1e18);
+        maxflow += res;
+        cost += res * dis[t];  // cost += (流量 * 最短路长度)
+    }
+    return maxflow;
+}
+
+void add(int u, int v, ll w, ll c) {
+    addEdge(u,v,w,c);
+    addEdge(v,u,0,-c);
+}
+
+struct Segment {
+    int l,r;
+} seg[505];
+set&lt;int&gt; bound;
+map&lt;int, int&gt; mp;  // map boundary to index
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; k;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; seg[i].l &gt;&gt; seg[i].r;
+        bound.insert(seg[i].l);
+        bound.insert(seg[i].r);
+    }
+    int N = 0;  // 线段的数量
+    for (int a : bound) {
+        mp[a] = ++N;
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        int l = mp[seg[i].l], r = mp[seg[i].r];
+        add(l, r, 1, seg[i].r - seg[i].l);
+    }
+    s = N+1, t = s+1;
+    for (int i = 1; i &lt;= N; i++) {
+        if (i &lt; N) add(i, i+1, 2e9, 0);
+    }
+    add(s, 1, k, 0);
+    add(N, t, k, 0);
+    ll maxflow = mcmf();
+    cout &lt;&lt; cost &lt;&lt; endl;
+}
+</code></pre>
+</details>
 <h2 id="参考链接">参考链接</h2>
 <ol>
 <li><a href="https://www.luogu.com.cn/blog/ONE-PIECE/wang-lao-liu-jiang-xie-zhi-dinic">https://www.luogu.com.cn/blog/ONE-PIECE/wang-lao-liu-jiang-xie-zhi-dinic</a></li>
@@ -1062,8 +1723,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-07-22 00:55:59 &#43;0000 UTC">2021-07-22</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/9ac681295beeaf89a2ccf063757b5d2221f4013a" title="chore: update CF Problems" target="_blank">(9ac6812)</a>
+        <span title="2021-07-25 14:19:31 &#43;0800 &#43;0800">2021-07-25</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/b822a4bfdb4d3255d93763687202577d0300aade" title="update 047" target="_blank">(b822a4b)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/047-%e7%bd%91%e7%bb%9c%e6%b5%81.md" target="_blank">更新历史</a>
     </span>
   </p>

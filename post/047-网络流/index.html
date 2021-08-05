@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/047-%E7%BD%91%E7%BB%9C%E6%B5%81/" />
 <meta property="article:published_time" content="2021-06-04T12:03:44+08:00" />
-<meta property="article:modified_time" content="2021-08-01T01:12:21+00:00" />
+<meta property="article:modified_time" content="2021-08-05T16:25:39+08:00" />
 <meta itemprop="name" content="网络流">
 <meta itemprop="description" content="介绍 网络 是一个有向图 $G = (V,E)$，每条边 $(u,v) \in E$ 都拥有一个容量 $c(u,v)$。 在一个网络中，拥有两个特殊的节点 $s, t$ （源点，汇点）。 定义 流">
 <meta itemprop="datePublished" content="2021-06-04T12:03:44&#43;08:00" />
-<meta itemprop="dateModified" content="2021-08-01T01:12:21&#43;00:00" />
-<meta itemprop="wordCount" content="13503">
+<meta itemprop="dateModified" content="2021-08-05T16:25:39&#43;08:00" />
+<meta itemprop="wordCount" content="13505">
 
 
 
@@ -1606,7 +1606,7 @@ int main() {
 <details class="admonition note"><summary class="admonition-title">题解</summary>
 <p>区间覆盖模型，上面讲过了。</p>
 <p>连 $(s,1,inf,0), (n+1,t,inf,0)$，同时对于每一个 $i$，连 $(i,i+1,inf-a_i,0)$。</p>
-<p>对于每种工人，连 $(s_i, t_i, inf, c_i)$。</p>
+<p>对于每种工人，连 $(s_i, t_i + 1, inf, c_i)$。</p>
 <p>跑最小费用最大流即可。</p>
 </details>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
@@ -1874,8 +1874,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-08-01 01:12:21 &#43;0000 UTC">2021-08-01</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/78aff4646ad083a357d4ae31a80dc01f6de7ffa1" title="chore: update clicks" target="_blank">(78aff46)</a>
+        <span title="2021-08-05 16:25:39 &#43;0800 &#43;0800">2021-08-05</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/d638415408a64cfd97cebe2bfcc7aedd7ebff8fe" title="fix cf-problems ok-try bug" target="_blank">(d638415)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/047-%e7%bd%91%e7%bb%9c%e6%b5%81.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -1891,7 +1891,11 @@ int main() {
           <a href="/tags/%E6%9C%80%E5%A4%A7%E6%B5%81/">最大流</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/048-%E6%A6%82%E7%8E%87%E6%9C%9F%E6%9C%9B/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">概率期望</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
         <a class="next" href="/post/046-%E4%BA%8C%E5%88%86%E5%9B%BE/">
             <span class="next-text nav-default">二分图 &amp; 二分图匹配</span>
             <span class="next-text nav-mobile">Next</span>

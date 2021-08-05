@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>背包问题 - tom0727&#39;s blog</title>
+  <title>概率期望 - tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="多重背包二进制 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &amp;gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; V; while (n--) { int v,w,s; cin &amp;gt;&amp;gt; v &amp;gt;&amp;gt; w &amp;gt;&amp;gt; s; int k = 1; while (k &amp;lt;= s) { pack01(v*k, w*k); s -= k;" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="例1 洛谷P1850 [NOIP2016 提高组] 换教室 题意 有 $n$ 个时间段，每个时间段有 $2$ 节课程。其中在时间段 $i$ 的两节课，分别在教室 $c_i, d_i$ 上。 对于所有的时间段 $i$，" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
-<link rel="canonical" href="https://tom0727.github.io/post/039-%E8%83%8C%E5%8C%85/" />
+<link rel="canonical" href="https://tom0727.github.io/post/048-%E6%A6%82%E7%8E%87%E6%9C%9F%E6%9C%9B/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,23 +39,23 @@
 
 
 
-<meta property="og:title" content="背包问题" />
-<meta property="og:description" content="多重背包二进制 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &gt;&gt; n &gt;&gt; V; while (n--) { int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s; int k = 1; while (k &lt;= s) { pack01(v*k, w*k); s -= k;" />
+<meta property="og:title" content="概率期望" />
+<meta property="og:description" content="例1 洛谷P1850 [NOIP2016 提高组] 换教室 题意 有 $n$ 个时间段，每个时间段有 $2$ 节课程。其中在时间段 $i$ 的两节课，分别在教室 $c_i, d_i$ 上。 对于所有的时间段 $i$，" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/039-%E8%83%8C%E5%8C%85/" />
-<meta property="article:published_time" content="2021-04-11T21:42:06+08:00" />
-<meta property="article:modified_time" content="2021-04-18T18:53:31+08:00" />
-<meta itemprop="name" content="背包问题">
-<meta itemprop="description" content="多重背包二进制 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &gt;&gt; n &gt;&gt; V; while (n--) { int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s; int k = 1; while (k &lt;= s) { pack01(v*k, w*k); s -= k;">
-<meta itemprop="datePublished" content="2021-04-11T21:42:06&#43;08:00" />
-<meta itemprop="dateModified" content="2021-04-18T18:53:31&#43;08:00" />
-<meta itemprop="wordCount" content="262">
+<meta property="og:url" content="https://tom0727.github.io/post/048-%E6%A6%82%E7%8E%87%E6%9C%9F%E6%9C%9B/" />
+<meta property="article:published_time" content="2021-07-27T17:57:28+08:00" />
+<meta property="article:modified_time" content="2021-08-05T16:25:39+08:00" />
+<meta itemprop="name" content="概率期望">
+<meta itemprop="description" content="例1 洛谷P1850 [NOIP2016 提高组] 换教室 题意 有 $n$ 个时间段，每个时间段有 $2$ 节课程。其中在时间段 $i$ 的两节课，分别在教室 $c_i, d_i$ 上。 对于所有的时间段 $i$，">
+<meta itemprop="datePublished" content="2021-07-27T17:57:28&#43;08:00" />
+<meta itemprop="dateModified" content="2021-08-05T16:25:39&#43;08:00" />
+<meta itemprop="wordCount" content="1007">
 
 
 
-<meta itemprop="keywords" content="DP,背包," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="背包问题"/>
-<meta name="twitter:description" content="多重背包二进制 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &gt;&gt; n &gt;&gt; V; while (n--) { int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s; int k = 1; while (k &lt;= s) { pack01(v*k, w*k); s -= k;"/>
+<meta itemprop="keywords" content="概率,期望,数学," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="概率期望"/>
+<meta name="twitter:description" content="例1 洛谷P1850 [NOIP2016 提高组] 换教室 题意 有 $n$ 个时间段，每个时间段有 $2$ 节课程。其中在时间段 $i$ 的两节课，分别在教室 $c_i, d_i$ 上。 对于所有的时间段 $i$，"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -131,10 +131,10 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">背包问题</h1>
+      <h1 class="post-title">概率期望</h1>
 
       <div class="post-meta">
-        <span class="post-time" title="2021-04-11 21:42:06 &#43;0800 &#43;0800"> 2021-04-11 </span>
+        <span class="post-time" title="2021-07-27 17:57:28 &#43;0800 &#43;0800"> 2021-07-27 </span>
         <div class="post-category">
             <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
             </div>
@@ -152,8 +152,7 @@
       <ul>
         <li>
           <ul>
-            <li><a href="#多重背包二进制">多重背包二进制</a></li>
-            <li><a href="#多重背包单调队列优化">多重背包（单调队列优化）</a></li>
+            <li><a href="#例1-洛谷p1850-noip2016-提高组-换教室httpswwwluogucomcnproblemp1850">例1 <a href="https://www.luogu.com.cn/problem/P1850">洛谷P1850 [NOIP2016 提高组] 换教室</a></a></li>
           </ul>
         </li>
       </ul>
@@ -163,66 +162,105 @@
   </div>
 </div>
     <div class="post-content">
-      <h3 id="多重背包二进制">多重背包二进制</h3>
-<pre><code class="language-cpp">int n, V;
-int dp[2005];
+      <h3 id="例1-洛谷p1850-noip2016-提高组-换教室httpswwwluogucomcnproblemp1850">例1 <a href="https://www.luogu.com.cn/problem/P1850" target="_blank">洛谷P1850 [NOIP2016 提高组] 换教室</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $n$ 个时间段，每个时间段有 $2$ 节课程。其中在时间段 $i$ 的两节课，分别在教室 $c_i, d_i$ 上。</p>
+<p>对于所有的时间段 $i$，牛牛预先被安排在 $c_i$ 上课。</p>
+<p>对于一个时间段 $i$，牛牛可以申请转到教室 $d_i$ 上课。但这个申请只有 $k_i$ 的概率被批准。</p>
+<p>牛牛最多可以申请 $m$ 个时间段，但是<strong>所有申请必须一次性提交</strong>。</p>
+<p>同时，校园可以看作是一个图，教室为节点（共 $v$ 个教室），教室之间有双向边（共 $e$ 个边），边有长度。</p>
+<p>每当一节课结束后，牛牛会沿着最短路径走到下一节课所在的教室。</p>
+<p>现在牛牛想知道，怎么申请时间段，使得他在教室间移动的路程长度期望值最小，求出这个最小期望。</p>
+<p>其中，$1 \leq n \leq 2000, 0 \leq m \leq 2000, 1 \leq v \leq 300, 0 \leq e \leq 90000$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先用 floyd $O(n^3)$ 求出每两个节点之间的最短路长度。</p>
+<p>然后一个很明显的 DP 思路：</p>
+<p>设 $dp[i][j][k]$ 为：当前考虑第 $i$ 个时间段，还剩下 $j$ 次申请机会，$k=0/1$ 代表当前在哪个教室。</p>
+<p>这个思路看起来很有道理，但是不正确。因为题目提到 <strong>所有申请必须一次性提交</strong>。</p>
+<p>而 $k=0/1$ 如果代表当前在哪个教室，就说明我们已经知道了当前的申请结果，来考虑后面的时间段是否申请。这会导致我们的决策更加的精明，从而使得答案小于正确答案。</p>
+<hr>
+<p>正确的状态为：$dp[i][j][k]$：当前考虑第 $i$ 个时间段，还剩下 $j$ 次申请机会，$k=0/1$ 代表当前 <strong>是否申请过</strong>，$dp$ 数组的值代表路径长度期望值。</p>
+<p>然后转移的时候，就要分类讨论 <strong>是否申请下一个时间段</strong>，得到两个结果，取 $\min$ 就得到了当前状态的答案。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2002;
 
-void pack01(int v, int w) {
-    for (int j = V; j &gt;= v; j--) {
-        dp[j] = max(dp[j], dp[j-v] + w);
+int n,m,v,e, c[maxn], d[maxn];
+double k[maxn];
+int adj[302][302], dis[302][302];
+double dp[maxn][maxn][2];
+
+// K = 1: 已申请， K = 0: 未申请
+double dfs(int i, int j, int K) {
+    if (i &gt;= n) return 0.0;
+    if (dp[i][j][K] &gt;= 0.0) return dp[i][j][K];
+    double r1 = 1e18, r2 = 1e18;
+
+    // next: 申请/不申请
+    if (K) {
+        r1 = k[i] * (dfs(i+1, j, 0) + dis[d[i]][c[i+1]]) + (1.0 - k[i]) * (dfs(i+1, j, 0) + dis[c[i]][c[i+1]]);
+        if (j &gt; 0)
+            r2 = k[i] * (k[i+1] * (dfs(i+1, j-1, 1) + dis[d[i]][d[i+1]]) + (1.0 - k[i+1]) * (dfs(i+1, j-1, 1) + dis[d[i]][c[i+1]])) 
+            + (1.0 - k[i]) * (k[i+1] * (dfs(i+1, j-1, 1) + dis[c[i]][d[i+1]]) + (1.0 - k[i+1]) * (dfs(i+1, j-1, 1) + dis[c[i]][c[i+1]]));
+    } else {
+        r1 = 1.0 * (dfs(i+1, j, 0) + dis[c[i]][c[i+1]]);
+        if (j &gt; 0) r2 = k[i+1] * (dfs(i+1, j-1, 1) + dis[c[i]][d[i+1]]) + (1.0 - k[i+1]) * (dfs(i+1, j-1, 1) + dis[c[i]][c[i+1]]);
     }
+
+    return dp[i][j][K] = min(r1, r2);
 }
 
 int main() {
-    cin &gt;&gt; n &gt;&gt; V;
-    while (n--) {
-        int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s;
-        int k = 1;
-        while (k &lt;= s) {
-            pack01(v*k, w*k);
-            s -= k;
-            k &lt;&lt;= 1;
-        }
-        pack01(v*s, w*s);
+    scanf(&quot;%d%d%d%d&quot;,&amp;n,&amp;m,&amp;v,&amp;e);
+    for (int i = 1; i &lt;= n; i++) scanf(&quot;%d&quot;, &amp;c[i]);
+    for (int i = 1; i &lt;= n; i++) scanf(&quot;%d&quot;, &amp;d[i]);
+    for (int i = 1; i &lt;= n; i++) scanf(&quot;%lf&quot;, &amp;k[i]);
+
+    for (int i = 1; i &lt;= e; i++) {
+        int u,v,w; scanf(&quot;%d%d%d&quot;,&amp;u,&amp;v,&amp;w);
+        if (adj[u][v]) {
+            if (adj[u][v] &gt; w) adj[u][v] = adj[v][u] = w;
+        } else adj[u][v] = adj[v][u] = w;
     }
-    int ans = 0;
-    for (int j = 0; j &lt;= V; j++) ans = max(ans, dp[j]);
-    cout &lt;&lt; ans &lt;&lt; endl;
-}
-</code></pre>
-<h3 id="多重背包单调队列优化">多重背包（单调队列优化）</h3>
-<pre><code class="language-cpp">struct node {
-    int pos, val;
-} q[20005];
-int head = -1, tail = 0, n, V, dp[20005];
-
-void solve(int v, int w, int s) {
-    for (int j = 0; j &lt; v; j++) {
-        head = 0, tail = -1;
-        q[++tail] = {0,0};
-        for (int i = 1; i*v + j &lt;= V; i++) {
-            while (i - q[head].pos &gt; s) head++;
-            int cur = i*v + j;
-            int val = dp[cur] - i*w;
-            dp[cur] = max(dp[cur], q[head].val + i*w);
-
-            while (head &lt;= tail &amp;&amp; val &gt;= q[tail].val) tail--;
-            q[++tail] = {i, val};
+    memset(dis, 0x3f3f3f3f, sizeof(dis));
+    for (int i = 1; i &lt;= v; i++) {
+        for (int j = 1; j &lt;= v; j++) {
+            if (adj[i][j])
+                dis[i][j] = dis[j][i] = adj[i][j];
         }
     }
-}
+    for (int i = 1; i &lt;= v; i++) dis[i][i] = 0;
+    for (int k = 1; k &lt;= v; k++) {
+        for (int i = 1; i &lt;= v; i++) {
+            for (int j = 1; j &lt;= v; j++) {
+                dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
+            }
+        }
+    }
 
-int main() {
-    cin &gt;&gt; n &gt;&gt; V;
+
+
     for (int i = 1; i &lt;= n; i++) {
-        int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s;
-        solve(v,w,s);
+        for (int j = 0; j &lt;= m; j++) {
+            dp[i][j][0] = dp[i][j][1] = -1;
+        }
     }
-    int ans = 0;
-    for (int j = 0; j &lt;= V; j++) ans = max(ans, dp[j]);
-    cout &lt;&lt; ans &lt;&lt; endl;
+
+    double ans1 = 1.0 * dfs(1, m, 0), ans2 = 1e18;
+    if (m &gt; 0) {
+        ans2 = 1.0 * dfs(1, m-1, 1);
+    }
+    
+    double ans = min(ans1, ans2);
+    printf(&quot;%.2lf\n&quot;, ans);
+    
 }
 </code></pre>
+</details>
 
     </div>
 
@@ -234,9 +272,9 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-04-18 18:53:31 &#43;0800 &#43;0800">2021-04-18</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/2a126d55fdda19a47992b3d9577c27ade5535b08" title="init 042.md, fix problem of --more--" target="_blank">(2a126d5)</a>
-        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/039-%e8%83%8c%e5%8c%85.md" target="_blank">更新历史</a>
+        <span title="2021-08-05 16:25:39 &#43;0800 &#43;0800">2021-08-05</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/d638415408a64cfd97cebe2bfcc7aedd7ebff8fe" title="fix cf-problems ok-try bug" target="_blank">(d638415)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/048-%e6%a6%82%e7%8e%87%e6%9c%9f%e6%9c%9b.md" target="_blank">更新历史</a>
     </span>
   </p>
   
@@ -247,17 +285,14 @@ int main() {
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/dp/">DP</a>
-          <a href="/tags/%E8%83%8C%E5%8C%85/">背包</a>
+          <a href="/tags/%E6%A6%82%E7%8E%87/">概率</a>
+          <a href="/tags/%E6%9C%9F%E6%9C%9B/">期望</a>
+          <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/040-scc/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">强连通分量（SCC）</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/037-%E6%A0%91%E4%B8%8A%E5%B7%AE%E5%88%86/">
-            <span class="next-text nav-default">树上差分</span>
+        
+        <a class="next" href="/post/047-%E7%BD%91%E7%BB%9C%E6%B5%81/">
+            <span class="next-text nav-default">网络流</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

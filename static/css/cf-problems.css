@@ -23,11 +23,11 @@
 }
 
 .TRY-OK {
-    background: linear-gradient(to bottom, #d4edc9 50%, #ffe3e3 50%);
+    background: linear-gradient(to top, #d4edc9 50%, #ffe3e3 50%);
 }
 
 .OK-TRY {
-    background: linear-gradient(to top, #d4edc9 50%, #ffe3e3 50%);
+    background: linear-gradient(to bottom, #d4edc9 50%, #ffe3e3 50%);
 }
 
     .main-table-wrapper {

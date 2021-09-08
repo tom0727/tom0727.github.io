@@ -11,7 +11,7 @@ https://tom0727.gitee.io/
 
 # About me
 
-- Year 3 Undergraduate student **@ HKU** (The University of Hong Kong), **2018-2022**
+- Year 4 Undergraduate student **@ HKU** (The University of Hong Kong), **2018-2022**
 - Major in Computer Science
 - Competitive programming as hobby <br>
 

@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/048-%E6%A6%82%E7%8E%87%E6%9C%9F%E6%9C%9B/" />
 <meta property="article:published_time" content="2021-07-27T17:57:28+08:00" />
-<meta property="article:modified_time" content="2021-08-28T00:50:16+00:00" />
+<meta property="article:modified_time" content="2021-09-08T12:57:00+08:00" />
 <meta itemprop="name" content="概率期望">
 <meta itemprop="description" content="例1 洛谷P1850 [NOIP2016 提高组] 换教室 题意 有 $n$ 个时间段，每个时间段有 $2$ 节课程。其中在时间段 $i$ 的两节课，分别在教室 $c_i, d_i$ 上。 对于所有的时间段 $i$，">
 <meta itemprop="datePublished" content="2021-07-27T17:57:28&#43;08:00" />
-<meta itemprop="dateModified" content="2021-08-28T00:50:16&#43;00:00" />
-<meta itemprop="wordCount" content="1007">
+<meta itemprop="dateModified" content="2021-09-08T12:57:00&#43;08:00" />
+<meta itemprop="wordCount" content="3434">
 
 
 
@@ -153,6 +153,8 @@
         <li>
           <ul>
             <li><a href="#例1-洛谷p1850-noip2016-提高组-换教室httpswwwluogucomcnproblemp1850">例1 <a href="https://www.luogu.com.cn/problem/P1850">洛谷P1850 [NOIP2016 提高组] 换教室</a></a></li>
+            <li><a href="#例2-洛谷p3830-shoi2012随机树httpswwwluogucomcnproblemp3830">例2 <a href="https://www.luogu.com.cn/problem/P3830">洛谷P3830 [SHOI2012]随机树</a></a></li>
+            <li><a href="#例3-洛谷-p2221-haoi2012高速公路httpswwwluogucomcnproblemp2221">例3 <a href="https://www.luogu.com.cn/problem/P2221">洛谷 P2221 [HAOI2012]高速公路</a></a></li>
           </ul>
         </li>
       </ul>
@@ -261,6 +263,264 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例2-洛谷p3830-shoi2012随机树httpswwwluogucomcnproblemp3830">例2 <a href="https://www.luogu.com.cn/problem/P3830" target="_blank">洛谷P3830 [SHOI2012]随机树</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵二叉树，初始状态下只有根节点。每次操作会在所有叶子节点中，等概率选择一个，给它添加左右两个child。</p>
+<p>给定正整数 $n$，求：对于由此生成的含有 $n$ 个叶子节点的二叉树，输出 <strong>叶子结点深度</strong> 的期望值，和 <strong>树深度</strong> 的期望值。</p>
+<p>其中，$n \leq 100$，根节点的深度为 $0$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>先考虑一下 <strong>叶子结点深度</strong> 的期望值。</p>
+<p>每次扩展一个叶子，设其原深度为 $x$，相当于总深度增加了 $2(x+1) - x = x+2$。</p>
+<p>所以设，对于 $n$ 个叶子的树，平均叶子深度若为 $f_n$，则总深度为 $f_n * n$。</p>
+<p>所以在这个树中选择一个叶子展开，平均叶子增加深度为 $f_n + 2$。</p>
+<p>所以 $f_{n+1} = \frac{(f_n * n + f_n + 2)}{n+1} = f_n + \frac{2}{n+1}$。</p>
+<hr>
+<p>然后看第二问，<strong>树深度</strong> 的期望值。</p>
+<p>在做到这里的时候我的想法出现了一些偏差：我一直在考虑如何将 叶子数为 $(n-1)$ 的状态转移到 叶子数为 $n$ 的状态。</p>
+<p>但是实际做法是一个很神奇的想法：</p>
+<blockquote>
+<p>使用 <strong>左，右子树</strong> 进行转移。</p>
+</blockquote>
+<p>设 $dp[i][j]$ 为：有 $i$ 个叶子节点，深度 $\geq j$ 的概率，枚举 <strong>左子树</strong> 叶子节点数量 $k$，有以下转移：</p>
+<p>$$dp[i][j] = \frac{\sum\limits_{k=1}^{i-1}dp[k][j-1] + dp[i-k][j-1] - dp[k][j-1] * dp[i-k][j-1]}{i-1}$$</p>
+<p>什么意思呢？我们先看分子：</p>
+<p>显然对于根节点来说，它左右子树必然不为空，所以转移的时候 $k=1$ 开始，到 $(i-1)$，能转移的状态是深度为 $j-1$ 的，所以都加上。</p>
+<p>但是因为两边深度均为 $j-1$ 算重了，所以用容斥减去重复的部分 $dp[k][j-1] * dp[i-k][j-1]$。</p>
+<p>分子 $(i-1)$ 是哪里来的呢？因为考虑到期望的定义是 <strong>值 乘上 概率</strong> 之和。对于 $k$ 不同的情况，有不同的概率。</p>
+<p>但是我们可以得出结论，每一种概率都是相同的。</p>
+<p>意思就是：对于一棵 $n$ 个叶子节点的树，左子树拥有的叶子节点数量为 $1,2,&hellip;,n-1$，发生的概率均相同。</p>
+<hr>
+<p>证明：用数学归纳法即可。</p>
+<p>首先可以得到对于 $n=2$ 是相同的。</p>
+<p>我们设 $p[i][j]$ 为：叶子节点数为 $i$ 的树中，左子树有 $j$ 个叶子节点的概率。</p>
+<p>则 $p[i][j] = p[i-1][j-1] * \frac{j-1}{i-1} + p[i-1][j] * \frac{(i-1)-j}{i-1}$</p>
+<p>由数学归纳法，设对于 $(i-1)$ 而言，$\forall j \in [1,i-2], p[i-1][j] = \frac{1}{i-2}$。</p>
+<p>则 $p[i][j] = \frac{1}{i-2} * \frac{j-1}{i-1} + \frac{1}{i-2} * \frac{(i-1)-j}{i-1} = \frac{1}{i-1}$，与 $j$ 无关。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int q,n;
+double dp[102][102];  // dp[i][j]: 对于第i步，深度为j的期望叶子节点期望个数
+
+int main() {
+    scanf(&quot;%d%d&quot;,&amp;q,&amp;n);
+    double ans = 0.0;
+    if (q == 1) {
+        
+        dp[1][0] = 1.0;
+
+        // 第 i 步有 2i-1 个节点, 有 i 个叶子节点
+        for (int i = 1; i &lt;= n-1; i++) {
+            for (int j = 0; j &lt;= i-1; j++) {
+                double p = dp[i][j] / (i);
+                dp[i+1][j+1] += p * 2.0;
+                dp[i+1][j] -= p * 1.0;
+            }
+            for (int j = 0; j &lt;= i-1; j++) dp[i+1][j] += dp[i][j];
+        }
+        for (int j = 0; j &lt;= n; j++) ans += dp[n][j] * j;
+        printf(&quot;%.6f\n&quot;, ans/(n));
+    } else {
+        for (int i = 0; i &lt;= n; i++) dp[i][0] = 1.0;
+        dp[0][0] = 1.0;
+        dp[1][0] = 1.0;
+        dp[2][0] = dp[2][1] = 1.0;
+        for (int i = 3; i &lt;= n; i++) {
+            for (int j = 1; j &lt; i; j++) {
+                for (int k = 1; k &lt;= i-1; k++) {
+                    dp[i][j] += dp[k][j-1] + dp[i-k][j-1] - dp[k][j-1] * dp[i-k][j-1];
+                }
+                dp[i][j] /= (i-1);
+            }
+        }
+        for (int j = n-1; j &gt;= 0; j--) {
+            double p = - dp[n][j+1] + dp[n][j];
+            ans += (p * j);
+        }
+        printf(&quot;%.6f\n&quot;, ans);
+    }
+}
+</code></pre>
+</details>
+<h3 id="例3-洛谷-p2221-haoi2012高速公路httpswwwluogucomcnproblemp2221">例3 <a href="https://www.luogu.com.cn/problem/P2221" target="_blank">洛谷 P2221 [HAOI2012]高速公路</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>一条线上有 $n$ 个收费站，从第 $i$ 个到第 $(i+1)$ 个收费站之间有一条路，通过一条路需要交费。初始状态下，每条路的费用为 $0$。</p>
+<p>给定 $m$ 个询问，每个询问为两种之一：</p>
+<p>$C ~ l ~ r ~ v$：将第 $l$ 到第 $r$ 个收费站之间的所有道路费用增加 $v$。</p>
+<p>$Q ~ l ~ r$：回答在第 $l$ 到第 $r$ 个收费站之间，等概率选择两个不同的收费站 $a,b$，从 $a$ 行驶到 $b$ 的期望费用？</p>
+<p>其中，$1 \leq n,m \leq 10^5, -10^4 \leq v \leq 10^4$，在任何时间段，任何一条道路的费用绝对值不超过 $10^4$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>线段树。首先把收费站转成道路，就对于所有的 $l,r$，都改成 $l,r-1$。对于线段树，从 $1$ 和 $n-1$ 之间build。</p>
+<p>计算期望的时候，可以知道分母是 $C_{r-l}^2$。分子是从 $l,r$ 之间所有的选择之和。</p>
+<p>现在问题是：如何求出一个区间内，所有可能的 $l,r$ 组合的区间和的和？</p>
+<p>数学表达：对于区间 $[L,R]$，求</p>
+<p>$$\sum\limits_{i=L}^R\sum\limits_{j=i}^R sum(arr[i&hellip;j])$$</p>
+<hr>
+<p>直接从线段树的角度来考虑：一个区间的 $\sum\limits_{i=l}^r\sum\limits_{j=i}^r sum(arr[i&hellip;j])$，能否用左右区间的这个信息来维护？</p>
+<p>可以的，注意到：对于一个区间 $[L,R]$ 来说，所有 $l,r$ 的组合可以分为三种：</p>
+<ol>
+<li>$l,r \in [L, mid]$</li>
+<li>$l,r \in [mid+1, R]$</li>
+<li>$l \in [L, mid], r \in [mid+1, R]$</li>
+</ol>
+<p>前两种已经被子区间用到了，只要考虑第三种情况即可。</p>
+<p>所以问题就转化成：</p>
+<p>对于一个区间 $[L,R]$，求</p>
+<p>$$\sum\limits_{i=L}^{mid}\sum\limits_{j=mid+1}^R sum(arr[i&hellip;j])$$</p>
+<hr>
+<p>对于这个问题，我们可以固定 $l,r$ 其中之一。</p>
+<p>比如我们固定 $l=mid$，那么 $r$ 会从 $mid+1$ 一直iterate到 $R$，得到的 sum 就是：</p>
+<p>$$sum(arr[mid&hellip;mid+1]) + sum(arr[mid&hellip;mid+2]) + &hellip; + sum(arr[mid&hellip;R])$$</p>
+<p>把它从 $mid$ 的位置拆开来，就等于：</p>
+<p>$$(R-mid) * arr[mid] + sum(arr[mid+1&hellip;mid+1]) + sum(arr[mid+1&hellip;mid+2]) + sum(arr[mid+1&hellip;R])$$</p>
+<p>$$=(R-mid) * arr[mid] + \sum\limits_{l=mid+1}^R sum(arr[l&hellip;R])$$</p>
+<p>发现：$\sum\limits_{l=mid+1}^R sum(arr[l&hellip;R])$ 是可以用线段树来维护的。</p>
+<hr>
+<p>所以最后，我们维护几个值：</p>
+<ol>
+<li>一个区间的 $sum$</li>
+<li>一个区间的 $lsum$：指 $\sum\limits_{r=L}^R sum(arr[L&hellip;r])$</li>
+<li>一个区间的 $rsum$：指 $\sum\limits_{l=R}^L sum(arr[l&hellip;R])$</li>
+<li>一个区间的 $allsum$：指所求，即 $\sum\limits_{i=L}^{mid}\sum\limits_{j=mid+1}^R sum(arr[i&hellip;j])$</li>
+</ol>
+<p>转移方程见代码。</p>
+<hr>
+<p>• 注意到在线段树 $query$ 的过程中，合并的时候仍然要用转移方程，而不能直接用左右的 $allsum$ 的和。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+ll gcd(ll a, ll b) {
+    if (!b) return a;
+    return gcd(b, a%b);
+}
+
+ll cnt[maxn];
+ll n,m; char op;
+
+struct node {
+    ll lsum, rsum, sum, allsum;
+    ll lazy = 0;
+} tr[maxn&lt;&lt;2];
+
+ll C(ll a) {
+    return a * (a+1) / 2LL;
+}
+
+void push_down(ll cur, ll L, ll R) {
+    if (!tr[cur].lazy) return;
+    ll lazy = tr[cur].lazy;
+    tr[cur].lazy = 0;
+    ll mid = (L+R) &gt;&gt; 1;
+    ll l = cur&lt;&lt;1, r = l+1;
+    tr[l].lazy += lazy, tr[r].lazy += lazy;
+
+    ll llen = (mid - L + 1), rlen = (R - mid);
+
+    tr[l].sum += llen * lazy;
+    tr[r].sum += rlen * lazy;
+
+    tr[l].lsum += C(llen) * lazy;
+    tr[r].lsum += C(rlen) * lazy;
+
+    tr[l].rsum += C(llen) * lazy;
+    tr[r].rsum += C(rlen) * lazy;
+
+    tr[l].allsum += cnt[llen] * lazy;
+    tr[r].allsum += cnt[rlen] * lazy;
+}
+
+void push_up(ll cur, ll L, ll R) {
+    ll l = cur&lt;&lt;1, r = l+1;
+    ll mid = (L+R) &gt;&gt; 1;
+    ll llen = (mid - L + 1), rlen = (R - mid);
+    tr[cur].sum = tr[l].sum + tr[r].sum;
+    tr[cur].lsum = tr[l].lsum + tr[r].lsum + rlen * tr[l].sum;
+    tr[cur].rsum = tr[l].rsum + tr[r].rsum + llen * tr[r].sum;
+    tr[cur].allsum = tr[l].rsum * rlen + tr[r].lsum * llen + tr[l].allsum + tr[r].allsum;
+}
+
+void update(ll cur, ll l, ll r, ll L, ll R, ll val) {
+    ll len = (r-l+1);
+    if (L &lt;= l &amp;&amp; R &gt;= r) {
+        tr[cur].lazy += val;
+        tr[cur].sum += len * val;
+        tr[cur].lsum += C(len) * val;
+        tr[cur].rsum += C(len) * val;
+        tr[cur].allsum += cnt[len] * val;
+        return;
+    }
+    ll mid = (l+r) &gt;&gt; 1;
+    push_down(cur, l, r);
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, val);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, val);
+    push_up(cur, l, r);
+}
+
+node query(ll cur, ll l, ll r, ll L, ll R) {
+    if (L &lt;= l &amp;&amp; R &gt;= r) {
+        return tr[cur];
+    }
+    push_down(cur, l, r);
+    ll mid = (l+r) &gt;&gt; 1;
+    node lnode {}, rnode {}, curnode {};
+    ll llen = max(mid - max(L, l) + 1, 0), rlen = max(min(R, r) - mid, 0);
+    if (L &lt;= mid) lnode = query(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) rnode = query(cur&lt;&lt;1|1, mid+1, r, L, R);
+    curnode.sum = lnode.sum + rnode.sum;
+    curnode.lsum = lnode.lsum + rnode.lsum + rlen * lnode.sum;
+    curnode.rsum = lnode.rsum + rnode.rsum + llen * rnode.sum;
+    curnode.allsum = lnode.allsum + rnode.allsum + lnode.rsum * rlen + rnode.lsum * llen;
+    push_up(cur, l, r);
+    return curnode;
+}
+
+void init() {
+    cnt[1] = 1;
+    cnt[2] = 4;
+    for (ll i = 3; i &lt;= maxn-5; i++) {
+        ll mid = (1+i) &gt;&gt; 1;
+        ll j = mid, k = i-mid;
+        cnt[i] = cnt[j] + cnt[k] + C(j) * k + C(k) * j;
+    }
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m;
+    init();
+    n--;
+    while (m--) {
+        cin &gt;&gt; op;
+        if (op == 'C') {
+            ll l,r,v; cin &gt;&gt; l &gt;&gt; r &gt;&gt; v;
+            r--;
+            update(1, 1, n, l, r, v);
+        } else {
+            ll l,r; cin &gt;&gt; l &gt;&gt; r;
+            r--;
+            ll res = query(1, 1, n, l, r).allsum;
+            int flag = 1;
+            if (res &lt; 0) flag = -1;
+            res = abs(res);
+            ll d = C(r-l+1);
+            ll g = gcd(res,d);
+            res /= g;
+            d /= g;
+            if (flag &lt; 0) cout &lt;&lt; &quot;-&quot;;
+            cout &lt;&lt; res &lt;&lt; &quot;/&quot; &lt;&lt; d &lt;&lt; &quot;\n&quot;;
+        }
+    }
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -272,8 +532,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-08-28 00:50:16 &#43;0000 UTC">2021-08-28</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/ef630d31b02ae19e45627f3cf0bed8dcbe4c550d" title="chore: update CF Problems" target="_blank">(ef630d3)</a>
+        <span title="2021-09-08 12:57:00 &#43;0800 &#43;0800">2021-09-08</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f513ba30c8cbaf8f79dfaad13a007fbcf8b7ffa7" title="update about me" target="_blank">(f513ba3)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/048-%e6%a6%82%e7%8e%87%e6%9c%9f%e6%9c%9b.md" target="_blank">更新历史</a>
     </span>
   </p>

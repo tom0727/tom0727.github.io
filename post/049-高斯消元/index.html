@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>背包问题 - tom0727&#39;s blog</title>
+  <title>高斯消元 - tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="多重背包二进制 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &amp;gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; V; while (n--) { int v,w,s; cin &amp;gt;&amp;gt; v &amp;gt;&amp;gt; w &amp;gt;&amp;gt; s; int k = 1; while (k &amp;lt;= s) { pack01(v*k, w*k); s -= k;" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 高斯消元是矩阵操作里最基础的一个，主要用于解形如 $a_1x_1 &#43; a_2x_2 &#43; a_3x_3 = b_1$ 之类的线性方程组。 步骤 按 column 进行遍历 遍历到第 $k$ 个 column 时，在这个column中，" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
-<link rel="canonical" href="https://tom0727.github.io/post/039-%E8%83%8C%E5%8C%85/" />
+<link rel="canonical" href="https://tom0727.github.io/post/049-%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,23 +39,23 @@
 
 
 
-<meta property="og:title" content="背包问题" />
-<meta property="og:description" content="多重背包二进制 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &gt;&gt; n &gt;&gt; V; while (n--) { int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s; int k = 1; while (k &lt;= s) { pack01(v*k, w*k); s -= k;" />
+<meta property="og:title" content="高斯消元" />
+<meta property="og:description" content="介绍 高斯消元是矩阵操作里最基础的一个，主要用于解形如 $a_1x_1 &#43; a_2x_2 &#43; a_3x_3 = b_1$ 之类的线性方程组。 步骤 按 column 进行遍历 遍历到第 $k$ 个 column 时，在这个column中，" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/039-%E8%83%8C%E5%8C%85/" />
-<meta property="article:published_time" content="2021-04-11T21:42:06+08:00" />
-<meta property="article:modified_time" content="2021-04-18T18:53:31+08:00" />
-<meta itemprop="name" content="背包问题">
-<meta itemprop="description" content="多重背包二进制 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &gt;&gt; n &gt;&gt; V; while (n--) { int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s; int k = 1; while (k &lt;= s) { pack01(v*k, w*k); s -= k;">
-<meta itemprop="datePublished" content="2021-04-11T21:42:06&#43;08:00" />
-<meta itemprop="dateModified" content="2021-04-18T18:53:31&#43;08:00" />
-<meta itemprop="wordCount" content="262">
+<meta property="og:url" content="https://tom0727.github.io/post/049-%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83/" />
+<meta property="article:published_time" content="2021-09-10T22:00:43+08:00" />
+<meta property="article:modified_time" content="2021-09-13T16:44:34+08:00" />
+<meta itemprop="name" content="高斯消元">
+<meta itemprop="description" content="介绍 高斯消元是矩阵操作里最基础的一个，主要用于解形如 $a_1x_1 &#43; a_2x_2 &#43; a_3x_3 = b_1$ 之类的线性方程组。 步骤 按 column 进行遍历 遍历到第 $k$ 个 column 时，在这个column中，">
+<meta itemprop="datePublished" content="2021-09-10T22:00:43&#43;08:00" />
+<meta itemprop="dateModified" content="2021-09-13T16:44:34&#43;08:00" />
+<meta itemprop="wordCount" content="1100">
 
 
 
-<meta itemprop="keywords" content="DP,背包," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="背包问题"/>
-<meta name="twitter:description" content="多重背包二进制 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &gt;&gt; n &gt;&gt; V; while (n--) { int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s; int k = 1; while (k &lt;= s) { pack01(v*k, w*k); s -= k;"/>
+<meta itemprop="keywords" content="," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="高斯消元"/>
+<meta name="twitter:description" content="介绍 高斯消元是矩阵操作里最基础的一个，主要用于解形如 $a_1x_1 &#43; a_2x_2 &#43; a_3x_3 = b_1$ 之类的线性方程组。 步骤 按 column 进行遍历 遍历到第 $k$ 个 column 时，在这个column中，"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -131,10 +131,10 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">背包问题</h1>
+      <h1 class="post-title">高斯消元</h1>
 
       <div class="post-meta">
-        <span class="post-time" title="2021-04-11 21:42:06 &#43;0800 &#43;0800"> 2021-04-11 </span>
+        <span class="post-time" title="2021-09-10 22:00:43 &#43;0800 &#43;0800"> 2021-09-10 </span>
         <div class="post-category">
             <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
             </div>
@@ -150,10 +150,15 @@
   <ul>
     <li>
       <ul>
-        <li>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#步骤">步骤</a>
           <ul>
-            <li><a href="#多重背包二进制">多重背包二进制</a></li>
-            <li><a href="#多重背包单调队列优化">多重背包（单调队列优化）</a></li>
+            <li><a href="#模版-p3389-模板高斯消元法httpswwwluogucomcnproblemp3389">模版 <a href="https://www.luogu.com.cn/problem/P3389">P3389 【模板】高斯消元法</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p2447-sdoi2010外星千足虫httpswwwluogucomcnproblemp2447">例1 <a href="https://www.luogu.com.cn/problem/P2447">洛谷P2447 [SDOI2010]外星千足虫</a></a></li>
           </ul>
         </li>
       </ul>
@@ -163,66 +168,146 @@
   </div>
 </div>
     <div class="post-content">
-      <h3 id="多重背包二进制">多重背包二进制</h3>
-<pre><code class="language-cpp">int n, V;
-int dp[2005];
+      <h2 id="介绍">介绍</h2>
+<p>高斯消元是矩阵操作里最基础的一个，主要用于解形如 $a_1x_1 + a_2x_2 + a_3x_3 = b_1$ 之类的线性方程组。</p>
+<h2 id="步骤">步骤</h2>
+<ol>
+<li>按 column 进行遍历</li>
+<li>遍历到第 $k$ 个 column 时，在这个column中，寻找一个 $maxrow$ 使得 $A[maxrow][k]$ 最大。</li>
+<li>将第 $k$ 行 与 第 $maxrow$ 行进行交换。</li>
+<li>交换后，以第 $k$ 行作为pivot，减掉其他所有行，消去第 $k$ 列其他行上的数字。</li>
+<li>最后会得到一个 diagonal matrix，除以对应系数即可得到 $\vec{b}$</li>
+</ol>
+<p>复杂度：$O(n^3)$</p>
+<p>先上板子：</p>
+<h3 id="模版-p3389-模板高斯消元法httpswwwluogucomcnproblemp3389">模版 <a href="https://www.luogu.com.cn/problem/P3389" target="_blank">P3389 【模板】高斯消元法</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个线性方程组，进行求解。</p>
+<p>输入一个 $n \times (n+1)$ 的矩阵，每一行为 $a_1, a_2, &hellip;, a_n, b_k$，代表一组方程。</p>
+</div>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+ 
+using namespace std;
+const double eps = (double)1e-6;
 
-void pack01(int v, int w) {
-    for (int j = V; j &gt;= v; j--) {
-        dp[j] = max(dp[j], dp[j-v] + w);
-    }
-}
+double A[maxn][maxn];
+int n; 
 
-int main() {
-    cin &gt;&gt; n &gt;&gt; V;
-    while (n--) {
-        int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s;
-        int k = 1;
-        while (k &lt;= s) {
-            pack01(v*k, w*k);
-            s -= k;
-            k &lt;&lt;= 1;
+void solve() {
+    for (int k = 1; k &lt;= n; k++) {
+        int maxrow = k;  // 当前行初始情况下为：当前列对应的行数
+        for (int i = k+1; i &lt;= n; i++) {  // 从当前行往下找
+            if (abs(A[i][k]) &gt; abs(A[maxrow][k])) maxrow = i;
         }
-        pack01(v*s, w*s);
-    }
-    int ans = 0;
-    for (int j = 0; j &lt;= V; j++) ans = max(ans, dp[j]);
-    cout &lt;&lt; ans &lt;&lt; endl;
-}
-</code></pre>
-<h3 id="多重背包单调队列优化">多重背包（单调队列优化）</h3>
-<pre><code class="language-cpp">struct node {
-    int pos, val;
-} q[20005];
-int head = -1, tail = 0, n, V, dp[20005];
-
-void solve(int v, int w, int s) {
-    for (int j = 0; j &lt; v; j++) {
-        head = 0, tail = -1;
-        q[++tail] = {0,0};
-        for (int i = 1; i*v + j &lt;= V; i++) {
-            while (i - q[head].pos &gt; s) head++;
-            int cur = i*v + j;
-            int val = dp[cur] - i*w;
-            dp[cur] = max(dp[cur], q[head].val + i*w);
-
-            while (head &lt;= tail &amp;&amp; val &gt;= q[tail].val) tail--;
-            q[++tail] = {i, val};
+        for (int i = 1; i &lt;= n+1; i++) swap(A[k][i], A[maxrow][i]);  //交换两行, 保证A[k][k]最大
+        if (abs(A[k][k]) &lt; eps) {
+            cout &lt;&lt; &quot;Infinite solutions.&quot; &lt;&lt; endl;  // 出现一行全是 0 的情况，一般说明有无数个解
+            return;
+        } 
+        for (int i = 1; i &lt;= n; i++) {
+            if (i == k) continue;
+            double m = A[i][k] / A[k][k];
+            for (int j = 1; j &lt;= n+1; j++) {  //更新上下的行
+                A[i][j] -= (m * A[k][j]); 
+            }
         }
     }
-}
 
-int main() {
-    cin &gt;&gt; n &gt;&gt; V;
     for (int i = 1; i &lt;= n; i++) {
-        int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s;
-        solve(v,w,s);
+        A[i][n+1] /= A[i][i];  // 最后除以斜线上的系数
+        A[i][i] = 1.0;
+        printf(&quot;%.2f\n&quot;, A[i][n+1]);
     }
-    int ans = 0;
-    for (int j = 0; j &lt;= V; j++) ans = max(ans, dp[j]);
-    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= n+1; j++) {
+            cin &gt;&gt; A[i][j];  // 输入矩阵，j=n+1 代表 b
+        }
+    }
+    solve();
 }
 </code></pre>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p2447-sdoi2010外星千足虫httpswwwluogucomcnproblemp2447">例1 <a href="https://www.luogu.com.cn/problem/P2447" target="_blank">洛谷P2447 [SDOI2010]外星千足虫</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $n$ 个虫子，每只虫子来自地球或者火星。来自地球的虫子有偶数个脚，火星的虫子有奇数个脚。</p>
+<p>现在给定 $m$ 个方程，代表已知哪些虫子的脚数量之和为奇数或者偶数。</p>
+<p>求每个虫子的归属地（地球或者火星）。</p>
+<p>如果有解，输出最小的 $k \leq n$ 使得仅用前 $k$ 个方程即可得到结果。</p>
+<p>如果无解，则输出 Cannot Determine。</p>
+<p>其中，$1 \leq n \leq 10^3, 1 \leq m \leq 2 \times 10^3$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>高斯消元即可。现在有几个问题：</p>
+<p>Q1. 如果有解，如何求出 $k$？</p>
+<p>A1. 注意到高斯消元的第二步是寻找一个 $maxrow$。然而这个题中，矩阵中的数要么为 $0$，要么为 $1$。所以只要找到 $1$，就不需要再往下找了。</p>
+<p>所以在寻找 $1$ 的过程中记录一下用到的 row number 的最大值即可，一旦找到就立刻break。</p>
+<hr>
+<p>Q2. 高斯消元是 $O(n^3)$ 的，复杂度不对？</p>
+<p>A2. 再次注意到这个矩阵仅由 $0,1$ 组成，可以用 <code>bitset</code> 进行优化。优化幅度为 $\frac{1}{w}$，其中 $w=32$。</p>
+<p>所以复杂度为 $O(\frac{n^2m}{w})$，足以通过本题。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e3+2;
+const int maxm = 7e5+5;
+
+bitset&lt;maxn&gt; A[maxn+maxn];
+int ans;
+int n,m; 
+
+void solve() {
+    for (int k = n; k &gt;= 1; k--) {
+        int maxrow = n-k+1;
+        for (int i = n-k+1; i &lt;= m; i++) {
+            ans = max(ans, i);
+            if (A[i].test(k)) {
+                maxrow = i;
+                break;
+            }
+        }
+        swap(A[n-k+1], A[maxrow]);
+        if (!A[n-k+1].test(k)) {
+            cout &lt;&lt; &quot;Cannot Determine\n&quot;;
+            return;
+        }
+        for (int i = 1; i &lt;= m; i++) {
+            if (i == n-k+1) continue;
+            if (A[i].test(k))
+                A[i] ^= A[n-k+1];
+        }
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+    for (int i = 1; i &lt;= n; i++) {
+        if (A[i].test(0)) cout &lt;&lt; &quot;?y7M#\n&quot;;
+        else cout &lt;&lt; &quot;Earth\n&quot;;
+    }
+}
+
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    if (m &lt; n) {
+        cout &lt;&lt; &quot;Cannot Determine\n&quot;;
+        return 0;
+    }
+    ans = 1;
+
+    for (int i = 1; i &lt;= m; i++) {
+        string s1,s2; cin &gt;&gt; s1 &gt;&gt; s2;
+        A[i] = bitset&lt;maxn&gt;(s1 + s2);
+    }
+
+    solve();
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -234,9 +319,9 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-04-18 18:53:31 &#43;0800 &#43;0800">2021-04-18</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/2a126d55fdda19a47992b3d9577c27ade5535b08" title="init 042.md, fix problem of --more--" target="_blank">(2a126d5)</a>
-        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/039-%e8%83%8c%e5%8c%85.md" target="_blank">更新历史</a>
+        <span title="2021-09-13 16:44:34 &#43;0800 &#43;0800">2021-09-13</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/2f5574389867f3f3c5507b91c2f209292d5d00f1" title="init 049.md" target="_blank">(2f55743)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/049-%e9%ab%98%e6%96%af%e6%b6%88%e5%85%83.md" target="_blank">更新历史</a>
     </span>
   </p>
   
@@ -247,17 +332,12 @@ int main() {
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/dp/">DP</a>
-          <a href="/tags/%E8%83%8C%E5%8C%85/">背包</a>
+          <a href="/tags//"></a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/040-scc/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">强连通分量（SCC）</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/037-%E6%A0%91%E4%B8%8A%E5%B7%AE%E5%88%86/">
-            <span class="next-text nav-default">树上差分</span>
+        
+        <a class="next" href="/post/048-%E6%A6%82%E7%8E%87%E6%9C%9F%E6%9C%9B/">
+            <span class="next-text nav-default">概率期望</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>线性基 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 线性基是一般用于解决 子集XOR，XOR最值 一类问题的算法。 定义 线性基是一个 linear space，在这个space中，所有的向量为 非负整数，而 scalar 则" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/050-%E7%BA%BF%E6%80%A7%E5%9F%BA/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.444107aa3d9e98d30a13b802fe721a7241527e38084e01cfa2ad193749dbaec2.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="线性基" />
+<meta property="og:description" content="介绍 线性基是一般用于解决 子集XOR，XOR最值 一类问题的算法。 定义 线性基是一个 linear space，在这个space中，所有的向量为 非负整数，而 scalar 则" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/050-%E7%BA%BF%E6%80%A7%E5%9F%BA/" />
+<meta property="article:published_time" content="2021-09-14T13:44:57+08:00" />
+<meta property="article:modified_time" content="2021-09-15T17:18:13+08:00" />
+<meta itemprop="name" content="线性基">
+<meta itemprop="description" content="介绍 线性基是一般用于解决 子集XOR，XOR最值 一类问题的算法。 定义 线性基是一个 linear space，在这个space中，所有的向量为 非负整数，而 scalar 则">
+<meta itemprop="datePublished" content="2021-09-14T13:44:57&#43;08:00" />
+<meta itemprop="dateModified" content="2021-09-15T17:18:13&#43;08:00" />
+<meta itemprop="wordCount" content="5816">
+
+
+
+<meta itemprop="keywords" content="线性基," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="线性基"/>
+<meta name="twitter:description" content="介绍 线性基是一般用于解决 子集XOR，XOR最值 一类问题的算法。 定义 线性基是一个 linear space，在这个space中，所有的向量为 非负整数，而 scalar 则"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">线性基</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-09-14 13:44:57 &#43;0800 &#43;0800"> 2021-09-14 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#定义">定义</a></li>
+        <li><a href="#性质">性质</a>
+          <ul>
+            <li><a href="#推论">推论</a></li>
+          </ul>
+        </li>
+        <li><a href="#构造方法">构造方法</a>
+          <ul>
+            <li><a href="#insert-操作">insert 操作</a></li>
+            <li><a href="#query-操作">query 操作</a></li>
+          </ul>
+        </li>
+        <li><a href="#应用">应用</a>
+          <ul>
+            <li><a href="#最大子集-xor-和">最大子集 XOR 和</a></li>
+            <li><a href="#例-洛谷p3812-模板线性基httpswwwluogucomcnproblemp3812">例 <a href="https://www.luogu.com.cn/problem/P3812">洛谷P3812 【模板】线性基</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p3857-tjoi2008彩灯httpswwwluogucomcnproblemp3857">例1 <a href="https://www.luogu.com.cn/problem/P3857">洛谷P3857 [TJOI2008]彩灯</a></a></li>
+            <li><a href="#例2-洛谷p4570-bjwc2011元素httpswwwluogucomcnproblemp4570">例2 <a href="https://www.luogu.com.cn/problem/P4570">洛谷P4570 [BJWC2011]元素</a></a></li>
+            <li><a href="#例3-洛谷p3292-scoi2016幸运数字httpswwwluogucomcnproblemp3292">例3 <a href="https://www.luogu.com.cn/problem/P3292">洛谷P3292 [SCOI2016]幸运数字</a></a></li>
+            <li><a href="#例4-洛谷p4151-wc2011最大xor和路径httpswwwluogucomcnproblemp4151">例4 <a href="https://www.luogu.com.cn/problem/P4151">洛谷P4151 [WC2011]最大XOR和路径</a></a></li>
+            <li><a href="#例5-loj-114-k小异或和httpslojacp114">例5 <a href="https://loj.ac/p/114">LOJ 114 k小异或和</a></a></li>
+            <li><a href="#例6-hdu6579-operationhttpacmhdueducnshowproblemphppid6579">例6 <a href="http://acm.hdu.edu.cn/showproblem.php?pid=6579">HDU6579 Operation</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>线性基是一般用于解决 <strong>子集XOR</strong>，<strong>XOR最值</strong> 一类问题的算法。</p>
+<h2 id="定义">定义</h2>
+<p>线性基是一个 <strong>linear space</strong>，在这个space中，所有的向量为 <strong>非负整数</strong>，而 <strong>scalar</strong> 则为 $\{0,1\}$，元素之间的运算为 <strong>XOR</strong>。</p>
+<p>可以直接与 linear algebra 中，由矩阵组成的 linear space 直接关联起来，并且专属名词的定义与矩阵 linear space 中的基本相同。</p>
+<h2 id="性质">性质</h2>
+<ol>
+<li>
+<p>线性基 $S = \{x_1,x_2,&hellip;,x_n\}$ 中，所有元素 $\{x_1,x_2,&hellip;,x_n\}$ 之间是 <strong>linearly independent</strong> 的。</p>
+</li>
+<li>
+<p>线性基 $S = \{x_1,x_2,&hellip;,x_n\}$ 中的所有元素组成了一个 <strong>basis</strong>，意味着
+$$\forall x \in span(S), x = a_1x_1 + a_2x_2 + &hellip; a_nx_n$$
+且 $(a_1,a_2,&hellip;,a_n)$ 是 unique 的。（$a_i \in \{0,1\}$）</p>
+</li>
+<li>
+<p>在线性基中，每个元素的<strong>二进制最高位</strong>均不同。</p>
+</li>
+<li>
+<p>对于线性基第 $i$ 位上的元素 <code>a[i]</code>，保证 <code>a[i]</code> 二进制第 $i$ 位为 $1$，并且：</p>
+<p>$\forall j &gt; i$，<code>a[i]</code> 的二进制第 $j$ 位为 $0$。</p>
+<p>对于 $j &lt; i$，<code>a[i]</code> 的二进制第 $j$ 位可以为 $1$ 或者 $0$。</p>
+</li>
+</ol>
+<h3 id="推论">推论</h3>
+<p>根据线性基的性质，有以下推论：</p>
+<ol>
+<li>
+<p>从 $S$ 中取任意个（至少 $1$ 个）元素，它们的 XOR 均不为 $0$。</p>
+</li>
+<li>
+<p>$S$ 中任意元素 $x_i$ 均 <strong>无法</strong> 由其他元素 XOR 得到。</p>
+</li>
+<li>
+<p>对于一个非负整数 $x$，如果在 $S$ 中，取一些元素 $x_1, x_2, &hellip;, x_k$ 使得 $x = XOR(\{x_1,x_2,&hellip;,x_k\})$，则：</p>
+<p>使用 $x$ 替换掉 $x_1, x_2, &hellip;, x_k$ 中的任意一个，线性基均不变。</p>
+<blockquote>
+<p>如何找到这样的 $x_1, x_2, &hellip;, x_k$ 使得 $x = XOR(\{x_1,x_2,&hellip;,x_k\})$？</p>
+</blockquote>
+<p>答：在正常的 <code>insert()</code> 过程中，如果执行了 <code>x ^= a[j]</code>，就说明 $x_j \in \{x_1,x_2,&hellip;,x_k\}$。</p>
+<blockquote>
+<p>注：为了维持线性基的特性，不能直接进行替换。</p>
+</blockquote>
+<p>正确方式是在正常的 <code>insert()</code> 过程中，在遇到想要替换的 <code>j</code> 时，进行 <code>swap(x, a[j])</code>，然后再 <code>x ^= a[j]</code>。</p>
+</li>
+</ol>
+<h2 id="构造方法">构造方法</h2>
+<p>构造线性基是一个 <strong>动态过程</strong>，意味着我们逐一往线性基中 <strong>插入元素</strong> 来构造。</p>
+<p>我们利用一个数组 <code>ll a[63]</code> 来维护线性基。</p>
+<p>其中 <code>a[i]</code> 代表线性基中的一个元素，它的二进制最高位为第 $i$ 位（从右往左数）。如果 <code>a[i] = 0</code>，说明这个元素不存在。</p>
+<h3 id="insert-操作">insert 操作</h3>
+<p>当我们向线性基中插入一个元素 $x$ 时，遵循以下步骤：</p>
+<ol>
+<li>
+<p>从高位往低位，遍历 $x$ 的二进制bit。</p>
+</li>
+<li>
+<p>遍历到第 $i$ 位时，如果 $x$ 的第 $i$ 位为 $0$，直接跳到下一位。</p>
+<p>如果 $x$ 的第 $i$ 位为 $1$，则：</p>
+<p>2.1. 如果 <code>a[i] = 0</code>（说明这一位不存在元素），则令 <code>a[i] = x</code>，然后 <code>break</code>。（说明插入元素成功）。</p>
+<p>2.2. 如果 <code>a[i] &gt; 0</code>（说明这一位存在元素），则令 <code>x = x ^ a[i]</code>，然后继续遍历下一位bit。</p>
+</li>
+</ol>
+<pre><code class="language-cpp">ll a[63];
+
+bool insert(ll x) {
+    for (int j = 62; j &gt;= 0; j--) {
+        if (x &amp; (1LL&lt;&lt;j)) {
+            if (a[j]) x ^= a[j];
+            else {
+                a[j] = x;  // 插入元素 x
+                return 1;  // 插入元素成功
+            }
+        }
+    }
+    return 0;  // 插入元素失败
+}
+</code></pre>
+<p>由以上的过程，可以看出：</p>
+<p>插入元素 $x$ 成功 $\iff x \notin span(S)$，插入后 $span(S)$ 的大小翻倍。</p>
+<p>插入元素 $x$ 失败 $\iff x \in span(S)$。</p>
+<h3 id="query-操作">query 操作</h3>
+<p>查询一个元素 $x$ 是否满足 $x \in span(S)$，只要遵循上面的 <code>insert</code> 操作，然后不进行真正的插入即可。</p>
+<h2 id="应用">应用</h2>
+<h3 id="最大子集-xor-和">最大子集 XOR 和</h3>
+<p>Q: 给定一个数组 $S$，求它的子集 $S&rsquo; \subseteq S$，使得 $S'$ 中所有元素的 XOR值 最大。</p>
+<p>A: 构造 $S$ 的线性基，然后从高到低位遍历线性基，如果 <code>ans ^ a[i]</code> 更大，则 <code>ans = ans ^ a[i]</code>。</p>
+<h3 id="例-洛谷p3812-模板线性基httpswwwluogucomcnproblemp3812">例 <a href="https://www.luogu.com.cn/problem/P3812" target="_blank">洛谷P3812 【模板】线性基</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个整数（数字可能重复），求在这些数中选取任意个，使得他们的异或和最大。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int n;
+ll a[62];
+
+void insert(ll x) {
+    for (int j = 60; j &gt;= 0; j--) {
+        if (x &amp; (1LL&lt;&lt;j)) {
+            if (a[j]) x ^= a[j];
+            else {
+                a[j] = x;
+                break;
+            }
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        ll x; cin &gt;&gt; x;
+        insert(x);
+    }
+    ll ans = 0;
+    for (int j = 60; j &gt;= 0; j--) {
+        ans = max(ans, (ans ^ a[j]));
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+</code></pre>
+</details>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p3857-tjoi2008彩灯httpswwwluogucomcnproblemp3857">例1 <a href="https://www.luogu.com.cn/problem/P3857" target="_blank">洛谷P3857 [TJOI2008]彩灯</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $n$ 个彩灯，$m$ 个开关，每个开关会控制一些彩灯的状态。每个彩灯只有开和关两种状态。初始状态下所有彩灯为关。</p>
+<p>求所有可能的彩灯样式数量。</p>
+<p>其中，$n,m \leq 50$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>每个开关看成一个数字，然后构建原集合的线性基。</p>
+<p>最终答案为 $2^{|S|}$，其中 $|S|$ 为线性基的大小。</p>
+<p>证明：因为线性基中，对于每个二进制位，如果有，则仅有一个元素 $x$ 使得 $x$ 的最高位为 $1$。</p>
+<p>先令集合 $X = \{0\}$，代表 $span(S)$。</p>
+<p>我们从低位开始往高位考虑，对于第 $i$ 位而言，如果 <code>a[i]</code> 存在，则将 $X$ 内所有的元素与 <code>a[i]</code> 进行 XOR，会得到最高位 $i$ 为 $1$ 的元素，而原来 $X$ 中并不存在这样的元素，所以 $X$ 的大小翻倍了。</p>
+<blockquote>
+<p>注意，在使用 bit shifting 的时候，要注意用 <code>1LL &lt;&lt; j</code>，而不是 <code>1 &lt;&lt; j</code>，后者会爆 int。</p>
+</blockquote>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int n,m;
+ll a[62];
+
+void insert(ll x) {
+    for (int j = 60; j &gt;= 0; j--) {
+        if (x &amp; (1LL&lt;&lt;j)) {
+            if (a[j]) x ^= a[j];
+            else {
+                a[j] = x;
+                break;
+            }
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    if (!m) {
+        cout &lt;&lt; 0 &lt;&lt; endl; return 0;
+    }
+    for (int i = 1; i &lt;= m; i++) {
+        string s; cin &gt;&gt; s;
+        ll x = 0;
+        for (int j = 0; j &lt; n; j++) {
+            if (s[n-j-1] == 'O') {
+                x |= (1LL&lt;&lt;j);
+            }
+        }
+        insert(x);
+    }
+    ll ans = 1, cnt = 0;
+    for (int j = 60; j &gt;= 0; j--) {
+        if (a[j]) cnt++;
+    }
+    ans = (1LL&lt;&lt;cnt) % 2008LL;
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例2-洛谷p4570-bjwc2011元素httpswwwluogucomcnproblemp4570">例2 <a href="https://www.luogu.com.cn/problem/P4570" target="_blank">洛谷P4570 [BJWC2011]元素</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $n$ 个矿石，每个矿石 $i$ 拥有一个元素序号 $a_i$，还有一个魔力值 $b_i$。</p>
+<p>请选出一些矿石，使得这些矿石的元素序号的 XOR 不为 $0$，并且使得魔力值之和最大。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>先根据魔力值从大到小 sort 一下所有矿石，然后根据这个顺序，加入矿石的元素序号到线性基中。</p>
+<p>最终把线性基中，所有矿石对应的魔力值加起来即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int n,m;
+ll a[63];
+
+bool insert(ll x) {
+    for (int j = 62; j &gt;= 0; j--) {
+        if (x &amp; (1LL&lt;&lt;j)) {
+            if (a[j]) x ^= a[j];
+            else {
+                a[j] = x;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+struct node {
+    ll x, val;
+} arr[maxn];
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; arr[i].x &gt;&gt; arr[i].val;
+    }
+    sort(arr+1, arr+n+1, [](auto a, auto b) {
+        return a.val &gt; b.val;
+    });
+
+    ll ans = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        if (insert(arr[i].x)) {
+            ans += arr[i].val;
+        }
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例3-洛谷p3292-scoi2016幸运数字httpswwwluogucomcnproblemp3292">例3 <a href="https://www.luogu.com.cn/problem/P3292" target="_blank">洛谷P3292 [SCOI2016]幸运数字</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个节点的树，每个节点 $i$ 都有一个权值 $a_i$。</p>
+<p>现在给定 $q$ 个询问，每次询问 $x ~ y$，回答：</p>
+<p>对于从 $x$ 到 $y$ 的最短路径上的所有节点，选出一个子集使得权值的 XOR 最大，回答这个最大值。</p>
+<p>其中，$n \leq 2 \times 10^4, q \leq 10^5$，所有权值为非负整数。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先暴力做法很好想，直接找 $x \rightarrow y$ 路径上的所有权值，构建一个线性基即可。</p>
+<p>然后考虑优化：</p>
+<p>看到 <strong>树</strong> 就立刻想到 <strong>树形DP</strong>，看到 <strong>树形DP</strong> 就立刻想到了 <strong>树上差分</strong>。</p>
+<p>虽然这题不能直接用树上差分，但是差分中常用的 <strong>倍增LCA</strong> 倒是可以用。</p>
+<p>所以做法就是对于每个节点 $u$，令 $j = 0,1,2,&hellip;$，代表从 $u$ 出发，往上跳 $2^j$ 个节点，从起点到终点之间所有节点的权值构建的线性基。</p>
+<p>所以构建出的数组就是个 <code>ll a[maxn][16][61];  // a[u][k] 代表从 u 开始往上从 2^k 格，形成的线性基</code>。</p>
+<p>构建这个线性基的过程和倍增同理，只不过需要 <strong>两个线性基合并为一个</strong>。</p>
+<p>这个过程也不难，直接把两个线性基中的所有元素拿出来，然后都 <code>insert</code> 进一个空的线性基即可。</p>
+<p>最后，询问 $x ~ y$ 的话就先找到 $l = lca(x,y)$，然后通过倍增，合并出 $(x,l)$ 和 $(y,l)$ 对应的线性基，然后再将两者合并即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e4+5;
+const int maxm = 1e5+5;
+
+int n,q;
+ll arr[maxn];
+
+struct Edge {
+    int to, nxt;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 1;
+
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int par[maxn][16], dep[maxn];
+ll a[maxn][16][61];  // a[u][k] 代表从 u 开始往上从 2^k 格，形成的线性基
+
+// insert 一个元素 x 进入 b[] 中
+void insert(ll x, ll b[]) {
+    for (int j = 60; j &gt;= 0; j--) {
+        if (x &amp; (1LL&lt;&lt;j)) {
+            if (b[j]) x ^= b[j];
+            else {
+                b[j] = x;
+                return;
+            }
+        }
+    }
+}
+
+// 将 a1, a2 两个线性基合并为 b
+void merge(ll a1[], ll a2[], ll b[]) {
+    for (int j = 60; j &gt;= 0; j--) {
+        if (a1[j]) insert(a1[j], b);
+        if (a2[j]) insert(a2[j], b);
+    }
+}
+
+void dfs(int u, int p) {
+    par[u][0] = p;
+    insert(arr[u], a[u][0]);
+    dep[u] = dep[p] + 1;
+
+    for (int j = 1; j &lt;= 15; j++) {
+        par[u][j] = par[par[u][j-1]][j-1];
+        merge(a[u][j-1], a[par[u][j-1]][j-1], a[u][j]);
+    }
+
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        dfs(to, u);
+    }
+}
+
+int jump(int u, ll d, ll b[]) {
+    int j = 0;
+    while (d) {
+        if (d &amp; 1) {
+            for (int k = 60; k &gt;= 0; k--) {
+                if (a[u][j][k]) insert(a[u][j][k], b);
+            }
+            u = par[u][j];
+        }
+        j++;
+        d &gt;&gt;= 1;
+    }
+    return u;
+}
+
+ll query(int u, int v) {
+    if (dep[u] &lt; dep[v]) swap(u,v);
+    static ll tmp[61];
+    memset(tmp, 0, sizeof(tmp));
+
+    u = jump(u, dep[u] - dep[v], tmp);
+    if (u == v) {
+        insert(arr[u], tmp);
+    } else {
+        for (int j = 15; j &gt;= 0; j--) {
+            if (par[u][j] != par[v][j]) {
+                u = jump(u, (1LL&lt;&lt;j), tmp);
+                v = jump(v, (1LL&lt;&lt;j), tmp);
+            }
+        }
+        u = jump(u, 1, tmp);
+        v = jump(v, 1, tmp);
+        insert(arr[u], tmp);
+        insert(arr[v], tmp);
+    }
+
+    ll ans = 0;
+    for (int j = 60; j &gt;= 0; j--) {
+        if (tmp[j]) ans = max(ans, (ans ^ tmp[j]));
+    }
+    return ans;
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; q;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; arr[i];
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        addEdge(u,v); addEdge(v,u);
+    }
+    dfs(1, 0);
+    while (q--) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        cout &lt;&lt; query(u,v) &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+<h3 id="例4-洛谷p4151-wc2011最大xor和路径httpswwwluogucomcnproblemp4151">例4 <a href="https://www.luogu.com.cn/problem/P4151" target="_blank">洛谷P4151 [WC2011]最大XOR和路径</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个节点，$m$ 条边的无向连通图。每条边上有权值。</p>
+<p>考虑从 $1$ 到 $n$ 的所有可能路径中，路径上所有边权值的XOR，求这些路径对应的XOR最大值。</p>
+<p>路径可以包含环，一条边可以被经过多次（经过多次的话，权值也要XOR多次）。</p>
+<p>图中可能包含重边和自环。</p>
+<p>其中，$n \leq 5 \times 10^4, m \leq 10^5$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先考虑一下 <strong>无环</strong> 的情况，那它就是个树了，那路径只有一种可能。就是从 $1 \rightarrow n$。</p>
+<p>然后考虑一下 <strong>有环</strong> 的情况，</p>
+<p><img src="/images/050/1.png" alt="img"></p>
+<p>可以发现，最终的答案可以是 $1 \rightarrow n$ 的路径（我们称之为 <strong>主路径</strong>），XOR上这些环（也可以不 XOR），而链接环与主路径之间的边，可以忽略不计（因为被经过两次了）。</p>
+<p>所以一个大胆（且正确）的猜想是：</p>
+<p>求出所有的环，随便找一条 $1 \rightarrow n$ 的简单路径（无环），用所有环的XOR值构造一个线性基，最后和主路径XOR起来，得到最大值。</p>
+<p>然后就有几个问题了：</p>
+<hr>
+<p>Q1. 求出所有的环？复杂度会爆炸的吧？</p>
+<p>A1. 我们可以发现，所有环的 XOR 均由它的 <strong>简单环</strong> 组成。所以我们只需要考虑简单环即可。</p>
+<p>Q2. 如何求出所有的简单环？</p>
+<p>A2. 用一次DFS，DFS的过程中找到所有的 <strong>back-edge</strong> 即可，由于 $m$ 最多为 $10^5$，所以 back-edge 也不会超过 $10^5$ 个，所以最多只有 $10^5$ 个简单环。</p>
+<p>Q3. 主路径如果有多条怎么办？</p>
+<p>A3. 注意到，尽管只往线性基里加入了简单环，但是由于线性基的特性，所以任意简单环的组合都可以被线性基所表示。所以这就相当于线性基包含了所有可能的环。</p>
+<p>那么，如果从 $1 \rightarrow n$ 有多条简单路径，则两条不同的简单路径会形成一个环。</p>
+<p>假如最优的主路径为 $B$，而我们考虑了 $A$ 为主路径，但是 $A ~xor~ B$ 实际上是一个环。所以最后我们在考虑最终答案时，有 $A \text{ xor } (A \text{ xor } B) = B$，所以 $B$ 就变成最优解中的主路径了。</p>
+<p>Q4. 如何求出一个环的 XOR？</p>
+<p>A4. 直接从 $1$ 开始DFS，记录一个 <code>d[]</code>，其中 <code>d[u]</code> 代表这个 DFS 过程中，找到的一条 $1 \rightarrow u$ 的简单路径的 XOR。</p>
+<p>则对于 $u$ 的任意一个neighbor $v$，如果 $(u,v,w)$ 是 back-edge，那么 $(d[u] \text{ xor } d[v] \text{ xor } w)$ 就是这个环的 XOR。</p>
+<hr>
+<p>最后的答案就是 <code>d[n]</code> 作为初始值，所有简单环构建出线性基，然后求最大值。</p>
+<p>• 注意到 <code>d[n]</code> 并<strong>不在</strong>线性基中，因为 <code>d[n]</code> 是 <strong>必须要取</strong> 的，所以作为 <code>ans</code> 的初始值。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 5e4+5;
+const int maxm = 1e5+5;
+
+int n,m;
+struct Edge {
+    int to, nxt;
+    ll w;
+} edges[maxm&lt;&lt;1];
+int head[maxn], ecnt = 1;
+
+void addEdge(int u, int v, ll w) {
+    Edge e = {v, head[u], w};
+    edges[ecnt] = e;
+    head[u] = ecnt++;
+}
+
+ll d[maxn], a[62];
+
+void insert(ll x) {
+    for (int j = 60; j &gt;= 0; j--) {
+        if (x &amp; (1LL &lt;&lt; j)) {
+            if (a[j]) x ^= a[j];
+            else {
+                a[j] = x;
+                return;
+            }
+        }
+    }
+}
+
+bool vis[maxn];
+void dfs(int u) {
+    vis[u] = 1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        ll w = edges[e].w;
+        if (vis[to]) {   // 发现 back-edge，对应一个简单环
+            insert(d[u] ^ d[to] ^ w);  // 加入一个简单环
+        } else {
+            d[to] = d[u] ^ w;
+            dfs(to);
+        }
+    }
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int u,v; ll w;
+        cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u,v,w);
+        addEdge(v,u,w);
+    }
+    dfs(1);
+    ll ans = d[n];  // 注意 d[n] 作为初始值，因为它必须要存在于最终答案中
+    for (int j = 60; j &gt;= 0; j--) {
+        ans = max(ans, (ans ^ a[j]));
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例5-loj-114-k小异或和httpslojacp114">例5 <a href="https://loj.ac/p/114" target="_blank">LOJ 114 k小异或和</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个非负整数，$m$ 次询问。</p>
+<p>每次询问一个数字 $k$，输出 $S$ 所有非空子集的不同的XOR中，第 $k$ 小的XOR值。</p>
+<p>如果 $S$ 的所有非空子集中，不同的XOR数量 $&lt; k$，则输出 $-1$。</p>
+<p>其中，$n,m \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>本题主要考察 <strong>线性基的化简</strong>。</p>
+<p>首先可以构建线性基，如果在构建中出现了 <strong>插入失败</strong> 的情况，则说明 $\exists T \subseteq S$，使得 $XOR(T) = 0$，这说明最小值为 $0$，否则最小值不为 $0$。</p>
+<p>构建完毕后，我们知道，$span(S)$ 的大小为 $2^{|S|}$。</p>
+<p>我们设 $span(S_i)$ 为：只考虑（从小到大）前 $i$ 位的线性基的 $span$，则有：</p>
+<p>$span(S_i) = span(S_{i-1}) \sqcup span(S_{i-1}) \text{ xor } x_i$ （注意 $\sqcup$ 是 disjoint union）</p>
+<p>由此，我们可以联想到，把 $k$ 写成二进制，然后根据 $k$ 的二进制，来构造这个数字。</p>
+<p>比如，$k = 1101$，那么我们就把线性基的第 $0,2,3$ 位 XOR 起来，得到答案。</p>
+<hr>
+<p>但是这样有一个问题，这样得到的答案不一定正确。比如说：</p>
+<p>线性基 $\{1,2\}$ 和 $\{1,3\}$ 实际上是等价的，但是对于同样的 $k$，答案却不相同，只有 $\{1,2\}$ 构造出来的答案才是正确的。</p>
+<hr>
+<p>所以我们有了一个想法：把线性基上 <strong>每一位的数字转化为它可能的最小值</strong>，也就是 <strong>化简线性基</strong>。</p>
+<p>这个化简的过程，很像高斯消元，但又不完全一样。</p>
+<hr>
+<p>怎么化简呢？</p>
+<p>想到我们求一个线性基所能表示的最大值时，使用的 <code>ans = max(ans, (ans ^ a[i]))</code>。</p>
+<p>那么化简也是同理，只不过把它改成 <code>min</code> 而已，然后把 <code>ans</code> 替换为线性基上的某一位即可。</p>
+<pre><code class="language-cpp">// 将线性基所有元素变成最小
+for (int k = 50; k &gt;= 0; k--) {
+    for (int j = k-1; j &gt;= 0; j--) {
+        a[k] = min(a[k], (a[k] ^ a[j]));
+    }
+}
+</code></pre>
+<p>这样就化简完毕了，举几个例子：</p>
+<ol>
+<li>$\{70,32,28,8,4,3,1\}$ 化简后，得到 $\{64,32,16,8,4,2,1\}$</li>
+<li>$\{14, 7\}$ 化简后，得到 $\{9,7\}$</li>
+</ol>
+<p>化简后就可以用上面的方法来构造了，注意构造答案的时候，只需要考虑线性基上非空的位。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int n,m;
+ll a[51];
+
+bool insert(ll x) {
+    for (int j = 50; j &gt;= 0; j--) {
+        if (x &amp; (1LL &lt;&lt; j)) {
+            if (a[j]) x ^= a[j];
+            else {
+                a[j] = x;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+int main() {
+    cin &gt;&gt; n;
+    bool zero = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        ll x; cin &gt;&gt; x;
+        if (!insert(x)) zero = 1;
+    }
+    int sz = 0;
+    for (int k = 50; k &gt;= 0; k--) {
+        if (a[k]) sz++;
+    }
+
+    // 将线性基所有元素变成最小
+    for (int k = 50; k &gt;= 0; k--) {
+        for (int j = k-1; j &gt;= 0; j--) {
+            a[k] = min(a[k], (a[k] ^ a[j]));
+        }
+    }
+
+    // 只考虑线性基的非空位
+    vector&lt;int&gt; vec;
+    for (int k = 0; k &lt;= 50; k++) {
+        if (a[k]) vec.push_back(k);
+    }
+
+    cin &gt;&gt; m;
+    while (m--) {
+        ll k; cin &gt;&gt; k;
+        if (zero) k--;  // 最小值为 0
+
+        if (k &gt;= (1LL &lt;&lt; sz)) {
+            cout &lt;&lt; -1 &lt;&lt; &quot;\n&quot;;
+            continue;
+        }
+
+        ll ans = 0;
+        for (int j = 0; j &lt;= 50; j++) {
+            if (k &amp; (1LL &lt;&lt; j)) {
+                ans ^= (a[vec[j]]);  // 只考虑非空位
+            }
+        }
+        cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+<h3 id="例6-hdu6579-operationhttpacmhdueducnshowproblemphppid6579">例6 <a href="http://acm.hdu.edu.cn/showproblem.php?pid=6579" target="_blank">HDU6579 Operation</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个非负整数 $a_1,a_2,&hellip;,a_n$ 和 $m$ 个询问。</p>
+<p>每次询问为两种：</p>
+<p>$0 ~ l ~ r$：从 $\{a_l,&hellip;,a_r\}$ 中选取任意个数字，输出 XOR 的最大值。</p>
+<p>$1 ~ x$：给序列 append 一个数字 $x$，使得 $n = n+1$。</p>
+<p>所有询问强制在线。</p>
+<p>其中，$n,m \leq 5 \times 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p><strong>前缀线性基</strong>。</p>
+<p>对于每个 $i$，我们都根据 $\{a_1,a_2,&hellip;,a_i\}$ 来构建一个线性基，所以总共有 $n$ 个线性基。</p>
+<p>构建以后，每次询问 $[L,R]$，我们都可以先找到 $[1,R]$ 对应的线性基。</p>
+<hr>
+<p>找到 $[1,R]$ 的线性基以后，问题转化成，如何去掉 $[1,L-1]$ 的影响？</p>
+<p>我们维护一个数组 <code>pos[]</code>，其中 <code>pos[j]</code> 代表 <strong>最大</strong> 的index <code>i</code>，使得 $a_i$ 影响到了 线性基的第 $j$ 位 $x_j$。</p>
+<p>所以，在询问 $[L,R]$ 时，我们遍历 $[1,R]$ 对应的线性基中，每一位 $j \in [0,50]$，如果 $pos[j] \geq L$，则说明线性基的第 $j$ 位可以被使用。</p>
+<hr>
+<p>如何维护 <code>pos[]</code> 数组，并且保证 <code>pos[]</code> 数组内的值尽可能大？</p>
+<p>在线性基的推论第 $3$ 条中，我们提到了如果要使用一个新的元素来替换掉线性基中的旧元素，可以使用 <code>swap()</code> 的方式实现。</p>
+<p>这里也是同理，我们在 insert $a_i$ 时，如果当前考虑到了线性基的第 $j$ 位，那么我们检查 $pos[j] &lt; i$ 是否成立，如果是，就进行替换操作（<code>swap()</code>）。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e6+5;  // 注意因为 n 最高可被增加到 1e6，所以这里使用的是 1e6
+const int maxm = 1e5+5;
+
+int n,m;
+int a[maxn][31], pos[maxn][31];
+
+void insert(int i, int x) {
+    memcpy(a[i], a[i-1], 31 * sizeof(int));  // 注意这里有 sizeof(int)
+    memcpy(pos[i], pos[i-1], 31 * sizeof(int));
+
+    int p = i;
+    for (int j = 30; j &gt;= 0; j--) {
+        if (x &amp; (1&lt;&lt;j)) {
+            if (a[p][j]) {
+                if (pos[p][j] &lt; i) {  // 进行替换
+                    swap(a[p][j], x);
+                    swap(pos[p][j], i);
+                }
+                x ^= a[p][j];
+            } else {
+                a[p][j] = x;
+                pos[p][j] = i;
+                return;
+            }
+        }
+    }
+}
+
+int query(int l, int r) {
+    int ans = 0;
+    for (int j = 30; j &gt;= 0; j--) {
+        if (pos[r][j] &gt;= l)
+            ans = max(ans, (ans ^ a[r][j]));
+    }
+    return ans;
+}
+
+int main() {
+    int T; cin &gt;&gt; T;
+    while (T--) {
+        int lastans = 0;
+        cin &gt;&gt; n &gt;&gt; m;
+        for (int i = 1; i &lt;= n; i++) {
+            int x; cin &gt;&gt; x;
+            insert(i, x);
+        }
+ 
+        while (m--) {
+            int op; cin &gt;&gt; op;
+            if (op == 0) {
+                int l,r; cin &gt;&gt; l &gt;&gt; r;
+                l = (l ^ lastans) % n + 1;
+                r = (r ^ lastans) % n + 1;
+                if (l &gt; r) swap(l,r);
+                lastans = query(l,r);
+                cout &lt;&lt; lastans &lt;&lt; &quot;\n&quot;;
+            } else {
+                int x; cin &gt;&gt; x;
+                x = x ^ lastans;
+                insert(n+1, x);
+                n++;
+            }
+        }
+
+        for (int i = 1; i &lt;= n; i++) {
+            for (int j = 0; j &lt;= 30; j++) {
+                a[i][j] = pos[i][j] = 0;
+            }
+        }
+    }
+}
+</code></pre>
+</details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://oi.men.ci/linear-basis-notes/">https://oi.men.ci/linear-basis-notes/</a></li>
+<li><a href="https://ouuan.github.io/post/%E7%BA%BF%E6%80%A7%E5%9F%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">https://ouuan.github.io/post/%E7%BA%BF%E6%80%A7%E5%9F%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/68575986">https://zhuanlan.zhihu.com/p/68575986</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-09-15 17:18:13 &#43;0800 &#43;0800">2021-09-15</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/590d733b3d52705be3b1290fb3195e799bd921b0" title="init 050.md" target="_blank">(590d733)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/050-%e7%ba%bf%e6%80%a7%e5%9f%ba.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%BA%BF%E6%80%A7%E5%9F%BA/">线性基</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/049-%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83/">
+            <span class="next-text nav-default">高斯消元</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

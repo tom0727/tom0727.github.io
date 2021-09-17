@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>FFT - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 FFT (Fast Fourier Transform, 快速傅立叶变换) 可以在 $O(n \log n)$ 的时间内计算两个多项式的乘法。 在开始介绍 FFT 之前，我们需要一些基本的前置知识。 多项式 一个多项式有两种表" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/051-fft/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.444107aa3d9e98d30a13b802fe721a7241527e38084e01cfa2ad193749dbaec2.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="FFT" />
+<meta property="og:description" content="介绍 FFT (Fast Fourier Transform, 快速傅立叶变换) 可以在 $O(n \log n)$ 的时间内计算两个多项式的乘法。 在开始介绍 FFT 之前，我们需要一些基本的前置知识。 多项式 一个多项式有两种表" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/051-fft/" />
+<meta property="article:published_time" content="2021-09-17T13:52:57+08:00" />
+<meta property="article:modified_time" content="2021-09-17T18:16:26+08:00" />
+<meta itemprop="name" content="FFT">
+<meta itemprop="description" content="介绍 FFT (Fast Fourier Transform, 快速傅立叶变换) 可以在 $O(n \log n)$ 的时间内计算两个多项式的乘法。 在开始介绍 FFT 之前，我们需要一些基本的前置知识。 多项式 一个多项式有两种表">
+<meta itemprop="datePublished" content="2021-09-17T13:52:57&#43;08:00" />
+<meta itemprop="dateModified" content="2021-09-17T18:16:26&#43;08:00" />
+<meta itemprop="wordCount" content="2967">
+
+
+
+<meta itemprop="keywords" content="fft," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="FFT"/>
+<meta name="twitter:description" content="介绍 FFT (Fast Fourier Transform, 快速傅立叶变换) 可以在 $O(n \log n)$ 的时间内计算两个多项式的乘法。 在开始介绍 FFT 之前，我们需要一些基本的前置知识。 多项式 一个多项式有两种表"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">FFT</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-09-17 13:52:57 &#43;0800 &#43;0800"> 2021-09-17 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#多项式">多项式</a>
+          <ul>
+            <li><a href="#系数表示法">系数表示法</a></li>
+            <li><a href="#点值表示法">点值表示法</a></li>
+          </ul>
+        </li>
+        <li><a href="#复数">复数</a>
+          <ul>
+            <li><a href="#n-次单位根">$n$ 次单位根</a></li>
+            <li><a href="#omega-的取值">$\omega$ 的取值</a></li>
+          </ul>
+        </li>
+        <li><a href="#fft原理">FFT原理</a>
+          <ul>
+            <li><a href="#第一步-dft">第一步 DFT</a></li>
+            <li><a href="#第二步-点值乘法">第二步 点值乘法</a></li>
+            <li><a href="#第三步-idft">第三步 IDFT</a></li>
+          </ul>
+        </li>
+        <li><a href="#非递归-fft">非递归 FFT</a></li>
+        <li><a href="#模版">模版</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>FFT (Fast Fourier Transform, 快速傅立叶变换) 可以在 $O(n \log n)$ 的时间内计算两个多项式的乘法。</p>
+<p>在开始介绍 FFT 之前，我们需要一些基本的前置知识。</p>
+<h2 id="多项式">多项式</h2>
+<p>一个多项式有两种表示方法：<strong>系数表示法</strong> 和 <strong>点值表示法</strong>。</p>
+<h3 id="系数表示法">系数表示法</h3>
+<p>$$f(x) = a_0 + a_1x + a_2x^2 + &hellip; + a_nx^n$$</p>
+<p>则 $\{a_0,a_1,&hellip;,a_n\}$ 即可表示这个多项式 $f(x)$。</p>
+<h3 id="点值表示法">点值表示法</h3>
+<p>选取多项式函数上的 $(n+1)$ 个点 $(x_0,y_0), (x_1,y_1), &hellip;, (x_n,y_n)$ 也可以唯一的表示这个多项式 $f(x)$。</p>
+<p>证明：使用高斯消元即可，$(n+1)$ 个未知量，对应 $(n+1)$ 个方程。</p>
+<h2 id="复数">复数</h2>
+<h3 id="n-次单位根">$n$ 次单位根</h3>
+<p>若 $\omega$ 满足 $\omega^n = 1$，那么 $\omega$ 就是 $n$ 次单位根 (n-th root of unity)。</p>
+<p>若 $\omega$ 满足 $\omega^n = 1$，<strong>且满足</strong> $\omega ^ k \neq 1, \forall k \in [1, n-1]$，则 $\omega$ 就是 $n$ 次<strong>本原</strong>单位根 (primitive n-th root of unity)</p>
+<h3 id="omega-的取值">$\omega$ 的取值</h3>
+<div class="admonition info">
+  <p class="admonition-title">定理</p>
+<p>$$\omega_n^k = e^{i\frac{2k\pi}{n}} = \cos(\frac{2k\pi}{n}) + i \sin(\frac{2k\pi}{n})$$</p>
+<p>$$\omega = e^{i \frac{2\pi}{n}} = \cos(\frac{2\pi}{n}) + i \sin(\frac{2\pi}{n})$$</p>
+</div>
+<p>为了方便，下文我们就写 $\omega = e^{i \frac{2\pi}{n}}$</p>
+<p>$\omega$ 有几个优秀的性质：</p>
+<ol>
+<li>$\omega$ 为 $n$ 次<strong>本原</strong>单位根，这说明 $\omega^n = 1$，且 $\omega ^ k \neq 1, \forall k \in [1, n-1]$</li>
+<li>$\omega^{k+\frac{n}{2}} = -\omega^{k}$</li>
+</ol>
+<h2 id="fft原理">FFT原理</h2>
+<div class="admonition question">
+  <p class="admonition-title">问题</p>
+<p>给定两个已知多项式 $f(x)$ 和 $g(x)$，$deg(f) = n_1, deg(g) = n_2$，求 $h(x) = f(x) * g(x)$？</p>
+</div>
+<p>FFT 分为三步：</p>
+<ol>
+<li>
+<p><strong>DFT</strong>：令 $n = n_1 + n_2$，在 $x$ 轴上选择 $(n + 1)$ 个<strong>特殊点</strong> $x_0,x_1,&hellip;,x_{n}$，求出 $f(x_0), f(x_1), &hellip;, f(x_n)$ 与 $g(x_0), g(x_1), &hellip;, g(x_n)$ 的值。</p>
+<p>复杂度：$O(n\log n)$</p>
+</li>
+<li>
+<p><strong>点值乘法</strong>：求出 $(n+1)$ 个点上，点值的乘积，即 $h(x_i) = f(x_i) * g(x_i), i \in [0, n]$</p>
+<p>复杂度：$O(n)$</p>
+</li>
+<li>
+<p><strong>IDFT</strong>：给定一个未知 $h(x)$ 上的 $(n+1)$ 个<strong>特殊点</strong> $\{(x_0,y_0), (x_1,y_1), &hellip;, (x_n,y_n)\}$，求出 $h(x)$ 的系数表达式。</p>
+<p>复杂度：$O(n\log n)$</p>
+</li>
+</ol>
+<h3 id="第一步-dft">第一步 DFT</h3>
+<div class="admonition question">
+  <p class="admonition-title">问题</p>
+<p>假设现在有一个 $deg(f) = n$ 的多项式，且 $n$ 为偶数。我们想要求 $f(x)$ 在 $n$ 个不同的特殊点 $x_0,x_1,&hellip;,x_{n-1}$ 上的值。</p>
+</div>
+<blockquote>
+<p>注意到这个问题也等价于一个矩阵乘法，即给定 一个矩阵 $X$ 和一个向量 $\vec a$，在我们可以自由选择 $x_0,x_1,&hellip;,x_{n-1}$ 的情况下，用 $O(n \log n)$ 的时间求出 $\vec y = X \vec a$ 的值？</p>
+<p>$$\begin{bmatrix}
+1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\<br>
+1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\<br>
+&hellip;\\<br>
+1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\<br>
+\end{bmatrix}
+\begin{bmatrix}
+a_0 \\<br>
+a_1 \\<br>
+&hellip;\\<br>
+a_{n-1} \\<br>
+\end{bmatrix}
+=
+\begin{bmatrix}
+y_0 \\<br>
+y_1 \\<br>
+&hellip;\\<br>
+y_{n-1} \\<br>
+\end{bmatrix}
+$$</p>
+</blockquote>
+<p>那么，如何快速求出 $f(x_0), f(x_1), &hellip;, f(x_{n-1})$呢？我们只要选一些特殊的 $x_0, x_1, &hellip;, x_{n-1}$ 即可。</p>
+<p>结论：$x_i = \omega^i$</p>
+<hr>
+<p>证明：</p>
+<p>因为</p>
+<p>$$f(x) = a_0 + a_1x + a_2x^2 + &hellip; + a_nx^n$$</p>
+<p>$$=(a_0 + a_2x^2 + a_4x^4 + &hellip; + a_{n-2}x^{n-2}) + (a_1x + a_3x^3 + a_5x^5 + &hellip; + a_{n-1}x^{n-1})$$</p>
+<p>令</p>
+<p>$$f_{even}(x) = a_0 + a_2x + a_4x^2 + &hellip; + a_{n-2}x^{\frac{n}{2} - 1}$$
+$$f_{odd}(x) = a_1 + a_3x + a_5x^2 + &hellip; + a_{n-1}x^{\frac{n}{2} - 1}$$</p>
+<p>则有</p>
+<p>$$f(x) = f_{even}(x^2) + xf_{odd}(x^2)$$</p>
+<p>现在，我们选择 $x_i = \omega^i$，则我们求 $f(x_i)$ 和 $f(x_{i+\frac{n}{2}})$，可以发现</p>
+<p>$$x_{\frac{n}{2}} = \omega^{\frac{n}{2}} = -1, ~~x_{i+\frac{n}{2}} = \omega^{i+\frac{n}{2}} = -\omega^i = -x_i$$</p>
+<p>所以</p>
+<p>$$\forall i \in [0,\frac{n}{2}-1], ~~f(x_i) = f_{even}(x_i^2) + x_if_{odd}(x_i^2), ~~f(x_{i+\frac{n}{2}}) = f_{even}(x_i^2) - x_if_{odd}(x_i^2)$$</p>
+<p>又因为，求 $\forall i \in [0,n], f(x_i)$ 的值，等价于求 $\forall i \in [0,\frac{n}{2}-1], f(x_i) 和 f(x_{i+\frac{n}{2}})$ 的值，</p>
+<p>所以这个问题就可以等价转化为求 $f_{even}(x_i^2) + x_if_{odd}(x_i^2)$ 的值。而这就是一个规模减半了的子问题。</p>
+<p>所以设 $T(n)$ 为：求出 $\forall i \in [0,n], f(x_i)$ 的值所需的时间，则可以列出方程：</p>
+<p>$$T(n) = 2T(\frac{n}{2}) + O(n)$$</p>
+<p>所以 $T(n) = O(n\log n)$</p>
+<h3 id="第二步-点值乘法">第二步 点值乘法</h3>
+<p>第一步DFT以后，我们有了 $f(x_0), f(x_1), &hellip;, f(x_{n-1})$ 与 $g(x_0), g(x_1), &hellip;, g(x_{n-1})$ 的值，我们就可以直接将这些值乘起来，得到</p>
+<p>$$h(x_0), h(x_1), &hellip;, h(x_{n-1})$$</p>
+<p>的值。</p>
+<h3 id="第三步-idft">第三步 IDFT</h3>
+<div class="admonition question">
+  <p class="admonition-title">问题</p>
+<p>现在给定一个未知的多项式 $h(x)$，且 $deg(h) = n-1$，已知 $h(x)$ 上的 $n$ 个点 $(x_0,h(x_0)), (x_1,h(x_1)), &hellip;, (x_{n-1},h(x_{n-1}))$，求 $h(x)$ 的表达式？</p>
+</div>
+<blockquote>
+<p>注意到这个问题也等价于一个矩阵乘法，即给定 一个矩阵 $X$ 和一个向量 $\vec y$，已知 $X\vec a = \vec y$，如何用 $O(n \log n)$ 的时间求出 $\vec a$ 的值？</p>
+<p>$$\begin{bmatrix}
+1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\<br>
+1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\<br>
+&hellip;\\<br>
+1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\<br>
+\end{bmatrix}
+\begin{bmatrix}
+a_0 \\<br>
+a_1 \\<br>
+&hellip;\\<br>
+a_{n-1} \\<br>
+\end{bmatrix}
+=
+\begin{bmatrix}
+y_0 \\<br>
+y_1 \\<br>
+&hellip;\\<br>
+y_{n-1} \\<br>
+\end{bmatrix}
+$$</p>
+</blockquote>
+<p>发现了什么？这实际上和第一步 DFT 的过程是一样的，如果我们把 $X^{-1}$ 给两边乘上 ，就变成了</p>
+<p>$$\begin{bmatrix}
+1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\<br>
+1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\<br>
+&hellip;\\<br>
+1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\<br>
+\end{bmatrix}^{-1} \begin{bmatrix}
+y_0 \\<br>
+y_1 \\<br>
+&hellip;\\<br>
+y_{n-1} \\<br>
+\end{bmatrix}
+= \begin{bmatrix}
+a_0 \\<br>
+a_1 \\<br>
+&hellip;\\<br>
+a_{n-1} \\<br>
+\end{bmatrix}$$</p>
+<p>那么，令</p>
+<p>$$X=\begin{bmatrix}1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\<br>
+1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\<br>
+&hellip;\\<br>
+1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\<br>
+\end{bmatrix}$$</p>
+<p>把 $x_i = \omega^i$ 代进去，就可以得到：</p>
+<p>$$X = \begin{bmatrix}1 &amp; 1 &amp; 1 &amp; &hellip; &amp; 1 \\<br>
+1 &amp; \omega^1 &amp; \omega^{1\cdot 2} &amp; &hellip; &amp; \omega^{1\cdot (n-1)} \\<br>
+&hellip;\\<br>
+1 &amp; \omega^{1} &amp; \omega^{(n-1)\cdot 2} &amp; &hellip; &amp; \omega^{(n-1)\cdot (n-1)} \\<br>
+\end{bmatrix}$$</p>
+<p>令</p>
+<p>$$V(\omega) = X = \begin{bmatrix}1 &amp; 1 &amp; 1 &amp; &hellip; &amp; 1 \\<br>
+1 &amp; \omega^1 &amp; \omega^{1\cdot 2} &amp; &hellip; &amp; \omega^{1\cdot (n-1)} \\<br>
+&hellip;\\<br>
+1 &amp; \omega^{1} &amp; \omega^{(n-1)\cdot 2} &amp; &hellip; &amp; \omega^{(n-1)\cdot (n-1)} \\<br>
+\end{bmatrix}, ~~~V(\omega^{-1}) = \begin{bmatrix}1 &amp; 1 &amp; 1 &amp; &hellip; &amp; 1 \\<br>
+1 &amp; \omega^{-1} &amp; \omega^{-1\cdot 2} &amp; &hellip; &amp; \omega^{-1\cdot (n-1)} \\<br>
+&hellip;\\<br>
+1 &amp; \omega^{-1} &amp; \omega^{-(n-1)\cdot 2} &amp; &hellip; &amp; \omega^{-(n-1)\cdot (n-1)} \\<br>
+\end{bmatrix}$$</p>
+<p>则有：</p>
+<p>$$V(\omega) \cdot V(\omega^{-1}) = nI$$</p>
+<p>证明：直接进行矩阵运算即可，注意要用到 $\omega^n = 1$ 的特性。</p>
+<p>这说明</p>
+<p>$$X^{-1} = V(w)^{-1} = \frac{1}{n} V(\omega^{-1})$$</p>
+<p>所以上面的 $X^{-1}\vec y = \vec a$ 就可以表示为：</p>
+<p>$$V(\omega)^{-1} \begin{bmatrix}
+y_0 \\<br>
+y_1 \\<br>
+&hellip;\\<br>
+y_{n-1} \\<br>
+\end{bmatrix}
+= \begin{bmatrix}
+a_0 \\<br>
+a_1 \\<br>
+&hellip;\\<br>
+a_{n-1} \\<br>
+\end{bmatrix} ~~\Rightarrow~~ \frac{1}{n}V(\omega^{-1})\begin{bmatrix}
+y_0 \\<br>
+y_1 \\<br>
+&hellip;\\<br>
+y_{n-1} \\<br>
+\end{bmatrix}
+= \begin{bmatrix}
+a_0 \\<br>
+a_1 \\<br>
+&hellip;\\<br>
+a_{n-1} \\<br>
+\end{bmatrix}$$</p>
+<p>这就等价于我们有一个系数为 $y_0, y_1, &hellip; y_{n}$ 的多项式，然后要在 $x_0^{-1}, x_1^{-1}, &hellip;, x_n^{-1}$ 这些特殊点上进行求值。</p>
+<p>我们发现 $x_0^{-1} = \omega^{-1}$ 仍然是一个 $n$ 次<strong>本原</strong>单位根 (primitive n-th root of unity)（证明略），所以它仍然有上述优秀的性质。</p>
+<p>所以这个问题可以用 DFT 解决，求出来的值，就是我们想要的 $h(x)$ 的多项式系数。</p>
+<h2 id="非递归-fft">非递归 FFT</h2>
+<p>递归 FFT 常数过大，不好用，所以我们可以写一个非递归版本的。</p>
+<p>我们手推一下 FFT 的分治过程，每一次分治都是拆分奇数项和偶数项，模拟拆分过程有：</p>
+<p>初始序列：$\{a_0,a_1,a_2,a_3,a_4,a_5,a_6,a_7\}$</p>
+<p>第一次拆分：$\{a_0,a_2,a_4,a_6\},\{a_1,a_3,a_5,a_7\}$</p>
+<p>第二次拆分：$\{a_0,a_4\},\{a_2,a_6\},\{a_1,a_5\},\{a_3,a_7\}$</p>
+<p>第三次拆分：$\{a_0\},\{a_4\},\{a_2\},\{a_6\},\{a_1\},\{a_5\},\{a_3\},\{a_7\}$</p>
+<p>发现了什么？</p>
+<blockquote>
+<p>拆分前：0, 1, 2, 3, 4, 5, 6, 7</p>
+<p>拆分后：0, 4, 2, 6, 1, 5, 3, 7</p>
+</blockquote>
+<p>化成二进制：</p>
+<blockquote>
+<p>拆分前：000, 001, 010, 011, 100, 101, 110, 111</p>
+<p>拆分后：000, 100, 010, 110, 001, 101, 011, 111</p>
+</blockquote>
+<p>机智的你或许发现了，拆分前后，每个数字对应的二进制刚好就是翻转了一下，最左边的bit跑到最右边去了，反之亦然。</p>
+<p>那么这个二进制翻转就可以直接 $O(n \log n)$ 实现了，但是这样不够高效，有一个 $O(n)$ 的基于 DP 的方法：</p>
+<p>设 $R(x)$ 为 $x$ 翻转后的结果，可知 $R(0) = 0$。</p>
+<p>我们从小到大求 $R(x)$，在求 $R(x)$ 时，我们已知了 $R(\frac{x}{2})$ 的值，相当于：</p>
+<p>$$x = abc[0/1], ~ \frac{x}{2} = abc, ~ R(\frac{x}{2}) = cba, ~ R(x) = [0/1]cba$$</p>
+<p>则我们只要判断一下 $x$ 的最低位为 $0$ 还是 $1$，然后给 $R(\frac{x}{2})$ 的最高位补上一个 $0$ 或者 $1$ 就可以得到 $R(x)$ 了。</p>
+<pre><code class="language-cpp">void rearrange(Complex a[], const int n) {
+    static int rev[maxn];  
+    for (int i = 0; i &lt;= n; i++) {
+        rev[i] = rev[i &gt;&gt; 1] &gt;&gt; 1;
+        if (i &amp; 1) rev[i] |= (n &gt;&gt; 1);
+    }
+    for (int i = 0; i &lt;= n; i++) {
+        if (i &lt; rev[i]) swap(a[i], a[rev[i]]);  // 保证每对数字只翻转一次
+    }
+}
+</code></pre>
+<p>至于非递归写法的原理，我懒得写了先鸽着吧（</p>
+<h2 id="模版">模版</h2>
+<pre><code class="language-cpp">const int maxn = (1&lt;&lt;21) + 5;  // 注意这里需要是 &gt; 2^k
+
+struct Complex {
+    long double x,y;
+    Complex(long double _x = 0.0, long double _y = 0.0) {
+        x = _x; y = _y;
+    }
+    Complex operator+(const Complex&amp; b) const {
+        return Complex(x + b.x, y + b.y);
+    }
+    Complex operator-(const Complex&amp; b) const {
+        return Complex(x - b.x, y - b.y);
+    }
+    Complex operator*(const Complex &amp;b) const {
+        return Complex(x * b.x - y * b.y, x * b.y + y * b.x);
+    }
+    Complex operator/(const long double&amp; b) const {
+        return Complex(x/b, y/b);
+    }
+};
+
+struct FastFourierTransform {
+    void rearrange(Complex a[], const int n) {
+        static int rev[maxn];  // maxn &gt; deg(h) 且 maxn 为 2的k次方 + 5
+        for (int i = 0; i &lt;= n; i++) {
+            rev[i] = rev[i &gt;&gt; 1] &gt;&gt; 1;
+            if (i &amp; 1) rev[i] |= (n &gt;&gt; 1);
+        }
+        for (int i = 0; i &lt;= n; i++) {
+            if (i &lt; rev[i]) swap(a[i], a[rev[i]]);  // 保证每对数字只翻转一次
+        }
+    }
+
+    void fft(Complex a[], const int n, int on) {
+        rearrange(a, n);
+        for (int k = 2; k &lt;= n; k &lt;&lt;= 1) {   // 模拟分治的合并过程
+            Complex wn(cos(2*pi / k), on * sin(2*pi / k));
+            for (int i = 0; i &lt; n; i += k) {
+                Complex w(1, 0);
+                for (int j = i; j &lt; i + (k&gt;&gt;1); j++) {
+                    Complex x = a[j], y = w * a[j+(k&gt;&gt;1)];
+                    a[j] = x + y;
+                    a[j+(k&gt;&gt;1)] = x - y;
+                    w = w * wn;
+                }
+            }
+        }
+        if (on == -1) {
+            for (int i = 0; i &lt; n; i++) a[i] = a[i] / n;
+        }
+    }
+} fft;
+
+// calculate h(x) = f(x) * g(x), deg(f) = n1, deg(g) = n2
+void poly_multiply(int f[], int n1, int g[], int n2, int h[]) {
+    int n = 1;
+    while (n &lt;= n1 + n2) n &lt;&lt;= 1;  // deg(h) = n1 + n2
+    static Complex a[maxn], b[maxn], c[maxn];
+    for (int i = 0; i &lt;= n1; i++) a[i] = Complex(f[i], 0);
+    for (int i = 0; i &lt;= n2; i++) b[i] = Complex(g[i], 0);
+    fft.fft(a, n, 1);  // 注意这里用的是 n (不是 n1)
+    fft.fft(b, n, 1);
+    for (int i = 0; i &lt;= n; i++) a[i] = a[i] * b[i];
+    fft.fft(a, n, -1);
+    for (int i = 0; i &lt;= n; i++) h[i] = (int)(a[i].x + 0.5);
+}
+
+int n1, n2;
+int f[maxn/2], g[maxn/2], h[maxn];
+
+int main() {
+    for (int i = 0; i &lt;= n1; i++) cin &gt;&gt; f[i];
+    for (int i = 0; i &lt;= n2; i++) cin &gt;&gt; g[i];
+    poly_multiply(f, n1, g, n2, h);
+    for (int i = 0; i &lt;= n1+n2; i++) cout &lt;&lt; h[i] &lt;&lt; &quot; &quot;;
+}
+</code></pre>
+<p>使用板子的注意事项：</p>
+<ol>
+<li><code>maxn</code> 的值必须大于一个 $2^k$，且 $2^k \geq n_1+n_2$，仅仅大于 <code>n1 + n2</code> 是不够的！</li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-09-17 18:16:26 &#43;0800 &#43;0800">2021-09-17</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/6ee78619f34c91c184175c0c373a985c76fcdc3f" title="update 051.md and add info shortcodes" target="_blank">(6ee7861)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/051-fft.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/fft/">fft</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/050-%E7%BA%BF%E6%80%A7%E5%9F%BA/">
+            <span class="next-text nav-default">线性基</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

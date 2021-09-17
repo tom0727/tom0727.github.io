@@ -1,0 +1,11 @@
+{{ if .Get 1 -}}
+<div class="admonition info">
+  <p class="admonition-title"><a href="{{ .Get 1 }}" target="_blank">{{ .Get 0 }}</a></p>
+  {{ .Inner }}
+</div>
+{{- else -}}
+<div class="admonition info">
+  <p class="admonition-title">{{ with .Get 0 }}{{ safeHTML . }}{{ else }}Info{{ end }}</p>
+  {{ .Inner }}
+</div>
+{{- end }}

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>NTT - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="模版 NTT const int mod = 998244353; const int maxn = (1&amp;lt;&amp;lt;22) &#43; 5; struct NTT { const ll g = 3, invg = inv(g); // mod = 998244353 inline ll qpow(ll a, ll b) { ll res = 1; while (b) { if (b &amp;amp; 1) res = res * a % mod; a = a * a % mod; b &amp;gt;&amp;gt;= 1; } return res; } inline" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/052-ntt/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.444107aa3d9e98d30a13b802fe721a7241527e38084e01cfa2ad193749dbaec2.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="NTT" />
+<meta property="og:description" content="模版 NTT const int mod = 998244353; const int maxn = (1&lt;&lt;22) &#43; 5; struct NTT { const ll g = 3, invg = inv(g); // mod = 998244353 inline ll qpow(ll a, ll b) { ll res = 1; while (b) { if (b &amp; 1) res = res * a % mod; a = a * a % mod; b &gt;&gt;= 1; } return res; } inline" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/052-ntt/" />
+<meta property="article:published_time" content="2021-09-18T19:51:17+08:00" />
+<meta property="article:modified_time" content="2021-09-21T12:32:18+08:00" />
+<meta itemprop="name" content="NTT">
+<meta itemprop="description" content="模版 NTT const int mod = 998244353; const int maxn = (1&lt;&lt;22) &#43; 5; struct NTT { const ll g = 3, invg = inv(g); // mod = 998244353 inline ll qpow(ll a, ll b) { ll res = 1; while (b) { if (b &amp; 1) res = res * a % mod; a = a * a % mod; b &gt;&gt;= 1; } return res; } inline">
+<meta itemprop="datePublished" content="2021-09-18T19:51:17&#43;08:00" />
+<meta itemprop="dateModified" content="2021-09-21T12:32:18&#43;08:00" />
+<meta itemprop="wordCount" content="913">
+
+
+
+<meta itemprop="keywords" content="NTT," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="NTT"/>
+<meta name="twitter:description" content="模版 NTT const int mod = 998244353; const int maxn = (1&lt;&lt;22) &#43; 5; struct NTT { const ll g = 3, invg = inv(g); // mod = 998244353 inline ll qpow(ll a, ll b) { ll res = 1; while (b) { if (b &amp; 1) res = res * a % mod; a = a * a % mod; b &gt;&gt;= 1; } return res; } inline"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">NTT</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-09-18 19:51:17 &#43;0800 &#43;0800"> 2021-09-18 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#模版">模版</a></li>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#原根">原根</a></li>
+        <li><a href="#ntt原理">NTT原理</a></li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="模版">模版</h2>
+<details class="admonition note"><summary class="admonition-title">NTT</summary>
+<pre><code class="language-cpp">const int mod = 998244353;
+const int maxn = (1&lt;&lt;22) + 5;
+
+struct NTT {
+    const ll g = 3, invg = inv(g);  // mod = 998244353
+    inline ll qpow(ll a, ll b) {
+        ll res = 1;
+        while (b) {
+            if (b &amp; 1) res = res * a % mod;
+            a = a * a % mod;
+            b &gt;&gt;= 1;
+        }
+        return res;
+    }
+    inline ll inv(ll a) {
+        return qpow(a, mod-2);
+    }
+
+    void rearrange(ll a[], const int n) {
+        static int rev[maxn];  // maxn &gt; deg(h) 且 maxn 为 2的k次方 + 5
+        for (int i = 0; i &lt;= n; i++) {
+            rev[i] = rev[i &gt;&gt; 1] &gt;&gt; 1;
+            if (i &amp; 1) rev[i] |= (n &gt;&gt; 1);
+        }
+        for (int i = 0; i &lt;= n; i++) {
+            if (i &lt; rev[i]) swap(a[i], a[rev[i]]);  // 保证每对数字只翻转一次
+        }
+    }
+
+    void ntt(ll a[], const int n, int on) {
+        rearrange(a, n);
+        for (int k = 2; k &lt;= n; k &lt;&lt;= 1) {   // 模拟分治的合并过程
+            ll wn = qpow(on == 1 ? g : invg, (mod-1)/k);
+            for (int i = 0; i &lt; n; i += k) {
+                ll w = 1;
+                for (int j = i; j &lt; i + (k&gt;&gt;1); j++) {
+                    ll x = a[j], y = w * a[j+(k&gt;&gt;1)] % mod;
+                    a[j] = (x + y) % mod;
+                    a[j+(k&gt;&gt;1)] = (x - y + mod) % mod;
+                    w = w * wn % mod;
+                }
+            }
+        }
+        if (on == -1) {
+            ll invn = inv(n);
+            for (int i = 0; i &lt; n; i++) a[i] = a[i] * invn % mod;
+        }
+    }
+} ntt;
+
+// calculate h(x) = f(x) * g(x), deg(f) = n1, deg(g) = n2
+void poly_multiply(ll f[], int n1, ll g[], int n2, ll h[]) {
+    int n = 1;
+    while (n &lt;= n1 + n2) n &lt;&lt;= 1;  // deg(h) = n1 + n2
+    memset(h, 0, sizeof(ll) * n);
+    ntt.ntt(f, n, 1);  // 注意这里用的是 n (不是 n1)
+    ntt.ntt(g, n, 1);
+    for (int i = 0; i &lt;= n; i++) h[i] = f[i] * g[i] % mod;
+    ntt.ntt(h, n, -1);
+}
+
+int n1, n2;
+ll f[maxn/2], g[maxn/2], h[maxn];
+
+int main() {
+    cin &gt;&gt; n1 &gt;&gt; n2;
+    for (int i = 0; i &lt;= n1; i++) cin &gt;&gt; f[i];
+    for (int i = 0; i &lt;= n2; i++) cin &gt;&gt; g[i];
+    poly_multiply(f, n1, g, n2, h);
+    for (int i = 0; i &lt;= n1+n2; i++) cout &lt;&lt; h[i] &lt;&lt; &quot; &quot;;
+}
+</code></pre>
+</details>
+<h2 id="介绍">介绍</h2>
+<p>NTT（快速数论变换）和 FFT 一样，都是用来解决多项式乘法问题。</p>
+<p>NTT可以处理在 $mod ~ p$ 意义下的多项式乘法，并且不需要处理复数和小数。</p>
+<p>在开始介绍 NTT 之前，我们需要一些基本的前置知识。</p>
+<h2 id="原根">原根</h2>
+<p>对于一个质数 $p$，在 $mod ~ p$ 意义下，原根 $g$ 满足：</p>
+<p>$$ord(g) = |Z_p^{\times}| = \phi(p)$$</p>
+<p>• 注意 $\phi(p)$ 是 $p$ 的欧拉函数，代表 $[1,p]$ 中与 $p$ 互质的数的数量。</p>
+<p>• $ord(g)$ 代表一个最小的数字 $r = ord(g)$ 使得 $g^r \equiv 1(mod ~ p)$，且 $\forall k \in [1,r-1], g^k \neq 1(mod ~ p)$</p>
+<h2 id="ntt原理">NTT原理</h2>
+<p>使用 NTT 的限制条件：</p>
+<ol>
+<li>模数 $p$ 需要满足 $p = k \times 2^m + 1$，其中 $k, m \geq 1$，$p$ 为质数。</li>
+<li>若 $p = k \times 2^m + 1$，则只能处理 $deg(h) \leq 2^m$ 的情况。</li>
+</ol>
+<hr>
+<p>在发现了原根 $g$ 以后，我们会发现令 $g_n = g^{\frac{p-1}{n}}$，则 $g_n$ 拥有着 FFT 中，$\omega$ 的优秀性质：</p>
+<ol>
+<li>$g_n^n = 1$，且 $\forall k \in [1, n-1], g_n ^ k \neq 1$</li>
+<li>$g_n^{k+\frac{n}{2}} = -g_n^{k}$</li>
+</ol>
+<p>证明：</p>
+<ol>
+<li>根据原根的定义即可。</li>
+<li>只要证 $g_n^{\frac{n}{2}} = -1$ 即可。因为 $g_n^n = 1$，所以 $g_n^{\frac{n}{2}} = \pm 1$，而因为 $\forall k \in [1, n-1], g_n ^ k \neq 1$，所以 $g_n^{\frac{n}{2}} = -1$</li>
+</ol>
+<hr>
+<p>剩下的就和 FFT 一样了，只不过把 $\omega$ 换成 $g_n = g^{\frac{p-1}{n}}$ 而已。</p>
+<p>当然注意到，由于 $n$ 需要是 $2^k$，所以 $p-1$ 需要是 $2^k$ 的倍数，故我们需要满足 $p = k \times 2^m + 1$。</p>
+<p>常用的组合：</p>
+<p>$$p = 998244353, ~~g = 3$$</p>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://blog.csdn.net/a_forever_dream/article/details/102469390">https://blog.csdn.net/a_forever_dream/article/details/102469390</a></li>
+<li><a href="https://oi-wiki.org/math/poly/ntt/">https://oi-wiki.org/math/poly/ntt/</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-09-21 12:32:18 &#43;0800 &#43;0800">2021-09-21</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/d8a1d2605808b8ed47594173f98c41759e9e3bd1" title="init 052, update 051" target="_blank">(d8a1d26)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/052-ntt.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/ntt/">NTT</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/051-fft/">
+            <span class="next-text nav-default">FFT</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

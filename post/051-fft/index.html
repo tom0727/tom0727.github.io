@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="介绍 FFT (Fast Fourier Transform, 快速傅立叶变换) 可以在 $O(n \log n)$ 的时间内计算两个多项式的乘法。 在开始介绍 FFT 之前，我们需要一些基本的前置知识。 多项式 一个多项式有两种表" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; /* clsnb */ } 模版 FFT const int maxn = (1&amp;lt;&amp;lt;21) &#43; 5; // 注意这里需要是 &amp;gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp;amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -40,22 +40,22 @@
 
 
 <meta property="og:title" content="FFT" />
-<meta property="og:description" content="介绍 FFT (Fast Fourier Transform, 快速傅立叶变换) 可以在 $O(n \log n)$ 的时间内计算两个多项式的乘法。 在开始介绍 FFT 之前，我们需要一些基本的前置知识。 多项式 一个多项式有两种表" />
+<meta property="og:description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; /* clsnb */ } 模版 FFT const int maxn = (1&lt;&lt;21) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/051-fft/" />
 <meta property="article:published_time" content="2021-09-17T13:52:57+08:00" />
-<meta property="article:modified_time" content="2021-09-17T18:16:26+08:00" />
+<meta property="article:modified_time" content="2021-09-21T12:32:18+08:00" />
 <meta itemprop="name" content="FFT">
-<meta itemprop="description" content="介绍 FFT (Fast Fourier Transform, 快速傅立叶变换) 可以在 $O(n \log n)$ 的时间内计算两个多项式的乘法。 在开始介绍 FFT 之前，我们需要一些基本的前置知识。 多项式 一个多项式有两种表">
+<meta itemprop="description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; /* clsnb */ } 模版 FFT const int maxn = (1&lt;&lt;21) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex">
 <meta itemprop="datePublished" content="2021-09-17T13:52:57&#43;08:00" />
-<meta itemprop="dateModified" content="2021-09-17T18:16:26&#43;08:00" />
-<meta itemprop="wordCount" content="2967">
+<meta itemprop="dateModified" content="2021-09-21T12:32:18&#43;08:00" />
+<meta itemprop="wordCount" content="6116">
 
 
 
-<meta itemprop="keywords" content="fft," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="FFT," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="FFT"/>
-<meta name="twitter:description" content="介绍 FFT (Fast Fourier Transform, 快速傅立叶变换) 可以在 $O(n \log n)$ 的时间内计算两个多项式的乘法。 在开始介绍 FFT 之前，我们需要一些基本的前置知识。 多项式 一个多项式有两种表"/>
+<meta name="twitter:description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; /* clsnb */ } 模版 FFT const int maxn = (1&lt;&lt;21) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -150,6 +150,7 @@
   <ul>
     <li>
       <ul>
+        <li><a href="#模版">模版</a></li>
         <li><a href="#介绍">介绍</a></li>
         <li><a href="#多项式">多项式</a>
           <ul>
@@ -171,7 +172,15 @@
           </ul>
         </li>
         <li><a href="#非递归-fft">非递归 FFT</a></li>
-        <li><a href="#模版">模版</a></li>
+        <li><a href="#优化三步变两步">优化（三步变两步）</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p1919-模板ab-problem升级版fft快速傅里叶httpswwwluogucomcnproblemp1919">例1 <a href="https://www.luogu.com.cn/problem/P1919">洛谷P1919 【模板】A*B Problem升级版（FFT快速傅里叶）</a></a></li>
+            <li><a href="#例2-洛谷p3338-zjoi2014力httpswwwluogucomcnproblemp3338">例2 <a href="https://www.luogu.com.cn/problem/P3338">洛谷P3338 [ZJOI2014]力</a></a></li>
+            <li><a href="#例3-洛谷p3723-ah2017hnoi2017礼物httpswwwluogucomcnproblemp3723">例3 <a href="https://www.luogu.com.cn/problem/P3723">洛谷P3723 [AH2017/HNOI2017]礼物</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考资料">参考资料</a></li>
       </ul>
     </li>
   </ul>
@@ -179,8 +188,107 @@
   </div>
 </div>
     <div class="post-content">
-      <h2 id="介绍">介绍</h2>
-<p>FFT (Fast Fourier Transform, 快速傅立叶变换) 可以在 $O(n \log n)$ 的时间内计算两个多项式的乘法。</p>
+      <head>
+<style>
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+        display: table;
+        width: auto;
+        /* clsnb */
+    }
+</style>
+</head>
+<h2 id="模版">模版</h2>
+<details class="admonition note"><summary class="admonition-title">FFT</summary>
+<pre><code class="language-cpp">const int maxn = (1&lt;&lt;21) + 5;  // 注意这里需要是 &gt; 2^k
+
+struct Complex {
+    double x,y;
+    Complex(double _x = 0.0, double _y = 0.0) {
+        x = _x; y = _y;
+    }
+    Complex operator+(const Complex&amp; b) const {
+        return Complex(x + b.x, y + b.y);
+    }
+    Complex operator-(const Complex&amp; b) const {
+        return Complex(x - b.x, y - b.y);
+    }
+    Complex operator*(const Complex &amp;b) const {
+        return Complex(x * b.x - y * b.y, x * b.y + y * b.x);
+    }
+    Complex operator/(const long double&amp; b) const {
+        return Complex(x/b, y/b);
+    }
+};
+
+struct FastFourierTransform {
+    void rearrange(Complex a[], const int n) {
+        static int rev[maxn];  // maxn &gt; deg(h) 且 maxn 为 2的k次方 + 5
+        for (int i = 0; i &lt;= n; i++) {
+            rev[i] = rev[i &gt;&gt; 1] &gt;&gt; 1;
+            if (i &amp; 1) rev[i] |= (n &gt;&gt; 1);
+        }
+        for (int i = 0; i &lt;= n; i++) {
+            if (i &lt; rev[i]) swap(a[i], a[rev[i]]);  // 保证每对数字只翻转一次
+        }
+    }
+
+    void fft(Complex a[], const int n, int on) {
+        rearrange(a, n);
+        for (int k = 2; k &lt;= n; k &lt;&lt;= 1) {   // 模拟分治的合并过程
+            Complex wn(cos(2*pi / k), on * sin(2*pi / k));
+            for (int i = 0; i &lt; n; i += k) {
+                Complex w(1, 0);
+                for (int j = i; j &lt; i + (k&gt;&gt;1); j++) {
+                    Complex x = a[j], y = w * a[j+(k&gt;&gt;1)];
+                    a[j] = x + y;
+                    a[j+(k&gt;&gt;1)] = x - y;
+                    w = w * wn;
+                }
+            }
+        }
+        if (on == -1) {
+            for (int i = 0; i &lt; n; i++) a[i] = a[i] / n;
+        }
+    }
+} fft;
+
+// calculate h(x) = f(x) * g(x), deg(f) = n1, deg(g) = n2
+void poly_multiply(const double f[], int n1, const double g[], int n2, double h[]) {
+    int n = 1;
+    while (n &lt;= n1 + n2) n &lt;&lt;= 1;  // deg(h) = n1 + n2
+    static Complex a[maxn], b[maxn];
+    memset(a, 0, sizeof(a));
+    memset(b, 0, sizeof(b));
+    for (int i = 0; i &lt;= n1; i++) a[i] = Complex(f[i], 0);
+    for (int i = 0; i &lt;= n2; i++) b[i] = Complex(g[i], 0);
+    fft.fft(a, n, 1);  // 注意这里用的是 n (不是 n1)
+    fft.fft(b, n, 1);
+    for (int i = 0; i &lt;= n; i++) a[i] = a[i] * b[i];
+    fft.fft(a, n, -1);
+    for (int i = 0; i &lt;= n; i++) h[i] = a[i].x;
+}
+
+int n1, n2;
+double f[maxn/2], g[maxn/2], h[maxn];
+
+int main() {
+    cin &gt;&gt; n1 &gt;&gt; n2;
+    for (int i = 0; i &lt;= n1; i++) cin &gt;&gt; f[i];
+    for (int i = 0; i &lt;= n2; i++) cin &gt;&gt; g[i];
+    poly_multiply(f, n1, g, n2, h);
+    for (int i = 0; i &lt;= n1+n2; i++) cout &lt;&lt; h[i] &lt;&lt; &quot; &quot;;
+}
+</code></pre>
+</details>
+<p>使用板子的注意事项：</p>
+<ol>
+<li><code>maxn</code> 的值必须大于一个 $2^k$，且 $2^k \geq n_1+n_2$，仅仅大于 <code>n1 + n2</code> 是不够的！</li>
+</ol>
+<h2 id="介绍">介绍</h2>
+<p>FFT (Fast Fourier Transform, 快速傅立叶变换) 可以在 $O(n \log n)$ 的时间内计算两个多项式的乘法，也可以用来计算卷积。</p>
+<p>• 一般卷积的形式为 $$C_k = \sum\limits_{i=0}^kA_iB_{k-i} = A_0B_k + A_1B_{k-1} + &hellip; + A_kB_0$$</p>
 <p>在开始介绍 FFT 之前，我们需要一些基本的前置知识。</p>
 <h2 id="多项式">多项式</h2>
 <p>一个多项式有两种表示方法：<strong>系数表示法</strong> 和 <strong>点值表示法</strong>。</p>
@@ -203,7 +311,7 @@
 <p>为了方便，下文我们就写 $\omega = e^{i \frac{2\pi}{n}}$</p>
 <p>$\omega$ 有几个优秀的性质：</p>
 <ol>
-<li>$\omega$ 为 $n$ 次<strong>本原</strong>单位根，这说明 $\omega^n = 1$，且 $\omega ^ k \neq 1, \forall k \in [1, n-1]$</li>
+<li>$\omega$ 为 $n$ 次<strong>本原</strong>单位根，这说明 $\forall k \in [1, n-1], \omega^n = 1$，且 $\omega ^ k \neq 1$</li>
 <li>$\omega^{k+\frac{n}{2}} = -\omega^{k}$</li>
 </ol>
 <h2 id="fft原理">FFT原理</h2>
@@ -379,6 +487,9 @@ a_{n-1} \\<br>
 <p>这就等价于我们有一个系数为 $y_0, y_1, &hellip; y_{n}$ 的多项式，然后要在 $x_0^{-1}, x_1^{-1}, &hellip;, x_n^{-1}$ 这些特殊点上进行求值。</p>
 <p>我们发现 $x_0^{-1} = \omega^{-1}$ 仍然是一个 $n$ 次<strong>本原</strong>单位根 (primitive n-th root of unity)（证明略），所以它仍然有上述优秀的性质。</p>
 <p>所以这个问题可以用 DFT 解决，求出来的值，就是我们想要的 $h(x)$ 的多项式系数。</p>
+<blockquote>
+<p>注意一下，上述所有过程都是完美的分治过程，所以我们需要把 $deg(h)$ 补成一个 $2^k$ 形式。</p>
+</blockquote>
 <h2 id="非递归-fft">非递归 FFT</h2>
 <p>递归 FFT 常数过大，不好用，所以我们可以写一个非递归版本的。</p>
 <p>我们手推一下 FFT 的分治过程，每一次分治都是拆分奇数项和偶数项，模拟拆分过程有：</p>
@@ -414,8 +525,23 @@ a_{n-1} \\<br>
 }
 </code></pre>
 <p>至于非递归写法的原理，我懒得写了先鸽着吧（</p>
-<h2 id="模版">模版</h2>
-<pre><code class="language-cpp">const int maxn = (1&lt;&lt;21) + 5;  // 注意这里需要是 &gt; 2^k
+<h2 id="优化三步变两步">优化（三步变两步）</h2>
+<p>暂时没遇到需要优化的情况，先鸽着。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p1919-模板ab-problem升级版fft快速傅里叶httpswwwluogucomcnproblemp1919">例1 <a href="https://www.luogu.com.cn/problem/P1919" target="_blank">洛谷P1919 【模板】A*B Problem升级版（FFT快速傅里叶）</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定正整数 $a,b$，求 $a*b$？</p>
+<p>其中，$1\leq a,b \leq 10^{10^6}$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>把大整数看成多项式，例如 $356$ 就看作 $f(x) = 3x^2 + 5x + 6$</p>
+<p>两个大整数相乘就看作多项式相乘，最后代入 $x = 10$，处理一下进位和前缀零即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = (1&lt;&lt;21) + 5;
 
 struct Complex {
     long double x,y;
@@ -468,6 +594,7 @@ struct FastFourierTransform {
     }
 } fft;
 
+
 // calculate h(x) = f(x) * g(x), deg(f) = n1, deg(g) = n2
 void poly_multiply(int f[], int n1, int g[], int n2, int h[]) {
     int n = 1;
@@ -480,21 +607,352 @@ void poly_multiply(int f[], int n1, int g[], int n2, int h[]) {
     for (int i = 0; i &lt;= n; i++) a[i] = a[i] * b[i];
     fft.fft(a, n, -1);
     for (int i = 0; i &lt;= n; i++) h[i] = (int)(a[i].x + 0.5);
+
 }
 
 int n1, n2;
 int f[maxn/2], g[maxn/2], h[maxn];
 
 int main() {
-    for (int i = 0; i &lt;= n1; i++) cin &gt;&gt; f[i];
-    for (int i = 0; i &lt;= n2; i++) cin &gt;&gt; g[i];
+
+    string s1, s2;
+    cin &gt;&gt; s1 &gt;&gt; s2;
+    int n1 = s1.size() - 1, n2 = s2.size() - 1;
+    for (int i = 0; i &lt;= n1; i++) f[i] = s1[n1-i] - '0';
+    for (int i = 0; i &lt;= n2; i++) g[i] = s2[n2-i] - '0';
     poly_multiply(f, n1, g, n2, h);
-    for (int i = 0; i &lt;= n1+n2; i++) cout &lt;&lt; h[i] &lt;&lt; &quot; &quot;;
+
+    int i = 0;
+    for (i = 0; i &lt; maxn-2; i++) {
+        h[i+1] += h[i] / 10;
+        h[i] %= 10;
+    }
+    string ans = &quot;&quot;;
+    for (int i = 0; i &lt; maxn-2; i++) ans += (char)(h[i] + '0');
+
+    for (int j = ans.size()-1; j &gt;= 0; j--) {
+        if (ans[j] == '0') {
+            ans.erase(ans.begin() + j);
+        } else break;
+    }
+
+    reverse(ans.begin(), ans.end());
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+</code></pre>
+</details>
+<h3 id="例2-洛谷p3338-zjoi2014力httpswwwluogucomcnproblemp3338">例2 <a href="https://www.luogu.com.cn/problem/P3338" target="_blank">洛谷P3338 [ZJOI2014]力</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个实数 $q_1,q_2,&hellip;,q_n$，定义：</p>
+<p>$$F_j = \sum\limits_{i=1}^{j-1}\frac{q_i \times q_j}{(i-j)^2} - \sum\limits_{i=j+1}^{n}\frac{q_i \times q_j}{(i-j)^2}$$</p>
+<p>$$E_j = \frac{F_j}{q_j}$$</p>
+<p>求 $E_1, E_2, &hellip;, E_n$ 的值？</p>
+<p>其中，$n \leq 10^5$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>FFT 可以用于处理卷积问题，我们先化简一下式子：</p>
+<p>$$E_j = \frac{F_j}{q_j} = \sum\limits_{i=1}^{j-1}\frac{q_i}{(i-j)^2} - \sum\limits_{i=j+1}^{n}\frac{q_i}{(i-j)^2}$$</p>
+<p>令</p>
+<p>$$f_i = q_i, ~~g_i = \frac{1}{i^2}$$</p>
+<p>则</p>
+<p>$$E_j = \sum\limits_{i=1}^{j-1}f_ig_{j-i} - \sum\limits_{i=j+1}^{n}f_ig_{i-j}$$</p>
+<p>注意到第一项 $\sum\limits_{i=1}^{j-1}f_ig_{j-i}$ 可以写成 $i=0$ 开始，到 $j$ 结束（令 $f_0 = g_0 = 0$ 即可），所以第一项等于 $\sum\limits_{i=0}^{j}f_ig_{j-i}$，也就是一个卷积形式，可以利用 FFT 计算。</p>
+<hr>
+<p>第二项 $\sum\limits_{i=j+1}^{n}f_ig_{i-j}$ 怎么写成卷积呢？</p>
+<p>注意到，如果我们令 $f_j&rsquo; = f_{n-j}$，则有</p>
+<p>$$\sum\limits_{i=j+1}^{n}f_ig_{i-j} = \sum\limits_{i=j}^{n}f&rsquo;_{n-i}g_{i-j} = g_0f&rsquo;_{n-j} + g_1f&rsquo;_{n-j-1} + &hellip; + g_{n-j}f&rsquo;_0$$</p>
+<p>那么，这就又是一个卷积了，所以最后我们的结果可以表示为：</p>
+<p>$$E_j = \sum\limits_{i=0}^{j}f_ig_{j-i} - \sum\limits_{i=j}^{n}f&rsquo;_{n-i}g_{i-j}$$</p>
+<hr>
+<p>第一项 $\sum\limits_{i=0}^{j}f_ig_{j-i}$：计算多项式 $f(x) * g(x)$，取第 $j$ 项的系数即可。</p>
+<p>第二项 $\sum\limits_{i=j}^{n}f&rsquo;_{n-i}g_{i-j}$：计算多项式 $f&rsquo;(x) * g(x)$，取第 $n-j$ 项的系数即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = (1&lt;&lt;21) + 5;
+
+struct Complex {
+    double x,y;
+    Complex(double _x = 0.0, double _y = 0.0) {
+        x = _x; y = _y;
+    }
+    Complex operator+(const Complex&amp; b) const {
+        return Complex(x + b.x, y + b.y);
+    }
+    Complex operator-(const Complex&amp; b) const {
+        return Complex(x - b.x, y - b.y);
+    }
+    Complex operator*(const Complex &amp;b) const {
+        return Complex(x * b.x - y * b.y, x * b.y + y * b.x);
+    }
+    Complex operator/(const long double&amp; b) const {
+        return Complex(x/b, y/b);
+    }
+};
+
+struct FastFourierTransform {
+    void rearrange(Complex a[], const int n) {
+        static int rev[maxn];  // maxn &gt; deg(h) 且 maxn 为 2的k次方 + 5
+        for (int i = 0; i &lt;= n; i++) {
+            rev[i] = rev[i &gt;&gt; 1] &gt;&gt; 1;
+            if (i &amp; 1) rev[i] |= (n &gt;&gt; 1);
+        }
+        for (int i = 0; i &lt;= n; i++) {
+            if (i &lt; rev[i]) swap(a[i], a[rev[i]]);  // 保证每对数字只翻转一次
+        }
+    }
+
+    void fft(Complex a[], const int n, int on) {
+        rearrange(a, n);
+        for (int k = 2; k &lt;= n; k &lt;&lt;= 1) {   // 模拟分治的合并过程
+            Complex wn(cos(2*pi / k), on * sin(2*pi / k));
+            for (int i = 0; i &lt; n; i += k) {
+                Complex w(1, 0);
+                for (int j = i; j &lt; i + (k&gt;&gt;1); j++) {
+                    Complex x = a[j], y = w * a[j+(k&gt;&gt;1)];
+                    a[j] = x + y;
+                    a[j+(k&gt;&gt;1)] = x - y;
+                    w = w * wn;
+                }
+            }
+        }
+        if (on == -1) {
+            for (int i = 0; i &lt; n; i++) a[i] = a[i] / n;
+        }
+    }
+} fft;
+
+// calculate h(x) = f(x) * g(x), deg(f) = n1, deg(g) = n2
+void poly_multiply(const double f[], int n1, const double g[], int n2, double h[]) {
+    int n = 1;
+    while (n &lt;= n1 + n2) n &lt;&lt;= 1;  // deg(h) = n1 + n2
+    static Complex a[maxn], b[maxn];
+    memset(a, 0, sizeof(a));
+    memset(b, 0, sizeof(b));
+    for (int i = 0; i &lt;= n1; i++) a[i] = Complex(f[i], 0);
+    for (int i = 0; i &lt;= n2; i++) b[i] = Complex(g[i], 0);
+    fft.fft(a, n, 1);  // 注意这里用的是 n (不是 n1)
+    fft.fft(b, n, 1);
+    for (int i = 0; i &lt;= n; i++) a[i] = a[i] * b[i];
+    fft.fft(a, n, -1);
+    for (int i = 0; i &lt;= n; i++) h[i] = a[i].x;
+}
+
+double f[maxn/2], g[maxn/2], h[maxn];
+double f2[maxn], h2[maxn];
+
+int main() {
+    int n; cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; f[i];
+        g[i] = (1.0/i/i);
+    }
+
+    poly_multiply(f, n, g, n, h);
+    for (int i = 0; i &lt;= n; i++) f2[i] = f[n-i];  // f'[i] = f[n-i]
+    poly_multiply(f2, n, g, n, h2);
+
+    for (int i = 1; i &lt;= n; i++) {
+        printf(&quot;%.3f\n&quot;, h[i] - h2[n-i]);
+    }
 }
 </code></pre>
-<p>使用板子的注意事项：</p>
+</details>
+<h3 id="例3-洛谷p3723-ah2017hnoi2017礼物httpswwwluogucomcnproblemp3723">例3 <a href="https://www.luogu.com.cn/problem/P3723" target="_blank">洛谷P3723 [AH2017/HNOI2017]礼物</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个长度为 $n$ 的正整数序列 $x,y$，我们进行一次以下操作：</p>
+<p>第一步：给其中一个序列的所有数加上一个非负整数 $c$。</p>
+<p>第二步：旋转一个序列，可以旋转任意长度。</p>
+<blockquote>
+<p>序列的旋转意思是全部元素左移，或者右移，超出界限的部分从另外一边补齐。</p>
+<p>例如： $[1,2,3,4,5]$ 向右旋转 $2$ 个长度，得到 $[4,5,1,2,3]$。</p>
+</blockquote>
+<p>现在我们想知道，如何选择 $c$ 和旋转序列的方式，使得</p>
+<p>$$\sum\limits_{i=1}^n(x_i-y_i)^2$$</p>
+<p>最小？</p>
+<p>其中，$1\leq n \leq 50000, 1\leq x_i, y_i \leq 100$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先由于第一步中，我们可以选择任意一个序列来加上 $c$，所以可以看作选择一个序列，然后加上一个 <strong>任意整数 $c$</strong>。</p>
+<p>最后我们设旋转后，对齐的两个序列为 $a,b$。</p>
+<p>则</p>
+<p>$$\sum\limits_{i=1}^n(x_i-y_i)^2$$</p>
+<p>可以表示为：</p>
+<p>$$\sum\limits_{i=1}^n(a_i+c-b_i)^2$$</p>
+<p>$$=\sum\limits_{i=1}^n ((a_i^2+b_i^2+c^2)+2c(a_i-b_i) - 2a_ib_i)$$</p>
+<p>$$=nc^2 + \sum\limits_{i=1}^n (a_i^2+b_i^2)+2c\sum\limits_{i=1}^n(a_i-b_i) - \sum\limits_{i=1}^n 2a_ib_i$$</p>
+<p>如果我们暂时不考虑 $c$，则会发现，无论最终旋转的 $a,b$ 是什么样的，前三项均为定值，只有 $\sum\limits_{i=1}^n 2a_ib_i$ 的值是个变量。</p>
+<p>所以我们只需要 <strong>最大化</strong> $\sum\limits_{i=1}^n a_ib_i$ 的值即可。</p>
+<hr>
+<p>现在问题转化为，如何求一种旋转方式，使得 $\sum\limits_{i=1}^n a_ib_i$ 的值最大？</p>
+<p>我们不妨直接把每一种旋转方式的值都求出来，然后取最大即可。</p>
+<p>怎么全部一次性求出呢？<strong>卷积</strong>！</p>
+<p>令</p>
+<p>$$E_j = \sum\limits_{i=j}^na_ib_{i-j+1} + \sum\limits_{i=1}^{j-1}a_ib_{n+1+i-j}$$</p>
+<p>则 $E_j$ 所代表的就是，如果我们如此排列：</p>
+<div class="center">
+<table>
+<thead>
+<tr>
+<th>$a_j$</th>
+<th>$a_{j+1}$</th>
+<th>&hellip;</th>
+<th>$a_n$</th>
+<th>$a_1$</th>
+<th>$a_2$</th>
+<th>&hellip;</th>
+<th>$a_{j-1}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b_1$</td>
+<td>$b_2$</td>
+<td>&hellip;</td>
+<td>$b_{n+1-j}$</td>
+<td>$b_{n+2-j}$</td>
+<td>$b_{n+3-j}$</td>
+<td>&hellip;</td>
+<td>$b_{n}$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>最后得出来对应位置的乘积的和，就是 $E_j$。</p>
+<p>所以我们只要求出 $E_1, E_2, &hellip;, E_n$，然后取最小值即可。</p>
+<p>如何求呢？</p>
+<hr>
+<p>先考虑第一项 $\sum\limits_{i=j}^na_ib_{i-j+1}$</p>
+<p>把它转成卷积的形式，令 $c_i = a_{n-i}$，则有：</p>
+<p>$$\sum\limits_{i=j}^na_ib_{i-j+1} = \sum\limits_{i=j}^nc_{n-i}b_{i-j+1} = b_1c_{n-j} + b_2c_{n-j-1} + &hellip; + b_{n-j+1}c_{0}$$</p>
+<p>令 $a_0 = b_0 = 0$，就可以再给上式加一个 $b_0c_{n-j+1}$，得到：</p>
+<p>$$b_0c_{n-j+1} + b_1c_{n-j} + b_2c_{n-j-1} + &hellip; + b_{n-j+1}c_{0}$$</p>
+<p>那么这就是一个卷积了，相当于 $b(x) * c(x)$ 的第 $(n-j+1)$ 项。</p>
+<hr>
+<p>再考虑第二项 $\sum\limits_{i=1}^{j-1}a_ib_{n+1+i-j}$</p>
+<p>仍然转成卷积形式，令 $d_i = b_{n-i}$，则有：</p>
+<p>$$\sum\limits_{i=1}^{j-1}a_ib_{n+1+i-j} = \sum\limits_{i=1}^{j-1}a_id_{j-i-1} = a_1d_{j-2} + a_2d_{j-3} + &hellip; + a_{j-1}d_{0}$$</p>
+<p>由于 $a_0 = 0$，给上式加上 $a_0d_{j-1}$，得到：</p>
+<p>$$a_0d_{j-1} + a_1d_{j-2} + a_2d_{j-3} + &hellip; + a_{j-1}d_{0}$$</p>
+<p>这又是一个卷积，相当于 $a(x) * d(x)$ 的第 $(j-1)$ 项。</p>
+<hr>
+<p>所以 $\sum\limits_{i=1}^n a_ib_i$ 的最大值求出来了，剩下的变量只有 $c$ 了。</p>
+<p>注意到 $1 \leq x_i,y_i \leq 100$，所以 $c$ 只要取遍所有的可能值，然后判断最小值即可。</p>
+<p>在代码中，$c \in [-200, 200]$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int mod = 998244353;
+const int maxn = (1&lt;&lt;20) + 5;
+
+struct NTT {
+    const ll g = 3, invg = inv(g);  // mod = 998244353
+    inline ll qpow(ll a, ll b) {
+        ll res = 1;
+        while (b) {
+            if (b &amp; 1) res = res * a % mod;
+            a = a * a % mod;
+            b &gt;&gt;= 1;
+        }
+        return res;
+    }
+    inline ll inv(ll a) {
+        return qpow(a, mod-2);
+    }
+
+    void rearrange(ll a[], const int n) {
+        static int rev[maxn];  // maxn &gt; deg(h) 且 maxn 为 2的k次方 + 5
+        for (int i = 0; i &lt;= n; i++) {
+            rev[i] = rev[i &gt;&gt; 1] &gt;&gt; 1;
+            if (i &amp; 1) rev[i] |= (n &gt;&gt; 1);
+        }
+        for (int i = 0; i &lt;= n; i++) {
+            if (i &lt; rev[i]) swap(a[i], a[rev[i]]);  // 保证每对数字只翻转一次
+        }
+    }
+
+    void ntt(ll a[], const int n, int on) {
+        rearrange(a, n);
+        for (int k = 2; k &lt;= n; k &lt;&lt;= 1) {   // 模拟分治的合并过程
+            ll wn = qpow(on == 1 ? g : invg, (mod-1)/k);
+            for (int i = 0; i &lt; n; i += k) {
+                ll w = 1;
+                for (int j = i; j &lt; i + (k&gt;&gt;1); j++) {
+                    ll x = a[j], y = w * a[j+(k&gt;&gt;1)] % mod;
+                    a[j] = (x + y) % mod;
+                    a[j+(k&gt;&gt;1)] = (x - y + mod) % mod;
+                    w = w * wn % mod;
+                }
+            }
+        }
+        if (on == -1) {
+            ll invn = inv(n);
+            for (int i = 0; i &lt; n; i++) a[i] = a[i] * invn % mod;
+        }
+    }
+} ntt;
+
+// calculate h(x) = f(x) * g(x), deg(f) = n1, deg(g) = n2
+void poly_multiply(ll f[], int n1, ll g[], int n2, ll h[]) {
+    int n = 1;
+    while (n &lt;= n1 + n2) n &lt;&lt;= 1;  // deg(h) = n1 + n2
+    memset(h, 0, sizeof(ll) * n);
+    ntt.ntt(f, n, 1);  // 注意这里用的是 n (不是 n1)
+    ntt.ntt(g, n, 1);
+    for (int i = 0; i &lt;= n; i++) h[i] = f[i] * g[i] % mod;
+    ntt.ntt(h, n, -1);
+}
+
+int n1, n2;
+ll a[maxn/2], b[maxn/2], c[maxn/2], d[maxn/2], r1[maxn], r2[maxn];
+
+int n,m;
+ll ans = 0;
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; a[i], c[n-i] = a[i];
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; b[i], d[n-i] = b[i];
+    ll absum = 0;  // a_i - b_i
+    for (int i = 1; i &lt;= n; i++) absum += a[i] - b[i];
+    ll res = 1e18;
+    for (ll c = -200; c &lt;= 200; c++) {
+        res = min(res, n * c * c + 2LL * c * absum);
+    }
+
+    ans += res;
+
+    for (int i = 1; i &lt;= n; i++) {
+        ans += (a[i] * a[i]) + (b[i] * b[i]);
+    }
+
+    poly_multiply(a, n, d, n, r1);  // r1 = a*d
+    poly_multiply(b, n, c, n, r2);  // r2 = b*c
+
+    ll ab = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        ab = max(ab, (r1[i-1] + r2[n-i+1]));
+    }
+
+    ans -= 2LL * ab;
+
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+</code></pre>
+</details>
+<h2 id="参考资料">参考资料</h2>
 <ol>
-<li><code>maxn</code> 的值必须大于一个 $2^k$，且 $2^k \geq n_1+n_2$，仅仅大于 <code>n1 + n2</code> 是不够的！</li>
+<li><a href="/files/051/FFT.pdf">HKU COMP3250 FFT课件</a></li>
+<li><a href="https://oi-wiki.org/math/poly/fft/">https://oi-wiki.org/math/poly/fft/</a></li>
+<li><a href="https://oi.men.ci/fft-notes/">https://oi.men.ci/fft-notes/</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/128661674">https://zhuanlan.zhihu.com/p/128661674</a></li>
 </ol>
 
     </div>
@@ -507,8 +965,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-09-17 18:16:26 &#43;0800 &#43;0800">2021-09-17</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/6ee78619f34c91c184175c0c373a985c76fcdc3f" title="update 051.md and add info shortcodes" target="_blank">(6ee7861)</a>
+        <span title="2021-09-21 12:32:18 &#43;0800 &#43;0800">2021-09-21</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/d8a1d2605808b8ed47594173f98c41759e9e3bd1" title="init 052, update 051" target="_blank">(d8a1d26)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/051-fft.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -520,10 +978,14 @@ int main() {
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/fft/">fft</a>
+          <a href="/tags/fft/">FFT</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/052-ntt/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">NTT</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
         <a class="next" href="/post/050-%E7%BA%BF%E6%80%A7%E5%9F%BA/">
             <span class="next-text nav-default">线性基</span>
             <span class="next-text nav-mobile">Next</span>

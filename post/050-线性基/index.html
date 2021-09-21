@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/050-%E7%BA%BF%E6%80%A7%E5%9F%BA/" />
 <meta property="article:published_time" content="2021-09-14T13:44:57+08:00" />
-<meta property="article:modified_time" content="2021-09-17T18:16:26+08:00" />
+<meta property="article:modified_time" content="2021-09-21T12:32:18+08:00" />
 <meta itemprop="name" content="线性基">
 <meta itemprop="description" content="介绍 线性基是一般用于解决 子集XOR，XOR最值 一类问题的算法。 定义 线性基是一个 linear space，在这个space中，所有的向量为 非负整数，而 scalar 则">
 <meta itemprop="datePublished" content="2021-09-14T13:44:57&#43;08:00" />
-<meta itemprop="dateModified" content="2021-09-17T18:16:26&#43;08:00" />
-<meta itemprop="wordCount" content="5816">
+<meta itemprop="dateModified" content="2021-09-21T12:32:18&#43;08:00" />
+<meta itemprop="wordCount" content="6297">
 
 
 
@@ -177,6 +177,7 @@
             <li><a href="#例4-洛谷p4151-wc2011最大xor和路径httpswwwluogucomcnproblemp4151">例4 <a href="https://www.luogu.com.cn/problem/P4151">洛谷P4151 [WC2011]最大XOR和路径</a></a></li>
             <li><a href="#例5-loj-114-k小异或和httpslojacp114">例5 <a href="https://loj.ac/p/114">LOJ 114 k小异或和</a></a></li>
             <li><a href="#例6-hdu6579-operationhttpacmhdueducnshowproblemphppid6579">例6 <a href="http://acm.hdu.edu.cn/showproblem.php?pid=6579">HDU6579 Operation</a></a></li>
+            <li><a href="#例7-abc141f-xor-sum-3httpsatcoderjpcontestsabc141tasksabc141_f">例7 <a href="https://atcoder.jp/contests/abc141/tasks/abc141_f">ABC141F Xor Sum 3</a></a></li>
           </ul>
         </li>
         <li><a href="#参考链接">参考链接</a></li>
@@ -868,6 +869,70 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例7-abc141f-xor-sum-3httpsatcoderjpcontestsabc141tasksabc141_f">例7 <a href="https://atcoder.jp/contests/abc141/tasks/abc141_f" target="_blank">ABC141F Xor Sum 3</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个非负整数，将它们分为两个非空集合 $A,B$，求 $XOR(A) + XOR(B)$ 的最大值？</p>
+<p>其中，$2 \leq n \leq 10^5$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>分为两个集合的话，就可以考虑二进制每一位的count的奇偶性。</p>
+<p>对于第 $i$ 位bit而言：</p>
+<ol>
+<li>如果 count 是奇数：那么无论怎么分，最后分出来的两个集合一定是 <strong>奇 + 偶</strong> 的形式，所以最后一定会贡献 $2^i$ 给答案。</li>
+<li>如果 count 是偶数：最后分出来，要么为 <strong>奇 + 奇</strong>，要么为 <strong>偶 + 偶</strong>，所以对于这些位置，分出来的两个数 $a,b$ 一定是相同的。</li>
+</ol>
+<p>所以我们先把 <strong>奇数count</strong> 的位置贡献算出来，然后把它们全部置为 $0$，接下来所有的位就只有<strong>偶数 count</strong> 了，此时无论怎么分，最后得到的两个数字都是相同的，也就是答案等于 $2x$。</p>
+<p>所以我们只要让 $x$ 最大就好了，用线性基解决即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+ll a[61], arr[maxn], ans = 0;
+int n;
+
+void insert(ll x) {
+    for (int j = 60; j &gt;= 0; j--) {
+        if (x &amp; (1LL &lt;&lt; j)) {
+            if (a[j]) x ^= a[j];
+            else {
+                a[j] = x;
+                return;
+            }
+        }
+    }
+}
+
+int cnt[61];
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; arr[i];
+        for (int j = 60; j &gt;= 0; j--) {
+            if (arr[i] &amp; (1LL &lt;&lt; j)) cnt[j] ^= 1;
+        }
+    }
+    for (int j = 60; j &gt;= 0; j--) {
+        if (cnt[j]) {
+            ans += (1LL &lt;&lt; j);
+            for (int i = 1; i &lt;= n; i++) {
+                if (arr[i] &amp; (1LL &lt;&lt; j)) arr[i] -= (1LL &lt;&lt; j);
+            }
+        }
+    }
+    for (int i = 1; i &lt;= n; i++) insert(arr[i]);
+    
+    ll x = 0;
+    for (int j = 60; j &gt;= 0; j--) {
+        x = max(x, (x^a[j]));
+    }
+    cout &lt;&lt; 2LL*x + ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
 <h2 id="参考链接">参考链接</h2>
 <ol>
 <li><a href="https://oi.men.ci/linear-basis-notes/">https://oi.men.ci/linear-basis-notes/</a></li>
@@ -885,8 +950,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-09-17 18:16:26 &#43;0800 &#43;0800">2021-09-17</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/6ee78619f34c91c184175c0c373a985c76fcdc3f" title="update 051.md and add info shortcodes" target="_blank">(6ee7861)</a>
+        <span title="2021-09-21 12:32:18 &#43;0800 &#43;0800">2021-09-21</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/d8a1d2605808b8ed47594173f98c41759e9e3bd1" title="init 052, update 051" target="_blank">(d8a1d26)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/050-%e7%ba%bf%e6%80%a7%e5%9f%ba.md" target="_blank">更新历史</a>
     </span>
   </p>

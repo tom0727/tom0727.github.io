@@ -185,7 +185,7 @@ int main() {
 
 ## 例题
 
-### 例1 [CF1295](https://codeforces.com/contest/1295/problem/D)
+### 例1 [CF1295D](https://codeforces.com/contest/1295/problem/D)
 
 {{% question 题意 %}}
 给定两个正整数 $a$, $m$, 求满足以下条件的 $x$ 的数量？

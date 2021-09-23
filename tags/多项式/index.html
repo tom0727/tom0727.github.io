@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>CF 1188B（枚举优化） - tom0727&#39;s blog</title>
+  <title>多项式 · tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="题目链接 https://codeforces.com/contest/1188/problem/B 题意 给定 $n$ 个正整数 $a_1,a_2,&amp;hellip;,a_n$，和一个非负整数 $k$，求满足以下条件的 $(i,j)$ 数量： $1\leq i &amp;lt; j \leq n$ $(a_i&#43;a_j)(a_i^2&#43;a_j^2) \equiv k \text{" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="tom0727的博客" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -26,7 +26,9 @@
 <meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
-<link rel="canonical" href="https://tom0727.github.io/post/028-cf-1188b/" />
+<link rel="canonical" href="https://tom0727.github.io/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F/" />
+  <link href="https://tom0727.github.io/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F/index.xml" rel="alternate" type="application/rss+xml" title="tom0727&#39;s blog" />
+  <link href="https://tom0727.github.io/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F/index.xml" rel="feed" type="application/rss+xml" title="tom0727&#39;s blog" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,23 +41,15 @@
 
 
 
-<meta property="og:title" content="CF 1188B（枚举优化）" />
-<meta property="og:description" content="题目链接 https://codeforces.com/contest/1188/problem/B 题意 给定 $n$ 个正整数 $a_1,a_2,&hellip;,a_n$，和一个非负整数 $k$，求满足以下条件的 $(i,j)$ 数量： $1\leq i &lt; j \leq n$ $(a_i&#43;a_j)(a_i^2&#43;a_j^2) \equiv k \text{" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/028-cf-1188b/" />
-<meta property="article:published_time" content="2021-03-11T14:37:13+08:00" />
-<meta property="article:modified_time" content="2021-03-12T22:09:37+08:00" />
-<meta itemprop="name" content="CF 1188B（枚举优化）">
-<meta itemprop="description" content="题目链接 https://codeforces.com/contest/1188/problem/B 题意 给定 $n$ 个正整数 $a_1,a_2,&hellip;,a_n$，和一个非负整数 $k$，求满足以下条件的 $(i,j)$ 数量： $1\leq i &lt; j \leq n$ $(a_i&#43;a_j)(a_i^2&#43;a_j^2) \equiv k \text{">
-<meta itemprop="datePublished" content="2021-03-11T14:37:13&#43;08:00" />
-<meta itemprop="dateModified" content="2021-03-12T22:09:37&#43;08:00" />
-<meta itemprop="wordCount" content="235">
-
-
-
-<meta itemprop="keywords" content="枚举," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="CF 1188B（枚举优化）"/>
-<meta name="twitter:description" content="题目链接 https://codeforces.com/contest/1188/problem/B 题意 给定 $n$ 个正整数 $a_1,a_2,&hellip;,a_n$，和一个非负整数 $k$，求满足以下条件的 $(i,j)$ 数量： $1\leq i &lt; j \leq n$ $(a_i&#43;a_j)(a_i^2&#43;a_j^2) \equiv k \text{"/>
+<meta property="og:title" content="多项式" />
+<meta property="og:description" content="tom0727的博客" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://tom0727.github.io/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F/" />
+<meta property="og:updated_time" content="2021-09-21T20:09:39+08:00" />
+<meta itemprop="name" content="多项式">
+<meta itemprop="description" content="tom0727的博客"><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="多项式"/>
+<meta name="twitter:description" content="tom0727的博客"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -128,107 +122,29 @@
     <main id="main" class="main">
       <div class="content-wrapper">
         <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">CF 1188B（枚举优化）</h1>
-
-      <div class="post-meta">
-        <span class="post-time" title="2021-03-11 14:37:13 &#43;0800 &#43;0800"> 2021-03-11 </span>
-        <div class="post-category">
-            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
-            </div>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+          <section id="archive" class="archive">
+  <div class="archive-title tag">
+        <h2 class="archive-name">多项式</h2>
       </div>
-    </header>
 
-    
-<div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#题目链接">题目链接</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <h2 id="题目链接">题目链接</h2>
-<p><a href="https://codeforces.com/contest/1188/problem/B">https://codeforces.com/contest/1188/problem/B</a></p>
-<div class="admonition question">
-  <p class="admonition-title">题意</p>
-<p>给定 $n$ 个正整数 $a_1,a_2,&hellip;,a_n$，和一个非负整数 $k$，求满足以下条件的 $(i,j)$ 数量：</p>
-<ol>
-<li>$1\leq i &lt; j \leq n$</li>
-<li>$(a_i+a_j)(a_i^2+a_j^2) \equiv k \text{ mod } p$</li>
-</ol>
-<p>其中，$2 \leq n \leq 3 \times 10^5, 2 \leq p \leq 10^9, 0\leq k \leq p-1, p$ 是质数。</p>
-</div>
-<details class="admonition note"><summary class="admonition-title">题解</summary>
-<p>一般这种求 $(i,j)$ 的数量，一个常规操作是构造出 $f(i) = g(j)$，然后在遍历过程中维护一个 <code>cnt</code>，直接加到 <code>ans</code> 上。</p>
-<p>所以我们想个办法 <strong>把 $i,j$ 分到两边</strong>：</p>
-<p>$(a_i+a_j)(a_i^2+a_j^2) = k$，两边同乘 $(a_i-a_j)$，有 $a_i^4-a_j^4 = k(a_i-a_j)$，移项得到</p>
-<p>$$a_i^4 - ka_i = a_j^4-ka_j$$</p>
-<p>所以维护一个 <code>cnt</code> 来记录 $a_i^4 - ka_i$ 的值就可以了，代码略。</p>
-</details>
+  <div class="archive-post">
+      <span class="archive-post-time">
+        2021-09-21
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/053-polynomial/" class="archive-post-link">
+          多项式全家桶
+        </a>
+      </span>
     </div>
+</section>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">tom0727</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        <span title="2021-03-12 22:09:37 &#43;0800 &#43;0800">2021-03-12</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/b175465fdd4e1733473fcff61f30d00e67d2784f" title="init 029,030" target="_blank">(b175465)</a>
-        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/028-cf-1188B.md" target="_blank">更新历史</a>
-    </span>
-  </p>
+<nav class="pagination">
   
-  <p class="copyright-item">
-    <span class="item-title">License</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
-  </p>
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/%E6%9E%9A%E4%B8%BE/">枚举</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/029-cf-165e/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">CF 165E题解（状压dp）</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/027-%E6%95%B0%E8%AE%BA%E5%88%86%E5%9D%97/">
-            <span class="next-text nav-default">数论分块</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+  
+</nav>
         </div>
         
-
-  
-
-  
-    <script src="https://utteranc.es/client.js"
-            repo="tom0727/tom0727.github.io"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
 
 
       </div>
@@ -283,14 +199,6 @@
 
 
 <script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
-  <script type="text/javascript">
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$','$'], ['\\(','\\)']],
-        }
-    };
-  </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
 
 
 <script type="application/javascript">

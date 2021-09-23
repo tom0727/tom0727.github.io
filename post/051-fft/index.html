@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; /* clsnb */ } 模版 FFT const int maxn = (1&amp;lt;&amp;lt;21) &#43; 5; // 注意这里需要是 &amp;gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp;amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; /* clsnb */ } 模版 FFT const int maxn = (1&amp;lt;&amp;lt;22) &#43; 5; // 注意这里需要是 &amp;gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp;amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -40,22 +40,22 @@
 
 
 <meta property="og:title" content="FFT" />
-<meta property="og:description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; /* clsnb */ } 模版 FFT const int maxn = (1&lt;&lt;21) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex" />
+<meta property="og:description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; /* clsnb */ } 模版 FFT const int maxn = (1&lt;&lt;22) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/051-fft/" />
 <meta property="article:published_time" content="2021-09-17T13:52:57+08:00" />
-<meta property="article:modified_time" content="2021-09-21T12:32:28+08:00" />
+<meta property="article:modified_time" content="2021-09-23T13:40:28+08:00" />
 <meta itemprop="name" content="FFT">
-<meta itemprop="description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; /* clsnb */ } 模版 FFT const int maxn = (1&lt;&lt;21) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex">
+<meta itemprop="description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; /* clsnb */ } 模版 FFT const int maxn = (1&lt;&lt;22) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex">
 <meta itemprop="datePublished" content="2021-09-17T13:52:57&#43;08:00" />
-<meta itemprop="dateModified" content="2021-09-21T12:32:28&#43;08:00" />
-<meta itemprop="wordCount" content="6116">
+<meta itemprop="dateModified" content="2021-09-23T13:40:28&#43;08:00" />
+<meta itemprop="wordCount" content="6120">
 
 
 
 <meta itemprop="keywords" content="FFT," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="FFT"/>
-<meta name="twitter:description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; /* clsnb */ } 模版 FFT const int maxn = (1&lt;&lt;21) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex"/>
+<meta name="twitter:description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; /* clsnb */ } 模版 FFT const int maxn = (1&lt;&lt;22) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -201,7 +201,7 @@
 </head>
 <h2 id="模版">模版</h2>
 <details class="admonition note"><summary class="admonition-title">FFT</summary>
-<pre><code class="language-cpp">const int maxn = (1&lt;&lt;21) + 5;  // 注意这里需要是 &gt; 2^k
+<pre><code class="language-cpp">const int maxn = (1&lt;&lt;22) + 5;  // 注意这里需要是 &gt; 2^k
 
 struct Complex {
     double x,y;
@@ -225,11 +225,11 @@ struct Complex {
 struct FastFourierTransform {
     void rearrange(Complex a[], const int n) {
         static int rev[maxn];  // maxn &gt; deg(h) 且 maxn 为 2的k次方 + 5
-        for (int i = 0; i &lt;= n; i++) {
+        for (int i = 1; i &lt;= n; i++) {
             rev[i] = rev[i &gt;&gt; 1] &gt;&gt; 1;
             if (i &amp; 1) rev[i] |= (n &gt;&gt; 1);
         }
-        for (int i = 0; i &lt;= n; i++) {
+        for (int i = 1; i &lt; n; i++) {
             if (i &lt; rev[i]) swap(a[i], a[rev[i]]);  // 保证每对数字只翻转一次
         }
     }
@@ -254,9 +254,10 @@ struct FastFourierTransform {
     }
 } fft;
 
-// calculate h(x) = f(x) * g(x), deg(f) = n1, deg(g) = n2
+// calculate h(x) = f(x) * g(x), n1 = deg(f) + 1, n2 = deg(g) + 1
 void poly_multiply(const double f[], int n1, const double g[], int n2, double h[]) {
     int n = 1;
+    n1--, n2--;
     while (n &lt;= n1 + n2) n &lt;&lt;= 1;  // deg(h) = n1 + n2
     static Complex a[maxn], b[maxn];
     memset(a, 0, sizeof(a));
@@ -274,17 +275,17 @@ int n1, n2;
 double f[maxn/2], g[maxn/2], h[maxn];
 
 int main() {
-    cin &gt;&gt; n1 &gt;&gt; n2;
-    for (int i = 0; i &lt;= n1; i++) cin &gt;&gt; f[i];
-    for (int i = 0; i &lt;= n2; i++) cin &gt;&gt; g[i];
+    cin &gt;&gt; n1 &gt;&gt; n2;  // deg(f) = n1 - 1, deg(g) = n2 - 1
+    for (int i = 0; i &lt; n1; i++) cin &gt;&gt; f[i];
+    for (int i = 0; i &lt; n2; i++) cin &gt;&gt; g[i];
     poly_multiply(f, n1, g, n2, h);
-    for (int i = 0; i &lt;= n1+n2; i++) cout &lt;&lt; h[i] &lt;&lt; &quot; &quot;;
+    for (int i = 0; i &lt;= n1+n2-2; i++) cout &lt;&lt; h[i] &lt;&lt; &quot; &quot;;
 }
 </code></pre>
 </details>
 <p>使用板子的注意事项：</p>
 <ol>
-<li><code>maxn</code> 的值必须大于一个 $2^k$，且 $2^k \geq n_1+n_2$，仅仅大于 <code>n1 + n2</code> 是不够的！</li>
+<li><code>maxn</code> 的值必须大于一个 $2^k$，且 $2^k &gt; n_1+n_2$</li>
 </ol>
 <h2 id="介绍">介绍</h2>
 <p>FFT (Fast Fourier Transform, 快速傅立叶变换) 可以在 $O(n \log n)$ 的时间内计算两个多项式的乘法，也可以用来计算卷积。</p>
@@ -488,7 +489,7 @@ a_{n-1} \\<br>
 <p>我们发现 $x_0^{-1} = \omega^{-1}$ 仍然是一个 $n$ 次<strong>本原</strong>单位根 (primitive n-th root of unity)（证明略），所以它仍然有上述优秀的性质。</p>
 <p>所以这个问题可以用 DFT 解决，求出来的值，就是我们想要的 $h(x)$ 的多项式系数。</p>
 <blockquote>
-<p>注意一下，上述所有过程都是完美的分治过程，所以我们需要把 $deg(h)$ 补成一个 $2^k$ 形式。</p>
+<p>注意一下，上述所有过程都是完美的分治过程，所以我们需要把 $deg(h)$ 补成一个 $2^k$ 形式，其中 $deg(h) = 2^k \geq 2(n_1+n_2)$</p>
 </blockquote>
 <h2 id="非递归-fft">非递归 FFT</h2>
 <p>递归 FFT 常数过大，不好用，所以我们可以写一个非递归版本的。</p>
@@ -965,8 +966,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-09-21 12:32:28 &#43;0800 &#43;0800">2021-09-21</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/39c64fb4836cc7fadc401045122e32650b2e056c" title="Merge branch &#39;master&#39; of https://github.com/tom0727/tom0727.github.io" target="_blank">(39c64fb)</a>
+        <span title="2021-09-23 13:40:28 &#43;0800 &#43;0800">2021-09-23</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/9a65ac547c3072404cb71de740df029165c83b9c" title="init 053" target="_blank">(9a65ac5)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/051-fft.md" target="_blank">更新历史</a>
     </span>
   </p>

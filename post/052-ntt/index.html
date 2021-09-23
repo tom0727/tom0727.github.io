@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/052-ntt/" />
 <meta property="article:published_time" content="2021-09-18T19:51:17+08:00" />
-<meta property="article:modified_time" content="2021-09-21T12:32:28+08:00" />
+<meta property="article:modified_time" content="2021-09-23T13:40:28+08:00" />
 <meta itemprop="name" content="NTT">
 <meta itemprop="description" content="模版 NTT const int mod = 998244353; const int maxn = (1&lt;&lt;22) &#43; 5; struct NTT { const ll g = 3, invg = inv(g); // mod = 998244353 inline ll qpow(ll a, ll b) { ll res = 1; while (b) { if (b &amp; 1) res = res * a % mod; a = a * a % mod; b &gt;&gt;= 1; } return res; } inline">
 <meta itemprop="datePublished" content="2021-09-18T19:51:17&#43;08:00" />
-<meta itemprop="dateModified" content="2021-09-21T12:32:28&#43;08:00" />
-<meta itemprop="wordCount" content="913">
+<meta itemprop="dateModified" content="2021-09-23T13:40:28&#43;08:00" />
+<meta itemprop="wordCount" content="930">
 
 
 
@@ -184,11 +184,11 @@ struct NTT {
 
     void rearrange(ll a[], const int n) {
         static int rev[maxn];  // maxn &gt; deg(h) 且 maxn 为 2的k次方 + 5
-        for (int i = 0; i &lt;= n; i++) {
+        for (int i = 1; i &lt;= n; i++) {
             rev[i] = rev[i &gt;&gt; 1] &gt;&gt; 1;
             if (i &amp; 1) rev[i] |= (n &gt;&gt; 1);
         }
-        for (int i = 0; i &lt;= n; i++) {
+        for (int i = 1; i &lt; n; i++) {
             if (i &lt; rev[i]) swap(a[i], a[rev[i]]);  // 保证每对数字只翻转一次
         }
     }
@@ -214,14 +214,15 @@ struct NTT {
     }
 } ntt;
 
-// calculate h(x) = f(x) * g(x), deg(f) = n1, deg(g) = n2
+// calculate h(x) = f(x) * g(x), n1 = deg(f) + 1, n2 = deg(g) + 1
 void poly_multiply(ll f[], int n1, ll g[], int n2, ll h[]) {
     int n = 1;
+    n1--, n2--;
     while (n &lt;= n1 + n2) n &lt;&lt;= 1;  // deg(h) = n1 + n2
     memset(h, 0, sizeof(ll) * n);
     ntt.ntt(f, n, 1);  // 注意这里用的是 n (不是 n1)
     ntt.ntt(g, n, 1);
-    for (int i = 0; i &lt;= n; i++) h[i] = f[i] * g[i] % mod;
+    for (int i = 0; i &lt; n; i++) h[i] = f[i] * g[i] % mod;
     ntt.ntt(h, n, -1);
 }
 
@@ -229,11 +230,11 @@ int n1, n2;
 ll f[maxn/2], g[maxn/2], h[maxn];
 
 int main() {
-    cin &gt;&gt; n1 &gt;&gt; n2;
-    for (int i = 0; i &lt;= n1; i++) cin &gt;&gt; f[i];
-    for (int i = 0; i &lt;= n2; i++) cin &gt;&gt; g[i];
+    cin &gt;&gt; n1 &gt;&gt; n2;  // deg(f) = n1 - 1, deg(g) = n2 - 1
+    for (int i = 0; i &lt; n1; i++) cin &gt;&gt; f[i];
+    for (int i = 0; i &lt; n2; i++) cin &gt;&gt; g[i];
     poly_multiply(f, n1, g, n2, h);
-    for (int i = 0; i &lt;= n1+n2; i++) cout &lt;&lt; h[i] &lt;&lt; &quot; &quot;;
+    for (int i = 0; i &lt;= n1+n2-2; i++) cout &lt;&lt; h[i] &lt;&lt; &quot; &quot;;
 }
 </code></pre>
 </details>
@@ -284,8 +285,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-09-21 12:32:28 &#43;0800 &#43;0800">2021-09-21</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/39c64fb4836cc7fadc401045122e32650b2e056c" title="Merge branch &#39;master&#39; of https://github.com/tom0727/tom0727.github.io" target="_blank">(39c64fb)</a>
+        <span title="2021-09-23 13:40:28 &#43;0800 &#43;0800">2021-09-23</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/9a65ac547c3072404cb71de740df029165c83b9c" title="init 053" target="_blank">(9a65ac5)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/052-ntt.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -300,7 +301,11 @@ int main() {
           <a href="/tags/ntt/">NTT</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/053-polynomial/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">多项式全家桶</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
         <a class="next" href="/post/051-fft/">
             <span class="next-text nav-default">FFT</span>
             <span class="next-text nav-mobile">Next</span>

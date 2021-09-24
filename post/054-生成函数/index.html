@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>普通生成函数（OGF） - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; } 介绍 生成函数可以解决形如 满足XX条件的方案数共有多少种 的问题，它也能够解决 推导通项公式 等问题，生成函数常常与多项式运算" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/054-%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.f8e984e0c0e045e129419b8c606366e45ed2a944233d15f1ceba1100a4e469f0.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="普通生成函数（OGF）" />
+<meta property="og:description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; } 介绍 生成函数可以解决形如 满足XX条件的方案数共有多少种 的问题，它也能够解决 推导通项公式 等问题，生成函数常常与多项式运算" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/054-%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/" />
+<meta property="article:published_time" content="2021-09-23T15:42:20+08:00" />
+<meta property="article:modified_time" content="2021-09-24T14:42:21+08:00" />
+<meta itemprop="name" content="普通生成函数（OGF）">
+<meta itemprop="description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; } 介绍 生成函数可以解决形如 满足XX条件的方案数共有多少种 的问题，它也能够解决 推导通项公式 等问题，生成函数常常与多项式运算">
+<meta itemprop="datePublished" content="2021-09-23T15:42:20&#43;08:00" />
+<meta itemprop="dateModified" content="2021-09-24T14:42:21&#43;08:00" />
+<meta itemprop="wordCount" content="1397">
+
+
+
+<meta itemprop="keywords" content="OGF,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="普通生成函数（OGF）"/>
+<meta name="twitter:description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; } 介绍 生成函数可以解决形如 满足XX条件的方案数共有多少种 的问题，它也能够解决 推导通项公式 等问题，生成函数常常与多项式运算"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">普通生成函数（OGF）</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-09-23 15:42:20 &#43;0800 &#43;0800"> 2021-09-23 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#定义">定义</a></li>
+        <li><a href="#封闭形式与展开形式">封闭形式与展开形式</a></li>
+        <li><a href="#一些常见的封闭式与展开式的对应">一些常见的封闭式与展开式的对应</a>
+          <ul>
+            <li><a href="#证明">证明</a></li>
+          </ul>
+        </li>
+        <li><a href="#计算例子">计算例子</a>
+          <ul>
+            <li><a href="#例1">例1</a></li>
+            <li><a href="#例2">例2</a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <head>
+<style>
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+        display: table;
+        width: auto;
+    }
+</style>
+</head>
+<h2 id="介绍">介绍</h2>
+<p>生成函数可以解决形如 <strong>满足XX条件的方案数共有多少种</strong> 的问题，它也能够解决 <strong>推导通项公式</strong> 等问题，生成函数常常与多项式运算结合在一起。</p>
+<h2 id="定义">定义</h2>
+<p>对于一个<strong>无限数列</strong></p>
+<p>$$a = \{a_0, a_1, a_2, &hellip;\}$$</p>
+<p>它的生成函数为</p>
+<p>$$f(x) = a_0 + a_1x + a_2x^2 + &hellip; = \sum\limits_{i=0}^{\infty}a_ix^i$$</p>
+<p>其中 $x$ 的值并没有意义。</p>
+<p>• 有限数列 $\{a_0, a_1, a_2, &hellip;, a_n\}$ 的生成函数就是 $f(x) = a_0 + a_1x + a_2x^2 + &hellip; + a_nx^n = \sum\limits_{i=0}^{n}a_ix^i$</p>
+<p>• 我们定义 $[x^{k}]f(x)$ 为 $f(x)$ 表达式中，$x^k$ 的系数。（为了方便表达，有的时候也会使用 $a_k, b_k$）</p>
+<h2 id="封闭形式与展开形式">封闭形式与展开形式</h2>
+<p>生成函数有 <strong>封闭形式</strong> 和 <strong>展开形式</strong> 两种形态。</p>
+<p><strong>封闭形式</strong>适合进行<strong>生成函数之间的运算</strong>，<strong>展开形式</strong>则可以得到<strong>生成函数各项的系数</strong>（通项公式），从而获得最终的答案（方案数的统计）。</p>
+<p>例如，对于无限数列</p>
+<p>$$\{1,1,1,1,&hellip;\}$$</p>
+<p>它的生成函数展开形式为：</p>
+<p>$$f(x) = 1+x+x^2+x^3+&hellip;$$</p>
+<p>很明显这是一个等比数列，公比为 $x$，进行求和可以得到封闭形式：</p>
+<p>$$f(x) = 1+x+x^2+x^3+&hellip; = \frac{1}{1-x}$$</p>
+<h2 id="一些常见的封闭式与展开式的对应">一些常见的封闭式与展开式的对应</h2>
+<div class='center'>
+<table>
+<thead>
+<tr>
+<th align="center">封闭形式</th>
+<th align="center">展开形式</th>
+<th align="center">数列</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">$\frac{1}{1-x}$</td>
+<td align="center">$\sum\limits_{i=0}^{\infty}x^i = 1+x+x^2+x^3+&hellip;$</td>
+<td align="center">$\{1,1,1,1,&hellip;\}$</td>
+</tr>
+<tr>
+<td align="center">$\frac{1}{(1-x)^2}$</td>
+<td align="center">$\sum\limits_{i=0}^{\infty}(i+1)x^i = 1+2x+3x^2+4x^3+&hellip;$</td>
+<td align="center">$\{1,2,3,4,&hellip;\}$</td>
+</tr>
+<tr>
+<td align="center">$\frac{1}{1-ax}$</td>
+<td align="center">$\sum\limits_{i=0}^{\infty}a^ix^i = 1+ax+a^2x^2+a^3x^3+&hellip;$</td>
+<td align="center">$\{1,a,a^2,a^3,&hellip;\}$</td>
+</tr>
+<tr>
+<td align="center">$\frac{1}{(1-ax)^n}$</td>
+<td align="center">$\sum\limits_{i=0}^{\infty}C_{(n-1)+i}^{(n-1)}a^ix^i$</td>
+<td align="center">$\{1, C_{n}^{1}a^1, C_{n+1}^{2}a^2,C_{n+2}^{3}a^3,&hellip;\}$</td>
+</tr>
+<tr>
+<td align="center">$\frac{1}{1+x}$</td>
+<td align="center">$\sum\limits_{i=0}^{\infty}(-1)^ix^i = 1-x+x^2-x^3+&hellip;$</td>
+<td align="center">$\{1,-1,1,-1,&hellip;\}$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="证明">证明</h3>
+<details class="admonition note"><summary class="admonition-title">证明1</summary>
+<p>$$\frac{1}{1-x} = 1+x+x^2+x^3+&hellip;$$</p>
+<p>证：等比数列，公比为 $x$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">证明2</summary>
+<p>$$\frac{1}{(1-x)^2} = 1+2x+3x^2+4x^3+&hellip;$$</p>
+<p>证：因为</p>
+<p>$$\frac{1}{(1-x)^2} = (\frac{1}{1-x})^2 = (1+x+x^2+x^3+&hellip;)^2$$</p>
+<p>根据组合意义，对于 $x^k$，有 $(0,k),(1,k-1),&hellip;,(k,0)$ 共 $(k+1)$ 种组合方式，并且每一种的系数为 $1$，所以 $x^k$ 的系数为 $(k+1)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">证明3</summary>
+<p>$$\frac{1}{1-ax} = 1+ax+a^2x^2+a^3x^3+&hellip;$$</p>
+<p>证：等比数列，公比为 $ax$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">证明4</summary>
+<p>$$\frac{1}{(1-ax)^n} = \sum\limits_{i=0}^{\infty}C_{(n-1)+i}^{(n-1)}a^ix^i$$</p>
+<p>证：因为</p>
+<p>$$\frac{1}{(1-ax)^n} = (1+ax+a^2x^2+a^3x^3+&hellip;)^n$$</p>
+<p>根据组合意义，对于 $x^k$ 而言，每个 $(1+ax+a^2x^2+a^3x^3+&hellip;)$ 都可以贡献给 $k$，而这样的式子有 $n$ 个。</p>
+<p>所以相当于：</p>
+<div class='center'>
+<p>求 $a_1+a_2+&hellip;+a_n = k$ 的非负整数解的个数。</p>
+</div>
+<p>这是 <strong>小球放盒子</strong> 模型，$k$ 个球放入 $n$ 个盒子并且允许空盒，用隔板法即可，方案数为 $C_{(n-1)+k}^{(n-1)}$，这就是 $a^kx^k$ 的系数。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">证明5</summary>
+<p>$$\frac{1}{1+x} = 1-x+x^2-x^3+&hellip;$$</p>
+<p>等比数列，公比为 $-x$。</p>
+</details>
+<h2 id="计算例子">计算例子</h2>
+<h3 id="例1">例1</h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>求无限数列 $a_i = i^2$ 的生成函数。</p>
+<p>分别求出展开式和封闭式。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">展开式 $\Rightarrow$ 封闭式</summary>
+<p>数列 $a$ 为：</p>
+<p>$$a = \{0,1,4,9,16,&hellip;\}$$</p>
+<p>那么生成函数的展开式为：</p>
+<p>$$f(x) = x + 4x^2 + 9x^3 + 16x^4 + &hellip; = \sum\limits_{i=1}^{\infty}i^2x^i$$</p>
+<blockquote>
+<p>在推导生成函数的封闭式时，一个非常重要的 trick 是给展开式 <strong>乘上一个 $x$</strong>。</p>
+</blockquote>
+<p>那么乘上 $x$ 以后，相当于整个展开式向右移动了一位，对应的生成函数就是</p>
+<p>$$xf(x) = 0 + x^2 + 4x^3 + 9x^4 + &hellip; = \sum\limits_{i=1}^{\infty}(i-1)^2x^i$$</p>
+<p>所以两者相减，可得：</p>
+<p>$$(1-x)f(x) = \sum\limits_{i=1}^{\infty}(i^2 - (i-1)^2)x^i = \sum\limits_{i=1}^{\infty}(2i-1)x^i$$</p>
+<p>$$=2\sum\limits_{i=1}^{\infty}ix^i - \sum\limits_{i=1}^{\infty}x^i$$</p>
+<p>$$=\frac{2x}{(1-x)^2} - \frac{x}{1-x}$$</p>
+<p>• 注意到因为求和是从 $i=1$ 开始的，相当于 $i=0$ 的情况整体右移了一位，所以要乘上 $x$ 得到 $\frac{2x}{(1-x)^2}$</p>
+<p>所以生成函数 $f(x)$ 的封闭式为：</p>
+<p>$$f(x) = \frac{2x}{(1-x)^3} - \frac{x}{(1-x)^2} = \frac{x(x+1)}{(1-x)^3}$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">封闭式 $\Rightarrow$ 展开式</summary>
+<p>已知 $f(x)$ 的封闭式为</p>
+<p>$$f(x) = \frac{x(x+1)}{(1-x)^3}$$</p>
+<p>我们将其化简为上面 <strong>常用表</strong> 里面的组合，也就是 <strong>裂项</strong>：</p>
+<p>$$f(x) = \frac{x(x+1)}{(1-x)^3} = \frac{2x}{(1-x)^3} - \frac{x}{(1-x)^2}$$</p>
+<p>考虑第 $k$ 项的系数，注意到我们可以将分子中的 $x$ 提出来，所以 $f(x)$ 的第 $k$ 项系数 $a_k$ 就等于 $g(x) = (\frac{2}{(1-x)^3} - \frac{1}{(1-x)^2})$ 的第 $(k-1)$ 项系数 $b_{k-1}$。</p>
+<p>$$\frac{2}{(1-x)^3} = 2\sum\limits_{i=0}^{\infty}C_{2+i}^{2}x^i, ~ \frac{x}{(1-x)^2} = \sum\limits_{i=0}^{\infty}(i+1)x^i$$</p>
+<p>所以 $g(x)$ 的第 $(k-1)$ 项系数为：</p>
+<p>$$b_{k-1} = [x^{k-1}]2(\sum\limits_{i=0}^{\infty}C_{2+i}^{2}x^i) - \sum\limits_{i=0}^{\infty}(i+1)x^i = 2C_{k+1}^2 - k = k^2$$</p>
+<p>所以 $f(x)$ 的第 $k$ 项系数为 $a_k = b_{k-1} = k^2$。</p>
+<p>于是生成函数的展开式为：</p>
+<p>$$f(x) = \sum\limits_{i=0}^{\infty}i^2x^i = x + 4x^2 + 9x^3 + 16x^4 + &hellip;$$</p>
+</details>
+<h3 id="例2">例2</h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>求斐波那契数列
+$$f_0 = 0, f_1 = 1, f_i = f_{i-1} + f_{i-2}$$</p>
+<p>的生成函数，分别求出展开式（通项公式）和封闭式。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">封闭式</summary>
+<p>注意到</p>
+<p>$$f(x) = f_0 + f_1x^1 + f_2x^2 + f_3x^3 + &hellip;$$</p>
+<p>$$xf(x) = 0 + f_0x^1 + f_1x^2 + f_2x^3 + &hellip;$$</p>
+<p>$$x^2f(x) = 0 + 0+ f_0x^2 + f_1x^3 + &hellip;$$</p>
+<p>由于 $f_i = f_{i-1} + f_{i-2}$，所以：</p>
+<p>$$f(x)(1-x-x^2) = f_0 + (f_1-f_0)x^1 = x$$</p>
+<p>所以 $$f(x) = \frac{x}{1-x-x^2}$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">封闭式$\Rightarrow$展开式</summary>
+<p>$$f(x) = \frac{x}{1-x-x^2}$$</p>
+<p>我们希望将它转为表格中存在的形式，所以我们设：</p>
+<p>$$(1-ax)(1-bx) = 1-x-x^2$$</p>
+<p>可得 $a = \frac{1 + \sqrt 5}{2}, b = \frac{1 - \sqrt 5}{2}$</p>
+<p>设</p>
+<p>$$g(x) = \frac{f(x)}{x} = \frac{1}{(1-ax)(1-bx)}$$</p>
+<p>那么要求 $f(x)$ 的第 $n$ 项系数，只要求 $g(x)$ 的第 $(n-1)$ 项系数即可。</p>
+<p>因为</p>
+<p>$$g(x) = \frac{1}{(1-ax)(1-bx)}$$
+$$= \sum\limits_{i=0}^{\infty}a^ix^i * \sum\limits_{j=0}^{\infty}b^jx^j$$
+$$= (1+ax+a^2x^2+a^3x^3+&hellip;) * (1+bx+b^2x^2+b^3x^3+&hellip;)$$</p>
+<p>这是个卷积，那么 $g(x)$ 的第 $(n-1)$ 项系数为：</p>
+<p>$$[x^{n-1}]g(x) = \sum\limits_{k=0}^{n-1}a^{k}b^{n-1-k}$$</p>
+<p>$$=b^{n-1}\sum\limits_{k=0}^{n-1}a^{k}b^{-k}$$</p>
+<p>$$=b^{n-1}\sum\limits_{k=0}^{n-1}(\frac{a}{b})^k$$</p>
+<p>右边就是个等比数列求和了，公比为 $\frac{a}{b}$，最后可得</p>
+<p>$$[x^n]f(x) = [x^{n-1}]g(x) = \frac{1}{\sqrt 5}((\frac{1+\sqrt 5}{2})^n - (\frac{1-\sqrt 5}{2})^n)$$</p>
+<p>那么求出了 $f(x)$ 的通项公式，展开式也就可以写出来了。</p>
+</details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://blog.csdn.net/a_forever_dream/article/details/102594411">https://blog.csdn.net/a_forever_dream/article/details/102594411</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-09-24 14:42:21 &#43;0800 &#43;0800">2021-09-24</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/69d657cc91123735d757afe013a66914758baf53" title="init 054.md, make the math formula larger" target="_blank">(69d657c)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/054-%e7%94%9f%e6%88%90%e5%87%bd%e6%95%b0.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/ogf/">OGF</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/053-polynomial/">
+            <span class="next-text nav-default">多项式全家桶</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

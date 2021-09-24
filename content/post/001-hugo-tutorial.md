@@ -153,6 +153,11 @@ ouuan大佬在 2021年05月16日 更新了博客的搜索功能，再复制粘�
 
 • 附：kenkoooo 大佬用的是 `react`，我一是不会写 `react`，二是不太清楚 hugo 是否支持 `react` 写的页面，如果以后有需求的时候可以尝试一下。
 
+## 修改样式
+
+我觉得数学公式字体有点小，发现可以更改模版里的 css 来修改样式。
+
+`/Users/huzhenwei/hugo-blog/themes/even/assets/sass/_custom/_custom.scss`
 
 ## 一些注意事项
 

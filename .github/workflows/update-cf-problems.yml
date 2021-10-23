@@ -2,7 +2,7 @@ name: Update CF Problems
 
 on:
   schedule:
-    - cron: "0 0 */3 * *"
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 jobs:
@@ -37,7 +37,7 @@ jobs:
           git status
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
-          git commit -am "chore: update CF Problems"
+          git diff --quiet && git diff --staged --quiet || git commit -am "chore: update CF Problems"
 
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0

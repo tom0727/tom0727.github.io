@@ -1,5 +1,7 @@
 import json
 import os
+import sys
+import time
 import requests
 
 FILE_PATH = "public/contests.json"
@@ -105,10 +107,21 @@ def filter_contest_helper(contest_result):
 
 
 def load_contest_all():
+    try_count = 0
 
-    url = "https://codeforces.com/api/contest.list"
-    res = requests.get(url)
-    contest_all_info = res.json()
+    while try_count < 5:
+        try:
+            url = "https://codeforces.com/api/contest.list"
+            res = requests.get(url)
+            contest_all_info = res.json()
+            break
+        except ValueError as e:
+            try_count += 1
+            print(f"An error occurred, Error msg: {e}")
+            time.sleep(60)  # wait for 1 minutes
+    else:
+        sys.exit(0)
+
     contest_list_all = []
     if contest_all_info["status"] == "OK":
         contest_all_info = contest_all_info["result"]

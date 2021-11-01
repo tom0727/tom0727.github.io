@@ -11,9 +11,6 @@ tags = ['多项式', '']
 {{% fold "多项式全家桶" %}}
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
 const int mod = 998244353;
 const int maxn = (1<<22) + 5;
 
@@ -87,7 +84,7 @@ void poly_multiply(ll f[], int n1, ll g[], int n2, ll h[]) {
 // m = deg(f) + 1
 void poly_inverse(ll f[], ll g[], const int m) {
     if (m == 1) {
-        g[0] = ntt.inv(f[0]);
+        g[0] = ntt.inv(f[0]);  // 应该改为二次剩余
         return;
     }
     static ll F[maxn];
@@ -251,11 +248,19 @@ $$g(x) + f(x)G(x)^2 - 2G(x) \equiv 0 (\text{mod } x^n)$$
 
 $$g(x) \equiv 2G(x) - f(x)G(x)^2 (\text{mod } x^n)$$
 
-注意到 $G(x)$ 是 $(\text{mod } x^{\lceil{\frac{n}{2}}\rceil})$ 意义下的逆元，刚好是一个递归的问题，只要求出来 $G(x)$ 即可求出 $g(x)$，而这个式子用 NTT 解决即可。
 
-• 注意到只需要用 DFT 求出 $f(x), G(x)$ 在特殊点的值 $f(x_i), G(x_i)$，然后直接进行上述计算 $2G(x_i) - f(x_i)G(x_i)^2$，然后再 IDFT 回来即可。
+{{% info "注意点" %}}
 
-• 注意到板子里面使用的 $m$ 代表 $m = deg(f) + 1$，这样是为了递归 base case 的正确处理。
+1. $G(x)$ 是 $(\text{mod } x^{\lceil{\frac{n}{2}}\rceil})$ 意义下的逆元，刚好是一个递归的问题，只要求出来 $G(x)$ 即可求出 $g(x)$，而这个式子用 NTT 解决即可。
+
+2. 只需要用 DFT 求出 $f(x), G(x)$ 在特殊点的值 $f(x_i), G(x_i)$，然后直接进行上述计算 $2G(x_i) - f(x_i)G(x_i)^2$，然后再 IDFT 回来即可。
+
+3. 板子里面使用的 $m$ 代表 $m = deg(f) + 1$，这样是为了递归 base case 的正确处理。
+
+4. 如果 $f(x)$ 的常数项 $f(0) = 0$ 则无法求逆。
+
+{{% /info %}}
+
 
 <hr>
 
@@ -273,7 +278,7 @@ $$g(x) \equiv \ln f(x) ~ (\text{mod } x^n)$$
 
 {{% /question %}}
 
-两边同时求导，可以得到 $g'(x) \equiv \frac{f'(x)}{f(x)} ~ (\text{mod } x^n)$
+两边同时求导，可以得到 $$g'(x) \equiv \frac{f'(x)}{f(x)} ~ (\text{mod } x^n)$$
 
 多项式求导和积分都很简单，所以右边可以很容易的计算出来。
 
@@ -445,7 +450,7 @@ $$= g_1(x) - \frac{g_1^2(x) - f(x)}{2g_1(x)}$$
 
 • base case 为 $n=1$ 时，由于 $f_0 = 1$，直接开根得到 $g_0 = \sqrt 1 = 1$
 
-• 如果 $f_0 \neq 1$，可能需要 **二次剩余** 来求出 $g_0$
+• 如果 $f_0 \neq 1$，需要 [**二次剩余**](/post/055-二次剩余) 来求出 $g_0$
 
 注：有另外一种不用牛顿迭代的推导方法，可以看 [这里](https://www.luogu.com.cn/blog/Owencodeisking/solution-p5205)
 
@@ -454,6 +459,7 @@ $$= g_1(x) - \frac{g_1^2(x) - f(x)}{2g_1(x)}$$
 
 1. 在代码中，使用 `ntt.ntt()` 时注意指定的长度是 $n$，而 **不是** $deg(f) = m$
 2. TODO: 所有需要递归的非递归写法？
+3. TODO: 二次剩余
 
 ## 参考链接
 

@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>CCPC2020秦皇岛 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="排名 Solve: 5 (ADEFJ) Penalty: 767 Rank: 122/343 (35%) 题解 D - Exam Results 题意 给定 $n$ 个学生，第 $i$ 个学生的分数要么为 $a_i$，要么为 $b_i$。 给定整数 $P \in [1,100]$，如果最高" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/056-ccpc2020%E7%A7%A6%E7%9A%87%E5%B2%9B/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.f8e984e0c0e045e129419b8c606366e45ed2a944233d15f1ceba1100a4e469f0.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="CCPC2020秦皇岛" />
+<meta property="og:description" content="排名 Solve: 5 (ADEFJ) Penalty: 767 Rank: 122/343 (35%) 题解 D - Exam Results 题意 给定 $n$ 个学生，第 $i$ 个学生的分数要么为 $a_i$，要么为 $b_i$。 给定整数 $P \in [1,100]$，如果最高" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/056-ccpc2020%E7%A7%A6%E7%9A%87%E5%B2%9B/" />
+<meta property="article:published_time" content="2021-10-31T11:32:46+08:00" />
+<meta property="article:modified_time" content="2021-11-01T17:41:53+08:00" />
+<meta itemprop="name" content="CCPC2020秦皇岛">
+<meta itemprop="description" content="排名 Solve: 5 (ADEFJ) Penalty: 767 Rank: 122/343 (35%) 题解 D - Exam Results 题意 给定 $n$ 个学生，第 $i$ 个学生的分数要么为 $a_i$，要么为 $b_i$。 给定整数 $P \in [1,100]$，如果最高">
+<meta itemprop="datePublished" content="2021-10-31T11:32:46&#43;08:00" />
+<meta itemprop="dateModified" content="2021-11-01T17:41:53&#43;08:00" />
+<meta itemprop="wordCount" content="2271">
+
+
+
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CCPC2020秦皇岛"/>
+<meta name="twitter:description" content="排名 Solve: 5 (ADEFJ) Penalty: 767 Rank: 122/343 (35%) 题解 D - Exam Results 题意 给定 $n$ 个学生，第 $i$ 个学生的分数要么为 $a_i$，要么为 $b_i$。 给定整数 $P \in [1,100]$，如果最高"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">CCPC2020秦皇岛</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-10-31 11:32:46 &#43;0800 &#43;0800"> 2021-10-31 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#排名">排名</a></li>
+        <li><a href="#题解">题解</a>
+          <ul>
+            <li><a href="#d---exam-resultshttpsvjudgenetcontest465633problemd"><a href="https://vjudge.net/contest/465633#problem/D">D - Exam Results</a></a></li>
+            <li><a href="#j---kingdoms-powerhttpsvjudgenetcontest465633problemj"><a href="https://vjudge.net/contest/465633#problem/J">J - Kingdom&rsquo;s Power</a></a></li>
+            <li><a href="#h---interstellar-hunterhttpscodeforcescomgym102769problemi"><a href="https://codeforces.com/gym/102769/problem/I">H - Interstellar Hunter</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="排名">排名</h2>
+<p>Solve: 5 (ADEFJ)</p>
+<p>Penalty: 767</p>
+<p>Rank: 122/343 (35%)</p>
+<h2 id="题解">题解</h2>
+<h3 id="d---exam-resultshttpsvjudgenetcontest465633problemd"><a href="https://vjudge.net/contest/465633#problem/D" target="_blank">D - Exam Results</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个学生，第 $i$ 个学生的分数要么为 $a_i$，要么为 $b_i$。</p>
+<p>给定整数 $P \in [1,100]$，如果最高分为 $x$，则分数 $\geq x * \frac{P}{100}$ 的学生可以及格。</p>
+<p>求所有可能的情况中，及格学生的最大数量？</p>
+<p>其中，$1 \leq n \leq 2 \times 10^5, 1 \leq a_i \leq b_i \leq 10^9$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>直接枚举可能出现的最高分，我们知道要保证 $x$ 为最高分，必须有 $x \geq \max \{a_i\}$。</p>
+<p>如果我们从小到大枚举 $x$，会发现 $[x * \frac{P}{100}, x]$ 是一个滑动的窗口。</p>
+<p>所以本题只要先把所有的 $a_i, b_i$ 放在一起，然后 sort 一下，从 $\max \{a_i\}$ 开始枚举 $x$，在窗口滑动的过程中，利用类似于莫队的思想维护及格人数即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e5+7;
+
+ll n,p,ans = 0;
+struct Point {
+    ll x, id;
+} arr[maxn*2];
+
+int cnt[maxn];
+ll cur = 0;
+
+void add(int x) {
+    cnt[x]++;
+    if (cnt[x] == 1) cur++;
+}
+
+void minu(int x) {
+    cnt[x]--;
+    if (!cnt[x]) cur--;
+}
+
+int main() {
+    int T; read(T);
+    for (int t = 1; t &lt;= T; t++) {
+        ans = 0;
+        read(n), read(p);
+        cur = 0;
+
+        ll lmax = 0;
+        for (int i = 1; i &lt;= n; i++) {
+            ll a,b; read(b); read(a);
+            a *= 100LL, b *= 100LL;
+            lmax = max(lmax, a);
+            arr[i*2 - 1] = {a, i}, arr[i*2] = {b, i};
+        }
+        sort(arr+1, arr+2*n+1, [](auto a, auto b) {
+            return a.x &lt; b.x;
+        });
+
+        int st = 0;
+        for (int i = 1; i &lt;= 2*n; i++) {
+            if (arr[i].x &gt;= lmax) {
+                st = i;
+                break;
+            }
+        }
+
+        int lptr = 0, rptr = 0;
+        for (int i = st; i &lt;= 2*n; i++) {
+            ll L = arr[i].x / 100 * p, R = arr[i].x;
+            while (rptr + 1 &lt;= 2*n &amp;&amp; arr[rptr+1].x &lt;= R) {
+                rptr++;
+                add(arr[rptr].id);
+            }
+            while (lptr + 1 &lt;= rptr &amp;&amp; arr[lptr+1].x &lt; L) {
+                lptr++;
+                minu(arr[lptr].id);
+            }
+            ans = max(ans, cur);
+        }
+        printf(&quot;Case #%d: %lld\n&quot;, t, ans);
+        fill(cnt, cnt+n+5, 0);
+    }
+}
+
+</code></pre>
+</details>
+<h3 id="j---kingdoms-powerhttpsvjudgenetcontest465633problemj"><a href="https://vjudge.net/contest/465633#problem/J" target="_blank">J - Kingdom&rsquo;s Power</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵 $n$ 个节点的有根树，根为 $1$。$1$ 的位置有无限个飞船。</p>
+<p>每一步操作中，可以选定任意一个飞船，让它走向它的一个邻居。</p>
+<p>求最少操作数使得所有节点被访问至少一次？</p>
+<p>其中，$n \leq 10^6$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>猜想 $1$：</p>
+<p>任意时刻，只有一个飞船是 <strong>有用的</strong>。</p>
+<p>要么我们动这个飞船，要么我们动 $1$ 里面的无限个飞船。如果我们在访问某个子树时没有使用这个飞船，那么这个飞船就再也不会被用到了。</p>
+<p>这个猜想是正确的（然而我也不确定怎么严格证明）。</p>
+<p>猜想 $2$：</p>
+<p>我们可以利用贪心，从 $1$ 开始 <code>dfs</code>，根据 <strong>最大深度</strong> 的顺序，从小到大 <code>dfs</code> 它的 child。</p>
+<p>这个贪心也是正确的，感性理解的话可以考虑最简单的情况：</p>
+<p><img src="/images/056/1.png" alt="img"></p>
+<p>这里从 $2$ 出发的话应该是先访问 $3,4$ ，最后访问 $5$。</p>
+<hr>
+<p>利用以上贪心就可以写出一个 $O(n\log n)$ 的解法：</p>
+<p>直接维护当前 <strong>有用</strong> 飞船的位置 $x$，然后每次要移动到下一个点 $y$ 的时候，比较一下 $d(x,y)$ 和 $d(1,y)$ 的距离即可，然后更新 $x=y$。</p>
+<p>比赛的时候就是这样写的，然后愉快的T了。</p>
+<hr>
+<p>$O(n)$ 正解：</p>
+<p>我们发现，对于一个节点 $u$，我们定义 $dp[u]$ 为：访问完 $u$ 的整个子树，并且飞船不回来（即停留在访问时的哪个节点）所需要的步数。</p>
+<p>$dp[u]$ 怎么转移？</p>
+<p>对于 $u$ 的每个child $v$，<strong>除了最后一个</strong>访问的 $v$ 以外，其他的 child 都需要访问结束以后，再回到 $u$。</p>
+<p>回到 $u$ 的飞船，要么是访问完 $v$ 的那个飞船再走回来，要么我们直接从 $1$ 派一个飞船到 $u$，看哪个距离更近就好了。</p>
+<p>所以有：</p>
+<p>$$dp[u] = \sum\limits_v \{1 + dp[v] + \min \{maxdep[v] - dep[u], dep[u]\} \}$$</p>
+<p>注意到这个转移把 <strong>最后一个child $v$</strong> 需要回到 $u$ 的贡献也算上了，且我们知道最后一个child $v$ 访问完毕时，停留的节点深度为 $maxdep[u]$，所以我们需要减掉这个贡献：</p>
+<p>$$dp[u] = dp[u] - \min \{maxdep[u] - dep[u], dep[u]\}$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e6+3;
+
+int T, n;
+int dep[maxn], maxdep[maxn], head[maxn], ecnt = 1;
+ll dp[maxn];
+struct Edge {
+    int to, nxt;
+} edges[maxn];
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+void dfs1(int u) {
+    maxdep[u] = dep[u];
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        dep[to] = dep[u] + 1;
+        dfs1(to);
+        maxdep[u] = max(maxdep[u], maxdep[to]);
+    }
+}
+
+void dfs2(int u) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        dfs2(to);
+        dp[u] += (dp[to] + min(maxdep[to] - dep[u], dep[u]) + 1);
+    }
+    dp[u] -= (min(maxdep[u] - dep[u], dep[u]));
+}
+
+int main() {
+    read(T);
+    for (int t = 1; t &lt;= T; t++) {
+        read(n);
+        for (int u = 2; u &lt;= n; u++) {
+            int v; read(v);
+            addEdge(v, u);
+        }
+
+        dep[1] = 0;
+        dfs1(1);
+        dfs2(1);
+
+        printf(&quot;Case #%d: %lld\n&quot;,t, dp[1]);
+        fill(maxdep, maxdep+n+2, 0);
+        fill(dp, dp+n+2, 0);
+        ecnt = 1;
+        fill(head, head+n+2, 0);
+    }
+
+}
+</code></pre>
+</details>
+<h3 id="h---interstellar-hunterhttpscodeforcescomgym102769problemi"><a href="https://codeforces.com/gym/102769/problem/I" target="_blank">H - Interstellar Hunter</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>在一个无限大的二维平面中，我们的初始位置为 $(0,0)$，现在给定 $Q$ 个询问，每次询问为两种格式：</p>
+<p>$1 ~ x ~ y$：获得 $(x,y)$ 的跳跃能力。</p>
+<p>$2 ~ x ~ y ~ w$：在 $(x,y)$ 的位置出现一个价值为 $w$ 的宝藏，可以选择走到这里拿宝藏。</p>
+<p>当我们拥有 $(a,b)$ 的跳跃能力时，可以将我们的坐标 $(x,y)$ 变为 $(x+a,y+b)$ 或者 $(x-a,y-b)$。</p>
+<p>求最大的宝藏价值总和？</p>
+<p>其中，$Q \leq 10^6$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>获得一个跳跃能力以后，我们每次移动就多了一种移动方式。</p>
+<p>注意到我们当前坐标为多少不会影响答案，因为这个获得的跳跃能力，相当于在一个 <strong>整数域</strong> 中维护一些向量组成的 $span$。每次都看作是从 $(0,0)$ 出发就好了。</p>
+<p>现在问题就在于如何维护向量集合了。</p>
+<p>有一个结论：</p>
+<p>如果集合中有 $\geq 2$ 个不共线向量，则可以用 $(d,0), (x_2,y_2)$ 来表示这个向量集合的 $span$，其中 $d \leq x_2$。</p>
+<p>证明？我也不会。</p>
+<p>现在考虑一下如果我们加入了一个新的向量 $(x,y)$，怎么更新这些向量？</p>
+<p>在整数域下，就需要保证 $d$ 尽量小，而 $y_2$ 也尽量小。</p>
+<p>所以我们可以先用 $(x_2,y_2)$ 与 $(x,y)$ 构造出一个 $(x&rsquo;,0)$ 的向量，然后更新 $d = \gcd(d,x&rsquo;)$。</p>
+<p>要令 $y_2$ 尽量小，则我们用 $(x_2,y_2)$ 与 $(x,y)$ 构造出 $(x&rsquo;', \gcd(y_2,y))$。</p>
+<p>这个构造的过程，就是一个 linear combination 的过程。</p>
+<p>那么怎么构造呢？注意到是在整数域下，所以用 $exgcd$！</p>
+<p>所以设：</p>
+<p>$$ay_2 + by = 0$$</p>
+<p>令 $g = \gcd(y_2,y)$，就有：</p>
+<p>$$a\frac{y_2}{g} + b\frac{y}{g} = 0$$</p>
+<p>所以 $a = -\frac{y}{g}, b = \frac{y_2}{g}$，就有：</p>
+<p>$$a(x_2,y_2) + b(x,y) = (x&rsquo;, 0)$$</p>
+<p>然后同理，解出</p>
+<p>$$a(x_2,y_2) + b(x,y) = (x&rsquo;', \gcd(y_2,y))$$</p>
+<p>解出来以后，令 $x_2 = x&rsquo;', y_2 = \gcd(y_2,y)$ 即可。</p>
+<p>• 注意需要单独处理 $d,x,y=0$ 的情况。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e5+3;
+
+int T, Q;
+ll curx, cury;
+ll exgcd(ll a, ll b, ll&amp; x, ll&amp; y) {
+    if (!b) {
+        x = 1, y = 0;
+        return a;
+    }
+    ll g = exgcd(b, a%b, x, y);
+    ll x2 = x, y2 = y;
+    x = y2, y = x2 - a/b * y2;
+    return g;
+}
+
+ll gcd(ll a, ll b) {
+    if (!b) return a;
+    return gcd(b, a%b);
+}
+
+int cnt = 0;
+ll d = 0, x2, y2;
+
+int main() {
+    read(T);
+    for (int tt = 1; tt &lt;= T; tt++) {
+        read(Q);
+        d = x2 = y2 = 0;
+        ll ans = 0;
+        while (Q--) {
+            int t; ll x,y,w;
+            read(t);
+            read(x); read(y);
+
+            if (t == 1) {
+                if (y == 0) {
+                    d = gcd(d, x);
+                    continue;
+                }
+                ll a,b;
+                ll g = exgcd(y, y2, a, b);  // 因为 y2 = 0 无所谓，所以 g != 0
+                ll xx = abs(-y2 * x + y * x2) / g;
+                d = gcd(d, xx);
+
+                y2 = g;
+                x2 = a * x + b * x2;
+
+                if (d)
+                    x2 = (x2 % d + d) % d;
+            } else {
+                read(w);
+                if (y == 0) {
+                    if (!d &amp;&amp; !x) ans += w;
+                    if (d &gt; 0 &amp;&amp; x % d == 0) ans += w;
+                } else {
+                    if (y2 &amp;&amp; y % y2 == 0) {
+                        ll c = y / y2;
+                        x -= c * x2;
+                        if (d &amp;&amp; x % d == 0) ans += w;
+                        if (!d &amp;&amp; !x) ans += w;
+                    }
+                }
+            }
+        }
+        printf(&quot;Case #%d: %lld\n&quot;, tt, ans);
+    }
+}
+
+
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-11-01 17:41:53 &#43;0800 &#43;0800">2021-11-01</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0b74d00afd24d38c4f38a4c655c5f0ac3d1f895b" title="init 055,056.md" target="_blank">(0b74d00)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/056-CCPC2020%e7%a7%a6%e7%9a%87%e5%b2%9b.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/055-%E4%BA%8C%E6%AC%A1%E5%89%A9%E4%BD%99/">
+            <span class="next-text nav-default">二次剩余</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

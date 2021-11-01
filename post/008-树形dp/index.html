@@ -44,11 +44,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" />
 <meta property="article:published_time" content="2021-02-18T15:42:09+08:00" />
-<meta property="article:modified_time" content="2021-10-26T07:31:16+00:00" />
+<meta property="article:modified_time" content="2021-11-01T17:41:53+08:00" />
 <meta itemprop="name" content="树形dp">
 <meta itemprop="description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP">
 <meta itemprop="datePublished" content="2021-02-18T15:42:09&#43;08:00" />
-<meta itemprop="dateModified" content="2021-10-26T07:31:16&#43;00:00" />
+<meta itemprop="dateModified" content="2021-11-01T17:41:53&#43;08:00" />
 <meta itemprop="wordCount" content="3091">
 
 
@@ -175,7 +175,7 @@
 <p>一般来说，DP的形式为：</p>
 <p>设 $dp[i][j]$ 为: 以 $i$ 为根的子树当中，选了 $j$ 个元素得到的最大值。</p>
 <p>这样，状态转移就有：</p>
-<p>$dp[u][j] = \max\limits_{to} \{ dp[u][j-k] + dp[to][k]\}$</p>
+<p>$$dp[u][j] = \max\limits_{to} \{ dp[u][j-k] + dp[to][k]\}$$</p>
 <p>代码如下：</p>
 <pre><code class="language-cpp">for (int j = m; j &gt;= 1; j--) {
     for (int k = 1; k &lt;= j-1; k++) {
@@ -230,7 +230,7 @@
 <details class="admonition note"><summary class="admonition-title">题解</summary>
 <p>设 $dp[i][j]$ 为: 以 $i$ 为根的子树当中，选了 $j$ 个课程得到的最大值</p>
 <p>根据前置课程的关系建图(会发现这是一棵树)，因为有前置课程，所以必须选了root才能选别的，故:</p>
-<p>$dp[i][1] = s_i$</p>
+<p>$$dp[i][1] = s_i$$</p>
 <p>在处理某一个节点i的时候，$dp[i][j]$ 代表的是： 以它为root的 <strong>&ldquo;已探索&rdquo; 子树</strong>中的最大值，所以在探索各个子树过程中有：</p>
 <p>$dp\left[cur\right]\left[j\right]=\max\left(dp\left[cur\right]\left[j\right],dp\left[cur\right]\left[k\right]+dp\left[nei\right]\left[j-k\right]\right),\ k=\left[1,j-1\right]$</p>
 <hr>
@@ -521,8 +521,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-10-26 07:31:16 &#43;0000 UTC">2021-10-26</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/89ba20428285299105c1339dbd0e2a01d0e37ea4" title="chore: update CF Problems" target="_blank">(89ba204)</a>
+        <span title="2021-11-01 17:41:53 &#43;0800 &#43;0800">2021-11-01</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0b74d00afd24d38c4f38a4c655c5f0ac3d1f895b" title="init 055,056.md" target="_blank">(0b74d00)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/008-%e6%a0%91%e5%bd%a2dp.md" target="_blank">更新历史</a>
     </span>
   </p>

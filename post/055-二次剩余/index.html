@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>CF1159B 题解(枚举优化) - tom0727&#39;s blog</title>
+  <title>二次剩余 - tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="题目链接 https://codeforces.com/contest/1159/problem/B 题意 给定 $n$ 个非负整数 $a_1,a_2,&amp;hellip;,a_n$，求 $\frac{\min(a_i, a_j)}{|i-j|}$ ？其中 $i, j \in [1,n], i \neq j$ 题解 对于这类的枚举问题，一般套路都是 &amp;" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="二次剩余用于解决在 模意义下开根 的问题： 题意 给定一个质数 $P$ 和一个非负整数 $N$，求 $x$ 使得 $$x^2 \equiv N (\text{mod } P)$$ 本问题等价于求 $$\sqrt N ~(\text{mod } P)$$ 性质 这个问题可能无" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
-<link rel="canonical" href="https://tom0727.github.io/post/006-cf-1159b/" />
+<link rel="canonical" href="https://tom0727.github.io/post/055-%E4%BA%8C%E6%AC%A1%E5%89%A9%E4%BD%99/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,23 +39,23 @@
 
 
 
-<meta property="og:title" content="CF1159B 题解(枚举优化)" />
-<meta property="og:description" content="题目链接 https://codeforces.com/contest/1159/problem/B 题意 给定 $n$ 个非负整数 $a_1,a_2,&hellip;,a_n$，求 $\frac{\min(a_i, a_j)}{|i-j|}$ ？其中 $i, j \in [1,n], i \neq j$ 题解 对于这类的枚举问题，一般套路都是 &" />
+<meta property="og:title" content="二次剩余" />
+<meta property="og:description" content="二次剩余用于解决在 模意义下开根 的问题： 题意 给定一个质数 $P$ 和一个非负整数 $N$，求 $x$ 使得 $$x^2 \equiv N (\text{mod } P)$$ 本问题等价于求 $$\sqrt N ~(\text{mod } P)$$ 性质 这个问题可能无" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/006-cf-1159b/" />
-<meta property="article:published_time" content="2021-02-17T15:19:54+08:00" />
-<meta property="article:modified_time" content="2021-02-25T17:27:33+08:00" />
-<meta itemprop="name" content="CF1159B 题解(枚举优化)">
-<meta itemprop="description" content="题目链接 https://codeforces.com/contest/1159/problem/B 题意 给定 $n$ 个非负整数 $a_1,a_2,&hellip;,a_n$，求 $\frac{\min(a_i, a_j)}{|i-j|}$ ？其中 $i, j \in [1,n], i \neq j$ 题解 对于这类的枚举问题，一般套路都是 &">
-<meta itemprop="datePublished" content="2021-02-17T15:19:54&#43;08:00" />
-<meta itemprop="dateModified" content="2021-02-25T17:27:33&#43;08:00" />
-<meta itemprop="wordCount" content="249">
+<meta property="og:url" content="https://tom0727.github.io/post/055-%E4%BA%8C%E6%AC%A1%E5%89%A9%E4%BD%99/" />
+<meta property="article:published_time" content="2021-10-30T11:19:19+08:00" />
+<meta property="article:modified_time" content="2021-11-01T17:41:53+08:00" />
+<meta itemprop="name" content="二次剩余">
+<meta itemprop="description" content="二次剩余用于解决在 模意义下开根 的问题： 题意 给定一个质数 $P$ 和一个非负整数 $N$，求 $x$ 使得 $$x^2 \equiv N (\text{mod } P)$$ 本问题等价于求 $$\sqrt N ~(\text{mod } P)$$ 性质 这个问题可能无">
+<meta itemprop="datePublished" content="2021-10-30T11:19:19&#43;08:00" />
+<meta itemprop="dateModified" content="2021-11-01T17:41:53&#43;08:00" />
+<meta itemprop="wordCount" content="322">
 
 
 
-<meta itemprop="keywords" content="枚举," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="CF1159B 题解(枚举优化)"/>
-<meta name="twitter:description" content="题目链接 https://codeforces.com/contest/1159/problem/B 题意 给定 $n$ 个非负整数 $a_1,a_2,&hellip;,a_n$，求 $\frac{\min(a_i, a_j)}{|i-j|}$ ？其中 $i, j \in [1,n], i \neq j$ 题解 对于这类的枚举问题，一般套路都是 &"/>
+<meta itemprop="keywords" content="二次剩余," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="二次剩余"/>
+<meta name="twitter:description" content="二次剩余用于解决在 模意义下开根 的问题： 题意 给定一个质数 $P$ 和一个非负整数 $N$，求 $x$ 使得 $$x^2 \equiv N (\text{mod } P)$$ 本问题等价于求 $$\sqrt N ~(\text{mod } P)$$ 性质 这个问题可能无"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -131,12 +131,12 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">CF1159B 题解(枚举优化)</h1>
+      <h1 class="post-title">二次剩余</h1>
 
       <div class="post-meta">
-        <span class="post-time" title="2021-02-17 15:19:54 &#43;0800 &#43;0800"> 2021-02-17 </span>
+        <span class="post-time" title="2021-10-30 11:19:19 &#43;0800 &#43;0800"> 2021-10-30 </span>
         <div class="post-category">
-            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
             </div>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -150,7 +150,9 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#题目链接">题目链接</a></li>
+        <li><a href="#性质">性质</a></li>
+        <li><a href="#模版">模版</a></li>
+        <li><a href="#参考链接">参考链接</a></li>
       </ul>
     </li>
   </ul>
@@ -158,34 +160,74 @@
   </div>
 </div>
     <div class="post-content">
-      <h2 id="题目链接">题目链接</h2>
-<p><a href="https://codeforces.com/contest/1159/problem/B">https://codeforces.com/contest/1159/problem/B</a></p>
+      <p>二次剩余用于解决在 <strong>模意义下开根</strong> 的问题：</p>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
-<p>给定 $n$ 个非负整数 $a_1,a_2,&hellip;,a_n$，求 $\frac{\min(a_i, a_j)}{|i-j|}$ ？其中 $i, j \in [1,n], i \neq j$</p>
+<p>给定一个质数 $P$ 和一个非负整数 $N$，求 $x$ 使得</p>
+<p>$$x^2 \equiv N (\text{mod } P)$$</p>
+<p>本问题等价于求 $$\sqrt N ~(\text{mod } P)$$</p>
 </div>
-<details class="admonition note"><summary class="admonition-title">题解</summary>
-<p>对于这类的枚举问题，一般套路都是 &ldquo;固定一个数&rdquo;，这里很明显是固定一下 $\min(a_i, a_j)$。</p>
-<p>所以只要从 $a_1$ 遍历到 $a_n$，把当前遍历到的值作为最小值，然后不管最左侧或者最右侧元素是否小于它，直接最大化分母就可以了。</p>
-<p>为什么不会漏解？因为 <strong>每一个 $a_i$ 都当了一次分子</strong>！</p>
-</details>
-<details class="admonition note"><summary class="admonition-title">代码</summary>
-<pre><code class="language-cpp">const int maxn = 3e5+5;
-
-int n, arr[maxn];
-int ans = 1e9;
-
-int main() {
-    cin &gt;&gt; n;
-    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; arr[i];
-    for (int i = 1; i &lt;= n; i++) {
-        int d = max(i-1, n-i);
-        ans = min(ans, arr[i] / d);
+<h2 id="性质">性质</h2>
+<ol>
+<li>这个问题可能无解，如果有解，则有两个解，它们互为<strong>相反数</strong>。</li>
+<li></li>
+</ol>
+<h2 id="模版">模版</h2>
+<pre><code class="language-cpp">// 求 sqrt(a) 在 mod P 下的值
+// 调用 solve(a, P, r1, r2)
+// 若有解，r1, r2 分别为两个解，其中 r1 小，r2 大
+// 若无解，r1 == -1
+namespace Quadratic_residue {
+    ll qpow(ll a, ll b, ll P) {
+        ll res = 1;
+        while (b) {
+            if (b &amp; 1) res = res * a % P;
+            a = a * a % P;
+            b &gt;&gt;= 1;
+        }
+        return res;
     }
-    cout &lt;&lt; ans &lt;&lt; endl;
-}
+
+    bool check_if_residue(ll x, ll P) {
+        return qpow(x, (P - 1) &gt;&gt; 1, P) == 1;
+    }
+
+    void solve(ll a, ll P, ll&amp; r1, ll&amp; r2) {
+        if (a &lt;= 1) {
+            r1 = a, r2 = P - a; return;
+        }
+        if (!check_if_residue(a, P)) {
+            r1 = -1; return;
+        }
+        ll x;
+        while (1) {
+            x=1ll*rand()*rand()%P;
+            if (qpow((x*x-a+P)%P,(P-1)/2, P)!=1) break;
+        }
+        ll w=(x*x-a+P)%P;
+        pll res = {1,0}, t = {x,1};
+        auto Mul=[&amp;](pll a,pll b){ // 复数乘法
+            ll x=(1ll*a.first*b.first+1ll*a.second*b.second%P*w)%P;
+            ll y=(1ll*a.first*b.second+1ll*a.second*b.first)%P;
+            return make_pair(x,y);
+        };
+        ll d=(P+1)/2;
+        while (d) {
+            if(d&amp;1) res=Mul(res,t);
+            t=Mul(t,t);
+            d&gt;&gt;=1;
+        }
+        ll r = (res.first % P + P) % P;
+        r1 = min(r, (P - r) % P);
+        r2 = max(r, (P - r) % P);
+    }
+};
 </code></pre>
-</details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://chasingdeath.github.io/articles/2020/08/15/2244ecc3.html">https://chasingdeath.github.io/articles/2020/08/15/2244ecc3.html</a> （模版来源）</li>
+<li><a href="https://www.luogu.com.cn/problem/P5491">https://www.luogu.com.cn/problem/P5491</a></li>
+</ol>
 
     </div>
 
@@ -197,9 +239,9 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-02-25 17:27:33 &#43;0800 &#43;0800">2021-02-25</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/079f956192f546c10ec90c215735c985d74a1b6d" title="add 012.md" target="_blank">(079f956)</a>
-        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/006-cf-1159b.md" target="_blank">更新历史</a>
+        <span title="2021-11-01 17:41:53 &#43;0800 &#43;0800">2021-11-01</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0b74d00afd24d38c4f38a4c655c5f0ac3d1f895b" title="init 055,056.md" target="_blank">(0b74d00)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/055-%e4%ba%8c%e6%ac%a1%e5%89%a9%e4%bd%99.md" target="_blank">更新历史</a>
     </span>
   </p>
   
@@ -210,16 +252,16 @@ int main() {
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/%E6%9E%9A%E4%B8%BE/">枚举</a>
+          <a href="/tags/%E4%BA%8C%E6%AC%A1%E5%89%A9%E4%BD%99/">二次剩余</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/007-01%E5%88%86%E6%95%B0%E8%A7%84%E5%88%92/">
+        <a class="prev" href="/post/056-ccpc2020%E7%A7%A6%E7%9A%87%E5%B2%9B/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">01分数规划</span>
+            <span class="prev-text nav-default">CCPC2020秦皇岛</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/005-%E7%88%AC%E8%99%AB%E7%AC%94%E8%AE%B0/">
-            <span class="next-text nav-default">爬虫笔记</span>
+        <a class="next" href="/post/054-%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/">
+            <span class="next-text nav-default">普通生成函数（OGF）</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

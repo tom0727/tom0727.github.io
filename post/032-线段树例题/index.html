@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/032-%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%BE%8B%E9%A2%98/" />
 <meta property="article:published_time" content="2021-03-16T22:10:22+08:00" />
-<meta property="article:modified_time" content="2021-11-13T22:31:52+08:00" />
+<meta property="article:modified_time" content="2021-11-13T22:38:32+08:00" />
 <meta itemprop="name" content="线段树/分块 例题">
 <meta itemprop="description" content="主要记录一些遇到的线段树/分块例题。 例1 CF438D 题意 给定 $N$ 个正整数和 $M$ 个询问，询问有 3 种： $1 ~ l ~ r$：输出 $\sum\limits_{i=l}^r a_i$ $2 ~ l ~ r ~ x$：将 $a_l$ 到 $a_r$ 的所有数">
 <meta itemprop="datePublished" content="2021-03-16T22:10:22&#43;08:00" />
-<meta itemprop="dateModified" content="2021-11-13T22:31:52&#43;08:00" />
-<meta itemprop="wordCount" content="4389">
+<meta itemprop="dateModified" content="2021-11-13T22:38:32&#43;08:00" />
+<meta itemprop="wordCount" content="4460">
 
 
 
@@ -637,6 +637,7 @@ int main() {
 <li>$[l,r]$ 的长度 $&lt; n$，且属于同一个循环节，那么用 ST表 预处理一下 $[l \text{ mod } n,r\text{ mod } n]$ 的最小值即可。</li>
 <li>$[l,r]$ 的长度 $&lt; n$，且不属于同一个循环节，那么它的初始最小值就是 $[l \text{ mod } n, n] \bigcup [1, r\text{ mod } n]$</li>
 </ol>
+<p>开点的函数是代码里的 <code>build()</code>，注意到只要我们访问到了 <code>cur</code>，并且需要访问它的任意一个 child 时，需要把左右两个子树都开点，这保证了 <code>pushup()</code> 的正确性。</p>
 </details>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
@@ -767,8 +768,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-11-13 22:31:52 &#43;0800 &#43;0800">2021-11-13</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/716885b4028a14a1744e31f403eeb9ed5528e729" title="add an example to 032" target="_blank">(716885b)</a>
+        <span title="2021-11-13 22:38:32 &#43;0800 &#43;0800">2021-11-13</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/452f2351eafd901d2f1d1823fa996eb0d84eaca9" title="modify 032" target="_blank">(452f235)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/032-%e7%ba%bf%e6%ae%b5%e6%a0%91%e4%be%8b%e9%a2%98.md" target="_blank">更新历史</a>
     </span>
   </p>

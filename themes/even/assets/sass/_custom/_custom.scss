@@ -43,3 +43,10 @@ mjx-container + br {
 mjx-container {
   font-size: 120% !important;
 }
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+    width: auto;
+}

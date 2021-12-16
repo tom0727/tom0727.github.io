@@ -155,7 +155,7 @@ ouuan大佬在 2021年05月16日 更新了博客的搜索功能，再复制粘�
 
 ## 修改样式
 
-我觉得数学公式字体有点小，发现可以更改模版里的 css 来修改样式。
+我觉得数学公式字体有点小，发现可以更改模版里的 css 来修改样式。同理也可以增添一些其他的东西进去，比如 class 为 center 的 div。
 
 `/Users/huzhenwei/hugo-blog/themes/even/assets/sass/_custom/_custom.scss`
 

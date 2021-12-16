@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>单调队列 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 单调队列可以用于解决滑动窗口最值问题。 简单来说，单调队列内维护的是 index，单调队列要满足两个特性： q[tail] - q[head] &amp;lt; m，其中 $m$ 是窗口的大小。 队" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/058-%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.8876c8d1563af17bab528692ce76dcb006603e63da3a61f9134e1c17d911f5e2.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="单调队列" />
+<meta property="og:description" content="介绍 单调队列可以用于解决滑动窗口最值问题。 简单来说，单调队列内维护的是 index，单调队列要满足两个特性： q[tail] - q[head] &lt; m，其中 $m$ 是窗口的大小。 队" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/058-%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" />
+<meta property="article:published_time" content="2021-11-17T17:24:34+08:00" />
+<meta property="article:modified_time" content="2021-12-16T11:47:06+08:00" />
+<meta itemprop="name" content="单调队列">
+<meta itemprop="description" content="介绍 单调队列可以用于解决滑动窗口最值问题。 简单来说，单调队列内维护的是 index，单调队列要满足两个特性： q[tail] - q[head] &lt; m，其中 $m$ 是窗口的大小。 队">
+<meta itemprop="datePublished" content="2021-11-17T17:24:34&#43;08:00" />
+<meta itemprop="dateModified" content="2021-12-16T11:47:06&#43;08:00" />
+<meta itemprop="wordCount" content="447">
+
+
+
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="单调队列"/>
+<meta name="twitter:description" content="介绍 单调队列可以用于解决滑动窗口最值问题。 简单来说，单调队列内维护的是 index，单调队列要满足两个特性： q[tail] - q[head] &lt; m，其中 $m$ 是窗口的大小。 队"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">单调队列</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-11-17 17:24:34 &#43;0800 &#43;0800"> 2021-11-17 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a>
+          <ul>
+            <li><a href="#例1-洛谷p2627-usaco11openmowing-the-lawn-ghttpswwwluogucomcnproblemp2627">例1 <a href="https://www.luogu.com.cn/problem/P2627">洛谷P2627 [USACO11OPEN]Mowing the Lawn G</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>单调队列可以用于解决滑动窗口最值问题。</p>
+<p>简单来说，单调队列内维护的是 index，单调队列要满足两个特性：</p>
+<ol>
+<li><code>q[tail] - q[head] &lt; m</code>，其中 $m$ 是窗口的大小。</li>
+<li>队列中的元素，对应的值单调递减/递增。</li>
+</ol>
+<p>要维护第二条的话，就需要在插入一个新的元素时，从队列的尾部不断 <code>pop</code> 掉元素，保证单调性（本质上和单调栈一样）。</p>
+<h3 id="例1-洛谷p2627-usaco11openmowing-the-lawn-ghttpswwwluogucomcnproblemp2627">例1 <a href="https://www.luogu.com.cn/problem/P2627" target="_blank">洛谷P2627 [USACO11OPEN]Mowing the Lawn G</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个包含 $n$ 个正整数的数组，从中选取一些数，使得不存在连续的 $&gt;k$ 个数。</p>
+<p>输出选取方案中，可能的最大和。</p>
+<p>其中，$n \leq 10^5$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>DP。设 $dp[i]$ 为前 $i$ 个数字所能得到的最大答案。</p>
+<p>所以我们枚举一下<strong>上一个不选的位置</strong> $j$，则有</p>
+<p>$$dp[i] = \max_{j=i-k}^i\{dp[j-1]+sum(j+1,i)\}$$</p>
+<p>$$=\max_{j=i-k}^i\{dp[j-1]+sum[i] - sum[j]\}$$</p>
+<p>由于 $i$ 固定，所以可以把 $sum[i]$ 拿出来，我们只要求</p>
+<p>$$\max_{j=i-k}^i\{dp[j-1] - sum[j]\}$$</p>
+<p>这个东西只与 $j$ 有关，所以就是一个滑动窗口最小值问题了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+ll q[maxn&lt;&lt;1], a[maxn], sum[maxn], dp[maxn];
+int head = 1, tail = 0, n, k;
+int main() {
+    cin &gt;&gt; n &gt;&gt; k;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; a[i], sum[i] = sum[i-1] + a[i];
+
+    for (int i = 1; i &lt;= k; i++) {
+        dp[i] = sum[i];
+        while (head &lt;= tail &amp;&amp; dp[q[tail]] - sum[q[tail]+1] &lt;= dp[i-1] - sum[i]) tail--;
+        q[++tail] = i-1;
+    }
+
+    for (int i = k+1; i &lt;= n; i++) {
+        while (head &lt;= tail &amp;&amp; dp[q[tail]] - sum[q[tail]+1] &lt;= dp[i-1] - sum[i]) tail--;
+        q[++tail] = i-1;
+        while (q[tail] - q[head] &gt;= k+1) head++;
+        int j = q[head];
+        dp[i] = sum[i] + dp[j] - sum[j+1];
+    }
+    cout &lt;&lt; dp[n] &lt;&lt; endl;
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-12-16 11:47:06 &#43;0800 &#43;0800">2021-12-16</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/ed449c0f6b33df7b5902eb72f6323cc0fc0a7fe3" title="init 057,058" target="_blank">(ed449c0)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/058-%e5%8d%95%e8%b0%83%e9%98%9f%e5%88%97.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/057-%E5%9F%BA%E7%8E%AF%E6%A0%91/">
+            <span class="next-text nav-default">基环树</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

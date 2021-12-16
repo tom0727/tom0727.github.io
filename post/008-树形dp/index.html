@@ -35,7 +35,7 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.f8e984e0c0e045e129419b8c606366e45ed2a944233d15f1ceba1100a4e469f0.css" rel="stylesheet">
+<link href="/sass/main.min.8876c8d1563af17bab528692ce76dcb006603e63da3a61f9134e1c17d911f5e2.css" rel="stylesheet">
 
 
 
@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" />
 <meta property="article:published_time" content="2021-02-18T15:42:09+08:00" />
-<meta property="article:modified_time" content="2021-12-15T00:19:01+00:00" />
+<meta property="article:modified_time" content="2021-12-16T11:47:06+08:00" />
 <meta itemprop="name" content="树形dp">
 <meta itemprop="description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP">
 <meta itemprop="datePublished" content="2021-02-18T15:42:09&#43;08:00" />
-<meta itemprop="dateModified" content="2021-12-15T00:19:01&#43;00:00" />
-<meta itemprop="wordCount" content="3091">
+<meta itemprop="dateModified" content="2021-12-16T11:47:06&#43;08:00" />
+<meta itemprop="wordCount" content="4291">
 
 
 
@@ -161,6 +161,8 @@
           <ul>
             <li><a href="#例1-洛谷p2014httpswwwluogucomcnproblemp2014">例1 <a href="https://www.luogu.com.cn/problem/P2014">洛谷P2014</a></a></li>
             <li><a href="#例2-洛谷p2515-haoi2010软件安装httpswwwluogucomcnproblemp2515">例2 <a href="https://www.luogu.com.cn/problem/P2515">洛谷P2515 [HAOI2010]软件安装</a></a></li>
+            <li><a href="#例3-洛谷p4395-boi2003gem-气垫车httpswwwluogucomcnproblemp4395">例3 <a href="https://www.luogu.com.cn/problem/P4395">洛谷P4395 [BOI2003]Gem 气垫车</a></a></li>
+            <li><a href="#例4-洛谷p3177-haoi2015树上染色httpswwwluogucomcnproblemp3177">例4 <a href="https://www.luogu.com.cn/problem/P3177">洛谷P3177 [HAOI2015]树上染色</a></a></li>
           </ul>
         </li>
       </ul>
@@ -510,6 +512,160 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例3-洛谷p4395-boi2003gem-气垫车httpswwwluogucomcnproblemp4395">例3 <a href="https://www.luogu.com.cn/problem/P4395" target="_blank">洛谷P4395 [BOI2003]Gem 气垫车</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给一棵 $n$ 个节点的树，要求给所有节点标上正整数权值，使得相邻节点不能权值相同，求最小总权值。</p>
+<p>其中，$n \leq 10^4$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>第一眼看过去是个树染色问题，要么权值为 $1$，要么为 $2$。</p>
+<p>很遗憾这个做法是错的，考虑一下这个数据，两个菊花接在一起：</p>
+<p><img src="/images/008/1.png" alt="img"></p>
+<p>这里很明显应该给 $1,2$ 分别标上 $2,3$ 的权值，其余全部标 $1$。</p>
+<p>所以我们暴力枚举一下每个节点上可能标什么权值就好了，直觉上告诉我们这个上限不会太大。</p>
+<p>然后利用树形DP来求最小值即可。</p>
+<p>代码中取了上限 $M = 55$，所以复杂度就是 $O(55^2 * n)$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 10005;
+const int M = 55;
+
+struct Edge {
+    int to, nxt;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 1, n, m;
+int dp[maxn][M+3];
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+void dfs(int u, int p) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        dfs(to, u);
+        for (int j = 1; j &lt;= M; j++) {
+            int r = 1e9;
+            for (int k = 1; k &lt;= M; k++) {
+                if (j == k) continue;
+                r = min(r, dp[to][k]);
+            }
+            dp[u][j] += r;
+        }
+    }
+    for (int j = 1; j &lt;= M; j++) dp[u][j] += j;
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        addEdge(u,v);
+        addEdge(v,u);
+    }
+    dfs(1, 0);
+    int ans = 1e9;
+    for (int j = 1; j &lt;= M; j++) ans = min(dp[1][j], ans);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例4-洛谷p3177-haoi2015树上染色httpswwwluogucomcnproblemp3177">例4 <a href="https://www.luogu.com.cn/problem/P3177" target="_blank">洛谷P3177 [HAOI2015]树上染色</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵 $n$ 个节点的树，树的边上有权值。</p>
+<p>给定一个整数 $k \in [0,n]$，要求从树上选择 $k$ 个点，将其染成黑色，剩余的染成白色。</p>
+<p>染色后，获得的价值为 黑点两两之间的距离之和 + 白点两两之间的距离之和。</p>
+<p>求最大价值？</p>
+<p>其中，$n,k \leq 2000$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>数据范围看起来就非常树形DP。</p>
+<p>设 <code>dp[u][i]</code> 为在 $u$ 的子树内，染 $i$ 个黑点的总价值。</p>
+<p>现在考虑一下怎么转移？</p>
+<p>如果我们直接进行转移，就需要维护节点的深度之和，然而这很明显不现实，所以我们可以 <strong>考虑每条边</strong> 的贡献。</p>
+<p>假设考虑的子树 $v$ 中，染了 $j$ 个黑点，那么一条边 $(u,v,w)$ 的贡献刚好就是：</p>
+<p>$$w * (j * (k-j) + (sz[to] - j) * (n - k - sz[to] + j))$$</p>
+<p>其中 <code>j * (k-j)</code> 是这条边两端的黑点数量的乘积，而 <code>(sz[to] - j) * (n - k - sz[to] + j)</code> 就是这条边两端的白点数量的乘积。</p>
+<p>然后直接转移就可以了（注意第二维度的转移顺序是从 $0$ 开始，否则会导致 $dp[u][i]$ 被更新两次），注意一下使用 <code>sz[]</code> 进行时间复杂度优化到 $O(n^2)$，否则是 $O(n^3)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2003;
+
+ll dp[maxn][maxn];
+ll sz[maxn];
+int n,k;
+struct Edge {
+    int to, nxt;
+    ll w;
+} edges[maxn&lt;&lt;1];
+int ecnt = 1, head[maxn];
+void addEdge(int u, int v, ll w) {
+    Edge e = {v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+void dfs1(int u, int p) {
+    sz[u] = 1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        dfs1(to, u);
+        sz[u] += sz[to];
+    }
+}
+
+void dfs(int u, int p) {
+    dp[u][0] = dp[u][1] = 0;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p) continue;
+        dfs(to, u);
+        ll w = edges[e].w;
+
+        for (ll i = (ll)min((ll)k, sz[u]); i &gt;= 0; i--) {   // u 用多少个黑
+            for (ll j = 0; j &lt;= min(i,sz[to]); j++) {  // v 用多少个黑
+                ll cnt = j * (k - j) + (sz[to] - j) * (n - k - sz[to] + j);
+                dp[u][i] = (ll)max(dp[u][i], dp[u][i-j] + dp[to][j] + cnt * w);
+                // j = 0 开始: dp[u][i], dp[u][i-1] ... (正确)
+                // j = min(i,sz[to]) 开始: dp[u][0], dp[u][1], ..., dp[u][i] -&gt; 这导致 dp[u][i] 被更新了两次
+            }
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; k;
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v; ll w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u,v,w); addEdge(v,u,w);
+    }
+    for (int i = 1; i &lt;= n; i++)
+        for (int j = 2; j &lt;= k; j++) dp[i][j] = -1e18;
+        
+    dfs1(1, 0);
+    dfs(1, 0);
+    cout &lt;&lt; dp[1][k] &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<div class="admonition info">
+  <p class="admonition-title">注意事项</p>
+<ol>
+<li>本题枚举 $i,j$ 时，注意要加上 $sz[u], sz[to]$ 作为上限来优化。</li>
+<li>注意初始化 $dp[i][j]$ 为负无穷，并且设 $dp[i][0] = dp[i][1] = 0$。</li>
+<li>注意第二维度的转移顺序（第一维倒序这个是必须的）。</li>
+</ol>
+</div>
 
     </div>
 
@@ -521,8 +677,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-12-15 00:19:01 &#43;0000 UTC">2021-12-15</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/6776f452e94bad704fc2466c1cff6baa7785083f" title="chore: update CF Problems" target="_blank">(6776f45)</a>
+        <span title="2021-12-16 11:47:06 &#43;0800 &#43;0800">2021-12-16</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/ed449c0f6b33df7b5902eb72f6323cc0fc0a7fe3" title="init 057,058" target="_blank">(ed449c0)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/008-%e6%a0%91%e5%bd%a2dp.md" target="_blank">更新历史</a>
     </span>
   </p>

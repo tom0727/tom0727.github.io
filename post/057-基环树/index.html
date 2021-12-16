@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>基环树 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="定义 基环树指的是一个 $n$ 个节点，$n$ 条边的联通图。 叫基环树的原因是：给定一棵树，在这棵树上加上 任意一条边，就可以形成一个基环树了。 基环树的性" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/057-%E5%9F%BA%E7%8E%AF%E6%A0%91/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.8876c8d1563af17bab528692ce76dcb006603e63da3a61f9134e1c17d911f5e2.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="基环树" />
+<meta property="og:description" content="定义 基环树指的是一个 $n$ 个节点，$n$ 条边的联通图。 叫基环树的原因是：给定一棵树，在这棵树上加上 任意一条边，就可以形成一个基环树了。 基环树的性" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/057-%E5%9F%BA%E7%8E%AF%E6%A0%91/" />
+<meta property="article:published_time" content="2021-11-16T15:38:25+08:00" />
+<meta property="article:modified_time" content="2021-12-16T11:47:06+08:00" />
+<meta itemprop="name" content="基环树">
+<meta itemprop="description" content="定义 基环树指的是一个 $n$ 个节点，$n$ 条边的联通图。 叫基环树的原因是：给定一棵树，在这棵树上加上 任意一条边，就可以形成一个基环树了。 基环树的性">
+<meta itemprop="datePublished" content="2021-11-16T15:38:25&#43;08:00" />
+<meta itemprop="dateModified" content="2021-12-16T11:47:06&#43;08:00" />
+<meta itemprop="wordCount" content="4203">
+
+
+
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="基环树"/>
+<meta name="twitter:description" content="定义 基环树指的是一个 $n$ 个节点，$n$ 条边的联通图。 叫基环树的原因是：给定一棵树，在这棵树上加上 任意一条边，就可以形成一个基环树了。 基环树的性"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">基环树</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-11-16 15:38:25 &#43;0800 &#43;0800"> 2021-11-16 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#定义">定义</a>
+          <ul>
+            <li><a href="#例1-洛谷p2607-zjoi2008骑士httpswwwluogucomcnproblemp2607">例1 <a href="https://www.luogu.com.cn/problem/P2607">洛谷P2607 [ZJOI2008]骑士</a></a></li>
+            <li><a href="#例2-洛谷p4381-ioi2008-islandhttpswwwluogucomcnproblemp4381">例2 <a href="https://www.luogu.com.cn/problem/P4381">洛谷P4381 [IOI2008] Island</a></a></li>
+            <li><a href="#例3-洛谷p1399-noi2013-快餐店httpswwwluogucomcnproblemp1399">例3 <a href="https://www.luogu.com.cn/problem/P1399">洛谷P1399 [NOI2013] 快餐店</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="定义">定义</h2>
+<p>基环树指的是一个 $n$ 个节点，$n$ 条边的联通图。</p>
+<p>叫基环树的原因是：给定一棵树，在这棵树上加上 <strong>任意一条边</strong>，就可以形成一个基环树了。</p>
+<p>基环树的性质很优秀，因为去掉环上的任意一条边，就可以转化为一棵树。</p>
+<p>所以基环树的常用套路有：</p>
+<ol>
+<li>找环，然后删掉环上的任意一条边 $(u,v)$，对 $u$ 为根的树进行一次树形DP（并强制不选 $u$），再对 $v$ 为根的树进行一次树形DP（并强制不选 $v$）。</li>
+<li>将环缩成一个点，然后分类讨论答案是否经过环两种情况。</li>
+</ol>
+<h3 id="例1-洛谷p2607-zjoi2008骑士httpswwwluogucomcnproblemp2607">例1 <a href="https://www.luogu.com.cn/problem/P2607" target="_blank">洛谷P2607 [ZJOI2008]骑士</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个骑士，每个骑士有一个能力值 $a_i$，和他的一个痛恨的人 $b_i$（痛恨的人不能是自己）。</p>
+<p>从这些骑士中选出若干个，使得两两之间没有痛恨的人，求出最大的能力值总和。</p>
+<p>其中，$n \leq 10^6$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>按照每个人 $i$ 与他痛恨的人 $b_i$ 连边，这就可以形成一个基环森林了（由多个基环树组成的森林）。</p>
+<p>现在，只考虑一个基环树的话怎么办？</p>
+<p>首先发现，如果断开一条边，在树上考虑这个问题的话，就是一个非常简单的树形DP了。</p>
+<p>所以我们不妨断开环上的任意一条边 $(u,v)$。</p>
+<p>然后以 $u$ 为根，在这个新的树上进行一次树形DP，并强制不选 $u$。</p>
+<p>同理，以 $v$ 为根，在这个新的树上进行一次树形DP，并强制不选 $v$。</p>
+<p>求两次树形DP得出的最大值即可。</p>
+<p>最终答案就是每个基环树求出的最大值之和。</p>
+<hr>
+<p>找环的话，只要发现一个 backward edge，记录一下这个 edge 的编号 <code>E</code>，标记一下 <code>E</code> 和 <code>E^1</code>，在树形DP中避开这两条边，就可以达到断开边的效果了。这要求我们建图时，使用 <code>ecnt = 2</code>。</p>
+<p>• 需要格外注意一下，在断边的时候，必须判断当前枚举的边 <code>e</code> 是否等于 <code>E</code> 或者 <code>E^1</code>，而不能判断边的两端端点，这是防止出现 $(1,2), (2,1)$ 这种情况，可以参考<a href="https://www.luogu.com.cn/discuss/39904" target="_blank">这里</a>。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e6+5;
+
+int n, head[maxn], ecnt = 2;
+ll a[maxn];
+struct Edge {
+    int to, nxt;
+} edges[maxn&lt;&lt;1];
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int ed, dep[maxn], par[maxn], E;
+void dfs1(int u) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == par[u]) continue;
+        if (dep[to]) {
+            E = e;
+        } else {
+            dep[to] = dep[u] + 1;
+            par[to] = u;
+            dfs1(to);
+        }
+    }
+}
+
+ll ans = 0, tot = 0;
+ll dp[maxn][2];
+void dfs2(int u, int p) {
+    dp[u][0] = 0;
+    dp[u][1] = a[u];
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int to = edges[e].to;
+        if (to == p || e == E || e == (E^1)) continue;
+        dfs2(to, u);
+        dp[u][0] += max(dp[to][0], dp[to][1]);
+        dp[u][1] += dp[to][0];
+    }
+}
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        int v;
+        cin &gt;&gt; a[i] &gt;&gt; v;
+        addEdge(i,v); addEdge(v,i);
+    }
+
+    for (int u = 1; u &lt;= n; u++) {
+        if (!dep[u]) {
+            ans = 0; E = 0;
+            dep[u] = 1;
+            dfs1(u);
+            int c1 = edges[E].to, c2 = edges[E^1].to;
+
+            dfs2(c1, 0);
+            ans = max(ans, dp[c1][0]);
+
+            dfs2(c2, 0);
+            ans = max(ans, dp[c2][0]);
+
+            tot += ans;
+        }
+    }
+    cout &lt;&lt; tot &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例2-洛谷p4381-ioi2008-islandhttpswwwluogucomcnproblemp4381">例2 <a href="https://www.luogu.com.cn/problem/P4381" target="_blank">洛谷P4381 [IOI2008] Island</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个基环树组成的森林，每条边上有边权，求出每个基环树的最长链的长度之和。</p>
+<p>最长链的定义为：一条路径，不经过重复的节点。</p>
+<p>其中，$n \leq 10^6$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>既然是基环森林，那就只考虑每个基环树怎么求最长链。</p>
+<p>注意到一个基环树由一个环，以及每个环的子树组成，长这样：</p>
+<p><img src="/images/057/1.jpg" alt="img"></p>
+<p>所以我们可以讨论这个最长链的位置：</p>
+<p>第一种情况：最长链不经过环</p>
+<p>这说明最长链完全在一个子树内，那么这就是一个树的直径问题。</p>
+<p>第二种情况：最长链经过环</p>
+<p>如果经过了环，我们设它从环上的某个点 $u$ 的子树开始，到环上另外一个点 $v$ 的子树结束。</p>
+<p>并且设 $dis(u,v)$ 为 $u,v$ 在环上的最长距离，设 $d(u)$ 为 $u$ 的子树最大深度。</p>
+<p>所以答案就是</p>
+<p>$$\max_{(u,v)}\{d(u)+d(v)+dis(u,v)\}$$</p>
+<p>但找这样的 $(u,v)$ 是 $O(n^2)$ 的，考虑一下如何优化？</p>
+<p>如果我们将一个环 $1,2,3,&hellip;,n$ 断开，并复制一份，得到 $1,2,3,&hellip;,n,1&rsquo;,2&rsquo;,3&rsquo;,&hellip;,n'$，则我们可以快速的算出 $dis(u,v)$。</p>
+<p>不妨设 $u&lt;v$，并且求一个距离的前缀和 $a[]$，其中 $a[i]=a[i-1]+w(i-1,i)$。</p>
+<p>那么</p>
+<p>$$\max_{(u,v)}\{d(u)+d(v)+dis(u,v)\}$$</p>
+<p>就可以写成</p>
+<p>$$\max_{(u,v)}\{d(u)+d(v)+a[v]-a[u]\}, u,v\in[1,n] \cup [1&rsquo;,n&rsquo;], (v-u) \in [1, n-1]$$</p>
+<p>当 $v$ 确定时，我们要求的实际上就是</p>
+<p>$$\max_u \{d(u) - a[u]\}, u \in [v-n+1,v-1]$$</p>
+<p>这就是个单调队列优化dp。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e6+5;
+
+struct Edge {
+    int from, to, nxt;
+    ll w;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 2, in[maxn];
+void addEdge(int u, int v, ll w) {
+    Edge e = {u, v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+bool vis[maxn], ring[maxn];
+ll ans = 0;
+
+// solve the component containing u
+vector&lt;int&gt; ver;  // vertex in current component
+void bfs(int u) {
+    vis[u] = 1;
+    ver.push_back(u);
+    int p = 0;
+
+    while (p &lt; ver.size()) {
+        int v = ver[p];
+        for (int e = head[v]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            if (vis[to]) continue;
+            vis[to] = 1;
+            ver.push_back(to);
+        }
+        p++;
+    }
+}
+
+ll dep[maxn], maxdep[maxn];
+vector&lt;int&gt; tmp;  // used for storing leaf
+int maxi = 0, n;
+int q[maxn&lt;&lt;1], hd, tail, par[maxn];
+
+void bfs2(int u) {
+    int o = u;
+    hd = 1, tail = 0;
+    q[++tail] = u;
+    par[u] = 0;
+    dep[u] = 0;
+
+    while (hd &lt;= tail) {
+        u = q[hd]; hd++;
+        if (dep[u] &gt; dep[maxi]) maxi = u;
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            if (to == par[u] || ring[to]) continue;
+            par[to] = u;
+            q[++tail] = to;
+            dep[to] = dep[u] + edges[e].w;
+        }
+    }
+    maxdep[o] = dep[maxi];
+}
+
+ll md = 0;
+void bfs3(int u, int v) {
+    hd = 1, tail = 0;
+    q[++tail] = u;
+    par[u] = 0;
+    dep[u] = 0;
+
+    while (hd &lt;= tail) {
+        u = q[hd]; hd++;
+        md = max(md, dep[u]);
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            if (to == par[u] || (ring[to] &amp;&amp; to != v)) continue;
+            par[to] = u;
+            q[++tail] = to;
+            dep[to] = dep[u] + edges[e].w;
+        }
+    }
+
+}
+
+vector&lt;int&gt; rings;
+bool tag[maxn&lt;&lt;1];
+struct Node {
+    ll a, d;
+} nd[maxn&lt;&lt;1];
+bool del[maxn];
+void solve(int u) {
+    ver.clear();
+    tmp.clear();
+    bfs(u);
+    ll res = 0;
+    for (int v : ver) {
+        if (in[v] == 1) tmp.push_back(v);
+    }
+    while (!tmp.empty()) {
+        int v = tmp.back(); tmp.pop_back();
+        del[v] = 1;
+        for (int e = head[v]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            if (!del[to]) {
+                in[v]--; in[to]--;
+                if (in[to] == 1) tmp.push_back(to);
+            }
+        }
+    }
+    for (int v : ver) {
+        if (in[v] &gt;= 2) ring[v] = 1;  // v is on the ring
+    }
+    rings.clear();
+    int cnt = 0;
+    for (int v : ver) {
+        if (ring[v]) {
+            cnt++;
+            if (!rings.size()) rings.push_back(v);
+            maxi = 0;
+            md = 0;
+            bfs2(v);
+            dep[maxi] = 0;
+            bfs3(maxi, v);
+            res = max(res, md);
+            hd = 1, tail = 0;
+        }
+    }
+
+    // get the ring
+    if (rings.size()) {
+        while (rings.size() &lt; cnt) {
+            int v = rings.back();
+            for (int e = head[v]; e; e = edges[e].nxt) {
+                int to = edges[e].to;
+                if (!ring[to] || (rings.size() &gt;  1 &amp;&amp; to == rings[rings.size()-2])) continue;
+                if (to == rings[0]) {
+                    goto done;
+                }
+                rings.push_back(to);
+                break;
+            }
+        }
+    }
+    done:;
+
+    int ptr = 0;
+    if (rings.size()) {
+        rings.push_back(rings.front());
+        nd[++ptr] = {0, maxdep[rings[0]]};
+    }
+
+    int m = rings.size();
+    for (int i = 0; i &lt; m-1; i++) {
+        int v = rings[i];
+        int v2 = rings[i+1];
+        for (int e = head[v]; e; e = edges[e].nxt) {
+            if (edges[e].to == v2 &amp;&amp; !tag[e]) {
+                ll w = edges[e].w;
+                nd[ptr+1].a = nd[ptr].a + w;
+                nd[ptr+1].d = maxdep[v2];
+                ptr++;
+                tag[e] = tag[e^1] = 1;   // 标记边，防止有大小为2的环！
+                break;
+            }
+        }
+    }
+    for (int i = 0; i &lt; m-2; i++) {
+        nd[ptr+1].a = nd[ptr].a + (nd[i+2].a - nd[i+1].a);
+        nd[ptr+1].d = maxdep[rings[i+1]];
+        ptr++;
+    }
+
+    hd = 1, tail = 0;
+    q[++tail] = 1;
+
+    m--;  // now: m is the size of the ring
+    for (int i = 2; i &lt;= ptr; i++) {
+        while (hd &lt;= tail &amp;&amp; i - q[hd] &gt;= m) hd++;
+        if (hd &lt;= tail) {
+            res = max(res, nd[i].a + nd[i].d + nd[q[hd]].d - nd[q[hd]].a);
+        }
+        while (hd &lt;= tail &amp;&amp; nd[i].d - nd[i].a &gt;= nd[q[tail]].d - nd[q[tail]].a) tail--;
+        q[++tail] = i;
+    }
+    ans += res;
+}
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        int v; ll w; cin &gt;&gt; v &gt;&gt; w;
+        addEdge(i,v,w); addEdge(v,i,w);
+        in[i]++; in[v]++;
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        if (!vis[i]) {
+            solve(i);
+        }
+    }
+
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<div class="admonition info">
+  <p class="admonition-title">注意点</p>
+<ol>
+<li>所有的树上/图上操作（包括找树的直径）都必须用 <code>bfs</code> 进行，因为 $n \leq 10^6$，<code>dfs</code> 会爆栈。</li>
+<li>找环的时候用拓扑排序，不过注意这个是无向图，所以写法略有不同。</li>
+<li>找出环以后，要按照<strong>环的顺序</strong>把环断开，不能只考虑哪些节点在环上而不考虑顺序。</li>
+<li>一定要注意 <strong>大小为 $2$ 的环</strong>，我们在断环为链的时候不能考虑节点之间的关系，而是要标记 <strong>edge</strong>，因为双向图的缘故，大小为 $2$ 的环之间会有重边，一定要注意！</li>
+</ol>
+</div>
+<h3 id="例3-洛谷p1399-noi2013-快餐店httpswwwluogucomcnproblemp1399">例3 <a href="https://www.luogu.com.cn/problem/P1399" target="_blank">洛谷P1399 [NOI2013] 快餐店</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个节点，$n$ 条边的无向图（基环树），边上有权值。</p>
+<p>现在要在树上找一个位置 $x$，这个位置 $x$ 可以位于<strong>边上的任意一处</strong>，也可以位于<strong>节点</strong>上。</p>
+<p>如何选择 $x$ 的位置，使得它到 <strong>所有节点的最短距离的最大值</strong> 最小？输出这个最小值。</p>
+<p>形式化的，求：</p>
+<p>$$\min_x \{\max_u\{dis(x,u)\}\}$$</p>
+<p>其中，$n \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>先考虑，如果这是一棵树的话怎么办？</p>
+<p>那我们只要求出这棵树的直径，然后答案就是 直径/2 了。</p>
+<p>对于基环树，我们一般都是断环，得到一棵树，那么对于这个题我们有类似的想法：</p>
+<p>猜想：环上必然存在一条边，使得这条边断开以后对整个答案没有任何影响。</p>
+<p>证明：我们考虑 $x$ 的位置</p>
+<ol>
+<li>$x$ 在环上</li>
+<li>$x$ 在一棵子树中</li>
+</ol>
+<p>对于第一种情况，我们注意到 $x$ 到所有节点的最短路径中，由环上路径和树内路径组成。</p>
+<p>我们只考虑环上的路径（因为我们要证明的是环上的所有边不可能都被用到，至少有一个是用不上的）。</p>
+<p>那么问题就相当于，$x$ 到环上所有节点的最短路径，是否存在一条边用不上？</p>
+<p>确实如此，因为无论我们怎么画，都会有一条边被断开以后没有任何影响，如图：</p>
+<p><img src="/images/057/2.jpg" alt="img"></p>
+<hr>
+<p>所以问题就转化成了：</p>
+<p>给定一棵基环树，我们现在要断开环上的一条边，求所有断开的方案中，树的直径最小的一个方案，求出最小值？</p>
+<p>然后这题就和上一个例子差不多了，一样分类讨论直径在哪：</p>
+<ol>
+<li>断开后，树的直径在子树内</li>
+<li>断开后，树的直径在原先的环上</li>
+</ol>
+<p>对于第一种情况，无论断开哪个都不影响答案，所以对于每个子树统计一下直径即可。</p>
+<p>对于第二种情况，上一题的单调队列套路不好使了，我们形式化的描述一下这个问题：</p>
+<p>给定一个环 $1,2,&hellip;,n$，对于每一种断环方案，都求出：</p>
+<p>$$\max_{(u,v)}\{d(u)+d(v)+dis(u,v)\}$$</p>
+<p>然后取所有断环方案对应的最小值。</p>
+<p>这里有了个断环方案要讨论，就变得非常不友好，就算断环成链也没什么思路，我们考虑另外一种方法：</p>
+<p><img src="/images/057/3.jpg" alt="img"></p>
+<p>假设我们要断开 $(i,i+1)$，那么此时，这个所求的最大值对应的 $(u,v)$ 有几种情况呢？</p>
+<ol>
+<li>$(u,v)$ 都在 $[1,i]$ 内。</li>
+<li>$(u,v)$ 都在 $[i+1,n]$ 内。</li>
+<li>$u$ 在 $[1,i]$，$v$ 在 $[i+1,n]$。</li>
+</ol>
+<p>对于第一种，我们同样用前缀和的方式来看，因为 $dis(u,v) = sum(v) - sum(u)$，所以和上一题一样处理一个前缀和即可，本题甚至都不需要单调队列，维护一下前缀的 <code>-sum[u] + d[u]</code> 的最大值即可。</p>
+<p>然后我们就可以处理出一个 <code>pre[]</code> 数组，<code>pre[i]</code> 的意思就是如果 $(u,v)$ 都在 $[1,i]$ 内，可以得到的最大值。</p>
+<p>同理对于第二种我们用后缀处理一下即可，可以得到 <code>suf[]</code>。</p>
+<p>对于第三种，我们可以发现我们所求的 $dis(u,v)$，等于</p>
+<div class='center'>
+<p>$u$ 的 <strong>前缀链</strong> + $v$ 的 <strong>后缀链</strong> + $w(n,1)$</p>
+</div>
+<p><img src="/images/057/4.jpg" alt="img"></p>
+<p>所以我们只要把这个前缀链的最大值 <code>maxl[i]</code> 求出即可（同理后缀链最大值也求出 <code>maxr[]</code>）。</p>
+<p>那么，当我们断开 $(i,i+1)$ 时，就有</p>
+<p>$$\max_{(u,v)}\{d(u)+d(v)+dis(u,v)\} = \max\{pre(i), suf(i+1), maxl(i) + maxr(i+1) + w(n,1)\}$$</p>
+<p>然后将 $i$ 从 $1$ 枚举到 $n$ 即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+struct Edge {
+    int from, to, nxt;
+    ll w;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 2, in[maxn];
+void addEdge(int u, int v, ll w) {
+    Edge e = {u, v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+bool ring[maxn];
+ll ans = 0;
+
+ll dep[maxn], maxdep[maxn];
+vector&lt;int&gt; tmp;  // used for storing leaf
+int maxi = 0, n;
+int q[maxn&lt;&lt;1], hd, tail, par[maxn];
+
+void bfs2(int u) {
+    int o = u;
+    hd = 1, tail = 0;
+    q[++tail] = u;
+    par[u] = 0;
+    dep[u] = 0;
+
+    while (hd &lt;= tail) {
+        u = q[hd]; hd++;
+        if (dep[u] &gt; dep[maxi]) maxi = u;
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            if (to == par[u] || ring[to]) continue;
+            par[to] = u;
+            q[++tail] = to;
+            dep[to] = dep[u] + edges[e].w;
+        }
+    }
+    maxdep[o] = dep[maxi];
+}
+
+ll md = 0;
+void bfs3(int u, int v) {
+    hd = 1, tail = 0;
+    q[++tail] = u;
+    par[u] = 0;
+    dep[u] = 0;
+
+    while (hd &lt;= tail) {
+        u = q[hd]; hd++;
+        md = max(md, dep[u]);
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            if (to == par[u] || (ring[to] &amp;&amp; to != v)) continue;
+            par[to] = u;
+            q[++tail] = to;
+            dep[to] = dep[u] + edges[e].w;
+        }
+    }
+
+}
+
+vector&lt;int&gt; rings;
+bool tag[maxn&lt;&lt;1];
+struct Node {
+    ll a, d;
+} nd[maxn&lt;&lt;1];
+bool del[maxn];
+ll maxl[maxn], maxr[maxn], pre[maxn], suf[maxn];
+void solve() {
+    ll res = 0;
+    for (int v = 1; v &lt;= n; v++) {
+        if (in[v] == 1) tmp.push_back(v);
+    }
+    while (!tmp.empty()) {
+        int v = tmp.back(); tmp.pop_back();
+        del[v] = 1;
+        for (int e = head[v]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            if (!del[to]) {
+                in[v]--; in[to]--;
+                if (in[to] == 1) tmp.push_back(to);
+            }
+        }
+    }
+    for (int v = 1; v &lt;= n; v++) {
+        if (in[v] &gt;= 2) ring[v] = 1;  // v is on the ring
+    }
+    int cnt = 0;
+    for (int v = 1; v &lt;= n; v++) {
+        if (ring[v]) {
+            cnt++;
+            if (!rings.size()) rings.push_back(v);
+            maxi = 0;
+            md = 0;
+            bfs2(v);
+            dep[maxi] = 0;
+            bfs3(maxi, v);
+            res = max(res, md);
+            hd = 1, tail = 0;
+        }
+    }
+
+    // get the ring
+    if (rings.size()) {
+        while (rings.size() &lt; cnt) {
+            int v = rings.back();
+            for (int e = head[v]; e; e = edges[e].nxt) {
+                int to = edges[e].to;
+                if (!ring[to] || (rings.size() &gt;  1 &amp;&amp; to == rings[rings.size()-2])) continue;
+                if (to == rings[0]) {
+                    goto done;
+                }
+                rings.push_back(to);
+                break;
+            }
+        }
+    }
+    done:;
+
+    int ptr = 0;
+    if (rings.size()) {
+        rings.push_back(rings.front());
+        nd[++ptr] = {0, maxdep[rings[0]]};
+    }
+
+    int m = rings.size();
+    for (int i = 0; i &lt; m-1; i++) {
+        int v = rings[i];
+        int v2 = rings[i+1];
+        for (int e = head[v]; e; e = edges[e].nxt) {
+            if (edges[e].to == v2 &amp;&amp; !tag[e]) {
+                ll w = edges[e].w;
+                nd[ptr+1].a = nd[ptr].a + w;
+                nd[ptr+1].d = maxdep[v2];
+                ptr++;
+                tag[e] = tag[e^1] = 1;   // 标记边，防止有大小为2的环！
+                break;
+            }
+        }
+    }
+    for (int i = 0; i &lt; m-2; i++) {
+        nd[ptr+1].a = nd[ptr].a + (nd[i+2].a - nd[i+1].a);
+        nd[ptr+1].d = maxdep[rings[i+1]];
+        ptr++;
+    }
+
+    hd = 1, tail = 0;
+    ll R = res;
+    res = 1e18;
+
+    m--;  // now: m is the size of the ring
+
+    // maxl: record a+d
+    for (int i = 1; i &lt;= m; i++) maxl[i] = max(maxl[i-1], nd[i].a + nd[i].d);
+    for (int i = m; i &gt;= 1; i--) maxr[i] = max(maxr[i+1], nd[m+1].a - nd[i].a + nd[i].d);
+
+    // pre: record the maximum of two i,j &lt;= pre, which dis(i,j) + d[i] + d[j] is maximum (just record minimum of -a + d)
+    ll mn = 0;
+    for (int i = 1; i &lt;= m; i++) {
+        pre[i] = max(pre[i-1], mn + nd[i].a + nd[i].d);
+        mn = max(mn, -nd[i].a + nd[i].d);
+    }
+
+    mn = 0;
+    for (int i = m; i &gt;= 1; i--) {
+        suf[i] = max(suf[i+1], mn + nd[m+1].a - nd[i].a + nd[i].d);
+        mn = max(mn, -(nd[m+1].a - nd[i].a) + nd[i].d);
+    }
+    for (int i = 1; i &lt;= m; i++) {  // break (i,i+1)
+        ll r1 = 0, r2 = 0;
+        r1 = max(pre[i], suf[i+1]);
+        r2 = maxl[i] + maxr[i+1];
+        res = min(res, max(r1,r2));
+    }
+
+    ans += max(R, res);
+}
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        int u,v; ll w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u,v,w); addEdge(v,u,w);
+        in[u]++; in[v]++;
+    }
+    solve();
+    printf(&quot;%.1f\n&quot;,(double)(ans)*0.5);
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-12-16 11:47:06 &#43;0800 &#43;0800">2021-12-16</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/ed449c0f6b33df7b5902eb72f6323cc0fc0a7fe3" title="init 057,058" target="_blank">(ed449c0)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/057-%e5%9f%ba%e7%8e%af%e6%a0%91.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/058-%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">单调队列</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/056-ccpc2020%E7%A7%A6%E7%9A%87%E5%B2%9B/">
+            <span class="next-text nav-default">CCPC2020秦皇岛</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

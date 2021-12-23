@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>最小生成树 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 最小生成树就是给定一张边有权值的图，求一个生成树使得边权和最小。 最小生成树有着以下几个性质： TODO 常用的算法 Prim 和 Kruskal 就不再赘述了。 Prim 的思想主要" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/060-%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.8876c8d1563af17bab528692ce76dcb006603e63da3a61f9134e1c17d911f5e2.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="最小生成树" />
+<meta property="og:description" content="介绍 最小生成树就是给定一张边有权值的图，求一个生成树使得边权和最小。 最小生成树有着以下几个性质： TODO 常用的算法 Prim 和 Kruskal 就不再赘述了。 Prim 的思想主要" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/060-%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/" />
+<meta property="article:published_time" content="2021-12-21T21:33:24+08:00" />
+<meta property="article:modified_time" content="2021-12-23T17:24:00+08:00" />
+<meta itemprop="name" content="最小生成树">
+<meta itemprop="description" content="介绍 最小生成树就是给定一张边有权值的图，求一个生成树使得边权和最小。 最小生成树有着以下几个性质： TODO 常用的算法 Prim 和 Kruskal 就不再赘述了。 Prim 的思想主要">
+<meta itemprop="datePublished" content="2021-12-21T21:33:24&#43;08:00" />
+<meta itemprop="dateModified" content="2021-12-23T17:24:00&#43;08:00" />
+<meta itemprop="wordCount" content="5804">
+
+
+
+<meta itemprop="keywords" content="最小生成树,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="最小生成树"/>
+<meta name="twitter:description" content="介绍 最小生成树就是给定一张边有权值的图，求一个生成树使得边权和最小。 最小生成树有着以下几个性质： TODO 常用的算法 Prim 和 Kruskal 就不再赘述了。 Prim 的思想主要"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">最小生成树</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-12-21 21:33:24 &#43;0800 &#43;0800"> 2021-12-21 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#boruvka-算法">Boruvka 算法</a>
+          <ul>
+            <li><a href="#例1-洛谷p2619-国家集训队tree-ihttpswwwluogucomcnproblemp2619">例1 <a href="https://www.luogu.com.cn/problem/P2619">洛谷P2619 [国家集训队]Tree I</a></a></li>
+            <li><a href="#例2-cf888g-xor-msthttpswwwluogucomcnproblemcf888g">例2 <a href="https://www.luogu.com.cn/problem/CF888G">CF888G Xor-MST</a></a></li>
+            <li><a href="#例3-洛谷p4180-bjwc2010严格次小生成树httpswwwluogucomcnproblemp4180">例3 <a href="https://www.luogu.com.cn/problem/P4180">洛谷P4180 [BJWC2010]严格次小生成树</a></a></li>
+            <li><a href="#例4-cf160d-edges-in-msthttpswwwluogucomcnproblemcf160d">例4 <a href="https://www.luogu.com.cn/problem/CF160D">CF160D Edges in MST</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>最小生成树就是给定一张边有权值的图，求一个生成树使得边权和最小。</p>
+<p>最小生成树有着以下几个性质：</p>
+<ol>
+<li>TODO</li>
+</ol>
+<p>常用的算法 Prim 和 Kruskal 就不再赘述了。</p>
+<p>Prim 的思想主要是维护一个联通块，然后逐渐往这个块上加新的点。</p>
+<p>Kruskal 的思想是将所有边按照边权 sort 一下，然后用并查集维护联通性防止环的产生。</p>
+<p>其实还有一个比较冷门的算法：Boruvka 算法</p>
+<h2 id="boruvka-算法">Boruvka 算法</h2>
+<p>Boruvka 算法比较适合处理拥有特殊性质的 <strong>完全图</strong>。比如给定一种计算两点之间边权的方式，然后求最小生成树之类的。</p>
+<p>算法总共有 $O(\log V)$ 轮。</p>
+<p>每一轮开始：</p>
+<ol>
+<li>对于每一个连通块 $i$，我们都找出它与其他连通块的最小边 $(u_i,v_i,w_i)$。</li>
+<li>对于每个联通块 $i$ 对应的最小边 $(u_i,v_i,w_i)$，尝试连接 $u$ 和 $v$，如果连接成功，就将连通块合并。</li>
+</ol>
+<p>直到只剩下一个联通块。</p>
+<p>一般考察这个算法的时候，主要的难点都在于对于每一个联通块，找到它与其他联通块的最小边。</p>
+<p>然后因为每次合并，最坏都可以将连通块数量减半，所以最多只有 $O(\log V)$ 轮。</p>
+<h3 id="例1-洛谷p2619-国家集训队tree-ihttpswwwluogucomcnproblemp2619">例1 <a href="https://www.luogu.com.cn/problem/P2619" target="_blank">洛谷P2619 [国家集训队]Tree I</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个节点，$m$ 条边的无向联通带权图，每条边是黑色或者白色。</p>
+<p>给定非负整数 $k$，求一个刚好包含 $k$ 条白色边的最小生成树权值。</p>
+<p>其中，$n \leq 5 \times 10^4, m \leq 10^5$，所有边权均为在 $[1,100]$ 之间的正整数。</p>
+<p>数据保证有解。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>wqs二分（虽然我并不知道这是什么神奇的算法）。</p>
+<p>这个算法针对的是 <strong>恰好选 $K$ 个</strong>，然后最大/最小化 某些值的问题。</p>
+<p>具体证明和相关例题以后再学习。</p>
+<p>wqs二分的主要思想是给这些 <strong>恰好选 $K$ 个</strong> 的物品，每个都加上一定的权值（可正可负），相当于 鼓励/打击 选取这种物品的行为，加上以后再跑原算法。</p>
+<p>然后根据原算法跑出来的结果（选取了多少个），然后用二分调整这个额外权值。</p>
+<hr>
+<p>所以对于本题，就是给每个白色边添加一个权值，然后跑最小生成树，如果跑出来的最小生成树拥有 $\geq k$ 条白色边，那么就将额外权值往大的那个方向二分（打击选取白边的行为），否则往小二分（鼓励选取白边）。</p>
+<p>那什么时候更新答案呢？</p>
+<p>我们应当在最小生成树跑出 $\geq k$ 条白边时更新答案，而不是刚好等于 $k$！</p>
+<p>首先，我们不确定这个二分的过程是否会出现：额外权值等于 $x$ 时最小生成树有 $(k-1)$ 条白边，额外权值为 $(x+1)$ 时最小生成树有 $(k+1)$ 条白边 的情况。</p>
+<p>为什么有可能出现呢？</p>
+<p>因为最小生成树有可能不唯一！</p>
+<p>不过，既然数据保证了一定有解，我们不妨在所有答案中都尽可能的多选白边，那么对于真正的答案对应的额外权值 $x$，一定可以通过非严格的次小生成树来将一些白边替换成黑边，从而保证恰好选择了 $k$ 个白边。</p>
+<p>所以只要在最小生成树跑出 $\geq k$ 条白边时更新答案即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 5e4+5;
+const int maxm = 1e5+5;
+
+struct Edge {
+    int from, to, nxt, w, c;
+    bool operator&lt;(const Edge&amp; other) const {
+        if (w == other.w) return c &lt; other.c;
+        return w &lt; other.w;
+    }
+} edges[maxm&lt;&lt;1];
+int head[maxn], ecnt = 1;
+void addEdge(int u, int v, int w, int c) {
+    Edge e = {u, v, head[u], w, c};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int n,m,k,par[maxn];
+int finds(int u) {
+    if (par[u] == u) return u;
+    return par[u] = finds(par[u]);
+}
+bool unions(int u, int v) {
+    u = finds(u), v = finds(v);
+    if (u == v) return 0;
+    par[v] = u;
+    return 1;
+}
+
+Edge tmp[maxm&lt;&lt;1];
+int ans = 1e9;
+// return true if cnt &gt;= k
+bool kruskal(int delta) {
+    for (int i = 1; i &lt;= n; i++) par[i] = i;
+    for (int i = 1; i &lt; ecnt; i++) {
+        tmp[i] = edges[i];
+        if (tmp[i].c == 0) tmp[i].w += delta;
+    }
+    sort(tmp+1, tmp+ecnt);
+    int res = 0, cnt = 0, allcnt = 0;
+    for (int i = 1; i &lt; ecnt; i++) {
+        int u = tmp[i].from, v = tmp[i].to;
+        if (finds(u) == finds(v)) continue;
+        unions(u,v);
+        res += tmp[i].w;
+        if (tmp[i].c == 0) cnt++;
+        allcnt++;
+        if (allcnt == n-1) break;
+    }
+    if (cnt &gt;= k) ans = res - k * delta;
+    return cnt &gt;= k;
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;
+    for (int i = 1; i &lt;= m; i++) {
+        int u,v,w,c; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w &gt;&gt; c;
+        u++; v++;
+        addEdge(u,v,w,c); addEdge(v,u,w,c);
+    }
+    int low = -200, high = 200;
+    while (high - low &gt;= 10) {
+        int mid = (low + high) / 2;
+        if (kruskal(mid)) {
+            low = mid+1;
+        } else {
+            high = mid-1;
+        }
+    }
+    for (int mid = low; mid &lt;= high; mid++) kruskal(mid);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例2-cf888g-xor-msthttpswwwluogucomcnproblemcf888g">例2 <a href="https://www.luogu.com.cn/problem/CF888G" target="_blank">CF888G Xor-MST</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个节点的无向完全图。每个点有点权 $a_i$。</p>
+<p>连接 $i,j$ 节点的边权为 $a_i \text{ xor } a_j$。</p>
+<p>求这个图的最小生成树权值。</p>
+<p>其中，$n \leq 2 \times 10^5, a_i \in [0,2^{30})$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">法一 Boruvka算法</summary>
+<p>Boruvka 算法。</p>
+<p>为什么它可做呢？因为它的合并操作只有 $O(\log n)$ 轮。</p>
+<p>而每一轮操作需要找所有联通块向其他联通块连边的最小边。</p>
+<p>如果我们正在处理联通块 $i$，那么要找这个最小边，实际上只要维护一个 01-Trie 来包含所有的点权，然后：</p>
+<ol>
+<li>先将联通块 $i$ 内的所有元素从 01-Trie 中删除。</li>
+<li>然后对于联通块内的每一个元素 $a_j$，都找 01-Trie 内 XOR 起来最小的那个元素。</li>
+<li>这说明这个联通块的最小边找到了，我们再把块内所有元素 插入回 01-Trie（保证这个 01-Trie 里面维护的始终是所有的点权）。</li>
+</ol>
+<p>找到所有联通块 $i$ 对应的最小边以后，开始连边操作。这样，一轮就结束了。</p>
+<p>时间复杂度 $O(n \log n \log 2^{30})$，虽然有点慢，但是可过。</p>
+<hr>
+<p>不过这题有个问题，如果有的点权值重复了怎么办？</p>
+<p>因为我们在 01-Trie 中寻找到的是一个 XOR 起来最小的点权，但这个点权对应的点可能不唯一。</p>
+<p>思考后可以发现，我们先把所有相同的点权全都连起来就好了，毕竟它们之间的边权为 $0$，一定是在最小生成树里的。</p>
+<p>然后所有点权相同的点一定在一个联通块内了，我们用一个 <code>map</code> 把一个点权 map 到它们之中的任意一个点即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">法一 代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e5+5;
+
+const int M = 31;
+struct Node {
+    int cnt;
+    int child[2];
+} trie[maxn * (M+1)];
+int id = 1;
+void insert(int x) {
+    int c = 1;
+    for (int i = M; i &gt;= 0; i--) {
+        int k = ((x &amp; (1LL&lt;&lt;i)) ? 1 : 0);
+        if (!trie[c].child[k]) trie[c].child[k] = ++id;
+        c = trie[c].child[k];
+        trie[c].cnt++;
+    }
+}
+
+void erase(int x) {
+    int c = 1;
+    for (int i = M; i &gt;= 0; i--) {
+        int k = ((x &amp; (1LL&lt;&lt;i)) ? 1 : 0);
+        c = trie[c].child[k];
+        trie[c].cnt--;
+    }
+}
+
+// query the minimum xor inside the tree
+int query(int x) {
+    int res = 0, c = 1;
+    for (int i = M; i &gt;= 0; i--) {
+        int k = ((x &amp; (1LL&lt;&lt;i)) ? 1 : 0);
+        if (trie[trie[c].child[k]].cnt == 0) {
+            res |= (1LL&lt;&lt;i);
+            c = trie[c].child[k^1];
+        } else {
+            c = trie[c].child[k];
+        }
+    }
+    return res;
+}
+
+bool root[maxn];  // is root
+int par[maxn];
+int n, a[maxn];
+vector&lt;int&gt; child[maxn];  // children of root x in dsu
+int finds(int u) {
+    if (par[u] == u) return u;
+    return par[u] = finds(par[u]);
+}
+
+void unions(int u, int v) {
+    u = finds(u);
+    v = finds(v);
+    if (u == v) return;
+    if (child[u].size() &lt; child[v].size()) swap(u,v);
+    par[v] = u;
+    root[v] = 0;
+    while (child[v].size()) {
+        int r = child[v].back(); child[v].pop_back();
+        child[u].push_back(r);
+    }
+}
+
+map&lt;int,int&gt; mp;
+ll minval[maxn];
+pii link[maxn];  // 用于储存对应的最小边
+void boruvka() {
+    int cnt = 0;
+    for (int i = 1; i &lt;= n; i++)
+        if (root[i]) cnt++;
+
+    ll ans = 0;
+    while (cnt &gt; 1) {
+        for (int i = 1; i &lt;= n; i++) {
+            minval[i] = -1;
+            link[i] = {-1,-1};
+            if (root[i]) {
+                for (int u : child[i]) erase(a[u]);
+                minval[i] = 4e9;
+                for (int u : child[i]) {
+                    int res = query(a[u]);
+                    if (res &lt; minval[i]) {
+                        minval[i] = res;
+                        int v = mp[res ^ a[u]];
+                        link[i] = {u, v};
+                    }
+                }
+                for (int u : child[i]) insert(a[u]);
+            }
+        }
+        for (int i = 1; i &lt;= n; i++) {
+            if (root[i]) {
+                int u = link[i].first, v = link[i].second;
+                if (finds(u) != finds(v)) {
+                    ans += (a[u] ^ a[v]);
+                    unions(u, v);
+                    cnt--;
+                }
+            }
+        }
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+int main() {
+    cin &gt;&gt; n;
+
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; a[i];
+    }
+    sort(a+1, a+n+1);
+    for (int i = 1; i &lt;= n; i++) {
+        par[i] = i;
+        root[i] = 1;
+        child[i].push_back(i);
+        mp[a[i]] = i;
+        insert(a[i]);
+    }
+    for (int i = 2; i &lt;= n; i++) {
+        if (a[i] == a[i-1]) unions(i, i-1);
+    }
+    boruvka();
+}
+</code></pre>
+</details>
+<details class="admonition note"><summary class="admonition-title">法二 01-Trie 子树合并</summary>
+<p>另外一种做法更加优雅，并且它充分利用了 01-Trie 的特点。</p>
+<p>首先我们把所有的 $a_i$ 插入进 01-Trie，看一下 01-Trie 的结构：</p>
+<p><img src="/images/060/1.png" alt="img"></p>
+<p>然后我们有几个性质：</p>
+<ol>
+<li>每个叶子节点都是原数组里的 $a_i$。</li>
+<li>拥有 $2$ 个 child 的节点恰好有 $(n-1)$ 个。</li>
+<li>两个数字 $a_u,a_v$ 若位于两个叶子节点 $u,v$，设 $x=LCA(u,v)$，那么它们 XOR 起来的值可以忽略掉 $x$ 上面的部分，只用考虑 $x$ 子树内的部分即可。设 $x$ 所在的高度（叶子的高度为 $0$）为 $m$，则 $a_u \text{ xor } a_v$ 对答案的贡献至少为 <code>(1&lt;&lt;m)</code>。</li>
+</ol>
+<p>这些性质说明了什么？首先 拥有 $2$ 个 child 的节点恰好有 $(n-1)$ 个，我们可以发现构建一棵最小生成树所需的合并次数刚好也是 $(n-1)$ 次，所以我们每次加入一条边进入MST的过程其实就是这样的 child 合并左右两个子树的过程。</p>
+<p>并且因为深度越深的节点带来的贡献越小，所以我们应该先合并深度较深的节点。</p>
+<p>那么找到这些节点的话，其实只要在 01-Trie 上跑一个 DFS 即可。</p>
+<hr>
+<p>当我们到节点 $x$ 的时候，有三种情况：</p>
+<ol>
+<li>只有 左child，那么就接着 DFS 左child。</li>
+<li>只有 右child，那么就接着 DFS 右child。</li>
+<li>有 左右child，那么就 DFS 左child 和 右child，然后给答案加上 <code>(1&lt;&lt;m)</code>，最后加上 $a_u \text{ xor } a_v$ 的最小值，其中 $u$ 在左子树内，$v$ 在右子树内。</li>
+</ol>
+<hr>
+<p>最后剩下的问题就在于，如何求：</p>
+<p>$a_u \text{ xor } a_v$ 的最小值，其中 $u$ 在左子树内，$v$ 在右子树内？</p>
+<p>想想并查集的启发式合并，对于较小的那个子树，我们枚举子树内的每一个元素 $a_u$，然后在较大的那个子树内查询 XOR 值最小的那个元素即可。</p>
+<p>那就有两个问题：</p>
+<ol>
+<li>如何遍历子树内的每一个元素？</li>
+<li>如何在一个子树内查询 XOR 最小值？</li>
+</ol>
+<p>回答第一个问题：我们一开始把所有的 $a_i$ sort一下，然后根据 01-Trie 的性质，每个子树就会对应到原数组的一个区间了，就可以得到子树内的元素列表了。</p>
+<p>回答第二个问题：和普通查询一样，只不过改一下在 01—Trie 内的<strong>起点</strong>即可，同时维护一下当前所在的深度。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">法二 代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int maxn = 2e5+5;
+const int M = 31;
+struct Node {
+    int cnt;
+    int child[2];
+    int L = 1e9, R = -1;
+} trie[maxn * (M+1)];
+int id = 1;
+void insert(int idx, int x) {
+    int c = 1;
+    for (int i = M; i &gt;= 0; i--) {
+        int k = ((x &amp; (1LL&lt;&lt;i)) ? 1 : 0);
+        if (!trie[c].child[k]) trie[c].child[k] = ++id;
+        c = trie[c].child[k];
+        trie[c].cnt++;
+        trie[c].L = min(trie[c].L, idx);
+        trie[c].R = max(trie[c].R, idx);
+    }
+}
+
+int query(int c, int x, int m) {
+    int res = 0;
+    for (int i = m; i &gt;= 0; i--) {
+        int k = ((x &amp; (1LL&lt;&lt;i)) ? 1 : 0);
+        if (trie[trie[c].child[k]].cnt == 0) {
+            res |= (1LL&lt;&lt;i);
+            c = trie[c].child[k^1];
+        } else {
+            c = trie[c].child[k];
+        }
+    }
+    return res;
+}
+
+int n, a[maxn];
+
+ll dfs(int c, int m) {
+    int lc = trie[c].child[0], rc = trie[c].child[1];
+    int lcnt = trie[trie[c].child[0]].cnt, rcnt = trie[trie[c].child[1]].cnt;
+    ll ans = 0;
+    if (lcnt &amp;&amp; rcnt) {
+        ans += dfs(lc, m-1);
+        ans += dfs(rc, m-1);
+        ans += (1LL &lt;&lt; m);
+        int mn = INT_MAX;
+        if (trie[lc].R - trie[lc].L &lt; trie[rc].R - trie[rc].L) {
+            for (int nc = trie[lc].L; nc &lt;= trie[lc].R; nc++) {
+                mn = min(mn, query(rc, a[nc], m-1));
+            }
+        } else {
+            for (int nc = trie[rc].L; nc &lt;= trie[rc].R; nc++) {
+                mn = min(mn, query(lc, a[nc], m-1));
+            }
+        }
+        ans += mn;
+    } else if (lcnt) {
+        return dfs(lc, m-1);
+    } else if (rcnt) {
+        return dfs(rc, m-1);
+    }
+    return ans;
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n;
+
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; a[i];
+    }
+    sort(a+1, a+n+1);
+    for (int i = 1; i &lt;= n; i++) {
+        insert(i, a[i]);
+    }
+    ll ans = dfs(1, M);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例3-洛谷p4180-bjwc2010严格次小生成树httpswwwluogucomcnproblemp4180">例3 <a href="https://www.luogu.com.cn/problem/P4180" target="_blank">洛谷P4180 [BJWC2010]严格次小生成树</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个无向联通图，求其严格次小生成树的权值。</p>
+<p>定义严格次小生成树为：一个权值第二小的生成树，且权值严格大于最小生成树的权值。</p>
+<p>其中，$n \leq 10^5, m \leq 3 \times 10^5$，边权 $\leq 10^9$，数据保证严格次小生成树一定存在。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>次小生成树有两种：</p>
+<ol>
+<li>非严格次小生成树（权值不一定严格大于最小生成树）</li>
+<li>严格次小生成树</li>
+</ol>
+<p>方法都是一样的，先求出最小生成树，然后枚举每一条 <strong>不在</strong> 最小生成树上的边 $(u,v)$，然后求最小生成树上 $u,v$ 之间链的最大值，然后把那个边换成这条新的边即可。</p>
+<p>树上链的最大值可以用倍增或者树剖。</p>
+<p>这种方法只能求出非严格次小生成树。</p>
+<p>对于严格次小生成树，只要我们维护链的最大值和次大值（保证次大值严格小于最大值）即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+const int maxm = 3e5+5;
+
+struct Edge {
+    int from, to, nxt, w;
+    bool operator&lt;(const Edge&amp; other) const {
+        return w &lt; other.w;
+    }
+} edges[maxm&lt;&lt;1];
+int head[maxn], ecnt = 2, n, m, par[maxn];
+void addEdge(int u, int v, int w) {
+    Edge e = {u, v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+bool used[maxm&lt;&lt;1];
+int finds(int u) {
+    if (par[u] == u) return u;
+    return par[u] = finds(par[u]);
+}
+void unions(int u, int v) {
+    u = finds(u), v = finds(v);
+    if (u == v) return;
+    par[v] = u;
+}
+
+struct Node {
+    int to;
+    int w;
+};
+vector&lt;Node&gt; adj[maxn];
+
+ll kruskal() {
+    for (int i = 1; i &lt;= n; i++) par[i] = i;
+    sort(edges+2, edges+ecnt);
+    int cnt = 0;
+    ll res = 0;
+    for (int i = 2; i &lt; ecnt; i++) {
+        int u = edges[i].from, v = edges[i].to;
+        if (finds(u) == finds(v)) continue;
+        unions(u,v);
+        used[i] = used[i^1] = 1;
+        adj[u].push_back({v, edges[i].w});
+        adj[v].push_back({u, edges[i].w});
+        res += (ll)edges[i].w;
+        cnt++;
+        if (cnt == n-1) break;
+    }
+    return res;
+}
+
+int p[maxn][18], dep[maxn];
+pii val[maxn][18];
+
+inline void update(pii&amp; p1, pii p2) {
+    static int tmp[4];
+    tmp[0] = p1.first, tmp[1] = p1.second, tmp[2] = p2.first, tmp[3] = p2.second;
+    sort(tmp, tmp+4, greater&lt;int&gt;());
+    p1.first = tmp[0];
+    for (int i = 1; i &lt; 4; i++) {
+        if (tmp[i] != tmp[0]) {
+            p1.second = tmp[i];
+            break;
+        }
+    }
+}
+
+void dfs(int u, int pa) {
+    for (int j = 1; j &lt;= 17; j++) {
+        p[u][j] = p[p[u][j-1]][j-1];
+        if (p[u][j]) {
+            pii p1 = val[u][j-1], p2 = val[p[u][j-1]][j-1];
+            update(p1, p2);
+            val[u][j] = p1;
+        } else {
+            val[u][j] = {-1,-1};
+        }
+    }
+    for (Node nd : adj[u]) {
+        int v = nd.to, w = nd.w;
+        if (v == pa) continue;
+        p[v][0] = u;
+        val[v][0] = {w, -1};
+        dep[v] = dep[u] + 1;
+        dfs(v, u);
+    }
+}
+
+
+// 查询 u,v 之间的最大值和次大值
+pii query(ll u, ll v) {
+    pii res = {-1,-1};
+    if (dep[u] &lt; dep[v]) swap(u,v);
+    int d = dep[u] - dep[v];
+    for (int j = 17; j &gt;= 0; j--) {
+        if (d &amp; (1&lt;&lt;j)) {
+            update(res, val[u][j]);
+            u = p[u][j];
+        }
+    }
+    if (u == v) return res;
+    for (int j = 17; j &gt;= 0; j--) {
+        if (p[u][j] != p[v][j]) {
+            update(res, val[u][j]);
+            update(res, val[v][j]);
+            u = p[u][j], v = p[v][j];
+        }
+    }
+    update(res, val[u][0]);
+    update(res, val[v][0]);
+    return res;
+}
+
+ll solve(ll res) {
+    int mn = 1e9+7;
+    val[1][0] = {-1,-1};
+    dfs(1, 0);
+    for (int i = 2; i &lt; ecnt; i++) {
+        if (used[i]) continue;
+        int w = edges[i].w;
+        int u = edges[i].from, v = edges[i].to;
+        pii r = query(u,v);
+        if (w != r.first) {
+            mn = min(mn, w - r.first);
+        } else if (w != r.second &amp;&amp; r.second &gt;= 0) mn = min(mn, w - r.second);
+    }
+    return res + mn;
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int u,v,w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        if (u == v) continue;
+        addEdge(u,v,w); addEdge(v,u,w);
+    }
+    ll res = kruskal();
+    ll ans = solve(res);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例4-cf160d-edges-in-msthttpswwwluogucomcnproblemcf160d">例4 <a href="https://www.luogu.com.cn/problem/CF160D" target="_blank">CF160D Edges in MST</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个节点的无向图，有 $m$ 条带权边。</p>
+<p>对于每一条边，都回答它属于以下的哪种情况：</p>
+<ol>
+<li>一定在所有 MST（最小生成树）上。</li>
+<li>一定在至少一个 MST 上。</li>
+<li>不可能在任何 MST 上。</li>
+</ol>
+<p>其中，$n \leq 10^5, m \in [n-1, \min(10^5, \frac{n(n-1)}{2})]$。</p>
+<p>数据保证无自环和重边。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>先求出一棵 MST。</p>
+<p>然后对于每个非树边 $(u,v,w)$，要么为 $2$，要么为 $3$。</p>
+<p>那么和非严格次小生成树的求法一样，只要求一下 $(u,v)$ 在树上的路径中，最大的权值是否等于 $w$ 即可。如果等于就是 $2$，否则是 $3$。</p>
+<hr>
+<p>对于每个树边，要么为 $1$，要么为 $2$。</p>
+<p>那么其实只要判断是否存在一条非树边，能够将它替换掉即可。</p>
+<p>所以在处理每个非树边 $(u,v,w)$ 时，把 $(u,v)$ 在树上的这条路径全部赋最小值 $w$，全部非树边处理完毕后，查看一下这个树边被覆盖的最小值是多少，如果等于树边的权值就是 $2$，否则就一定大于这个权值，所以是 $1$。</p>
+<hr>
+<p>那么路径上的询问，还有赋值，都可以用树剖解决，注意一下维护的是链而不是点，所以要特别处理一下 $LCA(u,v)$。</p>
+</details>
+<div class="admonition info">
+  <p class="admonition-title">注意点</p>
+<p>一开始求 MST 的时候不需要建双向边，因为整个边的数组被 sort 了，所以后面处理一个边是否是树边的时候会比较麻烦。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+const int maxm = 1e5+5;
+
+int n,m,head[maxn],ecnt = 2, pa[maxn];
+struct Edge {
+    int from, to, nxt, w, id;
+    bool operator&lt;(const Edge&amp; other) const {
+        return w &lt; other.w;
+    }
+} edges[maxm];
+bool used[maxm];
+
+void addEdge(int u, int v, int w, int id) {
+    Edge e = {u, v, head[u], w, id};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+int finds(int u) {
+    if (pa[u] == u) return u;
+    return pa[u] = finds(pa[u]);
+}
+void unions(int u, int v) {
+    u = finds(u), v = finds(v);
+    if (u == v) return;
+    pa[v] = u;
+}
+void kruskal() {
+    sort(edges+2, edges+ecnt);
+    for (int i = 1; i &lt;= n; i++) pa[i] = i;
+    int cnt = 0;
+    for (int i = 2; i &lt; ecnt; i++) {
+        int u = edges[i].from, v = edges[i].to;
+        if (finds(u) == finds(v)) continue;
+        int w = edges[i].w;
+        unions(u,v);
+        used[i] = 1;
+        cnt++;
+        if (cnt == n-1) break;
+    }
+}
+
+struct Node {
+    int to, w;
+};
+vector&lt;Node&gt; adj[maxn];
+
+int dep[maxn], par[maxn], sz[maxn], son[maxn], top[maxn], id[maxn], ID, val[maxn], arr[maxn];
+void dfs1(int u, int p) {
+    dep[u] = dep[p] + 1;
+    par[u] = p;
+    sz[u] = 1;
+    int maxsz = -1;
+    for (Node nd : adj[u]) {
+        int v = nd.to, w = nd.w;
+        if (v == p) continue;
+        dfs1(v, u);
+        val[v] = w;
+        sz[u] += sz[v];
+        if (sz[v] &gt; maxsz) {
+            son[u] = v;
+            maxsz = sz[v];
+        }
+    }
+}
+
+void dfs2(int u, int t) {
+    id[u] = ++ID;
+    top[u] = t;
+    arr[ID] = val[u];
+    if (!son[u]) return;
+    dfs2(son[u], t);
+    for (Node nd : adj[u]) {
+        int v = nd.to;
+        if (v == par[u] || v == son[u]) continue;
+        dfs2(v, v);
+    }
+}
+struct Tree_Node {
+    int mn = 1e9+7, w = 1e9+7;
+    int lazyw = 1e9+7;
+} tr[maxn&lt;&lt;2];
+void push_up(int cur) {
+    int l = cur&lt;&lt;1, r = l+1;
+    tr[cur].mn = max(tr[l].mn, tr[r].mn);
+    tr[cur].w = min(tr[l].w, tr[r].w);
+}
+void push_down(int cur) {
+    int l = cur&lt;&lt;1, r = l+1;
+    if (tr[cur].lazyw &lt; 1e9) {
+        tr[l].lazyw = min(tr[cur].lazyw, tr[l].lazyw);
+        tr[l].w = min(tr[cur].lazyw, tr[l].w);
+        tr[r].lazyw = min(tr[cur].lazyw, tr[r].lazyw);
+        tr[r].w = min(tr[cur].lazyw, tr[r].w);
+        tr[cur].lazyw = 1e9+7;
+    }
+}
+
+void update(int cur, int l, int r, int L, int R, int x) {
+    if (L &lt;= l &amp;&amp; R &gt;= r) {
+        tr[cur].lazyw = min(tr[cur].lazyw, x);
+        tr[cur].w = min(tr[cur].w, x);
+        return;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, x);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+    push_up(cur);
+}
+
+// op = 0: query mn  (初始值)
+// op = 1: query w  (非树边给的值)
+int query(int cur, int l, int r, int L, int R, int op, bool ismax) {
+    if (L &lt;= l &amp;&amp; R &gt;= r) {
+        if (op == 0) return tr[cur].mn;
+        if (op == 1) return tr[cur].w;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    int lres, rres;
+    if (ismax) lres = -1, rres = -1;
+    else lres = 1e9+7, rres = 1e9+7;
+    if (L &lt;= mid) {
+        lres = query(cur&lt;&lt;1, l, mid, L, R, op, ismax);
+    }
+    if (R &gt; mid) {
+        rres = query(cur&lt;&lt;1|1, mid+1, r, L, R, op, ismax);
+    }
+    push_up(cur);
+    if (ismax)
+        return max(lres, rres);
+    else
+        return min(lres, rres);
+}
+
+void build_tree(int cur, int l, int r) {
+    if (l == r) {
+        tr[cur].mn = arr[l];
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    build_tree(cur&lt;&lt;1, l, mid);
+    build_tree(cur&lt;&lt;1|1, mid+1, r);
+    push_up(cur);
+}
+
+void rebuild() {
+    for (int i = 2; i &lt; ecnt; i++) {
+        if (used[i]) {
+            int u = edges[i].from, v = edges[i].to, w = edges[i].w;
+            adj[u].push_back({v,w});
+            adj[v].push_back({u,w});
+        }
+    }
+    val[1] = 1e9+7;
+    dfs1(1, 0);
+    dfs2(1, 1);
+}
+
+// update the w
+void update_path(int u, int v, int x) {
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        update(1, 1, n, id[top[u]], id[u], x);
+        u = par[top[u]];
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v);
+    if (id[u] + 1 &lt;= id[v])
+        update(1, 1, n, id[u]+1, id[v], x);
+}
+
+int query_path(int u, int v, int op, bool ismax) {
+    int res;
+    if (ismax) res = -1;
+    else res = 1e9+7;
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        if (ismax)
+            res = max(res, query(1, 1, n, id[top[u]], id[u], op, ismax));
+        else
+            res = min(res, query(1, 1, n, id[top[u]], id[u], op, ismax));
+
+        u = par[top[u]];
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v);
+    if (id[u] + 1 &lt;= id[v]) {
+        if (ismax) 
+            res = max(res, query(1, 1, n, id[u]+1, id[v], op, ismax));
+        else
+            res = min(res, query(1, 1, n, id[u]+1, id[v], op, ismax));
+    }
+        
+    return res;
+
+}
+
+int ans[maxn];
+void solve() {
+    for (int i = 2; i &lt; ecnt; i++) {
+        if (!used[i] &amp;&amp; !ans[edges[i].id]) {
+            int u = edges[i].from, v = edges[i].to, w = edges[i].w;
+            int res = query_path(u,v,0,1);
+            if (res == w) {
+                ans[edges[i].id] = 2;
+            } else ans[edges[i].id] = 3;
+            update_path(u,v,w);
+        }
+    }
+    for (int i = 2; i &lt; ecnt; i++) {
+        if (used[i] &amp;&amp; !ans[edges[i].id]) {
+            int u = edges[i].from, v = edges[i].to, w = edges[i].w;
+            int res = query_path(u,v,1,0);
+            if (res == w) ans[edges[i].id] = 2;
+            else ans[edges[i].id] = 1;
+        }
+    }
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int u,v,w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u,v,w,i); 
+    }
+    kruskal();
+    rebuild();
+    build_tree(1, 1, n);
+    solve();
+    for (int i = 1; i &lt;= m; i++) {
+        if (ans[i] == 1) cout &lt;&lt; &quot;any\n&quot;;
+        if (ans[i] == 2) cout &lt;&lt; &quot;at least one\n&quot;;
+        if (ans[i] == 3) cout &lt;&lt; &quot;none\n&quot;;
+    }
+}
+</code></pre>
+</details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li>Boruvka算法：https://luckyglass.github.io/2019/19Oct31stArt1/</li>
+<li></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-12-23 17:24:00 &#43;0800 &#43;0800">2021-12-23</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/d29e2e7c8b2135b52afb58808dea2512cc097d98" title="init 059,060" target="_blank">(d29e2e7)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/060-%e6%9c%80%e5%b0%8f%e7%94%9f%e6%88%90%e6%a0%91.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">最小生成树</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/059-01trie/">
+            <span class="next-text nav-default">Trie 和 01 Trie</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

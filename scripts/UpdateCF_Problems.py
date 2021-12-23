@@ -43,7 +43,6 @@ def load_contest_json():
         id = contest_info["id"]
         contest_id_dict[id] = contest_info
 
-
 def load_contest_byid(id):
     print(f"loading contest {id}...")
     url = f"https://codeforces.com/api/contest.standings?contestId={id}&showUnofficial=false"
@@ -54,18 +53,20 @@ def load_contest_byid(id):
     info = res.json()
 
     name = info["result"]["contest"]["name"]
+    stripped_name = "".join(name.split())
+
     type = "Others"
-    if "Global" in name:
+    if "Global" in stripped_name:
         type = "Global"
-    elif "Educational" in name:
+    elif "Educational" in stripped_name:
         type = "Educational"
-    elif "Div. 1 + Div. 2" in name:
+    elif "Div.1+Div.2" in stripped_name:
         type = "Div1 + Div2"
-    elif "Div. 1" in name:
+    elif "Div.1" in stripped_name:
         type = "Div1"
-    elif "Div. 2" in name:
+    elif "Div.2" in stripped_name:
         type = "Div2"
-    elif "Div. 3" in name:
+    elif "Div.3" in stripped_name:
         type = "Div3"
 
 

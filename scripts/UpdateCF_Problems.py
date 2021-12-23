@@ -72,7 +72,7 @@ def load_contest_byid(id):
     problem_list = info["result"]["problems"]
     problem_list = list(map(process, problem_list))
 
-    if len(problem_list) == 0 or "rating" not in problem_list[0]:
+    if len(problem_list) == 0 or any("rating" not in x for x in problem_list):
         return None
 
     for row in info["result"]["rows"]:

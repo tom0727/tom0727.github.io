@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>并查集 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/062-%E5%B9%B6%E6%9F%A5%E9%9B%86/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.8876c8d1563af17bab528692ce76dcb006603e63da3a61f9134e1c17d911f5e2.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="并查集" />
+<meta property="og:description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/062-%E5%B9%B6%E6%9F%A5%E9%9B%86/" />
+<meta property="article:published_time" content="2021-12-27T18:43:41+08:00" />
+<meta property="article:modified_time" content="2021-12-30T18:15:28+08:00" />
+<meta itemprop="name" content="并查集">
+<meta itemprop="description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的">
+<meta itemprop="datePublished" content="2021-12-27T18:43:41&#43;08:00" />
+<meta itemprop="dateModified" content="2021-12-30T18:15:28&#43;08:00" />
+<meta itemprop="wordCount" content="1976">
+
+
+
+<meta itemprop="keywords" content="并查集,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="并查集"/>
+<meta name="twitter:description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">并查集</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-12-27 18:43:41 &#43;0800 &#43;0800"> 2021-12-27 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#权值并查集">权值并查集</a></li>
+        <li><a href="#可撤销并查集">可撤销并查集</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-hnoi2016最小公倍数httpswwwluogucomcnproblemp3247">例1 <a href="https://www.luogu.com.cn/problem/P3247">[HNOI2016]最小公倍数</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>这篇博客主要介绍一些并查集的高级应用。</p>
+<p>目前我所知的并查集应用有：</p>
+<ol>
+<li>权值并查集</li>
+<li>可撤销并查集</li>
+<li>可持久化并查集（还没学）</li>
+</ol>
+<h2 id="权值并查集">权值并查集</h2>
+<p>略，目前我所知的方法就只有开多倍空间，维护不同元素之间的关系，经典例题见 <a href="https://www.luogu.com.cn/problem/P2024" target="_blank">NOI2001 食物链</a>。</p>
+<h2 id="可撤销并查集">可撤销并查集</h2>
+<p>意思如其名，可以将之前合并的操作撤销。</p>
+<p>思想并不难，只要拿一个额外的 <code>stack</code> 记录一下每次操作 <strong>更改的信息</strong>，然后回退的时候将 <code>stack</code> 内的信息 pop 出来，恢复一下当时的状态即可。</p>
+<p>有几个需要注意的点：</p>
+<ol>
+<li>并查集 <strong>不能路径压缩</strong>，否则会破坏结构。为了保证时间复杂度，需要使用启发式合并。</li>
+<li>无论 <code>unions(u,v)</code> 是否成功，都要记录在栈中。因为我们回退时并不知道这一步合并当时是否成功了。</li>
+</ol>
+<h2 id="例题">例题</h2>
+<h3 id="例1-hnoi2016最小公倍数httpswwwluogucomcnproblemp3247">例1 <a href="https://www.luogu.com.cn/problem/P3247" target="_blank">[HNOI2016]最小公倍数</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个节点，$m$ 条边的无向图。每个边有权值，权值都可以被表示为 $2^a \times 3^b$ 的形式。</p>
+<p>现在给出 $q$ 个询问，每次询问 $u ~ v ~ a ~ b$，我们需要回答在 $u,v$ 之间，是否存在一条路径使得路径上所有边权的 LCM 等于 $2^a \times 3^b$？</p>
+<p>路径可以不为简单路径（可以经过重复的边）。</p>
+<p>其中，$1 \leq n,q \leq 5 \times 10^4, 1 \leq m \leq 10^5, 0 \leq a_i,b_i \leq 10^9$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>题目实际上就想要我们找，每条边的权值表示为 $(a_i,b_i)$，每次询问 $u ~ v ~ a ~ b$，回答是否存在路径使得路径上的 $\max \{a_i\} = a, \max \{b_i\} = b$？</p>
+<p>我们先用最暴力的思路来想：</p>
+<p>对于每次询问，我们只要把所有满足 $a_i \leq a, b_i \leq b$ 的边全都加进去，然后判断一下 $u,v$ 是否联通，并且这个联通块内 $\max \{a_i\} = a, \max \{b_i\} = b$ 是否成立即可。这可以用并查集实现。</p>
+<p>接下来考虑优化。</p>
+<hr>
+<p>对于这种拥有 $2$ 个条件的题目，一种套路是：</p>
+<blockquote>
+<p>将第一种权值 <code>sort</code> 一下，然后分块。</p>
+<p>每个块内（或者多个块一起）对第二种权值 <code>sort</code>。然后把所有询问放进对应的块内进行处理。</p>
+</blockquote>
+<p>对于本题，我们先把所有的边按照 $a_i$ 的大小进行 <code>sort</code>，然后进行分块。</p>
+<p>对于每一条边 $(u,v,a,b)$，我们找到一个块 $B$ 满足，在 $[1,B-1]$ 这些块内，最大的 $a_i$ 都 $\leq a$，且这个 $B$ 尽可能大。</p>
+<p>之后，我们对于每一个块进行处理。</p>
+<p>假设我们现在在块 $B$ 内，那么我们将 $[1,B-1]$ 这些块看作一个整体，然后对这个整体，按照 <strong>第二种权值</strong> $b_i$ 进行 <code>sort</code>。</p>
+<p>然后我们将块 $B$ 内的所有询问按照 $b_i$ 进行 <code>sort</code>。</p>
+<p>然后我们开始回答询问 $(u,v,a,b)$。</p>
+<p>首先注意到此时，$[1,B-1]$ 这些块内的元素一定满足 $a_i \leq a$，所以不用关心前面这些块内的 $a_i$。</p>
+<p>然后考虑 $[1,B-1]$ 这些块内的元素的 $b_i$，注意到它们此时是按照 $b_i$ <code>sort</code> 好的，而我们的询问也是按照 $b$ <code>sort</code> 的，所以我们可以直接用一个指针维护一下现在我们在 $[1,B-1]$ 这些块内，有哪些元素的 $b_i$ 是 $\leq b$ 的。</p>
+<p>这样，$[1,B-1]$ 这些块就都处理好了，只剩下当前这个块 $B$ 了。</p>
+<p>对于当前块 $B$，我们只要暴力向并查集内加入当前块内，所有满足 $a_i \leq a, b_i \leq b$ 的边即可。</p>
+<p>在回答完这个询问后，把当前块 $B$ 的所有边都从并查集中撤销，然后开始回答下一个询问。</p>
+<hr>
+<p>总时间复杂度：设块的大小为 $B$，那么总共有 $\frac{m}{B}$ 个块。</p>
+<p>每一个块的处理：首先要对前面的块进行sort，所以是 $O(m\log m)$。</p>
+<p>对于每一个询问，我们都要暴力遍历一个块内的所有边，总共有 $B$ 条边，每次加入操作需要 $O(\log m)$（因为没有路径压缩），所以是 $O(B \log m)$。</p>
+<p>于是最终的复杂度就是：</p>
+<p>$$T(n) = \frac{m}{B} m\log m + qB \log m$$</p>
+<p>取 $B = \sqrt m$ 或者 $\frac{m}{\sqrt q}$ 之类的都可以过。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 5e4+5;
+const int maxm = 1e5+5;
+
+struct Query {
+    int u, v, a, b, be, id;
+} query[maxn];
+vector&lt;Query&gt; vec[maxn];
+
+struct Edge {
+    int from, to, a, b;
+} edges[maxm];
+bool cmpA(const Edge&amp; e1, const Edge&amp; e2) {
+    return e1.a &lt; e2.a;
+}
+bool cmpB(const Edge&amp; e1, const Edge&amp; e2) {
+    return e1.b &lt; e2.b;
+}
+
+int ecnt = 0, n, m, B, blockcnt, Q;
+void addEdge(int u, int v, int a, int b) {
+    Edge e = {u, v, a, b};
+    edges[++ecnt] = e;
+}
+
+struct State {
+    int u, v, szu, amaxu, bmaxu;
+} st[maxm];
+int tail = 0;
+
+int par[maxn], sz[maxn], amax[maxn], bmax[maxn];
+inline void init() {
+    for (int i = 1; i &lt;= n; i++) par[i] = i, sz[i] = 1, amax[i] = bmax[i] = -1;
+    tail = 0;
+}
+
+int finds(int u) {
+    if (par[u] == u) return u;
+    return finds(par[u]);
+}
+void unions(int u, int v, int a, int b) {
+    u = finds(u), v = finds(v);
+    if (sz[u] &lt; sz[v]) swap(u,v);
+    st[++tail] = {u, v, sz[u], amax[u], bmax[u]};
+    amax[u] = max(amax[u], a);   // 注意不管是否成功，都要更改 amax, bmax
+    bmax[u] = max(bmax[u], b);
+    if (u == v) return;
+    par[v] = u;
+    sz[u] += sz[v];
+    amax[u] = max(amax[u], amax[v]);
+    bmax[u] = max(bmax[u], bmax[v]);
+}
+
+void cancel() {
+    if (tail &gt; 0) {
+        int u = st[tail].u, v = st[tail].v;
+        par[v] = v;
+        sz[u] = st[tail].szu;
+        amax[u] = st[tail].amaxu;
+        bmax[u] = st[tail].bmaxu;
+        tail--;
+    }
+}
+
+bool ans[maxn];
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int u,v,a,b; cin &gt;&gt; u &gt;&gt; v &gt;&gt; a &gt;&gt; b;
+        addEdge(u,v,a,b);
+    }
+    sort(edges+1, edges+ecnt+1, cmpA);
+    B = sqrt(n);  // block size
+    blockcnt = (ecnt + B - 1) / B;
+
+    cin &gt;&gt; Q;
+
+    // block 1: [1 ... B], block 2: [B+1, ... , 2B], 
+    for (int i = 1; i &lt;= Q; i++) {
+        cin &gt;&gt; query[i].u &gt;&gt; query[i].v &gt;&gt; query[i].a &gt;&gt; query[i].b;
+        query[i].id = i;
+        query[i].be = 1;
+        for (int b = 1; b &lt;= blockcnt-1; b++) {
+            if (edges[b * B].a &lt;= query[i].a) {
+                query[i].be = b+1;
+            }
+        }
+        vec[query[i].be].push_back(query[i]);
+    }
+
+    for (int b = 1; b &lt;= blockcnt; b++) {
+        if (!vec[b].size()) continue;  // 若这个块为空
+        sort(vec[b].begin(), vec[b].end(), [](auto a, auto b) {
+            return a.b &lt; b.b;  // 把所有询问按照 b 的大小 sort 一下
+        });
+        init();
+        if (b &gt; 1) {
+            int R = (b-1) * B;  // 前一个块的右端点
+            sort(edges+1, edges+R+1, cmpB);
+
+            // 开始处理询问
+            int j = 0;
+            for (Query que : vec[b]) {
+                int qa = que.a, qb = que.b;
+
+                // 先将前面的块满足条件的都加进去
+                while (j + 1 &lt;= R &amp;&amp; edges[j+1].b &lt;= qb) {
+                    unions(edges[j+1].from, edges[j+1].to, edges[j+1].a, edges[j+1].b);
+                    j++;
+                }
+
+                // 然后开始处理当前块
+                int curt = tail;  // 记录当前 stack 的 tail 位置
+                for (int i = R+1; i &lt;= min(b*B, ecnt); i++) {   // 当前块
+                    if (edges[i].a &lt;= qa &amp;&amp; edges[i].b &lt;= qb) {
+                        unions(edges[i].from, edges[i].to, edges[i].a, edges[i].b);
+                    }
+                }
+
+                int u = finds(que.u), v = finds(que.v);
+                if (u == v &amp;&amp; amax[u] == qa &amp;&amp; bmax[u] == qb) {
+                    ans[que.id] = 1;
+                }
+
+                while (tail != curt) cancel();  // 退回当前块的所有操作
+            }
+        }
+    }
+
+    for (int i = 1; i &lt;= Q; i++) {
+        cout &lt;&lt; (ans[i] ? &quot;Yes&quot; : &quot;No&quot;) &lt;&lt; &quot;\n&quot;;
+    }
+}
+
+</code></pre>
+</details>
+<div class="admonition info">
+  <p class="admonition-title">注意事项</p>
+<ol>
+<li>在 <code>unions(u,v,a,b)</code> 时，无论 <code>u,v</code> 是否已经联通，都要更新 <code>a,b</code>。</li>
+<li>可撤销并查集的栈只记录被更改的信息，其他的就不用记了。</li>
+</ol>
+</div>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-12-30 18:15:28 &#43;0800 &#43;0800">2021-12-30</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/60b4f051911f045c8a33992809df12c6186c19a4" title="init 061,062,03" target="_blank">(60b4f05)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/062-%e5%b9%b6%e6%9f%a5%e9%9b%86.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/">并查集</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/063-%E6%9B%BC%E5%93%88%E9%A1%BF-%E5%88%87%E6%AF%94%E9%9B%AA%E5%A4%AB%E8%B7%9D%E7%A6%BB/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">曼哈顿距离 和 切比雪夫距离</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/061-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E6%A0%91/">
+            <span class="next-text nav-default">最短路径树</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

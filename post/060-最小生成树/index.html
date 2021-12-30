@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="介绍 最小生成树就是给定一张边有权值的图，求一个生成树使得边权和最小。 最小生成树有着以下几个性质： TODO 常用的算法 Prim 和 Kruskal 就不再赘述了。 Prim 的思想主要" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 最小生成树就是给定一张边有权值的图，求一个生成树使得边权和最小。 最小生成树有着以下几个性质： 最小生成树不唯一，次小生成树可以通过枚举非树" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -40,22 +40,22 @@
 
 
 <meta property="og:title" content="最小生成树" />
-<meta property="og:description" content="介绍 最小生成树就是给定一张边有权值的图，求一个生成树使得边权和最小。 最小生成树有着以下几个性质： TODO 常用的算法 Prim 和 Kruskal 就不再赘述了。 Prim 的思想主要" />
+<meta property="og:description" content="介绍 最小生成树就是给定一张边有权值的图，求一个生成树使得边权和最小。 最小生成树有着以下几个性质： 最小生成树不唯一，次小生成树可以通过枚举非树" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/060-%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/" />
 <meta property="article:published_time" content="2021-12-21T21:33:24+08:00" />
-<meta property="article:modified_time" content="2021-12-26T00:20:54+00:00" />
+<meta property="article:modified_time" content="2021-12-30T18:15:28+08:00" />
 <meta itemprop="name" content="最小生成树">
-<meta itemprop="description" content="介绍 最小生成树就是给定一张边有权值的图，求一个生成树使得边权和最小。 最小生成树有着以下几个性质： TODO 常用的算法 Prim 和 Kruskal 就不再赘述了。 Prim 的思想主要">
+<meta itemprop="description" content="介绍 最小生成树就是给定一张边有权值的图，求一个生成树使得边权和最小。 最小生成树有着以下几个性质： 最小生成树不唯一，次小生成树可以通过枚举非树">
 <meta itemprop="datePublished" content="2021-12-21T21:33:24&#43;08:00" />
-<meta itemprop="dateModified" content="2021-12-26T00:20:54&#43;00:00" />
-<meta itemprop="wordCount" content="5804">
+<meta itemprop="dateModified" content="2021-12-30T18:15:28&#43;08:00" />
+<meta itemprop="wordCount" content="6962">
 
 
 
 <meta itemprop="keywords" content="最小生成树,," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="最小生成树"/>
-<meta name="twitter:description" content="介绍 最小生成树就是给定一张边有权值的图，求一个生成树使得边权和最小。 最小生成树有着以下几个性质： TODO 常用的算法 Prim 和 Kruskal 就不再赘述了。 Prim 的思想主要"/>
+<meta name="twitter:description" content="介绍 最小生成树就是给定一张边有权值的图，求一个生成树使得边权和最小。 最小生成树有着以下几个性质： 最小生成树不唯一，次小生成树可以通过枚举非树"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -157,6 +157,7 @@
             <li><a href="#例2-cf888g-xor-msthttpswwwluogucomcnproblemcf888g">例2 <a href="https://www.luogu.com.cn/problem/CF888G">CF888G Xor-MST</a></a></li>
             <li><a href="#例3-洛谷p4180-bjwc2010严格次小生成树httpswwwluogucomcnproblemp4180">例3 <a href="https://www.luogu.com.cn/problem/P4180">洛谷P4180 [BJWC2010]严格次小生成树</a></a></li>
             <li><a href="#例4-cf160d-edges-in-msthttpswwwluogucomcnproblemcf160d">例4 <a href="https://www.luogu.com.cn/problem/CF160D">CF160D Edges in MST</a></a></li>
+            <li><a href="#例5-cf891c-envyhttpswwwluogucomcnproblemcf891c">例5 <a href="https://www.luogu.com.cn/problem/CF891C">CF891C Envy</a></a></li>
           </ul>
         </li>
         <li><a href="#参考链接">参考链接</a></li>
@@ -171,8 +172,16 @@
 <p>最小生成树就是给定一张边有权值的图，求一个生成树使得边权和最小。</p>
 <p>最小生成树有着以下几个性质：</p>
 <ol>
-<li>TODO</li>
+<li>最小生成树不唯一，次小生成树可以通过枚举非树边 $(u,v)$，然后替换最小生成树上 $(u,v)$ 这条链上最大边来实现。</li>
+<li>所有的最小生成树中，相同权值的边的数量一定相同。</li>
+<li>所有的最小生成树中，对于任意的权值 $w$，如果把所有权值 $\leq w$ 的边单独拿出来，那么构成的图的连通性均相同。</li>
 </ol>
+<p>证明：</p>
+<ol start="2">
+<li>如果不相同，那么这违背了第一条。因为拥有相同权值的次小生成树一定是通过替换一个相同权值的边实现的。（这一条其实也可以直接通过第三条结论得出）。</li>
+<li>如果有两种不同的连通性 $G_1,G_2$，那么必然存在一对点 $(u,v)$ 使得 $(u,v)$ 在 $G_1$ 联通，而在 $G_2$ 中不联通。根据 kruskal，这说明我们可以在 $G_2$ 中想办法将 $(u,v)$ 连在一起（因为这样的边一定存在于 $G_1$ 当中）。这不可能发生，因为所有权值 $\leq w$ 的都被拿出来了。</li>
+</ol>
+<hr>
 <p>常用的算法 Prim 和 Kruskal 就不再赘述了。</p>
 <p>Prim 的思想主要是维护一个联通块，然后逐渐往这个块上加新的点。</p>
 <p>Kruskal 的思想是将所有边按照边权 sort 一下，然后用并查集维护联通性防止环的产生。</p>
@@ -991,6 +1000,128 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例5-cf891c-envyhttpswwwluogucomcnproblemcf891c">例5 <a href="https://www.luogu.com.cn/problem/CF891C" target="_blank">CF891C Envy</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个点，$m$ 条边的无向联通图，每个边有边权 $w_i$。</p>
+<p>现在给定 $q$ 个询问，每次询问 $k_i$ 条边 $e_1,e_2,&hellip;,e_{k_i}$。</p>
+<p>对于每个询问，我们需要回答这些边是否能存在于同一个最小生成树当中。</p>
+<p>其中，$n,m,q,w_i \leq 5 \times 10^5$。</p>
+<p>并且保证所有询问中，询问的边数的总和不超过 $5 \times 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>由最小生成树的性质第二条和第三条，我们可以发现不同权值的边之间不会互相影响。</p>
+<p>所以我们考虑按照权值分开来处理。</p>
+<p>换而言之，我们不再按照每个询问来回答，而是把每个询问中的权值相同的边都拿出来分别处理。这样，问题就变成了：</p>
+<blockquote>
+<p>给定一些权值相同（均为 $w$）的边，判断这些边是否能存在于同一个 MST 中？</p>
+</blockquote>
+<p>根据 MST 性质的第三条，我们只需要处理出最小生成树中 权值严格小于 $w$ 的边的连通性。然后判断一下这些边在当前联通图下，是否都能够 <code>unions()</code> 即可。处理完当前询问，就用可撤销并查集退回。</p>
+<p>所以，我们只要把每个询问中所有权值相同的边都拿出来，然后从小到大开始跑 kruskal，跑的过程中回答当前权值的询问即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 5e5+5;
+const int maxm = 5e5+5;
+
+struct Edge {
+    int u, v, w;
+} edges[maxm], edges_tmp[maxm];
+struct Query {
+    int id;
+    vector&lt;int&gt; vec;
+};
+struct State {
+    int u, v, szu;
+};
+int par[maxn], sz[maxn];
+State st[maxn];
+int tail = 0;
+int finds(int u) {
+    if (par[u] == u) return u;
+    return finds(par[u]);
+}
+void unions(int u, int v) {
+    u = finds(u), v = finds(v);
+    if (sz[u] &lt; sz[v]) swap(u,v);
+    if (u == v) return;
+    st[++tail] = {u, v, sz[u]};
+    par[v] = u;
+    sz[u] += sz[v];
+}
+void cancel() {
+    int u = st[tail].u, v = st[tail].v;
+    par[v] = v;
+    sz[u] = st[tail].szu;
+    tail--;
+}
+
+int n, m, q;
+bool ans[maxn];
+vector&lt;Query&gt; val_query[maxn];  // val_query[i]: 询问权值为 i 的
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) par[i] = i, sz[i] = 1;
+    for (int i = 1; i &lt;= m; i++) {
+        cin &gt;&gt; edges[i].u &gt;&gt; edges[i].v &gt;&gt; edges[i].w;
+        edges_tmp[i] = edges[i];
+    }
+    sort(edges_tmp+1, edges_tmp+m+1, [](auto a, auto b) {
+        return a.w &lt; b.w;
+    });
+    cin &gt;&gt; q;
+    for (int i = 1; i &lt;= q; i++) {
+        int k; cin &gt;&gt; k;
+        vector&lt;int&gt; tmp;
+        for (int j = 1; j &lt;= k; j++) {
+            int e; cin &gt;&gt; e;
+            tmp.push_back(e);
+        }
+        sort(tmp.begin(), tmp.end(), [&amp;](auto a, auto b) {
+            return edges[a].w &lt; edges[b].w;
+        });
+        for (int j = 0; j &lt; k; j++) {
+            int e = tmp[j];
+            int w = edges[tmp[j]].w;
+            if (j == 0 || edges[tmp[j]].w != edges[tmp[j-1]].w) {
+                val_query[w].push_back({i, vector&lt;int&gt;()});
+            }
+            val_query[w].back().vec.push_back(e);
+        }
+    }
+    fill(ans+1, ans+q+1, 1);
+    int pt = 0;
+    for (int w = 1; w &lt;= 5e5; w++) {
+        for (Query que : val_query[w]) {
+            int id = que.id;
+            int curt = tail;
+            for (int e : que.vec) {
+                int u = edges[e].u, v = edges[e].v;
+                if (finds(u) == finds(v)) {
+                    ans[id] = 0;
+                    break;
+                }
+                unions(u,v);
+            }
+            while (tail != curt) {
+                cancel();
+            }
+        }
+        while (pt + 1 &lt;= m &amp;&amp; edges_tmp[pt+1].w == w) {
+            pt++;
+            Edge ce = edges_tmp[pt];
+            int u = ce.u, v = ce.v;
+            if (finds(u) != finds(v)) unions(u,v);
+        }
+    }
+    for (int i = 1; i &lt;= q; i++) {
+        cout &lt;&lt; (ans[i] ? &quot;YES&quot; : &quot;NO&quot;) &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
 <h2 id="参考链接">参考链接</h2>
 <ol>
 <li>Boruvka算法：https://luckyglass.github.io/2019/19Oct31stArt1/</li>
@@ -1007,8 +1138,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-12-26 00:20:54 &#43;0000 UTC">2021-12-26</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/264c2452815854a29b7fe994523bd55b9fe0c45c" title="chore: update CF Problems" target="_blank">(264c245)</a>
+        <span title="2021-12-30 18:15:28 &#43;0800 &#43;0800">2021-12-30</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/60b4f051911f045c8a33992809df12c6186c19a4" title="init 061,062,03" target="_blank">(60b4f05)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/060-%e6%9c%80%e5%b0%8f%e7%94%9f%e6%88%90%e6%a0%91.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -1024,7 +1155,11 @@ int main() {
           <a href="/tags//"></a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/061-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E6%A0%91/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">最短路径树</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
         <a class="next" href="/post/059-01trie/">
             <span class="next-text nav-default">Trie 和 01 Trie</span>
             <span class="next-text nav-mobile">Next</span>

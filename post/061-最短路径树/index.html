@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>最短路径树 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 最短路径树是指一个图，在以 某个点 为根，跑出来单源最短路以后，形成的树结构。 具体建树方法就是：在跑单源最短路的时候，用一个 pre[] 数组记录一下每" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/061-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E6%A0%91/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.8876c8d1563af17bab528692ce76dcb006603e63da3a61f9134e1c17d911f5e2.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="最短路径树" />
+<meta property="og:description" content="介绍 最短路径树是指一个图，在以 某个点 为根，跑出来单源最短路以后，形成的树结构。 具体建树方法就是：在跑单源最短路的时候，用一个 pre[] 数组记录一下每" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/061-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E6%A0%91/" />
+<meta property="article:published_time" content="2021-12-24T18:19:49+08:00" />
+<meta property="article:modified_time" content="2021-12-30T18:15:28+08:00" />
+<meta itemprop="name" content="最短路径树">
+<meta itemprop="description" content="介绍 最短路径树是指一个图，在以 某个点 为根，跑出来单源最短路以后，形成的树结构。 具体建树方法就是：在跑单源最短路的时候，用一个 pre[] 数组记录一下每">
+<meta itemprop="datePublished" content="2021-12-24T18:19:49&#43;08:00" />
+<meta itemprop="dateModified" content="2021-12-30T18:15:28&#43;08:00" />
+<meta itemprop="wordCount" content="2672">
+
+
+
+<meta itemprop="keywords" content="最短路径树,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="最短路径树"/>
+<meta name="twitter:description" content="介绍 最短路径树是指一个图，在以 某个点 为根，跑出来单源最短路以后，形成的树结构。 具体建树方法就是：在跑单源最短路的时候，用一个 pre[] 数组记录一下每"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">最短路径树</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-12-24 18:19:49 &#43;0800 &#43;0800"> 2021-12-24 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#统计最短路径树的数量">统计最短路径树的数量</a>
+          <ul>
+            <li><a href="#例1-洛谷p2934-usaco09jansafe-travel-ghttpswwwluogucomcnproblemp2934">例1 <a href="https://www.luogu.com.cn/problem/P2934">洛谷P2934 [USACO09JAN]Safe Travel G</a></a></li>
+            <li><a href="#例2-洛谷p2505-haoi2012道路httpswwwluogucomcnproblemp2505">例2 <a href="https://www.luogu.com.cn/problem/P2505">洛谷P2505 [HAOI2012]道路</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>最短路径树是指一个图，在以 <strong>某个点</strong> 为根，跑出来单源最短路以后，形成的树结构。</p>
+<p>具体建树方法就是：在跑单源最短路的时候，用一个 <code>pre[]</code> 数组记录一下每个点的最短路径是从哪个点更新而来的即可。</p>
+<p>然后 <code>pre[u]</code> 就是 <code>u</code> 在最短路径树里的 parent 了。</p>
+<h2 id="统计最短路径树的数量">统计最短路径树的数量</h2>
+<p>注意到每个节点 $u$ 的 parent 不一定就是最短路径树中的那个parent，只要找到一个邻居 $v$，满足：</p>
+<p>$$dis[u] = dis[v] + w(v,u)$$</p>
+<p>那么这个 $v$ 也可以成为最短路径树中，$u$ 的parent。</p>
+<p>所以对于每个节点 $u$ 统计一下可能的 parent 数量 <code>cnt[u]</code>，然后把所有节点的 <code>cnt[u]</code> 乘起来即可得到答案。</p>
+<h3 id="例1-洛谷p2934-usaco09jansafe-travel-ghttpswwwluogucomcnproblemp2934">例1 <a href="https://www.luogu.com.cn/problem/P2934" target="_blank">洛谷P2934 [USACO09JAN]Safe Travel G</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个节点，$m$ 条边的无向图（边带权），对于每个 $i \in [2,n]$，求出在 <strong>不经过</strong> 原本 $1$ 节点到 $i$ 节点的最短路的最后一条边的前提下，$1 \rightarrow i$ 的最短路。</p>
+<p>其中，$3 \leq n \leq 10^5, 2 \leq m \leq 2 \times 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>先说个假做法：对于每个 $i$，求 $\min \{d_u+w(u,i)\}$，其中 $u$ 为 $i$ 的 neighbor 且不为原来最短路使用的那个 $u$。</p>
+<p>为什么假了？因为我们没有办法保证 $1\rightarrow u$ 的最短路上有没有经过 $i$，如果经过了，它就有可能用到了不被允许使用的边。</p>
+<p>下面说正解。</p>
+<hr>
+<p>对于本题，首先就是从 $1$ 开始求一个最短路，然后构建出来最短路径树。</p>
+<p>那么 $1$ 节点到 $i$ 节点的最短路就是树上的一条路径。</p>
+<p>现在我们只考虑这个最短路径树，如果 $1 \rightarrow i$ 的最后一条边被断开了，那么 $1$ 与 $i$ 就会被分割在两个不同的联通块内。</p>
+<p>• 注意到每个联通块也是一棵树，$1$ 和 $i$ 分别是 2 个树的根节点。</p>
+<p>这意味着我们需要使用一条非树边将 $1$ 和 $i$ 所在的两个联通块重新链接起来。</p>
+<p><img src="/images/061/1.jpg" alt="img"></p>
+<p>假设这条边是 $(u,v)$，那么新的 $1 \rightarrow i$ 最短路就等于：</p>
+<p>$$d[u] + w(u,v) + d[v] - d[i]$$</p>
+<p>这里 $d[u]$ 指原先从 $1 \rightarrow u$ 的最短路长度，注意到对于固定的 $i$，这个 $d[i]$ 是个常数。所以我们只关心</p>
+<p>$$d[u] + w(u,v) + d[v]$$</p>
+<p>我们会发现这个对于每条边 $(u,v)$ 也是个定值。</p>
+<p>那么现在我们只需要考虑，有哪些 $(u,v)$ 能对 $i$ 产生这样的贡献就行了。</p>
+<p>那么还是老套路，把点的问题转成链的问题，那么一个非树边 $(u,v,w)$ 就相当于把 $d[u] + w(u,v) + d[v]$ 的这个值赋最小值给 $(u,v)$ 路径（指树上路径）上的所有边。</p>
+<p>然后每个节点 $i$ 对应的就是 $(i, par[i])$ 这条边。</p>
+<p>所以用树剖维护链的更新和查询即可。</p>
+<p>• 注：为什么不直接更新点……我也没想明白？尝试了一下似乎会WA。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+const int maxm = 2e5+5;
+
+int n,m;
+struct Edge {
+    int from, to, nxt, w;
+} edges[maxm&lt;&lt;1];
+int head[maxn], ecnt = 2, d[maxn], pre[maxn];
+bool vis[maxn];
+
+void addEdge(int u, int v, int w) {
+    Edge e = {u, v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+struct Node {
+    int u, dis;
+    bool operator&lt;(const Node&amp; other) const {
+        return dis &gt; other.dis;
+    }
+};
+priority_queue&lt;Node&gt; pq;
+void dijkstra() {
+    pq.push({1,0});
+    memset(d, 63, sizeof(d));
+    while (!pq.empty()) {
+        auto nd = pq.top(); pq.pop();
+        int u = nd.u, dis = nd.dis;
+        if (vis[u]) continue;
+        vis[u] = 1;
+        d[u] = dis;
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int v = edges[e].to, w = edges[e].w;
+            if (d[v] &gt; d[u] + w) {
+                d[v] = d[u] + w;
+                pre[v] = u;
+                pq.push({v,d[v]});
+            }
+        }
+    }
+}
+
+struct Node2 {
+    int to, w;
+};
+vector&lt;Node2&gt; adj[maxn];
+int dep[maxn], par[maxn], sz[maxn], son[maxn], top[maxn], id[maxn], ID, arr[maxn], ans[maxn];
+
+void dfs1(int u, int p) {
+    dep[u] = dep[p] + 1;
+    par[u] = p;
+    sz[u] = 1;
+    for (Node2 nd : adj[u]) {
+        int to = nd.to;
+        if (to == p) continue;
+        dfs1(to, u);
+        sz[u] += sz[to];
+        if (sz[to] &gt; sz[son[u]]) son[u] = to;
+    }
+}
+
+void dfs2(int u, int t) {
+    id[u] = ++ID;
+    top[u] = t;
+    arr[ID] = 1e9;
+    if (!son[u]) return;
+    dfs2(son[u], t);
+    for (Node2 nd : adj[u]) {
+        int to = nd.to;
+        if (to == par[u] || to == son[u]) continue;
+        dfs2(to, to);
+    }
+}
+
+struct Tree_Node {
+    int mn = 1e9, lazy = 1e9;
+} tr[maxn&lt;&lt;2];
+
+void push_up(int cur) {
+    tr[cur].mn = min(tr[cur&lt;&lt;1].mn, tr[cur&lt;&lt;1|1].mn);
+}
+
+void push_down(int cur) {
+    if (tr[cur].lazy == 1e9) return;
+    int lazy = tr[cur].lazy;
+    tr[cur].lazy = 1e9;
+    int l = cur&lt;&lt;1, r = l+1;
+    tr[l].lazy = min(tr[l].lazy, lazy);
+    tr[l].mn = min(tr[l].mn, lazy);
+    tr[r].lazy = min(tr[r].lazy, lazy);
+    tr[r].mn = min(tr[r].mn, lazy);
+}
+
+void update(int cur, int l, int r, int L, int R, int x) {
+    if (L &lt;= l &amp;&amp; R &gt;= r) {
+        tr[cur].lazy = min(tr[cur].lazy, x);
+        tr[cur].mn = min(tr[cur].mn, x);
+        return;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, x);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+    push_up(cur);
+}
+
+int query(int cur, int l, int r, int L, int R) {
+    if (L &lt;= l &amp;&amp; R &gt;= r) return tr[cur].mn;
+    push_down(cur);
+    int lres = 1e9, rres = 1e9;
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) lres = query(cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) rres = query(cur&lt;&lt;1|1, mid+1, r, L, R);
+    push_up(cur);
+    return min(lres, rres);
+}
+
+void update_path(int u, int v, int x) {
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        update(1, 1, n, id[top[u]], id[u], x);
+        u = par[top[u]];
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v);
+    if (id[u] + 1 &lt;= id[v])
+        update(1, 1, n, id[u]+1, id[v], x);
+}
+
+int query_path(int u, int v) {
+    int res = 1e9;
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        res = min(res, query(1, 1, n, id[top[u]], id[u]));
+        u = par[top[u]];
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v);
+    if (id[u] + 1 &lt;= id[v])
+        res = min(res, query(1, 1, n, id[u]+1, id[v]));
+    return res;
+}
+
+int LCA(int u, int v) {
+    while (top[u] != top[v]) {
+        if (dep[top[u]] &lt; dep[top[v]]) swap(u,v);
+        u = par[top[u]];
+    }
+    if (dep[u] &gt; dep[v]) swap(u,v);
+    return u;
+}
+
+void rebuild() {
+    for (int i = 2; i &lt;= n; i++) {
+        adj[i].push_back({pre[i], d[i] - d[pre[i]]});
+        adj[pre[i]].push_back({i, d[i] - d[pre[i]]});
+    }
+    dfs1(1, 0);
+    dfs2(1, 1);
+}
+
+void solve() {
+    for (int e = 2; e &lt; ecnt; e++) {
+        int u = edges[e].from, v = edges[e].to, w = edges[e].w;
+        if (pre[u] == v || pre[v] == u) continue;  // 树边
+        update_path(u, v, d[v] + w + d[u]);
+    }
+    for (int u = 2; u &lt;= n; u++) {
+        int q = query_path(u, par[u]);
+        ans[u] = -d[u] + q;
+        cout &lt;&lt; (ans[u] &gt; 1e8 ? -1 : ans[u]) &lt;&lt; &quot;\n&quot;;
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    memset(ans, 63, sizeof(ans));
+    for (int i = 1; i &lt;= m; i++) {
+        int u,v,w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u,v,w); addEdge(v,u,w);
+    }
+    dijkstra();
+    rebuild();
+    solve();
+}
+</code></pre>
+</details>
+<h3 id="例2-洛谷p2505-haoi2012道路httpswwwluogucomcnproblemp2505">例2 <a href="https://www.luogu.com.cn/problem/P2505" target="_blank">洛谷P2505 [HAOI2012]道路</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个节点，$m$ 条边的有向图，边上有权值。</p>
+<p>对于每一条边，我们要统计有多少条最短路径经过了这条边。答案对 $10^9+7$ 取模。</p>
+<p>定义最短路径 $(u,v)$ 为：不存在路径上权值之和严格小于该最短路径的，从 $u$ 到 $v$ 的路径。</p>
+<p>其中，$n \leq 1500, m \leq 5000, w \in [1,10000]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>看到 $n \leq 1500$，我们想到枚举每一个最短路径的起点 $u$。</p>
+<p>也就是从 $1$ 到 $n$，分别为起点，总共跑 $n$ 次 dijkstra。</p>
+<p>每次跑一个 dijkstra，我们就可以得到以 $u$ 为起点的最短路径。</p>
+<p>这里我们不妨设以 $1$ 为起点。</p>
+<p>那么我们可以枚举每一条边，然后判断这条边被经过了多少次。</p>
+<p><img src="/images/061/2.jpg" alt="img"></p>
+<p>对于一条边 $(u,v)$，它被经过的次数就等于：</p>
+<div class='center'>
+<p>$1 \rightarrow u$ 的最短路径条数 乘上 $\sum (1 \rightarrow x$ 的最短路径条数$)$，其中 $x$ 在 $v$ 的“子树”（应该叫子图）中。</p>
+</div>
+<p>所以我们设 $f_x$ 为：$1 \rightarrow x$ 的最短路径条数。</p>
+<p>注意到，如果我们构建好 <strong>最短路径图</strong>（就是将保留所有满足 $dis[v] = dis[u] + w(v,u)$ 的边 $(v,u)$）后，这个最短路径图是一个 <strong>DAG</strong>。</p>
+<p>所以就可以跑 DAG 上的 DP了（用拓扑排序）。</p>
+<p>• 注意这个 DAG 是最短路径图！每个节点为起点的 dijkstra 所形成的最短路径图都各不相同！</p>
+<p>所以从 $1$ 出发跑拓扑排序（入度为 $0$ 开始），就可以求出 $1 \rightarrow u$ 的最短路径条数。</p>
+<p>然后我们再将拓扑序列存下来，用拓扑序列反向跑一次 DP，就可以求出 $\sum (1 \rightarrow x$ 的最短路径条数$)$ （通过拓扑序的反序，将 $v$ 子图内的所有点加到 $v$ 上）。</p>
+<p>时间复杂度：每个点开始跑一个 dijkstra，然后跑两次拓扑排序，然后枚举每一个边，所以</p>
+<p>$$T(n) = n * (n \log m + 2n + m) = O(n^2\log m)$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1505;
+const int maxm = 5005;
+
+struct Edge {
+    int u, v, nxt, w;
+} edges[maxm];
+int head[maxn], ecnt = 1, n, m;
+void addEdge(int u, int v, int w) {
+    Edge e = {u, v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+struct Node {
+    int v, d;
+    bool operator&lt;(const Node&amp; other) const {
+        return d &gt; other.d;
+    }
+};
+int dis[maxn];
+bool vis[maxn];
+priority_queue&lt;Node&gt; pq;
+ll ans[maxm], dp1[maxn], dp2[maxn];
+vector&lt;int&gt; tmp;
+int ind[maxn];
+void dijkstra(int start) {
+    while (pq.size()) pq.pop();
+    tmp.clear();
+    fill(dis, dis+maxn, 1e9);
+    fill(vis, vis+maxn, 0);
+    fill(dp1, dp1+maxn, 0);
+    fill(dp2, dp2+maxn, 0);
+    fill(ind, ind+maxn, 0);
+    dis[start] = 0;
+    pq.push({start, 0});
+    while (!pq.empty()) {
+        int u = pq.top().v, d = pq.top().d; pq.pop();
+        if (vis[u]) continue;
+        vis[u] = 1;
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int v = edges[e].v, w = edges[e].w;
+            if (d + w &lt; dis[v]) {
+                dis[v] = d + w;
+                pq.push({v, dis[v]});
+            }
+        }
+    }
+}
+
+vector&lt;int&gt; topo_seq;
+void topo(int start) {
+    for (int e = 1; e &lt;= m; e++) {
+        int u = edges[e].u, v = edges[e].v, w = edges[e].w;
+        if (dis[u] + w == dis[v]) ind[v]++;
+    }
+    tmp.clear();
+    topo_seq.clear();
+
+    tmp.push_back(start);
+    topo_seq.push_back(start);
+    dp1[start] = 1;
+    while (tmp.size()) {
+        int u = tmp.back(); tmp.pop_back();
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int v = edges[e].v, w = edges[e].w;
+            if (dis[v] == dis[u] + w) {
+                dp1[v] = (dp1[v] + dp1[u]) % mod;
+                ind[v]--;
+                if (!ind[v]) tmp.push_back(v), topo_seq.push_back(v);
+            }
+        }
+    }
+
+    // 反向 topo
+    reverse(topo_seq.begin(), topo_seq.end());
+    for (int u : topo_seq) {
+        dp2[u] = 1;
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int v = edges[e].v, w = edges[e].w;
+            if (dis[v] == dis[u] + w) {
+                dp2[u] = (dp2[u] + dp2[v]) % mod;
+            }
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int u,v,w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u,v,w);
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        dijkstra(i);
+        topo(i);
+        for (int e = 1; e &lt;= m; e++) {
+            int u = edges[e].u, v = edges[e].v, w = edges[e].w;
+            if (dis[v] == dis[u] + w) {
+                ans[e] = (ans[e] + dp1[u] * dp2[v] % mod) % mod;
+            }
+        }
+    }
+    for (int e = 1; e &lt;= m; e++) {
+        cout &lt;&lt; ans[e] &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://www.noobdream.com/post/1216/">https://www.noobdream.com/post/1216/</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-12-30 18:15:28 &#43;0800 &#43;0800">2021-12-30</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/60b4f051911f045c8a33992809df12c6186c19a4" title="init 061,062,03" target="_blank">(60b4f05)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/061-%e6%9c%80%e7%9f%ad%e8%b7%af%e5%be%84%e6%a0%91.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E6%A0%91/">最短路径树</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/062-%E5%B9%B6%E6%9F%A5%E9%9B%86/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">并查集</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/060-%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">
+            <span class="next-text nav-default">最小生成树</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

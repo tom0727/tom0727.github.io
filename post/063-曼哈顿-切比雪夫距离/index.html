@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>曼哈顿距离 和 切比雪夫距离 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="曼哈顿距离 定义两个点 $A(x_1,y_1), B(x_2,y_2)$，则 $A,B$ 之间的曼哈顿距离为： $$d(A,B) = |x_1 - x_2| &#43; |y_1 - y_2|$$ 曼哈顿距离的性质： 对称性：$d(A,B) = d(B,A)$ 三角形不" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/063-%E6%9B%BC%E5%93%88%E9%A1%BF-%E5%88%87%E6%AF%94%E9%9B%AA%E5%A4%AB%E8%B7%9D%E7%A6%BB/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.8876c8d1563af17bab528692ce76dcb006603e63da3a61f9134e1c17d911f5e2.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="曼哈顿距离 和 切比雪夫距离" />
+<meta property="og:description" content="曼哈顿距离 定义两个点 $A(x_1,y_1), B(x_2,y_2)$，则 $A,B$ 之间的曼哈顿距离为： $$d(A,B) = |x_1 - x_2| &#43; |y_1 - y_2|$$ 曼哈顿距离的性质： 对称性：$d(A,B) = d(B,A)$ 三角形不" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/063-%E6%9B%BC%E5%93%88%E9%A1%BF-%E5%88%87%E6%AF%94%E9%9B%AA%E5%A4%AB%E8%B7%9D%E7%A6%BB/" />
+<meta property="article:published_time" content="2021-12-29T19:14:56+08:00" />
+<meta property="article:modified_time" content="2021-12-30T18:15:28+08:00" />
+<meta itemprop="name" content="曼哈顿距离 和 切比雪夫距离">
+<meta itemprop="description" content="曼哈顿距离 定义两个点 $A(x_1,y_1), B(x_2,y_2)$，则 $A,B$ 之间的曼哈顿距离为： $$d(A,B) = |x_1 - x_2| &#43; |y_1 - y_2|$$ 曼哈顿距离的性质： 对称性：$d(A,B) = d(B,A)$ 三角形不">
+<meta itemprop="datePublished" content="2021-12-29T19:14:56&#43;08:00" />
+<meta itemprop="dateModified" content="2021-12-30T18:15:28&#43;08:00" />
+<meta itemprop="wordCount" content="3323">
+
+
+
+<meta itemprop="keywords" content="曼哈顿距离,切比雪夫距离," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="曼哈顿距离 和 切比雪夫距离"/>
+<meta name="twitter:description" content="曼哈顿距离 定义两个点 $A(x_1,y_1), B(x_2,y_2)$，则 $A,B$ 之间的曼哈顿距离为： $$d(A,B) = |x_1 - x_2| &#43; |y_1 - y_2|$$ 曼哈顿距离的性质： 对称性：$d(A,B) = d(B,A)$ 三角形不"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">曼哈顿距离 和 切比雪夫距离</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2021-12-29 19:14:56 &#43;0800 &#43;0800"> 2021-12-29 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#曼哈顿距离">曼哈顿距离</a></li>
+        <li><a href="#切比雪夫距离">切比雪夫距离</a></li>
+        <li><a href="#曼哈顿距离-转-切比雪夫距离">曼哈顿距离 转 切比雪夫距离</a></li>
+        <li><a href="#切比雪夫距离-转-曼哈顿距离">切比雪夫距离 转 曼哈顿距离</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p2906-usaco08opencow-neighborhoods-ghttpswwwluogucomcnproblemp2906">例1 <a href="https://www.luogu.com.cn/problem/P2906">洛谷P2906 [USACO08OPEN]Cow Neighborhoods G</a></a></li>
+            <li><a href="#例2-洛谷p3964-tjoi2013松鼠聚会httpswwwluogucomcnproblemp3964">例2 <a href="https://www.luogu.com.cn/problem/P3964">洛谷P3964 [TJOI2013]松鼠聚会</a></a></li>
+            <li><a href="#例3-洛谷p4648-ioi2007-pairs-动物对数httpswwwluogucomcnproblemp4648">例3 <a href="https://www.luogu.com.cn/problem/P4648">洛谷P4648 [IOI2007] pairs 动物对数</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="曼哈顿距离">曼哈顿距离</h2>
+<p>定义两个点 $A(x_1,y_1), B(x_2,y_2)$，则 $A,B$ 之间的曼哈顿距离为：</p>
+<p>$$d(A,B) = |x_1 - x_2| + |y_1 - y_2|$$</p>
+<p>曼哈顿距离的性质：</p>
+<ol>
+<li>对称性：$d(A,B) = d(B,A)$</li>
+<li>三角形不等式：$d(A,C) \leq d(A,B) + d(B,C)$</li>
+</ol>
+<p>曼哈顿距离的应用场景：</p>
+<ol>
+<li>单位网格图上，只能往 <strong>上下左右</strong> $4$ 个方向走，那么网格图上两点之间的距离为 曼哈顿距离。</li>
+<li>国际象棋棋盘上，车从一个格子走到另外一个格子就是曼哈顿距离。</li>
+</ol>
+<p>距离原点的曼哈顿距离为 $1$ 组成的点：</p>
+<div class='center'>
+<p><img src="/images/063/1.png" alt="img"></p>
+</div>
+<h2 id="切比雪夫距离">切比雪夫距离</h2>
+<p>定义两个点 $A(x_1,y_1), B(x_2,y_2)$，则 $A,B$ 之间的切比雪夫距离为：</p>
+<p>$$d(A,B) = \max \{|x_1 - x_2|,|y_1 - y_2|\}$$</p>
+<ol>
+<li>单位网格图上，可以 <strong>上下左右</strong>，也可以 <strong>斜着</strong>，共往 $8$ 个方向走，那么网格图上两点之间的距离为 切比雪夫距离。</li>
+<li>国际象棋棋盘上，王从一个格子走到另外一个格子就是切比雪夫距离。</li>
+</ol>
+<p>由于可以互相转化，所以切比雪夫距离也遵循曼哈顿距离的性质。</p>
+<p>距离原点的切比雪夫距离为 $1$ 组成的点：</p>
+<div class='center'>
+<p><img src="/images/063/2.png" alt="img"></p>
+</div>
+<h2 id="曼哈顿距离-转-切比雪夫距离">曼哈顿距离 转 切比雪夫距离</h2>
+<p>对于曼哈顿坐标系中的所有点 $(x,y)$，我们都把它转到切比雪夫坐标系中，得到 $(x+y,x-y)$。</p>
+<p>$$(x,y) \rightarrow (x+y,x-y)$$</p>
+<p>那么，曼哈顿坐标系中的 <strong>曼哈顿距离</strong> 等于 切比雪夫坐标系中的 <strong>切比雪夫距离</strong>。</p>
+<p>• 证明：略，大概就是将坐标系中的单位正方形进行转化即可。</p>
+<h2 id="切比雪夫距离-转-曼哈顿距离">切比雪夫距离 转 曼哈顿距离</h2>
+<p>对于切比雪夫坐标系中的所有点 $(x,y)$，我们都把它转到曼哈顿坐标系中，得到 $(\frac{x+y}{2},\frac{x-y}{2})$。</p>
+<p>$$(x,y) \rightarrow (\frac{x+y}{2},\frac{x-y}{2})$$</p>
+<p>那么，切比雪夫坐标系中的 <strong>切比雪夫距离</strong>  等于 曼哈顿坐标系中的 <strong>曼哈顿距离</strong>。</p>
+<p>• 证明：使用上面的逆变换，即可得到答案。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p2906-usaco08opencow-neighborhoods-ghttpswwwluogucomcnproblemp2906">例1 <a href="https://www.luogu.com.cn/problem/P2906" target="_blank">洛谷P2906 [USACO08OPEN]Cow Neighborhoods G</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>在二维平面上 给定 $n$ 个奶牛的整数坐标 $(x_i,y_i)$，给定正整数 $C$，若满足以下两个条件之一，则我们定义两个奶牛 $i,j$ 为一个群：</p>
+<ol>
+<li>$i,j$ 之间的曼哈顿距离 $\leq C$。</li>
+<li>存在奶牛 $k$，使得 $i,k$ 和 $k,j$ 为一个群。</li>
+</ol>
+<p>求牛群数量，并求出最大的牛群大小。</p>
+<p>其中，$n \leq 10^5, C,x_i,x_j \in [1,10^9]$</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>很明显是并查集，现在我们要观察怎么并。</p>
+<p>可以发现，本题主要的难点就在于如何减少并查集合并数量。所以我们在 sort 以后就要想办法如何使用最少的合并次数，达到答案？</p>
+<p>首先，我们把曼哈顿距离转为切比雪夫距离。经过变换以后，可得到 $(x_i&rsquo;,y_i&rsquo;) = (x_i+y_i,x_i-y_i)$。</p>
+<p>然后，我们知道对于两个限制的常用套路是 <strong>分开讨论</strong>。</p>
+<p>我们根据 $x$ 坐标先 sort 一下所有的点，然后从 $1$ 枚举到 $n$。</p>
+<p>当我们位于第 $i$ 个点时，我们可以利用滑动窗口知道有哪些点是 $i$ 可以合并到的。（保证 $|x_j - x_i| \leq C$ 即可，其中 $j\in [1,i]$）。</p>
+<p>然后在这个滑动窗口内，我们只要找出 $\geq y_i$ 的第一个 $y_{j_1}$ 和 $\leq y_i$ 的第一个 $y_{j_2}$，然后合并 $(i,j_1)$ 和 $(i,j_2)$ 即可。</p>
+<p>• 为什么只需要合并这两个元素呢？</p>
+<p>证：考虑我们最终合并出来的结果，是一个个联通块。那么对于联通块内的一个 $(x_i,y_i)$，它必然通过上述过程与 $\geq y_i$ 的第一个 $y_{j_1}$ 和 $\leq y_i$ 的第一个 $y_{j_2}$ 所合并了。</p>
+<p>最后，我们用 <code>set</code> 来维护这个滑动窗口并且找出 $y_{j_1}$ 和 $y_{j_2}$ 即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+int n,par[maxn],sz[maxn];
+ll c;
+struct Node {
+    int id;
+    ll x,y;
+    bool operator&lt;(const Node&amp; other) const {
+        if (y == other.y) return x &lt; other.x;
+        return y &lt; other.y;
+    }
+} arr[maxn];
+int finds(int u) {
+    if (par[u] == u) return u;
+    return par[u] = finds(par[u]);
+}
+void unions(int u, int v) {
+    u = finds(u), v = finds(v);
+    if (u == v) return;
+    par[v] = u;
+}
+set&lt;Node&gt; s;
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; c;
+    for (int i = 1; i &lt;= n; i++) {
+        int x,y; cin &gt;&gt; x &gt;&gt; y;
+        arr[i].x = x + y;
+        arr[i].y = x - y;
+    }
+    sort(arr+1, arr+n+1, [](auto a, auto b) { return a.x &lt; b.x; });
+    for (int i = 1; i &lt;= n; i++) par[i] = i, arr[i].id = i;
+
+    int l = 1;
+    s.insert(arr[1]);
+    for (int r = 2; r &lt;= n; r++) {
+        while (arr[r].x - arr[l].x &gt; c) {
+            s.erase(arr[l]);
+            l++;
+        }
+        // 找第一个 &lt;= y 的
+        auto p = s.upper_bound({0,0,arr[r].y});
+        if (p != s.begin()) {
+            if (abs(prev(p)-&gt;y - arr[r].y) &lt;= c)
+                unions(arr[r].id, prev(p)-&gt;id);
+        }
+        // 找第一个 &gt;= y 的
+        p = s.lower_bound({0,0,arr[r].y});
+        if (p != s.end()) {
+            if (abs(p-&gt;y - arr[r].y) &lt;= c)
+                unions(arr[r].id, p-&gt;id);
+        }
+        s.insert(arr[r]);
+    }
+    int mx = 0, cnt = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        int u = finds(i);
+        sz[u]++;
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        if (sz[i]) cnt++, mx = max(sz[i], mx);
+    }
+    cout &lt;&lt; cnt &lt;&lt; &quot; &quot; &lt;&lt; mx &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例2-洛谷p3964-tjoi2013松鼠聚会httpswwwluogucomcnproblemp3964">例2 <a href="https://www.luogu.com.cn/problem/P3964" target="_blank">洛谷P3964 [TJOI2013]松鼠聚会</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>二维平面上给定 $n$ 个点 $(x_i,y_i)$，每个点到它周围的 $8$ 个点</p>
+<p>$$(x−1,y),(x+1,y),(x,y-1),(x,y+1),(x-1,y+1)(x-1,y-1), (x+1,y+1), (x+1,y-1)$$</p>
+<p>距离均为 $1$。</p>
+<p>求一个点，使得它到其他所有的点的距离和最小，求这个最小和。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>这实际上就是切比雪夫距离。</p>
+<p>问题变成平面上求一个点，使得它到其他点的切比雪夫距离之和最小。</p>
+<p>这个问题不好求，不如转化成曼哈顿距离。</p>
+<p>$$(x,y) \rightarrow (\frac{x+y}{2},\frac{x-y}{2})$$</p>
+<p>为了防止小数的问题，我们把所有坐标乘上 $2$，最后答案除以 $2$ 即可。</p>
+<p>转化以后就变成求一个点，使得它到其他点的曼哈顿距离之和最小。</p>
+<p>这就好做了，因为曼哈顿距离的 $x,y$ 坐标贡献是独立的，互不影响。</p>
+<p>所以先根据 $x$ 坐标 sort 一下所有点，用前缀和即可得到每个点到其他点曼哈顿距离的 $x$ 坐标上的贡献。</p>
+<p>再根据 $y$ 坐标 sort 一下，用前缀和即可得到每个点到其他点曼哈顿距离的 $y$ 坐标上的贡献。</p>
+<p>把两个贡献加起来即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+int n;
+struct Node {
+    int id;
+    ll x,y;
+} arr[maxn];
+ll pre[maxn], suf[maxn], sumx[maxn], sumy[maxn];
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        ll x,y; cin &gt;&gt; x &gt;&gt; y;
+        arr[i].x = x + y;
+        arr[i].y = x - y;
+        arr[i].id = i;
+    }
+    sort(arr+1, arr+n+1, [](auto a, auto b) {
+        return a.x &lt; b.x;
+    });
+    for (int i = 1; i &lt;= n; i++) pre[i] = pre[i-1] + arr[i].x;
+    for (int i = n; i &gt;= 1; i--) suf[i] = suf[i+1] + arr[i].x;
+    for (int i = 1; i &lt;= n; i++) {
+        int id = arr[i].id;
+        sumx[id] = (ll)(i) * arr[i].x - pre[i] + suf[i] - (ll)(n-i+1) * arr[i].x;
+    }
+
+    sort(arr+1, arr+n+1, [](auto a, auto b) {
+        return a.y &lt; b.y;
+    });
+    for (int i = 1; i &lt;= n; i++) pre[i] = pre[i-1] + arr[i].y;
+    for (int i = n; i &gt;= 1; i--) suf[i] = suf[i+1] + arr[i].y;
+    for (int i = 1; i &lt;= n; i++) {
+        int id = arr[i].id;
+        sumy[id] = (ll)(i) * arr[i].y - pre[i] + suf[i] - (ll)(n-i+1) * arr[i].y;
+    }
+    ll mn = 1e18;
+    for (int i = 1; i &lt;= n; i++) {
+        mn = min(mn, sumx[i] + sumy[i]);
+    }
+    cout &lt;&lt; mn / 2 &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例3-洛谷p4648-ioi2007-pairs-动物对数httpswwwluogucomcnproblemp4648">例3 <a href="https://www.luogu.com.cn/problem/P4648" target="_blank">洛谷P4648 [IOI2007] pairs 动物对数</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $4$ 个正整数，$B,N,D,M$。</p>
+<p>在 $B$ 维空间中，有 $N$ 个点，定义两个点之间的距离为他们的曼哈顿距离，并且它们的坐标大小都在 $[1,M]$ 中。</p>
+<p>求距离 $\leq D$ 的点对数量？</p>
+<p>规定：</p>
+<p>$B \in [1,3], N \in [1,10^5], D \in [1, 10^9]$。</p>
+<p>当 $B = 1$ 时，$M \leq 7.5 \times 10^8$。</p>
+<p>当 $B = 2$ 时，$M \leq 7.5 \times 10^4$。</p>
+<p>当 $B = 3$ 时，$M \leq 75$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>$B=1$：</p>
+<p>直接 sort 一下，然后滑动窗口即可。</p>
+<hr>
+<p>$B=2$：</p>
+<p>曼哈顿距离转一下切比雪夫距离，然后老套路，按照 $x$ 坐标 <code>sort</code> 一下，接着从 $1$ 枚举到 $n$。</p>
+<p>设我们现在到第 $i$ 个元素了，那么我们就可以维护一个滑动窗口保证窗口内的所有元素 $j$ 都满足 $x_i-x_j \leq D$。</p>
+<p>接着我们只需要查询这个窗口内，有多少个元素满足 $y_j \in [x_i-D, x_i+D]$ 即可。</p>
+<p>那么这个开一个权值线段树维护一下就行了，值域在 $[1, 1.5 \times 10^5]$。</p>
+<p>• 注意一下转切比雪夫距离之后，$y$ 坐标有可能有负数，那么就把所有点的 $y$ 坐标都加上 $M$，这样 $y_i \in [1, 2M]$了。</p>
+<hr>
+<p>$B=3$：</p>
+<p>老套路，仍然是按照 $x$ 坐标先 sort 一下。</p>
+<p>然后我们把点按照 $x$ 坐标分类，所以每个 $x$ 坐标对应的就是一个二维平面。由于 $M \leq 75$，所以这样的二维平面只有 $75$ 个。</p>
+<p>然后我们枚举每个点，对于每个点 $i$，都在每一个二维平面 $j$ 上询问一下这个平面上有多少点到它的曼哈顿距离为 $d$，其中</p>
+<p>$$d = D - |x_i - x_j|$$</p>
+<p>这个询问的过程，完全是一个二维平面上的问题。</p>
+<p>我们再将曼哈顿距离转成切比雪夫距离。</p>
+<p>注意到，在二维平面上，距离一个点的切比雪夫 $\leq d$ 的点形成的实际上是一个正方形。</p>
+<p>所以这就变成了一个查询二维平面上，一个正方形内点的数量有多少了。</p>
+<p>于是用二维前缀和就可以 $O(1)$ 查询。</p>
+<p>• 最后要记得把答案减去 $n$，因为每个点都会把自己算一次。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+int B, n;
+ll D, M;
+void solve1() {
+    int a[maxn];
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; a[i];
+    }
+    sort(a+1, a+n+1);
+    int l = 1;
+    ll ans = 0;
+    for (int r = 1; r &lt;= n; r++) {
+        while (a[r] - a[l] &gt; D) l++;
+        ans += (ll)(r-l);
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+int id = 0;
+void update(int* sum, int cur, int l, int r, int p, int x) {
+    sum[cur] += x;
+    if (l == r) {
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    if (p &lt;= mid) update(sum, cur&lt;&lt;1, l, mid, p, x);
+    if (p &gt; mid) update(sum, cur&lt;&lt;1|1, mid+1, r, p, x);
+}
+
+int query(int* sum, int cur, int l, int r, int L, int R) {
+    if (L &lt;= l &amp;&amp; R &gt;= r) return sum[cur];
+    int mid = (l+r) &gt;&gt; 1;
+    int res = 0;
+    if (L &lt;= mid) res += query(sum, cur&lt;&lt;1, l, mid, L, R);
+    if (R &gt; mid) res += query(sum, cur&lt;&lt;1|1, mid+1, r, L, R);
+    return res;
+}
+
+void solve2() {
+    int sum[(M+100)&lt;&lt;3];
+    memset(sum, 0, sizeof(sum));
+    pii arr[maxn];
+    for (int i = 1; i &lt;= n; i++) {
+        int x,y; cin &gt;&gt; x &gt;&gt; y;
+        arr[i].first = x + y;
+        arr[i].second = x - y + M;  // 移动 M 格
+    }
+    sort(arr+1, arr+n+1);
+    ll ans = 0;
+    int l = 1;
+    for (int r = 1; r &lt;= n; r++) {
+        while (arr[r].first - arr[l].first &gt; D) {
+            update(sum, 1, 1, 2 * M, arr[l].second, -1);
+            l++;
+        }
+        ans += (ll)(query(sum, 1, 1, 2 * M, max(1LL, arr[r].second - D), min(2 * M, arr[r].second + D)));
+        update(sum, 1, 1, 2 * M, arr[r].second, 1);
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+void solve3() {
+    const int MM = 77;
+    vector&lt;pii&gt; arr[MM];
+    int sum[MM][MM*2][MM*2];
+    memset(sum, 0, sizeof(sum));
+    for (int i = 1; i &lt;= n; i++) {
+        int x,y,z; cin &gt;&gt; x &gt;&gt; y &gt;&gt; z;
+        arr[x].push_back({y+z, y-z+M});
+        sum[x][y+z][y-z+M]++;
+    }
+    ll ans = -n;
+
+    for (int i = 1; i &lt;= M; i++) {
+        for (int j = 1; j &lt;= 2 * M; j++) {
+            for (int k = 1; k &lt;= 2 * M; k++) {
+                sum[i][j][k] += sum[i][j-1][k] + sum[i][j][k-1] - sum[i][j-1][k-1];
+            }
+        }
+    }
+    
+    for (int ii = 1; ii &lt;= M; ii++) {
+        for (pii a : arr[ii]) {
+            ll x = a.first, y = a.second;
+            for (int i = 1; i &lt;= M; i++) {
+                ll d = D - abs(i - ii);  // 只考虑 y,z 内的距离
+                if (d &gt;= 0) {
+                    int x1 = min(2*M, x + d), y1 = min(2*M, y + d);
+                    int x2 = max(1LL, x - d) - 1, y2 = min(2*M, y + d);
+                    int x3 = max(1LL, x - d) - 1, y3 = max(1LL, y - d) - 1;
+                    int x4 = min(2*M, x + d), y4 = max(1LL, y - d) - 1;
+                    ans += (ll)(sum[i][x1][y1] - sum[i][x2][y2] - sum[i][x4][y4] + sum[i][x3][y3]);
+                }
+            }
+        }
+    }
+
+    cout &lt;&lt; ans/2 &lt;&lt; &quot;\n&quot;;
+}
+
+int main() {
+    cin &gt;&gt; B &gt;&gt; n &gt;&gt; D &gt;&gt; M;
+    if (B == 1) solve1();
+    if (B == 2) solve2();
+    if (B == 3) solve3();
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2021-12-30 18:15:28 &#43;0800 &#43;0800">2021-12-30</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/60b4f051911f045c8a33992809df12c6186c19a4" title="init 061,062,03" target="_blank">(60b4f05)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/063-%e6%9b%bc%e5%93%88%e9%a1%bf-%e5%88%87%e6%af%94%e9%9b%aa%e5%a4%ab%e8%b7%9d%e7%a6%bb.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%9B%BC%E5%93%88%E9%A1%BF%E8%B7%9D%E7%A6%BB/">曼哈顿距离</a>
+          <a href="/tags/%E5%88%87%E6%AF%94%E9%9B%AA%E5%A4%AB%E8%B7%9D%E7%A6%BB/">切比雪夫距离</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/062-%E5%B9%B6%E6%9F%A5%E9%9B%86/">
+            <span class="next-text nav-default">并查集</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

@@ -29,8 +29,8 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--path", type=pathlib.Path)  # path for the image
-    parser.add_argument("--dir", type=str)  # path for images dir
+    parser.add_argument("path", type=pathlib.Path)  # path for the image
+    parser.add_argument("dir", type=str)  # path for images dir
     args = parser.parse_args()
 
     main(args)

@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="模版 多项式全家桶 const int mod = 998244353; const int maxn = (1&amp;lt;&amp;lt;22) &#43; 5; struct NTT { const ll g = 3, invg = inv(g); // mod = 998244353 inline ll qpow(ll a, ll b) { ll res = 1; while (b) { if (b &amp;amp; 1) res = res * a % mod; a = a * a % mod; b &amp;gt;&amp;gt;= 1;" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="模版 多项式全家桶（其他人的，很快） using ll = long long; using i128 = __int128_t; using ull = unsigned long long; using ld = long double; using vi = vector&amp;lt;int&amp;gt;; using pii = pair&amp;lt;int, int&amp;gt;; #define _fore(i, a) for (ll i = head[(a)]; i; i = edge[i].nxt) #define _dbg(...) 1 #define dbg(x) 1 ll rr() { ll s =" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -35,27 +35,27 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.8876c8d1563af17bab528692ce76dcb006603e63da3a61f9134e1c17d911f5e2.css" rel="stylesheet">
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="多项式全家桶" />
-<meta property="og:description" content="模版 多项式全家桶 const int mod = 998244353; const int maxn = (1&lt;&lt;22) &#43; 5; struct NTT { const ll g = 3, invg = inv(g); // mod = 998244353 inline ll qpow(ll a, ll b) { ll res = 1; while (b) { if (b &amp; 1) res = res * a % mod; a = a * a % mod; b &gt;&gt;= 1;" />
+<meta property="og:description" content="模版 多项式全家桶（其他人的，很快） using ll = long long; using i128 = __int128_t; using ull = unsigned long long; using ld = long double; using vi = vector&lt;int&gt;; using pii = pair&lt;int, int&gt;; #define _fore(i, a) for (ll i = head[(a)]; i; i = edge[i].nxt) #define _dbg(...) 1 #define dbg(x) 1 ll rr() { ll s =" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/053-polynomial/" />
 <meta property="article:published_time" content="2021-09-21T20:09:39+08:00" />
-<meta property="article:modified_time" content="2022-01-16T00:21:18+00:00" />
+<meta property="article:modified_time" content="2022-01-17T15:21:17+08:00" />
 <meta itemprop="name" content="多项式全家桶">
-<meta itemprop="description" content="模版 多项式全家桶 const int mod = 998244353; const int maxn = (1&lt;&lt;22) &#43; 5; struct NTT { const ll g = 3, invg = inv(g); // mod = 998244353 inline ll qpow(ll a, ll b) { ll res = 1; while (b) { if (b &amp; 1) res = res * a % mod; a = a * a % mod; b &gt;&gt;= 1;">
+<meta itemprop="description" content="模版 多项式全家桶（其他人的，很快） using ll = long long; using i128 = __int128_t; using ull = unsigned long long; using ld = long double; using vi = vector&lt;int&gt;; using pii = pair&lt;int, int&gt;; #define _fore(i, a) for (ll i = head[(a)]; i; i = edge[i].nxt) #define _dbg(...) 1 #define dbg(x) 1 ll rr() { ll s =">
 <meta itemprop="datePublished" content="2021-09-21T20:09:39&#43;08:00" />
-<meta itemprop="dateModified" content="2022-01-16T00:21:18&#43;00:00" />
-<meta itemprop="wordCount" content="2892">
+<meta itemprop="dateModified" content="2022-01-17T15:21:17&#43;08:00" />
+<meta itemprop="wordCount" content="5162">
 
 
 
 <meta itemprop="keywords" content="多项式,," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="多项式全家桶"/>
-<meta name="twitter:description" content="模版 多项式全家桶 const int mod = 998244353; const int maxn = (1&lt;&lt;22) &#43; 5; struct NTT { const ll g = 3, invg = inv(g); // mod = 998244353 inline ll qpow(ll a, ll b) { ll res = 1; while (b) { if (b &amp; 1) res = res * a % mod; a = a * a % mod; b &gt;&gt;= 1;"/>
+<meta name="twitter:description" content="模版 多项式全家桶（其他人的，很快） using ll = long long; using i128 = __int128_t; using ull = unsigned long long; using ld = long double; using vi = vector&lt;int&gt;; using pii = pair&lt;int, int&gt;; #define _fore(i, a) for (ll i = head[(a)]; i; i = edge[i].nxt) #define _dbg(...) 1 #define dbg(x) 1 ll rr() { ll s ="/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -161,6 +161,7 @@
         </li>
         <li><a href="#多项式除法">多项式除法</a></li>
         <li><a href="#多项式开根">多项式开根</a></li>
+        <li><a href="#多项式快速幂">多项式快速幂</a></li>
         <li><a href="#注意事项">注意事项</a></li>
         <li><a href="#参考链接">参考链接</a></li>
       </ul>
@@ -171,7 +172,517 @@
 </div>
     <div class="post-content">
       <h2 id="模版">模版</h2>
-<details class="admonition note"><summary class="admonition-title">多项式全家桶</summary>
+<details class="admonition note"><summary class="admonition-title">多项式全家桶（其他人的，很快）</summary>
+<pre><code class="language-cpp">using ll = long long;
+using i128 = __int128_t;
+using ull = unsigned long long;
+using ld = long double;
+using vi = vector&lt;int&gt;;
+using pii = pair&lt;int, int&gt;;
+
+#define _fore(i, a) for (ll i = head[(a)]; i; i = edge[i].nxt)
+#define _dbg(...) 1
+#define dbg(x) 1
+
+ll rr() {
+    ll s = 0, w = 1;
+    char c = getchar();
+    while (!isdigit(c))
+        w = 1 - 2 * (c == '-'), c = getchar();
+    while (isdigit(c))
+        s = s * 10 + c - '0', c = getchar();
+    return s * w;
+}
+
+// END OF HEADER
+
+#define ACM_MOD 998244353
+const int P = ACM_MOD;
+
+#ifdef ACM_MOD
+int qpow(ll a, ll b = ACM_MOD - 2, ll m = ACM_MOD) {
+#else
+int qpow(ll a, ll b, ll m) {
+#endif
+    ll ret = m != 1;
+    for (; b; b &gt;&gt;= 1) {
+        if (b &amp; 1)
+            ret = ret * a % m;
+        a = a * a % m;
+    }
+    return ret;
+}
+
+template &lt;typename T&gt; T tpow(T a, ll b) {
+    T ret;
+    for (; b; b &gt;&gt;= 1) {
+        if (b &amp; 1)
+            ret = ret * a;
+        a = a * a;
+    }
+    return ret;
+}
+
+#define ACM_MATH_CIPOLLA_H
+
+namespace Qresidue {
+ll legendre(ll a, ll p) {
+    return qpow(a, (p - 1) / 2, p);
+}
+
+ll find_a(ll n, ll p) {
+    for (ll a = 0; a &lt; p; a++) {
+        ll i = (a * a - n + p) % p;
+        if (qpow(i, (p - 1) / 2, p) == p - 1)
+            return a;
+    }
+    return -1;
+}
+
+ll P, I;
+struct expnum {
+    ll a = 1, b = 0;
+};
+expnum operator*(expnum i1, expnum i2) {
+    return expnum{(i1.a * i2.a + i1.b * i2.b % P * I) % P, (i1.b * i2.a + i1.a * i2.b) % P};
+}
+
+std::pair&lt;int, int&gt; Cipolla(ll n, ll _p) {
+    P = _p;
+    if (n % P == 0) // 不互质的情形
+        return {0, 0};
+    if (legendre(n, P) != 1)
+        return {-1, -1}; // 返回-1表示无解
+    ll a = find_a(n, P);
+    I = (a * a - n + P) % P;
+    ll ans = tpow(expnum{a, 1}, (P + 1) / 2).a % P;
+    if (2 * ans &gt; P)
+        ans = P - ans;
+    return {ans, P - ans};
+}
+}; // namespace Qresidue
+
+std::pair&lt;int, int&gt; Cipolla(ll n, ll p) {
+    return Qresidue::Cipolla(n, p);
+}
+
+inline int mo(int n) {
+    return n &gt;= P ? n - P : n;
+}
+
+inline int &amp;momo(int &amp;n) {
+    return n &gt;= P ? n -= P : n;
+}
+
+struct m32 {
+    int v = 0;
+    m32(int _v = 0) {
+        v = _v;
+    }
+    m32 &amp;operator=(const int &amp;m) {
+        v = m;
+        return *this;
+    }
+    m32 &amp;operator+=(const m32 &amp;m) {
+        v = (v += m.v) &gt;= P ? v - P : v;
+        return *this;
+    }
+    m32 &amp;operator-=(const m32 &amp;m) {
+        v = (v -= m.v) &lt; 0 ? v + P : v;
+        return *this;
+    }
+    m32 operator-() const {
+        return v == 0 ? 0 : P - v;
+    }
+    m32 &amp;operator*=(const m32 &amp;m) {
+        v = ll(v) * m.v % P;
+        return *this;
+    }
+    m32 operator+(const m32 &amp;m) const {
+        return m32(*this) += m;
+    }
+    m32 operator-(const m32 &amp;m) const {
+        return m32(*this) -= m;
+    }
+    m32 operator*(const m32 &amp;m) const {
+        return m32(*this) *= m;
+    }
+    m32 inv() const {
+        return qpow(v);
+    }
+    m32 pow(int n) const {
+        return qpow(v, n, P);
+    }
+    m32 sqrt() const {
+#ifdef ACM_MATH_CIPOLLA_H
+        return Cipolla(v, P).first;
+#else
+        return 1;
+#endif
+    }
+};
+
+inline int get_lim(int n) {
+    int m = 1;
+    while (m &lt; n)
+        m *= 2;
+    return m;
+}
+
+struct Poly : std::vector&lt;m32&gt; {
+    using vector::vector;
+    bool isNTT = false;
+    Poly(Poly::const_iterator pi, int len) : Poly(pi, pi + len) {
+    }
+    Poly rev() const {
+        return Poly(rbegin(), rend());
+    }
+    int deg() const {
+        return size();
+    }
+    Poly cut(int m) const {
+        return Poly(begin(), begin() + min(deg(), m));
+    }
+    Poly &amp;resize(int m) {
+        vector::resize(m);
+        return *this;
+    }
+    Poly &amp;fillZeroL(int t) {
+        fill_n(begin(), t / 2, 0);
+        return *this;
+    }
+    Poly &amp;fillZeroH(int t) {
+        fill_n(begin() + t / 2, t / 2, 0);
+        return *this;
+    }
+    friend Poly operator+(Poly f, Poly g);
+    friend Poly operator-(Poly f, Poly g);
+    friend Poly operator*(Poly f, Poly g);
+    Poly &amp;ntt(int m);
+    Poly &amp;nttD(int m);
+    Poly &amp;intt(int m);
+    Poly &amp;invD(Poly f2, Poly nx, int t);
+    Poly inv() const;
+    Poly div(Poly g) const;
+    Poly deriv() const;
+    Poly integr() const;
+    Poly ln() const;
+    Poly exp() const;
+    Poly sqrt() const;
+    Poly pow(int k) const;
+    Poly mod() const;
+};
+
+Poly w, Inv;
+
+void pre_w(int n, int w0 = 3) {
+    static int lim = (w = {1, 1}, 2);
+    n = get_lim(n);
+    if (n &lt;= lim)
+        return;
+    w.resize(n);
+    for (int l = lim; l &lt; n; l *= 2) {
+        m32 p = m32(w0).pow((P - 1) / l / 2);
+        for (int i = 0; i &lt; l; i += 2) {
+            w[(l + i)] = w[(l + i) / 2];
+            w[l + i + 1] = w[l + i] * p;
+        }
+    }
+    lim = n;
+}
+
+void pre_inv(int n) {
+    static int LIM = (Inv = {1, 1}, 2);
+    if (n &lt;= LIM)
+        return;
+    Inv.resize(n);
+    for (int i = LIM; i &lt; n; i++) {
+        Inv[i] = Inv[P % i] * (P - P / i);
+    }
+    LIM = n;
+}
+
+static int ntt_size = 0;
+
+void ntt(Poly::iterator f, int deg) {
+    pre_w(deg);
+    ntt_size += deg;
+    for (int l = deg &gt;&gt; 1; l; l &gt;&gt;= 1)
+        for (auto fi = f; fi - f &lt; deg; fi += l * 2)
+            for (int j = 0; j &lt; l; j++) {
+                auto x = fi[j] + fi[j + l];
+                fi[j + l] = w[j + l] * (fi[j] - fi[j + l]);
+                fi[j] = x;
+            }
+}
+
+void intt(Poly::iterator f, int deg) {
+    ntt_size += deg;
+    for (int l = 1; l &lt; deg; l &lt;&lt;= 1)
+        for (auto fi = f; fi - f &lt; deg; fi += l * 2)
+            for (int j = 0; j &lt; l; j++) {
+                auto x = fi[j], y = fi[j + l] * w[j + l];
+                fi[j] = x + y, fi[j + l] = x - y;
+            }
+    const auto deg_inv = P - (P - 1) / deg;
+    for (int i = 0; i &lt; deg; i++)
+        f[i] *= deg_inv;
+    std::reverse(f + 1, f + deg);
+}
+
+void nttD(Poly::iterator f, int n) {
+    std::copy_n(f, n, f + n);
+    intt(f + n, n);
+    for (int i = n; i &lt; n * 2; i++)
+        f[i] *= w[i];
+    ntt(f + n, n);
+}
+
+Poly &amp;Poly::ntt(int n) {
+    if (!isNTT) {
+        resize(n);
+        ::ntt(begin(), n);
+        isNTT = true;
+    }
+    return *this;
+}
+
+Poly &amp;Poly::intt(int m) {
+    ::intt(begin(), m);
+    isNTT = false;
+    return *this;
+}
+
+Poly &amp;Poly::nttD(int n) {
+    resize(n * 2);
+    ::nttD(begin(), n);
+    return *this;
+}
+
+Poly &amp;mul(Poly &amp;f, Poly &amp;g, int t) {
+    f.ntt(t), g.ntt(t);
+    for (int i = 0; i &lt; t; i++)
+        f[i] *= g[i];
+    return f.intt(t);
+}
+
+Poly operator*(Poly f, Poly g) {
+    if (f.deg() &lt; g.deg())
+        swap(f, g);
+    int t = f.deg() + g.deg() - 1;
+    return mul(f, g, get_lim(t)).cut(t);
+}
+
+Poly operator+(Poly f, Poly g) {
+    if (f.deg() &lt; g.deg())
+        std::swap(f, g);
+    for (int i = 0; i &lt; g.deg(); i++)
+        f[i] += g[i];
+    return f;
+}
+
+Poly operator-(Poly f, Poly g) {
+    for (auto &amp;i : g)
+        i = -i;
+    return std::move(f) + g;
+}
+
+m32 mulAt(const Poly f, const Poly g, int u) {
+    int n = f.deg() - 1, m = g.deg() - 1;
+    m32 ans = 0;
+    for (int i = std::max(0, u - m); i &lt;= std::min(u, n); i++)
+        ans += f[i] * g[u - i];
+    return ans;
+}
+
+struct PolySemi {
+    using iter = Poly::iterator;
+    const int B = 16;
+    int n, m;
+    Poly F, v1, v2, ret;
+    std::function&lt;void(int, m32 &amp;)&gt; relax;
+
+    void run(int l, int r, iter g, iter h) {
+        if (r - l &lt;= 64) {
+            for (int i = l; i &lt; r; ++i) {
+                relax(i, ret[i]);
+                for (int j = i + 1; j &lt; r; ++j)
+                    ret[j] += ret[i] * F[j - i];
+            }
+            return;
+        }
+        int len = (r - l) / B, k = 2 * len;
+        iter tg[B], th[B];
+        for (int i = 0; i &lt; B - 1; i++)
+            tg[i] = g + i * k, th[i] = h + i * k;
+        if (l == 0) {
+            for (int i = 0; i &lt; B - 1; i++) {
+                if ((i + 1) * len &gt;= n)
+                    break;
+                copy_n(F.begin() + i * len, k, th[i]);
+                ntt(th[i], k);
+            }
+        }
+        for (int i = 0; i &lt; B; i++) {
+            auto u = l + i * len;
+            if (u &gt;= n)
+                break;
+            Poly s(k);
+            for (int j = 0; j &lt; i; j++)
+                for (int t = 0; t &lt; k; t++)
+                    s[t] += tg[j][t] * th[i - j - 1][t];
+            s.intt(k);
+            for (int t = 0; t &lt; len; t++)
+                ret[t + u] += s[t + len];
+            run(u, u + len, g + k * B, h + k * B);
+            if (i != B - 1) {
+                copy_n(ret.begin() + u, len, tg[i]);
+                ntt(tg[i], k);
+            }
+        }
+        fill_n(g, k * B, 0);
+    }
+
+    PolySemi(Poly f) : F(f) {
+        n = F.size();
+        m = get_lim(n);
+        F.resize(m), ret.resize(m);
+        v1.resize(m * 4), v2.resize(m * 4);
+        ret[0] = 1;
+    }
+
+    Poly exp() {
+        pre_inv(m);
+        for (int i = 0; i &lt; n; i++)
+            F[i] *= i;
+        relax = [&amp;](int i, m32 &amp;ri) {
+            ret[i] = i == 0 ? 1 : ret[i] * Inv[i];
+        };
+        run(0, m, v1.begin(), v2.begin());
+        return ret.cut(n);
+    }
+
+    Poly inv() {
+        m32 iv = F[0].inv();
+        relax = [&amp;](int i, m32 &amp;ri) {
+            ri = i == 0 ? iv : -ri * iv;
+        };
+        run(0, m, v1.begin(), v2.begin());
+        return ret.cut(n);
+    }
+
+    Poly quo(Poly h) { // 注意是 h / f
+        h.resize(m);
+        m32 iv = F[0].inv();
+        relax = [&amp;](int i, m32 &amp;ri) {
+            ret[i] = i == 0 ? h[0] * iv : (h[i] - ret[i]) * iv;
+        };
+        run(0, m, v1.begin(), v2.begin());
+        return ret.cut(n);
+    }
+};
+
+Poly &amp;Poly::invD(Poly f2, Poly nx, int t) {
+    mul(f2, nx, t).fillZeroL(t); // 6E
+    mul(f2, nx, t);              // 4E
+    resize(t);
+    for (int i = t / 2; i &lt; t; i++)
+        (*this)[i] = -f2[i];
+    return *this;
+}
+
+Poly Poly::inv() const { // 10E
+    Poly x = {front().inv()};
+    if (deg() == 1)
+        return x;
+    int lim = get_lim(deg());
+    for (int t = 2; t &lt;= lim; t &lt;&lt;= 1)
+        x.invD(cut(t), x.cut(t), t);
+    return x.cut(deg());
+}
+
+Poly Poly::div(Poly g) const {
+    return PolySemi(g.resize(deg())).quo(*this);
+}
+
+Poly Poly::deriv() const {
+    Poly f(deg() - 1);
+    for (int i = 1; i &lt; deg(); i++)
+        f[i - 1] = (*this)[i] * i;
+    return f;
+}
+
+Poly Poly::integr() const {
+    Poly f(deg() + 1);
+    pre_inv(deg() + 1);
+    for (int i = deg(); i &gt; 0; --i)
+        f[i] = (*this)[i - 1] * Inv[i];
+    return f;
+}
+
+Poly Poly::ln() const {
+    return deriv().div(*this).integr();
+}
+
+Poly Poly::exp() const {
+    return PolySemi(*this).exp();
+}
+
+Poly Poly::sqrt() const { // 11E
+    Poly x = {front().sqrt()}, g = x.inv(), ng = g;
+    for (int t = 2; t &lt; deg() * 2; t &lt;&lt;= 1) {
+        const Poly &amp;h = *this;
+        Poly f = x;
+        if (t &gt;= 4) {
+            g.invD(f.ntt(t / 2), ng, t / 2); // 3E
+        }
+        mul(f, f, t / 2); // 1E
+        f.resize(t);
+        for (int i = t / 2; i &lt; std::min(h.deg(), t); i++)
+            f[i] = h[i - t / 2] + h[i] - f[i - t / 2];
+        ng = g;
+        mul(f.fillZeroL(t), ng, t); // 6E
+        x.resize(t);
+        for (int i = t / 2; i &lt; t; i++)
+            x[i] = f[i] * ((P + 1) / 2);
+    }
+    return x.cut(size());
+}
+
+Poly Poly::pow(int k) const {
+    Poly f = ln();
+    for (int i = 0; i &lt; size(); i++)
+        f[i] *= k;
+    return f.exp();
+}
+
+// 计算最大连续 &lt;= k 的情况数
+// f(x) = 1+x+x^2+...+x^k
+m32 cal(ll n, ll m, ll k) {
+    if (k &gt; m || m &gt; n) return 0;
+    if (k == 0) return (m == 0);
+	Poly f(1e5+5, 0);
+    n = n - m + 1;
+    for (int i = 0; i &lt;= k; i++) f[i] = 1;
+	f = f.pow(n);
+    return f[m];
+}
+
+ll n,m,k;
+int main() {
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;
+	if (k == 0) {
+		if (m &gt; 0) cout &lt;&lt; &quot;0\n&quot;;
+		else cout&lt;&lt;&quot;1\n&quot;;
+	}
+	else if(m&gt;n) cout&lt;&lt;&quot;0\n&quot;;
+	else cout &lt;&lt; (cal(n,m,k) - cal(n,m,k-1)).v &lt;&lt; &quot;\n&quot;;
+	cout.flush();
+	return 0;
+}
+</code></pre>
+</details>
+<details class="admonition note"><summary class="admonition-title">多项式全家桶（自用，很慢）</summary>
 <pre><code class="language-cpp">const int mod = 998244353;
 const int maxn = (1&lt;&lt;22) + 5;
 
@@ -506,6 +1017,17 @@ int main() {
 <p>• base case 为 $n=1$ 时，由于 $f_0 = 1$，直接开根得到 $g_0 = \sqrt 1 = 1$</p>
 <p>• 如果 $f_0 \neq 1$，需要 <a href="/post/055-%e4%ba%8c%e6%ac%a1%e5%89%a9%e4%bd%99"><strong>二次剩余</strong></a> 来求出 $g_0$</p>
 <p>注：有另外一种不用牛顿迭代的推导方法，可以看 <a href="https://www.luogu.com.cn/blog/Owencodeisking/solution-p5205" target="_blank">这里</a></p>
+<hr>
+<h2 id="多项式快速幂">多项式快速幂</h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个多项式 $f(x)$，和一个正整数 $k$，$deg(f) = n-1$，求 $g(x)$ 使得：</p>
+<p>$$g(x) \equiv f(x)^k ~ (\text{mod } x^{n})$$</p>
+<p>系数对 998244353 取模。保证 $f_0 = 1$，所有的系数均为非负整数。</p>
+</div>
+<p>两边取 $ln$，可得：</p>
+<p>$$\ln g(x) \equiv k \ln f(x)$$</p>
+<p>所以计算出 $k \ln f(x)$ 之后，再两边同时取多项式 exp 即可。</p>
 <h2 id="注意事项">注意事项</h2>
 <ol>
 <li>在代码中，使用 <code>ntt.ntt()</code> 时注意指定的长度是 $n$，而 <strong>不是</strong> $deg(f) = m$</li>
@@ -530,8 +1052,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-01-16 00:21:18 &#43;0000 UTC">2022-01-16</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/8c5e066ffe30b7497ac1741f2408e9e68e63ca48" title="chore: update CF Problems" target="_blank">(8c5e066)</a>
+        <span title="2022-01-17 15:21:17 &#43;0800 &#43;0800">2022-01-17</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/15d6d3e16959258d4ae97d975c47913f9d8063c2" title="add 064,065,066" target="_blank">(15d6d3e)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/053-polynomial.md" target="_blank">更新历史</a>
     </span>
   </p>

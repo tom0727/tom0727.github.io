@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>拉格朗日插值 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="拉格朗日插值 给定 $n$ 个点，我们可以确定唯一的最高 degree 为 $(n-1)$ 的多项式。 设多项式为 $f(x)$，第 $i$ 个点的坐标为 $(x_i,y_i)$，那么这个多项式" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/065-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="拉格朗日插值" />
+<meta property="og:description" content="拉格朗日插值 给定 $n$ 个点，我们可以确定唯一的最高 degree 为 $(n-1)$ 的多项式。 设多项式为 $f(x)$，第 $i$ 个点的坐标为 $(x_i,y_i)$，那么这个多项式" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/065-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/" />
+<meta property="article:published_time" content="2022-01-12T12:43:19+08:00" />
+<meta property="article:modified_time" content="2022-01-17T15:21:17+08:00" />
+<meta itemprop="name" content="拉格朗日插值">
+<meta itemprop="description" content="拉格朗日插值 给定 $n$ 个点，我们可以确定唯一的最高 degree 为 $(n-1)$ 的多项式。 设多项式为 $f(x)$，第 $i$ 个点的坐标为 $(x_i,y_i)$，那么这个多项式">
+<meta itemprop="datePublished" content="2022-01-12T12:43:19&#43;08:00" />
+<meta itemprop="dateModified" content="2022-01-17T15:21:17&#43;08:00" />
+<meta itemprop="wordCount" content="1487">
+
+
+
+<meta itemprop="keywords" content="拉格朗日插值,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="拉格朗日插值"/>
+<meta name="twitter:description" content="拉格朗日插值 给定 $n$ 个点，我们可以确定唯一的最高 degree 为 $(n-1)$ 的多项式。 设多项式为 $f(x)$，第 $i$ 个点的坐标为 $(x_i,y_i)$，那么这个多项式"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">拉格朗日插值</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-01-12 12:43:19 &#43;0800 &#43;0800"> 2022-01-12 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#拉格朗日插值">拉格朗日插值</a></li>
+        <li><a href="#x-坐标为连续整数的拉格朗日插值">$x$ 坐标为连续整数的拉格朗日插值</a></li>
+        <li><a href="#重心拉格朗日插值">重心拉格朗日插值</a></li>
+        <li><a href="#常用模型">常用模型</a>
+          <ul>
+            <li><a href="#例1-cf622f-the-sum-of-the-k-th-powershttpswwwluogucomcnproblemcf622f">例1 <a href="https://www.luogu.com.cn/problem/CF622F">CF622F The Sum of the k-th Powers</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="拉格朗日插值">拉格朗日插值</h2>
+<p>给定 $n$ 个点，我们可以确定唯一的最高 degree 为 $(n-1)$ 的多项式。</p>
+<p>设多项式为 $f(x)$，第 $i$ 个点的坐标为 $(x_i,y_i)$，那么这个多项式在 $k$ 处的取值为：</p>
+<p>$$f(k) = \sum\limits_{i=1}^ny_i \prod\limits_{i\neq j} \frac{k-x_j}{x_i-x_j}$$</p>
+<p>时间复杂度：$O(n^2)$</p>
+<details class="admonition note"><summary class="admonition-title">拉格朗日插值板子</summary>
+<pre><code class="language-cpp">const int maxn = 2005;
+
+int n;
+ll k;
+ll x[maxn], y[maxn];
+
+ll qpow(ll a, ll b) {
+    ll res = 1;
+    while (b) {
+        if (b &amp; 1)
+            res = res * a % mod;
+        a = a * a % mod;
+        b &gt;&gt;= 1;
+    }
+    return res;
+}
+
+ll solve(ll k) {
+    ll ans = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        ll nu = 1, de = 1;
+        for (int j = 1; j &lt;= n; j++) {
+            if (j == i) continue;
+            nu = nu * (k - x[j] + mod) % mod;
+            de = de * (x[i] - x[j] + mod) % mod;
+        }
+        de = qpow(de, mod-2);
+        ans = (ans + y[i] * nu % mod * de % mod) % mod;
+    }
+    return ans;
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; k;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; x[i] &gt;&gt; y[i];
+    ll ans = solve(k);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h2 id="x-坐标为连续整数的拉格朗日插值">$x$ 坐标为连续整数的拉格朗日插值</h2>
+<p>如果 $x$ 坐标是连续的整数，那么我们可以在 $O(n)$ 求出 $f(k)$。</p>
+<p>我们假设 $x_i = i$，那么：</p>
+<p>$$f(k) = \sum\limits_{i=1}^ny_i \prod\limits_{i\neq j} \frac{k-x_j}{x_i-x_j}$$</p>
+<p>可以转化为：</p>
+<p>$$f(k) = \sum\limits_{i=1}^ny_i \prod\limits_{i\neq j} \frac{k-j}{i-j}$$</p>
+<p>分类讨论 $j &lt; i$ 和 $j &gt; i$ 的情况：</p>
+<p>$$f(k) = \sum\limits_{i=1}^ny_i \prod\limits_{j=1}^{i-1} \frac{k-j}{i-j} \prod\limits_{j=i+1}^n \frac{k-j}{i-j}$$</p>
+<p>所以可得：</p>
+<p>$$f(k) = \sum\limits_{i=1}^ny_i \frac{1}{(i-1)!} (k-1)(k-2)&hellip;(k-(i-1)) \frac{1}{-1*-2*&hellip;*(-(n-i))} (k-i)(k-(i+1))&hellip;(k-n)$$</p>
+<p>化简得到：</p>
+<p>$$f(k) = \sum\limits_{i=1}^n \frac{y_i}{(-1)^{n-i} *i! * (n-i)!} \prod\limits_{j=1}^{i-1}(k-j) \prod\limits_{j=i+1}^n(k-j)$$</p>
+<p>• 注意，后面这部分<strong>不能</strong>变成 $\frac{\prod\limits_{j=1}^{n}(k-j)}{k-i}$，因为我们无法确定 $k-i \neq 0$。</p>
+<p>对于 $\prod\limits_{j=1}^{i-1}(k-j) \prod\limits_{j=i+1}^n(k-j)$，我们只要预处理出来一个前缀积和后缀积即可。</p>
+<p>所以对于每一项（每个 $i$），我们都可以 $O(1)$ 时间算出对应值，总复杂度 $O(n)$。</p>
+<h2 id="重心拉格朗日插值">重心拉格朗日插值</h2>
+<p>用于解决动态加点的问题。</p>
+<p>利用重心拉格朗日插值，每加入一个新的点，我们可以在 $O(n)$ 时间内算出新的多项式。</p>
+<p>$$f(k) = \sum\limits_{i=1}^ny_i \prod\limits_{i\neq j}^n \frac{k-x_j}{x_i-x_j}$$</p>
+<p>我们设 $g(k) = \prod\limits_{i=1}^n(k-x_i)$，则有：</p>
+<p>$$f(k) = g(k)\sum\limits_{i=1}^n \frac{1}{k-x_i} \prod\limits_{i\neq j}^n \frac{y_i}{x_i-x_j}$$</p>
+<p>设 $t_i = \frac{y_i}{\prod\limits_{j \neq i}^n (x_i-x_j)}$，则有：</p>
+<p>$$f(k) = g(k) \sum\limits_{i=1}^n \frac{t_i}{k-x_i}$$</p>
+<p>所以每次添加一个新的点 $(x_{n+1}, y_{n+1})$ 时：</p>
+<ol>
+<li>重新计算一下所有的 $t_i = t_i * \frac{1}{x_i - x_{n+1}}, i \in [1,n]$。</li>
+<li>计算 $t_{n+1}$。</li>
+<li>计算 $g(k)$。</li>
+</ol>
+<p>• 注意，在求 $f(k)$ 时需要先判断一下是否有 $k=x_i$，有的话直接返回 $y_i$。（这个特判仅需要在重心拉格朗日插值中进行）。</p>
+<details class="admonition note"><summary class="admonition-title">重心拉格朗日插值板子</summary>
+<pre><code class="language-cpp">int Q;
+ll x[maxn], y[maxn], t[maxn];
+int n;
+
+ll qpow(ll a, ll b) {
+    ll res = 1;
+
+    while (b) {
+        if (b &amp; 1)
+            res = res * a % mod;
+
+        a = a * a % mod;
+        b &gt;&gt;= 1;
+    }
+
+    return res;
+}
+
+ll solve(ll k) {
+    for (int i = 1; i &lt;= n; i++) {
+        if (x[i] == k)  // 需要特判是否 k = x[i]
+            return y[i];
+    }
+
+    ll ans = 0;
+    ll g = 1;
+    ll sum = 0;
+
+    for (int i = 1; i &lt;= n; i++) {
+        g = g * (k - x[i] + mod) % mod;
+        sum = (sum + t[i] * qpow((k - x[i] + mod) % mod, mod - 2) % mod) % mod;
+    }
+
+    ans = g * sum % mod;
+    return ans;
+}
+
+int main() {
+    cin &gt;&gt; Q;
+    while (Q--) {
+        int op; cin &gt;&gt; op;
+
+        if (op == 1) {  // 添加 (xx,yy) 的点
+            ll xx, yy;
+            cin &gt;&gt; xx &gt;&gt; yy;
+            n++;
+            x[n] = xx, y[n] = yy;
+            ll de = 1;
+            for (int j = 1; j &lt; n; j++) {
+                de = de * (x[n] - x[j] + mod) % mod;  // 更新 t[n]
+                t[j] = t[j] * qpow((x[j] - x[n] + mod) % mod, mod - 2) % mod;
+            }
+            de = qpow(de, mod - 2);
+            t[n] = y[n] * de % mod;
+        } else {
+            ll k; cin &gt;&gt; k;  // 求 f(k)
+            cout &lt;&lt; solve(k) &lt;&lt; endl;
+        }
+    }
+}
+</code></pre>
+</details>
+<h2 id="常用模型">常用模型</h2>
+<ol>
+<li>$\sum\limits_{i=1}^k i^n = 1^n+2^n+&hellip;k^n$ 是一个多项式 $f(k)$，其中 $deg(f)=n+1$（意味着需要 $n+2$ 个点进行插值）。</li>
+</ol>
+<h3 id="例1-cf622f-the-sum-of-the-k-th-powershttpswwwluogucomcnproblemcf622f">例1 <a href="https://www.luogu.com.cn/problem/CF622F" target="_blank">CF622F The Sum of the k-th Powers</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $k,n$，求：</p>
+<p>$$\sum\limits_{i=1}^k i^n = 1^n+2^n+&hellip;k^n$$</p>
+<p>其中，$0 \leq k \leq 10^9, 1 \leq n \leq 10^6$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>上面说了这是一个多项式 $f(k)$，其中 $deg(f)=n+1$，意味着需要 $n+2$ 个点进行插值。</p>
+<p>又因为 $x_i = i, y_i = \sum\limits_{j=1}^i j^n$，我们直接按照上述 $O(n)$ 的连续整数来插值即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e6+5;
+
+ll qpow(ll a, ll b) {
+    ll res = 1;
+    while (b) {
+        if (b &amp; 1)
+            res = res * a % mod;
+        a = a * a % mod;
+        b &gt;&gt;= 1;
+    }
+    return res;
+}
+
+ll k,n;
+ll fac[maxn], inv_fac[maxn], t[maxn];
+ll y[maxn], pre[maxn], suf[maxn];
+int main() {
+    fastio;
+    cin &gt;&gt; k &gt;&gt; n;
+    n += 2;
+
+    fac[0] = inv_fac[0] = 1;
+    pre[0] = suf[n+1] = 1;
+    for (ll i = 1; i &lt;= n; i++) {
+        fac[i] = fac[i-1] * i % mod;
+        y[i] = (y[i-1] + qpow(i, n-2)) % mod;
+        pre[i] = pre[i-1] * (k - i + mod) % mod;
+    }
+    for (ll i = n; i &gt;= 1; i--) suf[i] = suf[i+1] * (k - i + mod) % mod;
+    inv_fac[n] = qpow(fac[n], mod-2);
+    for (ll i = n-1; i &gt;= 1; i--) {
+        inv_fac[i] = inv_fac[i+1] * (i+1) % mod;
+    }
+
+    ll ans = 0;
+    for (ll i = 1; i &lt;= n; i++) {
+        int flag = ((n-i) &amp; 1 ? -1 : 1);
+        ll res = y[i] % mod * inv_fac[i-1] % mod * inv_fac[n-i] % mod * pre[i-1] % mod * suf[i+1] % mod;
+        res = (res * flag + mod) % mod;
+        ans = (ans + res) % mod;
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2022-01-17 15:21:17 &#43;0800 &#43;0800">2022-01-17</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/15d6d3e16959258d4ae97d975c47913f9d8063c2" title="add 064,065,066" target="_blank">(15d6d3e)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/065-%e6%8b%89%e6%a0%bc%e6%9c%97%e6%97%a5%e6%8f%92%e5%80%bc.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/">拉格朗日插值</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/066-%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">组合数学</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/064-%E6%9C%80%E5%A4%A7%E6%9D%83%E9%97%AD%E5%90%88%E5%AD%90%E5%9B%BE/">
+            <span class="next-text nav-default">最大权闭合子图</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

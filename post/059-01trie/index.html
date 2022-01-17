@@ -35,7 +35,7 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.8876c8d1563af17bab528692ce76dcb006603e63da3a61f9134e1c17d911f5e2.css" rel="stylesheet">
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
 
 
 
@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/059-01trie/" />
 <meta property="article:published_time" content="2021-12-17T14:23:29+08:00" />
-<meta property="article:modified_time" content="2022-01-16T00:21:18+00:00" />
+<meta property="article:modified_time" content="2022-01-17T15:21:17+08:00" />
 <meta itemprop="name" content="Trie 和 01 Trie">
 <meta itemprop="description" content="介绍 01-Trie 指将整数拆成二进制，然后将二进制以字符串的形式储存在 Trie 中。 Trie可以解决以下问题： 给定一些数 $a_1,a_2,&hellip;,a_">
 <meta itemprop="datePublished" content="2021-12-17T14:23:29&#43;08:00" />
-<meta itemprop="dateModified" content="2022-01-16T00:21:18&#43;00:00" />
-<meta itemprop="wordCount" content="6139">
+<meta itemprop="dateModified" content="2022-01-17T15:21:17&#43;08:00" />
+<meta itemprop="wordCount" content="7076">
 
 
 
@@ -164,6 +164,7 @@
             <li><a href="#例3-洛谷p6018-ynoi2010-fusion-treehttpswwwluogucomcnproblemp6018">例3 <a href="https://www.luogu.com.cn/problem/P6018">洛谷P6018 [Ynoi2010] Fusion tree</a></a></li>
             <li><a href="#例4-洛谷p4735-最大异或和httpswwwluogucomcnproblemp4735">例4 <a href="https://www.luogu.com.cn/problem/P4735">洛谷P4735 最大异或和</a></a></li>
             <li><a href="#例5-cf241b-friendshttpswwwluogucomcnproblemcf241b">例5 <a href="https://www.luogu.com.cn/problem/CF241B">CF241B Friends</a></a></li>
+            <li><a href="#例6-cf1625d-binary-spidershttpscodeforcescomcontest1625problemd">例6 <a href="https://codeforces.com/contest/1625/problem/D">CF1625D Binary Spiders</a></a></li>
           </ul>
         </li>
         <li><a href="#参考链接">参考链接</a></li>
@@ -1034,6 +1035,156 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例6-cf1625d-binary-spidershttpscodeforcescomcontest1625problemd">例6 <a href="https://codeforces.com/contest/1625/problem/D" target="_blank">CF1625D Binary Spiders</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个非负整数，和一个非整数 $k$。</p>
+<p>求 $n$ 个非负整数的一个 subset，使得这个 subset 最大，并且 subset内 每两个数之间的 XOR $\geq k$。</p>
+<p>其中，$n \leq 3 \times 10^5, k,a_i \in [0,2^{30}-1]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先我们设 $k$ 的最高位为 $j$。</p>
+<p>那么我们将所有的 $a_i$ 分成三个部分：</p>
+<ol>
+<li>最高位 $\geq j+1$ 的。</li>
+<li>最高位 $= j$ 的。</li>
+<li>最高位 $\leq j-1$ 的。</li>
+</ol>
+<p>那么我们可以发现，对于 Case 2, Case 3，各只能最多选出 $1$ 个数来。</p>
+<p>那么对于 Case 1 呢？</p>
+<p>不如我们只考虑它们 bitmask的 prefix，即 $[j+1,30]$ 的这一部分。</p>
+<p>我们注意到，如果两个 prefix 不同的数，一定是可以共存的。</p>
+<p>如果两个数的 prefix 相同呢？是 <strong>有可能</strong> 可以共存的！</p>
+<p>更准确的来说，如果两个数的 prefix 相同，我们可以把这部分抵消掉，那么问题就变成了最高位 $\leq j$ 的一些数可以最多选多少个出来共存。</p>
+<p>这实际上就是 Case 2 和 Case 3 的并集，我们很容易发现这个并集内，最多可以选 $2$ 个数。</p>
+<p>所以问题就简化了，我们只要根据 prefix 分类这些数，然后在每个分类中，选出最多两个数来即可。</p>
+<p>而选择最多两个数判断是否 $\geq k$，用 01-Trie 可以轻松解决。</p>
+<hr>
+<p>实现的过程：</p>
+<ol>
+<li>先找出 $k$ 的最高位 $j$。</li>
+<li>将所有的数字按照 $[j+1,30]$ 这一部分的prefix分类。</li>
+<li>对于每一类，都构建 01-Trie 判断是否存在两个数的 XOR $\geq k$，存在就选择这两个数，否则只选一个。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 3e5+5;
+const int maxm = 30;
+
+int id = 1;  // 注意，从 1 开始
+struct Node {
+    int cnt = 0;
+    int child[2];
+} trie[maxn&lt;&lt;4];
+void insert(int x, int delta) {
+    int c = 1;
+    for (int j = maxm; j &gt;= 0; j--) {
+        int k = 0;
+        if (x &amp; (1&lt;&lt;j)) k = 1;
+        if (!trie[c].child[k]) trie[c].child[k] = ++id;
+
+        c = trie[c].child[k];
+        trie[c].cnt += delta;
+    }
+}
+
+// maximum query
+int query(int x) {
+    int c = 1;
+    int res = 0;
+    for (int j = maxm; j &gt;= 0; j--) {
+        int k = 0;
+        if (x &amp; (1&lt;&lt;j)) k = 1;
+        k ^= 1;
+        if (trie[trie[c].child[k]].cnt) {
+            c = trie[c].child[k];
+            res |= (1&lt;&lt;j);
+        } else {
+            c = trie[c].child[k^1];
+            // res |= (1&lt;&lt;j);
+        }
+    }
+    return res;
+}
+
+int n,k;
+struct Nd {
+    int val, id;
+} a[maxn];
+int b[maxn];
+
+vector&lt;int&gt; ans;
+vector&lt;pii&gt; vec[maxn];
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; k;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; a[i].val, a[i].id = i;
+    sort(a+1, a+n+1, [](auto a, auto b) {
+        return a.val &gt; b.val;
+    });
+
+    if (k == 0) {
+        cout &lt;&lt; n &lt;&lt; endl;
+        for (int i = 1; i &lt;= n; i++) cout &lt;&lt; i &lt;&lt; &quot; &quot;;
+        cout &lt;&lt; endl;
+        return 0;
+    }
+    int p = 0;
+    for (int j = 0; j &lt;= 30; j++) {
+        if (k &amp; (1&lt;&lt;j)) p = j;
+    }
+
+    int ptr = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        b[i] = a[i].val;
+        for (int j = 0; j &lt;= p; j++) {
+            if (b[i] &amp; (1&lt;&lt;j)) b[i] ^= (1&lt;&lt;j);
+        }
+        if (!(i &gt; 1 &amp;&amp; b[i] == b[i-1])) {
+            ++ptr;
+        }
+        vec[ptr].push_back({a[i].val, a[i].id});
+    }
+
+    for (int i = 1; i &lt;= ptr; i++) {
+        if (vec[i].size() &gt;= 2) {
+            bool ok = 0;
+            for (int j = 0; j &lt; vec[i].size(); j++) {
+                if (!ok &amp;&amp; query(vec[i][j].first) &gt;= k) {
+                    for (int a = 0; a &lt; j; a++) {
+                        if ((vec[i][j].first ^ vec[i][a].first) &gt;= k) {
+                            ans.push_back(vec[i][j].second);
+                            ans.push_back(vec[i][a].second);
+                            ok = 1;
+                            break;
+                        }
+                    }
+                }
+                insert(vec[i][j].first, 1);
+            }
+            if (!ok) {
+                ans.push_back(vec[i][0].second);
+            }
+            for (int j = 0; j &lt; vec[i].size(); j++) {
+                insert(vec[i][j].first, -1);
+            }
+        } else if (vec[i].size() == 1) {
+            ans.push_back(vec[i][0].second);
+        }
+    }
+
+
+    if (ans.size() &lt;= 1) cout &lt;&lt; -1 &lt;&lt; endl;
+    else {
+        cout &lt;&lt; ans.size() &lt;&lt; endl;
+        for (int j : ans) cout &lt;&lt; j &lt;&lt; &quot; &quot;;
+        cout &lt;&lt; endl;
+    }
+}
+</code></pre>
+</details>
 <h2 id="参考链接">参考链接</h2>
 <ol>
 <li><a href="https://oi-wiki.org/string/trie/#_6">https://oi-wiki.org/string/trie/#_6</a></li>
@@ -1050,8 +1201,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-01-16 00:21:18 &#43;0000 UTC">2022-01-16</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/8c5e066ffe30b7497ac1741f2408e9e68e63ca48" title="chore: update CF Problems" target="_blank">(8c5e066)</a>
+        <span title="2022-01-17 15:21:17 &#43;0800 &#43;0800">2022-01-17</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/15d6d3e16959258d4ae97d975c47913f9d8063c2" title="add 064,065,066" target="_blank">(15d6d3e)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/059-01trie.md" target="_blank">更新历史</a>
     </span>
   </p>

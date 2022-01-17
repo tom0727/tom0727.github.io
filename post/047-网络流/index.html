@@ -35,7 +35,7 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.8876c8d1563af17bab528692ce76dcb006603e63da3a61f9134e1c17d911f5e2.css" rel="stylesheet">
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
 
 
 
@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/047-%E7%BD%91%E7%BB%9C%E6%B5%81/" />
 <meta property="article:published_time" content="2021-06-04T12:03:44+08:00" />
-<meta property="article:modified_time" content="2022-01-16T00:21:18+00:00" />
+<meta property="article:modified_time" content="2022-01-17T15:21:17+08:00" />
 <meta itemprop="name" content="网络流">
 <meta itemprop="description" content="介绍 网络 是一个有向图 $G = (V,E)$，每条边 $(u,v) \in E$ 都拥有一个容量 $c(u,v)$。 在一个网络中，拥有两个特殊的节点 $s, t$ （源点，汇点）。 定义 流">
 <meta itemprop="datePublished" content="2021-06-04T12:03:44&#43;08:00" />
-<meta itemprop="dateModified" content="2022-01-16T00:21:18&#43;00:00" />
-<meta itemprop="wordCount" content="13505">
+<meta itemprop="dateModified" content="2022-01-17T15:21:17&#43;08:00" />
+<meta itemprop="wordCount" content="13564">
 
 
 
@@ -239,6 +239,8 @@
 <p>在 Dinic 的基础上，把 <strong>BFS求分层图</strong> 的过程，改成 <strong>SPFA求最短路</strong> 即可。然后在增广的过程中，只走最短路径。</p>
 <p>同时，如果有费用为 $0$ 的边，使得这条边，及其反向边的费用均为 $0$，这可能会导致算法的最短路一直在这两个节点之间走。为了防止这个问题导致死循环，我们需要一个 <code>vis[]</code> 数组保证在 DFS 过程中每个点只被访问一次。</p>
 <p>复杂度：$O(n^2m^2)$，在实际使用中，一般跑的比这个快（所以不用太担心复杂度问题）。</p>
+<p>• 特别的，对于单位容量的网络，复杂度为 $O(m * \min(\sqrt m, n^{\frac{2}{3}}))$。</p>
+<p>• 对于二分图匹配问题，复杂度为 $O(m\sqrt n)$</p>
 <hr>
 <h2 id="模版">模版</h2>
 <details class="admonition note"><summary class="admonition-title">最大流模版</summary>
@@ -1874,8 +1876,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-01-16 00:21:18 &#43;0000 UTC">2022-01-16</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/8c5e066ffe30b7497ac1741f2408e9e68e63ca48" title="chore: update CF Problems" target="_blank">(8c5e066)</a>
+        <span title="2022-01-17 15:21:17 &#43;0800 &#43;0800">2022-01-17</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/15d6d3e16959258d4ae97d975c47913f9d8063c2" title="add 064,065,066" target="_blank">(15d6d3e)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/047-%e7%bd%91%e7%bb%9c%e6%b5%81.md" target="_blank">更新历史</a>
     </span>
   </p>

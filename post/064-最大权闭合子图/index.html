@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>最大权闭合子图 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="定义 闭合子图 对于一个 有向图 $G=(V,E)$，它的一个闭合子图 $G&#39;=(V&amp;rsquo;,E&amp;rsquo;)$ 满足： $\forall u \in V&#39;$，如果 $(u,v) \in E$，则 $v \in V&amp;rsquo;, (u,v) \in E&#39;$ 简单来说，就是对于子图中的每" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/064-%E6%9C%80%E5%A4%A7%E6%9D%83%E9%97%AD%E5%90%88%E5%AD%90%E5%9B%BE/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="最大权闭合子图" />
+<meta property="og:description" content="定义 闭合子图 对于一个 有向图 $G=(V,E)$，它的一个闭合子图 $G&#39;=(V&rsquo;,E&rsquo;)$ 满足： $\forall u \in V&#39;$，如果 $(u,v) \in E$，则 $v \in V&rsquo;, (u,v) \in E&#39;$ 简单来说，就是对于子图中的每" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/064-%E6%9C%80%E5%A4%A7%E6%9D%83%E9%97%AD%E5%90%88%E5%AD%90%E5%9B%BE/" />
+<meta property="article:published_time" content="2022-01-10T11:11:05+08:00" />
+<meta property="article:modified_time" content="2022-01-17T15:21:17+08:00" />
+<meta itemprop="name" content="最大权闭合子图">
+<meta itemprop="description" content="定义 闭合子图 对于一个 有向图 $G=(V,E)$，它的一个闭合子图 $G&#39;=(V&rsquo;,E&rsquo;)$ 满足： $\forall u \in V&#39;$，如果 $(u,v) \in E$，则 $v \in V&rsquo;, (u,v) \in E&#39;$ 简单来说，就是对于子图中的每">
+<meta itemprop="datePublished" content="2022-01-10T11:11:05&#43;08:00" />
+<meta itemprop="dateModified" content="2022-01-17T15:21:17&#43;08:00" />
+<meta itemprop="wordCount" content="4100">
+
+
+
+<meta itemprop="keywords" content="最大权闭合子图,最小割," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="最大权闭合子图"/>
+<meta name="twitter:description" content="定义 闭合子图 对于一个 有向图 $G=(V,E)$，它的一个闭合子图 $G&#39;=(V&rsquo;,E&rsquo;)$ 满足： $\forall u \in V&#39;$，如果 $(u,v) \in E$，则 $v \in V&rsquo;, (u,v) \in E&#39;$ 简单来说，就是对于子图中的每"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">最大权闭合子图</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-01-10 11:11:05 &#43;0800 &#43;0800"> 2022-01-10 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#定义">定义</a>
+          <ul>
+            <li><a href="#闭合子图">闭合子图</a></li>
+            <li><a href="#最大权闭合子图">最大权闭合子图</a></li>
+          </ul>
+        </li>
+        <li><a href="#算法">算法</a>
+          <ul>
+            <li><a href="#结论">结论</a></li>
+            <li><a href="#证明">证明</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p4174-noi2006-最大获利httpswwwluogucomcnproblemp4174">例1 <a href="https://www.luogu.com.cn/problem/P4174">洛谷P4174 [NOI2006] 最大获利</a></a></li>
+            <li><a href="#例2-ccpc2021威海-h-city-safetyhttpscodeforcescomgym103428problemh">例2 <a href="https://codeforces.com/gym/103428/problem/H">CCPC2021威海 H city safety</a></a></li>
+            <li><a href="#例3-洛谷p2805-noi2009-植物大战僵尸httpswwwluogucomcnproblemp2805">例3 <a href="https://www.luogu.com.cn/problem/P2805">洛谷P2805 [NOI2009] 植物大战僵尸</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="定义">定义</h2>
+<h3 id="闭合子图">闭合子图</h3>
+<p>对于一个 <strong>有向图</strong> $G=(V,E)$，它的一个闭合子图 $G'=(V&rsquo;,E&rsquo;)$ 满足：</p>
+<div class='center'>
+<p>$\forall u \in V'$，如果 $(u,v) \in E$，则 $v \in V&rsquo;, (u,v) \in E'$</p>
+</div>
+<p>简单来说，就是对于子图中的每一个点 $u$，它的所有后继（它指向的）节点 $v$ 都在子图中。</p>
+<h3 id="最大权闭合子图">最大权闭合子图</h3>
+<p>如果这个图有点权，那么最大权闭合子图就是一个 <strong>最大点权和</strong> 的 <strong>闭合子图</strong>。</p>
+<h2 id="算法">算法</h2>
+<p>最大权闭合子图问题可以利用最小割解决。</p>
+<h3 id="结论">结论</h3>
+<ol>
+<li>建立超级源点 $s$，对于所有点权 $w_u &gt;0$ 的点 $u$，连 $(s,u,w_u)$。</li>
+<li>建立超级汇点 $t$，对于所有点权 $w_v &lt; 0$ 的点 $v$，连 $(v,t,|w_v|)$。</li>
+<li>对于原图中的所有边 $(u,v)$，都连一条无限大的边 $(u,v,\infty)$。</li>
+</ol>
+<p>• 点权为 $0$ 的点不用和 $s,t$ 相连。</p>
+<p>那么答案就等于：</p>
+<div class='center'>
+<p><strong>最大权闭合子图的权值和 $=$ 所有权值为正的权值和 $-$ 最小割</strong></p>
+</div>
+<h3 id="证明">证明</h3>
+<p><img src="/images/064/1.jpg" alt="img"></p>
+<p>我们有以下 lemma：</p>
+<hr>
+<p>结论1：最小割为简单割（容量不为正无穷）</p>
+<p>很明显可以通过割与 $s,t$ 相连的边获得最小割，所以最小割不会包括正无穷的边。</p>
+<hr>
+<p>结论2：最小割将原图分为 $S,T$ 两个集合（指分别包含 $s,t$ 的两个集合），$S$ 集合是一个闭合子图。</p>
+<p>由于最小割不包含正无穷的边，$S$ 内不存在连向集合 $T$ 的边，所以 $S$ 内所有的出边都指向 $S$ 内部，满足闭合图定义。</p>
+<hr>
+<p>结论3：$S$ 集合是所求的最大权闭合子图。</p>
+<p>（不会证明）</p>
+<hr>
+<p>结论4：<strong>最大权闭合子图的权值和 $=$ 所有权值为正的权值和 $-$ 最小割</strong></p>
+<p>我们定义 $a_S$ 分别为 $S$ 内所有正权值之和，$b_S$ 为 $S$ 内所有负权值之和的绝对值，形式化的：</p>
+<p>$$a_S = \sum\limits_{u\in S, w_u&gt;0}w_u, b_S = |\sum\limits_{u\in S, w_u&lt;0}w_u|$$</p>
+<p>则，$S$ 的权值（最大权闭合子图的权值）$W_S$ 就等于：</p>
+<p>$$W_S = a_S - b_S$$</p>
+<p>再定义最小割 $C$ 为一个边集的权值集合 $C = \{w_{C_1},w_{C_2},&hellip;\}$，并且定义 $a_C$ 为 $C$ 内所有正权值之和，$b_C$ 为 $C$ 内所有负权值之和的绝对值。</p>
+<p>则最小割的值 $W_C$等于：</p>
+<p>$$W_C = a_C + b_C$$</p>
+<p>因为 $S$ 内所有拥有负权值的节点，必然指向 $t$，且由于 $S$ 是闭合子图，所以最小割中，所有负边必然都来自于 $S$ 内的负权值节点。</p>
+<p>所以 $b_S = b_C$。</p>
+<p>同理，$a_S$ 与 $a_C$ 互补，即 $a_S + a_C = a_G$，其中 $a_G$ 代表原图中所有正权值之和。</p>
+<p>所以：</p>
+<p>$$W_S + W_C = a_G$$</p>
+<p>可得：</p>
+<p>$$W_S = a_G - W_C$$</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p4174-noi2006-最大获利httpswwwluogucomcnproblemp4174">例1 <a href="https://www.luogu.com.cn/problem/P4174" target="_blank">洛谷P4174 [NOI2006] 最大获利</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有一共 $n$ 个中转站，$m$ 个用户。</p>
+<p>建立第 $i$ 个中转站所需的成本为 $P_i$。</p>
+<p>每个用户的信息为 $A_i,B_i,C_i$，代表这个用户将会使用中转站 $A_i$ 和 $B_i$ 进行通讯，并且可以带来 $C_i$ 的利润。</p>
+<p>求最大净利润（利润减去成本）？</p>
+<p>其中，$n \leq 5000, m \leq 50000$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>对于这种 <strong>满足某种条件才能获得利润</strong>，而这些条件 <strong>需要一定成本才能满足</strong> 的题，就可以考虑最大权闭合子图。</p>
+<p>把每个中转站看作一个节点，然后这些节点向汇点 $t$ 连边，容量为 $P_i$。</p>
+<p>把每个用户（获利条件）看作一个节点，比如一个条件 $(A_i,B_i,C_i)$ 就看作一个节点 $x_i$。</p>
+<p>然后连 $(s,x_i,C_i)$ 代表选择这个节点可以获得 $C_i$ 的利润，再连 $(x_i,A_i,\infty), (x_i,B_i,\infty)$ 代表如果要获得这个利润，则必须建立中转站 $A_i,B_i$。</p>
+<p>求出最大权闭合子图的权值即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 55005;
+const int maxm = 1e6+55005+10;
+
+int n,m,s,t;
+int head[maxn], ecnt = 2, cur[maxn];  // ecnt 从 2 开始，方便取反向边
+struct Edge {
+    int to, nxt;
+    ll w;
+} edges[maxm&lt;&lt;1];
+
+void addEdge(int u, int v, ll w) {
+    Edge e = {v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int dis[maxn];
+bool bfs() {
+    queue&lt;int&gt; q;
+    memset(dis, -1, sizeof(dis));
+    memcpy(cur, head, sizeof(head));
+    dis[s] = 0;
+    q.push(s);
+    while (!q.empty()) {
+        int u = q.front(); q.pop();
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            ll w = edges[e].w;
+            if (dis[to] &gt;= 0 || w == 0) continue;  // visited 或者 edge 已经不存在
+            dis[to] = dis[u] + 1;
+            q.push(to);
+            if (to == t) return 1;  // 仍然存在增广路，直接返回
+        }
+    }
+    return 0;
+}
+
+ll dfs(int u, ll in) {
+    if (u == t) return in;  // 如果已经运到了终点，直接返回入量
+    ll out = 0;
+    for (int e = cur[u]; e; e = edges[e].nxt) {
+        cur[u] = e;
+        int to = edges[e].to;
+        ll w = edges[e].w;
+        if (dis[to] != dis[u] + 1 || w == 0) continue;  // 不是下一层 或者 edge已经不存在
+
+        // 否则，可以往外运输流量
+        ll res = dfs(to, min(in, w));
+        in -= res;
+        out += res;
+        edges[e].w -= res;
+        edges[e^1].w += res;
+
+        if (in == 0) break;  // 如果已经没有可以向外流的了，直接 break
+    }
+    if (out == 0) dis[u] = -1;  // 说明当前节点已经不能向外运输流量了，忽略不计
+    return out;
+}
+
+void add(int u, int v, ll w) {
+    addEdge(u, v, w);
+    addEdge(v, u, 0);
+}
+
+ll maxflow() {
+    ll ans = 0;
+    while (bfs()) {
+        ans += dfs(s, 1e18);
+    }
+    return ans;
+}
+
+int val[maxn];
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    s = 55001, t = 55002;
+    for (int i = 1; i &lt;= n; i++) {
+        int p; cin &gt;&gt; p;
+        add(i, t, p);
+    }
+    int sum = 0;
+    for (int i = 1; i &lt;= m; i++) {
+        int u,v; ll w;
+        cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        add(i+n, u, 1e9);
+        add(i+n, v, 1e9);
+        add(s, i+n, w);
+        sum += w;
+    }
+    int res = maxflow();
+    cout &lt;&lt; sum - res &lt;&lt; endl;
+}
+
+</code></pre>
+</details>
+<h3 id="例2-ccpc2021威海-h-city-safetyhttpscodeforcescomgym103428problemh">例2 <a href="https://codeforces.com/gym/103428/problem/H" target="_blank">CCPC2021威海 H city safety</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个节点的树。对于每个节点 $i$，初始状态下没有加固。加固节点 $i$ 的代价为 $w_i$。</p>
+<p>对于每一个节点，如果距离它 $\leq j$ 的所有节点均被加固了，则它会提供额外 $v_j$ 的收益。</p>
+<p>求加固方案，使得净收益最大？</p>
+<p>其中，$n \leq 200, v_j \leq v_{j+1}$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">最小割题解</summary>
+<p>最大权闭合子图。</p>
+<p>拆点，对于每个节点 $u$，我们把它拆成 $u,u_0,u_1,u_2,&hellip;,u_{n-1}$。</p>
+<p>其中 $u_j$ 代表对于节点 $u$，距离它 $\leq j$ 的所有节点均被加固了。</p>
+<p>我们知道 $u_j$ 就代表一种收益，那么这个收益有什么条件呢？</p>
+<ol>
+<li>
+<p>如果要选 $u_j$，则我们必须选择 $u_{j-1}$，这样我们就保证了选择 $u_j$ 也会选择到所有距离 $\leq (j-1)$ 的点。</p>
+</li>
+<li>
+<p>如果选了 $u_j$，我们必须选择距离 $u$ 恰好为 $j$ 的点。</p>
+</li>
+</ol>
+<p>所以连边的方案就是：</p>
+<ol>
+<li>连 $(s,u_j,v_j-v_{j-1})$：代表选择了 $u_j$ 这个收益，注意到选择 $u_j$ 后默认选择了 $u_{j-1}$，所以我们只需要给这个点赋值一个增量 $v_j-v_{j-1}$ 即可。</li>
+<li>连 $(u_j,u_{j-1},\infty)$</li>
+<li>连 $(u_j,v,\infty)$：代表我们需要选择距离 $u$ 距离 $u$ 恰好为 $j$ 的点 $v$。</li>
+<li>对于每一个 $v \in [1,n]$，连 $(v,t,w_v)$：代表需要付出 $w_v$ 的代价来加固点 $v$。</li>
+</ol>
+<hr>
+<p>比如对于样例：$n=3, E = \{(1,2),(1,3)\}$，且 $v_0=1, v_1=3, v_2=4, w_1 = 2,w_2=3,w_3=4$，则建的图如下：</p>
+<p><img src="/images/064/2.png" alt="img"></p>
+</details>
+<details class="admonition note"><summary class="admonition-title">最小割代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 210;
+const int maxm = 8e5+5;
+
+int n,m,s,t;
+int head[maxn*maxn], ecnt = 2, cur[maxn*maxn];  // ecnt 从 2 开始，方便取反向边
+struct Edge {
+    int to, nxt;
+    ll w;
+} edges[maxm&lt;&lt;1];
+
+void addEdge(int u, int v, ll w) {
+    Edge e = {v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int dis[maxn*maxn];
+bool bfs() {
+    queue&lt;int&gt; q;
+    memset(dis, -1, sizeof(dis));
+    memcpy(cur, head, sizeof(head));
+    dis[s] = 0;
+    q.push(s);
+    while (!q.empty()) {
+        int u = q.front(); q.pop();
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            ll w = edges[e].w;
+            if (dis[to] &gt;= 0 || w == 0) continue;  // visited 或者 edge 已经不存在
+            dis[to] = dis[u] + 1;
+            q.push(to);
+            if (to == t) return 1;  // 仍然存在增广路，直接返回
+        }
+    }
+    return 0;
+}
+
+ll dfs(int u, ll in) {
+    if (u == t) return in;  // 如果已经运到了终点，直接返回入量
+    ll out = 0;
+    for (int e = cur[u]; e; e = edges[e].nxt) {
+        cur[u] = e;
+        int to = edges[e].to;
+        ll w = edges[e].w;
+        if (dis[to] != dis[u] + 1 || w == 0) continue;  // 不是下一层 或者 edge已经不存在
+
+        // 否则，可以往外运输流量
+        ll res = dfs(to, min(in, w));
+        in -= res;
+        out += res;
+        edges[e].w -= res;
+        edges[e^1].w += res;
+
+        if (in == 0) break;  // 如果已经没有可以向外流的了，直接 break
+    }
+    if (out == 0) dis[u] = -1;  // 说明当前节点已经不能向外运输流量了，忽略不计
+    return out;
+}
+
+void add(int u, int v, ll w) {
+    addEdge(u, v, w);
+    addEdge(v, u, 0);
+}
+
+ll maxflow() {
+    ll ans = 0;
+    while (bfs()) {
+        ans += dfs(s, 1e18);
+    }
+    return ans;
+}
+
+ll w[maxn], val[maxn];
+vector&lt;int&gt; adj[maxn];
+int id[maxn][maxn];
+int d[maxn][maxn];
+
+int dep[maxn];
+void dfs(int u, int p) {
+    for (int v : adj[u]) {
+        if (v == p) continue;
+        dep[v] = dep[u] + 1;
+        dfs(v, u);
+    }
+}
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; w[i];
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; val[i];
+    for (int i = 1; i &lt;= n-1; i++) {
+        int u,v; cin &gt;&gt; u &gt;&gt; v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    int ID = 0;
+    for (int k = 0; k &lt;= n; k++) {
+        for (int i = 1; i &lt;= n; i++) {
+            id[k][i] = ++ID;
+        }
+    }
+    s = ++ID, t = ++ID;
+
+    memset(d, 63, sizeof(d));
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j : adj[i]) d[i][j] = 1;
+        d[i][i] = 0;
+    }
+
+    for (int k = 1; k &lt;= n; k++) {
+        for (int i = 1; i &lt;= n; i++) {
+            for (int j = 1; j &lt;= n; j++) d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
+        }
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        add(id[0][i], t, w[i]);
+    }
+
+    for (int k = 1; k &lt;= n; k++) {
+        for (int i = 1; i &lt;= n; i++) {
+            add(s, id[k][i], val[k] - val[k-1]);
+            add(id[k][i], id[k-1][i], 1e18);
+        }
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= n; j++) {
+            int k = d[i][j];
+            add(id[k+1][i], id[0][j], 1e18);
+        }
+    }
+
+    ll sum = (ll)n * val[n];
+    ll res = maxflow();
+    cout &lt;&lt; sum - res &lt;&lt; endl;
+}
+
+</code></pre>
+</details>
+<details class="admonition note"><summary class="admonition-title">树形DP题解</summary>
+<p>这题还有个玄学的树形DP解法（我不能理解，先放在这）：</p>
+<p>对于每个节点 $u$，设 <code>dp[u][j]</code> 为离 $u$ 的距离都 $\leq j$ 的所有节点均被加固了，dp的值为 $u$ 所在子树内的最优解之和。</p>
+<p>则对于 $u$ 的每个直接的 child $v$，$v$ 可以选择加固周围 $\leq k$ 的所有节点，其中 $k = \{j-1,j,j+1\}$。</p>
+<p>然后利用 <strong>探索当前子树</strong> 的思想来更新 <code>dp[u][j]</code>。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">树形DP代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 222;
+
+vector&lt;int&gt; adj[maxn];
+int n, ans = 0;
+int dp[maxn][maxn], w[maxn], val[maxn&lt;&lt;1];
+void dfs(int u, int p) {
+  dp[u][0] = 0;
+  for (int j = 1; j &lt;= n; j++) dp[u][j] = -w[u] + val[j];
+ 
+  for (int v : adj[u]) {
+      if (v == p) continue;
+      dfs(v, u);
+
+      int tmp[n+5];
+      fill(tmp, tmp+n+5, -1e9);
+      for (int j = 0; j &lt;= n; j++) {
+          for (int k = max(0,j-1); k &lt;= min(n,j+1); k++) {
+              tmp[j] = max({tmp[j], dp[u][j] + dp[v][k]});
+          }
+      }
+      for (int j = 0; j &lt;= n; j++) dp[u][j] = tmp[j];
+ 
+  }
+}
+ 
+int main() {
+  cin &gt;&gt; n;
+  for (int i = 1; i &lt;= n; i++) cin &gt;&gt; w[i];
+  for (int i = 1; i &lt;= n; i++) cin &gt;&gt; val[i];
+  for (int i = 1; i &lt; n; i++) {
+    int u,v; cin &gt;&gt; u &gt;&gt; v;
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+  }
+  dfs(1,0);
+  int ans = 0;
+  for (int j = 0; j &lt;= n; j++) {
+    ans = max(ans, dp[1][j]);
+  }
+  cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例3-洛谷p2805-noi2009-植物大战僵尸httpswwwluogucomcnproblemp2805">例3 <a href="https://www.luogu.com.cn/problem/P2805" target="_blank">洛谷P2805 [NOI2009] 植物大战僵尸</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $N \times M$ 的矩阵，每个格子内都有一个植物，每个植物拥有一个 score，代表吃掉这个植物以后会获得的分数（可以为负）。每个植物还有一个攻击位置集合，代表它可以攻击到的一些位置，它无法攻击它自己所在的位置。</p>
+<p>现在我们可以放置僵尸，僵尸只能从某一行的最右侧开始向左走，如果僵尸来到了一个可以被植物攻击到的位置，它会立刻死亡，否则它可以吃掉这个植物并且继续向前走。</p>
+<p>我们组织无限次僵尸攻击，并且每次攻击我们可以任选将僵尸放在哪一行。</p>
+<p>求最大分数？</p>
+<p>其中，$1 \leq N \leq 20, 1 \leq M \leq 30$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先我们可以知道，这是一个格子之间互相保护的问题（保护有两种，一种是通过植物的攻击，第二种是同一行中，一个植物会保护它左边的那个植物）。</p>
+<p>假如 $(x_1,y_1)$ 保护 $(x_2,y_2)$，这意味着如果我们吃了 $(x_2,y_2)$，则我们必须得吃 $(x_1,y_1)$。</p>
+<p>这在有向图里表示的话就是 $(x_2,y_2) \rightarrow (x_1,y_1)$，所以问题变成了求最大权闭合子图。</p>
+<p>不过我们需要注意，因为这个有向图中可能有环，怎么解决？</p>
+<p>拓扑排序先把环求出来，然后求出环所保护的节点，一直拓展下去，最后我们可以知道：</p>
+<div class='center'>
+<p>所有环 + 所有被环直接/间接 保护的节点都不可以被吃掉，所以直接将这些点删掉即可。</p>
+</div>
+<p>• 拓扑排序的时候，我们进行反向建边：假如 $(x_1,y_1)$ 保护 $(x_2,y_2)$，则建立 $(x_1,y_1) \rightarrow (x_2,y_2)$，这样的话拓扑排序求出来那些 <code>deg &gt; 0</code> 的就是这些无法被吃掉的点了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 605;
+const int maxm = 8e5+5;
+
+// 最大流板子略
+int N,M,s,t, id[22][33], ID;
+int score[22][33];
+int head[maxn], ecnt = 2, cur[maxn], deg[maxn];  // ecnt 从 2 开始，方便取反向边
+vector&lt;int&gt; adj[maxn];
+bool ring[maxn];
+void topo() {
+    fill(ring, ring+maxn, 1);
+    vector&lt;int&gt; tmp;
+    for (int i = 1; i &lt;= N; i++) {
+        for (int j = 1; j &lt;= M; j++) {
+            if (!deg[id[i][j]]) tmp.push_back(id[i][j]);
+        }
+    }
+    while (tmp.size()) {
+        int u = tmp.back(); tmp.pop_back();
+        ring[u] = 0;
+        for (int v : adj[u]) {
+            deg[v]--;
+            if (!deg[v]) {
+                tmp.push_back(v);
+            }
+        }
+    }
+}
+
+vector&lt;int&gt; pos[22][33];
+int main() {
+    cin &gt;&gt; N &gt;&gt; M;
+    for (int i = 1; i &lt;= N; i++) {
+        for (int j = 1; j &lt;= M; j++) {
+            id[i][j] = ++ID;
+        }
+    }
+    for (int i = 1; i &lt;= N; i++) {
+        for (int j = 1; j &lt;= M; j++) {
+            if (j &gt; 1) adj[id[i][j]].push_back(id[i][j-1]), deg[id[i][j-1]]++;
+            cin &gt;&gt; score[i][j];
+            int w; cin &gt;&gt; w;
+            while (w--) {
+                int x,y; cin &gt;&gt; x &gt;&gt; y; x++,y++;
+                pos[x][y].push_back(id[i][j]);
+                adj[id[i][j]].push_back(id[x][y]);
+                deg[id[x][y]]++;
+            }
+        }
+    }
+    topo();
+
+    s = ++ID, t = ++ID;
+    int sum = 0;
+    for (int i = 1; i &lt;= N; i++) {
+        for (int j = 1; j &lt;= M; j++) {
+            if (ring[id[i][j]]) continue;
+            if (score[i][j] &gt; 0) add(s, id[i][j], score[i][j]), sum += score[i][j];
+            if (score[i][j] &lt; 0) add(id[i][j], t, -score[i][j]);
+            if (j &gt; 1 &amp;&amp; !ring[id[i][j-1]]) add(id[i][j-1], id[i][j], 1e9);
+            for (int p : pos[i][j]) {
+                if (!ring[p]) {
+                    add(id[i][j], p, 1e9);
+                }
+            }
+        }
+    }
+    int res = maxflow();
+    cout &lt;&lt; max(0, sum - res) &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://www.cxymm.net/article/Q755100802/100001647">https://www.cxymm.net/article/Q755100802/100001647</a></li>
+<li><a href="https://www.cnblogs.com/dilthey/p/7565206.html">https://www.cnblogs.com/dilthey/p/7565206.html</a></li>
+<li><a href="https://linkfqy.github.io/posts/Maximum_Weight_Closure_of_a_Graph/">https://linkfqy.github.io/posts/Maximum_Weight_Closure_of_a_Graph/</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2022-01-17 15:21:17 &#43;0800 &#43;0800">2022-01-17</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/15d6d3e16959258d4ae97d975c47913f9d8063c2" title="add 064,065,066" target="_blank">(15d6d3e)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/064-%e6%9c%80%e5%a4%a7%e6%9d%83%e9%97%ad%e5%90%88%e5%ad%90%e5%9b%be.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%9C%80%E5%A4%A7%E6%9D%83%E9%97%AD%E5%90%88%E5%AD%90%E5%9B%BE/">最大权闭合子图</a>
+          <a href="/tags/%E6%9C%80%E5%B0%8F%E5%89%B2/">最小割</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/065-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">拉格朗日插值</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/063-%E6%9B%BC%E5%93%88%E9%A1%BF-%E5%88%87%E6%AF%94%E9%9B%AA%E5%A4%AB%E8%B7%9D%E7%A6%BB/">
+            <span class="next-text nav-default">曼哈顿距离 和 切比雪夫距离</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

@@ -35,7 +35,7 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.8876c8d1563af17bab528692ce76dcb006603e63da3a61f9134e1c17d911f5e2.css" rel="stylesheet">
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
 
 
 
@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/055-%E4%BA%8C%E6%AC%A1%E5%89%A9%E4%BD%99/" />
 <meta property="article:published_time" content="2021-10-30T11:19:19+08:00" />
-<meta property="article:modified_time" content="2022-01-16T00:21:18+00:00" />
+<meta property="article:modified_time" content="2022-01-17T15:21:17+08:00" />
 <meta itemprop="name" content="二次剩余">
 <meta itemprop="description" content="二次剩余用于解决在 模意义下开根 的问题： 题意 给定一个质数 $P$ 和一个非负整数 $N$，求 $x$ 使得 $$x^2 \equiv N (\text{mod } P)$$ 本问题等价于求 $$\sqrt N ~(\text{mod } P)$$ 性质 这个问题可能无">
 <meta itemprop="datePublished" content="2021-10-30T11:19:19&#43;08:00" />
-<meta itemprop="dateModified" content="2022-01-16T00:21:18&#43;00:00" />
-<meta itemprop="wordCount" content="322">
+<meta itemprop="dateModified" content="2022-01-17T15:21:17&#43;08:00" />
+<meta itemprop="wordCount" content="380">
 
 
 
@@ -201,21 +201,21 @@ namespace Quadratic_residue {
         }
         ll x;
         while (1) {
-            x=1ll*rand()*rand()%P;
+            x = 1LL * rand() * rand() % P;
             if (qpow((x*x-a+P)%P,(P-1)/2, P)!=1) break;
         }
-        ll w=(x*x-a+P)%P;
+        ll w = (x * x - a + P) % P;
         pll res = {1,0}, t = {x,1};
         auto Mul=[&amp;](pll a,pll b){ // 复数乘法
-            ll x=(1ll*a.first*b.first+1ll*a.second*b.second%P*w)%P;
-            ll y=(1ll*a.first*b.second+1ll*a.second*b.first)%P;
+            ll x=(1LL * a.first * b.first + 1LL * a.second * b.second % P * w) % P;
+            ll y=(1LL * a.first * b.second + 1LL * a.second * b.first) % P;
             return make_pair(x,y);
         };
-        ll d=(P+1)/2;
+        ll d = (P+1) / 2;
         while (d) {
-            if(d&amp;1) res=Mul(res,t);
-            t=Mul(t,t);
-            d&gt;&gt;=1;
+            if(d &amp; 1) res = Mul(res,t);
+            t = Mul(t,t);
+            d &gt;&gt;= 1;
         }
         ll r = (res.first % P + P) % P;
         r1 = min(r, (P - r) % P);
@@ -239,8 +239,8 @@ namespace Quadratic_residue {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-01-16 00:21:18 &#43;0000 UTC">2022-01-16</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/8c5e066ffe30b7497ac1741f2408e9e68e63ca48" title="chore: update CF Problems" target="_blank">(8c5e066)</a>
+        <span title="2022-01-17 15:21:17 &#43;0800 &#43;0800">2022-01-17</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/15d6d3e16959258d4ae97d975c47913f9d8063c2" title="add 064,065,066" target="_blank">(15d6d3e)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/055-%e4%ba%8c%e6%ac%a1%e5%89%a9%e4%bd%99.md" target="_blank">更新历史</a>
     </span>
   </p>

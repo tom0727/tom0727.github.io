@@ -8,7 +8,522 @@ tags = ['多项式', '']
 
 ## 模版
 
-{{% fold "多项式全家桶" %}}
+{{% fold "多项式全家桶（其他人的，很快）" %}}
+
+```cpp
+using ll = long long;
+using i128 = __int128_t;
+using ull = unsigned long long;
+using ld = long double;
+using vi = vector<int>;
+using pii = pair<int, int>;
+
+#define _fore(i, a) for (ll i = head[(a)]; i; i = edge[i].nxt)
+#define _dbg(...) 1
+#define dbg(x) 1
+
+ll rr() {
+    ll s = 0, w = 1;
+    char c = getchar();
+    while (!isdigit(c))
+        w = 1 - 2 * (c == '-'), c = getchar();
+    while (isdigit(c))
+        s = s * 10 + c - '0', c = getchar();
+    return s * w;
+}
+
+// END OF HEADER
+
+#define ACM_MOD 998244353
+const int P = ACM_MOD;
+
+#ifdef ACM_MOD
+int qpow(ll a, ll b = ACM_MOD - 2, ll m = ACM_MOD) {
+#else
+int qpow(ll a, ll b, ll m) {
+#endif
+    ll ret = m != 1;
+    for (; b; b >>= 1) {
+        if (b & 1)
+            ret = ret * a % m;
+        a = a * a % m;
+    }
+    return ret;
+}
+
+template <typename T> T tpow(T a, ll b) {
+    T ret;
+    for (; b; b >>= 1) {
+        if (b & 1)
+            ret = ret * a;
+        a = a * a;
+    }
+    return ret;
+}
+
+#define ACM_MATH_CIPOLLA_H
+
+namespace Qresidue {
+ll legendre(ll a, ll p) {
+    return qpow(a, (p - 1) / 2, p);
+}
+
+ll find_a(ll n, ll p) {
+    for (ll a = 0; a < p; a++) {
+        ll i = (a * a - n + p) % p;
+        if (qpow(i, (p - 1) / 2, p) == p - 1)
+            return a;
+    }
+    return -1;
+}
+
+ll P, I;
+struct expnum {
+    ll a = 1, b = 0;
+};
+expnum operator*(expnum i1, expnum i2) {
+    return expnum{(i1.a * i2.a + i1.b * i2.b % P * I) % P, (i1.b * i2.a + i1.a * i2.b) % P};
+}
+
+std::pair<int, int> Cipolla(ll n, ll _p) {
+    P = _p;
+    if (n % P == 0) // 不互质的情形
+        return {0, 0};
+    if (legendre(n, P) != 1)
+        return {-1, -1}; // 返回-1表示无解
+    ll a = find_a(n, P);
+    I = (a * a - n + P) % P;
+    ll ans = tpow(expnum{a, 1}, (P + 1) / 2).a % P;
+    if (2 * ans > P)
+        ans = P - ans;
+    return {ans, P - ans};
+}
+}; // namespace Qresidue
+
+std::pair<int, int> Cipolla(ll n, ll p) {
+    return Qresidue::Cipolla(n, p);
+}
+
+inline int mo(int n) {
+    return n >= P ? n - P : n;
+}
+
+inline int &momo(int &n) {
+    return n >= P ? n -= P : n;
+}
+
+struct m32 {
+    int v = 0;
+    m32(int _v = 0) {
+        v = _v;
+    }
+    m32 &operator=(const int &m) {
+        v = m;
+        return *this;
+    }
+    m32 &operator+=(const m32 &m) {
+        v = (v += m.v) >= P ? v - P : v;
+        return *this;
+    }
+    m32 &operator-=(const m32 &m) {
+        v = (v -= m.v) < 0 ? v + P : v;
+        return *this;
+    }
+    m32 operator-() const {
+        return v == 0 ? 0 : P - v;
+    }
+    m32 &operator*=(const m32 &m) {
+        v = ll(v) * m.v % P;
+        return *this;
+    }
+    m32 operator+(const m32 &m) const {
+        return m32(*this) += m;
+    }
+    m32 operator-(const m32 &m) const {
+        return m32(*this) -= m;
+    }
+    m32 operator*(const m32 &m) const {
+        return m32(*this) *= m;
+    }
+    m32 inv() const {
+        return qpow(v);
+    }
+    m32 pow(int n) const {
+        return qpow(v, n, P);
+    }
+    m32 sqrt() const {
+#ifdef ACM_MATH_CIPOLLA_H
+        return Cipolla(v, P).first;
+#else
+        return 1;
+#endif
+    }
+};
+
+inline int get_lim(int n) {
+    int m = 1;
+    while (m < n)
+        m *= 2;
+    return m;
+}
+
+struct Poly : std::vector<m32> {
+    using vector::vector;
+    bool isNTT = false;
+    Poly(Poly::const_iterator pi, int len) : Poly(pi, pi + len) {
+    }
+    Poly rev() const {
+        return Poly(rbegin(), rend());
+    }
+    int deg() const {
+        return size();
+    }
+    Poly cut(int m) const {
+        return Poly(begin(), begin() + min(deg(), m));
+    }
+    Poly &resize(int m) {
+        vector::resize(m);
+        return *this;
+    }
+    Poly &fillZeroL(int t) {
+        fill_n(begin(), t / 2, 0);
+        return *this;
+    }
+    Poly &fillZeroH(int t) {
+        fill_n(begin() + t / 2, t / 2, 0);
+        return *this;
+    }
+    friend Poly operator+(Poly f, Poly g);
+    friend Poly operator-(Poly f, Poly g);
+    friend Poly operator*(Poly f, Poly g);
+    Poly &ntt(int m);
+    Poly &nttD(int m);
+    Poly &intt(int m);
+    Poly &invD(Poly f2, Poly nx, int t);
+    Poly inv() const;
+    Poly div(Poly g) const;
+    Poly deriv() const;
+    Poly integr() const;
+    Poly ln() const;
+    Poly exp() const;
+    Poly sqrt() const;
+    Poly pow(int k) const;
+    Poly mod() const;
+};
+
+Poly w, Inv;
+
+void pre_w(int n, int w0 = 3) {
+    static int lim = (w = {1, 1}, 2);
+    n = get_lim(n);
+    if (n <= lim)
+        return;
+    w.resize(n);
+    for (int l = lim; l < n; l *= 2) {
+        m32 p = m32(w0).pow((P - 1) / l / 2);
+        for (int i = 0; i < l; i += 2) {
+            w[(l + i)] = w[(l + i) / 2];
+            w[l + i + 1] = w[l + i] * p;
+        }
+    }
+    lim = n;
+}
+
+void pre_inv(int n) {
+    static int LIM = (Inv = {1, 1}, 2);
+    if (n <= LIM)
+        return;
+    Inv.resize(n);
+    for (int i = LIM; i < n; i++) {
+        Inv[i] = Inv[P % i] * (P - P / i);
+    }
+    LIM = n;
+}
+
+static int ntt_size = 0;
+
+void ntt(Poly::iterator f, int deg) {
+    pre_w(deg);
+    ntt_size += deg;
+    for (int l = deg >> 1; l; l >>= 1)
+        for (auto fi = f; fi - f < deg; fi += l * 2)
+            for (int j = 0; j < l; j++) {
+                auto x = fi[j] + fi[j + l];
+                fi[j + l] = w[j + l] * (fi[j] - fi[j + l]);
+                fi[j] = x;
+            }
+}
+
+void intt(Poly::iterator f, int deg) {
+    ntt_size += deg;
+    for (int l = 1; l < deg; l <<= 1)
+        for (auto fi = f; fi - f < deg; fi += l * 2)
+            for (int j = 0; j < l; j++) {
+                auto x = fi[j], y = fi[j + l] * w[j + l];
+                fi[j] = x + y, fi[j + l] = x - y;
+            }
+    const auto deg_inv = P - (P - 1) / deg;
+    for (int i = 0; i < deg; i++)
+        f[i] *= deg_inv;
+    std::reverse(f + 1, f + deg);
+}
+
+void nttD(Poly::iterator f, int n) {
+    std::copy_n(f, n, f + n);
+    intt(f + n, n);
+    for (int i = n; i < n * 2; i++)
+        f[i] *= w[i];
+    ntt(f + n, n);
+}
+
+Poly &Poly::ntt(int n) {
+    if (!isNTT) {
+        resize(n);
+        ::ntt(begin(), n);
+        isNTT = true;
+    }
+    return *this;
+}
+
+Poly &Poly::intt(int m) {
+    ::intt(begin(), m);
+    isNTT = false;
+    return *this;
+}
+
+Poly &Poly::nttD(int n) {
+    resize(n * 2);
+    ::nttD(begin(), n);
+    return *this;
+}
+
+Poly &mul(Poly &f, Poly &g, int t) {
+    f.ntt(t), g.ntt(t);
+    for (int i = 0; i < t; i++)
+        f[i] *= g[i];
+    return f.intt(t);
+}
+
+Poly operator*(Poly f, Poly g) {
+    if (f.deg() < g.deg())
+        swap(f, g);
+    int t = f.deg() + g.deg() - 1;
+    return mul(f, g, get_lim(t)).cut(t);
+}
+
+Poly operator+(Poly f, Poly g) {
+    if (f.deg() < g.deg())
+        std::swap(f, g);
+    for (int i = 0; i < g.deg(); i++)
+        f[i] += g[i];
+    return f;
+}
+
+Poly operator-(Poly f, Poly g) {
+    for (auto &i : g)
+        i = -i;
+    return std::move(f) + g;
+}
+
+m32 mulAt(const Poly f, const Poly g, int u) {
+    int n = f.deg() - 1, m = g.deg() - 1;
+    m32 ans = 0;
+    for (int i = std::max(0, u - m); i <= std::min(u, n); i++)
+        ans += f[i] * g[u - i];
+    return ans;
+}
+
+struct PolySemi {
+    using iter = Poly::iterator;
+    const int B = 16;
+    int n, m;
+    Poly F, v1, v2, ret;
+    std::function<void(int, m32 &)> relax;
+
+    void run(int l, int r, iter g, iter h) {
+        if (r - l <= 64) {
+            for (int i = l; i < r; ++i) {
+                relax(i, ret[i]);
+                for (int j = i + 1; j < r; ++j)
+                    ret[j] += ret[i] * F[j - i];
+            }
+            return;
+        }
+        int len = (r - l) / B, k = 2 * len;
+        iter tg[B], th[B];
+        for (int i = 0; i < B - 1; i++)
+            tg[i] = g + i * k, th[i] = h + i * k;
+        if (l == 0) {
+            for (int i = 0; i < B - 1; i++) {
+                if ((i + 1) * len >= n)
+                    break;
+                copy_n(F.begin() + i * len, k, th[i]);
+                ntt(th[i], k);
+            }
+        }
+        for (int i = 0; i < B; i++) {
+            auto u = l + i * len;
+            if (u >= n)
+                break;
+            Poly s(k);
+            for (int j = 0; j < i; j++)
+                for (int t = 0; t < k; t++)
+                    s[t] += tg[j][t] * th[i - j - 1][t];
+            s.intt(k);
+            for (int t = 0; t < len; t++)
+                ret[t + u] += s[t + len];
+            run(u, u + len, g + k * B, h + k * B);
+            if (i != B - 1) {
+                copy_n(ret.begin() + u, len, tg[i]);
+                ntt(tg[i], k);
+            }
+        }
+        fill_n(g, k * B, 0);
+    }
+
+    PolySemi(Poly f) : F(f) {
+        n = F.size();
+        m = get_lim(n);
+        F.resize(m), ret.resize(m);
+        v1.resize(m * 4), v2.resize(m * 4);
+        ret[0] = 1;
+    }
+
+    Poly exp() {
+        pre_inv(m);
+        for (int i = 0; i < n; i++)
+            F[i] *= i;
+        relax = [&](int i, m32 &ri) {
+            ret[i] = i == 0 ? 1 : ret[i] * Inv[i];
+        };
+        run(0, m, v1.begin(), v2.begin());
+        return ret.cut(n);
+    }
+
+    Poly inv() {
+        m32 iv = F[0].inv();
+        relax = [&](int i, m32 &ri) {
+            ri = i == 0 ? iv : -ri * iv;
+        };
+        run(0, m, v1.begin(), v2.begin());
+        return ret.cut(n);
+    }
+
+    Poly quo(Poly h) { // 注意是 h / f
+        h.resize(m);
+        m32 iv = F[0].inv();
+        relax = [&](int i, m32 &ri) {
+            ret[i] = i == 0 ? h[0] * iv : (h[i] - ret[i]) * iv;
+        };
+        run(0, m, v1.begin(), v2.begin());
+        return ret.cut(n);
+    }
+};
+
+Poly &Poly::invD(Poly f2, Poly nx, int t) {
+    mul(f2, nx, t).fillZeroL(t); // 6E
+    mul(f2, nx, t);              // 4E
+    resize(t);
+    for (int i = t / 2; i < t; i++)
+        (*this)[i] = -f2[i];
+    return *this;
+}
+
+Poly Poly::inv() const { // 10E
+    Poly x = {front().inv()};
+    if (deg() == 1)
+        return x;
+    int lim = get_lim(deg());
+    for (int t = 2; t <= lim; t <<= 1)
+        x.invD(cut(t), x.cut(t), t);
+    return x.cut(deg());
+}
+
+Poly Poly::div(Poly g) const {
+    return PolySemi(g.resize(deg())).quo(*this);
+}
+
+Poly Poly::deriv() const {
+    Poly f(deg() - 1);
+    for (int i = 1; i < deg(); i++)
+        f[i - 1] = (*this)[i] * i;
+    return f;
+}
+
+Poly Poly::integr() const {
+    Poly f(deg() + 1);
+    pre_inv(deg() + 1);
+    for (int i = deg(); i > 0; --i)
+        f[i] = (*this)[i - 1] * Inv[i];
+    return f;
+}
+
+Poly Poly::ln() const {
+    return deriv().div(*this).integr();
+}
+
+Poly Poly::exp() const {
+    return PolySemi(*this).exp();
+}
+
+Poly Poly::sqrt() const { // 11E
+    Poly x = {front().sqrt()}, g = x.inv(), ng = g;
+    for (int t = 2; t < deg() * 2; t <<= 1) {
+        const Poly &h = *this;
+        Poly f = x;
+        if (t >= 4) {
+            g.invD(f.ntt(t / 2), ng, t / 2); // 3E
+        }
+        mul(f, f, t / 2); // 1E
+        f.resize(t);
+        for (int i = t / 2; i < std::min(h.deg(), t); i++)
+            f[i] = h[i - t / 2] + h[i] - f[i - t / 2];
+        ng = g;
+        mul(f.fillZeroL(t), ng, t); // 6E
+        x.resize(t);
+        for (int i = t / 2; i < t; i++)
+            x[i] = f[i] * ((P + 1) / 2);
+    }
+    return x.cut(size());
+}
+
+Poly Poly::pow(int k) const {
+    Poly f = ln();
+    for (int i = 0; i < size(); i++)
+        f[i] *= k;
+    return f.exp();
+}
+
+// 计算最大连续 <= k 的情况数
+// f(x) = 1+x+x^2+...+x^k
+m32 cal(ll n, ll m, ll k) {
+    if (k > m || m > n) return 0;
+    if (k == 0) return (m == 0);
+	Poly f(1e5+5, 0);
+    n = n - m + 1;
+    for (int i = 0; i <= k; i++) f[i] = 1;
+	f = f.pow(n);
+    return f[m];
+}
+
+ll n,m,k;
+int main() {
+    cin >> n >> m >> k;
+	if (k == 0) {
+		if (m > 0) cout << "0\n";
+		else cout<<"1\n";
+	}
+	else if(m>n) cout<<"0\n";
+	else cout << (cal(n,m,k) - cal(n,m,k-1)).v << "\n";
+	cout.flush();
+	return 0;
+}
+```
+
+
+{{% /fold %}}
+
+{{% fold "多项式全家桶（自用，很慢）" %}}
 
 ```cpp
 const int mod = 998244353;
@@ -453,6 +968,26 @@ $$= g_1(x) - \frac{g_1^2(x) - f(x)}{2g_1(x)}$$
 • 如果 $f_0 \neq 1$，需要 [**二次剩余**](/post/055-二次剩余) 来求出 $g_0$
 
 注：有另外一种不用牛顿迭代的推导方法，可以看 [这里](https://www.luogu.com.cn/blog/Owencodeisking/solution-p5205)
+
+<hr>
+
+## 多项式快速幂
+
+{{% question 题意 %}}
+
+给定一个多项式 $f(x)$，和一个正整数 $k$，$deg(f) = n-1$，求 $g(x)$ 使得：
+
+$$g(x) \equiv f(x)^k ~ (\text{mod } x^{n})$$
+
+系数对 998244353 取模。保证 $f_0 = 1$，所有的系数均为非负整数。
+
+{{% /question %}}
+
+两边取 $ln$，可得：
+
+$$\ln g(x) \equiv k \ln f(x)$$
+
+所以计算出 $k \ln f(x)$ 之后，再两边同时取多项式 exp 即可。
 
 
 ## 注意事项

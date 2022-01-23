@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>树套树 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 树套树常常用于解决一些二维数点问题。 经典的问题如：矩阵内查询和/最大值，更新矩阵内一个点的值等等。 在介绍树套树之前，先简单讲一下树状数组" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/067-%E6%A0%91%E5%A5%97%E6%A0%91/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="树套树" />
+<meta property="og:description" content="介绍 树套树常常用于解决一些二维数点问题。 经典的问题如：矩阵内查询和/最大值，更新矩阵内一个点的值等等。 在介绍树套树之前，先简单讲一下树状数组" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/067-%E6%A0%91%E5%A5%97%E6%A0%91/" />
+<meta property="article:published_time" content="2022-01-20T18:30:51+08:00" />
+<meta property="article:modified_time" content="2022-01-23T16:59:44+08:00" />
+<meta itemprop="name" content="树套树">
+<meta itemprop="description" content="介绍 树套树常常用于解决一些二维数点问题。 经典的问题如：矩阵内查询和/最大值，更新矩阵内一个点的值等等。 在介绍树套树之前，先简单讲一下树状数组">
+<meta itemprop="datePublished" content="2022-01-20T18:30:51&#43;08:00" />
+<meta itemprop="dateModified" content="2022-01-23T16:59:44&#43;08:00" />
+<meta itemprop="wordCount" content="3238">
+
+
+
+<meta itemprop="keywords" content="树套树,线段树,树状数组," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="树套树"/>
+<meta name="twitter:description" content="介绍 树套树常常用于解决一些二维数点问题。 经典的问题如：矩阵内查询和/最大值，更新矩阵内一个点的值等等。 在介绍树套树之前，先简单讲一下树状数组"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">树套树</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-01-20 18:30:51 &#43;0800 &#43;0800"> 2022-01-20 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#树状数组介绍">树状数组介绍</a></li>
+        <li><a href="#树套树">树套树</a></li>
+        <li><a href="#标记永久化">标记永久化</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p3287-scoi2014方伯伯的玉米田httpswwwluogucomcnproblemp3287">例1 <a href="https://www.luogu.com.cn/problem/P3287">洛谷P3287 [SCOI2014]方伯伯的玉米田</a></a></li>
+            <li><a href="#例2-洛谷p3437-poi2006tet-tetris-3dhttpswwwluogucomcnproblemp3437">例2 <a href="https://www.luogu.com.cn/problem/P3437">洛谷P3437 [POI2006]TET-Tetris 3D</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>树套树常常用于解决一些二维数点问题。</p>
+<p>经典的问题如：矩阵内查询和/最大值，更新矩阵内一个点的值等等。</p>
+<p>在介绍树套树之前，先简单讲一下树状数组。</p>
+<h2 id="树状数组介绍">树状数组介绍</h2>
+<details class="admonition note"><summary class="admonition-title">树状数组</summary>
+<p>树状数组的本质就是一个数组 <code>tr[]</code>。</p>
+<p>其中 <code>tr[x]</code> 维护的是区间 <code>[x-lowbit(x)+1, x]</code> 的信息（即：以 <code>x</code> 为结尾，长度为 <code>lowbit(x)</code> 的区间）。</p>
+<p><img src="/images/067/1.png" alt="img"></p>
+<p>那么如果我们要询问 $[1,x]$ 的信息，那么可以利用 <strong>不断减去 <code>lowbit(x)</code></strong> 的形式实现。</p>
+<p>如果我们需要更新点 $x$ 的值，那么需要 <strong>不断加上 <code>lowbit(x)</code></strong> 来保证所有包含了 $x$ 的区间都被更新了。</p>
+<hr>
+<p>我们以 区间查询和，单点加值 为例：</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 5e5+5;
+
+inline int lowbit(int x) { return x &amp; -x; }
+int tr[maxn];
+int n, m;
+void update(int p, int val) {
+	while (p &lt;= n) {
+		tr[p] += val;
+		p += lowbit(p);
+	}
+}
+
+// return sum[1...p]
+int query(int p) {
+	int ans = 0;
+	while (p &gt; 0) {
+		ans += tr[p];
+		p -= lowbit(p);
+	}
+	return ans;
+}
+
+int main() {
+	cin &gt;&gt; n &gt;&gt; m;
+	for (int i = 1; i &lt;= n; i++) {
+		int x; cin &gt;&gt; x;
+		update(i, x);
+	}
+	while (m--) {
+		int op, x, y; cin &gt;&gt; op &gt;&gt; x &gt;&gt; y;
+		if (op == 1) update(x, y);
+		else cout &lt;&lt; query(y) - query(x-1) &lt;&lt; &quot;\n&quot;;
+	}
+}
+</code></pre>
+<p>• 注意一点，树状数组本质上维护的是 <strong>前缀信息</strong>，所以如果要询问<strong>区间信息</strong>，需要保证这个信息是 <strong>可减的</strong>。</p>
+<p>比如 <strong>区间最大值</strong> 就不能用树状数组了（但是 <strong>前缀最大值</strong> 仍然可以用）。</p>
+</details>
+<h2 id="树套树">树套树</h2>
+<p>所谓树套树，实际上就是将一个数据结构看作是两层线段树。</p>
+<p>比如维护二维的矩阵信息，那么这个数据结构的外层线段树维护的是 $x$ 坐标，而内层线段树维护的则是 $y$ 坐标。</p>
+<p>对于<strong>内层线段树</strong>来说，它和普通的一维线段树没有区别：每个节点维护的是一个区间，区间包含的是<strong>一些数字</strong>。</p>
+<p>对于<strong>外层线段树</strong>：每个节点维护的是一个区间，区间包含的是<strong>一些内层线段树</strong>。</p>
+<p>简单来说，相当于我们在<strong>每个 $x$ 坐标上，都开了一棵内层线段树</strong>。</p>
+<p>而我们用外层线段树，维护了 $x$ 坐标的区间。</p>
+<p>因此，我们在进行 <strong>矩阵查询/修改</strong> 时（例如 $[x_L,x_R][y_L,y_R]$），就分成了两步：</p>
+<ol>
+<li>首先在外层线段树找到 $x$ 坐标所在的区间 $[x_L,x_R]$，它在外层线段树上对应的就是<strong>若干个节点</strong>。</li>
+<li>进入这些节点（进入了以后就可以看到内层线段树了），然后对内层线段树进行 $[y_L,y_R]$ 的操作。</li>
+</ol>
+<h2 id="标记永久化">标记永久化</h2>
+<p>如果是 <strong>矩阵查询，单点修改</strong> 的话我们可以直接用树套树解决。</p>
+<p>但是如果是 <strong>矩阵查询，矩阵修改</strong> 呢？</p>
+<p>我们还是按照访问树套树的方式，但看起来我们需要对于 $[x_L,x_{L+1},&hellip;,x_R]$ 中的每一棵线段树都进行修改操作？</p>
+<p>因为我们<strong>无法对外层线段树进行 <code>pushup</code> 或者 <code>pushdown</code> 操作</strong>，因为它维护的是线段树，而不是数值。</p>
+<p>那么我们就引入了<strong>标记永久化</strong>的思想，什么意思呢？</p>
+<p>简单来说，标记永久化就是 <strong>去除了 <code>pushdown</code> 操作</strong>，对于那些被<strong>修改操作完全覆盖的区间，直接给它打上一个标记</strong>。</p>
+<p>之后，在<strong>询问</strong>的时候，当我们访问了一个节点时，我们就看一下这个节点上的标记，这时，标记的值就相当于 <strong>这个节点</strong> 之前<strong>被修改了，但是尚未下传</strong> 的信息。</p>
+<p>所以询问时：</p>
+<div class='center'>
+<ol>
+<li>
+<p><strong>无论</strong>这个节点是否完全被我们的询问覆盖，我们都要把<strong>这个节点的标记，加入到我们的询问答案</strong>。</p>
+</li>
+<li>
+<p>如果这个节点<strong>完全被覆盖</strong>，则我们直接考虑这个节点<strong>所维护的值即可，无需考虑标记</strong>了。</p>
+</li>
+</ol>
+</div>
+<p>那么，在树套树的实现中，一般是通过 <strong>开两棵树套树</strong>：</p>
+<div class='center'>
+<p>一棵树套树，专门用来维护 <strong>原来的值</strong>。</p>
+<p>另一棵树套树，专门用来维护 <strong>标记值</strong>。</p>
+</div>
+<p>然后在询问的时候，按照上面的两条规则进行操作，对内外两层线段树，写法基本一致。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p3287-scoi2014方伯伯的玉米田httpswwwluogucomcnproblemp3287">例1 <a href="https://www.luogu.com.cn/problem/P3287" target="_blank">洛谷P3287 [SCOI2014]方伯伯的玉米田</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个正整数 $a_i$，并且给定一个正整数 $K$。</p>
+<p>每次操作我们可以选定一个区间 $[L,R]$，将 $[a_L &hellip; a_R]$ 内的所有值 + 1，操作最多进行 $K$ 次。</p>
+<p>求操作后，最长不下降子序列（不一定连续）的长度？</p>
+<p>其中，$n \in [1, 10000], K \in [1, 500], a_i \in [1,5000]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先，每次操作一个区间的话，右端点一定为 $n$（因为右边数字越大，LIS就有可能越长，所以让右边更大一些一定更好）。</p>
+<p>然后就有了一个比较简单的 <code>dp</code> 思路：</p>
+<p>设 <code>dp[i][j]</code> 代表：当前考虑前 $i$ 个元素，已经用掉了 $j$ 次操作，恰好以 $i$ 为结尾的最长 LIS 的长度。</p>
+<p>然后我们不需要讨论当前用了多少个，我们直接用前面所有可能的状态进行转移：</p>
+<p>$$dp[i][j] = \max\sum\limits_{i&rsquo; \in [1,i-1], j&rsquo; \in [0,j]} \{dp[i&rsquo;][j&rsquo;] + 1\}, ~ 其中 a[i] + j \geq a[i&rsquo;] + j&rsquo;。$$</p>
+<p>总共有 $3$ 个条件（维度），这个东西怎么优化？</p>
+<p>首先，如果我们将 $i$ 从小到大枚举，那么 $i$ 这一维可以直接忽略掉。</p>
+<p>所以我们就剩下了 $a[i] + j$ 和 $j$ 这两个维度。</p>
+<p>那么我们可以将 $a[i] + j$ 的值看作 $x$ 坐标，$j$ 的值看作 $y$ 坐标，那么转移方程就是：</p>
+<p>$$dp[a[i]+j][j] = \max\sum\limits_{x \in [1,a[i] + j], y \in [0,j]} \{dp[x][y] + 1\}$$</p>
+<p>那么这个东西本质上就是一个<strong>矩阵查询最大值，支持单点修改</strong>的结构。</p>
+<p>$x$ 坐标的取值范围是 $[1,5500]$，$y$ 坐标的取值范围是 $[0,500]$。</p>
+<p>二维线段树？不对，空间复杂度 $5500 * 501 * \log (5500) * \log(501)$ 约等于 1e9。</p>
+<p>二维树状数组？空间复杂度刚好是 $5500 * 501$，可以过。</p>
+<p>注意到，虽然我们维护的是最大值，但这实际上是一个 <strong>前缀最大值</strong> 的形式，所以可以用树状数组。</p>
+<p>最后注意一下把 $y$ 变成 $[1,501]$ 即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">二维树状数组代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e4+5;
+
+const int N = 5500, M = 501;
+int tr[N+5][M+5];
+inline int lowbit(int x) { return x&amp;-x; }
+
+void update(int x, int y, int val) {
+	int tmp = y;
+	while (x &lt;= N) {
+		y = tmp;	
+		while (y &lt;= M) {
+			tr[x][y] = max(tr[x][y], val);
+			y += lowbit(y);
+		}
+		x += lowbit(x);
+	}
+}
+
+// 查询 [1...x][1...y]
+int query(int x, int y) {
+	int tmp = y;
+	int ans = 0;
+	while (x &gt; 0) {
+		y = tmp;
+		while (y &gt; 0) {
+			ans = max(ans, tr[x][y]);
+			y -= lowbit(y);
+		}
+		x -= lowbit(x);
+	}
+	return ans;
+}
+
+int n, K;
+int a[maxn];
+int ans = 0;
+int main() {
+    cin &gt;&gt; n &gt;&gt; K;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; a[i];
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = K; j &gt;= 0; j--) {
+            int v = a[i] + j;
+            int res = query(v, j+1);
+            ans = max(ans, res + 1);
+            update(v, j+1, res + 1);
+        }
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<details class="admonition note"><summary class="admonition-title">二维线段树代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int maxn = 1e4+5;
+const int N = 5500, M = 500;  // x:[1, 5500], y: [0, 500]
+struct Node {
+    int maxval, lc, rc;
+    int rt;  // 这个节点所维护的线段树的根
+} tr[2e9];  // 开不了这么大的！
+int rt = 0, ID = 0;
+void insert_y(int&amp; cur, int l, int r, int y, int val) {
+    if (!cur) cur = ++ID;
+    tr[cur].maxval = max(tr[cur].maxval, val);
+    if (l == r) return;
+    int mid = (l+r) &gt;&gt; 1;
+    if (y &lt;= mid) insert_y(tr[cur].lc, l, mid, y, val);
+    if (y &gt; mid) insert_y(tr[cur].rc, mid+1, r, y, val);
+}
+void insert_x(int&amp; cur, int l, int r, int x, int y, int val) {
+    if (!cur) cur = ++ID;
+    tr[cur].maxval = max(tr[cur].maxval, val);
+    insert_y(tr[cur].rt, 0, M, y, val);  // 从根节点开始
+    if (l == r) return;
+    int mid = (l+r) &gt;&gt; 1;
+    if (x &lt;= mid) insert_x(tr[cur].lc, l, mid, x, y, val);
+    if (x &gt; mid) insert_x(tr[cur].rc, mid+1, r, x, y, val);
+}
+
+// change the value of (x,y) to val
+void insert(int x, int y, int val) {
+    insert_x(rt, 1, N, x, y, val);
+}
+
+int query_y(int cur, int l, int r, int yl, int yr) {
+    if (!cur) return 0;
+    int res = 0;
+    if (yl &lt;= l &amp;&amp; yr &gt;= r) return tr[cur].maxval;
+    int mid = (l+r) &gt;&gt; 1;
+    if (yl &lt;= mid) res = max(res, query_y(tr[cur].lc, l, mid, yl, yr));
+    if (yr &gt; mid) res = max(res, query_y(tr[cur].rc, mid+1, r, yl, yr));
+    return res;
+}
+
+int query_x(int cur, int l, int r, int xl, int xr, int yl, int yr) {
+    if (!cur) return 0;
+    int res = 0;
+    if (xl &lt;= l &amp;&amp; xr &gt;= r) {
+        return query_y(tr[cur].rt, 0, M, yl, yr);
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    if (xl &lt;= mid) res = max(res, query_x(tr[cur].lc, l, mid, xl, xr, yl, yr));
+    if (xr &gt; mid) res = max(res, query_x(tr[cur].rc, mid+1, r, xl, xr, yl, yr));
+    return res;
+}
+
+int query(int xl, int xr, int yl, int yr) {
+    return query_x(rt, 1, N, xl, xr, yl, yr);
+}
+
+int n, K;
+int a[maxn];
+int ans = 0;
+int main() {
+    cin &gt;&gt; n &gt;&gt; K;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; a[i];
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = K; j &gt;= 0; j--) {
+            int v = a[i] + j;
+            int res = query(1, v, 0, j);
+            ans = max(ans, res + 1);
+            insert(v, j, res + 1);
+        }
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例2-洛谷p3437-poi2006tet-tetris-3dhttpswwwluogucomcnproblemp3437">例2 <a href="https://www.luogu.com.cn/problem/P3437" target="_blank">洛谷P3437 [POI2006]TET-Tetris 3D</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $N \times M$ 的矩阵，有 $q$ 个询问，每次询问一个子矩阵内的最大值，并且将这个矩阵加上某个值。</p>
+<p>求所有操作后，整个矩阵内的最大值？</p>
+<p>其中，$q \leq 20000, N,M \leq 1000$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>直接二维线段树维护即可，都不需要动态开点。这题是一个很好的板子。</p>
+<p>对于最大值，我们注意到一个特性：只要一个矩阵中的任意一个元素被更新了，那么整个矩阵的最大值都要被更新。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1005;
+const int maxm = 30;
+
+// 矩阵查询最大值
+// 矩阵修改（加上值）
+
+const int N = 1000;
+struct Node {
+    int maxval;
+    int lazy;  // 永久化标记（只打在内层线段树上）
+};
+
+struct SegY {
+    Node tr[maxn&lt;&lt;2];
+    void update(int cur, int l, int r, int L, int R, int val) {
+        tr[cur].maxval = max(tr[cur].maxval, val);  // 如果 [l,r] 与 [L,R] 有交集直接更改
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            tr[cur].lazy = max(tr[cur].lazy, val);  // 完全覆盖时，记录懒标记
+            return;
+        }
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, val);
+        if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, val);
+    }
+    int query(int cur, int l, int r, int L, int R) {
+        int ans = 0;
+        ans = max(ans, tr[cur].lazy);  // 懒标记值记录
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            ans = max(ans, tr[cur].maxval);  // 正常查询
+            return ans;
+        }
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) ans = max(ans, query(cur&lt;&lt;1, l, mid, L, R));
+        if (R &gt; mid) ans = max(ans, query(cur&lt;&lt;1|1, mid+1, r, L, R));
+        return ans;
+    }
+};
+
+struct SegX {
+    SegY mx[maxn&lt;&lt;2], tag[maxn&lt;&lt;2];
+    void update(int cur, int l, int r, int xl, int xr, int yl, int yr, int val) {
+        mx[cur].update(1, 1, N, yl, yr, val);  // 有交集就更新
+        if (xl &lt;= l &amp;&amp; xr &gt;= r) {
+            tag[cur].update(1, 1, N, yl, yr, val);  // 让被完全覆盖的这些线段树都更新一下 tag
+            return;
+        }
+        int mid = (l+r) &gt;&gt; 1;
+        if (xl &lt;= mid) update(cur&lt;&lt;1, l, mid, xl, xr, yl, yr, val);
+        if (xr &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, xl, xr, yl, yr, val);
+    }
+    int query(int cur, int l, int r, int xl, int xr, int yl, int yr) {
+        int ans = 0;
+        ans = max(ans, tag[cur].query(1, 1, N, yl, yr));  // 懒标记下传
+        if (xl &lt;= l &amp;&amp; xr &gt;= r) {
+            ans = max(ans, mx[cur].query(1, 1, N, yl, yr));
+            return ans;
+        }
+        int mid = (l+r) &gt;&gt; 1;
+        if (xl &lt;= mid) ans = max(ans, query(cur&lt;&lt;1, l, mid, xl, xr, yl, yr));
+        if (xr &gt; mid) ans = max(ans, query(cur&lt;&lt;1|1, mid+1, r, xl, xr, yl, yr));
+        return ans;
+    }
+} tr;
+
+int D, S, q;
+
+// assign val to [xl,xr][yl,yr]
+void update(int xl, int xr, int yl, int yr, int val) {
+    tr.update(1, 1, N, xl, xr, yl, yr, val);
+}
+
+// query maximum value between [xl,xr][yl,yr]
+int query(int xl, int xr, int yl, int yr) {
+    return tr.query(1, 1, N, xl, xr, yl, yr);
+}
+
+int main() {
+    cin &gt;&gt; D &gt;&gt; S &gt;&gt; q;
+    while (q--) {
+        int n, m, h, x, y; cin &gt;&gt; n &gt;&gt; m &gt;&gt; h &gt;&gt; x &gt;&gt; y;
+        x++, y++; n--, m--;
+        int res = query(x, x+n, y, y+m);
+        update(x, x+n, y, y+m, res + h);
+    }
+    cout &lt;&lt; query(1, N, 1, N) &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://www.cnblogs.com/Mychael/p/9049136.html">https://www.cnblogs.com/Mychael/p/9049136.html</a></li>
+<li><a href="https://www.cnblogs.com/wozaixuexi/p/9462461.html">https://www.cnblogs.com/wozaixuexi/p/9462461.html</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2022-01-23 16:59:44 &#43;0800 &#43;0800">2022-01-23</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0eb49f6469eaf1cd883eee0ecb8fb711dc4dc901" title="init 067" target="_blank">(0eb49f6)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/067-%e6%a0%91%e5%a5%97%e6%a0%91.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%A0%91%E5%A5%97%E6%A0%91/">树套树</a>
+          <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">线段树</a>
+          <a href="/tags/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">树状数组</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/066-%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/">
+            <span class="next-text nav-default">组合数学</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

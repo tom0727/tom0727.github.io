@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>二维差分 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 一维差分可以用于解决以下问题： 给定一系列的区间加/减操作，最后询问整个数组的元素。 那么二维差分就可以解决： 给定一系列的矩阵加/减操作，最" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/068-%E4%BA%8C%E7%BB%B4%E5%B7%AE%E5%88%86/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="二维差分" />
+<meta property="og:description" content="介绍 一维差分可以用于解决以下问题： 给定一系列的区间加/减操作，最后询问整个数组的元素。 那么二维差分就可以解决： 给定一系列的矩阵加/减操作，最" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/068-%E4%BA%8C%E7%BB%B4%E5%B7%AE%E5%88%86/" />
+<meta property="article:published_time" content="2022-01-24T12:14:30+08:00" />
+<meta property="article:modified_time" content="2022-01-26T17:05:47+08:00" />
+<meta itemprop="name" content="二维差分">
+<meta itemprop="description" content="介绍 一维差分可以用于解决以下问题： 给定一系列的区间加/减操作，最后询问整个数组的元素。 那么二维差分就可以解决： 给定一系列的矩阵加/减操作，最">
+<meta itemprop="datePublished" content="2022-01-24T12:14:30&#43;08:00" />
+<meta itemprop="dateModified" content="2022-01-26T17:05:47&#43;08:00" />
+<meta itemprop="wordCount" content="1447">
+
+
+
+<meta itemprop="keywords" content="差分,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="二维差分"/>
+<meta name="twitter:description" content="介绍 一维差分可以用于解决以下问题： 给定一系列的区间加/减操作，最后询问整个数组的元素。 那么二维差分就可以解决： 给定一系列的矩阵加/减操作，最"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">二维差分</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-01-24 12:14:30 &#43;0800 &#43;0800"> 2022-01-24 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#二维差分原理">二维差分原理</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-2018icpc焦作j题-carpets-removalhttpscodeforcescomgym102028problemj">例1 <a href="https://codeforces.com/gym/102028/problem/J">2018ICPC焦作J题 Carpets Removal</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>一维差分可以用于解决以下问题：</p>
+<p>给定一系列的<strong>区间加/减操作</strong>，最后询问整个数组的元素。</p>
+<p>那么二维差分就可以解决：</p>
+<p>给定一系列的<strong>矩阵加/减操作</strong>，最后询问整个矩阵中的元素。</p>
+<h2 id="二维差分原理">二维差分原理</h2>
+<p>我们知道，二维前缀和的计算方式是：</p>
+<p>$$sum[x][y] = sum[x-1][y] + sum[x][y-1] - sum[x-1][y-1]$$</p>
+<p>所以我们思考，对于差分数组 $d[x][y]$，如果我们要给一个矩阵</p>
+<p>$$[x_1,y_1][x_2,y_2]$$</p>
+<p>全部加 $1$，即左上角为 $(x_1,y_1)$，右下角为 $(x_2,y_2)$ 的矩阵全部加 $1$，应该怎么处理？</p>
+<p><img src="/images/068/1.png" alt="img"></p>
+<p>注意到如果我们进行二维前缀和的话，修改一个差分数组 $d[x][y]$ 影响到的是 $(x,y)$ <strong>右下方</strong>的所有元素的值。</p>
+<p>我们想要的是 <strong>紫色部分</strong> 全部加 $1$。</p>
+<p>那么如果我们让 $d[x_1][y_1]$ 加 $1$，那么影响到的是所有的 <strong>紫色加红色</strong> 部分。</p>
+<p>于是，我们可以通过让 $d[x_1][y_2+1]$ 和 $d[x_2+1][y_1]$ 全部减去 $1$ 来<strong>消除红色部分</strong>。</p>
+<p>然而 <strong>绿色部分</strong> 被减去了两次，所以我们再给 $d[x_2+1][y_2+1]$ 加上 $1$。</p>
+<p>在所有的操作结束后，使用 <strong>二维前缀和</strong> 的方式来获得矩阵值即可。</p>
+<pre><code class="language-cpp">void update(ll arr[][maxn], int xl, int xr, int yl, int yr, ll val) {
+    arr[xl][yl] += val;
+    arr[xr+1][yr+1] += val;
+    arr[xl][yr+1] -= val;
+    arr[xr+1][yl] -= val;
+}
+</code></pre>
+<h2 id="例题">例题</h2>
+<h3 id="例1-2018icpc焦作j题-carpets-removalhttpscodeforcescomgym102028problemj">例1 <a href="https://codeforces.com/gym/102028/problem/J" target="_blank">2018ICPC焦作J题 Carpets Removal</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $m\times m$ 的一个矩阵，并且给定 $n$ 个地毯（每个地毯是一个矩形）。</p>
+<p>我们需要移除 <strong>恰好两个地毯</strong>，使得 <strong>没有被地毯覆盖到的格子数量</strong> 最大。</p>
+<p>输出这个最大值。</p>
+<p>其中，$3 \leq n \leq 3 \times 10^5, 1 \leq m \leq 1500$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先，我们可以利用二维差分，求出每个格子的覆盖次数。</p>
+<p>我们知道，如果一个格子被覆盖的次数 $\geq 3$，那么可以直接忽略。</p>
+<p>所以我们只考虑覆盖次数为 $1$ 或者 $2$ 的格子。</p>
+<p>我们分开讨论。</p>
+<hr>
+<p>对于覆盖次数为 $1$ 的格子，我们可以把它们单独拿出来，在一个全部为 $0$ 的矩阵中，然后把这些 $1$ 放进去。</p>
+<p>这样我们可以得出每个地毯所覆盖的 $1$ 的数量。</p>
+<p>我们设第 $i$ 个地毯覆盖的 $1$ 的数量为 $a_i$。</p>
+<hr>
+<p>对于覆盖次数为 $2$ 的格子，假设覆盖它的地毯分别为 $i,j$，那么我们设 $b_{ij}$ 为地毯 $i,j$ 共同覆盖的，覆盖次数为 $2$ 的格子数量。</p>
+<p>所以最后的最大值就是</p>
+<p>$$\max\limits_{(i,j)}\{a_i+a_j+b_{ij}\}$$</p>
+<hr>
+<p>$a_i$ 我们可以求出，但是 $b_{ij}$ 呢？</p>
+<p>假设我们知道对于每个覆盖次数为 $2$ 的格子，覆盖它的两个地毯 index 为 $i,j$，那么这个 $b_{ij}$ 就可以求出。</p>
+<p>我们利用 <strong>二维差分</strong> 来记录这样的信息！</p>
+<p>除了我们维护的 <code>cnt[][]</code> 来代表覆盖次数以外，我们再额外维护两个信息：</p>
+<ol>
+<li><code>sum[][]</code>：如果 $(i,j)$ 被地毯 $x$ 覆盖，那么它的值会被加上 $x$。</li>
+<li><code>sum2[][]</code>：如果 $(i,j)$ 被地毯 $x$ 覆盖，那么它的值会被加上 $x^2$。</li>
+</ol>
+<p>对于 <code>cnt[i][j] == 1</code> 的格子，我们只要看一下 <code>sum[i][j]</code>，就可以知道它是被哪个地毯覆盖的了。</p>
+<p>对于 <code>cnt[i][j] == 2</code> 的格子，我们可以知道它被两个地毯 $x,y$ 所覆盖，并且我们知道 $(x+y)$ 与 $(x^2+y^2)$ 的值。</p>
+<p>那么我们只要利用 $$2(x^2+y^2) - (x+y)^2 = x^2 + y^2 - 2xy = (x-y)^2$$</p>
+<p>就可以求出 $|x-y|$ 的值，那么用 $\frac{(x+y) \pm |x-y|}{2}$ 即可求出 $x,y$。</p>
+<hr>
+<p>最后要注意，有可能有 $b_{ij} = 0$，所以我们还需要让答案再考虑一下</p>
+<p>$$\max\limits_{(i,j)}\{a_i+a_j\}$$</p>
+<p>这个只要在 $a_i$ 中找到前 $2$ 大的加起来就可以了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1515;
+const int maxm = 3e5+50;
+
+ll n,m;
+ll cnt[maxn][maxn];
+ll sum1[maxn][maxn], sum2[maxn][maxn];
+void update(ll arr[][maxn], int xl, int xr, int yl, int yr, ll val) {
+    arr[xl][yl] += val;
+    arr[xr+1][yr+1] += val;
+    arr[xl][yr+1] -= val;
+    arr[xr+1][yl] -= val;
+}
+
+ll one[maxm];
+void solve() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (ll i = 1; i &lt;= n; i++) {
+        int xl,xr,yl,yr; cin &gt;&gt; xl &gt;&gt; xr &gt;&gt; yl &gt;&gt; yr;
+        update(cnt, xl, xr, yl, yr, 1);
+        update(sum1, xl, xr, yl, yr, i);
+        update(sum2, xl, xr, yl, yr, i*i);
+    }
+    map&lt;pii,int&gt; mp;
+    for (int i = 1; i &lt;= m; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            cnt[i][j] += cnt[i][j-1] + cnt[i-1][j] - cnt[i-1][j-1];
+            sum1[i][j] += sum1[i][j-1] + sum1[i-1][j] - sum1[i-1][j-1];
+            sum2[i][j] += sum2[i][j-1] + sum2[i-1][j] - sum2[i-1][j-1];
+
+            if (cnt[i][j] == 1) {
+                ll x = sum1[i][j];
+                one[x]++;
+            } else if (cnt[i][j] == 2) {
+                ll d = sqrt(2LL * sum2[i][j] - sum1[i][j] * sum1[i][j]);  // d = abs(x-y)
+                ll x = (sum1[i][j] + d) / 2, y = (sum1[i][j] - d) / 2;
+                if (x &gt; y) swap(x, y);
+                mp[{x,y}]++;
+            }
+        }
+    }
+    ll ans = 0;
+    for (auto p : mp) {
+        int x = p.first.first, y = p.first.second;
+        ll a = p.second;
+        ans = max(ans, one[x] + one[y] + a);
+    }
+    ll m1 = 0, m2 = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        m1 = max(m1, one[i]);
+        if (m1 &gt; m2) {
+            swap(m1, m2);
+        }
+    }
+    ans = max(ans, m1 + m2);
+    ans = -ans;
+    LOG(ans);
+    for (int i = 1; i &lt;= m; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            ans += (cnt[i][j] &gt; 0);
+        }
+    }
+    cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+
+    for (int i = 0; i &lt;= m+2; i++) {
+        for (int j = 0; j &lt;= m+2; j++) {
+            cnt[i][j] = sum1[i][j] = sum2[i][j] = 0;
+        }
+    }
+    fill(one, one+n+2, 0);
+}
+
+int main() {
+    int T; cin &gt;&gt; T;
+    while (T--) {
+        solve();
+    }
+}
+
+</code></pre>
+</details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://www.cnblogs.com/LMCC1108/p/10753451.html">https://www.cnblogs.com/LMCC1108/p/10753451.html</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2022-01-26 17:05:47 &#43;0800 &#43;0800">2022-01-26</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/dcda2a3a32c10dc24832fb84e2059eebbd3c1bc0" title="update 067" target="_blank">(dcda2a3)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/068-%e4%ba%8c%e7%bb%b4%e5%b7%ae%e5%88%86.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%B7%AE%E5%88%86/">差分</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/067-%E6%A0%91%E5%A5%97%E6%A0%91/">
+            <span class="next-text nav-default">树套树</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

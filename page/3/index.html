@@ -125,6 +125,27 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/049-%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83/">高斯消元</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2021-09-10 22:00:43 &#43;0800 &#43;0800"> 2021-09-10 </span>
+      <div class="post-category">
+          <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      介绍 高斯消元是矩阵操作里最基础的一个，主要用于解形如 $a_1x_1 + a_2x_2 + a_3x_3 = b_1$ 之类的线性方程组。 步骤 按 column 进行遍历 遍历到第 $k$ 个 column 时，在这个column中，
+    </div>
+    <div class="read-more">
+      <a href="/post/049-%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/048-%E6%A6%82%E7%8E%87%E6%9C%9F%E6%9C%9B/">概率期望</a></h1>
     <div class="post-meta">
       <span class="post-time" title="2021-07-27 17:57:28 &#43;0800 &#43;0800"> 2021-07-27 </span>
@@ -308,27 +329,6 @@
     </div>
     <div class="read-more">
       <a href="/post/040-scc/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/039-%E8%83%8C%E5%8C%85/">背包问题</a></h1>
-    <div class="post-meta">
-      <span class="post-time" title="2021-04-11 21:42:06 &#43;0800 &#43;0800"> 2021-04-11 </span>
-      <div class="post-category">
-          <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
-          </div>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      多重背包二进制 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] + w); } } int main() { cin &gt;&gt; n &gt;&gt; V; while (n--) { int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s; int k = 1; while (k &lt;= s) { pack01(v*k, w*k); s -= k;
-    </div>
-    <div class="read-more">
-      <a href="/post/039-%E8%83%8C%E5%8C%85/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>

@@ -68,6 +68,8 @@ def load_contest_byid(id):
         type = "Div2"
     elif "Div.3" in stripped_name:
         type = "Div3"
+    elif "Div.4" in stripped_name:
+        type = "Div4"
 
 
     problem_list = info["result"]["problems"]
@@ -97,6 +99,8 @@ def filter_contest_helper(contest_result):
         if contest_result["type"] == "CF":
             return True
         if contest_result["type"] == "ICPC" and ("Div. 3" in contest_result["name"] or "Div.3" in contest_result["name"]):
+            return True
+        if contest_result["type"] == "ICPC" and ("Div. 4" in contest_result["name"] or "Div.4" in contest_result["name"]):
             return True
         if contest_result["type"] == "ICPC" and "Educational" in contest_result["name"]:
             return True

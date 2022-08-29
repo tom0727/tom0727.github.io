@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/048-%E6%A6%82%E7%8E%87%E6%9C%9F%E6%9C%9B/" />
 <meta property="article:published_time" content="2021-07-27T17:57:28+08:00" />
-<meta property="article:modified_time" content="2022-08-28T00:37:55+00:00" />
+<meta property="article:modified_time" content="2022-08-29T11:54:05-05:00" />
 <meta itemprop="name" content="概率期望">
 <meta itemprop="description" content="例1 洛谷P1850 [NOIP2016 提高组] 换教室 题意 有 $n$ 个时间段，每个时间段有 $2$ 节课程。其中在时间段 $i$ 的两节课，分别在教室 $c_i, d_i$ 上。 对于所有的时间段 $i$，">
 <meta itemprop="datePublished" content="2021-07-27T17:57:28&#43;08:00" />
-<meta itemprop="dateModified" content="2022-08-28T00:37:55&#43;00:00" />
-<meta itemprop="wordCount" content="4726">
+<meta itemprop="dateModified" content="2022-08-29T11:54:05-05:00" />
+<meta itemprop="wordCount" content="5430">
 
 
 
@@ -156,6 +156,7 @@
             <li><a href="#例2-洛谷p3830-shoi2012随机树httpswwwluogucomcnproblemp3830">例2 <a href="https://www.luogu.com.cn/problem/P3830">洛谷P3830 [SHOI2012]随机树</a></a></li>
             <li><a href="#例3-洛谷-p2221-haoi2012高速公路httpswwwluogucomcnproblemp2221">例3 <a href="https://www.luogu.com.cn/problem/P2221">洛谷 P2221 [HAOI2012]高速公路</a></a></li>
             <li><a href="#例4-cf850f-rainbow-ballshttpswwwluogucomcnproblemcf850f">例4 <a href="https://www.luogu.com.cn/problem/CF850F">CF850F Rainbow Balls</a></a></li>
+            <li><a href="#例5-abc224fhttpsatcoderjpcontestsabc224tasksabc224_f">例5 <a href="https://atcoder.jp/contests/abc224/tasks/abc224_f">ABC224F</a></a></li>
           </ul>
         </li>
       </ul>
@@ -632,6 +633,114 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例5-abc224fhttpsatcoderjpcontestsabc224tasksabc224_f">例5 <a href="https://atcoder.jp/contests/abc224/tasks/abc224_f" target="_blank">ABC224F</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个字符串 $S$，仅包含 $1-9$ 的字符。</p>
+<p>现在在任意两个字符之间添加 <code>+</code> 号，就可以得到一个算式。</p>
+<p>求所有添加方案得到的算式的和。</p>
+<p>其中，$|S| \in [1, 2 * 10^5]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>对于这种 &ldquo;所有方案&rdquo; 的题目，一般考虑下概率问题。</p>
+<p>对于从右往左数的第 $i$ 位，我们考虑它作为个位数，十位数，百位数……的概率：</p>
+<p>$i=1$：个位数概率 $p=1$</p>
+<p>$i=2$：个位数概率 $p=\frac{1}{2}$，十位数概率 $p=\frac{1}{2}$</p>
+<p>$i=3$：个位数概率 $p=\frac{1}{2}$，十位数概率 $p=\frac{1}{4}$，百位数概率 $p=\frac{1}{4}$</p>
+<p>$i=4$：个位数概率 $p=\frac{1}{2}$，十位数概率 $p=\frac{1}{4}$，百位数概率 $p=\frac{1}{8}$，千位数概率 $p=\frac{1}{8}$。</p>
+<p>可以得出结论：除了最高位等同于次高位的概率外，对于 $i=k$ 的情况，从个位数开始往上的概率分别为 $[\frac{1}{2}, \frac{1}{4}, \frac{1}{8}&hellip;]$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+template&lt;class T&gt;
+T qpow(T a, int b) {
+    T res = 1;
+    while (b) {
+        if (b &amp; 1) res *= a;
+        a *= a;
+        b &gt;&gt;= 1;
+    }
+    return res;
+}
+int norm(int x) {
+    if (x &lt; 0) {
+        x += mod;
+    }
+    if (x &gt;= mod) {
+        x -= mod;
+    }
+    return x;
+}
+struct Z {
+    int x;
+    Z(int x = 0) : x(norm(x)) {}
+    int val() const {
+        return x;
+    }
+    Z operator-() const {
+        return Z(norm(mod - x));
+    }
+    Z inv() const {
+        assert(x != 0);
+        return qpow(*this, mod - 2);
+    }
+    Z &amp;operator*=(const Z &amp;rhs) {
+        x = (ll)(x) * rhs.x % mod;
+        return *this;
+    }
+    Z &amp;operator+=(const Z &amp;rhs) {
+        x = norm(x + rhs.x);
+        return *this;
+    }
+    Z &amp;operator-=(const Z &amp;rhs) {
+        x = norm(x - rhs.x);
+        return *this;
+    }
+    Z &amp;operator/=(const Z &amp;rhs) {
+        return *this *= rhs.inv();
+    }
+    friend Z operator*(const Z &amp;lhs, const Z &amp;rhs) {
+        Z res = lhs;
+        res *= rhs;
+        return res;
+    }
+    friend Z operator+(const Z &amp;lhs, const Z &amp;rhs) {
+        Z res = lhs;
+        res += rhs;
+        return res;
+    }
+    friend Z operator-(const Z &amp;lhs, const Z &amp;rhs) {
+        Z res = lhs;
+        res -= rhs;
+        return res;
+    }
+    friend Z operator/(const Z &amp;lhs, const Z &amp;rhs) {
+        Z res = lhs;
+        res /= rhs;
+        return res;
+    }
+};
+ 
+Z ans = 0;
+int main() {
+    fastio;
+    string s; cin &gt;&gt; s;
+ 
+    int n = s.size();
+    Z e = 1, p = 1, num = 1;
+    for (int i = n-1; i &gt;= 0; i--) {
+        Z c = s[i] - '0';
+        ans = ans + c * e;
+        e -= num * p;
+        p /= 2;
+        e += p * num * 11;
+        num *= 10;
+    }
+    cout &lt;&lt; (ans * (qpow(Z(2), n-1))).val() &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -643,8 +752,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-08-28 00:37:55 &#43;0000 UTC">2022-08-28</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/3fb35b30a437636cfd57ce29851ac8b6d38ec559" title="chore: update CF Problems" target="_blank">(3fb35b3)</a>
+        <span title="2022-08-29 11:54:05 -0500 -0500">2022-08-29</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/31e874c3c81bfd62a5a381a2f0e02c6238c424e8" title="init 070, update 048, update cdn source" target="_blank">(31e874c3)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/048-%e6%a6%82%e7%8e%87%e6%9c%9f%e6%9c%9b.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -734,7 +843,8 @@ int main() {
     </div>
   </div>
   <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
-  <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/tomorrow.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
   <script>hljs.configure({tabReplace: '    '});</script>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>

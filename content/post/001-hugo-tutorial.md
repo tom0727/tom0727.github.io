@@ -159,6 +159,10 @@ ouuan大佬在 2021年05月16日 更新了博客的搜索功能，再复制粘�
 
 `/Users/huzhenwei/hugo-blog/themes/even/assets/sass/_custom/_custom.scss`
 
+## 更改css文件来源CDN
+
+cdn.bootcss.com 似乎炸了，导致 highlight.js 加载不出来，所以利用 grep 搜索到了 `./themes/even/layouts/partials/scripts.html` 中的 highlight.js 来源 CDN 后进行了修改，[cdnjs.cloudflare.com](https://cdnjs.cloudflare.com) 快的飞起！
+
 ## 一些注意事项
 
 1. 博客默认模版的最底部有一个 `--more--`，要把它删掉，否则预览的时候整个博客都会被预览出来。

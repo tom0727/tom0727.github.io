@@ -1,0 +1,48 @@
+{{- define "title" }}原神圣遗物计算器 - {{ .Site.Title }}{{ end -}}
+{{- define "content" }}
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <!-- <link rel="stylesheet" href='{{ "css/cf-problems.css" | absURL }}'> -->
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css"/>
+  <script src="//cdn.jsdelivr.net/npm/vue@next"></script>
+  <script src="//cdn.jsdelivr.net/npm/element-plus"></script>
+
+
+  <body>
+
+    <div id="app" class="demo">
+      ${ message }
+      <el-button type="primary" @click="count++">${ count }</el-button>
+      
+      <br>
+      <select v-model="number">
+        <!-- 内联对象字面量 -->
+        <option :value="123">123</option>
+        <option :value="456">456</option>
+        <option :value="'hi'">hi</option>
+      </select>
+
+      <el-input-number v-model="num" :min="1" :max="10" @change="handleChange"></el-input-number>
+      ${ message }
+      
+      <artifact :title="title"></artifact>
+
+      <site-info v-for="site in sites" :id="site.id" :title="site.title"></site-info>
+      
+      <br>
+  
+      
+    
+    </div>
+    
+    <script src='{{ "js/ys-calculator.js" | absURL }}'></script>
+    <script>
+      import comp1 from "./comp1.html"
+    </script>
+
+
+  </body>
+    
+  <!-- <script src='{{ "js/cf-problem.js" | absURL }}'></script> -->
+
+{{ end -}}

@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/047-%E7%BD%91%E7%BB%9C%E6%B5%81/" />
 <meta property="article:published_time" content="2021-06-04T12:03:44+08:00" />
-<meta property="article:modified_time" content="2022-09-10T00:39:01+00:00" />
+<meta property="article:modified_time" content="2022-09-14T21:53:40-05:00" />
 <meta itemprop="name" content="网络流">
 <meta itemprop="description" content="介绍 网络 是一个有向图 $G = (V,E)$，每条边 $(u,v) \in E$ 都拥有一个容量 $c(u,v)$。 在一个网络中，拥有两个特殊的节点 $s, t$ （源点，汇点）。 定义 流">
 <meta itemprop="datePublished" content="2021-06-04T12:03:44&#43;08:00" />
-<meta itemprop="dateModified" content="2022-09-10T00:39:01&#43;00:00" />
-<meta itemprop="wordCount" content="13564">
+<meta itemprop="dateModified" content="2022-09-14T21:53:40-05:00" />
+<meta itemprop="wordCount" content="13583">
 
 
 
@@ -325,98 +325,101 @@ int main() {
 </code></pre>
 </details>
 <details class="admonition note"><summary class="admonition-title">费用流模版</summary>
-<pre><code class="language-cpp">int n,m,s,t;
-struct Edge {
+<pre><code class="language-cpp">struct Edge {
     int to, nxt;
     ll w, c;
-} edges[maxm&lt;&lt;1];
-int head[maxn], ecnt = 2, cur[maxn];  // ecnt 从 2 开始，方便取反向边
+};
 
-void addEdge(int u, int v, ll w, ll c) {
-    Edge e = {v, head[u], w, c};
-    edges[ecnt] = e;
-    head[u] = ecnt++;
-}
+struct MCMF {
+    int n,m,s,t;
+    Edge edges[maxm&lt;&lt;1];
+    int head[maxn], ecnt = 2, cur[maxn];  // ecnt 从 2 开始，方便取反向边
+    ll cost = 0;
+    void addEdge(int u, int v, ll w, ll c) {
+        Edge e = {v, head[u], w, c};
+        edges[ecnt] = e;
+        head[u] = ecnt++;
+    }
 
-ll dis[maxn];
-bool inq[maxn], vis[maxn];
-bool spfa(bool mincost = true) {
-    queue&lt;int&gt; q;
-    memset(vis, 0, sizeof(vis));  // 这里一定要记得清空 vis (dfs要用)
-    memset(inq, 0, sizeof(inq));
-    fill(dis, dis+maxn, mincost ? 1e18 : -1e18);
-    memcpy(cur, head, sizeof(head));  // 当前弧优化用到的数组 cur
-    dis[s] = 0;
-    inq[s] = 1;
-    q.push(s);
-    while (!q.empty()) {
-        int u = q.front(); q.pop();
-        inq[u] = 0;
-        for (int e = head[u]; e; e = edges[e].nxt) {
-            int to = edges[e].to;
-            ll w = edges[e].w, c = edges[e].c;
-            if (w == 0) continue;
-            if ((mincost &amp;&amp; dis[u] + c &lt; dis[to]) || (!mincost &amp;&amp; dis[u] + c &gt; dis[to])) {
-                dis[to] = dis[u] + c;
-                if (!inq[to]) {
-                    inq[to] = 1;
-                    q.push(to);
+    ll dis[maxn];
+    bool inq[maxn], vis[maxn];
+    bool spfa(bool mincost) {
+        queue&lt;int&gt; q;
+        memset(vis, 0, sizeof(vis));  // 这里一定要记得清空 vis (dfs要用)
+        memset(inq, 0, sizeof(inq));
+        fill(dis, dis+maxn, mincost ? 1e18 : -1e18);
+        memcpy(cur, head, sizeof(head));  // 当前弧优化用到的数组 cur
+        dis[s] = 0;
+        inq[s] = 1;
+        q.push(s);
+        while (!q.empty()) {
+            int u = q.front(); q.pop();
+            inq[u] = 0;
+            for (int e = head[u]; e; e = edges[e].nxt) {
+                int to = edges[e].to;
+                ll w = edges[e].w, c = edges[e].c;
+                if (w == 0) continue;
+                if ((mincost &amp;&amp; dis[u] + c &lt; dis[to]) || (!mincost &amp;&amp; dis[u] + c &gt; dis[to])) {
+                    dis[to] = dis[u] + c;
+                    if (!inq[to]) {
+                        inq[to] = 1;
+                        q.push(to);
+                    }
                 }
             }
         }
+        return dis[t] != (mincost ? 1e18 : -1e18);
     }
-    return dis[t] != (mincost ? 1e18 : -1e18);
-}
 
-ll dfs(int u, ll in) {
-    if (u == t) return in;  // 如果已经运到了终点，直接返回入量
-    vis[u] = 1;
-    ll out = 0;
-    for (int e = cur[u]; e; e = edges[e].nxt) {
-        cur[u] = e;
-        int to = edges[e].to;
-        ll w = edges[e].w, c = edges[e].c;
-        if (vis[to] || w == 0 || dis[to] != dis[u] + c) continue;
-        // 检测: 1. 是否vis过  2. 这条边是否存在  3. 是否是最短路径
+    ll dfs(int u, ll in) {
+        if (u == t) return in;  // 如果已经运到了终点，直接返回入量
+        vis[u] = 1;
+        ll out = 0;
+        for (int e = cur[u]; e; e = edges[e].nxt) {
+            cur[u] = e;
+            int to = edges[e].to;
+            ll w = edges[e].w, c = edges[e].c;
+            if (vis[to] || w == 0 || dis[to] != dis[u] + c) continue;
+            // 检测: 1. 是否vis过  2. 这条边是否存在  3. 是否是最短路径
 
-        ll res = dfs(to, min(in, w));
+            ll res = dfs(to, min(in, w));
 
-        in -= res;
-        out += res;
-        edges[e].w -= res;
-        edges[e^1].w += res;
+            in -= res;
+            out += res;
+            edges[e].w -= res;
+            edges[e^1].w += res;
 
-        if (in == 0) break;
+            if (in == 0) break;
+        }
+        if (out == 0) dis[u] = -1e18;
+        return out;
     }
-    if (out == 0) dis[u] = -1e18;
-    return out;
-}
 
-ll cost = 0;
-ll mcmf() {
-    ll maxflow = 0;
-    while (spfa()) {
-        ll res = dfs(s, 1e18);
-        maxflow += res;
-        cost += res * dis[t];  // cost += (流量 * 最短路长度)
+    ll mcmf(bool mincost = true) {
+        ll maxflow = 0;
+        while (spfa(mincost)) {
+            ll res = dfs(s, 1e18);
+            maxflow += res;
+            cost += res * dis[t];  // cost += (流量 * 最短路长度)
+        }
+        return maxflow;
     }
-    return maxflow;
-}
 
-void add(int u, int v, ll w, ll c) {
-    addEdge(u,v,w,c);
-    addEdge(v,u,0,-c);
-}
+    void add(int u, int v, ll w, ll c) {
+        addEdge(u,v,w,c);
+        addEdge(v,u,0,-c);
+    }
+} flow;
 
 int main() {
     cin &gt;&gt; n &gt;&gt; m &gt;&gt; s &gt;&gt; t;
     for (int i = 1; i &lt;= m; i++) {
         int u,v,w,c;
         cin &gt;&gt; u &gt;&gt; v &gt;&gt; w &gt;&gt; c;
-        add(u,v,w,c);
+        flow.add(u,v,w,c);
     }
-    ll maxflow = mcmf();
-    cout &lt;&lt; maxflow &lt;&lt; &quot; &quot; &lt;&lt; cost &lt;&lt; endl;
+    ll maxflow = flow.mcmf(true);  // 最小费用流，返回最大流
+    cout &lt;&lt; maxflow &lt;&lt; &quot; &quot; &lt;&lt; flow.cost &lt;&lt; endl;
 }
 </code></pre>
 </details>
@@ -1876,8 +1879,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-09-10 00:39:01 &#43;0000 UTC">2022-09-10</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/bdbecc3c1f3258f4bfd5f9d2188517007fd52fec" title="chore: update CF Problems" target="_blank">(bdbecc3)</a>
+        <span title="2022-09-14 21:53:40 -0500 -0500">2022-09-14</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0b19b4b033eb227d616795f7fa45bdd92901b10c" title="update 070, init 071" target="_blank">(0b19b4b0)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/047-%e7%bd%91%e7%bb%9c%e6%b5%81.md" target="_blank">更新历史</a>
     </span>
   </p>

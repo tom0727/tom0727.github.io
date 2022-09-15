@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>ICPC2020 Mid Central USA - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="I. Trip Tik 题意 给定一个坐标轴，坐标轴上有 $n$ 个点，每个点坐标 $x_i$ 互不相同。每个点 $i$ 都有一个重要性 $w_i$，其中第 $i$ 个点的重要性 $w_i = i$。 现在有一个" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/071-icpc2020mid-central/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="ICPC2020 Mid Central USA" />
+<meta property="og:description" content="I. Trip Tik 题意 给定一个坐标轴，坐标轴上有 $n$ 个点，每个点坐标 $x_i$ 互不相同。每个点 $i$ 都有一个重要性 $w_i$，其中第 $i$ 个点的重要性 $w_i = i$。 现在有一个" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/071-icpc2020mid-central/" />
+<meta property="article:published_time" content="2022-09-13T14:05:04-05:00" />
+<meta property="article:modified_time" content="2022-09-14T21:53:40-05:00" />
+<meta itemprop="name" content="ICPC2020 Mid Central USA">
+<meta itemprop="description" content="I. Trip Tik 题意 给定一个坐标轴，坐标轴上有 $n$ 个点，每个点坐标 $x_i$ 互不相同。每个点 $i$ 都有一个重要性 $w_i$，其中第 $i$ 个点的重要性 $w_i = i$。 现在有一个">
+<meta itemprop="datePublished" content="2022-09-13T14:05:04-05:00" />
+<meta itemprop="dateModified" content="2022-09-14T21:53:40-05:00" />
+<meta itemprop="wordCount" content="2392">
+
+
+
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ICPC2020 Mid Central USA"/>
+<meta name="twitter:description" content="I. Trip Tik 题意 给定一个坐标轴，坐标轴上有 $n$ 个点，每个点坐标 $x_i$ 互不相同。每个点 $i$ 都有一个重要性 $w_i$，其中第 $i$ 个点的重要性 $w_i = i$。 现在有一个"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">ICPC2020 Mid Central USA</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-09-13 14:05:04 -0500 -0500"> 2022-09-13 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#i-trip-tikhttpsvjudgenetcontest514913problemi"><a href="https://vjudge.net/contest/514913#problem/I">I. Trip Tik</a></a></li>
+            <li><a href="#g-exciting-tournamenthttpsvjudgenetcontest514913problemprintg"><a href="https://vjudge.net/contest/514913/problemPrint/G">G. Exciting Tournament</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="i-trip-tikhttpsvjudgenetcontest514913problemi"><a href="https://vjudge.net/contest/514913#problem/I" target="_blank">I. Trip Tik</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个坐标轴，坐标轴上有 $n$ 个点，每个点坐标 $x_i$ 互不相同。每个点 $i$ 都有一个重要性 $w_i$，其中第 $i$ 个点的重要性 $w_i = i$。</p>
+<p>现在有一个视野范围和视野中心，初始情况下视野中心为 $0$，视野范围是 $[-1,1]$。</p>
+<p>在视野中，只能看见前 $k$ 个最重要的点。</p>
+<p>每一步可以进行如下操作之一：</p>
+<ol>
+<li>Zoom Out: 将视野范围扩大 $2$ 倍。</li>
+<li>Zoom In: 将视野范围缩小 $2$ 倍。</li>
+<li>Change Center: 改变视野中心到一个点 $i$，这个操作要求点 $i$ 必须在之前的视野中可见。</li>
+</ol>
+<p>现在对于每一个点，求出从初始情况 $\rightarrow$ 视野中心在这个点，并且能看见这个点所需要的最少操作次数，如果不可能输出 $-1$。</p>
+<p>其中，$n \leq 10^5, |x_i| \leq 10^8, k \in [1,4]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>BFS，定义一个状态为：$(x,d)$，其中 $x$ 代表当前的视野中心，$d$ 代表视野范围。</p>
+<p>注意这种状态最多只有 $n * log(10^8) \leq 30n$ 种。</p>
+<p>并且每个状态之间的转移也可以求出来，只要解决 <strong>判断一个点是否在当前状态的视野中</strong> 问题即可。</p>
+<ol>
+<li>预处理时，所有的点 sort 一下</li>
+<li>二分找到当前状态能看见的点的 index 范围 $[L,R]$。</li>
+<li>求 $a[L,R]$ 之间前 $k$ 重要的点。</li>
+</ol>
+<p>注意 $k \leq 4$，这个问题可以直接用线段树来维护（每个 node 维护前 $4$ 重要的点，合并时也很简单）。</p>
+<p>但这样太麻烦了，而且复杂度过高。</p>
+<p>• 注意到 <strong>ST表</strong> 也可以解决这个问题，合并时同理（注意去重即可）。</p>
+<p>• 最后注意一下视野范围可以最小来到 $[x_i-0.5, x_i+0.5]$。</p>
+<p>最后答案就是从初始状态出发到每个状态的最短路（由于权值均为 $1$ 所以 BFS 找最短路即可）。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+int n;
+struct Point {
+    int x, w;
+} arr[maxn];
+const int M = 27;
+int st_id[maxn][M+1];  // state to id
+struct State {
+    int x, d;  // center, dimension
+};
+State st[maxn*(M+1)];
+
+const int MM = 21000000+23300;
+const int N = 21000000+23300;
+struct Edge {
+    int to, nxt;
+} edges[MM];
+int head[N], ecnt = 1;
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+queue&lt;int&gt; q;
+bool vis[N];
+int dis[N];
+void bfs(int start) {
+    memset(dis, -1, sizeof(dis));
+    q.push(start);
+    vis[start] = 1;
+    dis[start] = 0;
+    while (q.size()) {
+        int u = q.front(); q.pop();
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int v = edges[e].to;
+            if (!vis[v]) {
+                vis[v] = 1;
+                dis[v] = dis[u] + 1;
+                q.push(v);
+            }
+        }
+    }
+}
+bool good[maxn][M+1];  // 如果状态能看见自己，说明是ok的
+int ans[maxn];
+
+
+int bin[maxn];
+vector&lt;int&gt; st_table[maxn][18];
+vector&lt;int&gt; merge(const vector&lt;int&gt;&amp; vec1, const vector&lt;int&gt;&amp; vec2) {
+    vector&lt;int&gt; res;
+    for (int j : vec1) res.push_back(j);
+    for (int j : vec2) res.push_back(j);
+    sort(res.begin(), res.end(), [&amp;](auto a, auto b) {
+        return arr[a].w &gt; arr[b].w;
+    });
+    vector&lt;int&gt; tmp;
+    tmp.clear();
+    if (res.size())
+        tmp.push_back(res[0]);
+
+    for (int i = 1; i &lt; res.size(); i++) {
+        if (res[i] != res[i-1] &amp;&amp; tmp.size() &lt;= 3) {
+            tmp.push_back(res[i]);
+        }
+    }
+    return tmp;
+}
+
+vector&lt;int&gt; ask_st(int l, int r) {
+    if (l &gt; r) return {};
+    int len = r-l+1;
+    int k = bin[len];
+    vector&lt;int&gt; vec1 = st_table[l][k];
+    vector&lt;int&gt; vec2 = st_table[r-(1&lt;&lt;k)+1][k];
+    return merge(vec1, vec2);
+}
+ 
+void build_st() {
+    bin[1] = 0; bin[2] = 1;
+    for (int i = 3; i &lt; maxn; i++) bin[i] = bin[i&gt;&gt;1] + 1;
+    for (int i = 1; i &lt;= n; i++) st_table[i][0] = {i};
+    for (int k = 1; k &lt; 18; k++) {
+        for (int i = 1; i + (1&lt;&lt;k) - 1 &lt;= n; i++) {
+            st_table[i][k] = merge(st_table[i][k-1], st_table[i+(1&lt;&lt;(k-1))][k-1]);
+        }
+    }
+}
+
+int k;
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; k;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; arr[i].x;
+        arr[i].w = i;
+    }
+    sort(arr+1, arr+n+1, [](auto a, auto b) {
+        return a.x &lt; b.x;
+    });
+    int cnt = 0;
+    arr[n+1].x = 0;
+    for (int i = 1; i &lt;= n+1; i++) {
+        for (int j = 0; j &lt;= M; j++) {
+            st_id[i][j] = ++cnt;
+            st[cnt] = {arr[i].x, 1&lt;&lt;j};
+        }
+    }
+    build_st();
+
+    // build(1, 1, n);
+
+    for (int i = 1; i &lt;= n+1; i++) {
+        for (int j = 0; j &lt;= M; j++) {
+            int id = st_id[i][j];
+            int x = st[id].x, d = st[id].d;
+
+            int low = 1, high = i, L = i, R = i;
+            while (low &lt;= high) {
+                int mid = (low + high) &gt;&gt; 1;
+                if (x - arr[mid].x &lt;= d) {  // visible
+                    high = mid-1;
+                    L = mid;
+                } else {
+                    low = mid+1;
+                }
+            }
+
+            low = i, high = n;
+            while (low &lt;= high) {
+                int mid = (low + high) &gt;&gt; 1;
+                if (arr[mid].x - x &lt;= d) {
+                    low = mid + 1;
+                    R = mid;
+                } else high = mid - 1;
+            }
+
+
+            if (i == n+1) {
+                L = n, R = 1;                
+                for (int t = 1; t &lt;= n; t++) {
+                    if (abs(arr[t].x) &lt;= d) {
+                        L = min(L, t);
+                        R = max(R, t);
+                    }
+                }
+            }
+
+            // 现在找到了 [L,R]，只要找 [L,R] 中前k大的数字即可
+
+            vector&lt;int&gt; res = ask_st(L, R);
+            for (int t = 0; t &lt; min((int)res.size(), k); t++) {
+                int idx = res[t];
+                if (idx &gt; 0) {  // must have an important point!
+                    int s_id = st_id[idx][j];
+
+                    if (id != s_id) {
+                        addEdge(id, s_id);  // 不同的点，同缩放情况 加边
+                    }
+
+                    if (idx == i) {
+                        good[i][j] = 1;  // 这个状态下可以看见自己
+                    }
+
+                }
+            }
+
+
+            // 缩放之间加边
+            if (j &gt; 0) addEdge(id, st_id[i][j-1]);
+            if (j &lt; M) addEdge(id, st_id[i][j+1]);
+        }
+    }
+
+
+    bfs(st_id[n+1][0]);
+    for (int i = 1; i &lt;= n; i++) {
+        int d = 1e9;
+        for (int j = 0; j &lt;= M; j++) {
+            if (good[i][j]) {
+                int id = st_id[i][j];
+                if (dis[id] &gt;= 0) {
+                    d = min(d, dis[id]);
+                }
+            } 
+        }
+        for (int j = 0; j &lt;= M; j++) {
+            int id = st_id[i][j];
+            if (dis[id] &gt;= 0) {
+                d = min(d, dis[id] + j+1);
+            }
+        }
+        if (d == 1e9) {
+            ans[arr[i].w] = -1;
+        } else ans[arr[i].w] = d;
+    }
+    for (int i = 1; i &lt;= n; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<h3 id="g-exciting-tournamenthttpsvjudgenetcontest514913problemprintg"><a href="https://vjudge.net/contest/514913/problemPrint/G" target="_blank">G. Exciting Tournament</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $n$ 个参赛者，每个参赛者 $i$ 有一个skill level $s_i$ 和一个参赛次数限制 $g_i$。</p>
+<p>当两个选手 $i,j$ 比赛时，拥有较大 skill level 的选手会获胜，另外一位会被淘汰，并且总得分会增加 $s_i \text{ XOR } s_j$。</p>
+<p>每个选手最多只能参赛 $g_i$ 次，并且它最后一次参赛要么被淘汰，要么成为冠军（唯一的留下的选手）。</p>
+<p>求可能的最小总得分和最大总得分。</p>
+<p>其中，$3 \leq n \leq 100, s_i \in [0, 2^{30}), g_i \in [2, n)$。</p>
+<p>每个选手的 $s_i$ 各不相同。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>看见 $n \leq 100$ 并且拥有各种奇怪的限制，就想到网络流/费用流。</p>
+<blockquote>
+<p>如何表示一个选手被击败？</p>
+</blockquote>
+<p>每个选手视作一个点，并且复制一份，$i+n$ 代表选手 $i$ 被击败的情况。</p>
+<blockquote>
+<p>如何表示参赛次数限制？</p>
+</blockquote>
+<p>在网络流中，边的最大流量用来表达限制。</p>
+<p>• 最后注意，比赛结束时的冠军一定是拥有最大 $s_i$ 的选手，所以其他选手只能击败 $g_i - 1$ 位选手。</p>
+<p>于是费用流的建图方法如下：</p>
+<ol>
+<li>
+<p>对于每个选手 $i$，连边 $(s, i, g_i-1, 0)$，只有最大 $s_i$ 的选手连边 $(s, i, g_i, 0)$。</p>
+</li>
+<li>
+<p>对于每一个pair $(i,j)$，连边 $(i, j+n, 1, s_i \text{ XOR } s_j)$。</p>
+</li>
+<li>
+<p>对于每个选手 $i$，连边 $(i+n, t, 1, 0)$。</p>
+</li>
+</ol>
+<p>跑最大费用流和最小费用流即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int maxn = 255;
+const int maxm = 2e5+5;
+struct Edge {
+    int to, nxt;
+    ll w, c;
+};
+
+struct MCMF {
+    int n,m,s,t;
+    Edge edges[maxm&lt;&lt;1];
+    int head[maxn], ecnt = 2, cur[maxn];  // ecnt 从 2 开始，方便取反向边
+    ll cost = 0;
+    void addEdge(int u, int v, ll w, ll c) {
+        Edge e = {v, head[u], w, c};
+        edges[ecnt] = e;
+        head[u] = ecnt++;
+    }
+
+    ll dis[maxn];
+    bool inq[maxn], vis[maxn];
+    bool spfa(bool mincost) {
+        queue&lt;int&gt; q;
+        memset(vis, 0, sizeof(vis));  // 这里一定要记得清空 vis (dfs要用)
+        memset(inq, 0, sizeof(inq));
+        fill(dis, dis+maxn, mincost ? 1e18 : -1e18);
+        memcpy(cur, head, sizeof(head));  // 当前弧优化用到的数组 cur
+        dis[s] = 0;
+        inq[s] = 1;
+        q.push(s);
+        while (!q.empty()) {
+            int u = q.front(); q.pop();
+            inq[u] = 0;
+            for (int e = head[u]; e; e = edges[e].nxt) {
+                int to = edges[e].to;
+                ll w = edges[e].w, c = edges[e].c;
+                if (w == 0) continue;
+                if ((mincost &amp;&amp; dis[u] + c &lt; dis[to]) || (!mincost &amp;&amp; dis[u] + c &gt; dis[to])) {
+                    dis[to] = dis[u] + c;
+                    if (!inq[to]) {
+                        inq[to] = 1;
+                        q.push(to);
+                    }
+                }
+            }
+        }
+        return dis[t] != (mincost ? 1e18 : -1e18);
+    }
+
+    ll dfs(int u, ll in) {
+        if (u == t) return in;  // 如果已经运到了终点，直接返回入量
+        vis[u] = 1;
+        ll out = 0;
+        for (int e = cur[u]; e; e = edges[e].nxt) {
+            cur[u] = e;
+            int to = edges[e].to;
+            ll w = edges[e].w, c = edges[e].c;
+            if (vis[to] || w == 0 || dis[to] != dis[u] + c) continue;
+            // 检测: 1. 是否vis过  2. 这条边是否存在  3. 是否是最短路径
+
+            ll res = dfs(to, min(in, w));
+
+            in -= res;
+            out += res;
+            edges[e].w -= res;
+            edges[e^1].w += res;
+
+            if (in == 0) break;
+        }
+        if (out == 0) dis[u] = -1e18;
+        return out;
+    }
+
+    ll mcmf(bool mincost = true) {
+        ll maxflow = 0;
+        while (spfa(mincost)) {
+            ll res = dfs(s, 1e18);
+            maxflow += res;
+            cost += res * dis[t];  // cost += (流量 * 最短路长度)
+        }
+        return maxflow;
+    }
+
+    void add(int u, int v, ll w, ll c) {
+        addEdge(u,v,w,c);
+        addEdge(v,u,0,-c);
+    }
+} flow_min, flow_max;
+
+int skill[maxn], g[maxn];
+int n, s, t;
+int main() {
+
+    cin &gt;&gt; n;
+    s = 201, t = 202;
+    flow_min.s = s; flow_max.s = s; flow_min.t = t, flow_max.t = t;
+    int maxs = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; skill[i] &gt;&gt; g[i];
+        maxs = max(maxs, skill[i]);
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        bool notmax = !(skill[i] == maxs);
+        flow_min.add(s, i, g[i]-notmax, 0);
+        flow_min.add(i+n, t, 1, 0);
+        flow_max.add(s, i, g[i]-notmax, 0);
+        flow_max.add(i+n, t, 1, 0);
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= n; j++) {
+            if (skill[i] &gt; skill[j]) {
+                flow_min.add(i, j+n, 1, skill[i] ^ skill[j]);
+                flow_max.add(i, j+n, 1, skill[i] ^ skill[j]);
+            }
+        }
+    }
+    flow_min.mcmf(true);
+    flow_max.mcmf(false);
+    cout &lt;&lt; flow_min.cost &lt;&lt; &quot; &quot; &lt;&lt; flow_max.cost &lt;&lt; endl;
+    
+}
+
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2022-09-14 21:53:40 -0500 -0500">2022-09-14</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0b19b4b033eb227d616795f7fa45bdd92901b10c" title="update 070, init 071" target="_blank">(0b19b4b0)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/071-ICPC2020Mid-Central.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/070-%E5%AD%97%E7%AC%A6%E4%B8%B2hash/">
+            <span class="next-text nav-default">字符串Hash</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

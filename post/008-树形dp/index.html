@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" />
 <meta property="article:published_time" content="2021-02-18T15:42:09+08:00" />
-<meta property="article:modified_time" content="2022-09-10T00:39:01+00:00" />
+<meta property="article:modified_time" content="2022-09-14T21:53:40-05:00" />
 <meta itemprop="name" content="树形dp">
 <meta itemprop="description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP">
 <meta itemprop="datePublished" content="2021-02-18T15:42:09&#43;08:00" />
-<meta itemprop="dateModified" content="2022-09-10T00:39:01&#43;00:00" />
-<meta itemprop="wordCount" content="4291">
+<meta itemprop="dateModified" content="2022-09-14T21:53:40-05:00" />
+<meta itemprop="wordCount" content="4668">
 
 
 
@@ -163,6 +163,7 @@
             <li><a href="#例2-洛谷p2515-haoi2010软件安装httpswwwluogucomcnproblemp2515">例2 <a href="https://www.luogu.com.cn/problem/P2515">洛谷P2515 [HAOI2010]软件安装</a></a></li>
             <li><a href="#例3-洛谷p4395-boi2003gem-气垫车httpswwwluogucomcnproblemp4395">例3 <a href="https://www.luogu.com.cn/problem/P4395">洛谷P4395 [BOI2003]Gem 气垫车</a></a></li>
             <li><a href="#例4-洛谷p3177-haoi2015树上染色httpswwwluogucomcnproblemp3177">例4 <a href="https://www.luogu.com.cn/problem/P3177">洛谷P3177 [HAOI2015]树上染色</a></a></li>
+            <li><a href="#例5-1到n经过特定点的最短路">例5 [1到n经过特定点的最短路]</a></li>
           </ul>
         </li>
       </ul>
@@ -666,6 +667,25 @@ int main() {
 <li>注意第二维度的转移顺序（第一维倒序这个是必须的）。</li>
 </ol>
 </div>
+<h3 id="例5-1到n经过特定点的最短路">例5 [1到n经过特定点的最短路]</h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个节点的一棵树，树上有 $m$ 个点被标记了，求从节点 $1$ 走到节点 $n$，中途需要经过这些标记点的最短路长度，所有边权值为 1。</p>
+<p>其中，$n \leq 2 \times 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>• 这是一道群里传的题目，没有代码。</p>
+<hr>
+<p>首先将 $1$ 到 $n$ 的路径拉成一条链，链上所有的点一定会被经过，不用管。</p>
+<p>接下来就是挂在链上的若干子树，对于每个子树，思考如下问题：</p>
+<blockquote>
+<p>从一棵树的根出发，经过树内的所有标记点，再回到这棵树的根，需要的最短路长度？</p>
+</blockquote>
+<p>对于这个问题，我们考虑对于每个被标记的点 $u$，从根（假设为 $1$）到 $u$ 的路径一定会被经过，被经过的这些边被打上标记，代表这些边一定会被经过。</p>
+<p>打完标记后，我们知道在最优解中，每条边一定会被经过 $2$ 次，所以答案就是标记边 $*2$。</p>
+<p>如何打标记？</p>
+<p>只要一次dfs即可，每次dfs时判断这个子树里面有没有需要标记的点，如果有，这条边就打上标记。</p>
+</details>
 
     </div>
 
@@ -677,8 +697,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-09-10 00:39:01 &#43;0000 UTC">2022-09-10</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/bdbecc3c1f3258f4bfd5f9d2188517007fd52fec" title="chore: update CF Problems" target="_blank">(bdbecc3)</a>
+        <span title="2022-09-14 21:53:40 -0500 -0500">2022-09-14</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0b19b4b033eb227d616795f7fa45bdd92901b10c" title="update 070, init 071" target="_blank">(0b19b4b0)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/008-%e6%a0%91%e5%bd%a2dp.md" target="_blank">更新历史</a>
     </span>
   </p>

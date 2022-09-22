@@ -11,12 +11,13 @@ https://tom0727.gitee.io/
 
 # About me
 
-- Year 4 Undergraduate student **@ HKU** (The University of Hong Kong), **2018-2022**
+- Undergraduate study **@ HKU** (The University of Hong Kong), **2018-2022**
+- Graduate study **@ UIUC** (University of Illinois, Urbana-Champaign), **2022-2023**
 - Major in Computer Science
 - Competitive programming as hobby <br>
 
 # Resume
-- Resume (in English): https://github.com/tom0727/Resume/blob/master/Zhenwei%20Hu.pdf
+- Resume (in English): https://github.com/tom0727/Resume/blob/master/Zhenwei%20Hu_Resume.pdf
 - Resume (in Chinese): https://github.com/tom0727/Resume/blob/master/%E8%83%A1%E6%8C%AF%E4%B8%BA.pdf
 
 # Contact

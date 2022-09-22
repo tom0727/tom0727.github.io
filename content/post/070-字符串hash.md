@@ -82,13 +82,13 @@ struct StringHash {
         n = s.size();
         for (int j = 0; j < NUM; j++) {
             for (int i = 1; i <= n; i++) {
-                hs[i][j] = hs[i-1][j] * base[j] + s[i-1];
+                hs[i][j] = (hs[i-1][j] * base[j] % MOD[j] + (ll)s[i-1]) % MOD[j];
             }
         }
     }
     // get the hash of j-th HASH function
     int gethash(int l, int r, int j) {
-        return (hs[r][j] - hs[l-1][j] * p[r-l+1][j] + MOD[j]) % MOD[j];
+        return (hs[r][j] - hs[l-1][j] * p[r-l+1][j] % MOD[j] + MOD[j]) % MOD[j];
     }
     array<int, NUM> gethash(int l, int r) {
         array<int, NUM> res;

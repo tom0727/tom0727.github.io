@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/001-hugo-tutorial/" />
 <meta property="article:published_time" content="2021-02-01T21:21:41+08:00" />
-<meta property="article:modified_time" content="2022-09-16T00:40:33+00:00" />
+<meta property="article:modified_time" content="2022-09-22T00:02:07-05:00" />
 <meta itemprop="name" content="Hugo博客搭建小记">
 <meta itemprop="description" content="起因 在几天前折腾了爬虫，成功爬下来とにかくかわいい的漫画以后，我发现我折腾似乎上瘾了。聊天时无意提到”要是我有个人网站就好了“，于是就决定动">
 <meta itemprop="datePublished" content="2021-02-01T21:21:41&#43;08:00" />
-<meta itemprop="dateModified" content="2022-09-16T00:40:33&#43;00:00" />
-<meta itemprop="wordCount" content="3238">
+<meta itemprop="dateModified" content="2022-09-22T00:02:07-05:00" />
+<meta itemprop="wordCount" content="3307">
 
 
 
@@ -174,6 +174,7 @@
         <li><a href="#自定义页面">自定义页面</a></li>
         <li><a href="#修改样式">修改样式</a></li>
         <li><a href="#更改css文件来源cdn">更改css文件来源CDN</a></li>
+        <li><a href="#置顶博客">置顶博客</a></li>
         <li><a href="#一些注意事项">一些注意事项</a></li>
         <li><a href="#结语">结语</a></li>
       </ul>
@@ -306,6 +307,17 @@
 <p><code>/Users/huzhenwei/hugo-blog/themes/even/assets/sass/_custom/_custom.scss</code></p>
 <h2 id="更改css文件来源cdn">更改css文件来源CDN</h2>
 <p>cdn.bootcss.com 似乎炸了，导致 highlight.js 加载不出来，所以利用 grep 搜索到了 <code>./themes/even/layouts/partials/scripts.html</code> 中的 highlight.js 来源 CDN 后进行了修改，<a href="https://cdnjs.cloudflare.com" target="_blank">cdnjs.cloudflare.com</a> 快的飞起！</p>
+<h2 id="置顶博客">置顶博客</h2>
+<p>要置顶一篇文章，只需要在markdown文件一开始加入 <code>weight = 1</code> 即可：</p>
+<pre><code>+++
+title = '[置顶]竞赛注意事项'
+date = 2022-09-19T10:26:35-05:00
+draft = false
+categories = ['']
+tags = ['', '']
+weight = 1
++++
+</code></pre>
 <h2 id="一些注意事项">一些注意事项</h2>
 <ol>
 <li>博客默认模版的最底部有一个 <code>--more--</code>，要把它删掉，否则预览的时候整个博客都会被预览出来。</li>
@@ -323,8 +335,8 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-09-16 00:40:33 &#43;0000 UTC">2022-09-16</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/e80aeedc38bd7b6c334bce531d6775b0e5ab2561" title="chore: update CF Problems" target="_blank">(e80aeed)</a>
+        <span title="2022-09-22 00:02:07 -0500 -0500">2022-09-22</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/33990d49fe6884f35bae598c5410a4f8e2689b56" title="add 072, 073, modify about page" target="_blank">(33990d49)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/001-hugo-tutorial.md" target="_blank">更新历史</a>
     </span>
   </p>

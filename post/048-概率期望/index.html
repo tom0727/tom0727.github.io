@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="例1 洛谷P1850 [NOIP2016 提高组] 换教室 题意 有 $n$ 个时间段，每个时间段有 $2$ 节课程。其中在时间段 $i$ 的两节课，分别在教室 $c_i, d_i$ 上。 对于所有的时间段 $i$，" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="模型 例1 几何分布 题意 一次伯努利试验的成功概率为 $p$，那么期望试验多次才能获得第一次成功？ 答案是 $\frac{1}{p}$。 证明：设 $E[X]$ 为期望" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -40,22 +40,22 @@
 
 
 <meta property="og:title" content="概率期望" />
-<meta property="og:description" content="例1 洛谷P1850 [NOIP2016 提高组] 换教室 题意 有 $n$ 个时间段，每个时间段有 $2$ 节课程。其中在时间段 $i$ 的两节课，分别在教室 $c_i, d_i$ 上。 对于所有的时间段 $i$，" />
+<meta property="og:description" content="模型 例1 几何分布 题意 一次伯努利试验的成功概率为 $p$，那么期望试验多次才能获得第一次成功？ 答案是 $\frac{1}{p}$。 证明：设 $E[X]$ 为期望" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/048-%E6%A6%82%E7%8E%87%E6%9C%9F%E6%9C%9B/" />
 <meta property="article:published_time" content="2021-07-27T17:57:28+08:00" />
-<meta property="article:modified_time" content="2022-09-16T00:40:33+00:00" />
+<meta property="article:modified_time" content="2022-09-22T00:02:07-05:00" />
 <meta itemprop="name" content="概率期望">
-<meta itemprop="description" content="例1 洛谷P1850 [NOIP2016 提高组] 换教室 题意 有 $n$ 个时间段，每个时间段有 $2$ 节课程。其中在时间段 $i$ 的两节课，分别在教室 $c_i, d_i$ 上。 对于所有的时间段 $i$，">
+<meta itemprop="description" content="模型 例1 几何分布 题意 一次伯努利试验的成功概率为 $p$，那么期望试验多次才能获得第一次成功？ 答案是 $\frac{1}{p}$。 证明：设 $E[X]$ 为期望">
 <meta itemprop="datePublished" content="2021-07-27T17:57:28&#43;08:00" />
-<meta itemprop="dateModified" content="2022-09-16T00:40:33&#43;00:00" />
-<meta itemprop="wordCount" content="5430">
+<meta itemprop="dateModified" content="2022-09-22T00:02:07-05:00" />
+<meta itemprop="wordCount" content="5869">
 
 
 
 <meta itemprop="keywords" content="概率,期望,数学," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="概率期望"/>
-<meta name="twitter:description" content="例1 洛谷P1850 [NOIP2016 提高组] 换教室 题意 有 $n$ 个时间段，每个时间段有 $2$ 节课程。其中在时间段 $i$ 的两节课，分别在教室 $c_i, d_i$ 上。 对于所有的时间段 $i$，"/>
+<meta name="twitter:description" content="模型 例1 几何分布 题意 一次伯努利试验的成功概率为 $p$，那么期望试验多次才能获得第一次成功？ 答案是 $\frac{1}{p}$。 证明：设 $E[X]$ 为期望"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -150,7 +150,13 @@
   <ul>
     <li>
       <ul>
-        <li>
+        <li><a href="#模型">模型</a>
+          <ul>
+            <li><a href="#例1-几何分布">例1 几何分布</a></li>
+            <li><a href="#例2-抽卡问题">例2 抽卡问题</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
           <ul>
             <li><a href="#例1-洛谷p1850-noip2016-提高组-换教室httpswwwluogucomcnproblemp1850">例1 <a href="https://www.luogu.com.cn/problem/P1850">洛谷P1850 [NOIP2016 提高组] 换教室</a></a></li>
             <li><a href="#例2-洛谷p3830-shoi2012随机树httpswwwluogucomcnproblemp3830">例2 <a href="https://www.luogu.com.cn/problem/P3830">洛谷P3830 [SHOI2012]随机树</a></a></li>
@@ -166,7 +172,32 @@
   </div>
 </div>
     <div class="post-content">
-      <h3 id="例1-洛谷p1850-noip2016-提高组-换教室httpswwwluogucomcnproblemp1850">例1 <a href="https://www.luogu.com.cn/problem/P1850" target="_blank">洛谷P1850 [NOIP2016 提高组] 换教室</a></h3>
+      <h2 id="模型">模型</h2>
+<h3 id="例1-几何分布">例1 几何分布</h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>一次伯努利试验的成功概率为 $p$，那么期望试验多次才能获得第一次成功？</p>
+</div>
+<p>答案是 $\frac{1}{p}$。</p>
+<p>证明：设 $E[X]$ 为期望试验次数。</p>
+<p>用 $X_i = 1$ 表示第 $i$ 次试验成功（$0$ 反之），讨论：第一次试验要么成功，要么失败：</p>
+<p>$$E[X] = p * 1 + (1-p) * (1 + E[X|X_1=0]) = p + (1-p)(1 + E[X])$$</p>
+<p>得到 $E[X] = \frac{1}{p}$。</p>
+<h3 id="例2-抽卡问题">例2 抽卡问题</h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>卡池里有 $N$ 种卡，每种有无限张，每次抽卡会等概率抽取一张卡，问期望多少次抽到所有种类的卡？</p>
+</div>
+<p>$N = 1$ 的情况：期望为 $1$。</p>
+<p>$N = 2$ 的情况：先抽一张，获得一种。接下来是一个几何分布问题：有 $\frac{1}{2}$ 的概率抽到第二种卡，期望 $2$ 次即可抽到，所以总期望为 $1+2=3$。</p>
+<p>那么在 $N$ 的情况下，设事件 $X_i$ 为：已经抽到了 $i$ 种卡，可以发现每次都是一个几何分布问题，根据 $i$ 的值决定试验成功率。</p>
+<p>$$E[X] = E[X_1|X_0] + E[X_2|X_1] + E[X_3|X_2] + &hellip; + E[X_N|X_{N-1}]$$</p>
+<p>其中，$E[X_k|X_{k-1}]$ 代表卡池里 $N$ 种卡已经抽到了 ${k-1}$ 种，还有 $N-k+1$ 种卡没抽到，每次试验成功率（抽到新卡）为 $\frac{N-k+1}{N}$，故期望值</p>
+<p>$$E[X_k|X_{k-1}] = \frac{N}{N-k+1}$$</p>
+<p>综上：</p>
+<p>$$E[X] = \sum_{k=1}^N \frac{N}{N-k+1} = \sum_{k=1}^N \frac{N}{k}$$</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p1850-noip2016-提高组-换教室httpswwwluogucomcnproblemp1850">例1 <a href="https://www.luogu.com.cn/problem/P1850" target="_blank">洛谷P1850 [NOIP2016 提高组] 换教室</a></h3>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
 <p>有 $n$ 个时间段，每个时间段有 $2$ 节课程。其中在时间段 $i$ 的两节课，分别在教室 $c_i, d_i$ 上。</p>
@@ -752,8 +783,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-09-16 00:40:33 &#43;0000 UTC">2022-09-16</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/e80aeedc38bd7b6c334bce531d6775b0e5ab2561" title="chore: update CF Problems" target="_blank">(e80aeed)</a>
+        <span title="2022-09-22 00:02:07 -0500 -0500">2022-09-22</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/33990d49fe6884f35bae598c5410a4f8e2689b56" title="add 072, 073, modify about page" target="_blank">(33990d49)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/048-%e6%a6%82%e7%8e%87%e6%9c%9f%e6%9c%9b.md" target="_blank">更新历史</a>
     </span>
   </p>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>中国剩余定理介绍 - tom0727&#39;s blog</title>
+  <title>exgcd/中国剩余定理介绍 - tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="中国剩余定理 (crt) 定义 给定方程组： $$\begin{cases} x\equiv a_1 (\text{mod }m_1) \\ x\equiv a_2 (\text{mod }m_2) \\ &amp;hellip; \\ x\equiv a_k (\text{mod }m_k) \\ \end{cases}$$ 其中 $a_i \geq 0, m_i &amp;gt; 0, a_i,m_i \in \mathbb{Z}$, 且 $m_i$ 之间两两互质。 求满足条件的最小非负整数解 $x$ ？ 结" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="扩展欧几里得 (exgcd) 这是 CRT 的前置知识，用于解决如下问题： 题意 给定方程 ax &#43; by = c，其中 $a,b,c$ 为已知的正整数，求一组正整数解 $x,y$？ Follow up: 如果解不存在，" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -39,23 +39,23 @@
 
 
 
-<meta property="og:title" content="中国剩余定理介绍" />
-<meta property="og:description" content="中国剩余定理 (crt) 定义 给定方程组： $$\begin{cases} x\equiv a_1 (\text{mod }m_1) \\ x\equiv a_2 (\text{mod }m_2) \\ &hellip; \\ x\equiv a_k (\text{mod }m_k) \\ \end{cases}$$ 其中 $a_i \geq 0, m_i &gt; 0, a_i,m_i \in \mathbb{Z}$, 且 $m_i$ 之间两两互质。 求满足条件的最小非负整数解 $x$ ？ 结" />
+<meta property="og:title" content="exgcd/中国剩余定理介绍" />
+<meta property="og:description" content="扩展欧几里得 (exgcd) 这是 CRT 的前置知识，用于解决如下问题： 题意 给定方程 ax &#43; by = c，其中 $a,b,c$ 为已知的正整数，求一组正整数解 $x,y$？ Follow up: 如果解不存在，" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/003-crt/" />
 <meta property="article:published_time" content="2021-02-06T10:46:42+08:00" />
-<meta property="article:modified_time" content="2022-10-06T00:44:12+00:00" />
-<meta itemprop="name" content="中国剩余定理介绍">
-<meta itemprop="description" content="中国剩余定理 (crt) 定义 给定方程组： $$\begin{cases} x\equiv a_1 (\text{mod }m_1) \\ x\equiv a_2 (\text{mod }m_2) \\ &hellip; \\ x\equiv a_k (\text{mod }m_k) \\ \end{cases}$$ 其中 $a_i \geq 0, m_i &gt; 0, a_i,m_i \in \mathbb{Z}$, 且 $m_i$ 之间两两互质。 求满足条件的最小非负整数解 $x$ ？ 结">
+<meta property="article:modified_time" content="2022-10-10T18:37:26-05:00" />
+<meta itemprop="name" content="exgcd/中国剩余定理介绍">
+<meta itemprop="description" content="扩展欧几里得 (exgcd) 这是 CRT 的前置知识，用于解决如下问题： 题意 给定方程 ax &#43; by = c，其中 $a,b,c$ 为已知的正整数，求一组正整数解 $x,y$？ Follow up: 如果解不存在，">
 <meta itemprop="datePublished" content="2021-02-06T10:46:42&#43;08:00" />
-<meta itemprop="dateModified" content="2022-10-06T00:44:12&#43;00:00" />
-<meta itemprop="wordCount" content="1623">
+<meta itemprop="dateModified" content="2022-10-10T18:37:26-05:00" />
+<meta itemprop="wordCount" content="2421">
 
 
 
-<meta itemprop="keywords" content="数学,中国剩余定理,crt," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="中国剩余定理介绍"/>
-<meta name="twitter:description" content="中国剩余定理 (crt) 定义 给定方程组： $$\begin{cases} x\equiv a_1 (\text{mod }m_1) \\ x\equiv a_2 (\text{mod }m_2) \\ &hellip; \\ x\equiv a_k (\text{mod }m_k) \\ \end{cases}$$ 其中 $a_i \geq 0, m_i &gt; 0, a_i,m_i \in \mathbb{Z}$, 且 $m_i$ 之间两两互质。 求满足条件的最小非负整数解 $x$ ？ 结"/>
+<meta itemprop="keywords" content="数学,中国剩余定理,crt,exgcd," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="exgcd/中国剩余定理介绍"/>
+<meta name="twitter:description" content="扩展欧几里得 (exgcd) 这是 CRT 的前置知识，用于解决如下问题： 题意 给定方程 ax &#43; by = c，其中 $a,b,c$ 为已知的正整数，求一组正整数解 $x,y$？ Follow up: 如果解不存在，"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -131,7 +131,7 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">中国剩余定理介绍</h1>
+      <h1 class="post-title">exgcd/中国剩余定理介绍</h1>
 
       <div class="post-meta">
         <span class="post-time" title="2021-02-06 10:46:42 &#43;0800 &#43;0800"> 2021-02-06 </span>
@@ -150,6 +150,7 @@
   <ul>
     <li>
       <ul>
+        <li><a href="#扩展欧几里得-exgcd">扩展欧几里得 (exgcd)</a></li>
         <li><a href="#中国剩余定理-crt">中国剩余定理 (crt)</a>
           <ul>
             <li><a href="#定义">定义</a></li>
@@ -179,7 +180,65 @@
   </div>
 </div>
     <div class="post-content">
-      <h2 id="中国剩余定理-crt">中国剩余定理 (crt)</h2>
+      <h2 id="扩展欧几里得-exgcd">扩展欧几里得 (exgcd)</h2>
+<p>这是 CRT 的前置知识，用于解决如下问题：</p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定方程 ax + by = c，其中 $a,b,c$ 为已知的正整数，求一组正整数解 $x,y$？</p>
+<p>Follow up:</p>
+<ol>
+<li>如果解不存在，输出 $-1$。</li>
+<li>如果解存在，但没有正整数解（正整数解表示 $x,y$ 均 $&gt;0$）求出所有整数解中，$x,y$ 的最小正整数值。</li>
+<li>如果解存在，并且有正整数解，求出正整数解的数量，并求出 $x,y$ 在所有正整数解中，可能的最大最小值。</li>
+</ol>
+</div>
+<p>推导过程如下：</p>
+<p>首先判断是否有解，只要知道 $c$ 是否为 $\gcd(a,b)$ 的倍数即可。</p>
+<p>以下，我们设 $c=k * \gcd(a,b)$，那么我们只要先求出 $ax+by = \gcd(a,b)$ 的一组可行解 $x,y$，求出原方程的 $x,y$ 只要乘上 $\frac{c}{\gcd(a,b)}$ 即可。</p>
+<p>$$ax_1 + by_1 = \gcd(a,b)$$</p>
+<p>$$bx_2 + (a\% b)y_2 = \gcd(a,b)$$</p>
+<p>注意到 $a \% b = a - \frac{a}{b} * b$，所以化简有：</p>
+<p>$$ay_2 + b(x_2 - \frac{a}{b}y_2) = \gcd(a,b)$$</p>
+<p>对比第一个式子的系数 $ax_1 + by_1 = \gcd(a,b)$ 可得</p>
+<p>$$x_1 = y_2, y_1 = x_2 - \frac{a}{b} y_2$$</p>
+<p>递归求解即可，base case为 $x = 1, y = 0$。</p>
+<pre><code class="language-cpp">ll exgcd(ll a, ll b, ll&amp; x, ll&amp; y) {
+    if (!b) {
+        x = 1, y = 0;
+        return a;  // 这是 gcd(a,b)
+    }
+    ll g = exgcd(b, a%b, x, y);
+    ll x2 = x, y2 = y;
+    x = y2, y = x2 - a/b * y2;
+    return g;  // 这是 gcd(a,b)
+}
+
+int main() {
+    ll a,b; cin &gt;&gt; a &gt;&gt; b;
+    ll x,y;  // 无需定义，exgcd结束后 x,y 即为所求的 ax+by = gcd(a,b) 中的x,y值
+    exgcd(a, b, x, y);
+}
+</code></pre>
+<details class="admonition note"><summary class="admonition-title">Follow Up</summary>
+<ol>
+<li>判断是否有解，只要判断 $c$ 是否为 $\gcd(a,b)$ 的倍数即可。</li>
+</ol>
+<p>在考虑剩下两个问题之前，我们先将 $a,b,c$ 同除以 $\gcd(a,b)$，这样保证 $\gcd(a,b) = 1$，以下均遵循这个假设（主要是为了保证 $a,b$ 尽可能小）</p>
+<ol start="2">
+<li>
+<p>要求 $x,y$ 的最小正整数解 $x_{min}, y_{min}$，注意到：
+$$a(x\pm kb) + b(y \mp ka) = c$$
+其中 $k$ 是任意整数。
+并且 $x$ 越小，$y$ 越大，反之亦然。</p>
+<p>所以要求 $x_{min}$，只要保证 $k$ 的值使得 $(x+kb) &gt; 0$ 并且尽可能小即可，此时 $y$ 的值取到所有正整数解（若存在）中的最大值，如果这个最大值仍然 $\leq 0$ 说明对于 $x_{min}$ 正整数解不存在。对于 $y_{min}$ 也要check一下，如果两种情况下都不存在正整数解，我们即可得出结论原方程无正整数解。</p>
+<p>• 注意到上面让 $a = \frac{a}{\gcd(a,b)}, b = \frac{b}{\gcd(a,b)}$ 使得 $a,b$ 尽可能小，保证了 $x_{min}, y_{min}$ 的正确性。</p>
+</li>
+<li>
+<p>如果存在正整数解，那么根据上面的描述，解的数量和最大最小值就很容易得出了。</p>
+</li>
+</ol>
+</details>
+<h2 id="中国剩余定理-crt">中国剩余定理 (crt)</h2>
 <h3 id="定义">定义</h3>
 <p>给定方程组：
 $$\begin{cases}
@@ -446,8 +505,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-10-06 00:44:12 &#43;0000 UTC">2022-10-06</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/618d2f88edbfbd0ca125b2c42ceac46695de9288" title="chore: update CF Problems" target="_blank">(618d2f8)</a>
+        <span title="2022-10-10 18:37:26 -0500 -0500">2022-10-10</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/319a93cf7387df2dd71b26dbf6c6874ac3f65e0c" title="init 074, 075, 076, update ABOUT" target="_blank">(319a93cf)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/003-crt.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -462,6 +521,7 @@ int main() {
           <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
           <a href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/">中国剩余定理</a>
           <a href="/tags/crt/">crt</a>
+          <a href="/tags/exgcd/">exgcd</a>
           </div>
       <nav class="post-nav">
         <a class="prev" href="/post/004-euler-function/">

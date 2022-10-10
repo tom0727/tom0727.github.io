@@ -2,7 +2,7 @@
 title = 'ICPC2020 Mid Central USA'
 date = 2022-09-13T14:05:04-05:00
 draft = false
-categories = ['题解']
+categories = ['解题报告']
 tags = ['', '']
 +++
 

@@ -1,12 +1,12 @@
 +++
-title = '2021-2022 SWERC'
+title = 'SWERC 2021-2022'
 date = 2022-10-10T13:32:05-05:00
 draft = false
 categories = ['解题报告']
 tags = ['', '']
 +++
 
-### D [Evolution of Weasels](https://codeforces.com/contest/1662/problem/D)
+### D. [Evolution of Weasels](https://codeforces.com/contest/1662/problem/D)
 
 {{% question 题意 %}}
 

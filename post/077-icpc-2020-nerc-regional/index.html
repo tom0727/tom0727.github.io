@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>2020-2021 ICPC, NERC, Southern and Volga Russian Regional Contest - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="G. Hobbits 题意 二维平面上有 $n$ 个点，第 $i$ 个点的坐标是 $(x_i,y_i)$，其中 $x_i &amp;lt; x_{i&#43;1}, \forall i \in [1, n-1]$，点 $i$ 与点 $(i&#43;1)$ 之间由一条线段链接。 在 $(x_n, y_n &#43; H)$ 位" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/077-icpc-2020-nerc-regional/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="2020-2021 ICPC, NERC, Southern and Volga Russian Regional Contest" />
+<meta property="og:description" content="G. Hobbits 题意 二维平面上有 $n$ 个点，第 $i$ 个点的坐标是 $(x_i,y_i)$，其中 $x_i &lt; x_{i&#43;1}, \forall i \in [1, n-1]$，点 $i$ 与点 $(i&#43;1)$ 之间由一条线段链接。 在 $(x_n, y_n &#43; H)$ 位" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/077-icpc-2020-nerc-regional/" />
+<meta property="article:published_time" content="2022-10-17T13:51:05-05:00" />
+<meta property="article:modified_time" content="2022-10-19T11:51:34-05:00" />
+<meta itemprop="name" content="2020-2021 ICPC, NERC, Southern and Volga Russian Regional Contest">
+<meta itemprop="description" content="G. Hobbits 题意 二维平面上有 $n$ 个点，第 $i$ 个点的坐标是 $(x_i,y_i)$，其中 $x_i &lt; x_{i&#43;1}, \forall i \in [1, n-1]$，点 $i$ 与点 $(i&#43;1)$ 之间由一条线段链接。 在 $(x_n, y_n &#43; H)$ 位">
+<meta itemprop="datePublished" content="2022-10-17T13:51:05-05:00" />
+<meta itemprop="dateModified" content="2022-10-19T11:51:34-05:00" />
+<meta itemprop="wordCount" content="1565">
+
+
+
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="2020-2021 ICPC, NERC, Southern and Volga Russian Regional Contest"/>
+<meta name="twitter:description" content="G. Hobbits 题意 二维平面上有 $n$ 个点，第 $i$ 个点的坐标是 $(x_i,y_i)$，其中 $x_i &lt; x_{i&#43;1}, \forall i \in [1, n-1]$，点 $i$ 与点 $(i&#43;1)$ 之间由一条线段链接。 在 $(x_n, y_n &#43; H)$ 位"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">2020-2021 ICPC, NERC, Southern and Volga Russian Regional Contest</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-10-17 13:51:05 -0500 -0500"> 2022-10-17 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#g-hobbitshttpscodeforcescomcontest1468problemg">G. <a href="https://codeforces.com/contest/1468/problem/G">Hobbits</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="g-hobbitshttpscodeforcescomcontest1468problemg">G. <a href="https://codeforces.com/contest/1468/problem/G" target="_blank">Hobbits</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>二维平面上有 $n$ 个点，第 $i$ 个点的坐标是 $(x_i,y_i)$，其中 $x_i &lt; x_{i+1}, \forall i \in [1, n-1]$，点 $i$ 与点 $(i+1)$ 之间由一条线段链接。</p>
+<p>在 $(x_n, y_n + H)$ 位置有一个眼睛，现在从点 $1$ 沿着线段走到点 $n$，求这个眼睛的视野能覆盖这个路程中的多长距离？</p>
+<p><img src="/images/077/1.png" alt="img"></p>
+<p>其中，$2 \leq n \leq 2 \cdot 10^5, H \in [1, 10^4], x_i \in [0, 4 \cdot 10^5], y_i \in [0 \leq 10^4]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>几何题。这里用的是 <a href="https://kuangbin.github.io/2019/04/28/20190428/" target="_blank">kuangbin的板子</a>，并且有 <a href="https://www.cnblogs.com/hoppz/p/15619756.html" target="_blank">板子相对应的讲解</a></p>
+<p>我们设这个眼睛为 $s$，那么可以知道 $(x_n,y_n)$ 在 $s$ 的正下方，接着视线顺时针旋转，每次碰到一个点就判断这个点是否能被看到。</p>
+<p>可以知道，这个点能被看见，当且仅当它前面没有点（或相应的线段）能挡住它，判断是否能挡住只要看顺时针扫描的时候的夹角即可，如果右边有个点对应的角更大的话就看不见了。</p>
+<p>如果能看见点 $i$，记录这个点为 $pre$，在看见下一个点 $i$ 时，链接 $(s,pre)$ 并且做延长线，与线段 $(i,i+1)$ 相交即可得到对应路程长度。</p>
+<p><img src="/images/077/2.jpg" alt="img"></p>
+<hr>
+<p>最后注意特判一下平行的情况，如图：</p>
+<p><img src="/images/077/3.jpg" alt="img"></p>
+<p>如果 $(i,pre)$ 之间刚好是一条线段（这意味着 $pre=i+1$），并且 $s,pre,i$ 在同一条线上，那么是 $(i,pre)$ 整条可以计入答案的。</p>
+<p>这里要注意使用 <code>long long</code> 或者板子里的 <code>parallel()</code> 函数来判断，如果用夹角判断会出现精度问题！</p>
+<p>• 最后，注意用 <code>scanf()</code> 读入数据，否则超时。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int sgn(double x){
+	if(fabs(x) &lt; eps)return 0;
+	if(x &lt; 0)return -1;
+	else return 1;
+}
+//square of a double
+inline double sqr(double x){return x*x;}
+ 
+struct Point{
+	double x,y;
+	Point(){}
+	Point(double _x,double _y){
+		x = _x;
+		y = _y;
+	}
+	void input(){
+		scanf(&quot;%lf%lf&quot;,&amp;x,&amp;y);
+	}
+	void output(){
+		printf(&quot;%.2f %.2f\n&quot;,x,y);
+	}
+	bool operator == (Point b)const{
+		return sgn(x-b.x) == 0 &amp;&amp; sgn(y-b.y) == 0;
+	}
+	bool operator &lt; (Point b)const{
+		return sgn(x-b.x)== 0?sgn(y-b.y)&lt;0:x&lt;b.x;
+	}
+	Point operator -(const Point &amp;b)const{
+		return Point(x-b.x,y-b.y);
+	}
+	//叉积
+	double operator ^(const Point &amp;b)const{
+		return x*b.y - y*b.x;
+	}
+	//点积
+	double operator *(const Point &amp;b)const{
+		return x*b.x + y*b.y;
+	}
+	//返回长度
+	double len(){
+		return hypot(x,y);//库函数
+	}
+	//返回长度的平方
+	double len2(){
+		return x*x + y*y;
+	}
+	//返回两点的距离
+	double distance(Point p){
+		return hypot(x-p.x,y-p.y);
+	}
+	Point operator +(const Point &amp;b)const{
+		return Point(x+b.x,y+b.y);
+	}
+	Point operator *(const double &amp;k)const{
+		return Point(x*k,y*k);
+	}
+	Point operator /(const double &amp;k)const{
+		return Point(x/k,y/k);
+	}
+	//`计算pa  和  pb 的夹角`
+	//`就是求这个点看a,b 所成的夹角`
+	//`测试 LightOJ1203`
+	double rad(Point a,Point b){
+		Point p = *this;
+		return fabs(atan2( fabs((a-p)^(b-p)),(a-p)*(b-p) ));
+	}
+	//`化为长度为r的向量`
+	Point trunc(double r){
+		double l = len();
+		if(!sgn(l))return *this;
+		r /= l;
+		return Point(x*r,y*r);
+	}
+	//`逆时针旋转90度`
+	Point rotleft(){
+		return Point(-y,x);
+	}
+	//`顺时针旋转90度`
+	Point rotright(){
+		return Point(y,-x);
+	}
+	//`绕着p点逆时针旋转angle`
+	Point rotate(Point p,double angle){
+		Point v = (*this) - p;
+		double c = cos(angle), s = sin(angle);
+		return Point(p.x + v.x*c - v.y*s,p.y + v.x*s + v.y*c);
+	}
+};
+ 
+struct Line{
+	Point s,e;
+	Line(){}
+	Line(Point _s,Point _e){
+		s = _s;
+		e = _e;
+	}
+	bool operator ==(Line v){
+		return (s == v.s)&amp;&amp;(e == v.e);
+	}
+	//`根据一个点和倾斜角angle确定直线,0&lt;=angle&lt;pi`
+	Line(Point p,double angle){
+		s = p;
+		if(sgn(angle-pi/2) == 0){
+			e = (s + Point(0,1));
+		}
+		else{
+			e = (s + Point(1,tan(angle)));
+		}
+	}
+	//ax+by+c=0
+	Line(double a,double b,double c){
+		if(sgn(a) == 0){
+			s = Point(0,-c/b);
+			e = Point(1,-c/b);
+		}
+		else if(sgn(b) == 0){
+			s = Point(-c/a,0);
+			e = Point(-c/a,1);
+		}
+		else{
+			s = Point(0,-c/b);
+			e = Point(1,(-c-a)/b);
+		}
+	}
+	void input(){
+		s.input();
+		e.input();
+	}
+	void adjust(){
+		if(e &lt; s)swap(s,e);
+	}
+	//求线段长度
+	double length(){
+		return s.distance(e);
+	}
+	//`返回直线倾斜角 0&lt;=angle&lt;pi`
+	double angle(){
+		double k = atan2(e.y-s.y,e.x-s.x);
+		if(sgn(k) &lt; 0)k += pi;
+		if(sgn(k-pi) == 0)k -= pi;
+		return k;
+	}
+	//`点和直线关系`
+	//`1  在左侧`
+	//`2  在右侧`
+	//`3  在直线上`
+	int relation(Point p){
+		int c = sgn((p-s)^(e-s));
+		if(c &lt; 0)return 1;
+		else if(c &gt; 0)return 2;
+		else return 3;
+	}
+	// 点在线段上的判断
+	bool pointonseg(Point p){
+		return sgn((p-s)^(e-s)) == 0 &amp;&amp; sgn((p-s)*(p-e)) &lt;= 0;
+	}
+	//`两向量平行(对应直线平行或重合)`
+	bool parallel(Line v){
+		return sgn((e-s)^(v.e-v.s)) == 0;
+	}
+	//`两线段相交判断`
+	//`2 规范相交`
+	//`1 非规范相交`
+	//`0 不相交`
+	int segcrossseg(Line v){
+		int d1 = sgn((e-s)^(v.s-s));
+		int d2 = sgn((e-s)^(v.e-s));
+		int d3 = sgn((v.e-v.s)^(s-v.s));
+		int d4 = sgn((v.e-v.s)^(e-v.s));
+		if( (d1^d2)==-2 &amp;&amp; (d3^d4)==-2 )return 2;
+		return (d1==0 &amp;&amp; sgn((v.s-s)*(v.s-e))&lt;=0) ||
+			(d2==0 &amp;&amp; sgn((v.e-s)*(v.e-e))&lt;=0) ||
+			(d3==0 &amp;&amp; sgn((s-v.s)*(s-v.e))&lt;=0) ||
+			(d4==0 &amp;&amp; sgn((e-v.s)*(e-v.e))&lt;=0);
+	}
+	//`直线和线段相交判断`
+	//`-*this line   -v seg`
+	//`2 规范相交`
+	//`1 非规范相交`
+	//`0 不相交`
+	int linecrossseg(Line v){
+		int d1 = sgn((e-s)^(v.s-s));
+		int d2 = sgn((e-s)^(v.e-s));
+		if((d1^d2)==-2) return 2;
+		return (d1==0||d2==0);
+	}
+	//`两直线关系`
+	//`0 平行`
+	//`1 重合`
+	//`2 相交`
+	int linecrossline(Line v){
+		if((*this).parallel(v))
+			return v.relation(s)==3;
+		return 2;
+	}
+	//`求两直线的交点`
+	//`要保证两直线不平行或重合`
+	Point crosspoint(Line v){
+		double a1 = (v.e-v.s)^(s-v.s);
+		double a2 = (v.e-v.s)^(e-v.s);
+		return Point((s.x*a2-e.x*a1)/(a2-a1),(s.y*a2-e.y*a1)/(a2-a1));
+	}
+	//点到直线的距离
+	double dispointtoline(Point p){
+		return fabs((p-s)^(e-s))/length();
+	}
+	//点到线段的距离
+	double dispointtoseg(Point p){
+		if(sgn((p-s)*(e-s))&lt;0 || sgn((p-e)*(s-e))&lt;0)
+			return min(p.distance(s),p.distance(e));
+		return dispointtoline(p);
+	}
+	//`返回线段到线段的距离`
+	//`前提是两线段不相交，相交距离就是0了`
+	double dissegtoseg(Line v){
+		return min(min(dispointtoseg(v.s),dispointtoseg(v.e)),min(v.dispointtoseg(s),v.dispointtoseg(e)));
+	}
+	//`返回点p在直线上的投影`
+	Point lineprog(Point p){
+		return s + ( ((e-s)*((e-s)*(p-s)))/((e-s).len2()) );
+	}
+	//`返回点p关于直线的对称点`
+	Point symmetrypoint(Point p){
+		Point q = lineprog(p);
+		return Point(2*q.x-p.x,2*q.y-p.y);
+	}
+};
+ 
+ 
+int n;
+int H;
+Point a[maxn];
+double ang[maxn];
+int main() {
+    scanf(&quot;%d%d&quot;,&amp;n,&amp;H);
+    for (int i = 1; i &lt;= n; i++) {
+        a[i].input();
+    }
+    Point p(a[n].x, a[n].y + H);
+    for (int i = 1; i &lt;= n; i++) {
+        ang[i] = p.rad(a[n], a[i]);
+    }
+ 
+    int pre = n;
+    double ans = 0.0;
+    for (int i = n-1; i &gt;= 1; i--) {
+        Line s(p, a[pre]);  // (s, pre)
+        Line t(p, a[i]);
+        if (s.parallel(t)) {
+            if (pre-i == 1) {
+                ans += a[i].distance(a[pre]);
+            }
+            pre = i;
+        }
+        else if (ang[i] &gt; ang[pre]) {
+            Line l(a[i], a[i+1]);  // (i, i+1)
+            Point c = l.crosspoint(s);
+            ans += c.distance(a[i]);
+            pre = i;
+        } 
+    }
+    printf(&quot;%.15lf\n&quot;, ans);
+}
+
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2022-10-19 11:51:34 -0500 -0500">2022-10-19</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/77bea1d844084285c6e48714aa153cf95b80b569" title="init 077" target="_blank">(77bea1d8)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/077-ICPC-2020-NERC-regional.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">[置顶]竞赛注意事项</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/076-icpc-2021-swerc/">
+            <span class="next-text nav-default">SWERC 2021-2022</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

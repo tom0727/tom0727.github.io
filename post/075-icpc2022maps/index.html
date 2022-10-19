@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="M. Yet Another Divisor Problem 题意 设 $f(n)$ 为正整数 $n$ 的 divisor 个数。 给定 $a, b$，求有多少个满足以下条件的数 $n$？ $n$ 是奇数。 $n \in [a,b]$。 $f(f(n^n))$ 是 $n$ 的 divisor。 其中" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -40,22 +40,22 @@
 
 
 <meta property="og:title" content="MAPS 2022" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="M. Yet Another Divisor Problem 题意 设 $f(n)$ 为正整数 $n$ 的 divisor 个数。 给定 $a, b$，求有多少个满足以下条件的数 $n$？ $n$ 是奇数。 $n \in [a,b]$。 $f(f(n^n))$ 是 $n$ 的 divisor。 其中" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/075-icpc2022maps/" />
 <meta property="article:published_time" content="2022-10-10T13:30:58-05:00" />
-<meta property="article:modified_time" content="2022-10-18T00:47:33+00:00" />
+<meta property="article:modified_time" content="2022-10-19T11:51:34-05:00" />
 <meta itemprop="name" content="MAPS 2022">
-<meta itemprop="description" content="">
+<meta itemprop="description" content="M. Yet Another Divisor Problem 题意 设 $f(n)$ 为正整数 $n$ 的 divisor 个数。 给定 $a, b$，求有多少个满足以下条件的数 $n$？ $n$ 是奇数。 $n \in [a,b]$。 $f(f(n^n))$ 是 $n$ 的 divisor。 其中">
 <meta itemprop="datePublished" content="2022-10-10T13:30:58-05:00" />
-<meta itemprop="dateModified" content="2022-10-18T00:47:33&#43;00:00" />
-<meta itemprop="wordCount" content="0">
+<meta itemprop="dateModified" content="2022-10-19T11:51:34-05:00" />
+<meta itemprop="wordCount" content="1003">
 
 
 
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MAPS 2022"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:description" content="M. Yet Another Divisor Problem 题意 设 $f(n)$ 为正整数 $n$ 的 divisor 个数。 给定 $a, b$，求有多少个满足以下条件的数 $n$？ $n$ 是奇数。 $n \in [a,b]$。 $f(f(n^n))$ 是 $n$ 的 divisor。 其中"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -143,9 +143,187 @@
     </header>
 
     
-
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#m-yet-another-divisor-problemhttpsmaps22kattiscomcontestsmaps22problemsyetanotherdivisorproblem">M. <a href="https://maps22.kattis.com/contests/maps22/problems/yetanotherdivisorproblem">Yet Another Divisor Problem</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
     <div class="post-content">
-      
+      <h3 id="m-yet-another-divisor-problemhttpsmaps22kattiscomcontestsmaps22problemsyetanotherdivisorproblem">M. <a href="https://maps22.kattis.com/contests/maps22/problems/yetanotherdivisorproblem" target="_blank">Yet Another Divisor Problem</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>设 $f(n)$ 为正整数 $n$ 的 divisor 个数。</p>
+<p>给定 $a, b$，求有多少个满足以下条件的数 $n$？</p>
+<ol>
+<li>$n$ 是奇数。</li>
+<li>$n \in [a,b]$。</li>
+<li>$f(f(n^n))$ 是 $n$ 的 divisor。</li>
+</ol>
+<p>其中，$1 \leq a \leq b \leq 10^8$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>这题可以用打表解决，直觉上来说满足这个条件的 $n$ 比较少。</p>
+<p>那么先考虑对于一个正整数 $n$，如何求 $f(n)$？</p>
+<p>我们将 $n$ 进行质因数分解得到：</p>
+<p>$$n = p_1^{m_1} p_2^{m_2} p_3^{m_3} &hellip; p_k^{m_k}$$</p>
+<p>那么</p>
+<p>$$f(n) = (m_1+1)(m_2+1)&hellip;(m_k+1)$$</p>
+<p>那么对于较小的 $n$（如 $n \leq 10^7$）我们可以利用线性筛预处理，然后 $O(\log n)$ 时间内进行质因数分解，具体怎么做参考 <a href="/post/038-hdu-contest1/#q2-%E5%96%84%E8%89%AF%E7%9A%84%E5%87%BA%E9%A2%98%E4%BA%BA">这里</a>。</p>
+<p>对于较大的 $n$ 我们可以利用 Pollard-Rho 在 $O(n^{\frac{1}{4}})$ 的复杂度内进行质因数分解。</p>
+<p>所以我们的算法就有了：</p>
+<ol>
+<li>先分解 $n = p_1^{m_1} p_2^{m_2} p_3^{m_3} &hellip; p_k^{m_k}$，然后得到 $f(n) = (m_1+1)(m_2+1)&hellip;(m_k+1)$</li>
+<li>接下来，设 $n&rsquo; = n(m_1+1) * n(m_2+1) &hellip; * n(m_k+1)$，我们需要知道 $f(n&rsquo;)$，所以对于每项 $n(m_i+1)$ 都质因数分解到同一个 map 里统计质因数。</li>
+<li>最后可求得 $f(n&rsquo;) = f(f(n))$。</li>
+</ol>
+<p>• 本题，对于 $n \leq 5 \times 10^7$ 的情况下的线性筛优化非常重要，速度差距至少在10倍以上。</p>
+<p>最后打表出来的结果只有 $10^4$ 个数左右。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+struct PollardRho {
+    bool isPrime[50000005];
+    int small[50000005];
+    vector&lt;int&gt; primes;
+    void preprocess() {   // 线性筛优化
+        memset(isPrime, 1, sizeof(isPrime));
+        small[1] = 1;
+        for (int i = 2; i &lt;= 5e7; i++) {
+            if (isPrime[i]) primes.push_back(i), small[i] = i;
+            for (int j = 0; j &lt; primes.size() &amp;&amp; i * primes[j] &lt;= 5e7; j++) {
+                int cur = i * primes[j];
+                isPrime[cur] = 0;
+                small[cur] = primes[j];
+                if (i % primes[j] == 0) break;
+            }
+        }
+    }
+
+    vector&lt;ll&gt; factor;
+    ll gcd(ll a, ll b) {
+        if (b == 0) return a;
+        return gcd(b, a % b);
+    }
+
+    ll quick_pow(ll x, ll p, ll mod) {  // 快速幂
+        ll ans = 1;
+        while (p) {
+            if (p &amp; 1) ans = (__int128)ans * x % mod;
+            x = (__int128)x * x % mod;
+            p &gt;&gt;= 1;
+        }
+        return ans;
+    }
+
+    bool Miller_Rabin(ll p) {  // 判断素数
+        if (p &lt; 2) return 0;
+        if (p == 2) return 1;
+        if (p == 3) return 1;
+        ll d = p - 1, r = 0;
+        while (!(d &amp; 1)) ++r, d &gt;&gt;= 1;  // 将d处理为奇数
+        for (ll k = 0; k &lt; 10; ++k) {
+            ll a = rand() % (p - 2) + 2;
+            ll x = quick_pow(a, d, p);
+            if (x == 1 || x == p - 1) continue;
+            for (int i = 0; i &lt; r - 1; ++i) {
+            x = (__int128)x * x % p;
+            if (x == p - 1) break;
+            }
+            if (x != p - 1) return 0;
+        }
+        return 1;
+    }
+
+    ll Pollard_Rho(ll x) {
+        ll s = 0, t = 0;
+        ll c = (ll)rand() % (x - 1) + 1;
+        int step = 0, goal = 1;
+        ll val = 1;
+        for (goal = 1;; goal *= 2, s = t, val = 1) {  // 倍增优化
+            for (step = 1; step &lt;= goal; ++step) {
+                t = ((__int128)t * t + c) % x;
+                val = (__int128)val * abs(t - s) % x;
+                if ((step % 127) == 0) {
+                    ll d = gcd(val, x);
+                    if (d &gt; 1) return d;
+                }
+            }
+            ll d = gcd(val, x);
+            if (d &gt; 1) return d;
+        }
+    }
+
+    void findFac(ll x) {
+        if (x &lt;= 1e7) {
+            while (x &gt; 1) {
+                int sp = small[x];
+                while (x % sp == 0) x /= sp, factor.push_back(sp);
+            }
+            return;
+        }
+        if (Miller_Rabin(x)) {              // 如果x为质数
+            factor.push_back(x);
+            return;
+        }
+        ll p = x;
+        while (p &gt;= x) p = Pollard_Rho(x);  // 使用该算法
+        findFac(x/p), findFac(p);  // 继续向下分解x和p
+    }
+    void clear() { factor.clear(); }
+} PR;
+
+map&lt;ll, ll&gt; cnt;
+map&lt;ll, ll&gt; cnt2;
+bool check(ll n) {
+    PR.clear();
+    cnt.clear();
+    cnt2.clear();
+
+    PR.findFac(n);
+    for (ll a : PR.factor) {
+        cnt[a]++;
+    }
+
+    for (auto&amp; itr : cnt) {
+        PR.clear();
+        ll c = itr.second * n + 1LL;
+        PR.findFac(c);
+        for (ll a : PR.factor) {
+            cnt2[a]++;
+        }
+    }
+    ll sum = 1;
+    for (auto&amp; itr : cnt2) {
+        sum = sum * (itr.second + 1LL);
+        if (n % sum) return 0;
+    }
+    return n % sum == 0;
+}
+
+int main() {
+    PR.preprocess();
+    for (ll i = 1; i &lt;= 1e8; i+=2) {
+        if (check(i)) cout &lt;&lt; i &lt;&lt; &quot; &quot;, fflush(stdout);
+    }
+    cout &lt;&lt; endl;
+}
+</code></pre>
+</details>
+
     </div>
 
     <div class="post-copyright">
@@ -156,8 +334,8 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-10-18 00:47:33 &#43;0000 UTC">2022-10-18</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/edbc5bc9a267ba45f876ba21c2ba95798321f61d" title="chore: update CF Problems" target="_blank">(edbc5bc)</a>
+        <span title="2022-10-19 11:51:34 -0500 -0500">2022-10-19</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/77bea1d844084285c6e48714aa153cf95b80b569" title="init 077" target="_blank">(77bea1d8)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/075-ICPC2022MAPS.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -175,7 +353,7 @@
       <nav class="post-nav">
         <a class="prev" href="/post/076-icpc-2021-swerc/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">2021-2022 SWERC</span>
+            <span class="prev-text nav-default">SWERC 2021-2022</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="/post/074-icpc2019naq/">

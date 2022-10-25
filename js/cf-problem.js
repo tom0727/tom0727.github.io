@@ -165,7 +165,7 @@ function loadDivContent(activeType) {
     if (type != activeType) continue;
 
     // var tableRowContent = `<tr><td><a href='https://codeforces.com/contest/${id}' target='_blank' rel='noopener'>CF${id}</a></td>`;
-    var tableRowContent = `<tr><th><a id='CF${id}' href='https://codeforces.com/contest/${id}' target='_blank' rel='noopener'>${contestName}</a></th>`;
+    var tableRowContent = `<tr><th><a id='CF${id}' href='https://codeforces.com/contest/${id}' target='_blank' rel='noopener'>${contestName}</a><br><a href='https://codeforces.com/contest/${id}' target='_blank' rel='noopener'>(CF${id})</a></th>`;
 
     var problemCount = 0;
     for (let j = 0; j < problemList.length; j++) {
@@ -176,7 +176,13 @@ function loadDivContent(activeType) {
 
       let problemSpan = getProblemSpan(id, index, problemName, rating);
       if (index.length > 1) {
-        if (j > 0 && problemList[j-1]["index"].length > 1) {
+        if (j > 0 && problemList[j-1]["index"].length > 1 && problemList[j]["index"][0] == problemList[j-1]["index"][0]
+            && (j == problemList.length - 1 || (problemList[j]["index"][0] != problemList[j+1]["index"][0]))) {
+          if (id == "1732") {
+            console.log(index);
+            console.log(problemList);
+            console.log(`This index is: ${problemList[j-1]["index"]}`);
+          }
           tableRowContent += `${problemSpan}</td>`;
           problemCount++;
         } else {

@@ -104,8 +104,8 @@ struct PollardRho {
             ll x = quick_pow(a, d, p);
             if (x == 1 || x == p - 1) continue;
             for (int i = 0; i < r - 1; ++i) {
-            x = (__int128)x * x % p;
-            if (x == p - 1) break;
+                x = (__int128)x * x % p;
+                if (x == p - 1) break;
             }
             if (x != p - 1) return 0;
         }

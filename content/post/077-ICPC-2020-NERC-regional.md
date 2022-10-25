@@ -321,3 +321,98 @@ int main() {
 
 {{% /fold %}}
 
+
+### H. [K and Medians](https://codeforces.com/contest/1468/problem/H)
+
+{{% question 题意 %}}
+
+给定一个数组，包含 $n$ 个数字 $1, 2, ..., n$。
+
+给定一个**奇数** $k$，每次操作中，可以选择array中一个大小为 $k$ 的subsequence（不一定连续），保留median，remove掉其他的数字。
+
+问是否可以通过这样的操作，使得最后留下 $m$ 个数，分别为 $b_1, b_2, ... b_m$？
+
+其中，$n \in [3, 2 \times 10^5], 3 \leq k \leq n, 1 \leq m < n, 1 \leq b_1 < b_2 ... < b_m \leq n$。
+
+{{% /question %}}
+
+{{% fold "题解" %}}
+
+脑洞题。
+
+我们首先给出结论：
+
+设 $k = 2a + 1$，
+
+如果我们只考虑所有要最终被remove掉的数，那么如果存在 $i$，使得 $b_i$ 的左边有 $\geq a$ 个要被remove的数，右边也有 $\geq a$ 个要被remove的数，并且 $(n-m)$ 可以被 $(2a)$ 整除，那么答案为 YES，否则为 NO。
+
+这是充要条件，接下来证明：
+
+• $(n-m)$ 可以被 $(2a)$ 整除 是一个显然的条件，在接下来的证明中直接忽略。
+
+<hr>
+
+> 存在 $i$，使得 $b_i$ 的左边有 $\geq a$ 个要被remove的数，右边也有 $\geq a$ 个要被remove的数 $\rightarrow$ 有解。
+
+WLOG 我们设左边的数的数量 $\leq$ 右边。
+
+我们一直移除右边，使得右边剩余数字数量 $< 2a$。
+
+此时，左边 $\geq a$，右边 $< 2a$。
+
+并且我们注意到，之前已经有 $(n-m)$ 可以被 $(2a)$ 整除这个条件了，说明我们需要移除偶数个数字，这说明左边需要移除的数字 + 右边需要移除的数字 总量是一个偶数。
+
+这说明，**左右奇偶性** 相同，又因为我们每次移除 $2a$ 个数字，并且左右两边相差不超过 $a-1$，这说明一定可以有一种移除方法使得左右平衡。
+
+这意味着一定存在这样的remove方案。
+
+• 注意到，在以上证明中，我们没有讨论每次 remove 选择的中位数是什么，因为这并不重要，只要保证在remove的过程中，不会动到那些需要保留的数字即可。
+
+<hr>
+
+> 有解 $\rightarrow$ 存在 $i$，使得 $b_i$ 的左边有 $\geq a$ 个要被remove的数，右边也有 $\geq a$ 个要被remove的数。
+
+假设不存在这样的 $i$，说明每次 remove 时，任何需要保留的数字都**不能**作为中位数。这意味着每次 remove 操作会选择一个最终需要扔掉的数字作为中位数，所以不可能remove干净。
+
+{{% /fold %}}
+
+
+{{% fold "代码" %}}
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+const int maxn = 2e5+5;
+
+int n, k, m, a[maxn];
+int pre[maxn], suf[maxn];
+bool solve() {
+    if ((n - m) % (k-1)) return 0;
+    for (int i = 1; i <= n; i++) {
+        pre[i] = pre[i-1] + a[i];
+    }
+    for (int i = n; i >= 1; i--) {
+        suf[i] = suf[i+1] + a[i];
+    }
+    for (int i = 1; i <= n; i++) {
+        if (!a[i] && pre[i] >= k/2 && suf[i] >= k/2) return 1;
+    }
+    return 0;
+}
+int main() {
+    int T; cin >> T;
+    while (T--) {
+        cin >> n >> k >> m;
+        for (int i = 1; i <= n; i++) a[i] = 1, pre[i] = suf[i] = 0;
+        for (int i = 1; i <= m; i++) {
+            int x; cin >> x;
+            a[x] = 0;
+        }
+        bool res = solve();
+        if (res) cout << "YES\n";
+        else cout << "NO\n";
+    }
+}
+```
+
+{{% /fold %}}

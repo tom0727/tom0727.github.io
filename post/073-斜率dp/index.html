@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/073-%E6%96%9C%E7%8E%87dp/" />
 <meta property="article:published_time" content="2022-09-21T14:47:44-05:00" />
-<meta property="article:modified_time" content="2022-10-24T00:55:27+00:00" />
+<meta property="article:modified_time" content="2022-10-24T22:15:54-05:00" />
 <meta itemprop="name" content="斜率优化DP">
 <meta itemprop="description" content="介绍 斜率DP一般用于解决类似于如下的问题： $$dp[i] = \min\limits_{j&lt;i} \{ g(j) &#43; f(i, j) &#43; h(i)\}$$ • 注意到上述式子中，当我们固定 $i$，仅有的变量为 $j$，需要最小化的是 $g(j) &#43; f(i,">
 <meta itemprop="datePublished" content="2022-09-21T14:47:44-05:00" />
-<meta itemprop="dateModified" content="2022-10-24T00:55:27&#43;00:00" />
-<meta itemprop="wordCount" content="793">
+<meta itemprop="dateModified" content="2022-10-24T22:15:54-05:00" />
+<meta itemprop="wordCount" content="841">
 
 
 
@@ -171,7 +171,7 @@
 <div class='align-center'>
 <p>$b$：需要最大化/最小化的项，一般形式为 $dp[i] + h(i)$</p>
 <p>$y$：仅包含 $j$ 的项，一般形式为 $g(j)$</p>
-<p>$kx$：包含 $i,j$ 的项，一般形式为 $f(i,j)$，其中 $x$ 需要<strong>单调递增</strong>，并且一般 $x$ 是 $f(i,j)$ 中代表 $j$ 的部分，$k$ 是 $f(i,j)$ 中代表 $i$ 的部分。</p>
+<p>$kx$：包含 $i,j$ 的项，一般形式为 $f(i,j)$，其中 $x$ 需要<strong>单调递增</strong> (如果不是，需要两边同乘 $-1$)，并且一般 $x$ 是 $f(i,j)$ 中代表 $j$ 的部分，$k$ 是 $f(i,j)$ 中代表 $i$ 的部分。</p>
 </div>
 <hr>
 <p>假设我们要最小化 $b$ 的值，那么需要直线 $y=kx+b$ 的截距最小。</p>
@@ -192,6 +192,7 @@
 </div>
 <p>从图中可以发现，这个最优决策点 $j$ 一定满足条件：它是<strong>最小</strong>的 $j$，使得直线 $(j,j+1)$ 的斜率 $&gt;k$。</p>
 <p>由于下凸包中，$\forall i &lt; j$，直线 $(i, i+1)$ 的斜率一定<strong>小于</strong>直线 $(j,j+1)$ 的斜率，所以这样的 $j$ 可以用<strong>二分</strong>找到。</p>
+<hr>
 <p>不过这道题更简单，因为 $k_i$ 随着 $i$ 的增加而单调递减，所以用<strong>单调队列</strong>维护凸包即可。</p>
 <p>最后看下如何用单调队列维护一个点集的<strong>下凸包</strong>：</p>
 <p>只要在插入一个新的点 $i$ 时，判断是否满足以下条件：</p>
@@ -200,6 +201,7 @@
 <li>$k(q_{r-1}, q_r) &gt; k(q_r, i)$</li>
 </ol>
 <p>那么就一直pop队尾，直到上述两个条件之一不满足即可。</p>
+<p>所以在这个单调队列的 <strong>头部</strong> 所储存的 $j$ 就是对于这个 $i$ 的最佳转移点。</p>
 
     </div>
 
@@ -211,8 +213,8 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-10-24 00:55:27 &#43;0000 UTC">2022-10-24</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/84f96f1dbaa36073ccd114a82ecd015649396820" title="chore: update CF Problems" target="_blank">(84f96f1)</a>
+        <span title="2022-10-24 22:15:54 -0500 -0500">2022-10-24</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/5d8a85e136417cb54c3136b0b37c6a7df2666476" title="init 078, 079" target="_blank">(5d8a85e1)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/073-%e6%96%9c%e7%8e%87dp.md" target="_blank">更新历史</a>
     </span>
   </p>

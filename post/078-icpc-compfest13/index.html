@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>COMPFEST13 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="B. Building an Amusement Park 题意 二维平面上给定 $n$ 个点，求一个最小的圆，使得： $(0,0)$ 在圆上。 圆内（包括圆上）包含至少 $k$ 个点。 输出最小圆半径。 其中，$1 \leq n \leq 10^5, 1 \leq k" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/078-icpc-compfest13/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="COMPFEST13" />
+<meta property="og:description" content="B. Building an Amusement Park 题意 二维平面上给定 $n$ 个点，求一个最小的圆，使得： $(0,0)$ 在圆上。 圆内（包括圆上）包含至少 $k$ 个点。 输出最小圆半径。 其中，$1 \leq n \leq 10^5, 1 \leq k" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/078-icpc-compfest13/" />
+<meta property="article:published_time" content="2022-10-23T23:48:58-05:00" />
+<meta property="article:modified_time" content="2022-10-24T22:15:54-05:00" />
+<meta itemprop="name" content="COMPFEST13">
+<meta itemprop="description" content="B. Building an Amusement Park 题意 二维平面上给定 $n$ 个点，求一个最小的圆，使得： $(0,0)$ 在圆上。 圆内（包括圆上）包含至少 $k$ 个点。 输出最小圆半径。 其中，$1 \leq n \leq 10^5, 1 \leq k">
+<meta itemprop="datePublished" content="2022-10-23T23:48:58-05:00" />
+<meta itemprop="dateModified" content="2022-10-24T22:15:54-05:00" />
+<meta itemprop="wordCount" content="1767">
+
+
+
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="COMPFEST13"/>
+<meta name="twitter:description" content="B. Building an Amusement Park 题意 二维平面上给定 $n$ 个点，求一个最小的圆，使得： $(0,0)$ 在圆上。 圆内（包括圆上）包含至少 $k$ 个点。 输出最小圆半径。 其中，$1 \leq n \leq 10^5, 1 \leq k"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">COMPFEST13</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-10-23 23:48:58 -0500 -0500"> 2022-10-23 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#b-building-an-amusement-parkhttpscodeforcescomcontest1575problemb">B. <a href="https://codeforces.com/contest/1575/problem/B">Building an Amusement Park</a></a></li>
+            <li><a href="#l-longest-array-deconstructionhttpscodeforcescomcontest1575probleml">L. <a href="https://codeforces.com/contest/1575/problem/L">Longest Array Deconstruction</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="b-building-an-amusement-parkhttpscodeforcescomcontest1575problemb">B. <a href="https://codeforces.com/contest/1575/problem/B" target="_blank">Building an Amusement Park</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>二维平面上给定 $n$ 个点，求一个最小的圆，使得：</p>
+<ol>
+<li>$(0,0)$ 在圆上。</li>
+<li>圆内（包括圆上）包含至少 $k$ 个点。</li>
+</ol>
+<p><img src="/images/078/1.png" alt="img"></p>
+<p>输出最小圆半径。</p>
+<p>其中，$1 \leq n \leq 10^5, 1 \leq k \leq n, |x_i|, |y_i| \in [0, 10^5]$。</p>
+<p>相对误差 $\leq 10^{-4}$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先二分半径 $r$，</p>
+<p><img src="/images/078/3.jpg" alt="img"></p>
+<p>我们已知一个半径 $r$，已知圆需要过原点 $(0,0)$，那么我们只需要再确定圆上的一个点即可得到一个圆。</p>
+<p>显然，想让半径最小，那么我们应该在此时 <strong>恰好</strong> 包括了一个点 $p_i$，这意味着只要枚举圆上的点 $p_i$ 即可确认 $n$ 个圆，只要判断这 $n$ 个圆中是否存在一个使得它包含了至少 $k$ 个点即可。</p>
+<p>然而直接判断复杂度太高了，我们换种思考方式：</p>
+<p>因为对于每个点 $p_i$，能够恰好让 $p_i$ 在圆上的圆有 $2$ 个，如果我们是逆时针旋转这个圆，那么恰好有 $2$ 个角度，使得这个圆恰好让这个点 $p_i$ <strong>进来/出来</strong>。</p>
+<p>所以如果圆心恰好在这两个角度 $a_1, a_2$ 之间，即圆心的极角在 $[a_1,a_2]$ 之间，说明这个点被包含进去了。</p>
+<hr>
+<p>这个圆心的极角怎么计算呢？</p>
+<p>可以先计算出每个点 $p_i$ 的极角 <code>ang[i]</code> 和距离圆心的距离 $d$，然后计算点 $p_i$ 与圆心的极角差 <code>rot</code>，可以得到 $\cos(rot) = \frac{d}{2r}$，这样就可以得到两个圆心的极角了。</p>
+<hr>
+<p>剩下的就相当于一个区间覆盖问题了，可以直接 <code>sort()</code> 一下然后从左往右枚举，过程中维护当前覆盖点数（有优雅的写法连差分数组都不需要）。</p>
+<p>更优雅的是，可以直接给所有的点加上 $2\pi$ 这样可以断环成链，剩下的完全一致，具体操作看代码吧。</p>
+<p>• 最后注意特判一下某些点可能位于 $(0,0)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e5+5;
+int sgn(double x){
+	if(fabs(x) &lt; eps)return 0;
+	if(x &lt; 0)return -1;
+	else return 1;
+}
+//square of a double
+inline double sqr(double x){return x*x;}
+
+struct Point{
+	double x,y;
+	Point(){}
+	Point(double _x,double _y){
+		x = _x;
+		y = _y;
+	}
+	void input(){
+		scanf(&quot;%lf%lf&quot;,&amp;x,&amp;y);
+	}
+	void output(){
+		printf(&quot;%.2f %.2f\n&quot;,x,y);
+	}
+	bool operator == (Point b)const{
+		return sgn(x-b.x) == 0 &amp;&amp; sgn(y-b.y) == 0;
+	}
+	bool operator &lt; (Point b)const{
+		return sgn(x-b.x)== 0?sgn(y-b.y)&lt;0:x&lt;b.x;
+	}
+	Point operator -(const Point &amp;b)const{
+		return Point(x-b.x,y-b.y);
+	}
+	//叉积
+	double operator ^(const Point &amp;b)const{
+		return x*b.y - y*b.x;
+	}
+	//点积
+	double operator *(const Point &amp;b)const{
+		return x*b.x + y*b.y;
+	}
+	//返回长度
+	double len(){
+		return hypot(x,y);//库函数
+	}
+	//返回长度的平方
+	double len2(){
+		return x*x + y*y;
+	}
+	//返回两点的距离
+	double distance(Point p){
+		return hypot(x-p.x,y-p.y);
+	}
+	Point operator +(const Point &amp;b)const{
+		return Point(x+b.x,y+b.y);
+	}
+	Point operator *(const double &amp;k)const{
+		return Point(x*k,y*k);
+	}
+	Point operator /(const double &amp;k)const{
+		return Point(x/k,y/k);
+	}
+	//`计算pa  和  pb 的夹角`
+	//`就是求这个点看a,b 所成的夹角`
+	//`测试 LightOJ1203`
+	double rad(Point a,Point b){
+		Point p = *this;
+		return fabs(atan2( fabs((a-p)^(b-p)),(a-p)*(b-p) ));
+	}
+	//`化为长度为r的向量`
+	Point trunc(double r){
+		double l = len();
+		if(!sgn(l))return *this;
+		r /= l;
+		return Point(x*r,y*r);
+	}
+};
+
+
+int n, k;
+vector&lt;pair&lt;double, int&gt;&gt; vec;
+long double dis[maxn], ang[maxn];
+Point p[maxn];
+bool check(long double x) {
+    int cur = 0;
+    vec.clear();
+    for (int i = 1; i &lt;= n; i++) {
+        if (dis[i] &gt; 0 &amp;&amp; dis[i] &lt;= 2.0*x) {
+            double rot = acos(dis[i] / 2.0 / x);
+            vec.push_back({ang[i] - rot, 1});  // 直接利用 +1, -1 来完成区间覆盖操作
+            vec.push_back({ang[i] + rot, -1});
+            vec.push_back({ang[i] - rot + 2 * pi, 1});   // 直接加上 2pi
+            vec.push_back({ang[i] + rot + 2 * pi, -1});
+        }
+    }
+    sort(vec.begin(), vec.end());  // -1 在前所以没问题
+    for (auto di : vec) {
+        cur += di.second;
+        if (cur &gt;= k) return 1;
+    }
+
+    return 0;
+}
+
+
+long double ans = 0.0;
+int main() {
+    scanf(&quot;%d%d&quot;, &amp;n,&amp;k);
+    for (int i = 1; i &lt;= n; i++) {
+        p[i].input();
+        if (abs(p[i].x) &lt; eps &amp;&amp; abs(p[i].y) &lt; eps) k--;
+        else {
+            dis[i] = p[i].len();
+            ang[i] = atan2(p[i].y, p[i].x);
+        }
+    }
+    if (k &lt;= 0) {
+        ans = 0;
+        printf(&quot;%.15Lf\n&quot;, ans);
+        return 0;
+    }
+
+    long double low = 0.0, high = 2e5;
+    int T = 100;
+    while (high - low &gt; 1e-6 &amp;&amp; T--) {
+        long double mid = (high + low) * 0.5;
+        if (check(mid)) {
+            ans = mid;
+            high = mid;
+        } else low = mid;
+    }
+    printf(&quot;%.15Lf\n&quot;, ans);
+}
+</code></pre>
+</details>
+<h3 id="l-longest-array-deconstructionhttpscodeforcescomcontest1575probleml">L. <a href="https://codeforces.com/contest/1575/problem/L" target="_blank">Longest Array Deconstruction</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个正整数 $a_i$，我们可以从中remove掉若干个元素，求remove后，最多有多少个 $i$ 满足 $a_i = i$？</p>
+<p>其中，$n \leq 2 \times 10^5, a_i \in [1, 2 \times 10^5]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>先处理 $b_i = i - a_i$，如果 $b_i &lt; 0$ 这意味着这个数字不可能对答案有贡献。</p>
+<p>如果 $i &gt; j$ 并且 $i - a_i \geq j - a_j$，那么就有办法通过 remove $(j, i)$ 中的一些元素来让 $i$ 满足条件。</p>
+<p>• 一个特例是 $1, 1, 1$，这里 <code>i[] = [1, 2, 3], a[] = [1, 1, 1], b[] = [0, 1, 2]</code>，但是答案只能是 $1$，所以还得加个限制条件代表每个数只能被用一次。</p>
+<p>所以我们需要找一个最长的 subsequence 使得序列中均为 index，并且转移时保证：</p>
+<ol>
+<li>$j - a_j \leq i - a_i$。</li>
+<li>$a_j &lt; a_i$。</li>
+<li>$j &lt; i$。</li>
+</ol>
+<p>看样子是个三维偏序，但实际上知道 $1,2$ 就可以推出 $3$，所以是二维偏序。</p>
+<p>做二维偏序的方法：先根据一个维度 sort 一下，然后按照这个顺序加入元素，用线段树维护另外一个维度（另外一个维度的值作为 index），线段树里的值是转移的 dp值。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+int n;
+struct Node {
+    int a, b, i;  // a : a[i], b : i - a[i], i : idx
+} arr[maxn];  
+int tr[maxn&lt;&lt;2];
+void push_up(int cur) {
+    tr[cur] = max(tr[cur&lt;&lt;1], tr[cur&lt;&lt;1|1]);
+}
+
+// 给位置 p 赋值为 x
+void update(int cur, int l, int r, int p, int x) {
+    tr[cur] = max(tr[cur], x);
+    if (l == r) return;
+    int mid = (l+r) &gt;&gt; 1;
+    if (p &lt;= mid) update(cur&lt;&lt;1, l, mid, p, x);
+    else update(cur&lt;&lt;1|1, mid+1, r, p, x);
+}
+
+int query(int cur, int l, int r, int L, int R) {
+    if (L &lt;= l &amp;&amp; R &gt;= r) return tr[cur];
+    int mid = (l+r) &gt;&gt; 1;
+    int res = 0;
+    if (L &lt;= mid) res = max(res, query(cur&lt;&lt;1, l, mid, L, R));
+    if (R &gt; mid) res = max(res, query(cur&lt;&lt;1|1, mid+1, r, L, R));
+    return res;
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; arr[i].a;
+        arr[i].b = i - arr[i].a;
+        arr[i].i = i;
+    }
+    sort(arr+1, arr+n+1, [](auto a, auto b) {
+        if (a.b == b.b) return a.a &lt; b.a;
+        return a.b &lt; b.b;
+    });
+    int N = 2e5;
+    for (int i = 1; i &lt;= n; i++) {
+        int res = 0;
+        if (arr[i].a - 1 &gt; 0)
+            res = query(1, 1, N, 1, arr[i].a - 1);
+        
+        if (arr[i].b &gt;= 0)
+            update(1, 1, N, arr[i].a, res + 1);
+    }
+    int ans = query(1, 1, N, 1, N);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2022-10-24 22:15:54 -0500 -0500">2022-10-24</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/5d8a85e136417cb54c3136b0b37c6a7df2666476" title="init 078, 079" target="_blank">(5d8a85e1)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/078-ICPC-COMPFEST13.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/079-meissel-lehmer/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Meissel-Lehmer算法</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/077-icpc-2020-nerc-regional/">
+            <span class="next-text nav-default">2020-2021 ICPC, NERC, Southern and Volga Russian Regional Contest</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

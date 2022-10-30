@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/047-%E7%BD%91%E7%BB%9C%E6%B5%81/" />
 <meta property="article:published_time" content="2021-06-04T12:03:44+08:00" />
-<meta property="article:modified_time" content="2022-10-24T22:41:47-05:00" />
+<meta property="article:modified_time" content="2022-10-29T23:51:32-05:00" />
 <meta itemprop="name" content="网络流">
 <meta itemprop="description" content="介绍 网络 是一个有向图 $G = (V,E)$，每条边 $(u,v) \in E$ 都拥有一个容量 $c(u,v)$。 在一个网络中，拥有两个特殊的节点 $s, t$ （源点，汇点）。 定义 流">
 <meta itemprop="datePublished" content="2021-06-04T12:03:44&#43;08:00" />
-<meta itemprop="dateModified" content="2022-10-24T22:41:47-05:00" />
-<meta itemprop="wordCount" content="13583">
+<meta itemprop="dateModified" content="2022-10-29T23:51:32-05:00" />
+<meta itemprop="wordCount" content="13692">
 
 
 
@@ -165,6 +165,11 @@
           </ul>
         </li>
         <li><a href="#模版">模版</a></li>
+        <li><a href="#性质">性质</a>
+          <ul>
+            <li><a href="#最小割的可行边和必要边">最小割的可行边和必要边</a></li>
+          </ul>
+        </li>
         <li><a href="#套路">套路</a>
           <ul>
             <li><a href="#二元决策最小割模型">二元决策（最小割模型）</a></li>
@@ -240,7 +245,7 @@
 <p>同时，如果有费用为 $0$ 的边，使得这条边，及其反向边的费用均为 $0$，这可能会导致算法的最短路一直在这两个节点之间走。为了防止这个问题导致死循环，我们需要一个 <code>vis[]</code> 数组保证在 DFS 过程中每个点只被访问一次。</p>
 <p>复杂度：$O(n^2m^2)$，在实际使用中，一般跑的比这个快（所以不用太担心复杂度问题）。</p>
 <p>• 特别的，对于单位容量的网络，复杂度为 $O(m * \min(\sqrt m, n^{\frac{2}{3}}))$。</p>
-<p>• 对于二分图匹配问题，复杂度为 $O(m\sqrt n)$</p>
+<p>• 对于二分图匹配问题，复杂度为 $O(m\sqrt n)$。</p>
 <hr>
 <h2 id="模版">模版</h2>
 <details class="admonition note"><summary class="admonition-title">最大流模版</summary>
@@ -424,6 +429,14 @@ int main() {
 </code></pre>
 </details>
 <br>
+<h2 id="性质">性质</h2>
+<h3 id="最小割的可行边和必要边">最小割的可行边和必要边</h3>
+<p>最小割是一个 set of edges，使得割掉这些 edges 将原图一分为二，并且这些 edges 的容量之和最小。</p>
+<p>如何判断哪些边是 <strong>必要边</strong>（指这条边存在于 <strong>所有最小割</strong> 中），哪些是<strong>可行边</strong>（指这条边存在于 <strong>至少一个最小割</strong> 中）？</p>
+<p><strong>必要边</strong>：</p>
+<ol>
+<li>从 $s$ 开始</li>
+</ol>
 <h2 id="套路">套路</h2>
 <h3 id="二元决策最小割模型">二元决策（最小割模型）</h3>
 <p>有一类问题：有 $n$ 个元素，每个元素要么放入集合 $A$，要么放入集合 $B$，放入集合 $A,B$ 会产生不同的收益，同时可能还会有 <strong>相邻</strong> 的元素 / 特定的一些元素组合 在同一个集合/不同集合中，就产生额外的收益。求最大/最小的收益。</p>
@@ -1009,7 +1022,8 @@ int main() {
 <p>如何控制一个<strong>节点的入流量和出流量</strong>？<strong>拆点</strong>！</p>
 </blockquote>
 <p>将每个节点 $u$ 拆成两个节点，分别代表入点 $u_{in}$ 和 出点 $u_{out}$。</p>
-<p>所有原先 <strong>进入</strong> $u$ 的边，现在都改为 <strong>进入</strong> $u_{in}$，所有原先 **离开** $u$ 的边，现在都改为 **离开** $u_{out}$。</p>
+<p>所有原先 <strong>进入</strong> $u$ 的边，现在都改为 <strong>进入</strong> $u_{in}$，</p>
+<p>所有原先 <strong>离开</strong> $u$ 的边，现在都改为 <strong>离开</strong> $u_{out}$。</p>
 <p>连一条边 $u_{in} \rightarrow u_{out}$。这一条边的流量，就代表了这个节点 $u$ 被限制的入流量和出流量。</p>
 <hr>
 <p>综上，第二问和第三问的模型都可以拆点，只不过第二问对于每一个节点 $u$，限制的流量均为 $1$。</p>
@@ -1879,8 +1893,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-10-24 22:41:47 -0500 -0500">2022-10-24</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/9cd44d43ae956930660def846f7d0cb1a590bbfa" title="fix cf-problem.js C1,C2,D1,D2 rendering problems" target="_blank">(9cd44d4)</a>
+        <span title="2022-10-29 23:51:32 -0500 -0500">2022-10-29</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/1c07ed051f091571b75d0bcf417bb1605a80ad8a" title="init 080, 081" target="_blank">(1c07ed05)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/047-%e7%bd%91%e7%bb%9c%e6%b5%81.md" target="_blank">更新历史</a>
     </span>
   </p>

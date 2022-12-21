@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/075-icpc2022maps/" />
 <meta property="article:published_time" content="2022-10-10T13:30:58-05:00" />
-<meta property="article:modified_time" content="2022-12-19T00:27:29+00:00" />
+<meta property="article:modified_time" content="2022-12-21T11:43:17-06:00" />
 <meta itemprop="name" content="MAPS 2022">
 <meta itemprop="description" content="M. Yet Another Divisor Problem 题意 设 $f(n)$ 为正整数 $n$ 的 divisor 个数。 给定 $a, b$，求有多少个满足以下条件的数 $n$？ $n$ 是奇数。 $n \in [a,b]$。 $f(f(n^n))$ 是 $n$ 的 divisor。 其中">
 <meta itemprop="datePublished" content="2022-10-10T13:30:58-05:00" />
-<meta itemprop="dateModified" content="2022-12-19T00:27:29&#43;00:00" />
-<meta itemprop="wordCount" content="1003">
+<meta itemprop="dateModified" content="2022-12-21T11:43:17-06:00" />
+<meta itemprop="wordCount" content="1005">
 
 
 
@@ -181,7 +181,7 @@
 <p>$$n = p_1^{m_1} p_2^{m_2} p_3^{m_3} &hellip; p_k^{m_k}$$</p>
 <p>那么</p>
 <p>$$f(n) = (m_1+1)(m_2+1)&hellip;(m_k+1)$$</p>
-<p>那么对于较小的 $n$（如 $n \leq 10^7$）我们可以利用线性筛预处理，然后 $O(\log n)$ 时间内进行质因数分解，具体怎么做参考 <a href="/post/038-hdu-contest1/#q2-%E5%96%84%E8%89%AF%E7%9A%84%E5%87%BA%E9%A2%98%E4%BA%BA">这里</a>。</p>
+<p>那么对于较小的 $n$（如 $n \leq 5 \times 10^7$）我们可以利用线性筛预处理，然后 $O(\log n)$ 时间内进行质因数分解，具体怎么做参考 <a href="/post/038-hdu-contest1/#q2-%E5%96%84%E8%89%AF%E7%9A%84%E5%87%BA%E9%A2%98%E4%BA%BA">这里</a>。</p>
 <p>对于较大的 $n$ 我们可以利用 Pollard-Rho 在 $O(n^{\frac{1}{4}})$ 的复杂度内进行质因数分解。</p>
 <p>所以我们的算法就有了：</p>
 <ol>
@@ -268,7 +268,7 @@ struct PollardRho {
     }
 
     void findFac(ll x) {
-        if (x &lt;= 1e7) {
+        if (x &lt;= 5e7) {
             while (x &gt; 1) {
                 int sp = small[x];
                 while (x % sp == 0) x /= sp, factor.push_back(sp);
@@ -334,8 +334,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-12-19 00:27:29 &#43;0000 UTC">2022-12-19</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/26f9821f68cec4f8f50fb5866ab42fe443fd614c" title="chore: update CF Problems" target="_blank">(26f9821)</a>
+        <span title="2022-12-21 11:43:17 -0600 -0600">2022-12-21</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/cd42d028b67fbae538f01e4a8d4b0ce90a2de308" title="add 082, 083, 084" target="_blank">(cd42d028)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/075-ICPC2022MAPS.md" target="_blank">更新历史</a>
     </span>
   </p>

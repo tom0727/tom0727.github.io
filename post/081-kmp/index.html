@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/081-kmp/" />
 <meta property="article:published_time" content="2022-10-29T11:43:01-05:00" />
-<meta property="article:modified_time" content="2022-12-19T00:27:29+00:00" />
+<meta property="article:modified_time" content="2022-12-21T11:43:17-06:00" />
 <meta itemprop="name" content="KMP">
 <meta itemprop="description" content="介绍 KMP算法能在 $O(n)$ 的时间内，求出一个字符串的每个前缀的最长 border 长度。 利用 border 的性质，也可以在 $O(n)$ 的时间内，求出一个字符串 $t$ 在文本串 $s$ 中出现的所有">
 <meta itemprop="datePublished" content="2022-10-29T11:43:01-05:00" />
-<meta itemprop="dateModified" content="2022-12-19T00:27:29&#43;00:00" />
-<meta itemprop="wordCount" content="2493">
+<meta itemprop="dateModified" content="2022-12-21T11:43:17-06:00" />
+<meta itemprop="wordCount" content="4114">
 
 
 
@@ -156,6 +156,8 @@
           <ul>
             <li><a href="#查找子串">查找子串</a></li>
             <li><a href="#周期循环节">周期/循环节</a></li>
+            <li><a href="#最小表示法">最小表示法</a></li>
+            <li><a href="#失配树">失配树</a></li>
           </ul>
         </li>
         <li><a href="#例题">例题</a>
@@ -163,6 +165,8 @@
             <li><a href="#例1-hdu3746-cyclic-nacklacehttpsvjudgenetproblemhdu-3746">例1 HDU3746 <a href="https://vjudge.net/problem/HDU-3746">Cyclic Nacklace</a></a></li>
             <li><a href="#例2-poi2006-okr-periods-of-wordshttpswwwluogucomcnrecord92149684">例2 POI2006 <a href="https://www.luogu.com.cn/record/92149684">OKR-Periods of Words</a></a></li>
             <li><a href="#例3-hdu3336-count-the-stringhttpsvjudgenetproblemhdu-3336">例3 HDU3336 <a href="https://vjudge.net/problem/HDU-3336">Count the string</a></a></li>
+            <li><a href="#例4-hdu2609-how-many">例4 HDU2609 <a href="">How many</a></a></li>
+            <li><a href="#例5-cf808g-anthem-of-berlandhttpscodeforcescomproblemsetproblem808g">例5 CF808G <a href="https://codeforces.com/problemset/problem/808/G">Anthem of Berland</a></a></li>
           </ul>
         </li>
       </ul>
@@ -211,25 +215,24 @@ int main() {
 <h3 id="查找子串">查找子串</h3>
 <p>查找 $t$ 在 $s$ 内出现的所有位置，只要先对 $t$ 跑一次kmp，处理出 $t$ 上的 kmp 数组，然后在匹配的过程中，把 $i$ 指针放在 $s$ 上，$j$ 指针放在 $t$ 上，当 $j = n_2$ 时说明找到一个匹配，那么就让 $j = kmp[j]$ 继续匹配。</p>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
-<pre><code class="language-cpp">char s1[maxn], s2[maxn];
+<pre><code class="language-cpp">char s[maxn], t[maxn];
 int kmp[maxn];
 
 int main() {
-    scanf(&quot;%s&quot;, s1+1);
-    scanf(&quot;%s&quot;, s2+1);
-    int n1 = strlen(s1+1), n2 = strlen(s2+1);
+    scanf(&quot;%s&quot;, s+1);
+    scanf(&quot;%s&quot;, t+1);
+    int n = strlen(s+1), m = strlen(t+1);
     int j = 0;
-    for (int i = 2; i &lt;= n2; i++) {
-        while (j &gt; 0 &amp;&amp; s2[i] != s2[j+1]) j = kmp[j];
-        if (s2[i] == s2[j+1]) j++;
+    for (int i = 2; i &lt;= m; i++) {
+        while (j &gt; 0 &amp;&amp; t[i] != t[j+1]) j = kmp[j];
+        if (t[i] == t[j+1]) j++;
         kmp[i] = j;
     }
-
     j = 0;
-    for (int i = 1; i &lt;= n1; i++) {
-        while (j &gt; 0 &amp;&amp; s1[i] != s2[j+1]) j = kmp[j];
-        if (s1[i] == s2[j+1]) j++;
-        if (j == n2) {
+    for (int i = 1; i &lt;= n; i++) {
+        while (j &gt; 0 &amp;&amp; s[i] != t[j+1]) j = kmp[j];
+        if (s[i] == t[j+1]) j++;
+        if (j == m) {
             printf(&quot;%d\n&quot;,i-j+1);
             j = kmp[j];
         }
@@ -257,6 +260,46 @@ int main() {
 <p>换而言之，只要判断 <code>p = n - kmp[n]</code>, <code>n % p == 0</code> 是否成立即可。</p>
 <p>同周期，循环节可能有很多个，寻找的方式跟周期一样，额外判断一下 <code>n % p == 0</code> 是否成立即可。</p>
 <p>• 最小循环节的长度就是 $n - kmp[n]$。</p>
+<h3 id="最小表示法">最小表示法</h3>
+<p>虽然和 KMP 并没有必然联系，但思想上可能有些相同。</p>
+<p>定义一个字符串 $s$ 和另外一个字符串 $t$ 循环同构 (cyclic shift)，当且仅当</p>
+<p>$$\exists i \in [1,n], s[i&hellip;n] + s[1&hellip;i-1] = t$$</p>
+<p>Equivalently，有：</p>
+<ol>
+<li>$t$ 与 $s$ 循环同构。</li>
+<li>$t$ 可以用 $s$ 的位置为 $i$ 的后缀，加上位置为 $i$ 的前缀组成。</li>
+<li>$t$ 是 $s+s$ 中的一个 substring（注意前提是 $|s| = |t|$）。</li>
+</ol>
+<p>• 注意到由于性质 $3$，也可以用 KMP 在 $O(n)$ 判断两个字符串是否为循环同构。</p>
+<p>最小表示法可以在 $O(n)$ 时间内求出一个字符串 <strong>字典序最小</strong> 的循环同构。</p>
+<p>方法是维护两个指针 $i,j$，讨论三种情况：</p>
+<p>Case1: $s_i &lt; s_j$：说明 $j$ 不可能为最小表示的起点，所以 <code>j++;</code>。</p>
+<p>Case2: $s_i &gt; s_j$：说明 $i$ 不可能为最小表示的起点，所以 <code>i++;</code>。</p>
+<p>Case3: $s_i = s_j$：说明需要接着往后看，所以用另外一个值 $k$，让 $k$ 从 $0$ 开始加，直到 $s_{i+k} \neq s_{j+k}$。</p>
+<p><img src="/images/081/3.jpg" alt="img"></p>
+<p>Case3.1: 如果 $s_{i+k} &lt; s_{j+k}$：说明任何 $j&rsquo; \in [j, j+k]$ 不可能满足条件，因为如果满足了，必然有对应相同位置的 $i'$ 更好。所以令 <code>j = j+k+1;</code>。</p>
+<p>Case3.2: 如果 $s_{i+k} &gt; s_{j+k}$：说明任何 $i&rsquo; \in [i, i+k]$ 不可能满足条件，因为如果满足了，必然有对应相同位置的 $j'$ 更好。所以令 <code>i = i+k+1;</code>。</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">// 输出 s 的最小表示法
+string min_cyc(string s) {
+    int n = s.size();
+    int i = 0, j = 1, k = 0;
+    while (i &lt; n &amp;&amp; j &lt; n &amp;&amp; k &lt; n) {
+        char a = s[(i+k) % n], b = s[(j+k) % n];
+        if (a == b) k++;
+        else {
+            if (a &lt; b) j = j+k+1;
+            if (a &gt; b) i = i+k+1;
+            if (i == j) i++;  // 如果重合就后移 
+            k = 0;
+        }
+    }
+    i = min(i, j);  // 保证是一个合法位置 (结束时i,j很有可能有一个非法)
+    return s.substr(i, n-i) + s.substr(0, i);
+}
+</code></pre>
+</details>
+<h3 id="失配树">失配树</h3>
 <h2 id="例题">例题</h2>
 <h3 id="例1-hdu3746-cyclic-nacklacehttpsvjudgenetproblemhdu-3746">例1 HDU3746 <a href="https://vjudge.net/problem/HDU-3746" target="_blank">Cyclic Nacklace</a></h3>
 <div class="admonition question">
@@ -314,7 +357,8 @@ int main() {
 <p>我们会发现，如果 $Q$ 不存在的话，说明是类似于 <code>&quot;ABCD&quot;</code> 这种的字符串，这种字符串代表 $kmp[n] = 0$。否则类似于 <code>&quot;ABCA&quot;</code> 这种，<code>Q = &quot;ABC&quot;</code> 就满足要求。</p>
 <p>简单推导可以发现，只要找到 $s_i$ 的最小 border 长度 $j$，然后 $Q = i-j$。</p>
 <p>问题在于 <code>kmp[]</code> 维护的是最大border长度，最小border怎么办？</p>
-<p>注意到最小border可以通过最大border一直往前跳获得，所以我们在初始处理 kmp 数组时仍然保留最大border，然后再从 $1$ 枚举到 $n$，每次枚举完都让 <code>kmp[i]</code> 维护的是最小 border 的长度，这样后面的在往前跳的时候只用跳一次了。</p>
+<p>注意到最小border可以通过最大border一直往前跳获得，所以我们在初始处理 kmp 数组时<strong>仍然保留最大border</strong>。</p>
+<p>然后<strong>枚举第二次</strong>，从 $1$ 枚举到 $n$，每次枚举完都让 <code>kmp[i]</code> 维护的是最小 border 的长度，这样后面的在往前跳的时候只用跳一次了。</p>
 </details>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
@@ -336,7 +380,7 @@ int main() {
 
     ll ans = 0;
     for (int i = 1; i &lt;= n; i++) {
-        while (kmp[kmp[i]] &gt; 0) kmp[i] = kmp[kmp[i]];
+        while (kmp[kmp[i]] &gt; 0) kmp[i] = kmp[kmp[i]];  // 这里处理了最小border
         if (kmp[i]) {
             ans += (i-kmp[i]);
         }
@@ -450,8 +494,107 @@ int main() {
         fill(dp, dp+n+1, 0);
     }
 }
+</code></pre>
+</details>
+<h3 id="例4-hdu2609-how-many">例4 HDU2609 <a href="">How many</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个长度相同的字符串，问有多少个本质不同的字符串？</p>
+<p>$s,t$ 本质不同当且仅当 $s,t$ 不互为循环同构。</p>
+<p>其中，$n \leq 10000$，每个字符串长度 $\leq 100$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>求出每个字符串的最小表示法，去一下重即可。（代码都不用放了）。</p>
+</details>
+<h3 id="例5-cf808g-anthem-of-berlandhttpscodeforcescomproblemsetproblem808g">例5 CF808G <a href="https://codeforces.com/problemset/problem/808/G" target="_blank">Anthem of Berland</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个包含小写字母和 <code>'?'</code> 的字符串 $s$，和一个仅包含小写字母的字符串 $t$，求如何替换 $s$ 中的 <code>'?'</code> 为小写字母，使得 $t$ 在 $s$ 中出现的次数最多？</p>
+<p>其中，$|s|, |t| \leq 10^5, |s| * |t| \leq 10^7$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>KMP + DP。</p>
+<p>注意到 $|s| * |t| \leq 10^7$。</p>
+<p>思考一个 dp 的做法：$dp[i][j]$ 代表匹配到了 $s$ 的第 $i$ 位，此时尝试匹配 $s_i$ 和 $t_{j+1}$（之所以是 $j+1$ 是因为 KMP 的写法），dp数组的值代表此时 $t$ 出现的次数。</p>
+<p>如果匹配成功，那么有：</p>
+<p>$$dp[i+1][j+1] = dp[i][j]$$</p>
+<p>特别的，当 $j+1 = m$ 时，出现次数加 $1$。那么按照 kmp 的做法，在匹配完成后，需要跳回 <code>kmp[m]</code> 的位置继续匹配。</p>
+<p>所以在 $j+1 = m$ 时有：</p>
+<p>$$dp[i+1][kmp[m]] = dp[i][j] + 1$$</p>
+<p>如果匹配失败，那么就按照 KMP 的失配规则，$j$ 一直往前跳，直到 $s_i = t_{j+1}$。</p>
+<hr>
+<p>以上讨论都基于没有 <code>?</code> 的情况，有 <code>?</code> 怎么办呢？</p>
+<p>我们不能简单的说 <code>'?'</code> 就默认为匹配成功，可能存在一种情况使得 <code>'?'</code> 换成其他的字符更好，比如 <code>s = &quot;a?bc&quot;, t = &quot;abc&quot;</code>。</p>
+<p>既然总共就只有小写字母，不妨枚举 <code>?</code> 的所有可能性，然后分别进行转移。</p>
+<hr>
+<p>最后注意到复杂度有点爆炸，每次枚举 <code>'?'</code> 的值时 kmp 都要暴力往前跳。</p>
+<p>不妨预处理一个 <code>nxt[][]</code> 数组，其中 <code>nxt[c][j]</code> 代表在 $s$ 的一个 <code>'?'</code> 替换成字符 $c$ 时，若此时正在匹配 $t_{j+1}$，那么 KMP 应该让它跳回什么地方？</p>
+<p>其实这就是一个最小 border 问题，利用例 $2$ 的做法即可，这里只是加了一个枚举 $c$ 而已。</p>
+<p>最终复杂度 $O(26 nm)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
 
-&lt;/details&gt;</code></pre>
+char s[maxn], t[maxn];
+int kmp[maxn];
+int nxt[26][maxn];
+int main() {
+    scanf(&quot;%s&quot;, s+1);
+    scanf(&quot;%s&quot;, t+1);
+    int n = strlen(s+1), m = strlen(t+1);
+    vector&lt;vector&lt;int&gt;&gt; dp(n+2, vector&lt;int&gt;(m+2, -1e9));
+
+    int j = 0;
+    for (int i = 2; i &lt;= m; i++) {
+        while (j &gt; 0 &amp;&amp; t[i] != t[j+1]) j = kmp[j];
+        if (t[i] == t[j+1]) j++;
+        kmp[i] = j;
+    }
+
+    for (int i = 1; i &lt;= n; i++) dp[i][0] = 0;
+    for (int cc = 0; cc &lt; 26; cc++) {  // 枚举 ? 替换成的字符
+        char c = (char)(cc + 'a');
+        for (int j = 0; j &lt;= m; j++) {
+            if (c == t[j+1]) nxt[cc][j] = j+1;  // 匹配成功则不需要跳
+            else {
+                nxt[cc][j] = nxt[cc][kmp[j]];  // 最小 border
+            }
+        }
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 0; j &lt;= m; j++){
+            if (dp[i][j] == -1e9) continue;
+
+            for (char c = 'a'; c &lt;= 'z'; c++) {
+                int nj = j, val = 0;
+                if (s[i] != '?' &amp;&amp; s[i] != c) continue;
+                nj = nxt[c-'a'][j];
+                // if (c == t[nj+1]) nj++;
+                // else {
+                //     while (nj &gt; 0 &amp;&amp; c != t[nj+1]) {
+                //         nj = kmp[nj];
+                //     }
+                //     if(c == t[nj+1]) nj++;
+                // }
+                if (nj == m) {  // 匹配成功！往回跳一次
+                    nj = kmp[nj];
+                    val = 1;
+                }
+                dp[i+1][nj] = max(dp[i+1][nj], dp[i][j] + val);
+            }
+        }
+    }
+
+    int ans = 0;
+    for (int i = 1; i &lt;= n+1; i++) {  // 注意是 i 往 i+1 转移所以要在 n+1 取答案
+        for (int j = 0; j &lt;= m; j++) ans = max(ans, dp[i][j]);
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -463,8 +606,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-12-19 00:27:29 &#43;0000 UTC">2022-12-19</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/26f9821f68cec4f8f50fb5866ab42fe443fd614c" title="chore: update CF Problems" target="_blank">(26f9821)</a>
+        <span title="2022-12-21 11:43:17 -0600 -0600">2022-12-21</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/cd42d028b67fbae538f01e4a8d4b0ce90a2de308" title="add 082, 083, 084" target="_blank">(cd42d028)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/081-kmp.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -480,9 +623,9 @@ int main() {
           <a href="/tags//"></a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+        <a class="prev" href="/post/082-%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">[置顶]竞赛注意事项</span>
+            <span class="prev-text nav-default">线性规划</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="/post/080-treap/">

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>2022 NERC Regional - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="A. Access Levels 题意 有 $n$ 个程序员，$m$ 个文档。 给定一个 $n \times m$ 的矩阵 $a$，其中 $a_{ij} = 1$ 表示程序员 $i$ 可以访问文档 $j$，否则不行。 现在我们需要选择一个数" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/083-icpc-2022-nerc-regional/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="2022 NERC Regional" />
+<meta property="og:description" content="A. Access Levels 题意 有 $n$ 个程序员，$m$ 个文档。 给定一个 $n \times m$ 的矩阵 $a$，其中 $a_{ij} = 1$ 表示程序员 $i$ 可以访问文档 $j$，否则不行。 现在我们需要选择一个数" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/083-icpc-2022-nerc-regional/" />
+<meta property="article:published_time" content="2022-12-04T23:48:35-06:00" />
+<meta property="article:modified_time" content="2022-12-21T11:43:17-06:00" />
+<meta itemprop="name" content="2022 NERC Regional">
+<meta itemprop="description" content="A. Access Levels 题意 有 $n$ 个程序员，$m$ 个文档。 给定一个 $n \times m$ 的矩阵 $a$，其中 $a_{ij} = 1$ 表示程序员 $i$ 可以访问文档 $j$，否则不行。 现在我们需要选择一个数">
+<meta itemprop="datePublished" content="2022-12-04T23:48:35-06:00" />
+<meta itemprop="dateModified" content="2022-12-21T11:43:17-06:00" />
+<meta itemprop="wordCount" content="1377">
+
+
+
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="2022 NERC Regional"/>
+<meta name="twitter:description" content="A. Access Levels 题意 有 $n$ 个程序员，$m$ 个文档。 给定一个 $n \times m$ 的矩阵 $a$，其中 $a_{ij} = 1$ 表示程序员 $i$ 可以访问文档 $j$，否则不行。 现在我们需要选择一个数"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">2022 NERC Regional</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-12-04 23:48:35 -0600 -0600"> 2022-12-04 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#a-access-levelshttpscodeforcescomcontest1765problema">A. <a href="https://codeforces.com/contest/1765/problem/A">Access Levels</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="a-access-levelshttpscodeforcescomcontest1765problema">A. <a href="https://codeforces.com/contest/1765/problem/A" target="_blank">Access Levels</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $n$ 个程序员，$m$ 个文档。</p>
+<p>给定一个 $n \times m$ 的矩阵 $a$，其中 $a_{ij} = 1$ 表示程序员 $i$ 可以访问文档 $j$，否则不行。</p>
+<p>现在我们需要选择一个数字 $k$，使得总共有 $k$ 个access group。</p>
+<p>然后将每个文档放入这 $k$ 个access group中的一个，并且给这个文档设定一个权限值 $c_i$。</p>
+<p>然后给每个程序员设定 $k$ 个数字 $v_i$，代表这个程序员在使用第 $i$ 个group时拥有 $v_i$ 的权限值。</p>
+<p>当一个程序员在访问一个文档 $i$ 时，如果这个文档所在的group为 $j$，那么需要保证这个程序员的 $v_j \geq c_i$ 才能访问，否则不能。</p>
+<p>求一个最小的 $k$，使得访问矩阵可以被满足，并且给出具体方案。</p>
+<p>其中，$n,m \leq 500$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>注意到 group 与 group 之间是独立的，因为每个文档仅能属于一个group，所以我们分 group 来考虑。</p>
+<p>注意到，如果一个group内有 $d$ 个文档 $i_1, i_2, &hellip;, i_d$，那么这些文档对于程序员们来说一定遵循：访问关系为单调为超集。</p>
+<p>举个例子，在第二个样例中</p>
+<pre><code>2 3
+101
+100
+</code></pre>
+<p>那么假设这三个文档都在同一个group内，那么按照列来看，就可以得到 <code>11, 00, 10</code> 这三个数字，可以发现 <code>11 &gt; 10 &gt; 00</code>（这里的 <code>11 &gt; 10</code> 是指 <code>11</code> 为 <code>10</code> 的超集）。</p>
+<p>这说明这三个文档可以在同一个group内。</p>
+<p>这让我们想到了什么？如果我们将每一列看作一个 bitmask，那么如果 $b_1 &gt; b_2$ 则可以由 $b_1$ 向 $b_2$ 连一条边，这就是一个DAG中的最小路径覆盖问题，每个路径就是一个 group。</p>
+<p>剩下的就是很麻烦的实现了，注意去重之类的问题。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 5e2+5;
+int n, m;
+char a[maxn][maxn];
+map&lt;string, int&gt; mask_to_idx;
+string masks[maxn];
+
+// return 1 if b &lt; a (b is subset of a)
+bool is_sub(string&amp; a, string&amp; b) {
+    for (int i = 1; i &lt;= n; i++) {
+        if (a[i-1] &lt; b[i-1]) return 0;
+    }
+    return 1;
+}
+
+int par[maxn];
+int finds(int u) {
+    if (par[u] == u) return u;
+    return par[u] = finds(par[u]);
+}
+void unions(int u, int v) {
+    u = finds(u), v = finds(v);
+    if (u == v) return;
+    par[v] = u;
+}
+vector&lt;int&gt; adj[maxn&lt;&lt;1];
+int vis[maxn&lt;&lt;1], visid = 0, match[maxn&lt;&lt;1], from[maxn&lt;&lt;1];
+bool dfs(int u) {
+    for (int v : adj[u]) {
+        if (vis[v] == visid) continue;
+        vis[v] = visid;
+        if (!match[v] || dfs(match[v])) {
+            match[v] = u;
+            return 1;
+        }
+    }
+    return 0;
+}
+int groupid = 0;
+vector&lt;int&gt; groups[maxn];
+int belongs[maxn];
+int pri[maxn][maxn];  // privilege for the users
+int privilege[maxn];  // privilege for each software
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) {
+        string s; cin &gt;&gt; s;
+        for (int j = 1; j &lt;= m; j++) {
+            a[i][j] = s[j-1];
+        }
+    }
+    int id = 0;
+    for (int j = 1; j &lt;= m; j++) {
+        string mask = &quot;&quot;;
+        for (int i = 1; i &lt;= n; i++) {
+            mask += a[i][j];
+        }
+        mask_to_idx[mask] = ++id;
+        masks[id] = mask;
+    }
+    for (int i = 1; i &lt;= m; i++) par[i] = i;
+    for (int i = 1; i &lt;= m; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            if (i == j) continue;
+            if (masks[i] == masks[j]) {
+                unions(i, j);
+            }
+        }
+    }
+    for (int i = 1; i &lt;= m; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            if (i == j) continue;
+            if (par[i] == i &amp;&amp; par[j] == j &amp;&amp; is_sub(masks[i], masks[j])) {
+                adj[i].push_back(j+m);
+            }
+        }
+    }
+    // 最小路径覆盖
+    int ans = 0;  // 记录有多少个独立的parent
+    for (int i = 1; i &lt;= m; i++) {
+        if (par[i] == i) ans++;
+    }
+    for (int i = 1; i &lt;= m; i++) {
+        if (par[i] == i) {
+            visid++;
+            ans -= dfs(i);
+        }
+    }
+
+    for (int i = m+1; i &lt;= 2*m; i++) {
+        if (par[i-m] == i-m) {
+            if (match[i]) {
+                from[match[i]] = i-m;
+            }
+        }
+    }
+
+    for (int i = m+1; i &lt;= 2*m; i++) {
+        if (par[i-m] == i-m) {
+            if (!match[i]) {
+                int j = i-m;
+                groupid++;
+                while (j) {
+                    groups[groupid].push_back(j);
+                    belongs[j] = groupid;
+                    j = from[j];
+                }
+            }
+        }
+    }
+
+    cout &lt;&lt; groupid &lt;&lt; &quot;\n&quot;;
+    for (int i = 1; i &lt;= m; i++) {
+        belongs[i] = belongs[finds(i)];
+        cout &lt;&lt; belongs[i] &lt;&lt; &quot; &quot;;
+    }
+    cout &lt;&lt; &quot;\n&quot;;
+    // 已经找到了每个column所在的group
+
+    for (int g = 1; g &lt;= groupid; g++) {
+        // 现在处理第 g 个group
+
+        vector&lt;pair&lt;string, int&gt;&gt; vec;  // vector of masks for each user (with selected column in this group)
+        for (int i = 1; i &lt;= n; i++) {
+            string mask = &quot;&quot;;
+            for (int j : groups[g]) {
+                mask += a[i][j];
+            }
+            vec.push_back({mask, i});
+        }
+        sort(vec.begin(), vec.end());
+        reverse(vec.begin(), vec.end());
+
+        int pre_pri = 505;
+        // 先处理 vec[0]
+        
+        string s = vec[0].first;  // 长度为 groups[g] 的长度
+        pri[vec[0].second][g] = pre_pri - 1;
+        for (int k = 0; k &lt; groups[g].size(); k++)  {
+            int j = groups[g][k];
+            
+            if (s[k] == '0') {
+                privilege[j] = pre_pri;
+            } 
+        }
+
+        for (int i = 1; i &lt; n; i++) {
+            s = vec[i].first;
+            if (s == vec[i-1].first) {  // 如果和前面一个一样，直接复制
+                pri[vec[i].second][g] = pri[vec[i-1].second][g];
+            } else {
+                pre_pri--;
+                for (int k = 0; k &lt; groups[g].size(); k++)  {
+                    int j = groups[g][k];
+                    if (!privilege[j] &amp;&amp; s[k] == '0') {
+                        privilege[j] = pre_pri;
+                    }
+                }
+                pri[vec[i].second][g] = pre_pri - 1;
+            }
+        }
+
+        for (int j : groups[g]) {
+            if (!privilege[j]) privilege[j] = 1;
+        }
+    }
+
+
+    // output answer
+    for (int i = 1; i &lt;= m; i++) {
+        if (privilege[i] == 0) {
+            privilege[i] = privilege[finds(i)];
+        }
+        cout &lt;&lt; (privilege[i]) &lt;&lt; &quot; &quot;;
+    }
+    cout &lt;&lt; &quot;\n&quot;;
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (int g = 1; g &lt;= groupid; g++) {
+            cout &lt;&lt; pri[i][g] &lt;&lt; &quot; &quot;;
+        }
+        cout &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2022-12-21 11:43:17 -0600 -0600">2022-12-21</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/cd42d028b67fbae538f01e4a8d4b0ce90a2de308" title="add 082, 083, 084" target="_blank">(cd42d028)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/083-ICPC-2022-NERC-regional.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/084-icpc-2021-nerc/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">2021 NERC</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/082-%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/">
+            <span class="next-text nav-default">线性规划</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/047-%E7%BD%91%E7%BB%9C%E6%B5%81/" />
 <meta property="article:published_time" content="2021-06-04T12:03:44+08:00" />
-<meta property="article:modified_time" content="2022-12-19T00:27:29+00:00" />
+<meta property="article:modified_time" content="2022-12-21T11:43:17-06:00" />
 <meta itemprop="name" content="网络流">
 <meta itemprop="description" content="介绍 网络 是一个有向图 $G = (V,E)$，每条边 $(u,v) \in E$ 都拥有一个容量 $c(u,v)$。 在一个网络中，拥有两个特殊的节点 $s, t$ （源点，汇点）。 定义 流">
 <meta itemprop="datePublished" content="2021-06-04T12:03:44&#43;08:00" />
-<meta itemprop="dateModified" content="2022-12-19T00:27:29&#43;00:00" />
-<meta itemprop="wordCount" content="13692">
+<meta itemprop="dateModified" content="2022-12-21T11:43:17-06:00" />
+<meta itemprop="wordCount" content="14072">
 
 
 
@@ -188,6 +188,7 @@
             <li><a href="#例8-abc193f-zebranesshttpsatcoderjpcontestsabc193tasksabc193_f">例8 <a href="https://atcoder.jp/contests/abc193/tasks/abc193_f">ABC193F Zebraness</a></a></li>
             <li><a href="#例9-noi2008-志愿者招募httpswwwluogucomcnproblemp3980">例9 <a href="https://www.luogu.com.cn/problem/P3980">[NOI2008] 志愿者招募</a></a></li>
             <li><a href="#例10-洛谷p3358-最长k可重区间集问题httpswwwluogucomcnproblemp3358">例10 <a href="https://www.luogu.com.cn/problem/P3358">洛谷P3358 最长k可重区间集问题</a></a></li>
+            <li><a href="#例11-hdu1853-cyclic-tourhttpsvjudgenetproblemhdu-1853">例11 HDU1853 <a href="https://vjudge.net/problem/HDU-1853">Cyclic Tour</a></a></li>
           </ul>
         </li>
         <li><a href="#参考链接">参考链接</a></li>
@@ -413,6 +414,14 @@ struct MCMF {
     void add(int u, int v, ll w, ll c) {
         addEdge(u,v,w,c);
         addEdge(v,u,0,-c);
+    }
+
+    void clear() {
+        ecnt = 2;
+        memset(head, 0, sizeof(head));
+        memset(cur, 0, sizeof(cur));
+        memset(edges, 0, sizeof(edges));
+        cost = 0;
     }
 } flow;
 
@@ -1001,7 +1010,7 @@ int main() {
   <p class="admonition-title">题意</p>
 <p>给定一个正整数序列 $x_1, x_2, &hellip;, x_n$。</p>
 <ol>
-<li>计算最长不下降子序列（不需要连续）的长度 $len$。</li>
+<li>计算最长不下降子序列（不需要连续）的长度 $s$。</li>
 <li>如果每个元素只允许使用一次，计算从给定的序列中最多可取出多少个长度为 $s$ 的不下降子序列。</li>
 <li>如果允许在取出的序列中多次使用 $x_1, x_n$，（其他元素仍然只允许使用一次），则从给定序列中最多可取出多少个 <strong>不同的</strong> 长度为 $s$ 的不下降子序列。</li>
 </ol>
@@ -1014,7 +1023,7 @@ int main() {
 <p>我们先求出，对于每一个 index $i$，以index $i$ 结尾的最长不下降子序列的长度，设其为 $f_i$。</p>
 <p>那么如果一个子序列合法，子序列中的每个元素 $f_{i_1}$，和它下一个元素 $f_{i_2}$ 的关系一定是 $f_{i_1} + 1 = f_{i_2}$。</p>
 <p>所以我们按照 $f_i$ 的值进行分层，只有 $f_i = x$ 的节点可以连向 $f_j = x+1$ 的节点。</p>
-<p>我们要求最长的子序列，那么就让源点 $s$ 连边到 $u$（$f_u = 1$）。让 $v$ 连边到 $t$（$f_v = len$）。求一个最大流就是答案了。</p>
+<p>我们要求最长的子序列，那么就让源点 $s$ 连边到 $u$（$f_u = 1$）。让 $v$ 连边到 $t$（$f_v = s$）。求一个最大流就是答案了。</p>
 <hr>
 <p>现在考虑第二问：<strong>每个元素只允许使用一次</strong>。我们发现之前的建图就已经足够了，跑最大流即可。</p>
 <p>第三问：$x_1, x_n$ 允许使用多次。我们可以通过控制 <strong>流量</strong> 来控制这个变量。</p>
@@ -1877,6 +1886,49 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例11-hdu1853-cyclic-tourhttpsvjudgenetproblemhdu-1853">例11 HDU1853 <a href="https://vjudge.net/problem/HDU-1853" target="_blank">Cyclic Tour</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个点，$m$ 个边的有向图，每个边有边权 $c_i$，求是否存在一些环，使得每个节点被 exactly 一个环使用，并且使得这些环的边权和最小？</p>
+<p>如果不存在，输出 $-1$。</p>
+<p>其中，$n \leq 100, m \leq 10^4$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>拆点，把每个点拆成入点和出点。</p>
+<p>出点 $u$ 放在左侧，入点 $u+n$ 放在右侧，得到一个二分图。</p>
+<p>对于每一条原图中的边 $(u,v)$ 链接 $(u, v+n, 1, c)$，其中 $c$ 是边权。</p>
+<p>然后链接 $(s, u, 1, 0), (u+n, t, 1, 0)$。</p>
+<p>最后跑最小费用流即可。如果满足答案则最大流 $=n$。</p>
+<p>• 证明：这样保证了每个点的出度和入度均为 $1$，这说明它们一定在一个环上。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+int main() {
+    int n, m;
+    while (cin &gt;&gt; n &gt;&gt; m) {
+        for (int i = 1; i &lt;= m; i++) {
+            int u, v, c;
+            cin &gt;&gt; u &gt;&gt; v &gt;&gt; c;
+            flow.add(u, v+n, 1, c);
+        }
+        flow.s = 2*n + 1, flow.t = 2*n + 2;
+        for (int i = 1; i &lt;= n; i++) {
+            flow.add(flow.s, i, 1, 0);
+            flow.add(i+n, flow.t, 1, 0);
+        }
+        ll maxflow = flow.mcmf(true);  // 最小费用流，返回最大流
+        if (maxflow != n) {
+            cout &lt;&lt; -1 &lt;&lt; &quot;\n&quot;;
+        } else {
+            cout &lt;&lt; flow.cost &lt;&lt; &quot;\n&quot;;
+        }
+        flow.clear();
+    }
+}
+</code></pre>
+</details>
 <h2 id="参考链接">参考链接</h2>
 <ol>
 <li><a href="https://www.luogu.com.cn/blog/ONE-PIECE/wang-lao-liu-jiang-xie-zhi-dinic">https://www.luogu.com.cn/blog/ONE-PIECE/wang-lao-liu-jiang-xie-zhi-dinic</a></li>
@@ -1893,8 +1945,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-12-19 00:27:29 &#43;0000 UTC">2022-12-19</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/26f9821f68cec4f8f50fb5866ab42fe443fd614c" title="chore: update CF Problems" target="_blank">(26f9821)</a>
+        <span title="2022-12-21 11:43:17 -0600 -0600">2022-12-21</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/cd42d028b67fbae538f01e4a8d4b0ce90a2de308" title="add 082, 083, 084" target="_blank">(cd42d028)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/047-%e7%bd%91%e7%bb%9c%e6%b5%81.md" target="_blank">更新历史</a>
     </span>
   </p>

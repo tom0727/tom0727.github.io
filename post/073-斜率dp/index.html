@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/073-%E6%96%9C%E7%8E%87dp/" />
 <meta property="article:published_time" content="2022-09-21T14:47:44-05:00" />
-<meta property="article:modified_time" content="2022-12-19T00:27:29+00:00" />
+<meta property="article:modified_time" content="2022-12-21T11:43:17-06:00" />
 <meta itemprop="name" content="斜率优化DP">
 <meta itemprop="description" content="介绍 斜率DP一般用于解决类似于如下的问题： $$dp[i] = \min\limits_{j&lt;i} \{ g(j) &#43; f(i, j) &#43; h(i)\}$$ • 注意到上述式子中，当我们固定 $i$，仅有的变量为 $j$，需要最小化的是 $g(j) &#43; f(i,">
 <meta itemprop="datePublished" content="2022-09-21T14:47:44-05:00" />
-<meta itemprop="dateModified" content="2022-12-19T00:27:29&#43;00:00" />
-<meta itemprop="wordCount" content="841">
+<meta itemprop="dateModified" content="2022-12-21T11:43:17-06:00" />
+<meta itemprop="wordCount" content="2173">
 
 
 
@@ -151,6 +151,12 @@
     <li>
       <ul>
         <li><a href="#介绍">介绍</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-hnoi2008玩具装箱httpswwwluogucomcnproblemp3195">例1 <a href="https://www.luogu.com.cn/problem/P3195">[HNOI2008]玩具装箱</a></a></li>
+            <li><a href="#例2-cf1715e-long-way-homehttpscodeforcescomcontest1715probleme">例2 CF1715E <a href="https://codeforces.com/contest/1715/problem/E">Long Way Home</a></a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -162,7 +168,7 @@
 <p>斜率DP一般用于解决类似于如下的问题：</p>
 <p>$$dp[i] = \min\limits_{j&lt;i} \{ g(j) + f(i, j) + h(i)\}$$</p>
 <p>• 注意到上述式子中，当我们固定 $i$，仅有的变量为 $j$，需要最小化的是 $g(j) + f(i, j)$。</p>
-<p>一个经典的例子是：</p>
+<p>我们看一个例子（例1）：</p>
 <p>$$dp[i] - (s_i - L&rsquo;)^2 = \min\limits_{j &lt; i} \{dp[j] + s_j^2 + 2s_j(L&rsquo; - s_i)\}$$</p>
 <p>在这个式子中，$L'$ 是一个定值，$s_i$ 代表 $sum[i] + i$，所以对于固定的 $i$，$(s_i - L&rsquo;)^2$ 也是一个定值，所以变量也就只有 $j$，如何快速找到这样的 $j$ 是斜率优化DP要解决的问题。</p>
 <hr>
@@ -202,6 +208,192 @@
 </ol>
 <p>那么就一直pop队尾，直到上述两个条件之一不满足即可。</p>
 <p>所以在这个单调队列的 <strong>头部</strong> 所储存的 $j$ 就是对于这个 $i$ 的最佳转移点。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-hnoi2008玩具装箱httpswwwluogucomcnproblemp3195">例1 <a href="https://www.luogu.com.cn/problem/P3195" target="_blank">[HNOI2008]玩具装箱</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个正整数数组 $C_1, C_2, &hellip;, C_n$，我们将其分为若干个连续的段，如果 $C_i, &hellip; C_j$ 被放进了同一段中，那么这一段的长度被定义为 $x=j-i+\sum\limits_{k=i}^j C_k$。</p>
+<p>给定一个常数 $L$，每一段的费用为 $(x-L)^2$，求一个最优分段方式，使得费用最小。</p>
+<p>其中，$n \leq 5 \times 10^4, 1 \leq L \leq 10^7, 1 \leq C_i \leq 10^7$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>设 $dp[i]$ 为前 $i$ 个元素的最小费用，那么</p>
+<p>$$dp[i] = \min\limits_{j \leq i} \{dp[j] + (i-j+\sum\limits_{k=j}^i C_k-L)^2\}$$</p>
+<p>调整为 $j &lt; i$ 有</p>
+<p>$$dp[i] = \min\limits_{j &lt; i} \{dp[j] + (i-j+1+\sum\limits_{k=j}^i C_k-L)^2\}$$</p>
+<p>那么设 $s_i = p_i + i$，其中 $p_i$ 为前缀和，$p_i = \sum\limits_{j=1}^i C_j$，令 $L&rsquo; = L+1$，</p>
+<p>化简后可得</p>
+<p>$$dp[i] - (s_i - L&rsquo;)^2 = \min\limits_{j &lt; i} \{dp[j] + s_j^2 + 2s_j(L&rsquo; - s_i)\}$$</p>
+<p>接下来解法与上面写的相同。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+ll dp[maxn];
+int n; 
+ll L;
+ll a[maxn];
+int q[maxn&lt;&lt;1], head = 0, tail = -1;
+ll s[maxn];
+
+inline ll X(int i) { return s[i]; }
+inline ll Y(int i) { return s[i] * s[i] + dp[i]; }
+inline double slope(int i, int j) {
+    return (long double)(Y(j) - Y(i)) / (X(j) - X(i));
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; L;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; a[i], s[i] = s[i-1] + a[i];
+    for (int i = 1; i &lt;= n; i++) s[i] += i;
+    L++;
+
+    q[++tail] = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        
+        while (head &lt; tail &amp;&amp; slope(q[head], q[head+1]) &lt; 2 * (s[i] - L)) head++;  // 寻找最佳决策点
+        int j = q[head];  // 最优决策点
+
+        dp[i] = dp[j] + (s[i] - L - s[j]) * (s[i] - L - s[j]);
+
+        while (head &lt; tail &amp;&amp; slope(q[tail], i) &lt; slope(q[tail-1], q[tail])) tail--;
+        q[++tail] = i;
+    }
+    cout &lt;&lt; dp[n] &lt;&lt; &quot;\n&quot;;
+}
+
+</code></pre>
+</details>
+<h3 id="例2-cf1715e-long-way-homehttpscodeforcescomcontest1715probleme">例2 CF1715E <a href="https://codeforces.com/contest/1715/problem/E" target="_blank">Long Way Home</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>一个包含 $n$ 个点，$m$ 条边的无向图中，每条边有权值 $w_i$。同时我们拥有 $k$ 次使用传送门的机会，从点 $u$ 传送到点 $v$ 会花费 $(u-v)^2$ 的时间。</p>
+<p>求对于所有的点 $i$，从 $1$ 出发，到达点 $i$ 所需要的最短时间。</p>
+<p>其中，$n, m \leq 10^5, 1 \leq k \leq 20, 1 \leq w_i \leq 10^9$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>看到 $k \leq 20$ 就想到了 DP或者分层图。</p>
+<p>再看到 $(u-v)^2$ 这个奇怪的平方，就确定了是斜率 DP。</p>
+<p>设 $dp(i, k)$ 代表已经传送了 $k$ 次，到了点 $i$ 所花费的时间。</p>
+<p>那么</p>
+<p>$$dp(i, k) = \min\limits_{j \in [1,n]} \{dp(j, k-1) + (i-j)^2\} = \min\limits_{j \in [1,n]} \{dp(j, k-1) + i^2 + 2ij + j^2\}$$</p>
+<p>设 $b = dp(i,k) - i^2, x = j, k = 2i, y = dp(j, k-1) + j^2$。</p>
+<p>接下来就是斜率DP的套路了。</p>
+<hr>
+<p>本题需要特别注意几点：</p>
+<ol>
+<li>
+<p>在每次 DP 后，要再跑一次 dijkstra，因为使用一次传送门以后，可能会对最短路有影响（比如某个最短路中间穿插了几次传送），处理方式就是在 Dijkstra 一开始的时候就把所有的点的 dis 更新好，然后全部扔进 pq 里。</p>
+</li>
+<li>
+<p>在斜率 DP 过程中，由于没有 $j&lt;i$ 这个限制条件，所以不再是转移的过程中维护凸包，而是一开始就将凸包建好，然后直接转移。</p>
+</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+struct Edge {
+    int to, nxt;
+    ll w;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 1;
+void addEdge(int u, int v, int w) {
+    Edge e = {v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+ll dp[maxn][21];
+ 
+ll dis[maxn];
+struct Node {
+    int u;
+    ll d;
+    bool operator&lt;(const Node&amp; other) const {
+        if (d == other.d) return u &lt; other.u;
+        return d &gt; other.d;  // 大顶堆
+    }
+};
+priority_queue&lt;Node&gt; pq;
+bool vis[maxn];
+int n, m;
+void dijkstra(int k) {
+    memset(vis, 0, sizeof(vis));
+    memset(dis, 63, sizeof(dis));
+    for (int i = 1; i &lt;= n; i++) {
+        dis[i] = dp[i][k];
+    }
+    while (pq.size()) pq.pop();
+ 
+    dis[1] = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        pq.push({i, dis[i]});  // 开始先将所有的点扔进去
+    }
+    // pq.push({1, 0});
+    while (pq.size()) {
+        Node nd = pq.top(); pq.pop();
+        int u = nd.u;
+        if (vis[u]) continue;
+        vis[u] = 1;
+        ll d = nd.d;
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int v = edges[e].to;
+            ll w = edges[e].w;
+            if (d + w &lt; dis[v]) {
+                dis[v] = d + w;
+                pq.push({v, dis[v]});
+            }
+        }
+    }
+    for (int i = 1; i &lt;= n; i++) dp[i][k] = min(dp[i][k], dis[i]);
+}
+ 
+inline ll X(ll i, int k) { return i; }
+inline ll Y(ll i, int k) { return dp[i][k-1] + i*i; }
+inline long double slope(int i, int j, int k) {
+    return ((long double)(Y(j,k) - Y(i,k)) / (X(j,k) - X(i,k)));
+}
+int q[maxn&lt;&lt;1], hd = 0, tail = -1;
+void DP(int k) {
+    hd = 0, tail = -1;
+    // 需要先加所有的转移点，因为 j&lt;i 的限制不成立！
+    for (ll i = 1; i &lt;= n; i++) {
+        while (hd &lt; tail &amp;&amp; slope(q[tail-1], q[tail], k) &gt; slope(q[tail], i, k)) tail--;
+        q[++tail] = i;
+    }
+ 
+    for (ll i = 1; i &lt;= n; i++) {
+        while (hd &lt; tail &amp;&amp; slope(q[hd], q[hd+1], k) &lt;= 2*i) hd++;
+        ll j = q[hd];  // 最佳决策点
+        dp[i][k] = min(dp[i][k], i*i + dp[j][k-1] + j*j - 2*i*j);
+    }
+}
+ 
+ 
+int k;
+int main() {
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;
+    memset(dp, 63, sizeof(dp));
+    for (int i = 1; i &lt;= m; i++) {
+        int u, v, w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u, v, w); addEdge(v, u, w);
+    }
+    dijkstra(0);
+    for (int K = 1; K &lt;= k; K++) {
+        DP(K);
+        dijkstra(K);
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        ll ans = 1e18;
+        for (int j = 0; j &lt;= k; j++) ans = min(ans, dp[i][j]);
+        cout &lt;&lt; ans &lt;&lt; &quot; &quot;;
+    }
+    cout &lt;&lt; endl;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -213,8 +405,8 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-12-19 00:27:29 &#43;0000 UTC">2022-12-19</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/26f9821f68cec4f8f50fb5866ab42fe443fd614c" title="chore: update CF Problems" target="_blank">(26f9821)</a>
+        <span title="2022-12-21 11:43:17 -0600 -0600">2022-12-21</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/cd42d028b67fbae538f01e4a8d4b0ce90a2de308" title="add 082, 083, 084" target="_blank">(cd42d028)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/073-%e6%96%9c%e7%8e%87dp.md" target="_blank">更新历史</a>
     </span>
   </p>

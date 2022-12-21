@@ -37,7 +37,7 @@ $$n = p_1^{m_1} p_2^{m_2} p_3^{m_3} ... p_k^{m_k}$$
 
 $$f(n) = (m_1+1)(m_2+1)...(m_k+1)$$
 
-那么对于较小的 $n$（如 $n \leq 10^7$）我们可以利用线性筛预处理，然后 $O(\log n)$ 时间内进行质因数分解，具体怎么做参考 [这里](/post/038-hdu-contest1/#q2-%E5%96%84%E8%89%AF%E7%9A%84%E5%87%BA%E9%A2%98%E4%BA%BA)。
+那么对于较小的 $n$（如 $n \leq 5 \times 10^7$）我们可以利用线性筛预处理，然后 $O(\log n)$ 时间内进行质因数分解，具体怎么做参考 [这里](/post/038-hdu-contest1/#q2-%E5%96%84%E8%89%AF%E7%9A%84%E5%87%BA%E9%A2%98%E4%BA%BA)。
 
 对于较大的 $n$ 我们可以利用 Pollard-Rho 在 $O(n^{\frac{1}{4}})$ 的复杂度内进行质因数分解。
 
@@ -132,7 +132,7 @@ struct PollardRho {
     }
 
     void findFac(ll x) {
-        if (x <= 1e7) {
+        if (x <= 5e7) {
             while (x > 1) {
                 int sp = small[x];
                 while (x % sp == 0) x /= sp, factor.push_back(sp);

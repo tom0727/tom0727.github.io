@@ -416,3 +416,160 @@ int main() {
 ```
 
 {{% /fold %}}
+
+
+### M. [Similar Sets](https://codeforces.com/contest/1468/problem/M)
+
+{{% question 题意 %}}
+
+给定 $n$ 个set，一个set内部所有的正整数互不相同。
+
+求是否存在 $2$ 个 set，使得这两个set中拥有至少 $2$ 个相同元素？如果有，输出这两个 set 的index，否则输出 $-1$。
+
+其中，$n \leq 10^5$，并且所有set内的元素总数量 $\leq 2 \times 10^5$，所有元素 $\in [1, 10^9]$。
+
+{{% /question %}}
+
+
+{{% fold "题解" %}}
+
+分块讨论。将 size 大于 $\sqrt n$ 的看作大set，其余看作小 set。
+
+那么有 $3$ 种情况：
+
+1. 大大
+2. 大小
+3. 小小
+
+对于前两种情况：考虑到大set最多只有 $\sqrt n$ 个，那么只要对于每一个大的set，都维护一个 `vis[]` 代表这个set里有哪些元素，`vis[x] = 1` 代表 `x` 在这个大set内，然后对比其他所有set，判断其他所有set里是否有两个元素使得 `vis[x] = 1` 成立两次即可。
+
+复杂度：设总共有 $m$ 个元素，那么复杂度为 $O(m\sqrt n)$。
+
+<hr>
+
+对于第三种情况：
+
+因为每个set都很小，小于 $\sqrt n$，所以对于每个 set 可以考虑处理出所有 pair $(u,v)$，其中 $u < v$，然后判断这个pair是否在其他的小set里。
+
+但这样复杂度太高了，我们有个更优雅的写法：
+
+从小到大枚举所有可能的 $v$，然后枚举这个 $v$ 所在的所有小set（可以预处理得出），在这些小set中枚举所有可能的比 $v$ 小的 $u$，然后判断这个 $u$ 之前是否也出现在另外一个小set中，并且这个小set还包含了 $v$。在代码中，用 `last[u] = v, pos[u] = i` 很优雅的实现了。
+
+• 本质上来说，对于所有的 $v$，维护了一个list of 所有的 $u$，然后判断在这个list中是否存在两个相同的元素。
+
+复杂度：$O(m\sqrt n)$。
+
+{{% /fold %}}
+
+
+{{% fold "代码" %}}
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+const int maxn = 2e5+5;
+
+int T, n;
+vector<int> a[maxn];
+int sz[maxn];
+vector<int> big, small;
+
+bool done = 0;
+bool vis[maxn];
+void solve_big() {
+    for (int i : big) {
+        for (int x : a[i]) vis[x] = 1;
+        for (int j = 1; j <= n; j++) {
+            if (j == i) continue;
+            int cnt = 0;
+            for (int x : a[j]) {
+                if (vis[x]) cnt++;
+            }
+            if (cnt >= 2) {
+                done = 1;
+                printf("%d %d\n", i, j);
+                return;
+            }
+        }
+        for (int x : a[i]) vis[x] = 0;
+    }
+}
+
+
+int last[maxn], pos[maxn];
+set<int> small_num;  // 储存所有 small 里面的数字
+vector<int> p[maxn];  // p[v]: 这个值所在的所有 small set 的index
+void solve_small() {
+    for (int v : small_num) {
+        for (int i : p[v]) {
+            for (int j = 0; j < a[i].size() && a[i][j] < v; j++) {
+                int u = a[i][j];
+                if (last[u] == v) {
+                    done = 1;
+                    printf("%d %d\n", i, pos[u]);
+                    return;
+                } else {
+                    last[u] = v;
+                    pos[u] = i;
+                }
+            }
+        }
+    }
+}
+
+map<int, int> id;
+int cnt = 0;
+void clearall() {
+    for (int i = 1; i <= n; i++) {
+        for (int j : a[i]) vis[j] = 0, p[j].clear(), last[j] = pos[j] = 0;
+    }
+    for (int i = 1; i <= n; i++) {
+        sz[i] = 0;
+        a[i].clear();
+    }
+    big.clear();
+    small.clear();
+    small_num.clear();
+    done = 0;
+    id.clear();
+    cnt = 0;
+}
+
+const int M = 400;
+int main() {
+    scanf("%d", &T);
+    while (T--) {
+        scanf("%d", &n);
+        for (int i = 1; i <= n; i++) {
+            scanf("%d", &sz[i]);
+            for (int j = 1; j <= sz[i]; j++) {
+                int x; scanf("%d", &x);
+                if (!id.count(x)) {
+                    id[x] = ++cnt;
+                } 
+                a[i].push_back(id[x]);
+            }
+            sort(a[i].begin(), a[i].end());
+            if (sz[i] > M) big.push_back(i);
+            else small.push_back(i);
+        }
+        for (int i : small) {
+            for (int j : a[i]) {
+                small_num.insert(j), p[j].push_back(i);
+            }
+        }
+
+        // 先处理 big
+        solve_big();
+        if (!done) {
+            solve_small();
+        }
+        if (!done) printf("-1\n");
+
+        clearall();
+    }
+}
+```
+
+{{% /fold %}}
+

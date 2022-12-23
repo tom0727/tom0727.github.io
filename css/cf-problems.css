@@ -2,19 +2,19 @@
     background-color: #d4edc9 !important;
 }
 
-.OK-1 {
+/* .OK-1 {
     background: linear-gradient(to top, #fff 50%, #d4edc9 50%);
 }
 
 .OK-2 {
     background: linear-gradient(to bottom, #fff 50%, #d4edc9 50%);
-}
+} */
 
 .TRY {
     background-color: #ffe3e3 !important;
 }
 
-.TRY-1 {
+/* .TRY-1 {
     background: linear-gradient(to top, #fff 50%, #ffe3e3 50%);
 }
 
@@ -28,7 +28,7 @@
 
 .OK-TRY {
     background: linear-gradient(to bottom, #d4edc9 50%, #ffe3e3 50%);
-}
+} */
 
     .main-table-wrapper {
         width: 100%;
@@ -102,6 +102,16 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        border: 1px solid #dee2e6;
+        padding: .75rem;
+        vertical-align: top;
+        display: table-cell;
+    }
+
+    td.ICPC, th.ICPC {
+        overflow: auto;
+        white-space: nowrap;
+        text-overflow: clip;
         border: 1px solid #dee2e6;
         padding: .75rem;
         vertical-align: top;

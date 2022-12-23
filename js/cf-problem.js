@@ -1,10 +1,12 @@
 const JSON_FILE_PATH = "../contests.json";
-var PROBLEM_INDEX = "ABCDEFGHI";
+var PROBLEM_INDEX = "ABCDEFGHIJKLMNO";
 
 var allContestData;
 var isMobile;
 var isLoggedin;
 var submission = {};
+var max_subproblem_count = {};
+
 
 function getProblemSpan(contestId, index, problemName, rating) {
   var allContent = "";
@@ -57,7 +59,7 @@ function getProblemSpan(contestId, index, problemName, rating) {
   allContent += circleSpan;
 
   let problemLink = `https://codeforces.com/contest/${contestId}/problem/${index}`;
-  var link = `<a href='${problemLink}' target='_blank' rel='noopener' style='color: rgb${color}'>${index}. ${problemName}</a>`;
+  var link = `<a id='${contestId}${index}_link' href='${problemLink}' target='_blank' rel='noopener' style='color: rgb${color}'>${index}. ${problemName}</a>`;
 
   allContent += link;
   return allContent;
@@ -77,28 +79,70 @@ function addButtonListener() {
 
 function renderUserACStatus() {
   for (let probId in submission) {
-    if (probId[probId.length-1] == '1' || probId[probId.length-1] == '2') {
+    if (!($(probId).length)) continue;
+    if (probId[probId.length-1] == '1') {  // has subproblem
       let parent = $(probId).parent();
       probId = probId.slice(0, -1);
+
+      id = parseInt(probId.replace(/[^0-9\.]/g, ''), 10);
+      cur_sub = parent.children("span").length;
+      max_sub = max_subproblem_count[id];
+
+      let sub = [];
+      for (let i = 1; i <= cur_sub; i++) {
+        let cur_probId = probId + i.toString();
+        if (cur_probId in submission) {
+          if (submission[cur_probId] == "OK") sub.push(1);  // OK
+          else sub.push(-1);  // TRY
+        } else {
+          sub.push(0);  // not attempted
+        }
+      }
       // console.log(probId);
-      let sub1 = 0, sub2 = 0;
-      if ((probId + '1') in submission) {
-        if (submission[probId + '1'] == "OK") sub1 = 1;
-        else sub1 = 2;
-      }
-      if ((probId + '2') in submission) {
-        if (submission[probId + '2'] == "OK") sub2 = 1;
-        else sub2 = 2;
-      }
+      // let sub1 = 0, sub2 = 0;
+      // if ((probId + '1') in submission) {
+      //   if (submission[probId + '1'] == "OK") sub1 = 1;
+      //   else sub1 = 2;
+      // }
+      // if ((probId + '2') in submission) {
+      //   if (submission[probId + '2'] == "OK") sub2 = 1;
+      //   else sub2 = 2;
+      // }
       parent.removeClass();
-      if (sub1 == 0 && sub2 == 1) parent.addClass("OK-2");
-      if (sub1 == 0 && sub2 == 2) parent.addClass("TRY-2");
-      if (sub1 == 1 && sub2 == 0) parent.addClass("OK-1");
-      if (sub1 == 1 && sub2 == 1) parent.addClass("OK");
-      if (sub1 == 1 && sub2 == 2) parent.addClass("OK-TRY");
-      if (sub1 == 2 && sub2 == 0) parent.addClass("TRY-1");
-      if (sub1 == 2 && sub2 == 1) parent.addClass("TRY-OK");
-      if (sub1 == 2 && sub2 == 2) parent.addClass("TRY");
+      // all OK or all TRY
+      if (sub.every(v => v === 1)) parent.addClass("OK");
+      else if (sub.every(v => v === -1)) parent.addClass("TRY");
+      else {
+        // linear-gradient(to bottom, #d4edc9 0%,#d4edc9 33%, #fff 33%,#fff 66%, #ffe3e3 66%,#ffe3e3 100%)
+        let background_style = `linear-gradient(to bottom, `;
+        let cur_percent = 0;
+        for (let i = 0; i < sub.length; i++) {
+          let color = "";
+          if (sub[i] == 1) {
+            color = "#d4edc9";
+          } else if (sub[i] == 0) {
+            color = "#fff";
+          } else if (sub[i] == -1) {
+            color = "#ffe3e3";
+          }
+          background_style += `${color} ${cur_percent}%,`;
+          cur_percent += Math.round(100 / max_sub);
+          background_style += `${color} ${cur_percent}%,`;
+        }
+        background_style = background_style.slice(0, -1) + ")";
+        // background_style += ')';
+        console.log(background_style);
+        parent.css("background", background_style);
+      }
+
+      // if (sub1 == 0 && sub2 == 1) parent.addClass("OK-2");
+      // if (sub1 == 0 && sub2 == 2) parent.addClass("TRY-2");
+      // if (sub1 == 1 && sub2 == 0) parent.addClass("OK-1");
+      // if (sub1 == 1 && sub2 == 1) parent.addClass("OK");
+      // if (sub1 == 1 && sub2 == 2) parent.addClass("OK-TRY");
+      // if (sub1 == 2 && sub2 == 0) parent.addClass("TRY-1");
+      // if (sub1 == 2 && sub2 == 1) parent.addClass("TRY-OK");
+      // if (sub1 == 2 && sub2 == 2) parent.addClass("TRY");
     } else {
       let parent = $(probId).parent();
       parent.removeClass();
@@ -151,8 +195,9 @@ function loadDivContent(activeType) {
   // loading table content
   for (let i = 0; i < allContestData.length; i++) {
     var contestInfo = allContestData[i];
-    var id = contestInfo["id"];
     var type = contestInfo["type"];
+    if (type != activeType) continue;
+    var id = contestInfo["id"];
     var problemList = contestInfo["problems"];
     var hasSubProblem = contestInfo["sub"];
     var contestName = contestInfo["name"];
@@ -161,8 +206,7 @@ function loadDivContent(activeType) {
     } else if (contestName.startsWith("Educational Codeforces ")) {
       contestName = contestName.replace("Educational Codeforces ", "Edu ");
     }
-
-    if (type != activeType) continue;
+    if (!(id in max_subproblem_count)) max_subproblem_count[id] = 1;
 
     // var tableRowContent = `<tr><td><a href='https://codeforces.com/contest/${id}' target='_blank' rel='noopener'>CF${id}</a></td>`;
     var tableRowContent = `<tr><th><a id='CF${id}' href='https://codeforces.com/contest/${id}' target='_blank' rel='noopener'>${contestName}</a><br><a href='https://codeforces.com/contest/${id}' target='_blank' rel='noopener'>(CF${id})</a></th>`;
@@ -176,17 +220,17 @@ function loadDivContent(activeType) {
 
       let problemSpan = getProblemSpan(id, index, problemName, rating);
       if (index.length > 1) {
+        max_subproblem_count[id] = Math.max(max_subproblem_count[id], parseInt(index[index.length-1]));
         if (j > 0 && problemList[j-1]["index"].length > 1 && problemList[j]["index"][0] == problemList[j-1]["index"][0]
             && (j == problemList.length - 1 || (problemList[j]["index"][0] != problemList[j+1]["index"][0]))) {
-          if (id == "1732") {
-            console.log(index);
-            console.log(problemList);
-            console.log(`This index is: ${problemList[j-1]["index"]}`);
-          }
           tableRowContent += `${problemSpan}</td>`;
           problemCount++;
         } else {
-          tableRowContent += `<td>${problemSpan}<br><br>`;
+          if (index[index.length-1] == "1") {
+            tableRowContent += `<td>${problemSpan}<br><br>`;
+          } else {
+            tableRowContent += `${problemSpan}<br><br>`;  // cannot add new td if it is not first
+          }
         }
       } else {
         tableRowContent += `<td>${problemSpan}</td>`;
@@ -211,8 +255,16 @@ function loadDivContent(activeType) {
       let rating = problem["rating"];
       let solved = problem["solved"];
       let attempted = problem["attempted"];
+      let name = problem["name"];
+      let contestId = problem["contestId"];
       $(`#${id}${index}`).hover(function(event) {
         $(".tooltip-inner").html(`Rating: ${rating}<br>Submission: ${solved}/${attempted}`);
+        $(".tooltip-inner").css({top: event.clientY, left: event.clientX}).show();
+      }, function() {
+        $(".tooltip-inner").hide();
+      });
+      $(`#${id}${index}_link`).hover(function(event) {
+        $(".tooltip-inner").html(`CF${contestId}${index}. ${name}`);
         $(".tooltip-inner").css({top: event.clientY, left: event.clientX}).show();
       }, function() {
         $(".tooltip-inner").hide();
@@ -236,8 +288,6 @@ function loadDivContent(activeType) {
     tableHeaderContent += `</tr>`;
     $("#main-table thead").html(tableHeaderContent);
   }
-
-  // console.log(allContestData[0]);
 }
 
 function loadJSON() {
@@ -277,6 +327,7 @@ function tryLogin(username) {
 function logout() {
   window.localStorage.removeItem("cf-username");
   for (let key in submission) delete submission[key];
+
   loadLoginContent();
   loadDivContent($(".btn-group .active").text());
 }

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>2019 Jakarta Regional - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="K. Addition Robot 题意 给定 $n$ 个字母 $s_1, s_2 &amp;hellip;, s_n$，每个字母要么为 $A$ 要么为 $B$。 现在有 $Q$ 个询问，每个询问有两种类型： $1 ~ L ~ R$：将 $i \in [L,R]$ 的所有 $A$ 改成 $" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/085-icpc-2019-jakarta-regional/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="2019 Jakarta Regional" />
+<meta property="og:description" content="K. Addition Robot 题意 给定 $n$ 个字母 $s_1, s_2 &hellip;, s_n$，每个字母要么为 $A$ 要么为 $B$。 现在有 $Q$ 个询问，每个询问有两种类型： $1 ~ L ~ R$：将 $i \in [L,R]$ 的所有 $A$ 改成 $" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/085-icpc-2019-jakarta-regional/" />
+<meta property="article:published_time" content="2022-12-23T18:57:28-06:00" />
+<meta property="article:modified_time" content="2022-12-29T23:30:16-06:00" />
+<meta itemprop="name" content="2019 Jakarta Regional">
+<meta itemprop="description" content="K. Addition Robot 题意 给定 $n$ 个字母 $s_1, s_2 &hellip;, s_n$，每个字母要么为 $A$ 要么为 $B$。 现在有 $Q$ 个询问，每个询问有两种类型： $1 ~ L ~ R$：将 $i \in [L,R]$ 的所有 $A$ 改成 $">
+<meta itemprop="datePublished" content="2022-12-23T18:57:28-06:00" />
+<meta itemprop="dateModified" content="2022-12-29T23:30:16-06:00" />
+<meta itemprop="wordCount" content="2040">
+
+
+
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="2019 Jakarta Regional"/>
+<meta name="twitter:description" content="K. Addition Robot 题意 给定 $n$ 个字母 $s_1, s_2 &hellip;, s_n$，每个字母要么为 $A$ 要么为 $B$。 现在有 $Q$ 个询问，每个询问有两种类型： $1 ~ L ~ R$：将 $i \in [L,R]$ 的所有 $A$ 改成 $"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">2019 Jakarta Regional</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-12-23 18:57:28 -0600 -0600"> 2022-12-23 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#k-addition-robothttpscodeforcescomcontest1252problemk">K. <a href="https://codeforces.com/contest/1252/problem/K">Addition Robot</a></a></li>
+            <li><a href="#g-performance-reviewhttpscodeforcescomcontest1252problemg">G. <a href="https://codeforces.com/contest/1252/problem/G">Performance Review</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="k-addition-robothttpscodeforcescomcontest1252problemk">K. <a href="https://codeforces.com/contest/1252/problem/K" target="_blank">Addition Robot</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个字母 $s_1, s_2 &hellip;, s_n$，每个字母要么为 $A$ 要么为 $B$。</p>
+<p>现在有 $Q$ 个询问，每个询问有两种类型：</p>
+<p>$1 ~ L ~ R$：将 $i \in [L,R]$ 的所有 $A$ 改成 $B$，$B$ 改成 $A$。</p>
+<p>$2 ~ L ~ R ~ a ~ b$：$a,b$ 是两个非负整数，从左往右遍历 $L$ 到 $R$，遇到一个 <code>A</code> 就让 $a=a+b$，遇到一个 <code>B</code> 就让 $b=a+b$，返回 $a,b$ 在经历这些操作后的值。</p>
+<p>其中，$n \leq 10^5, Q \leq 10^5$，答案对 $10^9+7$ 取模。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>线段树。</p>
+<p>注意到这个 $a=a+b$，$b=a+b$，有没有想到 <strong>矩阵操作</strong>？</p>
+<p>设 $v = \begin{bmatrix}
+a \\<br>
+b \\<br>
+\end{bmatrix}$，那么设 $A = \begin{bmatrix}
+1 &amp; 1 \\<br>
+0 &amp; 1 \\<br>
+\end{bmatrix}, B = \begin{bmatrix}
+1 &amp; 0 \\<br>
+1 &amp; 1 \\<br>
+\end{bmatrix}$，就有</p>
+<p>$$Av = \begin{bmatrix} a+b \\ b \\ \end{bmatrix}, Bv = \begin{bmatrix} a \\ a+b \\ \end{bmatrix}$$</p>
+<p>所以线段树里面维护矩阵即可。</p>
+<hr>
+<p>现在考虑一下第一种询问怎么处理？</p>
+<p>第一种询问其实相当于保持矩阵不变，先把 $v = \begin{bmatrix}
+a \\<br>
+b \\<br>
+\end{bmatrix}$ 变成 $v‘ = \begin{bmatrix}
+b \\<br>
+a \\<br>
+\end{bmatrix}$，然后乘完矩阵以后，再上下对调变回来。</p>
+<p>这个操作本质上也是矩阵乘法，即令 $C = \begin{bmatrix}
+0 &amp; 1 \\<br>
+1 &amp; 0 \\<br>
+\end{bmatrix}$，假设原矩阵操作序列是 $M = (AABA)$，原操作序列得到的结果是 $Mv$，现在的结果是 $C(M(cv)) = CMCv = (CMC)v$。</p>
+<p>由此可知第一种询问就是将 $[L,R]$ 维护的矩阵 $M$ 变成了 $CMC$。</p>
+<p>进行一些手动计算以后可以发现这等效于将 $M$ 的两个对角线元素互换。</p>
+<hr>
+<p>最后需要注意一点，矩阵乘法和序列的遍历顺序是反过来的，比如序列是 $AB$，那么矩阵乘法应该是 $(BA)v$，处理这种情况只要在维护线段树的时候先处理 right child即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+const int maxn = 1e5+5;
+const int maxm = 2e5+5;
+
+struct Mat {
+    ll a[2][2];
+    friend Mat operator*(const Mat&amp; lhs, const Mat&amp; rhs) {
+        Mat res;
+        for (int i = 0; i &lt; 2; i++) {
+            for (int j = 0; j &lt; 2; j++) {
+                // 第i行 乘 第j列
+                res.a[i][j] = 0;
+                for (int k = 0; k &lt; 2; k++) {
+                    res.a[i][j] += lhs.a[i][k] * rhs.a[k][j];
+                    res.a[i][j] %= mod;
+                }
+            }
+        }
+        return res;
+    }
+    void rev() {
+        swap(a[0][0], a[1][1]);
+        swap(a[0][1], a[1][0]);
+    }
+};
+
+int n, Q;
+Mat A, B, arr[maxn];
+struct Tree_Node {
+    Mat a;
+    int flag = 0;
+} tr[maxn&lt;&lt;2];
+void push_up(int cur) {
+    tr[cur].a = tr[cur&lt;&lt;1|1].a * tr[cur&lt;&lt;1].a;
+}
+void push_down(int cur) {
+    if (!tr[cur].flag) return;
+    tr[cur].flag = 0;
+    int lc = cur&lt;&lt;1, rc = lc|1;
+    tr[lc].flag ^= 1;
+    tr[rc].flag ^= 1;
+    tr[lc].a.rev();
+    tr[rc].a.rev();
+}
+void build(int cur, int l, int r) {
+    if (l == r) {
+        tr[cur].a = arr[l];
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    build(cur&lt;&lt;1|1, mid+1, r);
+    build(cur&lt;&lt;1, l, mid);
+    push_up(cur);
+}
+void update(int cur, int l, int r, int L, int R) {
+    if (L &lt;= l &amp;&amp; R &gt;= r) {
+        tr[cur].flag ^= 1;
+        tr[cur].a.rev();
+        return;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R);
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R);
+    push_up(cur);
+}
+Mat query(int cur, int l, int r, int L, int R) {
+    if (L &lt;= l &amp;&amp; R &gt;= r) {
+        return tr[cur].a;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    Mat res {};
+    res.a[0][0] = res.a[1][1] = 1;
+    res.a[0][1] = res.a[1][0] = 0;
+    if (R &gt; mid) res = res * query(cur&lt;&lt;1|1, mid+1, r, L, R);
+    if (L &lt;= mid) res = res * query(cur&lt;&lt;1, l, mid, L, R);
+    push_up(cur);
+    return res;
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; Q;
+
+    A.a[0][0] = A.a[0][1] = A.a[1][1] = 1;
+    B.a[0][0] = B.a[1][0] = B.a[1][1] = 1;
+
+    for (int i = 1; i &lt;= n; i++) {
+        char c; cin &gt;&gt; c;
+        if (c == 'A') arr[i] = A;
+        else arr[i] = B;
+    }
+    build(1, 1, n);
+    while (Q--) {
+        int op;
+        cin &gt;&gt; op;
+        if (op == 1) {
+            int L, R; cin &gt;&gt; L &gt;&gt; R;
+            update(1, 1, n, L, R);
+        } else {
+            int L, R; ll a, b; cin &gt;&gt; L &gt;&gt; R &gt;&gt; a &gt;&gt; b;
+            Mat res = query(1, 1, n, L, R);
+            cout &lt;&lt; (a * res.a[0][0] + b * res.a[0][1]) % mod &lt;&lt; &quot; &quot; &lt;&lt; (a * res.a[1][0] + b * res.a[1][1]) % mod &lt;&lt; &quot;\n&quot;;
+        }
+    }
+}
+</code></pre>
+</details>
+<h3 id="g-performance-reviewhttpscodeforcescomcontest1252problemg">G. <a href="https://codeforces.com/contest/1252/problem/G" target="_blank">Performance Review</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>一家公司有 $N$ 个员工，总共有 $M$ 年，每个员工都有一个表现分 $A_i$。</p>
+<p>第 $i$ 年，公司会淘汰 $R_i$ 个表现最差的员工，并且换上 $R_i$ 个新员工，他们的表现分为 $B_{i,1}, B_{i,2} &hellip; B_{i,R_i}$（这些新员工表现不一定比老员工好）。</p>
+<p>现在考虑第一个员工 $A_1$，他有 $Q$ 个询问，每次询问他会更改一个未来替换的员工的表现分，回答在替换之后，他在 $M$ 年之后是否还能留在公司。</p>
+<p>• 每次询问的更改结果会保留到后续询问。</p>
+<p>其中，$N,M,Q \leq 10^5, \sum\limits_{i=1}^M R_i \leq 10^6$，所有员工（包括未来的）表现分各不相同。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>注意到员工 $A_1$ 能留到 $M$ 年后当且仅当对于所有的 $i$，在第 $i$ 年结束时，比他菜的人数 $\geq$ 要淘汰的人数。</p>
+<p>形式化的：</p>
+<p>$$cnt_{i-1} \geq \sum\limits_{j=1}^i R_i, \forall i \in [1, M]$$</p>
+<p>其中，$cnt_{i-1}$ 代表第 $i-1$ 年结束后，（完成招聘以后）比他菜的人数。</p>
+<hr>
+<p>现在，只要考虑每次询问过后有什么影响即可。</p>
+<p>注意到要淘汰的人数是个定值，影响的只有比他菜的人数。</p>
+<p>所以用线段树，储存每一年 $cnt_{i-1} - \sum\limits_{j=1}^i R_i$ 的值。</p>
+<p>每次更改第 $j$ 年中，一个人的表现分以后，跟 $A[1]$ 对比，如果原本比他菜，现在比他强，意味着从 $(j+1)$ 年起，一直到 $M$，比他菜的人少了一个，反之则是多了一个。</p>
+<p>所以就是线段树的区间修改，区间查询最小值是否 $\geq 0$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+int n, m, Q, a[maxn];
+vector&lt;int&gt; per[maxn];
+ 
+int cnt[maxn], sum_r[maxn];  // cnt[i]: 第i年之前比他小的 (0...i-1) 年，sum_r[i]: 第i年过后总共要裁的人数
+int c[maxn];  // c[i] = cnt[i] - sum(R[1..i])
+ 
+struct Tree_Node {
+    int mn = 1e9, flag = 0;  // min_val, flag
+} tr[maxn&lt;&lt;2];
+void push_up(int cur) {
+    tr[cur].mn = min(tr[cur&lt;&lt;1].mn, tr[cur&lt;&lt;1|1].mn);
+}
+void push_down(int cur) {
+    if (!tr[cur].flag) return;
+    int f = tr[cur].flag;
+    tr[cur&lt;&lt;1].flag += f;
+    tr[cur&lt;&lt;1|1].flag += f;
+    tr[cur&lt;&lt;1].mn += f;
+    tr[cur&lt;&lt;1|1].mn += f;
+    tr[cur].flag = 0;
+}
+// += x
+void update(int cur, int l, int r, int L, int R, int x) {
+    if (L &lt;= l &amp;&amp; R &gt;= r) {
+        tr[cur].flag += x;
+        tr[cur].mn += x;
+        return;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, x);
+    if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+    push_up(cur);
+}
+ 
+// query 最小值
+int query(int cur, int l, int r, int L, int R) {
+    if (L &lt;= l &amp;&amp; R &gt;= r) {
+        return tr[cur].mn;
+    }
+    push_down(cur);
+    int mid = (l+r) &gt;&gt; 1;
+    int res = 1e9;
+    if (L &lt;= mid) res = min(res, query(cur&lt;&lt;1, l, mid, L, R));
+    if (R &gt; mid) res = min(res, query(cur&lt;&lt;1|1, mid+1, r, L, R));
+    push_up(cur);
+    return res;
+}
+ 
+void build(int cur, int l, int r) {
+    if (l == r) {
+        tr[cur].mn = c[l];
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    build(cur&lt;&lt;1, l, mid);
+    build(cur&lt;&lt;1|1, mid+1, r);
+    push_up(cur);
+}
+ 
+ 
+int main() {
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; Q;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; a[i];
+        if (i &gt; 1 &amp;&amp; a[i] &lt; a[1]) cnt[1]++;
+    }
+    for (int i = 1; i &lt;= m; i++) {
+        int r; cin &gt;&gt; r;
+        sum_r[i] = sum_r[i-1] + r;
+        cnt[i+1] = cnt[i];
+ 
+        while (r--) {
+            int x; cin &gt;&gt; x;
+            per[i].push_back(x);
+            if (x &lt; a[1]) cnt[i+1]++;
+        }
+    }
+    for (int i = 1; i &lt;= m; i++) c[i] = cnt[i] - sum_r[i];
+    build(1, 1, m);
+ 
+    while (Q--) {
+        int x,y,z; cin &gt;&gt; x &gt;&gt; y &gt;&gt; z;
+        if (x &lt; m) {  // 注意这里特判
+            if (per[x][y-1] &lt; a[1] &amp;&amp; z &gt; a[1]) {  // 
+                update(1, 1, m, x+1, m, -1);
+            } else if (per[x][y-1] &gt; a[1] &amp;&amp; z &lt; a[1]) {
+                update(1, 1, m, x+1, m, 1);
+            }
+        }
+ 
+        per[x][y-1] = z;
+        if (query(1, 1, m, 1, m) &lt; 0) {
+            cout &lt;&lt; 0 &lt;&lt; &quot;\n&quot;;
+        } else cout &lt;&lt; 1 &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2022-12-29 23:30:16 -0600 -0600">2022-12-29</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f746531cf1be68a4559749f29b5e7dd2c149c6aa" title="Add 085-090" target="_blank">(f746531c)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/085-ICPC-2019-Jakarta-regional.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/086-%E6%A0%91%E7%9A%84%E9%87%8D%E5%BF%83/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">树的重心</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/084-icpc-2021-nerc/">
+            <span class="next-text nav-default">2021 NERC</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

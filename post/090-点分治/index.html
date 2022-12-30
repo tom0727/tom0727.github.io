@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>点分治 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 点分治用于处理 树上的路径问题。 点分治的主要思想是，对于一棵子树，子树内的所有路径只有两种情况： 不经过根节点 经过根节点 对于第一种，我们可以" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/090-%E7%82%B9%E5%88%86%E6%B2%BB/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="点分治" />
+<meta property="og:description" content="介绍 点分治用于处理 树上的路径问题。 点分治的主要思想是，对于一棵子树，子树内的所有路径只有两种情况： 不经过根节点 经过根节点 对于第一种，我们可以" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/090-%E7%82%B9%E5%88%86%E6%B2%BB/" />
+<meta property="article:published_time" content="2022-12-29T16:07:08-06:00" />
+<meta property="article:modified_time" content="2022-12-29T23:30:16-06:00" />
+<meta itemprop="name" content="点分治">
+<meta itemprop="description" content="介绍 点分治用于处理 树上的路径问题。 点分治的主要思想是，对于一棵子树，子树内的所有路径只有两种情况： 不经过根节点 经过根节点 对于第一种，我们可以">
+<meta itemprop="datePublished" content="2022-12-29T16:07:08-06:00" />
+<meta itemprop="dateModified" content="2022-12-29T23:30:16-06:00" />
+<meta itemprop="wordCount" content="2288">
+
+
+
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="点分治"/>
+<meta name="twitter:description" content="介绍 点分治用于处理 树上的路径问题。 点分治的主要思想是，对于一棵子树，子树内的所有路径只有两种情况： 不经过根节点 经过根节点 对于第一种，我们可以"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">点分治</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-12-29 16:07:08 -0600 -0600"> 2022-12-29 </span>
+        <div class="post-category">
+            <a href="/categories//">  </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p3806-点分治1httpswwwluogucomcnproblemp3806">例1 洛谷P3806 <a href="https://www.luogu.com.cn/problem/P3806">点分治1</a></a></li>
+            <li><a href="#例2-洛谷p4178-treehttpswwwluogucomcnproblemp4178">例2 洛谷P4178 <a href="https://www.luogu.com.cn/problem/P4178">Tree</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>点分治用于处理 <strong>树上的路径问题</strong>。</p>
+<p>点分治的主要思想是，对于一棵子树，子树内的所有路径只有两种情况：</p>
+<ol>
+<li>不经过根节点</li>
+<li>经过根节点</li>
+</ol>
+<p>对于第一种，我们可以在处理其他子树的时候再讨论。</p>
+<p>对于第二种，注意到一个经过根节点的路径，可以被拆分成从根节点出发的一条路径，合并上另外一条从根节点出发的路径。</p>
+<p>所以点分治的核心思想就是对于每一个子树，都只考虑从根节点出发的路径，这些路径有 $O(n)$ 条。</p>
+<p>但极端情况下，比如一条链，这样的复杂度可能来到 $O(n^2)$，所以在寻找一个子树的根时，应该将这个子树的<strong>重心</strong>作为根，这样递归的时候深度最多就是 $O(\log n)$。</p>
+<p>总体上来说复杂度就是 $O(n \log n)$。</p>
+<details class="admonition note"><summary class="admonition-title">模版</summary>
+<pre><code class="language-cpp">int n, m;
+struct Edge {
+    int to, nxt, w;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 1, queries[maxn];  
+bool ans[maxn], has_dis[maxm];  // has_dis[i]: 当前子树中存在到根距离为i的节点
+void addEdge(int u, int v, int w) {
+    Edge e = {v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int sz[maxn], dis[maxn], q[maxn], hd = 1, tail = 0;
+bool vis[maxn];
+vector&lt;int&gt; tmp;
+int cursz, rt;
+void find_centroid(int u, int p) {
+    sz[u] = 1;
+    int mx = 0;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p || vis[v]) continue;
+        find_centroid(v, u);
+        sz[u] += sz[v];
+        mx = max(mx, sz[v]);
+    }
+    mx = max(mx, cursz - sz[u]);
+    if (mx &lt;= cursz / 2) rt = u;
+}
+
+void get_cursz(int u, int p) {
+    sz[u] = 1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (vis[v] || v == p) continue;
+        get_cursz(v, u);
+        sz[u] += sz[v];
+    }
+}
+
+void getdis(int u, int p) {
+    q[++tail] = dis[u];
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p || vis[v]) continue;
+        dis[v] = dis[u] + edges[e].w;
+        getdis(v, u);
+    }
+}
+
+// 计算 u 为根，所有以 u 出发的路径带来的贡献
+void calc(int u) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (vis[v]) continue;
+        hd = 1, tail = 0;  // 清空 v 的子树信息
+        dis[v] = dis[u] + edges[e].w;
+        getdis(v, u);
+        // 将子树 v 的贡献加进 ans
+        for (int p = hd; p &lt;= tail; p++) {   // 遍历子树 v 的节点
+            for (int k = 1; k &lt;= m; k++) {  // 遍历每一个询问
+                int q_dis = queries[k];
+                if (q_dis &gt;= q[p]) {
+                    ans[k] |= has_dis[q_dis - q[p]];
+                }
+            }
+        }
+        // 考虑完子树 v 以后，将子树 v 的信息储存进去
+        for (int p = hd; p &lt;= tail; p++) {
+            has_dis[q[p]] = 1;
+            tmp.push_back(q[p]);
+        }
+    }
+    for (int d : tmp) has_dis[d] = 0;  // 清空 u 的子树信息
+    tmp.clear();
+}
+
+// 分治 u
+void solve(int u) {
+    vis[u] = 1; dis[u] = 0; 
+    has_dis[0] = 1;  // 初始情况
+    calc(u);
+    // 处理答案
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (vis[v]) continue;
+        get_cursz(v, 0);
+        cursz = sz[v];
+        find_centroid(v, u);
+        solve(rt);  // 子树
+    }
+}
+
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt; n; i++) {
+        int u, v, w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u, v, w); addEdge(v, u, w);
+    }
+    for (int i = 1; i &lt;= m; i++) {
+        int k; cin &gt;&gt; k;
+        queries[i] = k;
+    }
+    
+    find_centroid(1, 0);
+    solve(rt);
+
+    for (int i = 1; i &lt;= m; i++) {
+        cout &lt;&lt; (ans[i] ? &quot;AYE&quot; : &quot;NAY&quot;) &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+<p>在模版中，主要修改的部分就是 <code>calc(u)</code> 函数，这个函数代表着题目要求计算什么样的路径。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p3806-点分治1httpswwwluogucomcnproblemp3806">例1 洛谷P3806 <a href="https://www.luogu.com.cn/problem/P3806" target="_blank">点分治1</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵有 $n$ 个点的树，边有权值。</p>
+<p>有 $m$ 次询问，每次询问树上距离为 $k$ 的点对是否存在。</p>
+<p>其中，$n \leq 10^4, m \leq 100, 1 \leq k \leq 10^7, 1 \leq w \leq 10^4$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>注意到 $k \leq 10^7$，所以可以开一个数组来储存长度为 $x$ 的路径（从根出发）是否存在。</p>
+<p>然后就是点分治的模版了，有几个点可能需要注意：</p>
+<ol>
+<li>点分治的 <code>calc(u)</code> 过程里，枚举了每个子树 $v$，枚举一个 $v$ 得到子树信息以后，先将信息贡献给 <code>ans[]</code>，然后才储存进当前子树内。这是为了防止出现非法的情况，比如一个路径，两个端点都在同一个子树 $v$ 内，这也类似于树形 DP 的思想。</li>
+<li>使用了一个队列 <code>q</code> 来储存子树 $v$ 的信息。</li>
+<li>使用了一个 <code>vector&lt;&gt; tmp</code> 来储存整个 $u$ 子树的节点，<code>calc()</code> 结束以后用来清空信息，避免 memset 导致复杂度变成 $O(n^2)$。</li>
+<li>记得根节点 $u$ 的信息在一开始要先储存进去（或者后续贡献 <code>ans[]</code> 时单独考虑）。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e5+5;
+const int maxm = 1e8+5;
+
+int n, m;
+struct Edge {
+    int to, nxt, w;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 1, queries[maxn];  
+bool ans[maxn], has_dis[maxm];  // has_dis[i]: 当前子树中存在到根距离为i的节点
+void addEdge(int u, int v, int w) {
+    Edge e = {v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int sz[maxn], dis[maxn], q[maxn], hd = 1, tail = 0;
+bool vis[maxn];
+vector&lt;int&gt; tmp;
+int cursz, rt;
+void find_centroid(int u, int p) {
+    sz[u] = 1;
+    int mx = 0;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p || vis[v]) continue;
+        find_centroid(v, u);
+        sz[u] += sz[v];
+        mx = max(mx, sz[v]);
+    }
+    mx = max(mx, cursz - sz[u]);
+    if (mx &lt;= cursz / 2) rt = u;
+}
+
+void get_cursz(int u, int p) {
+    sz[u] = 1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (vis[v] || v == p) continue;
+        get_cursz(v, u);
+        sz[u] += sz[v];
+    }
+}
+
+void getdis(int u, int p) {
+    q[++tail] = dis[u];
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p || vis[v]) continue;
+        dis[v] = dis[u] + edges[e].w;
+        getdis(v, u);
+    }
+}
+
+void calc(int u) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (vis[v]) continue;
+        hd = 1, tail = 0;  // 清空 v 的子树信息
+        dis[v] = dis[u] + edges[e].w;
+        getdis(v, u);
+        for (int p = hd; p &lt;= tail; p++) {
+            for (int k = 1; k &lt;= m; k++) {  // 遍历询问
+                int q_dis = queries[k];
+                if (q_dis &gt;= q[p]) {
+                    ans[k] |= has_dis[q_dis - q[p]];
+                }
+            }
+        }
+
+        for (int p = hd; p &lt;= tail; p++) {
+            has_dis[q[p]] = 1;
+            tmp.push_back(q[p]);
+        }
+    }
+    for (int d : tmp) has_dis[d] = 0;  // 清空 u 的子树信息
+    tmp.clear();
+}
+
+void solve(int u) {
+    vis[u] = 1; dis[u] = 0; 
+    has_dis[0] = 1;  // 初始情况
+    calc(u);
+    // 处理答案
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (vis[v]) continue;
+        get_cursz(v, 0);
+        cursz = sz[v];
+        find_centroid(v, u);
+        solve(rt);  // 子树
+    }
+}
+
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt; n; i++) {
+        int u, v, w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u, v, w); addEdge(v, u, w);
+    }
+    for (int i = 1; i &lt;= m; i++) {
+        int k; cin &gt;&gt; k;
+        queries[i] = k;
+    }
+    
+    find_centroid(1, 0);
+    solve(rt);
+
+    for (int i = 1; i &lt;= m; i++) {
+        cout &lt;&lt; (ans[i] ? &quot;AYE&quot; : &quot;NAY&quot;) &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+<h3 id="例2-洛谷p4178-treehttpswwwluogucomcnproblemp4178">例2 洛谷P4178 <a href="https://www.luogu.com.cn/problem/P4178" target="_blank">Tree</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵有 $n$ 个点的树，边有权值。</p>
+<p>求出树上两点距离小于等于 $k$ 的点对数量。</p>
+<p>其中，$n \leq 4 \times 10^4, w \in [0, 10^3], k \in [0, 2 \times 10^4]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>小于等于 $k$ 的话，用树状数组维护一下就可以了，剩下的和上一题几乎没区别。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+struct BIT {
+    int n, tr[maxn];
+    inline int lowbit(int x) { return x &amp; -x; }
+    void update(int p, int val) {
+        while (p &lt;= n) {
+            tr[p] += val;
+            p += lowbit(p);
+        }
+    }
+    // return sum[1...p]
+    int query(int p) {
+        int ans = 0;
+        while (p &gt; 0) {
+            ans += tr[p];
+            p -= lowbit(p);
+        }
+        return ans;
+    }
+} tr;
+
+int n, k;
+struct Edge {
+    int to, nxt, w;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 1, queries[maxn];  
+ll ans = 0;
+
+void addEdge(int u, int v, int w) {
+    Edge e = {v, head[u], w};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int sz[maxn], dis[maxn], q[maxn], hd = 1, tail = 0;
+bool vis[maxn];
+vector&lt;int&gt; tmp;
+int cursz, rt;
+void find_centroid(int u, int p) {
+    sz[u] = 1;
+    int mx = 0;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p || vis[v]) continue;
+        find_centroid(v, u);
+        sz[u] += sz[v];
+        mx = max(mx, sz[v]);
+    }
+    mx = max(mx, cursz - sz[u]);
+    if (mx &lt;= cursz / 2) rt = u;
+}
+
+void get_cursz(int u, int p) {
+    sz[u] = 1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (vis[v] || v == p) continue;
+        get_cursz(v, u);
+        sz[u] += sz[v];
+    }
+}
+
+void getdis(int u, int p) {
+    q[++tail] = dis[u];
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p || vis[v]) continue;
+        dis[v] = dis[u] + edges[e].w;
+        getdis(v, u);
+    }
+}
+
+void calc(int u) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (vis[v]) continue;
+        hd = 1, tail = 0;  // 清空 v 的子树信息
+        dis[v] = dis[u] + edges[e].w;
+        getdis(v, u);
+        for (int p = hd; p &lt;= tail; p++) {
+            int d = q[p];
+            // d + x &lt;= k 说明 x &lt;= k - d
+
+            if (d &lt;= k) {
+                ans += tr.query(k - d);
+                ans++;  // 到根节点
+            }
+        }
+
+        for (int p = hd; p &lt;= tail; p++) {
+            if (q[p] &lt;= k) {
+                tr.update(q[p], 1);
+                tmp.push_back(q[p]);
+            }
+        }
+    }
+    // printf(&quot;u = %d, ans = %lld\n&quot;,u,ans);
+    for (int d : tmp) tr.update(d, -1);
+    tmp.clear();
+}
+
+void solve(int u) {
+    vis[u] = 1; dis[u] = 0; 
+    calc(u);
+    // 处理答案
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (vis[v]) continue;
+        get_cursz(v, 0);
+        cursz = sz[v];
+        find_centroid(v, u);
+        solve(rt);  // 子树
+    }
+}
+
+
+int main() {
+    tr.n = 2e4;
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt; n; i++) {
+        int u, v, w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u, v, w); addEdge(v, u, w);
+    }
+    cin &gt;&gt; k;
+    
+    find_centroid(1, 0);
+    solve(rt);
+    cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2022-12-29 23:30:16 -0600 -0600">2022-12-29</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f746531cf1be68a4559749f29b5e7dd2c149c6aa" title="Add 085-090" target="_blank">(f746531c)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/090-%e7%82%b9%e5%88%86%e6%b2%bb.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">[置顶]竞赛注意事项</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/089-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84%E4%BA%8C%E5%88%86/">
+            <span class="next-text nav-default">树状数组二分</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

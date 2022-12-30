@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>树的重心 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="定义 树的重心是指： 在一棵无权无根树中，对于每一个点 $u$，计算它所有子树中最大的子树的节点数，这个最大值最小的点 $u$ 就是树的重心。 性质 点 $u$ 为重" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/086-%E6%A0%91%E7%9A%84%E9%87%8D%E5%BF%83/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="树的重心" />
+<meta property="og:description" content="定义 树的重心是指： 在一棵无权无根树中，对于每一个点 $u$，计算它所有子树中最大的子树的节点数，这个最大值最小的点 $u$ 就是树的重心。 性质 点 $u$ 为重" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/086-%E6%A0%91%E7%9A%84%E9%87%8D%E5%BF%83/" />
+<meta property="article:published_time" content="2022-12-23T22:49:22-06:00" />
+<meta property="article:modified_time" content="2022-12-29T23:30:16-06:00" />
+<meta itemprop="name" content="树的重心">
+<meta itemprop="description" content="定义 树的重心是指： 在一棵无权无根树中，对于每一个点 $u$，计算它所有子树中最大的子树的节点数，这个最大值最小的点 $u$ 就是树的重心。 性质 点 $u$ 为重">
+<meta itemprop="datePublished" content="2022-12-23T22:49:22-06:00" />
+<meta itemprop="dateModified" content="2022-12-29T23:30:16-06:00" />
+<meta itemprop="wordCount" content="1795">
+
+
+
+<meta itemprop="keywords" content="树,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="树的重心"/>
+<meta name="twitter:description" content="定义 树的重心是指： 在一棵无权无根树中，对于每一个点 $u$，计算它所有子树中最大的子树的节点数，这个最大值最小的点 $u$ 就是树的重心。 性质 点 $u$ 为重"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">树的重心</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-12-23 22:49:22 -0600 -0600"> 2022-12-23 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#定义">定义</a></li>
+        <li><a href="#性质">性质</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-cf1406c-link-cut-centroidshttpscodeforcescomcontest1406problemc">例1 CF1406C. <a href="https://codeforces.com/contest/1406/problem/C">Link Cut Centroids</a></a></li>
+            <li><a href="#例2-cf685b-kay-and-snowflakehttpscodeforcescomcontest685problemb">例2 CF685B. <a href="https://codeforces.com/contest/685/problem/B">Kay and Snowflake</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="定义">定义</h2>
+<p>树的重心是指：</p>
+<p>在一棵无权无根树中，对于每一个点 $u$，计算它所有子树中最大的子树的节点数，这个最大值最小的点 $u$ 就是树的重心。</p>
+<h2 id="性质">性质</h2>
+<ol>
+<li>
+<p>点 $u$ 为重心 $\iff$ 以 $u$ 为根时，所有子树大小 $\leq \frac{n}{2}$</p>
+</li>
+<li>
+<p>重心至少有一个，最多有两个。</p>
+<p>2.1. 如果有两个重心，那么它们之间一定有一条边相连，且此时树一定是有偶数个节点，且存在一种方式分割成两棵树，使得这两个重心分别为两棵树的重心。</p>
+</li>
+<li>
+<p>点 $u$ 为重心 $\iff$ 树中所有点到某个点的距离和中，到 $u$ 的距离和是最小的。</p>
+<p>3.1. 如果有两个重心，那么到它们的距离和一样。</p>
+</li>
+<li>
+<p>把两棵树通过一条边相连得到一棵新的树，那么新的树的重心在连接原来两棵树的重心的路径上，并且新重心会落在较大的树那边。</p>
+</li>
+<li>
+<p>在一棵树上添加或删除一个叶子，那么它的重心最多只移动一条边的距离。</p>
+</li>
+</ol>
+<details class="admonition note"><summary class="admonition-title">证明</summary>
+<ol>
+<li>
+<p>$\Rightarrow$：如果存在一个重心使得某个子树大小 $&gt; \frac{n}{2}$，那么向着这个子树的方向移动一条边，一定能找到一个更优的重心。$\Leftarrow$：当以 $u$ 为根时，如果所有子树大小 $\leq \frac{n}{2}$，那么它的任意邻居 $v$ 不可能比 $u$ 更优，因为以 $v$ 为根时，$u$ 所在子树的大小会 $\geq \frac{n}{2}$。</p>
+</li>
+<li>
+<p>易证一个和两个的情况，如果有 $3$ 个重心，易证每两个重心之间一定有一条边相连，而这样的话会形成一个大小为 $3$ 的环，不可能是树。</p>
+<p>2.1. 有两个重心意味着有两个大小为 $\frac{n}{2}$ 的子树。</p>
+</li>
+<li>
+<p>设点 $u$ 到所有其他点的距离为 $d_u$，那么如果存在一个邻居 $v$ 使得 $v$ 所在子树的大小 $&gt; \frac{n}{2}$，那么移动到 $v$ 一定有 $d_v &lt; d_u$（因为贡献的点数量 $&gt; \frac{n}{2}$）。由此可以推出，除了重心以外的点都至少存在一个邻居使得 $d_v$ 更小，可以得出重心的 $d_u$ 最小。</p>
+</li>
+<li>
+<p>WLOG 假设两棵树一大一小，可以看作将小子树一个个作为叶子的加入到大子树上，此时重心会沿着连接的点方向移动。</p>
+<p><img src="/images/086/1.png" alt="img"></p>
+</li>
+<li>
+<p>易证。</p>
+</li>
+</ol>
+</details>
+<h2 id="例题">例题</h2>
+<h3 id="例1-cf1406c-link-cut-centroidshttpscodeforcescomcontest1406problemc">例1 CF1406C. <a href="https://codeforces.com/contest/1406/problem/C" target="_blank">Link Cut Centroids</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵树，我们需要切掉一个edge，再加上一个edge，使得新生成的仍然是一棵树，并且仅有一个重心。</p>
+<p>求出这样的方案，答案一定存在。</p>
+<p>其中，$n \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先判断重心是不是有 $2$ 个，如果不是，什么也不用干。</p>
+<p>如果是，那么设两个重心分别为 $c_1, c_2$，那么只要在 $c_2$ 子树中寻找一个叶子，然后切下来，安给 $c_1$ 即可。</p>
+<p>证明：易证 $c_1$ 的其他邻居不可能为新的重心，而 $c_2$ 也不可能为重心，因为 $c_2$ 所在的部分少了一个，所以只有 $c_1$ 变成新的重心了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+int T, n;
+struct Edge {
+    int from, to, nxt;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 1;
+void addEdge(int u, int v) {
+    Edge e = {u, v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int sz[maxn];
+bool center[maxn];
+int c1, c2;
+void dfs1(int u, int p) {
+    sz[u] = 1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p) continue;
+        dfs1(v, u);
+        sz[u] += sz[v];
+        if (sz[v] &gt; n/2) center[u] = 0;
+    }
+    if (n - sz[u] &gt; n/2) center[u] = 0;
+}
+int c, cp;
+// f: forbidden
+void dfs2(int u, int p, int f) {
+    sz[u] = 1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == f || v == p) continue;
+        dfs2(v, u, f);
+        sz[u] += sz[v];
+    }
+    if (sz[u] == 1) {
+        c = u;
+        cp = p;
+    }
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; T;
+    while (T--) {
+        cin &gt;&gt; n;
+        for (int i = 1; i &lt; n; i++) {
+            int x,y; cin &gt;&gt; x &gt;&gt; y;
+            addEdge(x, y); addEdge(y, x);
+        }
+        for (int i = 1; i &lt;= n; i++) center[i] = 1;
+        dfs1(1, 0);
+        c1 = c2 = 0;
+        for (int i = 1; i &lt;= n; i++) {
+            if (center[i]) {
+                if (!c1) c1 = i;
+                else c2 = i;
+            }
+        }
+        if (!c2) {
+            cout &lt;&lt; edges[1].from &lt;&lt; &quot; &quot; &lt;&lt; edges[1].to &lt;&lt; &quot;\n&quot; &lt;&lt; edges[1].from &lt;&lt; &quot; &quot; &lt;&lt; edges[1].to &lt;&lt; &quot;\n&quot;;
+        } else {
+            c = cp = 0;
+            dfs2(c2, 0, c1);
+            cout &lt;&lt; c &lt;&lt; &quot; &quot; &lt;&lt; cp &lt;&lt; &quot;\n&quot; &lt;&lt; c &lt;&lt; &quot; &quot; &lt;&lt; c1 &lt;&lt; &quot;\n&quot;;
+        }
+        for (int i = 1; i &lt;= n; i++) head[i] = 0, sz[i] = 0;
+        ecnt = 1;
+    }
+}
+</code></pre>
+</details>
+<h3 id="例2-cf685b-kay-and-snowflakehttpscodeforcescomcontest685problemb">例2 CF685B. <a href="https://codeforces.com/contest/685/problem/B" target="_blank">Kay and Snowflake</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵有根树（$1$ 为根），和 $q$ 次询问，每次询问回答 $u$ 的子树中，重心是哪个点。</p>
+<p>其中，$n,q \leq 3 \times 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>结论：考虑 $u$ 的子树，它的重心要么是它自己，要么在它重儿子所在子树里。</p>
+<p>如果在它重儿子（设为 $v$）里，那么可以看作以 $v$ 为子树，然后加上了一个较小的子树（$u$ 剩下的部分），所以原本重心是 $v$ 的重心，加上了以后，重心会往连接点处移动，所以新的重心一定是 $v$ 的重心的 ancestor。</p>
+<p>所以我们可以从下往上处理每个子树的重心，处理到 $u$ 时只要从它的重儿子 $v$ 的重心 $c_v$ 开始，暴力往上跳即可。</p>
+<p>可证每个点最多会被跳 $1$ 次，复杂度为 $O(n)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 3e5+5;
+
+int n, q;
+struct Edge {
+    int from, to, nxt;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 1;
+void addEdge(int u, int v) {
+    Edge e = {u, v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+int sz[maxn], par[maxn], son[maxn], maxsz[maxn], ans[maxn];
+void dfs(int u, int p) {
+    sz[u] = 1;
+    par[u] = p;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p) continue;
+        dfs(v, u);
+        sz[u] += sz[v];
+        if (maxsz[u] &lt; sz[v]) {
+            son[u] = v;
+            maxsz[u] = sz[v];
+        }
+    }
+}
+
+void dfs2(int u, int p) {
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p) continue;
+        dfs2(v, u);
+    }
+    if (maxsz[u] &lt;= sz[u] / 2) {
+        ans[u] = u;
+        return;
+    } else {
+        int c = ans[son[u]];
+        while (c != u) {
+            if (maxsz[c] &lt;= sz[u] / 2 &amp;&amp; sz[u] - sz[c] &lt;= sz[u] / 2) {
+                ans[u] = c;
+                break;
+            } else c = par[c];
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; q;
+    for (int i = 2; i &lt;= n; i++) {
+        int p; cin &gt;&gt; p;
+        addEdge(p, i);
+        addEdge(i, p);
+    }
+    dfs(1, 0);
+    dfs2(1, 0);
+    while (q--) {
+        int x; cin &gt;&gt; x; cout &lt;&lt; ans[x] &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://zhuanlan.zhihu.com/p/357938161">https://zhuanlan.zhihu.com/p/357938161</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2022-12-29 23:30:16 -0600 -0600">2022-12-29</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f746531cf1be68a4559749f29b5e7dd2c149c6aa" title="Add 085-090" target="_blank">(f746531c)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/086-%e6%a0%91%e7%9a%84%e9%87%8d%e5%bf%83.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%A0%91/">树</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/087-%E6%A0%91%E5%90%8C%E6%9E%84/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">树同构</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/085-icpc-2019-jakarta-regional/">
+            <span class="next-text nav-default">2019 Jakarta Regional</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

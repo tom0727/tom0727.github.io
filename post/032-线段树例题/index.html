@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>线段树/分块 例题 - tom0727&#39;s blog</title>
+  <title>线段树/树状数组/分块 例题 - tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -39,22 +39,22 @@
 
 
 
-<meta property="og:title" content="线段树/分块 例题" />
+<meta property="og:title" content="线段树/树状数组/分块 例题" />
 <meta property="og:description" content="主要记录一些遇到的线段树/分块例题。 例1 CF438D 题意 给定 $N$ 个正整数和 $M$ 个询问，询问有 3 种： $1 ~ l ~ r$：输出 $\sum\limits_{i=l}^r a_i$ $2 ~ l ~ r ~ x$：将 $a_l$ 到 $a_r$ 的所有数" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/032-%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%BE%8B%E9%A2%98/" />
 <meta property="article:published_time" content="2021-03-16T22:10:22+08:00" />
-<meta property="article:modified_time" content="2022-12-29T00:31:13+00:00" />
-<meta itemprop="name" content="线段树/分块 例题">
+<meta property="article:modified_time" content="2022-12-29T23:30:16-06:00" />
+<meta itemprop="name" content="线段树/树状数组/分块 例题">
 <meta itemprop="description" content="主要记录一些遇到的线段树/分块例题。 例1 CF438D 题意 给定 $N$ 个正整数和 $M$ 个询问，询问有 3 种： $1 ~ l ~ r$：输出 $\sum\limits_{i=l}^r a_i$ $2 ~ l ~ r ~ x$：将 $a_l$ 到 $a_r$ 的所有数">
 <meta itemprop="datePublished" content="2021-03-16T22:10:22&#43;08:00" />
-<meta itemprop="dateModified" content="2022-12-29T00:31:13&#43;00:00" />
-<meta itemprop="wordCount" content="4460">
+<meta itemprop="dateModified" content="2022-12-29T23:30:16-06:00" />
+<meta itemprop="wordCount" content="6586">
 
 
 
 <meta itemprop="keywords" content="暴力优化,线段树," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="线段树/分块 例题"/>
+<meta name="twitter:title" content="线段树/树状数组/分块 例题"/>
 <meta name="twitter:description" content="主要记录一些遇到的线段树/分块例题。 例1 CF438D 题意 给定 $N$ 个正整数和 $M$ 个询问，询问有 3 种： $1 ~ l ~ r$：输出 $\sum\limits_{i=l}^r a_i$ $2 ~ l ~ r ~ x$：将 $a_l$ 到 $a_r$ 的所有数"/>
 
 <!--[if lte IE 9]>
@@ -131,7 +131,7 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">线段树/分块 例题</h1>
+      <h1 class="post-title">线段树/树状数组/分块 例题</h1>
 
       <div class="post-meta">
         <span class="post-time" title="2021-03-16 22:10:22 &#43;0800 &#43;0800"> 2021-03-16 </span>
@@ -155,6 +155,7 @@
         <li><a href="#例3-洛谷p1972-hh的项链httpswwwluogucomcnproblemp1972">例3 <a href="https://www.luogu.com.cn/problem/P1972">洛谷P1972 HH的项链</a></a></li>
         <li><a href="#例4-cf1000f-one-occurrencehttpswwwluogucomcnproblemcf1000f">例4 <a href="https://www.luogu.com.cn/problem/CF1000F">CF1000F One Occurrence</a></a></li>
         <li><a href="#例5-cf803g-periodic-rmq-problemhttpscodeforcescomproblemsetproblem803g">例5 <a href="https://codeforces.com/problemset/problem/803/G">CF803G Periodic RMQ Problem</a></a></li>
+        <li><a href="#例6-cf-gym103687f-easy-fixhttpscodeforcescomgym103687problemf">例6 CF gym103687F. <a href="https://codeforces.com/gym/103687/problem/F">Easy Fix</a></a></li>
       </ul>
     </li>
   </ul>
@@ -754,6 +755,227 @@ int main() {
 }
 </code></pre>
 </details>
+<h2 id="例6-cf-gym103687f-easy-fixhttpscodeforcescomgym103687problemf">例6 CF gym103687F. <a href="https://codeforces.com/gym/103687/problem/F" target="_blank">Easy Fix</a></h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 permutation $p_1, p_2 &hellip; p_n$。</p>
+<p>定义 $A_i$ 为 $i$ 左边比 $p_i$ 小的元素数量，$B_i$ 为 $i$ 右边比 $p_i$ 大的元素数量，$C_i = \min(A_i, B_i)$。</p>
+<p>给定 $m$ 个询问，每次询问 $L, R$，回答在交换 $p_L, p_R$ 的位置以后，$\sum\limits_{i=1}^n C_i$ 的值？</p>
+<p>其中，$n \leq 10^5, m \leq 2 \times 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>先讨论一下交换后有哪些元素受到影响？</p>
+<p>很明显，$L, R$ 位置会受到影响，$i \in (L,R)$ 且 $p_i \in (p_L, p_R)$ 的会受到影响，其他的均无影响。</p>
+<hr>
+<p>我们先讨论 $i \in (L,R)$ 且 $p_i \in (p_L, p_R)$ 这种情况：</p>
+<p>Case1: 如果 $a_u &lt; a_v$，那么 $A_i - 1, B_i + 1$。</p>
+<p> Case1.1: 如果 $A_i \leq B_i$，那么 $C_i - 1$。</p>
+<p> Case1.2: 如果 $A_i &gt; B_i + 1$，那么 $C_i + 1$。</p>
+<p>Case2: 如果 $a_u &gt; a_v$，那么 $A_i + 1, B_i - 1$。</p>
+<p> Case2.1: 如果 $A_i \geq B_i$，那么 $C_i - 1$。</p>
+<p> Case2.2: 如果 $A_i &lt; B_i - 1$，那么 $C_i + 1$。</p>
+<hr>
+<p>然后再讨论一下 $L, R$ 受到的影响：</p>
+<p>只要先把 $C_L, C_R$ 的值从询问中减掉，然后重新找一下换了之后的 $C_L, C_R$ 即可。</p>
+<p>• 需要注意当 $p_L &gt; p_R$ 时，换了之后 $R$ 位置上的 $p_L$ 计算 $A_i$ 时会将 $p_R$ 忽略掉，所以要加 $1$。</p>
+<hr>
+<p>好的，现在该讨论一下怎么获得 $A_i, B_i, C_i$。</p>
+<p>首先，获得 $A_i$ 可以直接用树状数组维护 $p_i$（作为index），树状数组上的值为 0 和 1。遍历一下就可以求出初始状态的 $A_i$ 了。</p>
+<p>然后 $B_i = p_i - 1 - A_i$，很好理解，这样 $C_i$ 也有了。</p>
+<hr>
+<p>再讨论一下怎么处理询问？</p>
+<p>我们将 Case1, Case2 分开处理：如果我们开一个线段树/树状数组，index 为 $p_i$，值为 $-1, 0, 1$ 来记录 Case1.1, Case1.2 的情况，那么：</p>
+<p>每次询问就是询问一个区间 $(L,R)$ 内，满足 $(p_L, p_R)$ 的值的一些东西的和。</p>
+<p>似乎是 <strong>主席树</strong>？</p>
+<p>确实，不过本题询问离线，Stupidcdd 教导我：</p>
+<blockquote>
+<p>能用主席树做的，离线情况下就能用线段树/树状数组。</p>
+</blockquote>
+<p>回忆一下主席树的作用：对于每个区间 $[L,R]$，维护一个权值线段树，原理其实是每个点维护一个线段树，$R$ 上的线段树减去 $L-1$ 位置的线段树而已。</p>
+<p>那么询问离线的时候，我们只有一个树状数组，可以在遍历的过程中，获得前缀 $[1&hellip;i]$ 对应的树状数组，但是我们没有持久化，所以保存不下来。</p>
+<p>因为树状数组的历史版本保存不下来，不妨从询问下手？</p>
+<p>离线的一个常见套路：</p>
+<blockquote>
+<p>对于询问的端点 $L,R$，每个端点开一个 vector 储存所有的询问，遍历到这个点时处理所有对应的询问，加到答案上。</p>
+</blockquote>
+<p>这个题就是这样，我们想要知道 $(L,R)$ 内满足 $(p_L, p_R)$ 的值的一些东西的和，那么不妨在遍历到 $L$ 的时候询问一下 $(p_L, p_R)$，在遍历到 $R-1$ 的时候询问一下 $(p_L, p_R)$，然后一减，不就是答案了么？</p>
+<pre><code class="language-cpp">struct Query_Info {
+    int pl, pr;  // 询问 [pl, pr] 的部分
+    int f;  // 符号
+    int idx;  // 询问的 idx
+    int type;  // (pu &lt; pv) : tr1, (pu &gt; pv): tr2, type = 1 代表 tr1
+};
+int A[maxn], B[maxn], C[maxn];
+int a[maxn], b[maxn], c[maxn];
+vector&lt;Query_Info&gt; qinfo[maxn];  // qinfo[i] 端点为 i 的需要询问
+
+
+struct Single_Query {
+    int x;  // 询问 &lt; x 有多少个
+    int idx;  // 询问的 idx
+    int diff;  // 如果 p[u] &gt; p[v]，那么换出去以后 A[v]需要+1
+};
+vector&lt;Single_Query&gt; single[maxn];  // 单点询问 &lt; x 有多少个
+ll ans[maxn];
+
+...
+...
+...
+    // (u,v) 的话需要让 v-1 的部分 (前缀 v-1 询问 (a_u, a_v) 的部分）减去 u 的部分（前缀 u 询问 (a_u, a_v) 的部分）
+    for (int j = 1; j &lt;= m; j++) {
+        auto q = queries[j];
+        int u = q.first, v = q.second;
+        if (u != v) {
+            int mn = min(p[u], p[v]) + 1, mx = max(p[u], p[v]) - 1;
+            int type = (p[u] &lt; p[v] ? 1 : 2);
+            qinfo[u+1].push_back({mn, mx, -1, j, type});  // 由于处理时，还没加上，所以全部应该 + 1  (u -&gt; u+1, v-1 -&gt; v)
+            qinfo[v].push_back({mn, mx, 1, j, type});
+            ans[j] -= (C[u] + C[v]);  // 先去掉 C[u] + C[v] 的影响，后面直接加上
+            single[u].push_back({p[v], j, 0});
+            single[v].push_back({p[u], j, p[u] &gt; p[v]});
+        }
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (auto q : qinfo[i]) {
+            if (q.type == 1) {
+                ans[q.idx] += q.f * (tr1.query(q.pr) - tr1.query(q.pl-1));
+            } else {
+                ans[q.idx] += q.f * (tr2.query(q.pr) - tr2.query(q.pl-1));
+            }
+        }
+        for (auto q : single[i]) {
+            int AA = tr3.query(q.x - 1) + q.diff, BB = max(0, q.x - AA - 1);
+            ans[q.idx] += min(AA, BB);
+        }
+
+        if (A[i] &lt;= B[i]) tr1.update(p[i], -1);
+        if (A[i] &gt; B[i] + 1) tr1.update(p[i], 1);
+        if (A[i] &gt;= B[i]) tr2.update(p[i], -1);
+        if (A[i] &lt; B[i] - 1) tr2.update(p[i], 1);
+        tr3.update(p[i], 1);
+    }
+</code></pre>
+<p>在这个题中：</p>
+<ol>
+<li>$(L,R)$ 我们通过离线询问，答案相减来实现。</li>
+<li>$(p_L, p_R)$ 我们通过权值线段树/权值树状数组来实现。</li>
+<li>树状数组上面维护了 Case1.1, 1.2 (或者 2.1, 2.2) 的情况。</li>
+</ol>
+<hr>
+<p>总结一下思路：</p>
+<p>离线的关键在于从左向右遍历的时候，获得每个前缀对应的树状数组。</p>
+<p>在离线 $(L,R)$ 时，将询问的信息扔给每个端点的 vector，在遍历到的时候再处理，处理时直接对 <code>ans[]</code> 进行操作。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e5+55;
+const int maxm = 2e5+5;
+
+int n, p[maxn], m;
+pii queries[maxm];
+
+struct BIT {
+    int n, tr[maxn];
+    inline int lowbit(int x) { return x &amp; -x; }
+    void update(int p, int val) {
+        while (p &lt;= n) {
+            tr[p] += val;
+            p += lowbit(p);
+        }
+    }
+    // return sum[1...p]
+    int query(int p) {
+        int ans = 0;
+        while (p &gt; 0) {
+            ans += tr[p];
+            p -= lowbit(p);
+        }
+        return ans;
+    }
+} tr, tr1, tr2, tr3;
+
+
+struct Query_Info {
+    int pl, pr;  // 询问 [pl, pr] 的部分
+    int f;  // 符号
+    int idx;  // 询问的 idx
+    int type;  // (pu &lt; pv) : tr1, (pu &gt; pv): tr2, type = 1 代表 tr1
+};
+int A[maxn], B[maxn], C[maxn];
+int a[maxn], b[maxn], c[maxn];
+vector&lt;Query_Info&gt; qinfo[maxn];  // qinfo[i] 端点为 i 的需要询问
+
+
+struct Single_Query {
+    int x;  // 询问 &lt; x 有多少个
+    int idx;  // 询问的 idx
+    int diff;  // 如果 p[u] &gt; p[v]，那么换出去以后 A[v]需要+1
+};
+vector&lt;Single_Query&gt; single[maxn];  // 单点询问 &lt; x 有多少个
+ll ans[maxn];
+ll csum = 0;
+
+int main() {
+    fastio;
+    cin &gt;&gt; n;
+    tr.n = tr1.n = tr2.n = tr3.n = n;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; p[i];
+    cin &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int l, r; cin &gt;&gt; l &gt;&gt; r;
+        if (l &gt;= r) swap(l, r);
+        queries[i] = {l, r};
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        A[i] = tr.query(p[i] - 1);  // 左边比它小
+        B[i] = p[i] - 1 - A[i];  // 右边比它小
+        C[i] = min(A[i], B[i]);
+        csum += C[i];
+        tr.update(p[i], 1);
+    }
+    for (int i = 1; i &lt;= m; i++) ans[i] = csum;
+
+    // (u,v) 的话需要让 v-1 的部分 (前缀 v-1 询问 (a_u, a_v) 的部分）减去 u 的部分（前缀 u 询问 (a_u, a_v) 的部分）
+    for (int j = 1; j &lt;= m; j++) {
+        auto q = queries[j];
+        int u = q.first, v = q.second;
+        if (u != v) {
+            int mn = min(p[u], p[v]) + 1, mx = max(p[u], p[v]) - 1;
+            int type = (p[u] &lt; p[v] ? 1 : 2);
+            qinfo[u+1].push_back({mn, mx, -1, j, type});  // 由于处理时，还没加上，所以全部应该 + 1  (u -&gt; u+1, v-1 -&gt; v)
+            qinfo[v].push_back({mn, mx, 1, j, type});
+            ans[j] -= (C[u] + C[v]);  // 先去掉 C[u] + C[v] 的影响，后面直接加上
+            single[u].push_back({p[v], j, 0});
+            single[v].push_back({p[u], j, p[u] &gt; p[v]});
+        }
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (auto q : qinfo[i]) {
+            if (q.type == 1) {
+                ans[q.idx] += q.f * (tr1.query(q.pr) - tr1.query(q.pl-1));
+            } else {
+                ans[q.idx] += q.f * (tr2.query(q.pr) - tr2.query(q.pl-1));
+            }
+        }
+        for (auto q : single[i]) {
+            int AA = tr3.query(q.x - 1) + q.diff, BB = max(0, q.x - AA - 1);
+            ans[q.idx] += min(AA, BB);
+        }
+
+        if (A[i] &lt;= B[i]) tr1.update(p[i], -1);
+        if (A[i] &gt; B[i] + 1) tr1.update(p[i], 1);
+        if (A[i] &gt;= B[i]) tr2.update(p[i], -1);
+        if (A[i] &lt; B[i] - 1) tr2.update(p[i], 1);
+        tr3.update(p[i], 1);
+    }
+
+    for (int i = 1; i &lt;= m; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -765,8 +987,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-12-29 00:31:13 &#43;0000 UTC">2022-12-29</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/1fd9857f7c80c0a4d0af198ed9db58deecaf1163" title="chore: update CF Problems" target="_blank">(1fd9857)</a>
+        <span title="2022-12-29 23:30:16 -0600 -0600">2022-12-29</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f746531cf1be68a4559749f29b5e7dd2c149c6aa" title="Add 085-090" target="_blank">(f746531c)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/032-%e7%ba%bf%e6%ae%b5%e6%a0%91%e4%be%8b%e9%a2%98.md" target="_blank">更新历史</a>
     </span>
   </p>

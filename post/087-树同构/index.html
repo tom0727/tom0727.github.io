@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>树同构 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 两个树同构 $\iff$ 有且仅有一种重新编号方式，使得一棵树的节点重新编号后得到另外一棵树。 • 如果是有根树同构，那么还要额外加一个限制条件：树的节点" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/087-%E6%A0%91%E5%90%8C%E6%9E%84/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="树同构" />
+<meta property="og:description" content="介绍 两个树同构 $\iff$ 有且仅有一种重新编号方式，使得一棵树的节点重新编号后得到另外一棵树。 • 如果是有根树同构，那么还要额外加一个限制条件：树的节点" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/087-%E6%A0%91%E5%90%8C%E6%9E%84/" />
+<meta property="article:published_time" content="2022-12-25T18:14:24-06:00" />
+<meta property="article:modified_time" content="2022-12-29T23:30:16-06:00" />
+<meta itemprop="name" content="树同构">
+<meta itemprop="description" content="介绍 两个树同构 $\iff$ 有且仅有一种重新编号方式，使得一棵树的节点重新编号后得到另外一棵树。 • 如果是有根树同构，那么还要额外加一个限制条件：树的节点">
+<meta itemprop="datePublished" content="2022-12-25T18:14:24-06:00" />
+<meta itemprop="dateModified" content="2022-12-29T23:30:16-06:00" />
+<meta itemprop="wordCount" content="1833">
+
+
+
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="树同构"/>
+<meta name="twitter:description" content="介绍 两个树同构 $\iff$ 有且仅有一种重新编号方式，使得一棵树的节点重新编号后得到另外一棵树。 • 如果是有根树同构，那么还要额外加一个限制条件：树的节点"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">树同构</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2022-12-25 18:14:24 -0600 -0600"> 2022-12-25 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#哈希方法">哈希方法</a></li>
+        <li><a href="#树同构的判断方式">树同构的判断方式</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p5043-模板树同构httpswwwluogucomcnproblemp5043">例1 洛谷P5043 <a href="https://www.luogu.com.cn/problem/P5043">【模板】树同构</a></a></li>
+            <li><a href="#例2-cf1252f-regular-forestationhttpscodeforcescomcontest1252problemf">例2 CF1252F <a href="https://codeforces.com/contest/1252/problem/F">Regular Forestation</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>两个树同构 $\iff$ 有且仅有一种重新编号方式，使得一棵树的节点重新编号后得到另外一棵树。</p>
+<p>• 如果是有根树同构，那么还要额外加一个限制条件：树的节点重新编号，必须让 $r_1$ 映射到 $r_2$，其中 $r_1,r_2$ 为这两棵树的根。</p>
+<h2 id="哈希方法">哈希方法</h2>
+<p>树哈希的方法有很多种，这里提供一位黑红老哥的方法：</p>
+<p>对于一棵以 $u$ 为根的子树，假设儿子是 $v_1,v_2,&hellip;,v_k$，定义子树的哈希</p>
+<p>$$h(u) = 1 + \sum\limits_{i \in [1,k]} f(h(v_i))$$</p>
+<p>其中 $h(v_i)$ 是 $v_i$ 对应子树的哈希，$f$ 为一个待定函数。</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
+ull h[maxn], base = rng();
+ull H(ull x){
+	return x*x*x*19890535+19260817;
+}
+ull F(ull x){
+	return H(x&amp;((1ll&lt;&lt;32)-1))+H(x&gt;&gt;32);
+}
+void dfs2(int u, int p, int f) {
+    h[u] = base;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p || v == f) continue;
+        dfs2(v, u, f);
+        h[u] += F(h[v]);
+    }
+}
+</code></pre>
+</details>
+<h2 id="树同构的判断方式">树同构的判断方式</h2>
+<p>判断两棵树是否同构，一般都是无根树的情况。而对于同一棵树来说，选定不同的节点作为根，得到的哈希值并不相同。</p>
+<p>但如果两棵树同构，意味着它们的重心是相同的，所以只要分别找到两棵树的重心，然后让重心作为根，再求哈希值，比较是否相同即可。</p>
+<p>• 需要注意的是重心可能有 $2$ 个，所以需要比较 $2$ 次，只要有一次对上了就说明同构。(如果同构，则说明第一棵树的任意一个重心 $a_1$ 的哈希值一定等于第二棵树的其中一个重心的哈希值)。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p5043-模板树同构httpswwwluogucomcnproblemp5043">例1 洛谷P5043 <a href="https://www.luogu.com.cn/problem/P5043" target="_blank">【模板】树同构</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $M$ 棵树，根据同构关系将它们分为等价类。</p>
+<p>其中，$n, M \leq 50$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>求出每棵树的重心，然后暴力两两对比即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 55;
+const int maxm = 1e5+5;
+
+struct Edge {
+    int from, to, nxt;
+} edges[maxm&lt;&lt;1];
+int head[maxm], ecnt = 1;
+void addEdge(int u, int v) {
+    Edge e = {u, v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int sz[maxm], cur_tr;
+int M;
+int rt[maxn], tr_sz[maxn];
+vector&lt;int&gt; cent[maxn];
+ull h[maxm], base = rng();
+ull H(ull x){
+	return x*x*x*19890535+19260817;
+}
+ull F(ull x){
+	return H(x&amp;((1ll&lt;&lt;32)-1))+H(x&gt;&gt;32);
+}
+
+void dfs1(int u, int p) {
+    sz[u] = 1;
+    int mx = 0;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p) continue;
+        dfs1(v, u);
+        sz[u] += sz[v];
+        mx = max(mx, sz[v]);
+    }
+    int cur_sz = tr_sz[cur_tr];
+    mx = max(mx, cur_sz - sz[u]);
+    if (mx &lt;= cur_sz / 2) cent[cur_tr].push_back(u);
+}
+
+vector&lt;ull&gt; ha[maxn];
+void dfs2(int u, int p) {
+    h[u] = base;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p) continue;
+        dfs2(v, u);
+        h[u] += F(h[v]);
+    }
+}
+
+
+int main() {
+    cin &gt;&gt; M;
+
+    int id = 0;
+    for (int j = 1; j &lt;= M; j++) {
+        int n; cin &gt;&gt; n;
+        tr_sz[j] = n;
+        for (int i = 1; i &lt;= n; i++) {
+            int p; cin &gt;&gt; p;
+            if (p &gt; 0) {
+                p += id;
+                addEdge(p, i+id);
+                addEdge(i+id, p);
+            } else {
+                rt[j] = i + id;
+            }
+        }
+        id += n;
+    }
+
+    for (int j = 1; j &lt;= M; j++) {
+        cur_tr = j;
+        dfs1(rt[j], 0);
+        for (int c : cent[j]) {
+            dfs2(c, 0);
+            ha[j].push_back(h[c]);
+        }
+    }
+
+    for (int tj = 1; tj &lt;= M; tj++) {
+        for (int ti = 1; ti &lt;= tj; ti++) {
+            bool ok = 0;
+            for (ull h1 : ha[tj]) {
+                for (ull h2 : ha[ti]) {
+                    if (h1 == h2) ok = 1;
+                }
+            }
+            if (ok) {
+                cout &lt;&lt; ti &lt;&lt; &quot;\n&quot;;
+                break;
+            }
+        }
+    }
+}
+</code></pre>
+</details>
+<h3 id="例2-cf1252f-regular-forestationhttpscodeforcescomcontest1252problemf">例2 CF1252F <a href="https://codeforces.com/contest/1252/problem/F" target="_blank">Regular Forestation</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵无根树，问是否存在一个点 $u$，使得将点 $u$ 移除后，得到的所有子树两两同构？</p>
+<p>如果存在，输出 degree 最大的这样的 $u$。</p>
+<p>• 要求 $u$ 的degree至少为 $2$。</p>
+<p>其中，$n \leq 4000$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>由于 $n \leq 4000$，所以先定 $1$ 为根，然后：</p>
+<ol>
+<li>找出所有子树的重心。</li>
+<li>找出对于所有 $u$，除了 $u$ 子树以外的部分的重心。</li>
+<li>然后对于每个 $u$，check它的所有子树和它以外的部分是否同构。</li>
+</ol>
+<p>第一步可以用树的重心提到的 $O(n)$ 方法来找，第二步好像没有什么好方法，只能暴力了。</p>
+<p>第三步注意一下重心可能有两个，然后拿个 map 记录一下哈希值的 count，注意到一棵子树最多贡献一次哈希值count即可。</p>
+<p>复杂度是 $O(n^2)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 8005;
+
+struct Edge {
+    int from, to, nxt;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 1;
+void addEdge(int u, int v) {
+    Edge e = {u, v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int sz[maxn], deg[maxn], son[maxn], par[maxn];
+vector&lt;int&gt; cent[maxn&lt;&lt;1];  // cent[i]: centroids of subtree i, cent[i+n]: centroids of up[i]
+ull h[maxn], base = rng();
+ull H(ull x){
+	return x*x*x*19890535+19260817;
+}
+ull F(ull x){
+	return H(x&amp;((1ll&lt;&lt;32)-1))+H(x&gt;&gt;32);
+}
+
+void dfs1(int u, int p) {
+    par[u] = p;
+    sz[u] = 1;
+    int mx = 0;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p) continue;
+        dfs1(v, u);
+        if (sz[v] &gt; sz[son[u]]) {
+            son[u] = v;
+        }
+        sz[u] += sz[v];
+        mx = max(mx, sz[v]);
+    }
+    if (mx &lt;= sz[u] / 2) cent[u].push_back(u);
+    if (cent[son[u]].size()) {
+        int k = cent[son[u]][0];
+        while (k != u) {
+            if (sz[son[k]] &lt;= sz[u] / 2 &amp;&amp; sz[u] - sz[k] &lt;= sz[u] / 2) {
+                cent[u].push_back(k);
+            }
+            if (cent[u].size() &gt;= 2 || sz[son[k]] &gt; sz[u] / 2) break;  // 再往上不会更优了
+            k = par[k];
+        }
+    }
+}
+
+vector&lt;ull&gt; ha[maxn];
+void dfs2(int u, int p, int f) {
+    h[u] = base;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p || v == f) continue;
+        dfs2(v, u, f);
+        h[u] += F(h[v]);
+    }
+}
+
+int cursz, currt;  // 当前考虑部分的sz, root (如果是 i 外面的，currt 就是 i + n)
+void dfs3(int u, int p, int f) {
+    sz[u] = 1;
+    int mx = 0;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p || v == f) continue;
+        dfs3(v, u, f);
+        sz[u] += sz[v];
+        mx = max(mx, sz[v]);
+    }
+    if (mx &lt;= cursz / 2 &amp;&amp; cursz - sz[u] &lt;= cursz / 2) {
+        cent[currt].push_back(u);
+    }
+}
+
+void dfs4(int u, int p, int f) {
+    h[u] = base;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p || v == f) continue;
+        dfs4(v, u, f);
+        h[u] += F(h[v]);
+    }
+}
+
+int n;
+int ans = 0;
+int main() {
+    fastio;
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt; n; i++) {
+        int u, v; cin &gt;&gt; u &gt;&gt; v;
+        addEdge(u, v); addEdge(v, u);
+        deg[u]++; deg[v]++;
+    }
+    dfs1(1, 0);
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (int c : cent[i]) {
+            dfs2(c, 0, par[i]);
+            ha[i].push_back(h[c]);
+        }
+    }
+
+    // 现在处理所有子树外的部分
+    for (int i = 1; i &lt;= n; i++) {
+        if (deg[i] &lt; 2) continue;
+        bool ok = 1;
+        map&lt;ull, int&gt; mp;  // hash: count
+        int s = sz[son[i]];
+        if (n - sz[i] != s) ok = 0;
+        for (int e = head[i]; e; e = edges[e].nxt) {
+            int v = edges[e].to;
+            if (v == par[i]) continue;
+            if (sz[v] != s) ok = 0;
+            if (ha[v].size() == 2 &amp;&amp; ha[v][0] == ha[v][1]) {
+                mp[ha[v][0]]++;
+            } else {
+                for (ull hv : ha[v]) {
+                    mp[hv]++;
+                }
+            }
+        }
+        if (!ok) continue;
+        
+        // 现在说明 i 可能为最佳切割点
+        // 寻找 i 外面子树的信息 (如果有)
+        if (par[i]) {
+            cursz = n - sz[i];
+            currt = i + n;
+            dfs3(par[i], 0, i);
+        }
+
+        for (int c : cent[i+n]) {
+            dfs4(c, 0, i);
+            ha[i+n].push_back(h[c]);
+        }
+        if (ha[i+n].size() == 2 &amp;&amp; ha[i+n][0] == ha[i+n][1]) {
+            mp[ha[i+n][0]]++;
+        } else {
+            for (ull hv : ha[i+n]) mp[hv]++;
+        }
+        for (auto ptr : mp) {
+            if (ptr.second == deg[i]) {
+                ans = max(ans, deg[i]);
+            }
+        }
+    }
+    cout &lt;&lt; (ans ? ans : -1) &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://zh.wikipedia.org/zh-hk/%E6%A0%91%E5%90%8C%E6%9E%84">https://zh.wikipedia.org/zh-hk/%E6%A0%91%E5%90%8C%E6%9E%84</a></li>
+<li><a href="https://peehs-moorhsum.blog.uoj.ac/blog/7891">https://peehs-moorhsum.blog.uoj.ac/blog/7891</a></li>
+<li><a href="https://uoj.ac/submission/580510">https://uoj.ac/submission/580510</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2022-12-29 23:30:16 -0600 -0600">2022-12-29</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f746531cf1be68a4559749f29b5e7dd2c149c6aa" title="Add 085-090" target="_blank">(f746531c)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/087-%e6%a0%91%e5%90%8c%e6%9e%84.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/088-icpc-2020-neerc-regional/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">2020-2021 ICPC NERC (NEERC), North-Western Russia Regional Contest</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/086-%E6%A0%91%E7%9A%84%E9%87%8D%E5%BF%83/">
+            <span class="next-text nav-default">树的重心</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>背包问题 - tom0727&#39;s blog</title>
+  <title>容斥原理 - tom0727&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="多重背包二进制 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &amp;gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; V; while (n--) { int v,w,s; cin &amp;gt;&amp;gt; v &amp;gt;&amp;gt; w &amp;gt;&amp;gt; s; int k = 1; while (k &amp;lt;= s) { pack01(v*k, w*k); s -= k;" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 容斥原理用于计算集合的 union 和 intersection 的大小。 集合的 Union: $$|\bigcup_{i=1}^{n} S_i| = \sum_{i} |S_i| - \sum_{i &amp;lt; j} |S_i \cap S_j| &#43; \sum_{i &amp;lt; j &amp;lt; k} |S_i \cap S_j \cap S_k| - &amp;hellip; &#43; (-1)^{n-1} |S_1 \cap &amp;hellip; \cap S_n|$$ 集合的 Intersection = 全集 - 补集的并集 $$|\bigcap_{i=1}^n" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
-<link rel="canonical" href="https://tom0727.github.io/post/039-%E8%83%8C%E5%8C%85/" />
+<link rel="canonical" href="https://tom0727.github.io/post/091-%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,23 +39,23 @@
 
 
 
-<meta property="og:title" content="背包问题" />
-<meta property="og:description" content="多重背包二进制 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &gt;&gt; n &gt;&gt; V; while (n--) { int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s; int k = 1; while (k &lt;= s) { pack01(v*k, w*k); s -= k;" />
+<meta property="og:title" content="容斥原理" />
+<meta property="og:description" content="介绍 容斥原理用于计算集合的 union 和 intersection 的大小。 集合的 Union: $$|\bigcup_{i=1}^{n} S_i| = \sum_{i} |S_i| - \sum_{i &lt; j} |S_i \cap S_j| &#43; \sum_{i &lt; j &lt; k} |S_i \cap S_j \cap S_k| - &hellip; &#43; (-1)^{n-1} |S_1 \cap &hellip; \cap S_n|$$ 集合的 Intersection = 全集 - 补集的并集 $$|\bigcap_{i=1}^n" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/039-%E8%83%8C%E5%8C%85/" />
-<meta property="article:published_time" content="2021-04-11T21:42:06+08:00" />
+<meta property="og:url" content="https://tom0727.github.io/post/091-%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/" />
+<meta property="article:published_time" content="2022-12-31T21:16:36-06:00" />
 <meta property="article:modified_time" content="2023-01-03T21:48:46-06:00" />
-<meta itemprop="name" content="背包问题">
-<meta itemprop="description" content="多重背包二进制 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &gt;&gt; n &gt;&gt; V; while (n--) { int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s; int k = 1; while (k &lt;= s) { pack01(v*k, w*k); s -= k;">
-<meta itemprop="datePublished" content="2021-04-11T21:42:06&#43;08:00" />
+<meta itemprop="name" content="容斥原理">
+<meta itemprop="description" content="介绍 容斥原理用于计算集合的 union 和 intersection 的大小。 集合的 Union: $$|\bigcup_{i=1}^{n} S_i| = \sum_{i} |S_i| - \sum_{i &lt; j} |S_i \cap S_j| &#43; \sum_{i &lt; j &lt; k} |S_i \cap S_j \cap S_k| - &hellip; &#43; (-1)^{n-1} |S_1 \cap &hellip; \cap S_n|$$ 集合的 Intersection = 全集 - 补集的并集 $$|\bigcap_{i=1}^n">
+<meta itemprop="datePublished" content="2022-12-31T21:16:36-06:00" />
 <meta itemprop="dateModified" content="2023-01-03T21:48:46-06:00" />
-<meta itemprop="wordCount" content="1373">
+<meta itemprop="wordCount" content="1468">
 
 
 
-<meta itemprop="keywords" content="DP,背包," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="背包问题"/>
-<meta name="twitter:description" content="多重背包二进制 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &gt;&gt; n &gt;&gt; V; while (n--) { int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s; int k = 1; while (k &lt;= s) { pack01(v*k, w*k); s -= k;"/>
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="容斥原理"/>
+<meta name="twitter:description" content="介绍 容斥原理用于计算集合的 union 和 intersection 的大小。 集合的 Union: $$|\bigcup_{i=1}^{n} S_i| = \sum_{i} |S_i| - \sum_{i &lt; j} |S_i \cap S_j| &#43; \sum_{i &lt; j &lt; k} |S_i \cap S_j \cap S_k| - &hellip; &#43; (-1)^{n-1} |S_1 \cap &hellip; \cap S_n|$$ 集合的 Intersection = 全集 - 补集的并集 $$|\bigcap_{i=1}^n"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -131,12 +131,12 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">背包问题</h1>
+      <h1 class="post-title">容斥原理</h1>
 
       <div class="post-meta">
-        <span class="post-time" title="2021-04-11 21:42:06 &#43;0800 &#43;0800"> 2021-04-11 </span>
+        <span class="post-time" title="2022-12-31 21:16:36 -0600 -0600"> 2022-12-31 </span>
         <div class="post-category">
-            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            <a href="/categories//">  </a>
             </div>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -150,15 +150,10 @@
   <ul>
     <li>
       <ul>
-        <li>
-          <ul>
-            <li><a href="#多重背包二进制">多重背包二进制</a></li>
-            <li><a href="#多重背包单调队列优化">多重背包（单调队列优化）</a></li>
-          </ul>
-        </li>
+        <li><a href="#介绍">介绍</a></li>
         <li><a href="#例题">例题</a>
           <ul>
-            <li><a href="#例1-google-kickstart-2022-roundh-d-level-designhttpscodingcompetitionswithgooglecomkickstartround00000000008cb1b60000000000c47792">例1 Google Kickstart 2022 RoundH D. <a href="https://codingcompetitions.withgoogle.com/kickstart/round/00000000008cb1b6/0000000000c47792">Level Design</a></a></li>
+            <li><a href="#例1-cf1425d-danger-of-mad-snakeshttpscodeforcescomcontest1425problemd">例1 CF1425D. <a href="https://codeforces.com/contest/1425/problem/D">Danger of Mad Snakes</a></a></li>
           </ul>
         </li>
       </ul>
@@ -168,180 +163,154 @@
   </div>
 </div>
     <div class="post-content">
-      <h3 id="多重背包二进制">多重背包二进制</h3>
-<pre><code class="language-cpp">int n, V;
-int dp[2005];
-
-void pack01(int v, int w) {
-    for (int j = V; j &gt;= v; j--) {
-        dp[j] = max(dp[j], dp[j-v] + w);
-    }
-}
-
-int main() {
-    cin &gt;&gt; n &gt;&gt; V;
-    while (n--) {
-        int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s;
-        int k = 1;
-        while (k &lt;= s) {
-            pack01(v*k, w*k);
-            s -= k;
-            k &lt;&lt;= 1;
-        }
-        pack01(v*s, w*s);
-    }
-    int ans = 0;
-    for (int j = 0; j &lt;= V; j++) ans = max(ans, dp[j]);
-    cout &lt;&lt; ans &lt;&lt; endl;
-}
-</code></pre>
-<h3 id="多重背包单调队列优化">多重背包（单调队列优化）</h3>
-<pre><code class="language-cpp">struct node {
-    int pos, val;
-} q[20005];
-int head = -1, tail = 0, n, V, dp[20005];
-
-void solve(int v, int w, int s) {
-    for (int j = 0; j &lt; v; j++) {
-        head = 0, tail = -1;
-        q[++tail] = {0,0};
-        for (int i = 1; i*v + j &lt;= V; i++) {
-            while (i - q[head].pos &gt; s) head++;
-            int cur = i*v + j;
-            int val = dp[cur] - i*w;
-            dp[cur] = max(dp[cur], q[head].val + i*w);
-
-            while (head &lt;= tail &amp;&amp; val &gt;= q[tail].val) tail--;
-            q[++tail] = {i, val};
-        }
-    }
-}
-
-int main() {
-    cin &gt;&gt; n &gt;&gt; V;
-    for (int i = 1; i &lt;= n; i++) {
-        int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s;
-        solve(v,w,s);
-    }
-    int ans = 0;
-    for (int j = 0; j &lt;= V; j++) ans = max(ans, dp[j]);
-    cout &lt;&lt; ans &lt;&lt; endl;
-}
-</code></pre>
+      <h2 id="介绍">介绍</h2>
+<p>容斥原理用于计算集合的 union 和 intersection 的大小。</p>
+<p>集合的 Union:</p>
+<p>$$|\bigcup_{i=1}^{n} S_i| = \sum_{i} |S_i| - \sum_{i &lt; j} |S_i \cap S_j| + \sum_{i &lt; j &lt; k} |S_i \cap S_j \cap S_k| - &hellip; + (-1)^{n-1} |S_1 \cap &hellip; \cap S_n|$$</p>
+<p>集合的 Intersection = 全集 - 补集的并集</p>
+<p>$$|\bigcap_{i=1}^n S_i| = |U| - |\bigcup_{i=1}^n \bar S_i|$$</p>
 <h2 id="例题">例题</h2>
-<h3 id="例1-google-kickstart-2022-roundh-d-level-designhttpscodingcompetitionswithgooglecomkickstartround00000000008cb1b60000000000c47792">例1 Google Kickstart 2022 RoundH D. <a href="https://codingcompetitions.withgoogle.com/kickstart/round/00000000008cb1b6/0000000000c47792" target="_blank">Level Design</a></h3>
+<h3 id="例1-cf1425d-danger-of-mad-snakeshttpscodeforcescomcontest1425problemd">例1 CF1425D. <a href="https://codeforces.com/contest/1425/problem/D" target="_blank">Danger of Mad Snakes</a></h3>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
-<p>给定一个长度为 $n$ 的permutation。</p>
-<p>如果把permutation看作一个图（第 $i$ 位的值是 $p_i$ 的话，那么有 $i \rightarrow p_i$）。</p>
-<p>我们可以对这个 permutation 进行任意次数的 swap 操作，每次交换任意的 $p_i, p_j$ 的位置。</p>
-<p>现在对于每一个 $k \in [1,n]$，回答：</p>
-<p>最少需要多少次 swap 操作，使得，得到的图中至少有一个大小为 $k$ 的cycle。</p>
-<p>其中，$n \leq 10^5$，每个回答各自独立。</p>
+<p>一个 $1000 \times 1000$ 的矩阵里放了 $n$ 条蛇，第 $i$ 个蛇位于 $(x_i, y_i)$，价值 $b_i$。</p>
+<p>现在，我们要放 $m$ 个炸弹，每个炸弹必须放在某条蛇身上（不能重叠）。炸弹会爆炸，爆炸半径为 $r$。</p>
+<p>• 比如，炸弹放在 $(x,y)$ 处，那么所有 $\max(|x - x'|, |y - y'|) \leq r$ 的点 $(x&rsquo;, y&rsquo;)$ 都会受到影响。</p>
+<p>每一个炸弹放置方案所带来的价值定义为：$(\sum\limits_{i} b_{i})^2$，其中 $i$ 是所有被炸弹炸到的蛇。</p>
+<p>求所有炸弹放置方案的价值之和，答案对 $10^9+7$ 取模。</p>
+<p>其中，$n \in [1, 2000], m \in [1, n], r \in [0, 1000), x_i, y_i \in [1, 1000], b_i \in [1, 10^6]$，蛇的位置互不相同。</p>
 </div>
 <details class="admonition note"><summary class="admonition-title">题解</summary>
-<p>首先经过一些观察，可以发现：</p>
-<p>使用 $1$ 次操作，可以让一个cycle合并到另外一个cycle上去，或者也可以将一个大的 cycle 拆成 $2$ 个小cycle。</p>
-<p>所以我们先用 DFS 求出所有 cycle 的大小。</p>
-<p>然后就是一个背包问题：</p>
+<p>看见这种 <strong>所有方案</strong> 的和，就想到每一个元素所带来的贡献。</p>
+<p>很明显总共有 $C_n^m$ 种方案，每种方案如果炸到的蛇是 $(a_1, a_2, &hellip;, a_k)$，那么价值就是</p>
+<p>$$(\sum\limits_{i=1} b_{a_i})^2 = (b_{a_1} + b_{a_2} + &hellip; + b_{a_k})^2 = \sum\limits_{i=1}^k b_{a_i}^2 + \sum\limits_{i&lt;j} 2b_{a_i}b_{a_j}$$</p>
+<hr>
+<p>先看第一项 $\sum\limits_{i=1}^k b_{a_i}^2$，只要考虑：</p>
 <blockquote>
-<p>有 $n$ 个物品，每个物品有一个大小 $a_i$，并且每次装到背包中有一个 cost $1$。</p>
-<p>也可以将一个物品分成两个更小的物品，分割的 cost 也为 $1$。</p>
-<p>对于每一个可能的背包大小 $k \in [1,n]$，求最少的cost使得这个背包刚好被装满？</p>
+<p>对于每一条蛇，有多少种方案能炸到它？</p>
 </blockquote>
-<p>注意到分割操作只有最多一次，因为可以先装背包，将背包装多一点，然后分掉一个使得背包刚好装满。</p>
-<p>那装背包的话，物品数量太多了怎么办？</p>
-<p>想到 <strong>多重背包的二进制背包优化</strong>，那个是将大的拆成小的。我们也可以将小的合成为大的。</p>
-<p>比如有 $3$ 个大小为 $1$ 的物品，每个cost均为 $1$，我们就可以将其中 $2$ 个合成为一个大小为 $2$，cost为 $2$ 的大物品。</p>
-<p>所以对于大小为 $x$，cost为 $c$ 的物品，如果它有 $\geq 3$ 个，就将其中 $2$ 个合成为大小为 $2x$，cost为 $2c$ 的物品。</p>
-<p>时间复杂度：感性分析，在合并之后，物品的数量不会超过 $O(\sqrt n)$ 个（毕竟初始状态下，所有物品的大小之和为 $n$）。</p>
-<p>所以就可以跑背包了，复杂度为 $O(n \sqrt n)$。</p>
-<p>• 注意背包枚举的时候，外层循环是物品，里层循环是大小。</p>
-<p>• 注意到装第一个物品的 cost 为 $0$，这个直接用 <code>dp[0] = -1</code> 来表示。</p>
-<pre><code class="language-cpp">// 背包枚举顺序：外层是物品，里层是大小
-for (pii a : item_vec) {
-    for (int i = n; i &gt;= 1; i--) {
-        int item_sz = a.first, cost = a.second;
-        if (item_sz &gt; i) break;
-        dp[i] = min(dp[i], dp[i-item_sz] + cost);
-    }
-}
-</code></pre>
+<p>这个不好算，不如考虑有多少种炸不到它。</p>
+<p>我们可以预处理出炸弹放在每一条蛇，都能影响到哪些蛇。这样就可以得到有哪些蛇的位置放置炸弹，是炸不到这一条的。</p>
+<p>假设有 $k$ 个位置放炸弹，炸不到它，那么能炸到它的方案数就是 $C_n^m - C_k^m$。</p>
+<hr>
+<p>再看第二项 $\sum\limits_{i&lt;j} 2b_{a_i}b_{a_j}$，我们要考虑：</p>
+<blockquote>
+<p>对于每两条蛇 $(i,j)$，有多少种方案都能炸到它们？</p>
+</blockquote>
+<p>我们设 $A$ 为第一条蛇被炸，$B$ 为第二条蛇被炸。</p>
+<p>所以由容斥原理有：</p>
+<p>$$|A \cap B| = |U| - |\bar A \cup \bar B| = |U| - |\bar A| - |\bar B| + |\bar A \cap \bar B|$$</p>
+<p>易知 $|U| = C_n^m, 而 |\bar A|, |\bar B|$ 上面已经算出来了，就剩下 $|\bar A \cap \bar B|$。</p>
+<p>这代表着两条蛇都没被炸，所以只要找出有哪些点，使得这两条蛇都不会被炸就行。</p>
+<p>没法直接找，所以找有哪些点能分别炸到这两条蛇，然后取一个并集，用 $m$ 减掉这个并集的大小即可。</p>
+<p>注意到，能炸到一条蛇的范围是一个正方形，所以我们就取这两个正方形的并集，也就是将两个正方形相加然后减去正方形的交集。</p>
+<p>我们做一个 $01$ 矩阵，$1$ 代表这个位置可以放炸弹（有蛇），然后正方形的值就是这个正方形内的和，所以用二维前缀和。</p>
+<blockquote>
+<p>正方形的交集怎么求？</p>
+</blockquote>
+<p><img src="/images/091/1.jpg" alt="img"></p>
+<p>让两个正方形的：</p>
+<ol>
+<li>左端点 $x$ 坐标取 $\max$，右端点 $x$ 坐标取 $\min$。</li>
+<li>下端点 $y$ 坐标取 $\max$，上端点 $y$ 坐标取 $\min$。</li>
+</ol>
+<p>然后就可以得出正方形的范围是 $[x_{lmax}, x_{rmin}] \times [y_{dmax}, y_{umin}]$。</p>
+<p>• 当然这个题坐标系原点在左上方，所以稍微修改一下即可。</p>
 </details>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
 using namespace std;
-const int maxn = 1e5+5;
-const int maxm = 1e8+5;
+const int maxn = 2e4+5;
 
-int T;
-int n, p[maxn];
-bool vis[maxn];
-// int cnt[maxn];
-map&lt;int, int&gt; items[maxn];  // items[i]: 大小为 i 的所有物品的 cost  (key: cost, value: cnt)
-vector&lt;pii&gt; item_vec;
-int dp[maxn];
+Z fac[maxn], inv_fac[maxn];
+Z C(int a, int b) {
+    if (b &gt; a) return 0;
+    return fac[a] * inv_fac[b] * inv_fac[a-b];
+}
+
+int n, m, r;
+int x[maxn], y[maxn];
+ll b[maxn];
+
+vector&lt;int&gt; adj[maxn];
+int sum[maxn/2][maxn/2];
+Z ans = 0;
+struct Point {
+    int x, y;
+};
+struct Matrix {
+    Point ul, ur, dl, dr;  // upper left, upper right, down left, down right
+} mat[maxn];
+
+// 两个矩阵相交里面的元素数量
+int intersect(Matrix a, Matrix b) {
+    int xmin = min(a.dr.x, b.dr.x);
+    int xmax = max(a.dl.x, b.dl.x);
+    int ymin = max(a.ul.y, b.ul.y);
+    int ymax = min(a.dl.y, b.dl.y);
+    if (xmin &lt; xmax || ymin &gt; ymax) return 0;
+
+    // [xmax, xmin] * [ymin, ymax]
+    return sum[xmin][ymax] - sum[xmin][ymin-1] - sum[xmax-1][ymax] + sum[xmax-1][ymin-1];
+}
+
 int main() {
-    cin &gt;&gt; T;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; r;
 
-    for (int t = 1; t &lt;= T; t++) {
-        cin &gt;&gt; n;
-        item_vec.clear();
-        for (int i = 1; i &lt;= n; i++) {
-            cin &gt;&gt; p[i];
-            vis[i] = 0, items[i].clear(), dp[i] = 1e9;
-        }
-        dp[0] = -1;
-        for (int i = 1; i &lt;= n; i++) {
-            if (!vis[i]) {
-                int sz = 0;
-                int u = i;
-                do {
-                    vis[u] = 1;
-                    sz++;
-                    u = p[u];
-                } while (!vis[u]);
-                items[sz][1]++;
-            }
-        }
-        for (int i = 1; i &lt;= n; i++) {
-            for (auto&amp; itr : items[i]) {
-                int cost = itr.first;
-                while (itr.second &gt;= 3) {
-                    itr.second -= 2;
-                    items[i*2][cost*2] += 1;
-                }
-            }
-        }
+    fac[0] = 1;
+    for (int i = 1; i &lt;= 2000; i++) fac[i] = fac[i-1] * i;
+    inv_fac[2000] = fac[2000].inv();
+    for (int i = 1999; i &gt;= 1; i--) inv_fac[i] = inv_fac[i+1] * (i+1);
+    inv_fac[0] = 1;
 
-        for (int i = 1; i &lt;= n; i++) {
-            for (auto itr : items[i]) {
-                int cost = itr.first, cnt = itr.second;
-                while (cnt--) {
-                    item_vec.push_back({i, cost});  // 大小, cost
-                }
-            }
-        }
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; x[i] &gt;&gt; y[i] &gt;&gt; b[i];
+        sum[x[i]][y[i]] = 1;
+        mat[i].ul.x = max(1, x[i] - r);
+        mat[i].ul.y = max(1, y[i] - r);
+        mat[i].ur.x = min(1000, x[i] + r);
+        mat[i].ur.y = max(1, y[i] - r);
 
-        // 背包枚举顺序：外层是物品，里层是大小
-        for (pii a : item_vec) {
-            for (int i = n; i &gt;= 1; i--) {
-                int item_sz = a.first, cost = a.second;
-                if (item_sz &gt; i) break;
-                dp[i] = min(dp[i], dp[i-item_sz] + cost);
-            }
-        }
-
-        int mn = 1e9;
-        // 考虑拆分物品（最多一次）
-        for (int i = n; i &gt;= 1; i--) {
-            dp[i] = min(dp[i], mn + 1);
-            mn = min(mn, dp[i]);
-        }
-        cout &lt;&lt; &quot;Case #&quot; &lt;&lt; t &lt;&lt; &quot;: &quot;;
-        for (int i = 1; i &lt;= n; i++) cout &lt;&lt; dp[i] &lt;&lt; &quot; &quot;;
-        cout &lt;&lt; endl;
+        mat[i].dl.x = max(1, x[i] - r);
+        mat[i].dl.y = min(1000, y[i] + r);
+        mat[i].dr.x = min(1000, x[i] + r);
+        mat[i].dr.y = min(1000, y[i] + r);
     }
+
+    for (int i = 1; i &lt;= 1e3; i++) {
+        for (int j = 1; j &lt;= 1e3; j++) {
+            sum[i][j] += sum[i-1][j] + sum[i][j-1] - sum[i-1][j-1];
+        }
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= n; j++) {
+            if (max(abs(x[i] - x[j]), abs(y[i] - y[j])) &lt;= r) {
+                adj[i].push_back(j);
+            }
+        }
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        Z r = b[i] * b[i] % mod;  // 贡献
+        Z s = C(n, m) - C(n - adj[i].size(), m);  // 方案
+        ans += r * s;
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = i+1; j &lt;= n; j++) {
+            // 计算方案数
+            Z s = C(n, m);
+            int x = adj[i].size() + adj[j].size() - intersect(mat[i], mat[j]);
+            s += C(n - x, m);
+            s -= C(n - adj[i].size(), m);
+            s -= C(n - adj[j].size(), m);
+
+            Z r = 2LL * b[i] * b[j] % mod;
+
+            ans += r * s;
+        }
+    }
+    cout &lt;&lt; ans.val() &lt;&lt; endl;
 }
 </code></pre>
 </details>
@@ -358,7 +327,7 @@ int main() {
     <span class="item-content">
         <span title="2023-01-03 21:48:46 -0600 -0600">2023-01-03</span>
         <a href="https://github.com/tom0727/hugo-blog/commit/1a1bf807ad8fdcc5625e4b75d67db4d60b25cef8" title="add 091" target="_blank">(1a1bf807)</a>
-        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/039-%e8%83%8c%e5%8c%85.md" target="_blank">更新历史</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/091-%e5%ae%b9%e6%96%a5%e5%8e%9f%e7%90%86.md" target="_blank">更新历史</a>
     </span>
   </p>
   
@@ -369,17 +338,17 @@ int main() {
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/dp/">DP</a>
-          <a href="/tags/%E8%83%8C%E5%8C%85/">背包</a>
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/040-scc/">
+        <a class="prev" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">强连通分量（SCC）</span>
+            <span class="prev-text nav-default">[置顶]竞赛注意事项</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/038-hdu-contest1/">
-            <span class="next-text nav-default">HDU Contest 1 解题报告</span>
+        <a class="next" href="/post/090-%E7%82%B9%E5%88%86%E6%B2%BB/">
+            <span class="next-text nav-default">点分治</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

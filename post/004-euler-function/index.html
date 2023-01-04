@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/004-euler-function/" />
 <meta property="article:published_time" content="2021-02-06T17:23:34+08:00" />
-<meta property="article:modified_time" content="2023-01-01T01:49:47+00:00" />
+<meta property="article:modified_time" content="2023-01-03T21:48:46-06:00" />
 <meta itemprop="name" content="欧拉函数">
 <meta itemprop="description" content="定义 给定正整数$n$，求$\varphi(n)$， 即 小于等于$n$ 且 与$n$互质 的正整数个数。 性质 $\varphi(p) = p-1, ~\forall \text{prime } p$ $\varphi(mn) = \varphi(m)\varphi(n) \iff \gcd(m,n) = 1$ $\varphi(p^k) = p^k - p^{k-1} = p^k(1-\frac{1}{p})$">
 <meta itemprop="datePublished" content="2021-02-06T17:23:34&#43;08:00" />
-<meta itemprop="dateModified" content="2023-01-01T01:49:47&#43;00:00" />
-<meta itemprop="wordCount" content="1538">
+<meta itemprop="dateModified" content="2023-01-03T21:48:46-06:00" />
+<meta itemprop="wordCount" content="2273">
 
 
 
@@ -166,6 +166,7 @@
         <li><a href="#例题">例题</a>
           <ul>
             <li><a href="#例1-cf1295dhttpscodeforcescomcontest1295problemd">例1 <a href="https://codeforces.com/contest/1295/problem/D">CF1295D</a></a></li>
+            <li><a href="#例2-cf1731e-graph-costhttpscodeforcescomcontest1731probleme">例2 CF1731E. <a href="https://codeforces.com/contest/1731/problem/E">Graph Cost</a></a></li>
           </ul>
         </li>
         <li><a href="#参考链接">参考链接</a></li>
@@ -341,6 +342,94 @@ int main() {
 <p><img src="/images/004/1.jpg" alt="image"></p>
 <p>所以最后我们要求的$k$就是： $k \in [1,x]$ 使得 $\gcd(k, x) = 1$，所以满足条件的 $k$ 的数量就等于 $\varphi(x)$</p>
 </details>
+<h3 id="例2-cf1731e-graph-costhttpscodeforcescomcontest1731probleme">例2 CF1731E. <a href="https://codeforces.com/contest/1731/problem/E" target="_blank">Graph Cost</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个节点的图 $1,2,&hellip;,n$，初始状态下图中没有边。</p>
+<p>我们在一次操作中，可以选定任意一个正整数 $k$，往图中添加恰好 $k$ 条边。一条边如果连接的是点 $i,j$，那么必须满足 $\gcd(i,j) = k+1$。</p>
+<p>图中不能出现自环和重边。</p>
+<p>给定整数 $m$，求最少需要几次操作，使得图中边的数量恰好为 $m$？如果不存在，输出 $-1$。</p>
+<p>其中，$n \leq 10^6, m \leq \frac{n(n-1)}{2}$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>先考虑 $f(k)$：有多少个点对 $i&lt;j$ 满足 $\gcd(i,j)=k$？</p>
+<p>注意到 $\gcd(i,j)=k \iff i=ak, j=bk$ 且 $\gcd(a,b)=1$。</p>
+<p>所以要求 $\gcd(i,j)=k$ 的点对数量，令 $m = \frac{n}{k}$。</p>
+<p>则我们所求的变成 $1&hellip;m$ 中互质的数对的数量。</p>
+<p>形式化的，求：</p>
+<p>$$\sum\limits_{i=1}^m \sum\limits_{j=1}^{i-1} [1|gcd(i,j)=1]$$</p>
+<p>注意到如果我们固定 $i$，那么里面那层求和就是欧拉函数 $\phi(i)$，也就是求</p>
+<p>$$\sum\limits_{i=1}^m \phi(i)$$</p>
+<p>这个预处理出来就可以了。</p>
+<hr>
+<p>接下来考虑最少加几次边可以得到 $m$？</p>
+<p>$m$ 超级大所以没法背包。但注意到对于每一个 $k$，我们都<strong>至少可以加一次</strong>。</p>
+<p>有了这个性质，说明只要 $m$ 小于等于最大可能加的边数，就一定有解（可以理解成 $1,2,4,8&hellip;$ 这种构成了二进制的basis，覆盖了所有数，那这个更密集的 $k$ 一定也可以）。</p>
+<p>所以贪心的从大往小加，就可以得到最少加边次数了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e6+5;
+const int M = 1e6;
+ 
+int phi[maxn];
+ll sum_phi[maxn];
+bool p[maxn];
+vector&lt;int&gt; primes;
+ll cnt[maxn];
+ 
+void solve(int n, ll m) {
+    for (int k = 2; k &lt;= n; k++) {
+        cnt[k] = sum_phi[n/k];
+    }
+    ll ans = 0;
+    for (int k = n; k &gt;= 2; k--) {
+        // weight = k, cost = k, add (k-1) edges
+        ll r = min(cnt[k], m) / (k-1);  // 拿了 r 次
+        ans += r * k;
+        m -= r * (k-1);
+        if (!m) {
+            cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+            return;
+        }
+    }
+    cout &lt;&lt; -1 &lt;&lt; &quot;\n&quot;;
+}
+ 
+int main() {
+    int T; cin &gt;&gt; T;
+ 
+    phi[1] = 0;
+    fill(p, p+maxn, 1);
+    for (int i = 2; i &lt;= M; i++) {
+        if (p[i]) {
+            phi[i] = i-1;
+            primes.push_back(i);
+        }
+        for (int j = 0; j &lt; primes.size() &amp;&amp; i * primes[j] &lt;= M; j++) {
+            int cur = primes[j];
+            p[i*cur] = 0;
+            if (i % cur == 0) {
+                phi[i*cur] = phi[i] * cur;
+                break;
+            } else {
+                phi[i*cur] = phi[i] * phi[cur];
+            }
+        }
+    }
+ 
+    for (int i = 1; i &lt;= M; i++) {
+        sum_phi[i] = sum_phi[i-1] + phi[i];
+    }
+ 
+    while (T--) {
+        int n; ll m; cin &gt;&gt; n &gt;&gt; m;
+        solve(n, m);
+    }
+}
+</code></pre>
+</details>
 <h2 id="参考链接">参考链接</h2>
 <ol>
 <li><a href="https://blog.csdn.net/paxhujing/article/details/51353672">https://blog.csdn.net/paxhujing/article/details/51353672</a></li>
@@ -363,8 +452,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-01-01 01:49:47 &#43;0000 UTC">2023-01-01</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/1e1ea418802908edf65e262fbdfe24f5ab9928f4" title="chore: update clicks" target="_blank">(1e1ea41)</a>
+        <span title="2023-01-03 21:48:46 -0600 -0600">2023-01-03</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/1a1bf807ad8fdcc5625e4b75d67db4d60b25cef8" title="add 091" target="_blank">(1a1bf807)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/004-euler-function.md" target="_blank">更新历史</a>
     </span>
   </p>

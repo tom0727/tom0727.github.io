@@ -44,12 +44,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/032-%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%BE%8B%E9%A2%98/" />
 <meta property="article:published_time" content="2021-03-16T22:10:22+08:00" />
-<meta property="article:modified_time" content="2023-01-01T01:49:47+00:00" />
+<meta property="article:modified_time" content="2023-01-03T21:48:46-06:00" />
 <meta itemprop="name" content="线段树/树状数组/分块 例题">
 <meta itemprop="description" content="主要记录一些遇到的线段树/分块例题。 例1 CF438D 题意 给定 $N$ 个正整数和 $M$ 个询问，询问有 3 种： $1 ~ l ~ r$：输出 $\sum\limits_{i=l}^r a_i$ $2 ~ l ~ r ~ x$：将 $a_l$ 到 $a_r$ 的所有数">
 <meta itemprop="datePublished" content="2021-03-16T22:10:22&#43;08:00" />
-<meta itemprop="dateModified" content="2023-01-01T01:49:47&#43;00:00" />
-<meta itemprop="wordCount" content="6586">
+<meta itemprop="dateModified" content="2023-01-03T21:48:46-06:00" />
+<meta itemprop="wordCount" content="7396">
 
 
 
@@ -155,7 +155,11 @@
         <li><a href="#例3-洛谷p1972-hh的项链httpswwwluogucomcnproblemp1972">例3 <a href="https://www.luogu.com.cn/problem/P1972">洛谷P1972 HH的项链</a></a></li>
         <li><a href="#例4-cf1000f-one-occurrencehttpswwwluogucomcnproblemcf1000f">例4 <a href="https://www.luogu.com.cn/problem/CF1000F">CF1000F One Occurrence</a></a></li>
         <li><a href="#例5-cf803g-periodic-rmq-problemhttpscodeforcescomproblemsetproblem803g">例5 <a href="https://codeforces.com/problemset/problem/803/G">CF803G Periodic RMQ Problem</a></a></li>
-        <li><a href="#例6-cf-gym103687f-easy-fixhttpscodeforcescomgym103687problemf">例6 CF gym103687F. <a href="https://codeforces.com/gym/103687/problem/F">Easy Fix</a></a></li>
+        <li><a href="#例6-cf-gym103687f-easy-fixhttpscodeforcescomgym103687problemf">例6 CF gym103687F. <a href="https://codeforces.com/gym/103687/problem/F">Easy Fix</a></a>
+          <ul>
+            <li><a href="#例7-atcoder-abc237g-range-sort-queryhttpsatcoderjpcontestsabc237tasksabc237_g">例7 Atcoder ABC237G. <a href="https://atcoder.jp/contests/abc237/tasks/abc237_g">Range Sort Query</a></a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -976,6 +980,115 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例7-atcoder-abc237g-range-sort-queryhttpsatcoderjpcontestsabc237tasksabc237_g">例7 Atcoder ABC237G. <a href="https://atcoder.jp/contests/abc237/tasks/abc237_g" target="_blank">Range Sort Query</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的permutation $p_1,p_2&hellip;,p_n$，和一个正整数 $x$。</p>
+<p>给定 $q$ 个询问，询问有两种：</p>
+<p>$1 ~ L ~ R$：将 $p[L&hellip;R]$ 从小到大排序。</p>
+<p>$2 ~ L ~ R$：将 $p[L&hellip;R]$ 从大到小排序。</p>
+<p>所有询问结束后，回答 $x$ 所在的index。</p>
+<p>其中，$n,q \leq 2 \times 10^5, x \in [1,n]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>经典套路题。一般看见这种每次询问然后排序的，一般来讲只有在整个数组中 distinct 的数非常少的时候才能做。</p>
+<p>这个题注意到我们只关心 $x$，于是我们可以把剩下的数分为比 $x$ 小和比 $x$ 大的。</p>
+<p>而除了 $x$ 以外所有数之间的相对顺序我们并不关心。</p>
+<p>所以我们可以直接开两棵线段树，线段树里只储存 $0$ 或者 $1$，代表这个位置是否存在比 $x$ 大/小 的数。</p>
+<p>而 sort 的时候，我们就相当于把两棵线段树的 $[L,R]$ 中，看一下 $&lt;x$ 和 $&gt;x$ 分别有多少个，然后清空整个线段，然后重新进行区间赋值即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 4e5+5;
+const int maxm = 1e5+5;
+
+struct Tree_Node {
+    int sum = 0;
+    bool flag = 0;
+    int val;  // 区间赋的值
+};
+
+struct Segment_Tree {
+    Tree_Node tr[maxn&lt;&lt;2];
+    void push_up(int cur) {
+        tr[cur].sum = tr[cur&lt;&lt;1].sum + tr[cur&lt;&lt;1|1].sum;
+    }
+    void push_down(int cur, int l, int r) {
+        if (!tr[cur].flag) return;
+        int val = tr[cur].val;
+        tr[cur].flag = 0;
+
+        int mid = (l+r) &gt;&gt; 1;
+        int lc = cur&lt;&lt;1, rc = cur&lt;&lt;1|1;
+        int llen = (mid - l + 1), rlen = (r - mid);
+        tr[lc].flag = tr[rc].flag = 1;
+        tr[lc].val = tr[rc].val = val;
+        tr[lc].sum = llen * val, tr[rc].sum = rlen * val;
+    }
+    // 区间赋值为 x
+    void update(int cur, int l, int r, int L, int R, int x) {
+        if (L &gt; R) return;
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            tr[cur].flag = 1;
+            tr[cur].val = x;
+            tr[cur].sum = (r-l+1) * x;
+            return;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, x);
+        if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+        push_up(cur);
+    }
+    // 区间求和
+    int query(int cur, int l, int r, int L, int R) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            return tr[cur].sum;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        int res = 0;
+        if (L &lt;= mid) res += query(cur&lt;&lt;1, l, mid, L, R);
+        if (R &gt; mid) res += query(cur&lt;&lt;1|1, mid+1, r, L, R);
+        return res;
+    }
+} tr1, tr2;  // 比它小，比它大
+
+int n, q, x, p;
+int a[maxn];
+int main() {
+    cin &gt;&gt; n &gt;&gt; q &gt;&gt; x;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; a[i];
+        if (a[i] == x) p = i;
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        if (a[i] &lt; x) tr1.update(1, 1, n, i, i, 1);
+        if (a[i] &gt; x) tr2.update(1, 1, n, i, i, 1);
+    }
+    while (q--) {
+        int c, L, R; cin &gt;&gt; c &gt;&gt; L &gt;&gt; R;
+        int sum1 = tr1.query(1, 1, n, L, R);
+        int sum2 = tr2.query(1, 1, n, L, R);
+
+        tr1.update(1, 1, n, L, R, 0);
+        tr2.update(1, 1, n, L, R, 0);
+
+        if (c == 1) {
+            tr1.update(1, 1, n, L, L+sum1-1, 1);
+            tr2.update(1, 1, n, R-sum2+1, R, 1);
+            if (p &gt;= L &amp;&amp; p &lt;= R) p = L + sum1;
+        } else {
+            tr2.update(1, 1, n, L, L+sum2-1, 1);
+            tr1.update(1, 1, n, R-sum1+1, R, 1);
+            if (p &gt;= L &amp;&amp; p &lt;= R) p = L + sum2;
+        }
+    }
+    cout &lt;&lt; p &lt;&lt; endl;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -987,8 +1100,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-01-01 01:49:47 &#43;0000 UTC">2023-01-01</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/1e1ea418802908edf65e262fbdfe24f5ab9928f4" title="chore: update clicks" target="_blank">(1e1ea41)</a>
+        <span title="2023-01-03 21:48:46 -0600 -0600">2023-01-03</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/1a1bf807ad8fdcc5625e4b75d67db4d60b25cef8" title="add 091" target="_blank">(1a1bf807)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/032-%e7%ba%bf%e6%ae%b5%e6%a0%91%e4%be%8b%e9%a2%98.md" target="_blank">更新历史</a>
     </span>
   </p>

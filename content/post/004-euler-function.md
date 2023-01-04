@@ -214,6 +214,125 @@ int main() {
 {{% /fold %}}
 
 
+### 例2 CF1731E. [Graph Cost](https://codeforces.com/contest/1731/problem/E)
+
+{{% question 题意 %}}
+
+给定一个 $n$ 个节点的图 $1,2,...,n$，初始状态下图中没有边。
+
+我们在一次操作中，可以选定任意一个正整数 $k$，往图中添加恰好 $k$ 条边。一条边如果连接的是点 $i,j$，那么必须满足 $\gcd(i,j) = k+1$。
+
+图中不能出现自环和重边。
+
+给定整数 $m$，求最少需要几次操作，使得图中边的数量恰好为 $m$？如果不存在，输出 $-1$。
+
+其中，$n \leq 10^6, m \leq \frac{n(n-1)}{2}$。
+
+{{% /question %}}
+
+
+{{% fold "题解" %}}
+
+先考虑 $f(k)$：有多少个点对 $i<j$ 满足 $\gcd(i,j)=k$？
+
+注意到 $\gcd(i,j)=k \iff i=ak, j=bk$ 且 $\gcd(a,b)=1$。
+
+所以要求 $\gcd(i,j)=k$ 的点对数量，令 $m = \frac{n}{k}$。
+
+则我们所求的变成 $1...m$ 中互质的数对的数量。
+
+形式化的，求：
+
+$$\sum\limits_{i=1}^m \sum\limits_{j=1}^{i-1} [1|gcd(i,j)=1]$$
+
+注意到如果我们固定 $i$，那么里面那层求和就是欧拉函数 $\phi(i)$，也就是求
+
+$$\sum\limits_{i=1}^m \phi(i)$$
+
+这个预处理出来就可以了。
+
+<hr>
+
+接下来考虑最少加几次边可以得到 $m$？
+
+$m$ 超级大所以没法背包。但注意到对于每一个 $k$，我们都**至少可以加一次**。
+
+有了这个性质，说明只要 $m$ 小于等于最大可能加的边数，就一定有解（可以理解成 $1,2,4,8...$ 这种构成了二进制的basis，覆盖了所有数，那这个更密集的 $k$ 一定也可以）。
+
+所以贪心的从大往小加，就可以得到最少加边次数了。
+
+{{% /fold %}}
+
+
+{{% fold "代码" %}}
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+const int maxn = 1e6+5;
+const int M = 1e6;
+ 
+int phi[maxn];
+ll sum_phi[maxn];
+bool p[maxn];
+vector<int> primes;
+ll cnt[maxn];
+ 
+void solve(int n, ll m) {
+    for (int k = 2; k <= n; k++) {
+        cnt[k] = sum_phi[n/k];
+    }
+    ll ans = 0;
+    for (int k = n; k >= 2; k--) {
+        // weight = k, cost = k, add (k-1) edges
+        ll r = min(cnt[k], m) / (k-1);  // 拿了 r 次
+        ans += r * k;
+        m -= r * (k-1);
+        if (!m) {
+            cout << ans << "\n";
+            return;
+        }
+    }
+    cout << -1 << "\n";
+}
+ 
+int main() {
+    int T; cin >> T;
+ 
+    phi[1] = 0;
+    fill(p, p+maxn, 1);
+    for (int i = 2; i <= M; i++) {
+        if (p[i]) {
+            phi[i] = i-1;
+            primes.push_back(i);
+        }
+        for (int j = 0; j < primes.size() && i * primes[j] <= M; j++) {
+            int cur = primes[j];
+            p[i*cur] = 0;
+            if (i % cur == 0) {
+                phi[i*cur] = phi[i] * cur;
+                break;
+            } else {
+                phi[i*cur] = phi[i] * phi[cur];
+            }
+        }
+    }
+ 
+    for (int i = 1; i <= M; i++) {
+        sum_phi[i] = sum_phi[i-1] + phi[i];
+    }
+ 
+    while (T--) {
+        int n; ll m; cin >> n >> m;
+        solve(n, m);
+    }
+}
+```
+
+{{% /fold %}}
+
+
+
 ## 参考链接
 1. https://blog.csdn.net/paxhujing/article/details/51353672
 2. https://www.luogu.com.cn/blog/JustinRochester/solution-p2158

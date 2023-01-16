@@ -1,0 +1,7 @@
+DirectoryPath: public
+IgnoreAltMissing: true
+IgnoreDirectoryMissingTrailingSlash: true
+IgnoreInternalEmptyHash: true
+IgnoreDirs:
+  - github-file-authors
+

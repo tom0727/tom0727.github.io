@@ -23,21 +23,17 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/" />
   <link href="https://tom0727.github.io/index.xml" rel="alternate" type="application/rss+xml" title="tom0727&#39;s blog" />
   <link href="https://tom0727.github.io/index.xml" rel="feed" type="application/rss+xml" title="tom0727&#39;s blog" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
@@ -45,7 +41,7 @@
 <meta property="og:description" content="tom0727的博客" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://tom0727.github.io/" />
-<meta property="og:updated_time" content="2022-05-27T12:43:51+08:00" />
+
 <meta itemprop="name" content="tom0727&#39;s blog">
 <meta itemprop="description" content="tom0727的博客"><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="tom0727&#39;s blog"/>
@@ -125,7 +121,7 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">[置顶]竞赛注意事项</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/">[置顶]竞赛注意事项/通用模版</a></h1>
     <div class="post-meta">
       <span class="post-time" title="2022-09-19 10:26:35 -0500 -0500"> 2022-09-19 </span>
       <div class="post-category">
@@ -139,7 +135,49 @@
       Set中的Comparator定义 在定义Set的Comparator时，一定要小心保证元素不会因为定义被判定为重复，例如： int cnt[maxn]; struct Cmp { bool operator()(int i, int
     </div>
     <div class="read-more">
-      <a href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="read-more-link">Read more...</a>
+      <a href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/093-2sat/">2-SAT</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2023-01-09 18:27:02 -0600 -0600"> 2023-01-09 </span>
+      <div class="post-category">
+          <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      模版 struct Edge { int from, to, nxt; }; int n; // 变量个数 struct SAT2 { // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小 int dfn[maxn], low[maxn], id, from[maxn], scc = 0,
+    </div>
+    <div class="read-more">
+      <a href="/post/093-2sat/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/092-%E6%9E%9A%E4%B8%BE%E5%AD%90%E9%9B%86/">二进制枚举子集</a></h1>
+    <div class="post-meta">
+      <span class="post-time" title="2023-01-07 11:57:31 -0600 -0600"> 2023-01-07 </span>
+      <div class="post-category">
+          <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      介绍 我们希望在二进制下枚举所有的 mask，并且枚举每个mask的所有子集。 for (int mask = 0; mask &lt; (1 &lt;&lt; n); mask++) { // i 枚举所有物体的选择情况 for (int sub = mask; sub; sub =
+    </div>
+    <div class="read-more">
+      <a href="/post/092-%E6%9E%9A%E4%B8%BE%E5%AD%90%E9%9B%86/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>
@@ -291,48 +329,6 @@
   </div>
 </article>
 
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/084-icpc-2021-nerc/">2021 NERC</a></h1>
-    <div class="post-meta">
-      <span class="post-time" title="2022-12-20 16:57:11 -0600 -0600"> 2022-12-20 </span>
-      <div class="post-category">
-          <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
-          </div>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      CF1666J Job Lookup 题意 给定一个 $n \times n$ 的矩阵 $c_{ij}$。 求一个BST，使得 $\sum\limits_{i,j} c_{ij} \cdot d_{ij}$ 最小。 其中，$d_{ij}$ 代表节点 $i,j$ 在BST中的距离。 输出这个 BST
-    </div>
-    <div class="read-more">
-      <a href="/post/084-icpc-2021-nerc/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/083-icpc-2022-nerc-regional/">2022 NERC Regional</a></h1>
-    <div class="post-meta">
-      <span class="post-time" title="2022-12-04 23:48:35 -0600 -0600"> 2022-12-04 </span>
-      <div class="post-category">
-          <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
-          </div>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      A. Access Levels 题意 有 $n$ 个程序员，$m$ 个文档。 给定一个 $n \times m$ 的矩阵 $a$，其中 $a_{ij} = 1$ 表示程序员 $i$ 可以访问文档 $j$，否则不行。 现在我们需要选择一个数
-    </div>
-    <div class="read-more">
-      <a href="/post/083-icpc-2022-nerc-regional/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
     </section>
   
   <nav class="pagination">
@@ -399,7 +395,7 @@
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

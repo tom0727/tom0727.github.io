@@ -23,36 +23,29 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/038-hdu-contest1/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="HDU Contest 1 解题报告" />
 <meta property="og:description" content="友情出场本次HDU新生赛，题目质量一如既往的优秀。写一下解题报告吧。 题目 &amp; 题解 题目PDF 题解PDF Q1 选课 题意 有一些学生档案，每个档案上记录了" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/038-hdu-contest1/" />
+<meta property="og:url" content="https://tom0727.github.io/post/038-hdu-contest1/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-04-07T21:24:21+08:00" />
-<meta property="article:modified_time" content="2023-01-08T00:33:16+00:00" />
+<meta property="article:modified_time" content="2022-01-17T15:21:17+08:00" />
+
 <meta itemprop="name" content="HDU Contest 1 解题报告">
-<meta itemprop="description" content="友情出场本次HDU新生赛，题目质量一如既往的优秀。写一下解题报告吧。 题目 &amp; 题解 题目PDF 题解PDF Q1 选课 题意 有一些学生档案，每个档案上记录了">
-<meta itemprop="datePublished" content="2021-04-07T21:24:21&#43;08:00" />
-<meta itemprop="dateModified" content="2023-01-08T00:33:16&#43;00:00" />
-<meta itemprop="wordCount" content="4988">
-
-
-
+<meta itemprop="description" content="友情出场本次HDU新生赛，题目质量一如既往的优秀。写一下解题报告吧。 题目 &amp; 题解 题目PDF 题解PDF Q1 选课 题意 有一些学生档案，每个档案上记录了"><meta itemprop="datePublished" content="2021-04-07T21:24:21+08:00" />
+<meta itemprop="dateModified" content="2022-01-17T15:21:17+08:00" />
+<meta itemprop="wordCount" content="4982">
 <meta itemprop="keywords" content="," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="HDU Contest 1 解题报告"/>
 <meta name="twitter:description" content="友情出场本次HDU新生赛，题目质量一如既往的优秀。写一下解题报告吧。 题目 &amp; 题解 题目PDF 题解PDF Q1 选课 题意 有一些学生档案，每个档案上记录了"/>
@@ -292,7 +285,7 @@ int main() {
 <p>现在给出 $Q$ 次修改，每次修改将 第 $R_j$ 条edge的权值 改为 $2$，保证每次修改的edge互不相同。</p>
 <p>令 $d_x$ 为：在<strong>所有修改操作之前</strong>，节点 $x$ 距离 节点 $1$ 的最短路径长度。</p>
 <p>进行一次修改后，令 $d_x'$ 为：<strong>此时</strong> 节点 $x$ 距离 节点 $1$ 的最短路径长度。</p>
-<p>对于每一次修改，我们需要输出本次修改后，$d_x&rsquo; &gt; d_x$ 的节点数量。</p>
+<p>对于每一次修改，我们需要输出本次修改后，$d_x' &gt; d_x$ 的节点数量。</p>
 <p>其中，$2 \leq N \leq 10^5, 1 \leq Q \leq M \leq 2 \times 10^5, 1 \leq R_j \leq M$</p>
 </div>
 <details class="admonition note"><summary class="admonition-title">题解</summary>
@@ -323,22 +316,22 @@ int main() {
 <p><strong>正难则反</strong>，我们不如考虑反过来处理，我们把对应的边删掉，然后从后往前，<strong>开始加边</strong>。</p>
 <p>我们每次加上一条边 $(u,v)$，都会有如下性质：</p>
 <ol>
-<li>如果在加上这条边之前， $u$ 已经有 $d_u&rsquo; = d_u$ 了，则 $u$ 对其他节点不会产生任何影响。</li>
-<li>如果 $d_u'$ 变小了，那说明 $d_u&rsquo; = d_v&rsquo; + 1$</li>
-<li>如果 $d_u'$ 变小了，那么在变小后，只有 $d_u&rsquo; = d_u$ 时，$u$ 才会对其他节点产生 <strong>有效影响</strong>。</li>
+<li>如果在加上这条边之前， $u$ 已经有 $d_u' = d_u$ 了，则 $u$ 对其他节点不会产生任何影响。</li>
+<li>如果 $d_u'$ 变小了，那说明 $d_u' = d_v' + 1$</li>
+<li>如果 $d_u'$ 变小了，那么在变小后，只有 $d_u' = d_u$ 时，$u$ 才会对其他节点产生 <strong>有效影响</strong>。</li>
 </ol>
 <blockquote>
 <p>证明上述性质：</p>
 </blockquote>
-<p>证明性质 $1$：$u$ 对其他节点产生影响的话，说明 $u$ 的最短路径缩短了（说明 $d_u'$ 变小了），如果在加上这条边之前已经有 $d_u&rsquo; = d_u$，则 $d_u'$ 无法变得更小，所以无法产生影响。</p>
-<p>证明性质 $2$：$d_u'$ 如果变小，说明新的最短路径通过了 $(u,v)$，所以 $d_u&rsquo; = d_v&rsquo; + 1$</p>
-<p>证明性质 $3$：<strong>有效影响</strong> 指的是：在增加 $(u,v)$ 以后，其他的某个节点 $x$ 的 $d_x'$ 变小，且 $d_x&rsquo; = d_x$。如果 $d_u'$ 变小，但是仍然有 $d_u&rsquo; &gt; d_u$，则其他节点 $x$ 不可能通过 $u$ 来获取原先的最短路径 $d_x$，所以 $u$ 无法对其他节点产生有效影响。</p>
+<p>证明性质 $1$：$u$ 对其他节点产生影响的话，说明 $u$ 的最短路径缩短了（说明 $d_u'$ 变小了），如果在加上这条边之前已经有 $d_u' = d_u$，则 $d_u'$ 无法变得更小，所以无法产生影响。</p>
+<p>证明性质 $2$：$d_u'$ 如果变小，说明新的最短路径通过了 $(u,v)$，所以 $d_u' = d_v' + 1$</p>
+<p>证明性质 $3$：<strong>有效影响</strong> 指的是：在增加 $(u,v)$ 以后，其他的某个节点 $x$ 的 $d_x'$ 变小，且 $d_x' = d_x$。如果 $d_u'$ 变小，但是仍然有 $d_u' &gt; d_u$，则其他节点 $x$ 不可能通过 $u$ 来获取原先的最短路径 $d_x$，所以 $u$ 无法对其他节点产生有效影响。</p>
 <hr>
 <p>由上，我们的算法就有了：</p>
 <ol>
 <li>先建好完整的图，跑一次 <code>BFS</code> 得到所有节点距离 $1$ 的最短距离。</li>
 <li>清空图，将所有 <strong>未修改</strong> 的边加到图中。</li>
-<li>从后向前的顺序，进行 <strong>加边</strong> 操作，当加上 $(u,v)$ 时，看一下是否存在 $u$ 使得 $d_u'$ 减小，且 $d_u&rsquo; = d_u$，如果有，更新 $u$ 所有 neighbor 的 $d_x'$ 值，再继续判断上述条件（这是一个递归的操作）。</li>
+<li>从后向前的顺序，进行 <strong>加边</strong> 操作，当加上 $(u,v)$ 时，看一下是否存在 $u$ 使得 $d_u'$ 减小，且 $d_u' = d_u$，如果有，更新 $u$ 所有 neighbor 的 $d_x'$ 值，再继续判断上述条件（这是一个递归的操作）。</li>
 </ol>
 <p>复杂度：因为每个节点 $u$ 最多只需要更新一次 $d_u'$，每次更新会判断它的所有neighbor，所以复杂度为 $O(n+m)$</p>
 </details>
@@ -749,8 +742,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-01-08 00:33:16 &#43;0000 UTC">2023-01-08</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/15d82d5aa6610e0c84873ec44a1ce4b8e7e74a0c" title="chore: update CF Problems" target="_blank">(15d82d5)</a>
+        <span title="2022-01-17 15:21:17 &#43;0800 &#43;0800">2022-01-17</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/15d6d3e16959258d4ae97d975c47913f9d8063c2" title="add 064,065,066" target="_blank">(15d6d3e1)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/038-HDU-contest1.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -847,7 +840,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

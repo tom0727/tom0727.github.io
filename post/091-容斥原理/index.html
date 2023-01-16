@@ -23,36 +23,29 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/091-%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="容斥原理" />
 <meta property="og:description" content="介绍 容斥原理用于计算集合的 union 和 intersection 的大小。 集合的 Union: $$|\bigcup_{i=1}^{n} S_i| = \sum_{i} |S_i| - \sum_{i &lt; j} |S_i \cap S_j| &#43; \sum_{i &lt; j &lt; k} |S_i \cap S_j \cap S_k| - &hellip; &#43; (-1)^{n-1} |S_1 \cap &hellip; \cap S_n|$$ 集合的 Intersection = 全集 - 补集的并集 $$|\bigcap_{i=1}^n" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/091-%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/" />
+<meta property="og:url" content="https://tom0727.github.io/post/091-%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-12-31T21:16:36-06:00" />
-<meta property="article:modified_time" content="2023-01-08T00:33:16+00:00" />
+<meta property="article:modified_time" content="2023-01-15T23:35:40-06:00" />
+
 <meta itemprop="name" content="容斥原理">
-<meta itemprop="description" content="介绍 容斥原理用于计算集合的 union 和 intersection 的大小。 集合的 Union: $$|\bigcup_{i=1}^{n} S_i| = \sum_{i} |S_i| - \sum_{i &lt; j} |S_i \cap S_j| &#43; \sum_{i &lt; j &lt; k} |S_i \cap S_j \cap S_k| - &hellip; &#43; (-1)^{n-1} |S_1 \cap &hellip; \cap S_n|$$ 集合的 Intersection = 全集 - 补集的并集 $$|\bigcap_{i=1}^n">
-<meta itemprop="datePublished" content="2022-12-31T21:16:36-06:00" />
-<meta itemprop="dateModified" content="2023-01-08T00:33:16&#43;00:00" />
-<meta itemprop="wordCount" content="1468">
-
-
-
+<meta itemprop="description" content="介绍 容斥原理用于计算集合的 union 和 intersection 的大小。 集合的 Union: $$|\bigcup_{i=1}^{n} S_i| = \sum_{i} |S_i| - \sum_{i &lt; j} |S_i \cap S_j| &#43; \sum_{i &lt; j &lt; k} |S_i \cap S_j \cap S_k| - &hellip; &#43; (-1)^{n-1} |S_1 \cap &hellip; \cap S_n|$$ 集合的 Intersection = 全集 - 补集的并集 $$|\bigcap_{i=1}^n"><meta itemprop="datePublished" content="2022-12-31T21:16:36-06:00" />
+<meta itemprop="dateModified" content="2023-01-15T23:35:40-06:00" />
+<meta itemprop="wordCount" content="2227">
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="容斥原理"/>
 <meta name="twitter:description" content="介绍 容斥原理用于计算集合的 union 和 intersection 的大小。 集合的 Union: $$|\bigcup_{i=1}^{n} S_i| = \sum_{i} |S_i| - \sum_{i &lt; j} |S_i \cap S_j| &#43; \sum_{i &lt; j &lt; k} |S_i \cap S_j \cap S_k| - &hellip; &#43; (-1)^{n-1} |S_1 \cap &hellip; \cap S_n|$$ 集合的 Intersection = 全集 - 补集的并集 $$|\bigcap_{i=1}^n"/>
@@ -154,6 +147,7 @@
         <li><a href="#例题">例题</a>
           <ul>
             <li><a href="#例1-cf1425d-danger-of-mad-snakeshttpscodeforcescomcontest1425problemd">例1 CF1425D. <a href="https://codeforces.com/contest/1425/problem/D">Danger of Mad Snakes</a></a></li>
+            <li><a href="#例2-cf1267k-key-storagehttpscodeforcescomcontest1267problemk">例2 CF1267K. <a href="https://codeforces.com/contest/1267/problem/K">Key Storage</a></a></li>
           </ul>
         </li>
       </ul>
@@ -175,7 +169,7 @@
   <p class="admonition-title">题意</p>
 <p>一个 $1000 \times 1000$ 的矩阵里放了 $n$ 条蛇，第 $i$ 个蛇位于 $(x_i, y_i)$，价值 $b_i$。</p>
 <p>现在，我们要放 $m$ 个炸弹，每个炸弹必须放在某条蛇身上（不能重叠）。炸弹会爆炸，爆炸半径为 $r$。</p>
-<p>• 比如，炸弹放在 $(x,y)$ 处，那么所有 $\max(|x - x'|, |y - y'|) \leq r$ 的点 $(x&rsquo;, y&rsquo;)$ 都会受到影响。</p>
+<p>• 比如，炸弹放在 $(x,y)$ 处，那么所有 $\max(|x - x'|, |y - y'|) \leq r$ 的点 $(x', y')$ 都会受到影响。</p>
 <p>每一个炸弹放置方案所带来的价值定义为：$(\sum\limits_{i} b_{i})^2$，其中 $i$ 是所有被炸弹炸到的蛇。</p>
 <p>求所有炸弹放置方案的价值之和，答案对 $10^9+7$ 取模。</p>
 <p>其中，$n \in [1, 2000], m \in [1, n], r \in [0, 1000), x_i, y_i \in [1, 1000], b_i \in [1, 10^6]$，蛇的位置互不相同。</p>
@@ -314,6 +308,75 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例2-cf1267k-key-storagehttpscodeforcescomcontest1267problemk">例2 CF1267K. <a href="https://codeforces.com/contest/1267/problem/K" target="_blank">Key Storage</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>对于一个整数 $n$，我们定义它的一个multiset $f(n)$ 为：</p>
+<p>初始序列为空，将 <code>n % 2</code> 放入multiset中，然后让 <code>n /= 2</code>，如果此时 $n &gt; 0$，那么继续将 <code>n % 3</code> 放入multiset中，然后 <code>n /= 3</code>，以此类推。</p>
+<p>持续执行这个操作直到 $n=0$。</p>
+<p>给定一个正整数 $n$，求有多少个其他的正整数 $m$ 使得 $f(n)=f(m)$？</p>
+<p>其中，$n \leq 10^{18}$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先我们可以计算出 $n$ 对应的 $f(n)$。</p>
+<p>那么对于 $f(n)$，我们从小到大来看这个 multiset，第一个位置是 <code>% 2</code> 的结果，所以值必须 $&lt;2$，第二个位置是 <code>% 3</code> 的结果，所以必须 $&lt;3$，以此类推。</p>
+<p>• 最后一个位置不能为 $0$，因为除以最后一个数以后，$n$ 变成了 $0$，所以余数是不可能为 $0$ 的。</p>
+<p>所以实际上，计算 $f(m)$ 的数量，也就是计算给每个位置填上 multiset 中的元素的方案数，这个方案数要满足以下条件：</p>
+<ol>
+<li>第 $i$ 个位置的数 $&lt;i+1$。</li>
+<li>最后一个位置的数不能为 $0$。</li>
+</ol>
+<p>先考虑第二种，我们不妨固定最后一位为 $0$，然后用无限制的方案数减去它即可。</p>
+<p>现在只剩下第一个条件了，这其实是乘法原理，我们从小到大枚举位置，枚举到第 $i$ 位的时候，就将 $\leq i$ 的数加入选项中。</p>
+<p>• 最后需要注意，我们计算的是 multiset 的数量，所以相同元素之间的顺序是无所谓的，所以还要把每个元素的数量的阶乘从答案里除掉。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ll cnt[30], fac[18];
+int T;
+int main() {
+    cin &gt;&gt; T;
+    fac[0] = 1;
+    for (int i = 1; i &lt; 18; i++) fac[i] = fac[i-1] * i;
+    while (T--) {
+        ll n; cin &gt;&gt; n;
+        int m = 0;
+        for (int i = 2; ; i++) {
+            cnt[n % i]++;
+            n /= i;
+            m++;
+            if (!n) break;
+        }
+        ll sum = cnt[0], ans = 1;
+        for (int i = 1; i &lt;= m; i++) {
+            // 第 i 个：&lt;= i 的
+            sum += cnt[i];
+            ans = ans * (sum - i + 1);
+        }
+
+        ll tmp = 0;
+        if (cnt[0]) {
+            tmp = cnt[0];  // 最后一位固定为0，可以有 cnt[0] 种选法
+            sum = cnt[0] - 1;  // 预设最后一个为 0
+            for (int i = 1; i &lt; m; i++) {
+                sum += cnt[i];
+                tmp = tmp * (sum - i + 1);
+            }
+        }
+
+        ans -= tmp;
+        for (int i = 0; i &lt; 18; i++) {
+            ans /= fac[cnt[i]];
+        }
+
+        ans--;
+        cout &lt;&lt; ans &lt;&lt; endl;
+        memset(cnt, 0, sizeof(cnt));
+    }
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -325,8 +388,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-01-08 00:33:16 &#43;0000 UTC">2023-01-08</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/15d82d5aa6610e0c84873ec44a1ce4b8e7e74a0c" title="chore: update CF Problems" target="_blank">(15d82d5)</a>
+        <span title="2023-01-15 23:35:40 -0600 -0600">2023-01-15</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f328027b03eb07021a7ec0d812fa4311e06ec1a6" title="init 092, 093" target="_blank">(f328027b)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/091-%e5%ae%b9%e6%96%a5%e5%8e%9f%e7%90%86.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -342,9 +405,9 @@ int main() {
           <a href="/tags//"></a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+        <a class="prev" href="/post/092-%E6%9E%9A%E4%B8%BE%E5%AD%90%E9%9B%86/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">[置顶]竞赛注意事项</span>
+            <span class="prev-text nav-default">二进制枚举子集</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="/post/090-%E7%82%B9%E5%88%86%E6%B2%BB/">
@@ -424,7 +487,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

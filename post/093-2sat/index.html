@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>2-SAT - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="模版 struct Edge { int from, to, nxt; }; int n; // 变量个数 struct SAT2 { // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小 int dfn[maxn], low[maxn], id, from[maxn], scc = 0," /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/093-2sat/" />
+<link rel="manifest" href="/manifest.json">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="2-SAT" />
+<meta property="og:description" content="模版 struct Edge { int from, to, nxt; }; int n; // 变量个数 struct SAT2 { // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小 int dfn[maxn], low[maxn], id, from[maxn], scc = 0," />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/093-2sat/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-01-09T18:27:02-06:00" />
+<meta property="article:modified_time" content="2023-01-15T23:35:40-06:00" />
+
+<meta itemprop="name" content="2-SAT">
+<meta itemprop="description" content="模版 struct Edge { int from, to, nxt; }; int n; // 变量个数 struct SAT2 { // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小 int dfn[maxn], low[maxn], id, from[maxn], scc = 0,"><meta itemprop="datePublished" content="2023-01-09T18:27:02-06:00" />
+<meta itemprop="dateModified" content="2023-01-15T23:35:40-06:00" />
+<meta itemprop="wordCount" content="2375">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="2-SAT"/>
+<meta name="twitter:description" content="模版 struct Edge { int from, to, nxt; }; int n; // 变量个数 struct SAT2 { // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小 int dfn[maxn], low[maxn], id, from[maxn], scc = 0,"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">2-SAT</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-01-09 18:27:02 -0600 -0600"> 2023-01-09 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#原理">原理</a>
+          <ul>
+            <li><a href="#一些例子">一些例子</a></li>
+          </ul>
+        </li>
+        <li><a href="#常用连边模型">常用连边模型</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p5782-poi2001-和平委员会httpswwwluogucomcnproblemp5782">例1 洛谷P5782 <a href="https://www.luogu.com.cn/problem/P5782">[POI2001] 和平委员会</a></a></li>
+            <li><a href="#例2-cf1250e-the-coronationhttpscodeforcescomcontest1250probleme">例2 CF1250E. <a href="https://codeforces.com/contest/1250/problem/E">The Coronation</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <details class="admonition note"><summary class="admonition-title">模版</summary>
+<pre><code class="language-cpp">struct Edge {
+    int from, to, nxt;
+};
+int n;  // 变量个数
+
+struct SAT2 {
+    // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小
+    int dfn[maxn], low[maxn], id, from[maxn], scc = 0, sz[maxn], head[maxn];
+    bool in[maxn];  // instack or not
+    int st[maxn], tail = -1, ecnt = 1;
+    Edge edges[maxm];
+    void dfs(int u) {
+        in[u] = 1;
+        st[++tail] = u;
+        dfn[u] = low[u] = ++id;
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            if (dfn[to] &amp;&amp; in[to]) low[u] = min(low[u], dfn[to]);  // 要记得在栈内
+            if (!dfn[to]) {
+                dfs(to);
+                low[u] = min(low[u], low[to]);
+            }
+        }
+        if (dfn[u] == low[u]) {
+            from[u] = ++scc;
+            sz[scc] = 1;
+            while (tail &gt;= 0 &amp;&amp; st[tail] != u) {
+                int cur = st[tail];
+                from[cur] = from[u];
+                sz[scc]++;
+                tail--;
+                in[cur] = 0;  // 记得这里，将在栈中的标记去掉
+            }
+            tail--;
+            in[u] = 0;  // 记得这里，将在栈中的标记去掉
+        }
+    }
+    void addEdge(int u, int v) {
+        Edge e = {u, v, head[u]};
+        head[u] = ecnt;
+        edges[ecnt++] = e;
+    }
+
+    void solve() {
+        for (int i = 1; i &lt;= 2*n; i++) {
+            if (!dfn[i]) dfs(i);
+        }
+        for (int i = 1; i &lt;= n; i++) {
+            if (from[i] == from[i+n]) {
+                cout &lt;&lt; &quot;-1&quot; &lt;&lt; &quot;\n&quot;;  // 无解
+                return;
+            }
+        }
+        // 否则输出答案
+        for (int i = 1; i &lt;= n; i++) {
+            if (from[i] &lt; from[i+n]) {
+                cout &lt;&lt; i &lt;&lt; &quot;\n&quot;;  // 这个变量选择 True
+            } else {
+                cout &lt;&lt; i+n &lt;&lt; &quot;\n&quot;;  // 这个变量选择 False
+            }
+        }
+    }
+};
+
+int f(int u) {
+    if (u &gt; n) return u - n;
+    return u + n;
+}
+
+int main() {
+    int T; cin &gt;&gt; T;
+    while (T--) {
+        SAT2 sat {};  // 注意这里的 {} 才能正确清空！
+        cin &gt;&gt; n &gt;&gt; m;
+        for (int i = 1; i &lt;= m; i++) {
+            int u, v; cin &gt;&gt; u &gt;&gt; v;  // u,v 冲突
+            sat.addEdge(u, f(v));   // u -&gt; not v
+            sat.addEdge(v, f(u));  // v -&gt; not u
+        }
+    }
+}
+</code></pre>
+</details>
+<h2 id="介绍">介绍</h2>
+<p>2-SAT 用于解决：寻找满足一个 二元 boolean 方程集合的解。</p>
+<p>例如，我们有 $n$ 个 boolean 变量 $a_1,a_2,&hellip;a_n$。</p>
+<p>而我们给出一个boolean方程集合，共有 $m$ 个方程：</p>
+<p>$$a_1 \wedge a_3 = 1$$</p>
+<p>$$a_1 \vee a_4 = 1$$</p>
+<p>$$a_2 \wedge a_4 = 0$$</p>
+<p>$$&hellip;$$</p>
+<p>注意到每一个方程都只有两个变量 $a_i, a_j$，所以叫做 2-SAT。如果有超过 $2$ 个变量，那么是 NP 问题，只能暴力。</p>
+<h2 id="原理">原理</h2>
+<p>2-SAT 本质上是利用了 boolean 表达式之间的推导关系。</p>
+<p>比如 $a_1 \vee a_4 = 1$ 可以等效转化为 $(\neg a_1 \rightarrow a_4) \wedge (\neg a_4 \rightarrow a_1)$。</p>
+<p>这意味着，如果 $a_1 = 0$，那么 $a_4 = 1$，且，如果 $a_4 = 0$，那么 $a_1 = 1$。</p>
+<p>那么我们就可以这么连边：</p>
+<p><img src="/images/093/1.jpg" alt="img"></p>
+<p>因为是推导关系所以是有向边。</p>
+<p>那么 2-SAT 问题有解 $\iff$ 对于所有的 $i$，$a_i$ 和 $\neg a_i$ 并不在同一个强连通分量（SCC）中。</p>
+<p>所以跑 tarjan 找SCC即可。</p>
+<h3 id="一些例子">一些例子</h3>
+<p>考虑如下的情况：</p>
+<p><img src="/images/093/2.jpg" alt="img"></p>
+<p>在这个图中，如果我们从 $\neq a$ 出发，最终会走到 $a$。这说明 $\neq a$ 是不可能成立的。</p>
+<p>由此可知，$a=1$。</p>
+<p>所以我们在找 SCC 过后，还需要判断 $a$ 和 $\neq a$ 的<strong>拓扑序</strong>。哪个拓扑序更靠后，就说明这个变量必须取这个值。</p>
+<p>这样就可以输出解的具体值了。</p>
+<p>• 注意到在 tarjan 算法中，SCC的序号反过来就是拓扑序，所以板子中我们直接比较了 <code>from[]</code> 的值，哪个小就取哪个。</p>
+<h2 id="常用连边模型">常用连边模型</h2>
+<div class='center'>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">表达式</th>
+<th style="text-align:center">连边方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$a \vee b = 1$</td>
+<td style="text-align:center">$\neg a \rightarrow b, \neg b \rightarrow a$</td>
+</tr>
+<tr>
+<td style="text-align:center">$a \wedge b = 0$</td>
+<td style="text-align:center">$a \rightarrow \neg b, b \rightarrow \neg a$</td>
+</tr>
+<tr>
+<td style="text-align:center">$a = 1$</td>
+<td style="text-align:center">$\neg a \rightarrow a$</td>
+</tr>
+<tr>
+<td style="text-align:center">$a = 0$</td>
+<td style="text-align:center">$a \rightarrow \neg a$</td>
+</tr>
+<tr>
+<td style="text-align:center">$a,b$ 冲突(不能同时出现)</td>
+<td style="text-align:center">$a \rightarrow \neg b, b \rightarrow \neg a$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p5782-poi2001-和平委员会httpswwwluogucomcnproblemp5782">例1 洛谷P5782 <a href="https://www.luogu.com.cn/problem/P5782" target="_blank">[POI2001] 和平委员会</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $n$ 个党派，每个党派有两个人（第 $i$ 个党派的人是 $2i-1, 2i$）。</p>
+<p>给定 $m$ 个关系，表示 $a,b$ 互相厌恶。</p>
+<p>现在每个党派需要派出恰好一个人，并且互相厌恶的人不能同时出现。</p>
+<p>其中，$n \leq 8000, m \leq 20000$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>本题可以用二分图染色做。</p>
+<p>2-SAT 也是可以的。每个党派看作一个 boolean 变量。</p>
+<p>参考表达式中的 $a,b$ 冲突就可以做了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 4e5+5;
+const int maxm = 5e5+505;
+
+struct Edge {
+    int from, to, nxt;
+};
+int n;
+
+struct SAT2 {
+    // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小
+    int dfn[maxn], low[maxn], id, from[maxn], scc = 0, sz[maxn], head[maxn];
+    bool in[maxn];  // instack or not
+    int st[maxn], tail = -1, ecnt = 1;
+    Edge edges[maxm];
+    void dfs(int u) {
+        in[u] = 1;
+        st[++tail] = u;
+        dfn[u] = low[u] = ++id;
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            if (dfn[to] &amp;&amp; in[to]) low[u] = min(low[u], dfn[to]);  // 要记得在栈内
+            if (!dfn[to]) {
+                dfs(to);
+                low[u] = min(low[u], low[to]);
+            }
+        }
+        if (dfn[u] == low[u]) {
+            from[u] = ++scc;
+            sz[scc] = 1;
+            while (tail &gt;= 0 &amp;&amp; st[tail] != u) {
+                int cur = st[tail];
+                from[cur] = from[u];
+                sz[scc]++;
+                tail--;
+                in[cur] = 0;  // 记得这里，将在栈中的标记去掉
+            }
+            tail--;
+            in[u] = 0;  // 记得这里，将在栈中的标记去掉
+        }
+    }
+    void addEdge(int u, int v) {
+        Edge e = {u, v, head[u]};
+        head[u] = ecnt;
+        edges[ecnt++] = e;
+    }
+
+    void solve() {
+        for (int i = 1; i &lt;= 2*n; i++) {
+            if (!dfn[i]) dfs(i);
+        }
+        for (int i = 1; i &lt;= 2*n; i += 2) {
+            if (from[i] == from[i+1]) {
+                cout &lt;&lt; &quot;NIE&quot; &lt;&lt; &quot;\n&quot;;  // 无解
+                return;
+            }
+        }
+        // 否则输出答案
+        for (int i = 1; i &lt;= 2*n; i += 2) {
+            if (from[i] &lt; from[i+1]) {
+                cout &lt;&lt; i &lt;&lt; &quot;\n&quot;;
+            } else {
+                cout &lt;&lt; i+1 &lt;&lt; &quot;\n&quot;;
+            }
+        }
+        // cout &lt;&lt; &quot;\n&quot;;
+    }
+} sat;
+
+int m;
+int f(int u) {
+    if (u % 2 == 0) return u - 1;
+    return u + 1;
+}
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int u, v; cin &gt;&gt; u &gt;&gt; v;
+        sat.addEdge(u, f(v));
+        sat.addEdge(v, f(u));
+    }
+    sat.solve();
+}
+</code></pre>
+</details>
+<h3 id="例2-cf1250e-the-coronationhttpscodeforcescomcontest1250probleme">例2 CF1250E. <a href="https://codeforces.com/contest/1250/problem/E" target="_blank">The Coronation</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个 $01$ 串（长度均为 $m$）。</p>
+<p>给定一个正整数 $k$， 定义两个 $01$ 串为相似当且仅当它们同位置上相同的字符至少有 $k$ 个。</p>
+<p>现在我们可以将一些 $01$ 串反转（从后往前）。</p>
+<p>求最少翻转多少个，使得所有串之间两两相似？无解输出 $-1$。</p>
+<p>其中，$n \in [2, 50], m \in [1, 50], k \in [1,m]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>这个题 <strong>不能用</strong> 2SAT！</p>
+<p>我们考虑所有两两不相似的串（这个可以直接预处理出来）。</p>
+<p>现在其实就相当于，每个串要么翻转，要么不翻转，使得最后得到的 $n$ 个串不能有冲突。</p>
+<p>看起来很像 2-SAT，并且也可以这么做？</p>
+<p>但有个问题，2-SAT并 <strong>没有办法处理最少翻转几个</strong> 的问题！</p>
+<hr>
+<p>正解是用权值并查集或者二分图染色。</p>
+<p>因为这个题是串之间的 <strong>冲突</strong> 问题，所以可以这么做，更复杂的情况才需要2-SAT。</p>
+<hr>
+<p>考虑二分图染色。</p>
+<p>我们将翻转前的所有串作为左边的点，翻转后的作为右边的。</p>
+<p>两两冲突的点之间连一条边（$i$ 和翻转后的版本 $i'$ 也要连边）。</p>
+<p>虽然这样不算严格的二分图？但跑染色还是没问题的。</p>
+<p>连完以后跑染色，可以得到若干个联通块。对于每个联通块，看染色是否成功，如果成功，黑白两个颜色中，翻转后的版本 $i'$ 哪个最少，选最少的那个即可。</p>
+<p>如果染色失败，输出无解即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e4+5;
+const int maxm = 1e5+505;
+struct Edge {
+    int from, to, nxt;
+} edges[maxm];
+int n, head[maxn], ecnt = 1;
+
+void addEdge(int u, int v) {
+    Edge e = {u, v, head[u]};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+int m, k;
+int f(int u) {
+    if (u &gt; n) return u - n;
+    return u + n;
+}
+
+string s[maxn];
+int similar(int u, int v) {
+    int res = 0;
+    for (int i = 0; i &lt; m; i++) {
+        if (s[u][i] == s[v][i]) res++;
+    }
+    return res;
+}
+
+vector&lt;int&gt; tmp0, tmp1;
+int color[maxn], cnt0, cnt1;
+bool ok = 1;
+void dfs(int u) {
+    if (color[u] == 1 &amp;&amp; u &gt; n) tmp1.push_back(u - n);
+    if (color[u] == 0 &amp;&amp; u &gt; n) tmp0.push_back(u - n);
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (color[v] == -1) {
+            color[v] = color[u] ^ 1;
+            dfs(v);
+        } else if (color[v] == color[u]) {
+            ok = 0;
+            return;
+        }
+    }
+}
+
+int main() {
+    fastio;
+    int T; cin &gt;&gt; T;
+    while (T--) {
+        ok = 1;
+        cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;
+        for (int i = 1; i &lt;= n; i++) {
+            cin &gt;&gt; s[i];
+            s[i+n] = s[i];
+            reverse(s[i+n].begin(), s[i+n].end());
+        }
+        for (int i = 1; i &lt;= 2*n; i++) {
+            for (int j = i+1; j &lt;= 2*n; j++) {
+                if (j == i+n) continue; 
+                if (similar(i, j) &lt; k) {  // 冲突
+                    addEdge(i, j);
+                    addEdge(j, i);
+                }
+            }
+        }
+        for (int i = 1; i &lt;= n; i++) addEdge(i, i+n), addEdge(i+n, i);
+        vector&lt;int&gt; ans;
+
+        memset(color, -1, sizeof(color));
+        for (int i = 1; i &lt;= 2*n; i++) {
+            if (color[i] == -1) {
+                tmp1.clear(); tmp0.clear();
+                color[i] = 0;
+                dfs(i);
+
+                if (tmp1.size() &lt; tmp0.size()) {
+                    for (int j : tmp1) ans.push_back(j);
+                } else {
+                    for (int j : tmp0) ans.push_back(j);
+                }
+            }
+        }
+
+        if (!ok) {
+            cout &lt;&lt; -1 &lt;&lt; &quot;\n&quot;;
+        } else {
+            cout &lt;&lt; ans.size() &lt;&lt; &quot;\n&quot;;
+            for (int j : ans) cout &lt;&lt; j &lt;&lt; &quot; &quot;;
+            cout &lt;&lt; &quot;\n&quot;;
+        }
+
+        ecnt = 1;
+        memset(head, 0, sizeof(head));
+        ok = 1;
+    }
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2023-01-15 23:35:40 -0600 -0600">2023-01-15</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f328027b03eb07021a7ec0d812fa4311e06ec1a6" title="init 092, 093" target="_blank">(f328027b)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/093-2SAT.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">[置顶]竞赛注意事项/通用模版</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/092-%E6%9E%9A%E4%B8%BE%E5%AD%90%E9%9B%86/">
+            <span class="next-text nav-default">二进制枚举子集</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

@@ -681,3 +681,91 @@ int main() {
 ```
 
 {{% /fold %}}
+
+
+### 例4 Atcoder ABC135F. [Strings of Eternity](https://atcoder.jp/contests/abc135/tasks/abc135_f)
+
+{{% question 题意 %}}
+
+给定两个string $s,t$，求一个最大的 $i$，使得存在一个 $j \geq 0$，使得 $t$ 的 $i$ 个copy是 $s$ 的 $j$ 个copy的一个substring。
+
+如果这个 $i$ 可能是无穷大，输出 $-1$。
+
+{{% /question %}}
+
+
+{{% fold "题解" %}}
+
+思路巧妙的图论题。
+
+我们先考虑 $i=1$ 的情况，这说明 $t$ 从 $s$ 的一个后缀开始，经过 $s$ 的一些copy，然后到 $s$ 的某一个前缀结束。
+
+所以可以看作是从 $s$ 的一个index $u$ 到了另外一个index $v$。
+
+于是我们连边 $(u,v+1)$。
+
+那么 $i > 1$ 的情况就可以递推得到：也就是顺着这些边走 $i$ 次。
+
+所以如果最后图中有环，就是 $-1$，没有环的话，只要看在图中最深能走多远即可。
+
+• 我们用字符串哈希来 $O(1)$ 找出每一个 $u$ 出发，能走到哪个 $v$。
+
+{{% /fold %}}
+
+
+{{% fold "代码" %}}
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+StringHash hs, ht;
+vector<int> adj[maxn];
+int dp[maxn], vis[maxn];
+bool ok = 1;
+int ID = 0;
+void dfs(int u, int p) {
+    dp[u] = 0;
+    vis[u] = ID;
+    for (int v : adj[u]) {
+        if (dp[v] != -1 && vis[v] == ID) {
+            ok = 0;
+            return;
+        }
+        dfs(v, p);
+        dp[u] = dp[v] + 1;
+    }
+}
+
+int main() {
+    p_init();
+    string s, t;
+    cin >> s >> t;
+    int n = s.size(), m = t.size();
+    while (s.size() < 1e6) s += s;
+    hs.s = s;
+    ht.s = t;
+    hs.init();
+    ht.init();
+    for (int i = 1; i <= n; i++) {
+        if (hs.gethash(i, i+m-1) == ht.gethash(1, m)) {
+            int R = i + m;  // [1...n], [n+1...2n]
+            R %= n;
+            if (!R) R = n;
+            adj[i].push_back(R);
+        }
+    }
+    memset(dp, -1, sizeof(dp));
+    memset(vis, -1, sizeof(vis));
+    int ans = 0;
+    for (int i = 1; i <= n; i++) {
+        if (dp[i] == -1) {
+            dfs(i, ++ID);
+            ans = max(ans, dp[i]);
+        }
+    }
+    if (ok) cout << ans << endl;
+    else cout << -1 << endl;
+}
+```
+
+{{% /fold %}}

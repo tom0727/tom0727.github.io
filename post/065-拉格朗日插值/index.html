@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/065-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="拉格朗日插值" />
 <meta property="og:description" content="拉格朗日插值 给定 $n$ 个点，我们可以确定唯一的最高 degree 为 $(n-1)$ 的多项式。 设多项式为 $f(x)$，第 $i$ 个点的坐标为 $(x_i,y_i)$，那么这个多项式" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/065-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/" />
+<meta property="og:url" content="https://tom0727.github.io/post/065-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-01-12T12:43:19+08:00" />
-<meta property="article:modified_time" content="2023-02-17T00:36:27+00:00" />
+<meta property="article:modified_time" content="2023-01-03T21:48:46-06:00" />
+
 <meta itemprop="name" content="拉格朗日插值">
-<meta itemprop="description" content="拉格朗日插值 给定 $n$ 个点，我们可以确定唯一的最高 degree 为 $(n-1)$ 的多项式。 设多项式为 $f(x)$，第 $i$ 个点的坐标为 $(x_i,y_i)$，那么这个多项式">
-<meta itemprop="datePublished" content="2022-01-12T12:43:19&#43;08:00" />
-<meta itemprop="dateModified" content="2023-02-17T00:36:27&#43;00:00" />
-<meta itemprop="wordCount" content="2899">
-
-
-
+<meta itemprop="description" content="拉格朗日插值 给定 $n$ 个点，我们可以确定唯一的最高 degree 为 $(n-1)$ 的多项式。 设多项式为 $f(x)$，第 $i$ 个点的坐标为 $(x_i,y_i)$，那么这个多项式"><meta itemprop="datePublished" content="2022-01-12T12:43:19+08:00" />
+<meta itemprop="dateModified" content="2023-01-03T21:48:46-06:00" />
+<meta itemprop="wordCount" content="2887">
 <meta itemprop="keywords" content="拉格朗日插值,," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="拉格朗日插值"/>
 <meta name="twitter:description" content="拉格朗日插值 给定 $n$ 个点，我们可以确定唯一的最高 degree 为 $(n-1)$ 的多项式。 设多项式为 $f(x)$，第 $i$ 个点的坐标为 $(x_i,y_i)$，那么这个多项式"/>
@@ -395,7 +392,7 @@ int main() {
 <p>但是，我们发现如果固定了 $i$，那么就只有一个变量 $j$ 了。</p>
 <p>看一下 $\sum\limits_{j=1}^k j * f(i,j)$ 中，$j$ 的最高系数是 $1 + k_1 + (i-1-k_1) + k_2 + (n-i-k_2) = n$。</p>
 <p>所以 $\sum\limits_{j=1}^k j * f(i,j)$ 是一个多项式，参考上面的常用模型，$\sum\limits_{j=1}^k a_j j^n$ 是一个 $deg = n+1$ 的多项式，需要 $(n+2)$ 个点来插值。</p>
-<p>插值的点，我们就选 $j&rsquo; = 1&hellip;55$，$x_{j&rsquo;} = j'$，而 $y_{j&rsquo;} = \sum\limits_{j'=1}^j f(i,j&rsquo;)$。插值结束后可以得到一个多项式 $h(x)$，直接求 $h(k)$ 的值即可。</p>
+<p>插值的点，我们就选 $j' = 1&hellip;55$，$x_{j'} = j'$，而 $y_{j'} = \sum\limits_{j'=1}^j f(i,j')$。插值结束后可以得到一个多项式 $h(x)$，直接求 $h(k)$ 的值即可。</p>
 <hr>
 <p>如果 $k \leq 55$ 使得插值的点数量不够呢？那对于较小的 $k$ 我们直接暴力计算就可以了。</p>
 </details>
@@ -561,8 +558,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-02-17 00:36:27 &#43;0000 UTC">2023-02-17</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/623bbeb6ff0853d55e502f77a68fc6380327bd3d" title="chore: update CF Problems" target="_blank">(623bbeb)</a>
+        <span title="2023-01-03 21:48:46 -0600 -0600">2023-01-03</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/1a1bf807ad8fdcc5625e4b75d67db4d60b25cef8" title="add 091" target="_blank">(1a1bf807)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/065-%e6%8b%89%e6%a0%bc%e6%9c%97%e6%97%a5%e6%8f%92%e5%80%bc.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -660,7 +657,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

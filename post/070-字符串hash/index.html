@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/070-%E5%AD%97%E7%AC%A6%E4%B8%B2hash/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="字符串Hash" />
 <meta property="og:description" content="介绍 字符串哈希可以在 $O(n)$ 时间内预处理一个字符串，然后在 $O(1)$ 的时间内查询任何字串的哈希值。 一般来讲我们从左往右 build 哈希值，一个 string $a_1a_2a_3&hellip;a_n$ 的哈希值为： $$a_1 p^{n-1} &#43;" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/070-%E5%AD%97%E7%AC%A6%E4%B8%B2hash/" />
+<meta property="og:url" content="https://tom0727.github.io/post/070-%E5%AD%97%E7%AC%A6%E4%B8%B2hash/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-08-28T23:23:53-05:00" />
-<meta property="article:modified_time" content="2023-02-17T00:36:27+00:00" />
+<meta property="article:modified_time" content="2023-02-19T17:26:39-06:00" />
+
 <meta itemprop="name" content="字符串Hash">
-<meta itemprop="description" content="介绍 字符串哈希可以在 $O(n)$ 时间内预处理一个字符串，然后在 $O(1)$ 的时间内查询任何字串的哈希值。 一般来讲我们从左往右 build 哈希值，一个 string $a_1a_2a_3&hellip;a_n$ 的哈希值为： $$a_1 p^{n-1} &#43;">
-<meta itemprop="datePublished" content="2022-08-28T23:23:53-05:00" />
-<meta itemprop="dateModified" content="2023-02-17T00:36:27&#43;00:00" />
-<meta itemprop="wordCount" content="3729">
-
-
-
+<meta itemprop="description" content="介绍 字符串哈希可以在 $O(n)$ 时间内预处理一个字符串，然后在 $O(1)$ 的时间内查询任何字串的哈希值。 一般来讲我们从左往右 build 哈希值，一个 string $a_1a_2a_3&hellip;a_n$ 的哈希值为： $$a_1 p^{n-1} &#43;"><meta itemprop="datePublished" content="2022-08-28T23:23:53-05:00" />
+<meta itemprop="dateModified" content="2023-02-19T17:26:39-06:00" />
+<meta itemprop="wordCount" content="4212">
 <meta itemprop="keywords" content="字符串,Hash," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="字符串Hash"/>
 <meta name="twitter:description" content="介绍 字符串哈希可以在 $O(n)$ 时间内预处理一个字符串，然后在 $O(1)$ 的时间内查询任何字串的哈希值。 一般来讲我们从左往右 build 哈希值，一个 string $a_1a_2a_3&hellip;a_n$ 的哈希值为： $$a_1 p^{n-1} &#43;"/>
@@ -160,6 +157,7 @@
             <li><a href="#例1-cf1721ehttpscodeforcescomcontest1721probleme">例1 <a href="https://codeforces.com/contest/1721/problem/E">CF1721E</a></a></li>
             <li><a href="#例2-洛谷p4287-shoi2011双倍回文httpswwwluogucomcnproblemp4287">例2 <a href="https://www.luogu.com.cn/problem/P4287">洛谷P4287 [SHOI2011]双倍回文</a></a></li>
             <li><a href="#例3-icpc2018南京m-mediocre-string-problemhttpscodeforcescomgym101981attachmentsdownload789120182019-acmicpc-asia-nanjing-regional-contest-enpdf">例3 <a href="https://codeforces.com/gym/101981/attachments/download/7891/20182019-acmicpc-asia-nanjing-regional-contest-en.pdf">ICPC2018南京M Mediocre String Problem</a></a></li>
+            <li><a href="#例4-atcoder-abc135f-strings-of-eternityhttpsatcoderjpcontestsabc135tasksabc135_f">例4 Atcoder ABC135F. <a href="https://atcoder.jp/contests/abc135/tasks/abc135_f">Strings of Eternity</a></a></li>
           </ul>
         </li>
       </ul>
@@ -729,6 +727,74 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例4-atcoder-abc135f-strings-of-eternityhttpsatcoderjpcontestsabc135tasksabc135_f">例4 Atcoder ABC135F. <a href="https://atcoder.jp/contests/abc135/tasks/abc135_f" target="_blank">Strings of Eternity</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定两个string $s,t$，求一个最大的 $i$，使得存在一个 $j \geq 0$，使得 $t$ 的 $i$ 个copy是 $s$ 的 $j$ 个copy的一个substring。</p>
+<p>如果这个 $i$ 可能是无穷大，输出 $-1$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>思路巧妙的图论题。</p>
+<p>我们先考虑 $i=1$ 的情况，这说明 $t$ 从 $s$ 的一个后缀开始，经过 $s$ 的一些copy，然后到 $s$ 的某一个前缀结束。</p>
+<p>所以可以看作是从 $s$ 的一个index $u$ 到了另外一个index $v$。</p>
+<p>于是我们连边 $(u,v+1)$。</p>
+<p>那么 $i &gt; 1$ 的情况就可以递推得到：也就是顺着这些边走 $i$ 次。</p>
+<p>所以如果最后图中有环，就是 $-1$，没有环的话，只要看在图中最深能走多远即可。</p>
+<p>• 我们用字符串哈希来 $O(1)$ 找出每一个 $u$ 出发，能走到哪个 $v$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+StringHash hs, ht;
+vector&lt;int&gt; adj[maxn];
+int dp[maxn], vis[maxn];
+bool ok = 1;
+int ID = 0;
+void dfs(int u, int p) {
+    dp[u] = 0;
+    vis[u] = ID;
+    for (int v : adj[u]) {
+        if (dp[v] != -1 &amp;&amp; vis[v] == ID) {
+            ok = 0;
+            return;
+        }
+        dfs(v, p);
+        dp[u] = dp[v] + 1;
+    }
+}
+
+int main() {
+    p_init();
+    string s, t;
+    cin &gt;&gt; s &gt;&gt; t;
+    int n = s.size(), m = t.size();
+    while (s.size() &lt; 1e6) s += s;
+    hs.s = s;
+    ht.s = t;
+    hs.init();
+    ht.init();
+    for (int i = 1; i &lt;= n; i++) {
+        if (hs.gethash(i, i+m-1) == ht.gethash(1, m)) {
+            int R = i + m;  // [1...n], [n+1...2n]
+            R %= n;
+            if (!R) R = n;
+            adj[i].push_back(R);
+        }
+    }
+    memset(dp, -1, sizeof(dp));
+    memset(vis, -1, sizeof(vis));
+    int ans = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        if (dp[i] == -1) {
+            dfs(i, ++ID);
+            ans = max(ans, dp[i]);
+        }
+    }
+    if (ok) cout &lt;&lt; ans &lt;&lt; endl;
+    else cout &lt;&lt; -1 &lt;&lt; endl;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -740,8 +806,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-02-17 00:36:27 &#43;0000 UTC">2023-02-17</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/623bbeb6ff0853d55e502f77a68fc6380327bd3d" title="chore: update CF Problems" target="_blank">(623bbeb)</a>
+        <span title="2023-02-19 17:26:39 -0600 -0600">2023-02-19</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/281f5081f7c69fd42e2918b7e97d1c7afc1bae47" title="update many posts" target="_blank">(281f5081)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/070-%e5%ad%97%e7%ac%a6%e4%b8%b2hash.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -839,7 +905,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

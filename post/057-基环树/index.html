@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/057-%E5%9F%BA%E7%8E%AF%E6%A0%91/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="基环树" />
 <meta property="og:description" content="定义 基环树指的是一个 $n$ 个节点，$n$ 条边的联通图。 叫基环树的原因是：给定一棵树，在这棵树上加上 任意一条边，就可以形成一个基环树了。 基环树的性" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/057-%E5%9F%BA%E7%8E%AF%E6%A0%91/" />
+<meta property="og:url" content="https://tom0727.github.io/post/057-%E5%9F%BA%E7%8E%AF%E6%A0%91/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-11-16T15:38:25+08:00" />
-<meta property="article:modified_time" content="2023-02-17T00:36:27+00:00" />
+<meta property="article:modified_time" content="2023-02-19T17:26:39-06:00" />
+
 <meta itemprop="name" content="基环树">
-<meta itemprop="description" content="定义 基环树指的是一个 $n$ 个节点，$n$ 条边的联通图。 叫基环树的原因是：给定一棵树，在这棵树上加上 任意一条边，就可以形成一个基环树了。 基环树的性">
-<meta itemprop="datePublished" content="2021-11-16T15:38:25&#43;08:00" />
-<meta itemprop="dateModified" content="2023-02-17T00:36:27&#43;00:00" />
-<meta itemprop="wordCount" content="4227">
-
-
-
+<meta itemprop="description" content="定义 基环树指的是一个 $n$ 个节点，$n$ 条边的联通图。 叫基环树的原因是：给定一棵树，在这棵树上加上 任意一条边，就可以形成一个基环树了。 基环树的性"><meta itemprop="datePublished" content="2021-11-16T15:38:25+08:00" />
+<meta itemprop="dateModified" content="2023-02-19T17:26:39-06:00" />
+<meta itemprop="wordCount" content="5006">
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="基环树"/>
 <meta name="twitter:description" content="定义 基环树指的是一个 $n$ 个节点，$n$ 条边的联通图。 叫基环树的原因是：给定一棵树，在这棵树上加上 任意一条边，就可以形成一个基环树了。 基环树的性"/>
@@ -151,6 +148,7 @@
             <li><a href="#例1-洛谷p2607-zjoi2008骑士httpswwwluogucomcnproblemp2607">例1 <a href="https://www.luogu.com.cn/problem/P2607">洛谷P2607 [ZJOI2008]骑士</a></a></li>
             <li><a href="#例2-洛谷p4381-ioi2008-islandhttpswwwluogucomcnproblemp4381">例2 <a href="https://www.luogu.com.cn/problem/P4381">洛谷P4381 [IOI2008] Island</a></a></li>
             <li><a href="#例3-洛谷p1399-noi2013-快餐店httpswwwluogucomcnproblemp1399">例3 <a href="https://www.luogu.com.cn/problem/P1399">洛谷P1399 [NOI2013] 快餐店</a></a></li>
+            <li><a href="#例4-bapc2022h-house-numberinghttpscodeforcescomgroupitwaiiibnwcontest426004problemh">例4 BAPC2022H. <a href="https://codeforces.com/group/ItWAIIIbNw/contest/426004/problem/H">House Numbering</a></a></li>
           </ul>
         </li>
       </ul>
@@ -163,7 +161,11 @@
       <h2 id="定义">定义</h2>
 <p>基环树指的是一个 $n$ 个节点，$n$ 条边的联通图。</p>
 <p>叫基环树的原因是：给定一棵树，在这棵树上加上 <strong>任意一条边</strong>，就可以形成一个基环树了。</p>
-<p>基环树的性质很优秀，因为去掉环上的任意一条边，就可以转化为一棵树。</p>
+<p>基环树的性质很优秀，比如：</p>
+<ol>
+<li>去掉环上的任意一条边，就可以转化为一棵树。</li>
+<li>基环树可以看作一个环上挂了很多棵子树，如果将环缩成一个点，那么得到的就是一棵树。</li>
+</ol>
 <p>所以基环树的常用套路有：</p>
 <ol>
 <li>找环，然后删掉环上的任意一条边 $(u,v)$，对 $u$ 为根的树进行一次树形DP（并强制不选 $u$），再对 $v$ 为根的树进行一次树形DP（并强制不选 $v$）。</li>
@@ -282,12 +284,12 @@ int main() {
 <p>所以答案就是</p>
 <p>$$\max_{(u,v)}\{d(u)+d(v)+dis(u,v)\}$$</p>
 <p>但找这样的 $(u,v)$ 是 $O(n^2)$ 的，考虑一下如何优化？</p>
-<p>如果我们将一个环 $1,2,3,&hellip;,n$ 断开，并复制一份，得到 $1,2,3,&hellip;,n,1&rsquo;,2&rsquo;,3&rsquo;,&hellip;,n'$，则我们可以快速的算出 $dis(u,v)$。</p>
+<p>如果我们将一个环 $1,2,3,&hellip;,n$ 断开，并复制一份，得到 $1,2,3,&hellip;,n,1',2',3',&hellip;,n'$，则我们可以快速的算出 $dis(u,v)$。</p>
 <p>不妨设 $u&lt;v$，并且求一个距离的前缀和 $a[]$，其中 $a[i]=a[i-1]+w(i-1,i)$。</p>
 <p>那么</p>
 <p>$$\max_{(u,v)}\{d(u)+d(v)+dis(u,v)\}$$</p>
 <p>就可以写成</p>
-<p>$$\max_{(u,v)}\{d(u)+d(v)+a[v]-a[u]\}, u,v\in[1,n] \cup [1&rsquo;,n&rsquo;], (v-u) \in [1, n-1]$$</p>
+<p>$$\max_{(u,v)}\{d(u)+d(v)+a[v]-a[u]\}, u,v\in[1,n] \cup [1',n'], (v-u) \in [1, n-1]$$</p>
 <p>当 $v$ 确定时，我们要求的实际上就是</p>
 <p>$$\max_u \{d(u) - a[u]\}, u \in [v-n+1,v-1]$$</p>
 <p>这就是个单调队列优化dp。</p>
@@ -759,6 +761,144 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例4-bapc2022h-house-numberinghttpscodeforcescomgroupitwaiiibnwcontest426004problemh">例4 BAPC2022H. <a href="https://codeforces.com/group/ItWAIIIbNw/contest/426004/problem/H" target="_blank">House Numbering</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个点，$n$ 条边的联通无向图。</p>
+<p>每条边有一个权值 $w$，意味着这条边的两端需要分别标上 $1,w$ 或者 $w,1$。</p>
+<p>问是否存在一种方案，使得所有点的边上没有被标上相同的元素。有，则输出方案。</p>
+<p>其中，$n \leq 10^5$，所有边的 $w &gt; 1$。</p>
+<p><img src="/images/057/5.jpg" alt="img"></p>
+<p>如图，这就是一种合理标号方式，其中 $w_{1,2}=2, w_{2,3}=9, w_{1,3}=3$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先注意这是一个基环树。所以要围绕环做文章。</p>
+<p>经过一段时间的观察后可以发现，如果我们把这个看作一个有向图，箭头指向的点会获得这个边的 $1$，另外一个点获得 $w$，那么所有不在环上的，都应该是向外指的。</p>
+<p>因为一旦有一个向内指的，环上一旦出现一个来自于树的 $1$，那么就不成立了。</p>
+<p>所以不在环上的部分都可以决定了。</p>
+<p>剩下的只有环了。</p>
+<p>可以发现环要么是顺时针指，要么是逆时针指，所以只要判断这两个情况就行。</p>
+<p><img src="/images/057/6.jpg" alt="img"></p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+int n;
+struct Edge {
+    int to, nxt, w;
+    int idx;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 2;
+void addEdge(int u, int v, int w, int idx) {
+    Edge e = {v, head[u], w, idx};
+    head[u] = ecnt;
+    edges[ecnt++] = e;
+}
+
+bool iscycle[maxn];
+bool vis[maxn];
+int cu, cv, cidx, pre[maxn];
+bool found = 0;
+void dfs(int u) {
+    vis[u] = 1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to, w = edges[e].w;
+        if (v == pre[u]) continue;
+        if (vis[v]) {
+            if (found) return;
+            found = 1;
+            int cur = u;
+            while (cur != v) {
+                iscycle[cur] = 1;
+                cur = pre[cur];
+            }
+            iscycle[v] = 1;
+
+            cu = u, cv = v;
+            cidx = edges[e].idx;
+        } else {
+            pre[v] = u;
+            dfs(v);
+        }
+    }
+}
+
+int ans[maxn];
+void dfs2(int u, int p, int f) {
+    vis[u] = 1;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to, w = edges[e].w, idx = edges[e].idx;
+        if (v == p) continue;
+        if (vis[v]) {
+            if (!found) ans[idx] = (f ? u : v), found = 1;
+            continue;
+        }
+
+        if (!iscycle[v]) {  // then must point to v
+            ans[idx] = v;
+        } else {
+            assert(iscycle[u] &amp;&amp; iscycle[v]);
+            if (f) {
+                ans[idx] = u;
+            } else {
+                ans[idx] = v;
+            }
+        }
+        dfs2(v, u, f);
+    }
+}
+
+bool check() {
+    for (int u = 1; u &lt;= n; u++) {
+        set&lt;int&gt; se;
+        int cnt = 0;
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int v = edges[e].to, w = edges[e].w, idx = edges[e].idx;
+            if (ans[idx] == u) se.insert(1);
+            else se.insert(w);
+            cnt++;
+        }
+        if (se.size() != cnt) return 0;
+    }
+    return 1;
+}
+
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        int u,v,w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        addEdge(u,v,w,i);
+        addEdge(v,u,w,i);
+    }
+
+    dfs(1);
+
+    memset(vis, 0, sizeof(vis));
+    found = 0;
+    dfs2(cu, -1, 0);  // start with any point on the cycle
+
+    if (check()) {
+        for (int i = 1; i &lt;= n; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot; &quot;;
+        cout &lt;&lt; &quot;\n&quot;;
+        return 0;
+    }
+
+
+    memset(vis, 0, sizeof(vis));
+    found = 0;
+    dfs2(cu, -1, 1);  // start with any point on the cycle
+
+    if (check()) {
+        for (int i = 1; i &lt;= n; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot; &quot;;
+        cout &lt;&lt; &quot;\n&quot;;
+        return 0;
+    }
+
+    cout &lt;&lt; &quot;impossible\n&quot;;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -770,8 +910,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-02-17 00:36:27 &#43;0000 UTC">2023-02-17</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/623bbeb6ff0853d55e502f77a68fc6380327bd3d" title="chore: update CF Problems" target="_blank">(623bbeb)</a>
+        <span title="2023-02-19 17:26:39 -0600 -0600">2023-02-19</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/281f5081f7c69fd42e2918b7e97d1c7afc1bae47" title="update many posts" target="_blank">(281f5081)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/057-%e5%9f%ba%e7%8e%af%e6%a0%91.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -869,7 +1009,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

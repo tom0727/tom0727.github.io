@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="树形dp" />
 <meta property="og:description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" />
+<meta property="og:url" content="https://tom0727.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-02-18T15:42:09+08:00" />
-<meta property="article:modified_time" content="2023-02-17T00:36:27+00:00" />
+<meta property="article:modified_time" content="2023-02-19T17:26:39-06:00" />
+
 <meta itemprop="name" content="树形dp">
-<meta itemprop="description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP">
-<meta itemprop="datePublished" content="2021-02-18T15:42:09&#43;08:00" />
-<meta itemprop="dateModified" content="2023-02-17T00:36:27&#43;00:00" />
-<meta itemprop="wordCount" content="4668">
-
-
-
+<meta itemprop="description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP"><meta itemprop="datePublished" content="2021-02-18T15:42:09+08:00" />
+<meta itemprop="dateModified" content="2023-02-19T17:26:39-06:00" />
+<meta itemprop="wordCount" content="5387">
 <meta itemprop="keywords" content="树形dp,dp优化," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="树形dp"/>
 <meta name="twitter:description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP"/>
@@ -160,6 +157,7 @@
             <li><a href="#例3-洛谷p4395-boi2003gem-气垫车httpswwwluogucomcnproblemp4395">例3 <a href="https://www.luogu.com.cn/problem/P4395">洛谷P4395 [BOI2003]Gem 气垫车</a></a></li>
             <li><a href="#例4-洛谷p3177-haoi2015树上染色httpswwwluogucomcnproblemp3177">例4 <a href="https://www.luogu.com.cn/problem/P3177">洛谷P3177 [HAOI2015]树上染色</a></a></li>
             <li><a href="#例5-1到n经过特定点的最短路">例5 [1到n经过特定点的最短路]</a></li>
+            <li><a href="#例6-naq2017e-company-picnichttpsvjudgenetcontest539014probleme">例6 NAQ2017E. <a href="https://vjudge.net/contest/539014#problem/E">Company Picnic</a></a></li>
           </ul>
         </li>
       </ul>
@@ -260,7 +258,7 @@
 <p>时间复杂度：$O(n^2)$</p>
 <p>证明：我们考虑每一个 <code>nei</code> <strong>被用来转移</strong> 的次数，会发现它只会在计算它的 parent 的dp值时才会被拿来统计，又因为每一个节点只有1个parent，所以每个节点对应的子树都只会被统计一次。</p>
 <p>所以时间复杂度就是 $T(\sum\limits_{i=1}^n i * sz[i]) = O(n^2)$</p>
-<p>更严谨的数学证明可以参见 <a href="https://www.luogu.com.cn/blog/Chenxiao-Yan/solution-p4322">https://www.luogu.com.cn/blog/Chenxiao-Yan/solution-p4322</a></p>
+<p>更严谨的数学证明可以参见 <a href="https://www.luogu.com.cn/blog/Chenxiao-Yan/solution-p4322" target="_blank">https://www.luogu.com.cn/blog/Chenxiao-Yan/solution-p4322</a></p>
 </details>
 <details class="admonition note"><summary class="admonition-title">luogu-P2014-AC代码</summary>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
@@ -682,6 +680,113 @@ int main() {
 <p>如何打标记？</p>
 <p>只要一次dfs即可，每次dfs时判断这个子树里面有没有需要标记的点，如果有，这条边就打上标记。</p>
 </details>
+<h3 id="例6-naq2017e-company-picnichttpsvjudgenetcontest539014probleme">例6 NAQ2017E. <a href="https://vjudge.net/contest/539014#problem/E" target="_blank">Company Picnic</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵树，每个节点有权值 $w_i$。</p>
+<p>定义一组节点为：两个直接相连的节点 $i,j$，这组节点的权值定义为 $\min (w_i,w_j)$。</p>
+<p>求选出若干组节点的方法，使得每组节点用到的点各不相同，并且满足选出节点组数最多。</p>
+<p>在节点组数量最多的情况下，求出这些节点的权值和最大值。</p>
+<p>其中，$2 \leq n \leq 1000, w_i \in [2.2,5.3]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>这个题需要维护最多节点组数，还要维护权值和最大值。所以 <code>dp</code> 数组维护两个值。</p>
+<p>定义 $dp(u,0)$ 为：$u$ 的parent没有选它，$dp(u,1)$ 则是选了它的。</p>
+<p>dp 值则是一个pair：<code>&lt;int, double&gt;</code>，代表子树中最大的节点组数，以及对应的最大权值和。</p>
+<p>在转移的时候，注意到 $dp(u,1)$ 不能选任何 $dp(v,1)$ 转移。而 $dp(u,0)$ 只能选一个 $dp(v,1)$ 转移（或者也可以不选）。</p>
+<p>转移的过程中，优先更新第一个值（节点组数），如果第一个值相等，再更新第二个值（权值和最大值）。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e3+5;
+
+pair&lt;int,double&gt; dp[maxn][2];
+vector&lt;string&gt; adj[maxn];
+map&lt;string, int&gt; mp;
+double sp[maxn];
+struct Edge {
+    int to, nxt;
+} edges[maxn&lt;&lt;1];
+int head[maxn], ecnt = 1;
+void addEdge(int u, int v) {
+    Edge e = {v, head[u]};
+    edges[ecnt] = e;
+    head[u] = ecnt++;
+}
+int rt;
+
+void dfs(int u, int p) {
+    int cnt = 0, b = 0;  // b: 最优转移 1 的点v
+    double sum = 0;
+    // 0 的情况
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p) continue;
+        dfs(v, u);
+        cnt += dp[v][0].first;
+        sum += dp[v][0].second;
+        if (b == 0) b = v;
+        else if (dp[v][1].first - dp[v][0].first &gt; dp[b][1].first - dp[b][0].first) {
+            b = v;
+        } else if (dp[v][1].first - dp[v][0].first == dp[b][1].first - dp[b][0].first &amp;&amp; 
+            min(sp[u], sp[v]) + dp[v][1].second - dp[v][0].second &gt; min(sp[u], sp[b]) + dp[b][1].second - dp[b][0].second) {
+            b = v;
+        }
+        
+    }
+
+    if (!b) return;
+
+    cnt -= dp[b][0].first;
+    cnt += dp[b][1].first;
+    sum -= dp[b][0].second;
+    sum += min(sp[u], sp[b]) + dp[b][1].second;
+
+    dp[u][0].first = cnt + 1;
+    dp[u][0].second = sum;
+
+    cnt = 0, sum = 0;
+    for (int e = head[u]; e; e = edges[e].nxt) {
+        int v = edges[e].to;
+        if (v == p) continue;
+        cnt += dp[v][0].first;
+        sum += dp[v][0].second;
+    }
+    dp[u][1].first = cnt;
+    dp[u][1].second = sum;
+
+    if (cnt &gt; dp[u][0].first || (cnt == dp[u][0].first &amp;&amp; sum &gt; dp[u][0].second)) {
+        dp[u][0].first = cnt;
+        dp[u][0].second = sum;
+    }
+}
+
+int main() {
+    fastio;
+    int n; cin &gt;&gt; n;
+    int id = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        string s; cin &gt;&gt; s;
+        if (!mp.count(s) &amp;&amp; s != &quot;CEO&quot;) mp[s] = ++id;
+        double w; cin &gt;&gt; w;
+        string t; cin &gt;&gt; t;
+        if (!mp.count(t) &amp;&amp; t != &quot;CEO&quot;) mp[t] = ++id;
+
+        int u = mp[s], v = mp[t];
+        if (t == &quot;CEO&quot;) {
+            rt = u;
+        } else { 
+            addEdge(u,v);
+            addEdge(v,u);
+        }
+        sp[u] = w;
+    }
+    dfs(rt, -1);
+    cout &lt;&lt; dp[rt][0].first &lt;&lt; &quot; &quot; &lt;&lt; dp[rt][0].second / dp[rt][0].first &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -693,8 +798,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-02-17 00:36:27 &#43;0000 UTC">2023-02-17</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/623bbeb6ff0853d55e502f77a68fc6380327bd3d" title="chore: update CF Problems" target="_blank">(623bbeb)</a>
+        <span title="2023-02-19 17:26:39 -0600 -0600">2023-02-19</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/281f5081f7c69fd42e2918b7e97d1c7afc1bae47" title="update many posts" target="_blank">(281f5081)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/008-%e6%a0%91%e5%bd%a2dp.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -792,7 +897,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

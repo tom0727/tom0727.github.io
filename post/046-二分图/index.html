@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/046-%E4%BA%8C%E5%88%86%E5%9B%BE/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="二分图 &amp; 二分图匹配" />
 <meta property="og:description" content="二分图 - 定义 二分图是一种特殊的无向图，可以将点集划分为两部分，在同一集合中的节点之间没有 edge。 二分图 - 性质 二分图 $\iff$ 图中没有奇环（指节点个" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/046-%E4%BA%8C%E5%88%86%E5%9B%BE/" />
+<meta property="og:url" content="https://tom0727.github.io/post/046-%E4%BA%8C%E5%88%86%E5%9B%BE/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-05-30T22:31:30+08:00" />
-<meta property="article:modified_time" content="2023-02-17T00:36:27+00:00" />
+<meta property="article:modified_time" content="2023-02-19T17:26:39-06:00" />
+
 <meta itemprop="name" content="二分图 &amp; 二分图匹配">
-<meta itemprop="description" content="二分图 - 定义 二分图是一种特殊的无向图，可以将点集划分为两部分，在同一集合中的节点之间没有 edge。 二分图 - 性质 二分图 $\iff$ 图中没有奇环（指节点个">
-<meta itemprop="datePublished" content="2021-05-30T22:31:30&#43;08:00" />
-<meta itemprop="dateModified" content="2023-02-17T00:36:27&#43;00:00" />
-<meta itemprop="wordCount" content="4195">
-
-
-
+<meta itemprop="description" content="二分图 - 定义 二分图是一种特殊的无向图，可以将点集划分为两部分，在同一集合中的节点之间没有 edge。 二分图 - 性质 二分图 $\iff$ 图中没有奇环（指节点个"><meta itemprop="datePublished" content="2021-05-30T22:31:30+08:00" />
+<meta itemprop="dateModified" content="2023-02-19T17:26:39-06:00" />
+<meta itemprop="wordCount" content="5008">
 <meta itemprop="keywords" content="二分图,二分图匹配," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="二分图 &amp; 二分图匹配"/>
 <meta name="twitter:description" content="二分图 - 定义 二分图是一种特殊的无向图，可以将点集划分为两部分，在同一集合中的节点之间没有 edge。 二分图 - 性质 二分图 $\iff$ 图中没有奇环（指节点个"/>
@@ -149,6 +146,11 @@
         <li><a href="#二分图---定义">二分图 - 定义</a></li>
         <li><a href="#二分图---性质">二分图 - 性质</a></li>
         <li><a href="#二分图染色">二分图染色</a></li>
+        <li><a href="#模型转化">模型转化</a>
+          <ul>
+            <li><a href="#网格二分图">网格二分图</a></li>
+          </ul>
+        </li>
         <li><a href="#例题">例题</a>
           <ul>
             <li><a href="#例1-cf741c-arpas-overnight-party-and-mehrdads-silent-enteringhttpswwwluogucomcnproblemcf741c">例1 <a href="https://www.luogu.com.cn/problem/CF741C">CF741C Arpa’s overnight party and Mehrdad’s silent entering</a></a></li>
@@ -157,7 +159,13 @@
         </li>
         <li><a href="#二分图匹配---定义">二分图匹配 - 定义</a></li>
         <li><a href="#匈牙利算法求最大匹配">匈牙利算法求最大匹配</a></li>
-        <li><a href="#最大匹配最小点覆盖最大独立集最小边覆盖">最大匹配，最小点覆盖，最大独立集，最小边覆盖</a></li>
+        <li><a href="#最大匹配最小点覆盖最大独立集最小边覆盖">最大匹配，最小点覆盖，最大独立集，最小边覆盖</a>
+          <ul>
+            <li><a href="#最小点覆盖">最小点覆盖</a></li>
+            <li><a href="#最大独立集">最大独立集</a></li>
+            <li><a href="#最小边覆盖">最小边覆盖</a></li>
+          </ul>
+        </li>
         <li><a href="#例题-1">例题</a>
           <ul>
             <li><a href="#例1-洛谷p1963-noi2009-变换序列httpswwwluogucomcnproblemp1963">例1 <a href="https://www.luogu.com.cn/problem/P1963">洛谷P1963 NOI2009 变换序列</a></a></li>
@@ -185,6 +193,9 @@
 <li>随机选择一个点 $u$ 作为出发点，它的颜色为 $c_u = 0$。</li>
 <li>看它的 neighbor $v$ 的颜色，如果等于 $c_u$ ^ $1$，或者没染色，就染成 $c_u$ ^ $1$。否则的话产生冲突，说明这不是二分图。</li>
 </ol>
+<h2 id="模型转化">模型转化</h2>
+<h3 id="网格二分图">网格二分图</h3>
+<p>一个常见的套路，$n \times m$ 的矩阵中，某些格子之间有冲突（比如相邻的格子）。我们按照格子 $(i,j)$ 的和 $(i+j)$ 的<strong>奇偶性</strong> 将格子分为左部分的点和右部分的点，冲突的连边。</p>
 <h2 id="例题">例题</h2>
 <h3 id="例1-cf741c-arpas-overnight-party-and-mehrdads-silent-enteringhttpswwwluogucomcnproblemcf741c">例1 <a href="https://www.luogu.com.cn/problem/CF741C" target="_blank">CF741C Arpa’s overnight party and Mehrdad’s silent entering</a></h3>
 <div class="admonition question">
@@ -399,7 +410,37 @@ int main() {
 </ol>
 <p><strong>时间复杂度</strong>：每个男生都要询问所有女生，所以是 $O(nm)$（这里 $n$ 代表左边点集的数量，$m$ 代表右边点集）。</p>
 <h2 id="最大匹配最小点覆盖最大独立集最小边覆盖">最大匹配，最小点覆盖，最大独立集，最小边覆盖</h2>
-<p>TODO</p>
+<p>以下的 $N$ 指<strong>所有节点</strong>的数量，就是左节点和右节点的数量和。</p>
+<h3 id="最小点覆盖">最小点覆盖</h3>
+<p>定义：选择一个最小的<strong>点集</strong> $S\subset V$ 使得每一条边至少有一个端点在 $S$ 中。</p>
+<p>性质：最小点覆盖 $=$ 最大匹配。</p>
+<p>构造方法：从左边的每一个非匹配点（且未打上标记的）出发，沿着非匹配边正向（从左往右）进行遍历，沿着匹配边反向（从右往左）进行遍历。遍历到的所有点进行标记。</p>
+<p>选取左部分中没有被标记过的点，右部分中被标记过的点，则这些点可以形成该二分图的最小点覆盖。</p>
+<p><img src="/images/046/1.jpg" alt="img"></p>
+<p>证明：</p>
+<ol>
+<li>这个集合的大小等于最大匹配</li>
+</ol>
+<p>一条匹配的边两侧一定都有标记（在增广路上）或都没有标记（不在增广路上），如果有标记，右边的点会被算进去，没有标记的话，左边的点会被算进去，无论如何答案等于最大匹配。</p>
+<ol start="2">
+<li>所有边都被覆盖到了</li>
+</ol>
+<p>对于匹配边，肯定有一个端点被选中了（理由同上）。对于没有匹配的边，它一定会成为增广路的一部分（如果没有，说明增广路遍历过程尚未结束）。</p>
+<ol start="3">
+<li>它是最小的点覆盖</li>
+</ol>
+<p>为了覆盖所有边，不可能比最大匹配更小了，否则违反了最大匹配的定义。</p>
+<h3 id="最大独立集">最大独立集</h3>
+<p>定义：选择一个最大的<strong>点集</strong> $S \subset V$，使得 $\forall u,v \in S$，$(u,v)$ 之间没有边。</p>
+<p>性质：最小点覆盖 $= N -$ 最大匹配。</p>
+<p>构造方法：直接求最小点覆盖，然后取补集即可。</p>
+<p>证明：我们考虑一下每条边 $(u,v)$，根据定义，$u,v$ 中至少有一个在最小点覆盖中，所以 $u,v$ 中最多只能有一个在最小点覆盖的补集中。</p>
+<p>所以最小点覆盖的补集两两之间没有边。</p>
+<h3 id="最小边覆盖">最小边覆盖</h3>
+<p>定义：选择一个最小的<strong>边集</strong> $A \subset E$，使得这些边能够覆盖到所有的点。</p>
+<p>性质：最小边覆盖 $= N - $ 最大匹配。</p>
+<p>构造方式：设最大匹配为 $M$。先取所有的匹配边，每次能解决 $2$ 个点。对于剩下的没覆盖的点，随便取它的一条非匹配边来覆盖它。</p>
+<p>证明：根据以上构造，匹配边选了 $M$ 条，非匹配边选了 $N-2M$ 条。总共是 $M + N-2M = N-M$。</p>
 <h2 id="例题-1">例题</h2>
 <h3 id="例1-洛谷p1963-noi2009-变换序列httpswwwluogucomcnproblemp1963">例1 <a href="https://www.luogu.com.cn/problem/P1963" target="_blank">洛谷P1963 NOI2009 变换序列</a></h3>
 <div class="admonition question">
@@ -598,8 +639,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-02-17 00:36:27 &#43;0000 UTC">2023-02-17</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/623bbeb6ff0853d55e502f77a68fc6380327bd3d" title="chore: update CF Problems" target="_blank">(623bbeb)</a>
+        <span title="2023-02-19 17:26:39 -0600 -0600">2023-02-19</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/281f5081f7c69fd42e2918b7e97d1c7afc1bae47" title="update many posts" target="_blank">(281f5081)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/046-%e4%ba%8c%e5%88%86%e5%9b%be.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -697,7 +738,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

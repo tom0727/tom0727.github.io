@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/062-%E5%B9%B6%E6%9F%A5%E9%9B%86/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="并查集" />
 <meta property="og:description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/062-%E5%B9%B6%E6%9F%A5%E9%9B%86/" />
+<meta property="og:url" content="https://tom0727.github.io/post/062-%E5%B9%B6%E6%9F%A5%E9%9B%86/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-12-27T18:43:41+08:00" />
-<meta property="article:modified_time" content="2023-02-21T00:37:07+00:00" />
+<meta property="article:modified_time" content="2022-01-17T15:21:17+08:00" />
+
 <meta itemprop="name" content="并查集">
-<meta itemprop="description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的">
-<meta itemprop="datePublished" content="2021-12-27T18:43:41&#43;08:00" />
-<meta itemprop="dateModified" content="2023-02-21T00:37:07&#43;00:00" />
-<meta itemprop="wordCount" content="2672">
-
-
-
+<meta itemprop="description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的"><meta itemprop="datePublished" content="2021-12-27T18:43:41+08:00" />
+<meta itemprop="dateModified" content="2022-01-17T15:21:17+08:00" />
+<meta itemprop="wordCount" content="2666">
 <meta itemprop="keywords" content="并查集,," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="并查集"/>
 <meta name="twitter:description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的"/>
@@ -376,7 +373,7 @@ int main() {
 </div>
 <details class="admonition note"><summary class="admonition-title">题解</summary>
 <p>启发式合并并查集的题。</p>
-<p>第一反应是每次链接的时候，新建一个 parent 节点储存这是第几条边，然后把 $u&rsquo;, v'$ 作为它的两个 child。（$u&rsquo;,v'$ 是在 <code>finds(u), finds(v)</code> 得到的根节点）。类似于 kruskal 重构树的思路。</p>
+<p>第一反应是每次链接的时候，新建一个 parent 节点储存这是第几条边，然后把 $u', v'$ 作为它的两个 child。（$u',v'$ 是在 <code>finds(u), finds(v)</code> 得到的根节点）。类似于 kruskal 重构树的思路。</p>
 <p>然后每次询问 $1 ~ u ~ v$ 的时候，直接找到 LCA 位置的那个节点即可。</p>
 <hr>
 <p>这样是正确的，不过有个更优雅的写法：</p>
@@ -459,8 +456,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-02-21 00:37:07 &#43;0000 UTC">2023-02-21</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/bda427461ff3a6d05f77774702020fdd5118e73a" title="chore: update CF Problems" target="_blank">(bda4274)</a>
+        <span title="2022-01-17 15:21:17 &#43;0800 &#43;0800">2022-01-17</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/15d6d3e16959258d4ae97d975c47913f9d8063c2" title="add 064,065,066" target="_blank">(15d6d3e1)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/062-%e5%b9%b6%e6%9f%a5%e9%9b%86.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -558,7 +555,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>吉司机线段树（Segment Tree Beats） - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 吉司机线段树可以做到： 区间最大/最小操作（对一个区间内的所有数取 max 或者 min） 维护区间历史最值 我们直接看一道例题： 题意 给定一个数组 $a_1, a_2, &amp;hellip;" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/097-segment-tree-beats/" />
+<link rel="manifest" href="/manifest.json">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="吉司机线段树（Segment Tree Beats）" />
+<meta property="og:description" content="介绍 吉司机线段树可以做到： 区间最大/最小操作（对一个区间内的所有数取 max 或者 min） 维护区间历史最值 我们直接看一道例题： 题意 给定一个数组 $a_1, a_2, &hellip;" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/097-segment-tree-beats/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-02-22T15:48:08-06:00" />
+<meta property="article:modified_time" content="2023-02-25T23:09:27-06:00" />
+
+<meta itemprop="name" content="吉司机线段树（Segment Tree Beats）">
+<meta itemprop="description" content="介绍 吉司机线段树可以做到： 区间最大/最小操作（对一个区间内的所有数取 max 或者 min） 维护区间历史最值 我们直接看一道例题： 题意 给定一个数组 $a_1, a_2, &hellip;"><meta itemprop="datePublished" content="2023-02-22T15:48:08-06:00" />
+<meta itemprop="dateModified" content="2023-02-25T23:09:27-06:00" />
+<meta itemprop="wordCount" content="2799">
+<meta itemprop="keywords" content="线段树,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="吉司机线段树（Segment Tree Beats）"/>
+<meta name="twitter:description" content="介绍 吉司机线段树可以做到： 区间最大/最小操作（对一个区间内的所有数取 max 或者 min） 维护区间历史最值 我们直接看一道例题： 题意 给定一个数组 $a_1, a_2, &hellip;"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">吉司机线段树（Segment Tree Beats）</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-02-22 15:48:08 -0600 -0600"> 2023-02-22 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a>
+          <ul>
+            <li><a href="#区间历史最值">区间历史最值</a></li>
+            <li><a href="#区间取最小操作">区间取最小操作</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p4314-cpu-监控httpswwwluogucomcnproblemp4314">例1 洛谷P4314 <a href="https://www.luogu.com.cn/problem/P4314">CPU 监控</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>吉司机线段树可以做到：</p>
+<ol>
+<li>区间最大/最小操作（对一个区间内的所有数取 max 或者 min）</li>
+<li>维护区间历史最值</li>
+</ol>
+<p>我们直接看一道例题：</p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个数组 $a_1, a_2, &hellip; a_n$，同时给定一个数组 $b_1, b_2&hellip;, b_n$（初始状态下 $a,b$ 相同）。</p>
+<p>进行 $m$ 次操作，操作有 $5$ 种：</p>
+<p>$1 ~ l ~ r ~ x$：$\forall i \in [l,r]$，将 $a_i$ 加上 $x$。</p>
+<p>$2 ~ l ~ r ~ x$：$\forall i \in [l,r]$，将 $a_i$ 变成 $\min(a_i, x)$。</p>
+<p>$3 ~ l ~ r$：求 $[l,r]$ 之间 $a_i$ 的区间和。</p>
+<p>$4 ~ l ~ r$：求 $[l,r]$ 之间 $a_i$ 的区间最大值。</p>
+<p>$5 ~ l ~ r$：求 $[l,r]$ 之间 $b_i$ 的区间最大值。</p>
+<p>在每一次操作后，我们进行一次更新，使得 $\forall i \in [1,n], b_i \leftarrow \max(b_i, a_i)$。</p>
+</div>
+<p>吉司机线段树可以在 $O((n+m) \log^2n)$ 的时间内解决这个问题。</p>
+<p>具体的，我们先看一下线段树的节点需要维护什么。</p>
+<h3 id="区间历史最值">区间历史最值</h3>
+<p>先考虑第 $5$ 个操作。首先 $b_i$ 其实是一个历史最大值数组（即 $a_i$ 在任意时刻，所存放过的最大的值）。我们要求的是 $b_i$ 的区间最大值。</p>
+<p>在区间加的时候，我们会维护一个最大值的懒标记 <code>add1</code>。不过这个懒标记可能会被多次更新，所以我们只要维护在<strong>任意时刻</strong>，这个懒标记的最大值 <code>add3</code>（也就是懒标记本身的 <strong>历史最大值</strong>）即可。</p>
+<p>• 简而言之 <code>add3</code> 就是 <code>add1</code> 在任意时刻所达到的最大值。</p>
+<h3 id="区间取最小操作">区间取最小操作</h3>
+<p>区间怎么取最小？考虑一下，如果我们要对一个区间取 $\min$，要取的值是 $x$。</p>
+<p>那么假设这个区间只有 <strong>一种值</strong> 是 $&gt;x$ 的，那么就可以取最小了。</p>
+<p>所以我们需要维护区间的<strong>最大值 <code>maxa</code>，和次大值 <code>se</code></strong>。一个区间可以取 <code>min</code> 当且仅当 $se &lt; x &lt; maxa$。</p>
+<p>如果不满足这个条件，则要么直接退出（$x \geq maxa$），或者继续递归（$x &lt; maxa$）。</p>
+<p>由于我们需要维护次大值，而区间加也有可能会更新次大值，所以我们还需要 <strong>非最大值</strong>的懒标记 <code>add2</code>，同上理由还需要一个 <strong>非最大值懒标记</strong> 的历史最大值 <code>add4</code>。</p>
+<p>• 简而言之 <code>add4</code> 就是 <code>add2</code> 在任意时刻所达到的最大值。</p>
+<details class="admonition note"><summary class="admonition-title">模版</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 5e5+5;
+
+struct SegTreeBeats {
+    const int INF = 1e9;
+    int a[maxn];  // 原数组
+    struct Node {
+        ll sum;
+        int maxa, maxb, cnt, se;  
+        // maxa: 区间最大值, maxb: 区间历史最大值, cnt: 区间最大值的数量, se: 区间严格次大值
+        int add1, add2, add3, add4;
+        // add1: 区间最大值懒标记, add2: 区间非最大值懒标记, add3: 区间历史最大值懒标记, add4: 区间历史非最大值懒标记
+    } tr[maxn&lt;&lt;2];
+    void push_up(int cur) {
+        int lc = cur&lt;&lt;1, rc = cur&lt;&lt;1|1;
+        tr[cur].sum = tr[lc].sum + tr[rc].sum;
+        tr[cur].maxa = max(tr[lc].maxa, tr[rc].maxa);
+        tr[cur].maxb = max(tr[lc].maxb, tr[rc].maxb);
+        if (tr[lc].maxa == tr[rc].maxa) {
+            tr[cur].se = max(tr[lc].se, tr[rc].se);
+            tr[cur].cnt = tr[lc].cnt + tr[rc].cnt;
+        } else if (tr[lc].maxa &gt; tr[rc].maxa) {
+            tr[cur].se = max(tr[lc].se, tr[rc].maxa);
+            tr[cur].cnt = tr[lc].cnt;
+        } else {  // rc.maxa &gt; lc.maxa
+            tr[cur].se = max(tr[lc].maxa, tr[rc].se);
+            tr[cur].cnt = tr[rc].cnt;
+        }
+    }
+    void helper(int cur, int l, int r, ll k1, ll k2, ll k3, ll k4) {
+        tr[cur].sum += k1 * tr[cur].cnt + k2 * (r-l+1-tr[cur].cnt);
+        tr[cur].maxb = max((ll)tr[cur].maxb, tr[cur].maxa + k3);
+        tr[cur].maxa += k1;
+        if (tr[cur].se != -INF) tr[cur].se += k2;
+        tr[cur].add3 = max((ll)tr[cur].add3, tr[cur].add1 + k3);
+        tr[cur].add4 = max((ll)tr[cur].add4, tr[cur].add2 + k4);
+        tr[cur].add1 += k1, tr[cur].add2 += k2;
+    }
+    void push_down(int cur, int l, int r) {
+        int lc = cur&lt;&lt;1, rc = cur&lt;&lt;1|1;
+        int mx = max(tr[lc].maxa, tr[rc].maxa);
+        int mid = (l+r) &gt;&gt; 1;
+        if (tr[lc].maxa == mx) helper(lc, l, mid, tr[cur].add1, tr[cur].add2, tr[cur].add3, tr[cur].add4); // 注意这里是 1,2,3,4
+        else helper(lc, l, mid, tr[cur].add2, tr[cur].add2, tr[cur].add4, tr[cur].add4);  // 注意这里是 2,2,4,4
+        if (tr[rc].maxa == mx) helper(rc, mid+1, r, tr[cur].add1, tr[cur].add2, tr[cur].add3, tr[cur].add4);  // 注意这里是 1,2,3,4
+        else helper(rc, mid+1, r, tr[cur].add2, tr[cur].add2, tr[cur].add4, tr[cur].add4);  // 注意这里是 2,2,4,4
+        tr[cur].add1 = tr[cur].add2 = tr[cur].add3 = tr[cur].add4 = 0;
+    }
+    void build(int cur, int l, int r) {
+        if (l == r) {
+            tr[cur].sum = tr[cur].maxa = tr[cur].maxb = a[l];
+            tr[cur].cnt = 1;
+            tr[cur].se = -INF;
+            return;
+        }
+        int mid = (l+r) &gt;&gt; 1;
+        build(cur&lt;&lt;1, l, mid);
+        build(cur&lt;&lt;1|1, mid+1, r);
+        push_up(cur);
+    }
+    ll query_sum(int cur, int l, int r, int L, int R) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            return tr[cur].sum;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        ll res = 0;
+        if (L &lt;= mid) res += query_sum(cur&lt;&lt;1, l, mid, L, R);
+        if (R &gt; mid) res += query_sum(cur&lt;&lt;1|1, mid+1, r, L, R);
+        return res;
+    }
+    int query_maxa(int cur, int l, int r, int L, int R) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            return tr[cur].maxa;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        int res = -INF;
+        if (L &lt;= mid) res = max(res, query_maxa(cur&lt;&lt;1, l, mid, L, R));
+        if (R &gt; mid) res = max(res, query_maxa(cur&lt;&lt;1|1, mid+1, r, L, R));
+        return res;
+    }
+    int query_maxb(int cur, int l, int r, int L, int R) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            return tr[cur].maxb;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        int res = -INF;
+        if (L &lt;= mid) res = max(res, query_maxb(cur&lt;&lt;1, l, mid, L, R));
+        if (R &gt; mid) res = max(res, query_maxb(cur&lt;&lt;1|1, mid+1, r, L, R));
+        return res;
+    }
+    void update_add(int cur, int l, int r, int L, int R, ll x) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            tr[cur].sum += x * (r-l+1);
+            tr[cur].maxa += x;
+            tr[cur].maxb = max(tr[cur].maxb, tr[cur].maxa);
+            if (tr[cur].se != -INF) tr[cur].se += x;
+            tr[cur].add1 += x, tr[cur].add2 += x;
+            tr[cur].add3 = max(tr[cur].add3, tr[cur].add1);
+            tr[cur].add4 = max(tr[cur].add4, tr[cur].add2);
+            return;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) update_add(cur&lt;&lt;1, l, mid, L, R, x);
+        if (R &gt; mid) update_add(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+        push_up(cur);
+    }
+    void update_min(int cur, int l, int r, int L, int R, int x) {
+        if (x &gt;= tr[cur].maxa) return;
+        if (L &lt;= l &amp;&amp; R &gt;= r &amp;&amp; x &gt; tr[cur].se) {  // 保证 se &gt; x
+            ll k = tr[cur].maxa - x;  // 最大值减少的幅度
+            tr[cur].sum -= tr[cur].cnt * k;
+            tr[cur].maxa = x;
+            tr[cur].add1 -= k;
+            return;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) update_min(cur&lt;&lt;1, l, mid, L, R, x);
+        if (R &gt; mid) update_min(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+        push_up(cur);
+    }
+} seg;
+
+int n, m;
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; seg.a[i];
+    seg.build(1, 1, n);
+    while (m--) {
+        int op, l, r; cin &gt;&gt; op &gt;&gt; l &gt;&gt; r;
+        if (op == 1) {
+            ll x; cin &gt;&gt; x;
+            seg.update_add(1, 1, n, l, r, x);
+        } else if (op == 2) {
+            ll x; cin &gt;&gt; x;
+            seg.update_min(1, 1, n, l, r, x);
+        } else if (op == 3) {
+            cout &lt;&lt; seg.query_sum(1, 1, n, l, r) &lt;&lt; &quot;\n&quot;;
+        } else if (op == 4) {
+            cout &lt;&lt; seg.query_maxa(1, 1, n, l, r) &lt;&lt; &quot;\n&quot;;
+        } else {
+            cout &lt;&lt; seg.query_maxb(1, 1, n, l, r) &lt;&lt; &quot;\n&quot;;
+        }
+    }
+}
+</code></pre>
+</details>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p4314-cpu-监控httpswwwluogucomcnproblemp4314">例1 洛谷P4314 <a href="https://www.luogu.com.cn/problem/P4314" target="_blank">CPU 监控</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个数组 $a_1,a_2&hellip;,a_n$，有 $m$ 个询问。</p>
+<p>进行 $m$ 次操作，操作有 $4$ 种：</p>
+<p>$Q ~ l ~ r$：求 $[l,r]$ 之间 $a_i$ 的区间最大值。</p>
+<p>$A ~ l ~ r$：求 $[l,r]$ 之间 $a_i$ 的区间历史最大值。</p>
+<p>$P ~ l ~ r ~ x$：将 $[l,r]$ 之间的 $a_i$ 增加 $x$。</p>
+<p>$C ~ l ~ r ~ x$：将 $[l,r]$ 之间的 $a_i$ 变为 $x$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>题解链接：<a href="https://www.luogu.com.cn/blog/He-Ren/solution-p4314" target="_blank">https://www.luogu.com.cn/blog/He-Ren/solution-p4314</a></p>
+<p>带有区间赋值，维护历史最大值。</p>
+<p>我们对于一个区间，在 <code>push_down()</code> 之后，所有之前的操作都可以看作不存在。</p>
+<p>那么我们按照每次 <code>push_down()</code> 作为分隔符来考虑这些操作序列，以下的讨论都仅限于 <strong>一次 <code>push_down()</code> 以内的</strong>。</p>
+<p>一个区间的操作只有区间加和区间赋值，并且相邻的相同类型操作可以合并为一个。</p>
+<p>所以最终操作序列肯定可以被简化为 区间加 + 区间赋值 + 区间加 + 区间赋值 + 区间加 &hellip;</p>
+<p>我们可以发现，区间赋值后，所有的区间加操作都可以被重新看作为赋值，所以我们维护一个 <code>set_tag</code> 表示在此次 <code>push_down()</code> 内是否有赋值操作即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 5e5+5;
+struct SegTreeBeats {
+    const int INF = 2e9;
+    int a[maxn];  // 原数组
+    struct Node {
+        ll sum;
+        int maxa, maxb; 
+        // maxa: 区间最大值, maxb: 区间历史最大值, cnt: 区间最大值的数量, se: 区间严格次大值
+        int add1, add2;
+        int set1, set2;
+        bool set_tag;
+        // add1: 区间最大值懒标记, add2: 区间非最大值懒标记, add2: 区间历史最大值懒标记, add4: 区间历史非最大值懒标记
+    } tr[maxn&lt;&lt;2];
+    void push_up(int cur) {
+        int lc = cur&lt;&lt;1, rc = cur&lt;&lt;1|1;
+        tr[cur].maxa = max(tr[lc].maxa, tr[rc].maxa);
+        tr[cur].maxb = max(tr[lc].maxb, tr[rc].maxb);
+    }
+    void add_helper(int cur, ll x, ll max_add) {
+        if (tr[cur].set_tag) {
+            tr[cur].set2 = max((ll)tr[cur].set2, tr[cur].set1 + max_add);
+            tr[cur].maxb = max((ll)tr[cur].maxb, tr[cur].maxa + max_add);
+            tr[cur].maxa += x;
+            tr[cur].set1 += x;
+        } else {
+            tr[cur].add2 = max((ll)tr[cur].add2, tr[cur].add1 + max_add);
+            tr[cur].maxb = max((ll)tr[cur].maxb, tr[cur].maxa + max_add);
+            tr[cur].maxa += x;
+            tr[cur].add1 += x;
+        }
+    }
+    void set_helper(int cur, ll x, ll max_set) {
+        tr[cur].set2 = max((ll)(tr[cur].set2), max_set);
+        tr[cur].maxb = max((ll)tr[cur].maxb, max_set);
+        tr[cur].set_tag = 1;
+        tr[cur].maxa = tr[cur].set1 = x;
+    }
+    void push_down(int cur, int l, int r) {
+        int lc = cur&lt;&lt;1, rc = cur&lt;&lt;1|1;
+        add_helper(lc, tr[cur].add1, tr[cur].add2);
+        add_helper(rc, tr[cur].add1, tr[cur].add2);
+        tr[cur].add1 = tr[cur].add2 = 0;
+
+        if (tr[cur].set_tag) {
+            set_helper(lc, tr[cur].set1, tr[cur].set2);
+            set_helper(rc, tr[cur].set1, tr[cur].set2);
+            tr[cur].set_tag = 0;
+            tr[cur].set1 = tr[cur].set2 = 0;
+            return;
+        }
+    }
+    void build(int cur, int l, int r) {
+        if (l == r) {
+            tr[cur].sum = tr[cur].maxa = tr[cur].maxb = a[l];
+            return;
+        }
+        int mid = (l+r) &gt;&gt; 1;
+        build(cur&lt;&lt;1, l, mid);
+        build(cur&lt;&lt;1|1, mid+1, r);
+        push_up(cur);
+    }
+    ll query_sum(int cur, int l, int r, int L, int R) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            return tr[cur].sum;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        ll res = 0;
+        if (L &lt;= mid) res += query_sum(cur&lt;&lt;1, l, mid, L, R);
+        if (R &gt; mid) res += query_sum(cur&lt;&lt;1|1, mid+1, r, L, R);
+        return res;
+    }
+    int query_maxa(int cur, int l, int r, int L, int R) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            return tr[cur].maxa;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        int res = -INF;
+        if (L &lt;= mid) res = max(res, query_maxa(cur&lt;&lt;1, l, mid, L, R));
+        if (R &gt; mid) res = max(res, query_maxa(cur&lt;&lt;1|1, mid+1, r, L, R));
+        return res;
+    }
+    int query_maxb(int cur, int l, int r, int L, int R) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            return tr[cur].maxb;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        int res = -INF;
+        if (L &lt;= mid) res = max(res, query_maxb(cur&lt;&lt;1, l, mid, L, R));
+        if (R &gt; mid) res = max(res, query_maxb(cur&lt;&lt;1|1, mid+1, r, L, R));
+        return res;
+    }
+    void update_set(int cur, int l, int r, int L, int R, ll x) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            set_helper(cur, x, x);
+            return;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) update_set(cur&lt;&lt;1, l, mid, L, R, x);
+        if (R &gt; mid) update_set(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+        push_up(cur);
+    }
+    void update_add(int cur, int l, int r, int L, int R, ll x) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            add_helper(cur, x, x);
+            return;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) update_add(cur&lt;&lt;1, l, mid, L, R, x);
+        if (R &gt; mid) update_add(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+        push_up(cur);
+    }
+} seg;
+
+int n, m;
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; seg.a[i];
+    seg.build(1, 1, n);
+    cin &gt;&gt; m;
+    while (m--) {
+        char op; int l, r; 
+        cin &gt;&gt; op &gt;&gt; l &gt;&gt; r;
+        if (op == 'Q') {
+            cout &lt;&lt; seg.query_maxa(1, 1, n, l, r) &lt;&lt; &quot;\n&quot;;
+        } else if (op == 'A') {
+            cout &lt;&lt; seg.query_maxb(1, 1, n, l, r) &lt;&lt; &quot;\n&quot;;
+        } else if (op == 'P') {
+            ll x; cin &gt;&gt; x;
+            seg.update_add(1, 1, n, l, r, x);
+        } else if (op == 'C') {
+            ll x; cin &gt;&gt; x;
+            seg.update_set(1, 1, n, l, r, x);
+        }
+    }
+}
+</code></pre>
+</details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://www.luogu.com.cn/problem/P6242" target="_blank">https://www.luogu.com.cn/problem/P6242</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2023-02-25 23:09:27 -0600 -0600">2023-02-25</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/c2f667616679de14694c7dd3c527bf5c1d8c9e1f" title="add 096, 097" target="_blank">(c2f66761)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/097-segment-tree-beats.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">线段树</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">[置顶]竞赛注意事项/通用模版</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/096-bfs01/">
+            <span class="next-text nav-default">01BFS 最短路</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

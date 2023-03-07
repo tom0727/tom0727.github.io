@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.92.2 with theme even" />
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/085-icpc-2019-jakarta-regional/" />
@@ -31,21 +31,24 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="2019 Jakarta Regional" />
 <meta property="og:description" content="K. Addition Robot 题意 给定 $n$ 个字母 $s_1, s_2 &hellip;, s_n$，每个字母要么为 $A$ 要么为 $B$。 现在有 $Q$ 个询问，每个询问有两种类型： $1 ~ L ~ R$：将 $i \in [L,R]$ 的所有 $A$ 改成 $" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/085-icpc-2019-jakarta-regional/" /><meta property="article:section" content="post" />
+<meta property="og:url" content="https://tom0727.github.io/post/085-icpc-2019-jakarta-regional/" />
 <meta property="article:published_time" content="2022-12-23T18:57:28-06:00" />
-<meta property="article:modified_time" content="2022-12-29T23:30:16-06:00" />
-
+<meta property="article:modified_time" content="2023-03-05T22:30:03-06:00" />
 <meta itemprop="name" content="2019 Jakarta Regional">
-<meta itemprop="description" content="K. Addition Robot 题意 给定 $n$ 个字母 $s_1, s_2 &hellip;, s_n$，每个字母要么为 $A$ 要么为 $B$。 现在有 $Q$ 个询问，每个询问有两种类型： $1 ~ L ~ R$：将 $i \in [L,R]$ 的所有 $A$ 改成 $"><meta itemprop="datePublished" content="2022-12-23T18:57:28-06:00" />
-<meta itemprop="dateModified" content="2022-12-29T23:30:16-06:00" />
+<meta itemprop="description" content="K. Addition Robot 题意 给定 $n$ 个字母 $s_1, s_2 &hellip;, s_n$，每个字母要么为 $A$ 要么为 $B$。 现在有 $Q$ 个询问，每个询问有两种类型： $1 ~ L ~ R$：将 $i \in [L,R]$ 的所有 $A$ 改成 $">
+<meta itemprop="datePublished" content="2022-12-23T18:57:28-06:00" />
+<meta itemprop="dateModified" content="2023-03-05T22:30:03-06:00" />
 <meta itemprop="wordCount" content="2040">
+
+
+
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="2019 Jakarta Regional"/>
 <meta name="twitter:description" content="K. Addition Robot 题意 给定 $n$ 个字母 $s_1, s_2 &hellip;, s_n$，每个字母要么为 $A$ 要么为 $B$。 现在有 $Q$ 个询问，每个询问有两种类型： $1 ~ L ~ R$：将 $i \in [L,R]$ 的所有 $A$ 改成 $"/>
@@ -169,29 +172,29 @@
 <p>线段树。</p>
 <p>注意到这个 $a=a+b$，$b=a+b$，有没有想到 <strong>矩阵操作</strong>？</p>
 <p>设 $v = \begin{bmatrix}
-a \\
-b \\
+a \\<br>
+b \\<br>
 \end{bmatrix}$，那么设 $A = \begin{bmatrix}
-1 &amp; 1 \\
-0 &amp; 1 \\
+1 &amp; 1 \\<br>
+0 &amp; 1 \\<br>
 \end{bmatrix}, B = \begin{bmatrix}
-1 &amp; 0 \\
-1 &amp; 1 \\
+1 &amp; 0 \\<br>
+1 &amp; 1 \\<br>
 \end{bmatrix}$，就有</p>
 <p>$$Av = \begin{bmatrix} a+b \\ b \\ \end{bmatrix}, Bv = \begin{bmatrix} a \\ a+b \\ \end{bmatrix}$$</p>
 <p>所以线段树里面维护矩阵即可。</p>
 <hr>
 <p>现在考虑一下第一种询问怎么处理？</p>
 <p>第一种询问其实相当于保持矩阵不变，先把 $v = \begin{bmatrix}
-a \\
-b \\
+a \\<br>
+b \\<br>
 \end{bmatrix}$ 变成 $v‘ = \begin{bmatrix}
-b \\
-a \\
+b \\<br>
+a \\<br>
 \end{bmatrix}$，然后乘完矩阵以后，再上下对调变回来。</p>
 <p>这个操作本质上也是矩阵乘法，即令 $C = \begin{bmatrix}
-0 &amp; 1 \\
-1 &amp; 0 \\
+0 &amp; 1 \\<br>
+1 &amp; 0 \\<br>
 \end{bmatrix}$，假设原矩阵操作序列是 $M = (AABA)$，原操作序列得到的结果是 $Mv$，现在的结果是 $C(M(cv)) = CMCv = (CMC)v$。</p>
 <p>由此可知第一种询问就是将 $[L,R]$ 维护的矩阵 $M$ 变成了 $CMC$。</p>
 <p>进行一些手动计算以后可以发现这等效于将 $M$ 的两个对角线元素互换。</p>
@@ -445,8 +448,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-12-29 23:30:16 -0600 -0600">2022-12-29</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/f746531cf1be68a4559749f29b5e7dd2c149c6aa" title="Add 085-090" target="_blank">(f746531c)</a>
+        <span title="2023-03-05 22:30:03 -0600 -0600">2023-03-05</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/64347d158f604dcac3f5b46c7b5cd52d4a59baaf" title="add 098" target="_blank">(64347d1)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/085-ICPC-2019-Jakarta-regional.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -544,7 +547,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

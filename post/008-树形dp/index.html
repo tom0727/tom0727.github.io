@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="树形dp" />
 <meta property="og:description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" />
+<meta property="og:url" content="https://tom0727.github.io/post/008-%E6%A0%91%E5%BD%A2dp/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-02-18T15:42:09+08:00" />
-<meta property="article:modified_time" content="2023-03-25T00:32:01+00:00" />
+<meta property="article:modified_time" content="2023-02-19T17:26:39-06:00" />
+
 <meta itemprop="name" content="树形dp">
-<meta itemprop="description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP">
-<meta itemprop="datePublished" content="2021-02-18T15:42:09&#43;08:00" />
-<meta itemprop="dateModified" content="2023-03-25T00:32:01&#43;00:00" />
+<meta itemprop="description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP"><meta itemprop="datePublished" content="2021-02-18T15:42:09+08:00" />
+<meta itemprop="dateModified" content="2023-02-19T17:26:39-06:00" />
 <meta itemprop="wordCount" content="5387">
-
-
-
 <meta itemprop="keywords" content="树形dp,dp优化," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="树形dp"/>
 <meta name="twitter:description" content="介绍 树形dp就是在树上进行dp，常用于 &ldquo;树上选一组点/边，满足某些条件，且使得某些权值和最大&rdquo; 的问题。 一般来说，DP"/>
@@ -261,7 +258,7 @@
 <p>时间复杂度：$O(n^2)$</p>
 <p>证明：我们考虑每一个 <code>nei</code> <strong>被用来转移</strong> 的次数，会发现它只会在计算它的 parent 的dp值时才会被拿来统计，又因为每一个节点只有1个parent，所以每个节点对应的子树都只会被统计一次。</p>
 <p>所以时间复杂度就是 $T(\sum\limits_{i=1}^n i * sz[i]) = O(n^2)$</p>
-<p>更严谨的数学证明可以参见 <a href="https://www.luogu.com.cn/blog/Chenxiao-Yan/solution-p4322">https://www.luogu.com.cn/blog/Chenxiao-Yan/solution-p4322</a></p>
+<p>更严谨的数学证明可以参见 <a href="https://www.luogu.com.cn/blog/Chenxiao-Yan/solution-p4322" target="_blank">https://www.luogu.com.cn/blog/Chenxiao-Yan/solution-p4322</a></p>
 </details>
 <details class="admonition note"><summary class="admonition-title">luogu-P2014-AC代码</summary>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
@@ -801,8 +798,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-03-25 00:32:01 &#43;0000 UTC">2023-03-25</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/9a072cfb438d1d689056ed2835e19b9e04e843ec" title="chore: update CF Problems" target="_blank">(9a072cf)</a>
+        <span title="2023-02-19 17:26:39 -0600 -0600">2023-02-19</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/281f5081f7c69fd42e2918b7e97d1c7afc1bae47" title="update many posts" target="_blank">(281f5081)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/008-%e6%a0%91%e5%bd%a2dp.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -900,7 +897,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

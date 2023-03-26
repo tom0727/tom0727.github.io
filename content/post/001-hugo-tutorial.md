@@ -142,6 +142,11 @@ ouuan大佬在 2021年05月16日 更新了博客的搜索功能，再复制粘�
 
 `./themes/even/assets/sass/_iconfont.scss` 看到一些图标的名称和对应 unicode 编号。
 
+目前自定义的 shortcode 有：
+
+1. `center`：让内容居中
+2. `small`：让内部的图片变小（原理是 max-width:50%）
+
 ## 自定义页面
 
 在 2021年06月09日，我参考 https://kenkoooo.com/atcoder#/table/ ，利用 Codeforces API 高仿一个类似的页面。经 kenkoooo 本人同意，现在已经上线在 [这里](/cf-problems) 了。主要的技术点如下：

@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.92.2 with theme even" />
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/081-kmp/" />
@@ -31,21 +31,24 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="KMP" />
 <meta property="og:description" content="介绍 KMP算法能在 $O(n)$ 的时间内，求出一个字符串的每个前缀的最长 border 长度。 利用 border 的性质，也可以在 $O(n)$ 的时间内，求出一个字符串 $t$ 在文本串 $s$ 中出现的所有" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/081-kmp/" /><meta property="article:section" content="post" />
+<meta property="og:url" content="https://tom0727.github.io/post/081-kmp/" />
 <meta property="article:published_time" content="2022-10-29T11:43:01-05:00" />
-<meta property="article:modified_time" content="2023-01-16T10:41:19-06:00" />
-
+<meta property="article:modified_time" content="2023-03-26T12:58:57-05:00" />
 <meta itemprop="name" content="KMP">
-<meta itemprop="description" content="介绍 KMP算法能在 $O(n)$ 的时间内，求出一个字符串的每个前缀的最长 border 长度。 利用 border 的性质，也可以在 $O(n)$ 的时间内，求出一个字符串 $t$ 在文本串 $s$ 中出现的所有"><meta itemprop="datePublished" content="2022-10-29T11:43:01-05:00" />
-<meta itemprop="dateModified" content="2023-01-16T10:41:19-06:00" />
+<meta itemprop="description" content="介绍 KMP算法能在 $O(n)$ 的时间内，求出一个字符串的每个前缀的最长 border 长度。 利用 border 的性质，也可以在 $O(n)$ 的时间内，求出一个字符串 $t$ 在文本串 $s$ 中出现的所有">
+<meta itemprop="datePublished" content="2022-10-29T11:43:01-05:00" />
+<meta itemprop="dateModified" content="2023-03-26T12:58:57-05:00" />
 <meta itemprop="wordCount" content="4114">
+
+
+
 <meta itemprop="keywords" content="KMP,," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="KMP"/>
 <meta name="twitter:description" content="介绍 KMP算法能在 $O(n)$ 的时间内，求出一个字符串的每个前缀的最长 border 长度。 利用 border 的性质，也可以在 $O(n)$ 的时间内，求出一个字符串 $t$ 在文本串 $s$ 中出现的所有"/>
@@ -270,8 +273,8 @@ int main() {
 <p>Case2: $s_i &gt; s_j$：说明 $i$ 不可能为最小表示的起点，所以 <code>i++;</code>。</p>
 <p>Case3: $s_i = s_j$：说明需要接着往后看，所以用另外一个值 $k$，让 $k$ 从 $0$ 开始加，直到 $s_{i+k} \neq s_{j+k}$。</p>
 <p><img src="/images/081/3.jpg" alt="img"></p>
-<p>Case3.1: 如果 $s_{i+k} &lt; s_{j+k}$：说明任何 $j' \in [j, j+k]$ 不可能满足条件，因为如果满足了，必然有对应相同位置的 $i'$ 更好。所以令 <code>j = j+k+1;</code>。</p>
-<p>Case3.2: 如果 $s_{i+k} &gt; s_{j+k}$：说明任何 $i' \in [i, i+k]$ 不可能满足条件，因为如果满足了，必然有对应相同位置的 $j'$ 更好。所以令 <code>i = i+k+1;</code>。</p>
+<p>Case3.1: 如果 $s_{i+k} &lt; s_{j+k}$：说明任何 $j&rsquo; \in [j, j+k]$ 不可能满足条件，因为如果满足了，必然有对应相同位置的 $i'$ 更好。所以令 <code>j = j+k+1;</code>。</p>
+<p>Case3.2: 如果 $s_{i+k} &gt; s_{j+k}$：说明任何 $i&rsquo; \in [i, i+k]$ 不可能满足条件，因为如果满足了，必然有对应相同位置的 $j'$ 更好。所以令 <code>i = i+k+1;</code>。</p>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">// 输出 s 的最小表示法
 string min_cyc(string s) {
@@ -599,8 +602,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-01-16 10:41:19 -0600 -0600">2023-01-16</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/5d471c99f78ef709c91e4f195160895af7ce8792" title="fix links" target="_blank">(5d471c99)</a>
+        <span title="2023-03-26 12:58:57 -0500 -0500">2023-03-26</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/5977291b6970cee9c2fbc4981e6215b90d5f52ad" title="add 099,100,101,102" target="_blank">(5977291)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/081-kmp.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -698,7 +701,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

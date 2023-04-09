@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="[置顶]竞赛注意事项/通用模版" />
 <meta property="og:description" content="注意事项 Set中的Comparator定义 在定义Set的Comparator时，一定要小心保证元素不会因为定义被判定为重复，例如： int cnt[maxn]; struct Cmp {" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/" />
+<meta property="og:url" content="https://tom0727.github.io/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-09-19T10:26:35-05:00" />
-<meta property="article:modified_time" content="2023-04-08T00:28:03+00:00" />
+<meta property="article:modified_time" content="2023-04-09T15:19:39-05:00" />
+
 <meta itemprop="name" content="[置顶]竞赛注意事项/通用模版">
-<meta itemprop="description" content="注意事项 Set中的Comparator定义 在定义Set的Comparator时，一定要小心保证元素不会因为定义被判定为重复，例如： int cnt[maxn]; struct Cmp {">
-<meta itemprop="datePublished" content="2022-09-19T10:26:35-05:00" />
-<meta itemprop="dateModified" content="2023-04-08T00:28:03&#43;00:00" />
-<meta itemprop="wordCount" content="593">
-
-
-
+<meta itemprop="description" content="注意事项 Set中的Comparator定义 在定义Set的Comparator时，一定要小心保证元素不会因为定义被判定为重复，例如： int cnt[maxn]; struct Cmp {"><meta itemprop="datePublished" content="2022-09-19T10:26:35-05:00" />
+<meta itemprop="dateModified" content="2023-04-09T15:19:39-05:00" />
+<meta itemprop="wordCount" content="679">
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="[置顶]竞赛注意事项/通用模版"/>
 <meta name="twitter:description" content="注意事项 Set中的Comparator定义 在定义Set的Comparator时，一定要小心保证元素不会因为定义被判定为重复，例如： int cnt[maxn]; struct Cmp {"/>
@@ -157,6 +154,7 @@
           <ul>
             <li><a href="#z自动取模整数">Z自动取模整数</a></li>
             <li><a href="#树状数组">树状数组</a></li>
+            <li><a href="#st表">ST表</a></li>
           </ul>
         </li>
       </ul>
@@ -274,7 +272,7 @@ struct Z {
 <h3 id="树状数组">树状数组</h3>
 <details class="admonition note"><summary class="admonition-title">树状数组</summary>
 <pre><code class="language-cpp">struct BIT {
-    int n, tr[maxn];  // 记得初始化 tr.n
+    int tr[maxn];
     inline int lowbit(int x) { return x &amp; -x; }
     void update(int p, int val) {
         while (p &lt;= n) {
@@ -294,6 +292,28 @@ struct Z {
 };
 </code></pre>
 </details>
+<h3 id="st表">ST表</h3>
+<details class="admonition note"><summary class="admonition-title">ST表</summary>
+<pre><code class="language-cpp">struct SparseTable {
+    int st[maxn][18];
+    int ask_st(int l, int r) {
+        int len = r-l+1;
+        int k = bin[len];
+        return min(st[l][k], st[r-(1&lt;&lt;k)+1][k]);
+    }
+ 
+    void build_st() {
+        bin[1] = 0; bin[2] = 1;
+        for (int i = 3; i &lt; maxn; i++) bin[i] = bin[i&gt;&gt;1] + 1;
+        for (int i = 1; i &lt;= n; i++) st[i][0] = a[i];
+        for (int k = 1; k &lt; 18; k++) {
+            for (int i = 1; i + (1&lt;&lt;k) - 1 &lt;= n; i++)
+                st[i][k] = min(st[i][k-1], st[i+(1&lt;&lt;(k-1))][k-1]);
+        }
+    }
+};
+</code></pre>
+</details>
 
     </div>
 
@@ -305,8 +325,8 @@ struct Z {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-04-08 00:28:03 &#43;0000 UTC">2023-04-08</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/84d70f3e05ac8aec41cbca4d7602f4b26679a193" title="chore: update CF Problems" target="_blank">(84d70f3)</a>
+        <span title="2023-04-09 15:19:39 -0500 -0500">2023-04-09</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/ff329f36d59b85a09c5a5740bd67bb493185caf5" title="add 103,104,105" target="_blank">(ff329f36)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/072-%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9-%e9%80%9a%e7%94%a8%e6%a8%a1%e7%89%88.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -323,8 +343,8 @@ struct Z {
           </div>
       <nav class="post-nav">
         
-        <a class="next" href="/post/102-%E5%90%8E%E7%BC%80%E6%95%B0%E7%BB%84/">
-            <span class="next-text nav-default">后缀数组</span>
+        <a class="next" href="/post/105-nac2020/">
+            <span class="next-text nav-default">NAC2020</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -400,7 +420,7 @@ struct Z {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

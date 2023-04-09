@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Bitset优化 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="bitset作为C&#43;&#43;自带的数据结构，利用bit储存信息，由于 1 byte = 8 bits，并且一个int就有 4 bytes，所以通常情况下用 bitset 可以达到 32" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/103-bitset/" />
+<link rel="manifest" href="/manifest.json">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="Bitset优化" />
+<meta property="og:description" content="bitset作为C&#43;&#43;自带的数据结构，利用bit储存信息，由于 1 byte = 8 bits，并且一个int就有 4 bytes，所以通常情况下用 bitset 可以达到 32" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/103-bitset/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-03-30T22:13:18-05:00" />
+<meta property="article:modified_time" content="2023-04-09T15:19:39-05:00" />
+
+<meta itemprop="name" content="Bitset优化">
+<meta itemprop="description" content="bitset作为C&#43;&#43;自带的数据结构，利用bit储存信息，由于 1 byte = 8 bits，并且一个int就有 4 bytes，所以通常情况下用 bitset 可以达到 32"><meta itemprop="datePublished" content="2023-03-30T22:13:18-05:00" />
+<meta itemprop="dateModified" content="2023-04-09T15:19:39-05:00" />
+<meta itemprop="wordCount" content="5757">
+<meta itemprop="keywords" content="bitset,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Bitset优化"/>
+<meta name="twitter:description" content="bitset作为C&#43;&#43;自带的数据结构，利用bit储存信息，由于 1 byte = 8 bits，并且一个int就有 4 bytes，所以通常情况下用 bitset 可以达到 32"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Bitset优化</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-03-30 22:13:18 -0500 -0500"> 2023-03-30 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#优化01背包">优化01背包</a>
+          <ul>
+            <li><a href="#例1-洛谷p1537-弹珠httpswwwluogucomcnproblemp1537">例1 洛谷P1537 <a href="https://www.luogu.com.cn/problem/P1537">弹珠</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#优化floyd传递闭包">优化floyd传递闭包</a>
+          <ul>
+            <li><a href="#例1-cf576d-flights-for-regular-customershttpscodeforcescomproblemsetproblem576d">例1 CF576D. <a href="https://codeforces.com/problemset/problem/576/D">Flights for Regular Customers</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#暴力字符串匹配">暴力字符串匹配</a>
+          <ul>
+            <li><a href="#例1-cf914f-substrings-in-a-stringhttpscodeforcescomproblemsetproblem914f">例1 CF914F. <a href="https://codeforces.com/problemset/problem/914/F">Substrings in a String</a></a></li>
+            <li><a href="#例2-cf963d-frequency-of-stringhttpswwwluogucomcnproblemcf963d">例2 CF963D. <a href="https://www.luogu.com.cn/problem/CF963D">Frequency of String</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#高维偏序">高维偏序</a>
+          <ul>
+            <li><a href="#例1-洛谷p3810模板三维偏序陌上花开httpswwwluogucomcnproblemp3810">例1 洛谷P3810<a href="https://www.luogu.com.cn/problem/P3810">【模板】三维偏序（陌上花开）</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#bitset结合莫队">bitset结合莫队</a>
+          <ul>
+            <li><a href="#例1-洛谷p5355-ynoi2017-由乃的玉米田httpswwwluogucomcnproblemp5355">例1 洛谷P5355 <a href="https://www.luogu.com.cn/problem/P5355">[Ynoi2017] 由乃的玉米田</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>bitset作为C++自带的数据结构，利用bit储存信息，由于 1 byte = 8 bits，并且一个int就有 4 bytes，所以通常情况下用 bitset 可以达到 32 倍的常数优化。</p>
+<h2 id="优化01背包">优化01背包</h2>
+<h3 id="例1-洛谷p1537-弹珠httpswwwluogucomcnproblemp1537">例1 洛谷P1537 <a href="https://www.luogu.com.cn/problem/P1537" target="_blank">弹珠</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定价值为 $1,2,3,4,5,6$ 的弹珠，数量分别为 $N_1,N_2,&hellip;,N_6$，问是否能将这些弹珠分为两份使得两份的价值和相等。</p>
+<p>其中，弹珠数量和 $\leq 2 \times 10^4$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>多重背包，正解应该是二进制优化成01背包。</p>
+<p>但bitset可以直接暴力碾过去。</p>
+<pre><code class="language-cpp">dp[0] = 1;
+for (int i = 1; i &lt;= 6; i++) {
+    while (a[i]--) {
+        dp |= (dp &lt;&lt; i);
+    }
+}
+</code></pre>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int a[maxn];
+bitset&lt;120005&gt; dp;
+int main() {
+    int t = 0;
+    while (cin &gt;&gt; a[1] &gt;&gt; a[2] &gt;&gt; a[3] &gt;&gt; a[4] &gt;&gt; a[5] &gt;&gt; a[6]) {
+        if (a[1] == 0 &amp;&amp; a[2] == 0 &amp;&amp; a[3] == 0 &amp;&amp; a[4] == 0 &amp;&amp; a[5] == 0 &amp;&amp; a[6] == 0) break;
+        cout &lt;&lt; &quot;Collection #&quot; &lt;&lt; ++t &lt;&lt; &quot;:\n&quot;;
+        dp.reset();
+
+        bool ok = 1;
+        int sum = 0;
+        for (int i = 1; i &lt;= 6; i++) {
+            sum += i * a[i];
+        }
+        if (sum % 2) ok = 0;
+
+        dp[0] = 1;
+        for (int i = 1; i &lt;= 6; i++) {
+            while (a[i]--) {
+                dp |= (dp &lt;&lt; i);
+            }
+        }
+
+        ok = (ok &amp;&amp; dp[sum/2]);
+        if (ok) cout &lt;&lt; &quot;Can be divided.\n\n&quot;;
+        else cout &lt;&lt; &quot;Can't be divided.\n\n&quot;;
+    }
+}
+</code></pre>
+</details>
+<h2 id="优化floyd传递闭包">优化floyd传递闭包</h2>
+<p>在 floyd 中我们有 <code>f[i][j] |= (f[i][k] &amp;&amp; f[k][j])</code> 的方式来传递闭包。</p>
+<p>如果用bitset实现呢？</p>
+<pre><code class="language-cpp">bitset&lt;maxn&gt; f[maxn];
+for (int i = 1; i &lt;= n; i++) {
+    for (int j = 1; j &lt;= n; j++) {
+        if (f[j][i]) f[j] |= f[i];
+    }
+}
+</code></pre>
+<p>如果 $j$ 能够到达 $i$，那么 $i$ 所能到达的点，$j$ 也能够到达。</p>
+<p>• 如果是一个闭包在一个图上传递，那么就有：</p>
+<pre><code class="language-cpp">struct Mat {
+    bitset&lt;maxn&gt; f[maxn];
+    Mat operator*(const Mat&amp; other) {
+        Mat res;  // 无需初始化！
+        for (int i = 1; i &lt;= n; i++) {
+            for (int j = 1; j &lt;= n; j++) {
+                if (f[j][i]) res.f[j] |= other.f[i];
+            }
+        }
+        return res;
+    }
+};
+</code></pre>
+<h3 id="例1-cf576d-flights-for-regular-customershttpscodeforcescomproblemsetproblem576d">例1 CF576D. <a href="https://codeforces.com/problemset/problem/576/D" target="_blank">Flights for Regular Customers</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个点，$m$ 条边的有向无权图。一开始在节点 $1$，需要走到节点 $n$。</p>
+<p>当且仅当走过了至少 $d_i$ 条边时，才能使用第 $i$ 条边。</p>
+<p>问最少需要走多少条边到达 $n$，或判断无法到达。</p>
+<p>其中，$n,m \leq 150, 0 \leq d_i \leq 10^9$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先我们根据 $d_i$ sort所有的边，然后对于每一个 $d_i$，我们要求出 <strong>恰好走了 $d_i$ 步</strong>时，能够<strong>停在</strong>哪些点，然后从这些点开始多源BFS（就是一开始全丢到queue里），求出 <code>dis[n]</code>，然后加上 $d_i$ 即可得到这个状态的答案。</p>
+<p>那么如何求出 <strong>恰好走了 $d_i$ 步</strong>时，能够停在哪些点？</p>
+<hr>
+<p>假设我们求出了恰好走了 $d_{i-1}$ 步时，从 $1$ 出发能够停在哪些点。那么我们只要求出在只包含 $1,2,&hellip;,i-1$ 这些边的图中，从这些点出发，走 $d_{i} - d_{i-1}$ 步能够停留在哪些点。</p>
+<p>那么这就是一个闭包传递的过程了！</p>
+<p>但由于 $d_{i} - d_{i-1}$ 可能会很大，所以我们需要快速幂来优化，为什么可以用快速幂？</p>
+<p>因为我们知道 floyd 传递闭包是利用了 <strong>矩阵乘法</strong> 的原理。</p>
+<p>因为矩阵乘法是 $C_{i,j} = \sum\limits_{k=1}^n A_{i,k}B_{k,j}$，这其实和传递闭包的公式是一样的。</p>
+<p>• 矩阵乘法快速幂的原理也可以用于解决 “走过 $k$ 条边的最短路” 的问题。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 155;
+const int maxm = 1e5+55;
+
+struct Edge {
+    int from, to, d;
+};
+int n, m;
+map&lt;int, vector&lt;Edge&gt;&gt; mp;
+int dis[maxn];
+vector&lt;int&gt; adj[maxn];
+ll ans = 2e9;
+
+struct Mat {
+    bitset&lt;maxn&gt; f[maxn];
+    Mat operator*(const Mat&amp; other) {
+        Mat res;
+        for (int i = 1; i &lt;= n; i++) {
+            for (int j = 1; j &lt;= n; j++) {
+                if (f[j][i]) res.f[j] |= other.f[i];
+            }
+        }
+        return res;
+    }
+    void setone() {
+        for (int i = 1; i &lt;= n; i++) f[i][i] = 1;
+    }
+};
+Mat qpow(Mat a, int b) {
+    Mat res;
+    res.setone();
+    while (b) {
+        if (b&amp;1) res = res * a;
+        a = a*a;
+        b &gt;&gt;= 1;
+    }
+    return res;
+}
+
+Mat cur, g;  // cur代表当前走x步能够恰好从 u 出发停在 v，g代表当前图中恰好走一步能够从u到达v
+ll D = 0;
+void bfs() {
+    queue&lt;int&gt; q;
+    fill(dis, dis+maxn, 2e9);
+    for (int i = 1; i &lt;= n; i++) {
+        if (cur.f[1][i]) q.push(i), dis[i] = 0;  // 多源bfs
+    }
+    while (q.size()) {
+        int u = q.front();
+        q.pop();
+        for (int v : adj[u]) {
+            if (dis[v] &gt; dis[u] + 1) {
+                dis[v] = dis[u] + 1;
+                q.push(v);
+            }
+        }
+    }
+    ans = min(ans, dis[n] + D);
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int u,v,d; cin &gt;&gt; u &gt;&gt; v &gt;&gt; d;
+        mp[d].push_back({u,v,d});
+    }
+    cur.f[1][1] = 1;  // 初始状态是走0步，所以可以从1出发恰好停在1，但其他的还没到
+    // 注意 g 不要设定 g.f[u][u] = 1，因为这里的矩阵代表**恰好**走 $1$ 步。
+
+    for (auto itr : mp) {
+        int d = itr.first;
+        int step = d - D;
+        D = d; 
+        cur = cur * qpow(g, step);  // 将 d_i-1 传递给 d_i
+
+        bfs();
+
+        for (Edge e : itr.second) {
+            int u = e.from, v = e.to;
+            g.f[u][v] = 1;
+            adj[u].push_back(v);
+        }
+    }
+    bfs();
+    if (ans &gt;= 2e9) cout &lt;&lt; &quot;Impossible\n&quot;;
+    else cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<h2 id="暴力字符串匹配">暴力字符串匹配</h2>
+<p>利用 bitset 可以 $O(\frac{n^2}{w})$ 求出一个模式串 $t$ 在一个母串 $s$ 中出现的所有位置，在 $n=10^5$ 的时候可以跑过去，尤其在多模式串+带修时很好用。</p>
+<p>原理：我们对于每个字符（一般来说是 <code>a</code> 到 <code>z</code>）都开一个bitset，就有 <code>bitset&lt;maxn&gt; bs[26]</code>，其中 <code>bs[i][j]</code> 代表字母 $i$ 在母串 $s$ 的位置 $j$ 是否出现了。</p>
+<p>比如字符串 <code>s = &quot;abab&quot;</code>，那么<code>a,b</code> 两个字母对应的两个bitset就是：</p>
+<p><code>a</code>：<code>1010</code></p>
+<p><code>b</code>：<code>0101</code></p>
+<p>现在要求一个模式串 $t$ 在 $s$ 中出现的所有位置，比如 <code>t = &quot;ab&quot;</code>。</p>
+<p>那么对于每一个模式串 $t$，我们先初始化一个 <strong>全为 $1$</strong> 的bitset叫 <code>ans</code>，<code>ans[i] = 1</code> 就代表模式串 $t$ 出现在了 $s$ 的位置 $i$ 处，也就是 $s[i&hellip;i+|t|-1]=t$。</p>
+<p>然后，枚举 $t$ 的每一个字符，对于第 $i$ 个字符 $t_i$，将 $t_i$ 对应的bitset<strong>右移</strong> $(i-1)$ 格后，与 <code>ans</code> AND 起来。</p>
+<pre><code class="language-cpp">bitset&lt;maxn&gt; bs[26];  // bs[i][j]: 字母i在位置j是否出现过
+bitset&lt;maxn&gt; ans;
+int main() {
+    cin &gt;&gt; s;
+    n = s.size();
+    for (int i = 1; i &lt;= n; i++) {
+        bs[s[i-1]-'a'][i] = 1;
+    }
+
+    string t; cin &gt;&gt; t;
+    int m = t.size();
+    ans.set();  // 全部设为1
+    for (int i = 1; i &lt;= m; i++) {
+        ans &amp;= ((bs[t[i-1]-'a'] &gt;&gt; (i-1)));
+    }
+}
+</code></pre>
+<p>然后 <code>ans</code> 就是我们所求的了。</p>
+<p>为什么是正确的？这本质上是暴力匹配的过程，考虑所有的前缀：</p>
+<p>对于 $t_1$ 这个前缀而言，显然只有 $s_i = t_1$ 的位置 $i$ 满足条件，所以 <code>ans &amp;= bs[t[0] - 'a']</code>。</p>
+<p>对于 $t_1t_2$ 这个前缀而言，只有 $s_i = t_1$ 且 $s_{i+1} = t_2$ 满足条件，所以需要将 $t_2$ 对应的bitset右移一格，然后再AND起来。</p>
+<p>后面的同理，直到枚举完整个 $t$。</p>
+<p>我们拿 <code>s = &quot;abab&quot;, t = &quot;ab&quot;</code> 举例：由于有</p>
+<p><code>a</code>：<code>1010</code></p>
+<p><code>b</code>：<code>0101</code></p>
+<p>那么 <code>b</code> 对应的bitset<strong>右移一位</strong>后可以得到 <code>1010</code>（注意bitset的写法是左右颠倒过来的，所以看起来像左移，但实际上是右移），那么就有：</p>
+<p><code>ans = (&quot;1111&quot; &amp; &quot;1010&quot; &amp; &quot;1010&quot;) = &quot;1010&quot;</code>，代表 $t$ 在 $s$ 的 $1,3$ 位置都出现了。</p>
+<hr>
+<p>最后注意，<strong>不要</strong> 在 <code>ans</code> 上跑 for-loop，这会导致它的优化直接失效！</p>
+<p>一些常见的函数：</p>
+<pre><code class="language-cpp">bitset&lt;maxn&gt; ans;
+// 求 ans[l...r] 的和
+int getsum(int l, int r) {
+    if (l &gt; r) return 0;
+    return (ans &gt;&gt; l).count() - (ans &gt;&gt; (r+1)).count();  // (ans&gt;&gt;i).count() = ans[i...n]
+}
+
+// 枚举 ans 中所有的 1 (_Find_next(i) 会找 i 后面的下一个 1 的位置，如果没有的话返回 ans.size())
+for (int i = ans._Find_first(); i &lt; ans.size(); i = ans._Find_next(i)) {
+    pos.push_back(i);
+}
+</code></pre>
+<h3 id="例1-cf914f-substrings-in-a-stringhttpscodeforcescomproblemsetproblem914f">例1 CF914F. <a href="https://codeforces.com/problemset/problem/914/F" target="_blank">Substrings in a String</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个字符串（仅包含小写字母） $s$，以及 $q$ 次操作，每次操作有两种：</p>
+<p><code>1 i c</code>：将 $s_i$ 改为字符 $c$</p>
+<p><code>2 l r t</code>：求字符串 $t$ 在 $s[l&hellip;r]$ 中，作为子串出现的次数。</p>
+<p>其中，$|s| \leq 10^5, q \leq 10^5, \sum |t| \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>按照上面说的构造 26 个bitset和一个 <code>ans</code> bitset。</p>
+<p>对于第一种操作，直接 $O(1)$ 修改。</p>
+<p>对于第二种操作，我们求出 $t$ 在 $s$ 中出现的所有位置，然后只要回答 <code>ans[l...r-|t|+1]</code> 的和即可。</p>
+<p>使用 <code>(ans&gt;&gt;i).count()</code> 函数可以求出 <code>ans[i...n]</code> 的和。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+bitset&lt;maxn&gt; bs[26];  // bs[i][j]: 字母i在位置j是否出现过
+bitset&lt;maxn&gt; ans;
+// 求 ans[l...r] 的和
+int getsum(int l, int r) {
+    if (l &gt; r) return 0;
+    return (ans &gt;&gt; l).count() - (ans &gt;&gt; (r+1)).count();  // (ans&gt;&gt;i).count() = ans[i...n]
+}
+
+string s;
+int n;
+int main() {
+    fastio;
+    cin &gt;&gt; s;
+    n = s.size();
+    for (int i = 1; i &lt;= n; i++) {
+        bs[s[i-1]-'a'][i] = 1;
+    }
+
+    int q; cin &gt;&gt; q;
+    while (q--) {
+        int op;
+        cin &gt;&gt; op;
+        if (op == 1) {
+            int p; char c; cin &gt;&gt; p &gt;&gt; c;
+            bs[s[p-1]-'a'][p] = 0;
+            s[p-1] = c;
+            bs[s[p-1]-'a'][p] = 1;
+        } else {
+            int l,r; string t; cin &gt;&gt; l &gt;&gt; r &gt;&gt; t;
+            int m = t.size();
+            ans.set();  // 全部设为1
+            for (int i = 1; i &lt;= m; i++) {
+                ans &amp;= ((bs[t[i-1]-'a'] &gt;&gt; (i-1)));
+            }
+            cout &lt;&lt; getsum(l, r-m+1) &lt;&lt; endl;
+        }
+    }
+
+}
+</code></pre>
+</details>
+<h3 id="例2-cf963d-frequency-of-stringhttpswwwluogucomcnproblemcf963d">例2 CF963D. <a href="https://www.luogu.com.cn/problem/CF963D" target="_blank">Frequency of String</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个字符串 $s$，有 $q$ 个询问，每次询问给定一个整数 $k_i$ 和一个字符串 $t_i$，回答 $s$ 中最短的子串使得 $t_i$ 在这个子串中出现了至少 $k_i$ 次。</p>
+<p>其中，$|s| \leq 10^5, q \leq 10^5, \sum|t_i| \leq 10^5$，$t_i$ 互不相同。</p>
+</div>
+<div class="admonition info">
+  <p class="admonition-title">性质</p>
+<p>对于互不相同的，长度之和为 $M$ 的一些模式串，在长度为 $n$ 的母串中出现的次数之和不超过 $n\sqrt M$。</p>
+<p>证明：考虑长度均为 $L$ 的所有模式串，由于它们互不相同，所以这些模式串出现在 $s$ 内的总次数 $\leq n-L+1$。并且由于 $\sum L \leq M$，意味着互不相同的 $L$ 只有 $\sqrt M$ 种。所以总出现次数不超过 $n \sqrt M$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>有了以上证明，我们知道这些模式串 $t_i$ 的出现次数之和不超过 $n \sqrt{\sum|t_i|}$，也就是说处理出的 <code>ans</code> 数组里最多有 $n \sqrt{\sum|t_i|}$ 个 $1$。</p>
+<p>于是对于每一个 $t_i$ 处理出 <code>ans</code>，然后利用 <code>_Find_first()</code> 函数和 <code>_Find_next()</code> 函数暴力枚举所有的 $1$ 的位置即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+bitset&lt;maxn&gt; bs[26];  // bs[i][j]: 字母i在位置j是否出现过
+bitset&lt;maxn&gt; ans;
+string s;
+int n;
+int main() {
+    fastio;
+    cin &gt;&gt; s;
+    n = s.size();
+    for (int i = 1; i &lt;= n; i++) {
+        bs[s[i-1]-'a'][i] = 1;
+    }
+
+    int q; cin &gt;&gt; q;
+    while (q--) {
+        int k; string t; cin &gt;&gt; k &gt;&gt; t;
+        int m = t.size();
+        int res = 1e9;
+        ans.set();
+        for (int i = 1; i &lt;= m; i++) {
+            ans &amp;= ((bs[t[i-1]-'a'] &gt;&gt; (i-1)));
+        }
+        vector&lt;int&gt; pos;
+        for (int i = ans._Find_first(); i &lt; ans.size(); i = ans._Find_next(i)) {
+            pos.push_back(i);
+        }
+        for (int i = k-1; i &lt; pos.size(); i++) {
+            res = min(res, pos[i] - pos[i-k+1] + m);
+        }
+        cout &lt;&lt; (res == 1e9 ? -1 : res) &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+<h2 id="高维偏序">高维偏序</h2>
+<p>bitset可以用来解决高维偏序问题，高维问题一般如下：</p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个元素，第 $i$ 个元素有 $D$ 个属性 $p_{i,1}, p_{i,2} &hellip; p_{i,D}$。</p>
+<p>给定 $Q$ 个询问，每次询问给定一个元素，有 $D$ 个属性 $q_1,q_2,&hellip;,q_D$，回答有多少个元素使得每个属性都 $\leq q_i$。</p>
+<p>询问强制在线。</p>
+</div>
+<p>一般这种问题可以用 bitset 在 $O(\frac{n^2}{w})$ 的时间内解决。</p>
+<p>首先我们把这些元素复制 $D$ 份，分别储存每种元素。然后分别根据这个元素进行 sort，得到 $D$ 个sort后的数组，数组内储存了这个属性的值，和它原来的index。</p>
+<p>然后，对于sort后的数组的每个位置 $i$，我们都可以知道它前面有哪些 index，就代表对于这个属性，$\leq$ 这个属性的值的index的集合。</p>
+<p>所以我们在询问的时候，对于每一个询问，可以将 $q_i$ 在第 $i$ 个属性的数组中进行二分，找到它的位置，然后求出它前面的集合 index，然后将它们 AND 起来，就可以得到有哪些 index 的所有属性都 $\leq$ 它了。</p>
+<p>但由于 $n=10^5$，所以我们不能预处理出每个位置前面的 index 的集合，于是我们使用分块。</p>
+<p>对于每一个块，预处理这个块中所有index的集合，然后维护一个数组 <code>bitset&lt;maxn&gt; f[3][320]</code>，其中 <code>f[i][j]</code> 代表第 $i$ 维度，前 $j$ 个block形成的index的集合bitset。</p>
+<p>这样每次查询的时候，只需要 $O(1)$ 找到对应的块，然后再 $O(\sqrt n)$ 的时间把零散的部分加上即可。</p>
+<p>总的复杂度就是 $O(Dq(\log n + \sqrt n + \frac{n}{w})) = O(D\frac{qn}{w})$</p>
+<h3 id="例1-洛谷p3810模板三维偏序陌上花开httpswwwluogucomcnproblemp3810">例1 洛谷P3810<a href="https://www.luogu.com.cn/problem/P3810" target="_blank">【模板】三维偏序（陌上花开）</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个元素，每个元素有 $a_i,b_i,c_i$ 三个属性，设 $f(i)$ 表示 $a_j \leq a_i, b_j \leq b_i, c_j \leq c_i, i \neq j$ 的数量。</p>
+<p>对于 $d \in [0, n-1]$，求 $f(i)=d$ 的数量。</p>
+<p>其中，$n \leq 10^5, a_i,b_i,c_i \in [1, 2 \times 10^5]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>同上。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+struct Node {
+    int val, idx;
+    bool operator&lt;(const Node&amp; other) const {
+        if (val == other.val) return idx &lt; other.idx;
+        return val &lt; other.val;
+    }
+} a[3][maxn];
+bitset&lt;maxn&gt; f[3][320];  // f[i][j]: 第i维度，前j个block形成的bitset
+struct Info {
+    int val[3];
+} ori[maxn];
+
+int res[maxn];
+int n, m, B, qval[3];
+void solve() {
+    cin &gt;&gt; n &gt;&gt; m;
+    B = max(50, (int)sqrt(n));
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 0; j &lt; 3; j++) {
+            cin &gt;&gt; a[j][i].val;
+            ori[i].val[j] = a[j][i].val;
+            a[j][i].idx = i;
+        }
+    }
+    for (int j = 0; j &lt; 3; j++) {
+        sort(a[j]+1, a[j]+n+1);
+        
+        int l = 1, r = min(n, l+B-1);
+        // [1,B] -&gt; 1, [B+1, 2B] -&gt; 2 ...
+        for (l = 1; l &lt;= n; l = r+1) {
+            r = min(n, l+B-1);
+            int b = (l-1) / B + 1;
+            f[j][b] = f[j][b-1];  // 记录前缀bitset
+            for (int i = l; i &lt;= r; i++) {
+                int idx = a[j][i].idx;
+                f[j][b][idx] = 1;
+            }
+        }
+    }
+
+    for (int k = 1; k &lt;= n; k++) {
+        for (int j = 0; j &lt; 3; j++) qval[j] = ori[k].val[j];
+        bitset&lt;maxn&gt; ans;
+        ans.set();
+        for (int j = 0; j &lt; 3; j++) {
+            int p = upper_bound(a[j]+1, a[j]+n+1, Node{qval[j], 10000000}) - a[j] - 1;
+            int b = (p-1) / B + 1;  // 所属的block，所以加上 b-1对应的前缀
+
+            bitset&lt;maxn&gt; S = f[j][b-1];
+            // 第 b 个block对应的是 l = (b-1) * B + 1, r = p
+            for (int i = (b-1) * B + 1; i &lt;= p; i++) {
+                S[a[j][i].idx] = 1;
+            }
+            ans &amp;= S;
+        }
+
+        res[ans.count() - 1]++;
+    }
+
+    for (int i = 0; i &lt; n; i++) cout &lt;&lt; res[i] &lt;&lt; &quot;\n&quot;;
+}
+
+int main() {
+    solve();
+}
+</code></pre>
+</details>
+<h2 id="bitset结合莫队">bitset结合莫队</h2>
+<p>在一些题目中，我们需要在一个区间内回答询问，这种询问需要使用bitset，就可以用莫队结合bitset。</p>
+<h3 id="例1-洛谷p5355-ynoi2017-由乃的玉米田httpswwwluogucomcnproblemp5355">例1 洛谷P5355 <a href="https://www.luogu.com.cn/problem/P5355" target="_blank">[Ynoi2017] 由乃的玉米田</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的数组，和 $m$ 个询问。</p>
+<p>每次询问为 $op,l,r,x$：</p>
+<ol>
+<li>op = 1：回答区间 $[l,r]$ 之间是否存在两个数 $a,b$，使得 $a-b=x$。</li>
+<li>op = 2：回答区间 $[l,r]$ 之间是否存在两个数 $a,b$，使得 $a+b=x$。</li>
+<li>op = 3：回答区间 $[l,r]$ 之间是否存在两个数 $a,b$，使得 $a*b=x$。</li>
+<li>op = 4：回答区间 $[l,r]$ 之间是否存在两个数 $a,b$，使得 $a/b=x$（整除，不能有余数）。</li>
+</ol>
+<p>在 $[l,r]$ 里选的两个数可以重复。</p>
+<p>其中，$n,m \leq 10^5, 1 \leq a_i \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>因为数字可以重复选，所以一个区间内我们只关心某个数是否出现过，出现几次不用管。</p>
+<p>首先利用莫队离线所有的询问，然后对于每一个区间 $[l,r]$ 我们都可以知道有哪些数字出现在了这个区间内。</p>
+<p>对于第一种询问，如果 $a-b = x$，那么 $b=a-x$，这说明只要存在 $a$，使得 $a, a-x$ 同时出现在这个区间内即可。</p>
+<p>所以只要维护 <code>bitset&lt;maxn&gt; f</code> 表示这个区间出现的数，然后求 <code>f &amp; (f &gt;&gt; x)</code> 是否有 $1$ 即可。</p>
+<p>对于第二种询问，如果 $a+b = x$，我们希望把 $b$ 的符号反过来，所以我们定义 $N=10^5$（值域的最大值），然后令 $b' = N-b$，有 $a+N-b' = x$，所以得到 $b' = a+N-x$。注意到，$b'$ 对应的 <code>bitset</code> 是 $f$ 反过来的版本 $g$，所以我们只要检查 <code>f &amp; (g&gt;&gt;(N-x))</code> 是否有 $1$ 即可。</p>
+<hr>
+<p>第三和第四种询问不再需要 <code>bitset</code> 和莫队了。</p>
+<p>对于第三种询问，可以直接暴力枚举 $x$ 的所有因数（只有 $\sqrt n$ 个）。</p>
+<p>对于第四种询问，不能枚举 $x$ 的倍数了，复杂度太高。</p>
+<p>我们可以值域分块来处理 $x$：</p>
+<ol>
+<li>当 $x &gt; \sqrt {10^5}$ 时，可以暴力枚举倍数。</li>
+<li>$x \leq \sqrt {10^5} \approx 315$ 时，可以对于每一个 $x$ 都预处理，如下：</li>
+</ol>
+<p>我们可以对于每一个 $x$，都 $O(n)$ 预处理出每个 $i$，$a_i$ 对应的右侧距离它最近的 $a_j$ 使得 $a_j = xa_i$ 或者 $a_j = \frac{a_i}{x}$。我们预处理出来的这个数组叫 <code>nxt[i]</code>。</p>
+<p>所以每次询问 $[l,r]$ 的时候，只要看 $[l,r]$ 内的最小值是否 $\leq r$ 即可。</p>
+<p>于是，使用 ST 表？（然后愉快的T了）。</p>
+<p>再仔细观察一下，我们并不需要查询 $[l,r]$ 内的最小值，只需要查询 $[l,n]$ 的最小值即可，因为 $[r+1, n]$ 这部分的 <code>nxt[]</code> 肯定不会 $\leq r$，所以不会有影响，这样维护一个后缀最小值即可，所以是 $O(n)$ 的。</p>
+<p>• 每一个 $x$ 都要预处理，所以是 $O(315n)$ 的。</p>
+<hr>
+<p>最终的复杂度：</p>
+<ol>
+<li>分块 + 莫队: $O(n \sqrt n)$。</li>
+<li>预处理因数：$O(n \sqrt n)$。</li>
+<li>回答前两种询问：$O(\frac{nq}{w})$。</li>
+<li>预处理除法操作的 <code>nxt[]</code>：$O(315n)$。</li>
+</ol>
+<p>总复杂度为 $O(n\sqrt n + \frac{nq}{w} + 315n)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+const int N = 1e5;
+
+int n, m, ans[maxn], a[maxn], l = 1, r = 0, B;
+int bin[maxn], nxt[maxn];  // nxt[x][i]: 对于位置 i，在它右侧，离它最近的 j 使得 a_j = x * a_i 或者 a_j = a_i / x
+
+struct Query {
+    int op, l, r, x, id;
+    bool operator&lt;(const Query&amp; other) const {
+        int b1 = (l - 1) / B, b2 = (other.l - 1) / B;
+        if (b1 == b2) {
+            return r &lt; other.r;
+        }
+        return b1 &lt; b2;
+    }
+} q[maxn];
+vector&lt;Query&gt; q4[320];  // 储存第四种询问
+
+bitset&lt;maxn&gt; f, g;  // f: 代表当前区间内所有出现的 x，g 代表 N-x
+int cnt[maxn];
+void add(int p) {
+    int x = a[p];
+    cnt[x]++;
+    f[x] = 1, g[N-x] = 1;
+}
+
+void del(int p) {
+    int x = a[p];
+    cnt[x]--;
+    if (cnt[x] == 0) {
+        f[x] = 0, g[N-x] = 0;
+    }
+}
+
+vector&lt;int&gt; fac[maxn];
+int pos[maxn];  
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m;
+    B = max(10, (int)sqrt(n));
+    for (int i = 1; i &lt;= N; i++) {
+        for (int j = i; j &lt;= N; j += i) {
+            fac[j].push_back(i);
+        }
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; a[i];
+    }
+    for (int i = 1; i &lt;= m; i++) {
+        cin &gt;&gt; q[i].op &gt;&gt; q[i].l &gt;&gt; q[i].r &gt;&gt; q[i].x;
+        q[i].id = i;
+    }
+
+    sort(q+1, q+m+1);
+    for (int i = 1; i &lt;= m; i++) {
+        if (q[i].op == 4 &amp;&amp; q[i].x &lt;= B) {
+            q4[q[i].x].push_back(q[i]);
+            continue;  // 不处理
+        }
+        int ql = q[i].l, qr = q[i].r;
+        while (r &lt; qr) add(++r);
+        while (r &gt; qr) del(r--);
+        while (l &lt; ql) del(l++);
+        while (l &gt; ql) add(--l);
+        int op = q[i].op, x = q[i].x;
+        bool ok = 0;
+        if (op == 1) {  // a-b = x
+            // 查询是否有 a, a-x 同时存在
+            ok = (f &amp; (f&gt;&gt;x)).any();
+        } else if (op == 2) {  // a+b = x
+            ok = (f &amp; (g&gt;&gt;(N-x))).any();
+        } else if (op == 3) {   // a*b = x
+            for (int j : fac[x]) {
+                if (f[j] &amp;&amp; f[x/j]) {
+                    ok = 1;
+                    break;
+                }
+            }
+        } else {   // a/b = x
+            
+            assert(x &gt; B);
+            for (int j = 1; j * x &lt;= 1e5; j++) {
+                if (f[j] &amp;&amp; f[j*x]) {
+                    ok = 1;
+                    break;
+                }
+            }
+        }
+        ans[q[i].id] = ok;
+    }
+
+    for (int x = 1; x &lt;= B; x++) {
+        if (!q4[x].size()) continue;  // 没有询问，不用build了
+        fill(pos, pos+maxn, n+1);
+        fill(nxt, nxt+maxn, n+1);
+        for (int i = n; i &gt;= 1; i--) {
+            int v = a[i];
+            pos[v] = i;
+            if (v * x &lt;= 1e5) nxt[i] = min(nxt[i], pos[v * x]);
+            if (v % x == 0) nxt[i] = min(nxt[i], pos[v / x]);
+            nxt[i] = min(nxt[i], nxt[i+1]);
+        }
+
+        for (auto [op, l, r, x, id] : q4[x]) {
+            bool ok = (nxt[l] &lt;= r);
+            ans[id] = ok;
+        }
+    }
+
+    for (int i = 1; i &lt;= m; i++) cout &lt;&lt; (ans[i] ? &quot;yuno&quot; : &quot;yumi&quot;) &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2023-04-09 15:19:39 -0500 -0500">2023-04-09</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/ff329f36d59b85a09c5a5740bd67bb493185caf5" title="add 103,104,105" target="_blank">(ff329f36)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/103-bitset.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/bitset/">bitset</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/104-cf1862f/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">CF1862F题解</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/102-%E5%90%8E%E7%BC%80%E6%95%B0%E7%BB%84/">
+            <span class="next-text nav-default">后缀数组</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

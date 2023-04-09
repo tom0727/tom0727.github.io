@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>CF1862F题解 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="CF1805F1. Survival of the Weakest (easy version) 题意 给定一个数组 $a_1,a_2&amp;hellip;,a_n$，定义 $F(a_1,a_2,&amp;hellip;,a_n)$ 为如下的函数： $F(a_1,a_2,&amp;hellip;,a_n)$ 将会在 $\forall 1\leq i &amp;lt; j \leq n$ 中，选取最小的 $n-1$ 个 $a_" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/104-cf1862f/" />
+<link rel="manifest" href="/manifest.json">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="CF1862F题解" />
+<meta property="og:description" content="CF1805F1. Survival of the Weakest (easy version) 题意 给定一个数组 $a_1,a_2&hellip;,a_n$，定义 $F(a_1,a_2,&hellip;,a_n)$ 为如下的函数： $F(a_1,a_2,&hellip;,a_n)$ 将会在 $\forall 1\leq i &lt; j \leq n$ 中，选取最小的 $n-1$ 个 $a_" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/104-cf1862f/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-04-02T23:43:29-05:00" />
+<meta property="article:modified_time" content="2023-04-09T15:19:39-05:00" />
+
+<meta itemprop="name" content="CF1862F题解">
+<meta itemprop="description" content="CF1805F1. Survival of the Weakest (easy version) 题意 给定一个数组 $a_1,a_2&hellip;,a_n$，定义 $F(a_1,a_2,&hellip;,a_n)$ 为如下的函数： $F(a_1,a_2,&hellip;,a_n)$ 将会在 $\forall 1\leq i &lt; j \leq n$ 中，选取最小的 $n-1$ 个 $a_"><meta itemprop="datePublished" content="2023-04-02T23:43:29-05:00" />
+<meta itemprop="dateModified" content="2023-04-09T15:19:39-05:00" />
+<meta itemprop="wordCount" content="696">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CF1862F题解"/>
+<meta name="twitter:description" content="CF1805F1. Survival of the Weakest (easy version) 题意 给定一个数组 $a_1,a_2&hellip;,a_n$，定义 $F(a_1,a_2,&hellip;,a_n)$ 为如下的函数： $F(a_1,a_2,&hellip;,a_n)$ 将会在 $\forall 1\leq i &lt; j \leq n$ 中，选取最小的 $n-1$ 个 $a_"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">CF1862F题解</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-04-02 23:43:29 -0500 -0500"> 2023-04-02 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%A2%98%E8%A7%A3/"> 题解 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#cf1805f1-survival-of-the-weakest-easy-versionhttpscodeforcescomcontest1805problemf1">CF1805F1. <a href="https://codeforces.com/contest/1805/problem/F1">Survival of the Weakest (easy version)</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="cf1805f1-survival-of-the-weakest-easy-versionhttpscodeforcescomcontest1805problemf1">CF1805F1. <a href="https://codeforces.com/contest/1805/problem/F1" target="_blank">Survival of the Weakest (easy version)</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个数组 $a_1,a_2&hellip;,a_n$，定义 $F(a_1,a_2,&hellip;,a_n)$ 为如下的函数：</p>
+<p>$F(a_1,a_2,&hellip;,a_n)$ 将会在 $\forall 1\leq i &lt; j \leq n$ 中，选取最小的 $n-1$ 个 $a_i+a_j$，然后组成一个新的sort好的数组。</p>
+<p>例如 $F(1,2,5,7) = [1+2,1+5,2+5] = [3,6,7]$。</p>
+<p>给定 $a_1,a_2,&hellip;,a_n$，求 $F^{n-1}(a_1,a_2,&hellip;,a_n)$ 的值（即对这个数组进行 $n-1$ 次操作）。</p>
+<p>其中，$2 \leq n \leq 3000, a_i \in [0,10^9]$，答案对 $10^9+7$ 取模。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们在下文假设 $a_1,a_2,&hellip;,a_n$ 始终为 sort 好的。</p>
+<p>由于 $n \leq 3000$，考虑直接暴力求 $F$。</p>
+<p>我们注意到，如果 $i&lt;j$ 且 $a_i+a_{j+1}$ 被 $F$ 选中了，那么 $a_i+a_j$ 也一定会被更早选中（因为sorted）。</p>
+<p>所以对于所有的pair的左端点 $i$，我们只需要考虑当前尚未选中的右端点 $j$，如果 $j$ 被选中了那么才考虑 $j+1$ 作为右端点。</p>
+<p>于是我们开一个 pq，先存进 $(a_1,a_2), (a_2,a_3), &hellip;, (a_{n-1},a_n)$。</p>
+<p>当 $(a_i,a_j)$ 被 pop 出来加入下一轮后，push进 $(a_i,a_{j+1})$。</p>
+<p>这样就可以在 $O(n\log n)$ 内进行一轮 $F$ 了。</p>
+<hr>
+<p>但是，答案对 $10^9+7$ 取模，我们显然不能在求解 $F$ 的过程中取模，因为这会破坏数字之间的大小关系，怎么办？</p>
+<p>我们发现 $F(a_1-x,a_2-x,&hellip;,a_n-x) = F(a_1,a_2,&hellip;,a_n) - 2^{n-1}x$，所以每一轮我们先减掉当前数组中的最小值，给答案加上即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 3005;
+
+Z p2[maxn], ans = 0;
+struct Node {
+    ll val;
+    int i, j;
+    bool operator&lt;(const Node&amp; other) const {
+        return val &gt; other.val;
+    }
+};
+vector&lt;ll&gt; f(vector&lt;ll&gt;&amp; vec) {
+    priority_queue&lt;Node&gt; pq;
+    int n = vec.size();
+    ll mn = 1e18;
+    for (int i = 0; i &lt; n; i++) {
+        mn = min(mn, vec[i]);
+    }
+    for (int i = 0; i &lt; n; i++) vec[i] -= mn;
+    ans += p2[n-1] * mn;
+
+    vector&lt;ll&gt; res;
+    for (int i = 0; i &lt; n-1; i++) {
+        pq.push({vec[i] + vec[i+1], i, i+1});
+    }
+    for (int i = 1; i &lt; n; i++) {
+        auto [val, l, r] = pq.top();
+        pq.pop();
+        res.push_back(val);
+        if (r + 1 &lt; n) {
+            pq.push({vec[l] + vec[r+1], l, r+1});
+        }
+    }
+    return res;
+}
+
+int n;
+int main() {
+    cin &gt;&gt; n;
+    p2[0] = 1;
+    for (int i = 1; i &lt;= n; i++) p2[i] = p2[i-1] * 2;
+    vector&lt;ll&gt; vec;
+    for (int i = 1; i &lt;= n; i++) {
+        int x; cin &gt;&gt; x;
+        vec.push_back(x);
+    }
+    sort(vec.begin(), vec.end());
+    for (int t = 1; t &lt; n; t++) {
+        vec = f(vec);
+    }
+    cout &lt;&lt; ans + vec[0] &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2023-04-09 15:19:39 -0500 -0500">2023-04-09</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/ff329f36d59b85a09c5a5740bd67bb493185caf5" title="add 103,104,105" target="_blank">(ff329f36)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/104-CF1862F.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/105-nac2020/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">NAC2020</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/103-bitset/">
+            <span class="next-text nav-default">Bitset优化</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

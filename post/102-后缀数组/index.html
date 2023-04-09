@@ -16,14 +16,14 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="模版 代码 struct SA { int n, sa[maxn], rk[maxn&amp;lt;&amp;lt;1], oldrk[maxn&amp;lt;&amp;lt;1], cnt[maxn], id[maxn], key1[maxn], height[maxn]; // 注意 rk[maxn&amp;lt;&amp;lt;1] oldrk[maxn&amp;lt;&amp;lt;1] char s[maxn]; int m = 127; bool cmp(int i, int j, int w) { return oldrk[i] == oldrk[j] &amp;amp;&amp;amp; oldrk[i&#43;w] == oldrk[j&#43;w]; } void init(string&amp;amp; ss) { n = ss.size(); // LOG(n); for (int i = 1; i &amp;lt;= n; i&#43;&#43;) s[i] = ss[i-1]; for (int i = 1;" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="模版 代码 // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$ 的排名。（第 $i$ 个后缀的排名是 rk" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/102-%E5%90%8E%E7%BC%80%E6%95%B0%E7%BB%84/" />
@@ -31,27 +31,24 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="后缀数组" />
-<meta property="og:description" content="模版 代码 struct SA { int n, sa[maxn], rk[maxn&lt;&lt;1], oldrk[maxn&lt;&lt;1], cnt[maxn], id[maxn], key1[maxn], height[maxn]; // 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1] char s[maxn]; int m = 127; bool cmp(int i, int j, int w) { return oldrk[i] == oldrk[j] &amp;&amp; oldrk[i&#43;w] == oldrk[j&#43;w]; } void init(string&amp; ss) { n = ss.size(); // LOG(n); for (int i = 1; i &lt;= n; i&#43;&#43;) s[i] = ss[i-1]; for (int i = 1;" />
+<meta property="og:description" content="模版 代码 // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$ 的排名。（第 $i$ 个后缀的排名是 rk" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/102-%E5%90%8E%E7%BC%80%E6%95%B0%E7%BB%84/" />
+<meta property="og:url" content="https://tom0727.github.io/post/102-%E5%90%8E%E7%BC%80%E6%95%B0%E7%BB%84/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-03-22T11:30:39-05:00" />
-<meta property="article:modified_time" content="2023-04-08T00:28:03+00:00" />
+<meta property="article:modified_time" content="2023-04-09T15:19:39-05:00" />
+
 <meta itemprop="name" content="后缀数组">
-<meta itemprop="description" content="模版 代码 struct SA { int n, sa[maxn], rk[maxn&lt;&lt;1], oldrk[maxn&lt;&lt;1], cnt[maxn], id[maxn], key1[maxn], height[maxn]; // 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1] char s[maxn]; int m = 127; bool cmp(int i, int j, int w) { return oldrk[i] == oldrk[j] &amp;&amp; oldrk[i&#43;w] == oldrk[j&#43;w]; } void init(string&amp; ss) { n = ss.size(); // LOG(n); for (int i = 1; i &lt;= n; i&#43;&#43;) s[i] = ss[i-1]; for (int i = 1;">
-<meta itemprop="datePublished" content="2023-03-22T11:30:39-05:00" />
-<meta itemprop="dateModified" content="2023-04-08T00:28:03&#43;00:00" />
-<meta itemprop="wordCount" content="468">
-
-
-
+<meta itemprop="description" content="模版 代码 // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$ 的排名。（第 $i$ 个后缀的排名是 rk"><meta itemprop="datePublished" content="2023-03-22T11:30:39-05:00" />
+<meta itemprop="dateModified" content="2023-04-09T15:19:39-05:00" />
+<meta itemprop="wordCount" content="1340">
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="后缀数组"/>
-<meta name="twitter:description" content="模版 代码 struct SA { int n, sa[maxn], rk[maxn&lt;&lt;1], oldrk[maxn&lt;&lt;1], cnt[maxn], id[maxn], key1[maxn], height[maxn]; // 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1] char s[maxn]; int m = 127; bool cmp(int i, int j, int w) { return oldrk[i] == oldrk[j] &amp;&amp; oldrk[i&#43;w] == oldrk[j&#43;w]; } void init(string&amp; ss) { n = ss.size(); // LOG(n); for (int i = 1; i &lt;= n; i&#43;&#43;) s[i] = ss[i-1]; for (int i = 1;"/>
+<meta name="twitter:description" content="模版 代码 // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$ 的排名。（第 $i$ 个后缀的排名是 rk"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -149,6 +146,12 @@
         <li><a href="#模版">模版</a></li>
         <li><a href="#介绍">介绍</a></li>
         <li><a href="#算法">算法</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p2408-不同子串个数httpswwwluogucomcnproblemp2408">例1 洛谷P2408 <a href="https://www.luogu.com.cn/problem/P2408">不同子串个数</a></a></li>
+            <li><a href="#例2-洛谷p2870-usaco07decbest-cow-line-ghttpswwwluogucomcnproblemp2870">例2 洛谷P2870 <a href="https://www.luogu.com.cn/problem/P2870">[USACO07DEC]Best Cow Line G</a></a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -158,7 +161,10 @@
     <div class="post-content">
       <h2 id="模版">模版</h2>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
-<pre><code class="language-cpp">struct SA {
+<pre><code class="language-cpp">// sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。
+// rk[i]：后缀 $i$ 的排名。（第 $i$ 个后缀的排名是 rk[i]）。
+// height[i]: LCP(sa[i-1], sa[i])，即第 $i-1$ 名的后缀和 第 $i$ 名的后缀的最长公共前缀长度
+struct SA {
     int n, sa[maxn], rk[maxn&lt;&lt;1], oldrk[maxn&lt;&lt;1], cnt[maxn], id[maxn], key1[maxn], height[maxn];  // 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1]
     char s[maxn];
     int m = 127;
@@ -227,9 +233,87 @@ int main() {
 <ol>
 <li><code>sa[i]</code>：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 <code>sa[i]</code> 这个后缀）。</li>
 <li><code>rk[i]</code>：后缀 $i$ 的排名。（第 $i$ 个后缀的排名是 <code>rk[i]</code>）。</li>
-<li></li>
+<li><code>height[i]</code>: <code>LCP(sa[i-1], sa[i])</code>，即第 $i-1$ 名的后缀和 第 $i$ 名的后缀的最长公共前缀长度。</li>
 </ol>
 <h2 id="算法">算法</h2>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p2408-不同子串个数httpswwwluogucomcnproblemp2408">例1 洛谷P2408 <a href="https://www.luogu.com.cn/problem/P2408" target="_blank">不同子串个数</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的字符串 $s$，求 $s$ 内不同的子串个数。</p>
+<p>其中，$n \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>答案就是 全部子串数量 $- \sum\limits_{i=2}^n height[i]$。</p>
+<p>考虑排序后排名第 $i$ 的后缀（长度为 $m$）贡献了哪些新的子串，有且仅有 $m - height[i]$。</p>
+<p>因为跟排名 $i-1$ 的后缀比较，新贡献的肯定是这么多。</p>
+<p>如果贡献的数量 $&lt; m - height[i]$，说明这个后缀的前缀在之前的某一个位置出现过了，这说明 $LCP(j, i) &gt; height[i]$，其中 $j &lt; i-1$，这与 $LCP(j,i) = \min\limits_{k=j+1}^i height[k]$ 冲突了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<p>同模版。</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int n;
+int main() {
+    cin &gt;&gt; n;
+    string s; cin &gt;&gt; s;
+    sa.init(s);
+
+    ll ans = (ll)(n) * (n+1) / 2;
+    for (int i = 1; i &lt;= n; i++) ans -= sa.height[i];
+    cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<h3 id="例2-洛谷p2870-usaco07decbest-cow-line-ghttpswwwluogucomcnproblemp2870">例2 洛谷P2870 <a href="https://www.luogu.com.cn/problem/P2870" target="_blank">[USACO07DEC]Best Cow Line G</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的字符串 $s$，每次可以从 $s$ 的首部和尾部字符中选一个出来，直到 $s$ 为空，求能够获得的字典序最小的字符串。</p>
+<p>其中，$n \leq 5 \times 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>当首尾字符不一样时，肯定选较小的那个。</p>
+<p>当首尾字符一样时，我们就继续看第 $2$ 个和第 $n-1$ 个字符，如果还是一样就继续对比，直到第一个不一样的为止。</p>
+<p>但这样是 $O(n^2)$ 的。</p>
+<p>我们观察一下可以发现，首尾字符一样时，本质是比较 $s$ 的一个后缀，和 $s'$ (反过来的 $s$) 的一个后缀的大小。</p>
+<p>那么比较两个字符串的后缀的大小，我们在后缀数组里可以 $O(1)$ 做到。</p>
+<p>将两个字符串拼在一起的方法是 <code>s + '@' + s'</code>，其中 <code>@</code> 是一个比所有字符都小的字符，这样保证它在后缀数组中不会影响到 $s,s'$ 后缀的计算。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int n;
+string s, ans;
+int main() {
+    fastio;
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        char c; cin &gt;&gt; c; s += c;
+    }
+    string t = s;
+    s += (char)('A' - 1);
+    reverse(t.begin(), t.end());
+    s += t;
+    sa.init(s);
+
+    int i = 1, j = n;
+    while (i &lt;= j) {
+        if (s[i-1] &lt; s[j-1]) ans += s[i-1], i++;
+        else if (s[i-1] &gt; s[j-1]) ans += s[j-1], j--;
+        else {
+            // 比较 s[i] 开始的后缀和 t[2n+2-j] 开始的后缀的大小
+            if (sa.rk[i] &lt; sa.rk[2*n+2-j]) ans += s[i-1], i++;
+            else ans += s[j-1], j--;
+        }
+    }
+    int cnt = 0;
+    for (int i = 0; i &lt; n; i++) {
+        cout &lt;&lt; ans[i];
+        if (++cnt == 80) cnt = 0, cout &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -241,8 +325,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-04-08 00:28:03 &#43;0000 UTC">2023-04-08</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/84d70f3e05ac8aec41cbca4d7602f4b26679a193" title="chore: update CF Problems" target="_blank">(84d70f3)</a>
+        <span title="2023-04-09 15:19:39 -0500 -0500">2023-04-09</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/ff329f36d59b85a09c5a5740bd67bb493185caf5" title="add 103,104,105" target="_blank">(ff329f36)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/102-%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -258,9 +342,9 @@ int main() {
           <a href="/tags//"></a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/">
+        <a class="prev" href="/post/103-bitset/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">[置顶]竞赛注意事项/通用模版</span>
+            <span class="prev-text nav-default">Bitset优化</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="/post/101-%E4%BA%8C%E7%BB%B4st%E8%A1%A8/">
@@ -340,7 +424,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

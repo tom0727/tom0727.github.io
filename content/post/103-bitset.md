@@ -794,7 +794,178 @@ int main() {
 {{% /fold %}}
 
 
+## bitset 优化二分图匹配
+
+bitset 在加上一些诡异的优化后，可以在 $n=7000$ 的情况下 $O(n^3)$ 跑出二分图最大匹配。
+
+### 例1 Universal Cup 12 M.[Colorful Graph](https://qoj.ac/contest/1207/problem/6329)
+
+{{% question 题意 %}}
+
+给定一个 $n$ 个点，$m$ 条边的有向图。
+
+现在需要将所有的点染色 $c_i$，在染色后，保证对于任意两个节点 $i,j$，如果 $c_i=c_j$，那么有
+
+$i$ 能够到达 $j$ 或者 $j$ 能够到达 $i$。
+
+求一个染色方案，使得总颜色数量最小，并且输出这个方案。
+
+其中，$n,m \leq 7000$，时间限制 $8$ 秒，空间限制 $64$ MB。
+
+{{% /question %}}
+
+{{% fold "题解" %}}
+
+首先 SCC 缩点，缩点后得到一个DAG，我们知道在同一个 SCC 内的颜色肯定相同。
+
+然后变成 DAG 中可以相交的最小路径覆盖，我们记得可相交的最小路径覆盖需要对于每一个 $i,j$，如果 $i$ 能够到达 $j$ 那么连 $i \rightarrow j$ 这条边。
+
+但这样的话总共有 $O(n^2)$ 条边，这题卡空间，很明显过不了。
+
+于是考虑用 bitset 优化空间，然后可达性就用闭包来 $O(\frac{n^3}{w})$ 传递即可。
+
+这样可以得到一个 `bitset<maxn> f[maxn]` 来表达一个邻接矩阵。
+
+<hr>
+
+然后解决最小路径覆盖问题，用最大匹配，但最大匹配是 $O(n^3)$ 的明显会T。
+
+我们有三个优化：
+
+1. 注意到在最大匹配里，有 `vis[]` 数组来表示这个右侧点在这一轮是否被访问过，
+   
+    我们可以用一个 `bitset<maxn> can` 也来表达这个意思。`can[j] = 1` 代表这个右侧点可以在这一轮被使用。
+
+2. 在最大匹配中，我们枚举了所有的边 $(i,j)$，并且check是否有 $j$ 被 visit 过。
+
+    在 bitset 中，我们可以直接用 `can` 筛选掉所有用不上的边（`bitset<maxn> F = (f[i] & can);`），然后利用 `for (int j = F._Find_first(); j < F.size(); j = F._Find_next(j))` 枚举边。
+
+3. 如果这一轮匹配未成功，代表没有边发生变化，也就意味着如果右侧点 $j$ 在上一轮匹配失败了，那么这一轮一定也会匹配失败。
+
+    所以，若当前这一轮匹配并未成功，我们无需重置 `can`。
+
+• 以上三个优化缺一不可，少了一个就会 T。
+
+{{% /fold %}}
 
 
+{{% fold "代码" %}}
 
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+const int maxn = 7002;
 
+int n, m;
+vector<int> adj[maxn];
+
+struct Tarjan {
+    int dfn[maxn], low[maxn], id, from[maxn], scc = 0, sz[maxn];
+    bool in[maxn];  // instack or not
+    int st[maxn], tail = -1;
+    void dfs(int u) {
+        in[u] = 1;
+        st[++tail] = u;
+        dfn[u] = low[u] = ++id;
+        for (int to : adj[u]) {
+            if (dfn[to] && in[to]) low[u] = min(low[u], dfn[to]);  // 要记得在栈内
+            if (!dfn[to]) {
+                dfs(to);
+                low[u] = min(low[u], low[to]);
+            }
+        }
+        if (dfn[u] == low[u]) {
+            from[u] = ++scc;
+            sz[scc] = 1;
+            while (tail >= 0 && st[tail] != u) {
+                int cur = st[tail];
+                from[cur] = from[u];
+                sz[scc]++;
+                tail--;
+                in[cur] = 0;  // 记得这里，将在栈中的标记去掉
+            }
+            tail--;
+            in[u] = 0;  // 记得这里，将在栈中的标记去掉
+        }
+    }
+    // 跑tarjan
+    void solve() {
+        for (int i = 1; i <= n; i++) {
+            if (!dfn[i]) dfs(i);
+        }
+    }
+} tj;
+
+bitset<maxn> f[maxn], can;
+pii ed[maxn];
+
+int match[maxn], id = 0;
+bool dfs(int i) {
+    bitset<maxn> F = (f[i] & can);   // 优化1: 筛选出有用的边
+    for (int j = F._Find_first(); j < F.size(); j = F._Find_next(j)) {   // 优化2: 不考虑不存在的边
+        can[j] = 0;
+        if (!match[j] || dfs(match[j])) {
+            match[j] = i;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int color[maxn], pre[maxn], nxt[maxn], ans[maxn];
+int main() {
+    fastio;
+    cin >> n >> m;
+    for (int i = 1; i <= m; i++) {
+        int u, v; cin >> u >> v;
+        adj[u].push_back(v);
+        ed[i] = {u, v};
+    }
+    tj.solve();
+    for (int i = 1; i <= m; i++) {
+        int u = ed[i].first, v = ed[i].second;
+        int fu = tj.from[u], fv = tj.from[v];
+        if (fu == fv) continue;
+        f[fu][fv] = 1;
+    }
+
+    int N = tj.scc;
+    for (int i = 1; i <= N; i++) {
+        for (int j = 1; j <= N; j++) {
+            if (f[j][i]) f[j] |= f[i];
+        }
+    }
+
+    can.set();
+    for (int i = 1; i <= N; i++) {
+        if (dfs(i)) can.set();  // 优化3: 只有在匹配成功时，才重置 can 
+    }
+
+    int c = 0;
+    for (int i = 1; i <= N; i++) {
+        if (match[i]) {
+            nxt[match[i]] = i;
+            pre[i] = match[i];
+        }
+    }
+
+    for (int i = 1; i <= N; i++) {
+        if (!pre[i]) {
+            int j = i;
+            ++c;
+            while (j) {
+                color[j] = c;
+                j = nxt[j];
+            }
+        }
+    }
+
+    for (int i = 1; i <= n; i++) {
+        ans[i] = color[tj.from[i]];
+        cout << ans[i] << " ";
+    }
+    cout << "\n";
+}
+```
+
+{{% /fold %}}

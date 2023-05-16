@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/043-%E6%A0%91%E7%9A%84%E7%9B%B4%E5%BE%84/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="树的直径" />
 <meta property="og:description" content="定义 树的直径是指：在一棵有权/无权树中，所有简单路径中，权值和最大的那一条。 树的直径有以下性质：（以下，我们假设所有边上的权值均 $\geq 0$）。 直" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/043-%E6%A0%91%E7%9A%84%E7%9B%B4%E5%BE%84/" />
+<meta property="og:url" content="https://tom0727.github.io/post/043-%E6%A0%91%E7%9A%84%E7%9B%B4%E5%BE%84/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-04-18T15:34:17+08:00" />
-<meta property="article:modified_time" content="2023-05-01T01:34:07+00:00" />
+<meta property="article:modified_time" content="2021-06-01T12:19:01+08:00" />
+
 <meta itemprop="name" content="树的直径">
-<meta itemprop="description" content="定义 树的直径是指：在一棵有权/无权树中，所有简单路径中，权值和最大的那一条。 树的直径有以下性质：（以下，我们假设所有边上的权值均 $\geq 0$）。 直">
-<meta itemprop="datePublished" content="2021-04-18T15:34:17&#43;08:00" />
-<meta itemprop="dateModified" content="2023-05-01T01:34:07&#43;00:00" />
+<meta itemprop="description" content="定义 树的直径是指：在一棵有权/无权树中，所有简单路径中，权值和最大的那一条。 树的直径有以下性质：（以下，我们假设所有边上的权值均 $\geq 0$）。 直"><meta itemprop="datePublished" content="2021-04-18T15:34:17+08:00" />
+<meta itemprop="dateModified" content="2021-06-01T12:19:01+08:00" />
 <meta itemprop="wordCount" content="6459">
-
-
-
 <meta itemprop="keywords" content="树论,树的直径," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="树的直径"/>
 <meta name="twitter:description" content="定义 树的直径是指：在一棵有权/无权树中，所有简单路径中，权值和最大的那一条。 树的直径有以下性质：（以下，我们假设所有边上的权值均 $\geq 0$）。 直"/>
@@ -452,21 +449,21 @@ int main() {
 <p>$$lmax[L,R] = \max\limits_{l \leq r, l,r \in [L,R]} \{a[l] - 2 \times \min\limits_{l \leq k \leq r}a[k] \}$$</p>
 <p>则，我们有以下转移方程：</p>
 <p>$$rmax[L,R] = \max \begin{cases}
-rmax[L, mid] \\<br>
-rmax[mid+1, R] \\<br>
+rmax[L, mid] \\
+rmax[mid+1, R] \\
 max[mid+1,R] - 2\times min[L, mid]
 \end{cases}
 $$</p>
 <p>$$lmax[L,R] = \max \begin{cases}
-lmax[L, mid] \\<br>
-lmax[mid+1, R] \\<br>
+lmax[L, mid] \\
+lmax[mid+1, R] \\
 max[L, mid] - 2\times min[mid+1, R]
 \end{cases}
 $$</p>
 <p>$$D[L,R] = \max \begin{cases}
-D[L, mid] \\<br>
-D[mid+1, R] \\<br>
-max[L, mid] + rmax[mid+1, R]  \\<br>
+D[L, mid] \\
+D[mid+1, R] \\
+max[L, mid] + rmax[mid+1, R]  \\
 lmax[L, mid] + max[mid+1, R]
 \end{cases}
 $$</p>
@@ -1046,7 +1043,7 @@ int main() {
 </details>
 <h2 id="参考链接">参考链接</h2>
 <ol>
-<li><a href="https://www.luogu.com.cn/problem/solution/P6845">https://www.luogu.com.cn/problem/solution/P6845</a></li>
+<li><a href="https://www.luogu.com.cn/problem/solution/P6845" target="_blank">https://www.luogu.com.cn/problem/solution/P6845</a></li>
 </ol>
 
     </div>
@@ -1059,8 +1056,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-05-01 01:34:07 &#43;0000 UTC">2023-05-01</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/14d95e7a9b983b042780ad8deaae0222c485903e" title="chore: update clicks" target="_blank">(14d95e7)</a>
+        <span title="2021-06-01 12:19:01 &#43;0800 &#43;0800">2021-06-01</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f25e898ac55a0bccfb35f5a17e68ffe2703b2bbf" title="test new UpdateClicks.py" target="_blank">(f25e898a)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/043-%e6%a0%91%e7%9a%84%e7%9b%b4%e5%be%84.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -1158,7 +1155,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/094-%E5%8D%9A%E5%BC%88%E8%AE%BA/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="博弈论与SG函数" />
 <meta property="og:description" content="公平组合游戏 公平组合游戏 Impartial Combinatorial Game (ICG) 满足以下性质： 有 $2$ 名玩家。 $2$ 名玩家轮流操作，在一个游戏集合中选其中一个进行操作。 对于任意一个合法的局面，当前" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/094-%E5%8D%9A%E5%BC%88%E8%AE%BA/" />
+<meta property="og:url" content="https://tom0727.github.io/post/094-%E5%8D%9A%E5%BC%88%E8%AE%BA/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-01-20T13:51:32-06:00" />
-<meta property="article:modified_time" content="2023-05-01T01:34:07+00:00" />
+<meta property="article:modified_time" content="2023-05-16T15:59:21-05:00" />
+
 <meta itemprop="name" content="博弈论与SG函数">
-<meta itemprop="description" content="公平组合游戏 公平组合游戏 Impartial Combinatorial Game (ICG) 满足以下性质： 有 $2$ 名玩家。 $2$ 名玩家轮流操作，在一个游戏集合中选其中一个进行操作。 对于任意一个合法的局面，当前">
-<meta itemprop="datePublished" content="2023-01-20T13:51:32-06:00" />
-<meta itemprop="dateModified" content="2023-05-01T01:34:07&#43;00:00" />
-<meta itemprop="wordCount" content="1045">
-
-
-
+<meta itemprop="description" content="公平组合游戏 公平组合游戏 Impartial Combinatorial Game (ICG) 满足以下性质： 有 $2$ 名玩家。 $2$ 名玩家轮流操作，在一个游戏集合中选其中一个进行操作。 对于任意一个合法的局面，当前"><meta itemprop="datePublished" content="2023-01-20T13:51:32-06:00" />
+<meta itemprop="dateModified" content="2023-05-16T15:59:21-05:00" />
+<meta itemprop="wordCount" content="1418">
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="博弈论与SG函数"/>
 <meta name="twitter:description" content="公平组合游戏 公平组合游戏 Impartial Combinatorial Game (ICG) 满足以下性质： 有 $2$ 名玩家。 $2$ 名玩家轮流操作，在一个游戏集合中选其中一个进行操作。 对于任意一个合法的局面，当前"/>
@@ -150,6 +147,11 @@
         <li><a href="#nim游戏">Nim游戏</a></li>
         <li><a href="#博弈图和状态">博弈图和状态</a></li>
         <li><a href="#sg函数">SG函数</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-cf1823e-removing-graphhttpscodeforcescomcontest1823probleme">例1 CF1823E. <a href="https://codeforces.com/contest/1823/problem/E">Removing Graph</a></a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -204,6 +206,40 @@
 <p>$SG(x_1) \oplus SG(x_2) \oplus &hellip; \oplus SG(x_n) = 0$，表示必败状态。</p>
 <p>$SG(x_1) \oplus SG(x_2) \oplus &hellip; \oplus SG(x_n) &gt; 0$，表示必胜状态。</p>
 <p>• 在 nim 游戏中，有 $SG(x) = x$，即当前状态有几个石子，SG函数就是几。</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-cf1823e-removing-graphhttpscodeforcescomcontest1823probleme">例1 CF1823E. <a href="https://codeforces.com/contest/1823/problem/E" target="_blank">Removing Graph</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个图，有 $n$ 个节点和 $n$ 条边，这个图是若干个联通分量组成的，每个联通分量一定是一个环。</p>
+<p>现在 Alice 和 Bob 轮流对这个图进行一些操作，每次操作选择一个联通分量，然后删掉这个分量上的一些点和对应的边，这些点必须本身组成一个subgraph。</p>
+<p>每次可以删 $[l,r]$ 个点。</p>
+<p>求谁能赢？</p>
+<p>其中，$n \leq 2 \times 10^5, 1 \leq l &lt; r \leq n$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>第一眼看起来像是 nim 游戏的变种（每次只能remove $[l,r]$ 个石头），如果是这样的话那么 <code>sg(i) = (i % (l+r)) / l</code>，但这个不太一样。</p>
+<p>注意到将一个环的 subgraph remove掉以后，会断成两条链，这就不太一样了，所以我们只能打表找找规律。</p>
+<p>我们设环和链的 SG 函数分别为 $A,B$，那么就有：</p>
+<p>$$B_i = \text{mex} \{ B_j \text{ xor } B_k ~|~ j+k \in [i-r, i-l]\}$$</p>
+<p>$$A_i = \text{mex} \{ B_j ~|~ j \in [i-r, i-l]\}$$</p>
+<p>经过一些打表观察后，可以发现：</p>
+<ol>
+<li>
+<p>$A_i=0$ 当且仅当 $i \geq l+r$。</p>
+</li>
+<li>
+<p>$A_i = \frac{i}{l}$ 当且仅当 $i &lt; l+r$。</p>
+</li>
+</ol>
+<p>然后就做完了。</p>
+<p>具体证明可以看 <a href="https://codeforces.com/blog/entry/115465" target="_blank">这里</a>。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+</code></pre>
+</details>
 
     </div>
 
@@ -215,8 +251,8 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-05-01 01:34:07 &#43;0000 UTC">2023-05-01</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/14d95e7a9b983b042780ad8deaae0222c485903e" title="chore: update clicks" target="_blank">(14d95e7)</a>
+        <span title="2023-05-16 15:59:21 -0500 -0500">2023-05-16</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0f81f96a1dbd4988a7baf711977c81d6b0a7815d" title="add 106" target="_blank">(0f81f96a)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/094-%e5%8d%9a%e5%bc%88%e8%ae%ba.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -314,7 +350,7 @@
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

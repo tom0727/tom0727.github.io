@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>DFS/BFS树 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 在一个 无向图 中，DFS树是一个生成树（包含 $n-1$ 条边）。DFS树是在DFS过程中，如果从 dfs(u) 走到 dfs(v)，那么 $(u,v)$ 这条边将会加入DFS树。 B" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/106-dfs-bfs-tree/" />
+<link rel="manifest" href="/manifest.json">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="DFS/BFS树" />
+<meta property="og:description" content="介绍 在一个 无向图 中，DFS树是一个生成树（包含 $n-1$ 条边）。DFS树是在DFS过程中，如果从 dfs(u) 走到 dfs(v)，那么 $(u,v)$ 这条边将会加入DFS树。 B" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/106-dfs-bfs-tree/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-05-15T23:50:50-05:00" />
+<meta property="article:modified_time" content="2023-05-16T15:59:21-05:00" />
+
+<meta itemprop="name" content="DFS/BFS树">
+<meta itemprop="description" content="介绍 在一个 无向图 中，DFS树是一个生成树（包含 $n-1$ 条边）。DFS树是在DFS过程中，如果从 dfs(u) 走到 dfs(v)，那么 $(u,v)$ 这条边将会加入DFS树。 B"><meta itemprop="datePublished" content="2023-05-15T23:50:50-05:00" />
+<meta itemprop="dateModified" content="2023-05-16T15:59:21-05:00" />
+<meta itemprop="wordCount" content="2170">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="DFS/BFS树"/>
+<meta name="twitter:description" content="介绍 在一个 无向图 中，DFS树是一个生成树（包含 $n-1$ 条边）。DFS树是在DFS过程中，如果从 dfs(u) 走到 dfs(v)，那么 $(u,v)$ 这条边将会加入DFS树。 B"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">DFS/BFS树</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-05-15 23:50:50 -0500 -0500"> 2023-05-15 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#性质">性质</a>
+          <ul>
+            <li><a href="#dfs树">DFS树</a></li>
+            <li><a href="#bfs树">BFS树</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-abc251f-two-spanning-treeshttpsatcoderjpcontestsabc251tasksabc251_f">例1 ABC251F. <a href="https://atcoder.jp/contests/abc251/tasks/abc251_f">Two Spanning Trees</a></a></li>
+            <li><a href="#例2-cf118e-bertown-roadshttpscodeforcescomcontest118probleme">例2 CF118E. <a href="https://codeforces.com/contest/118/problem/E">Bertown roads</a></a></li>
+            <li><a href="#例3-universal-cup-16-h-classical-maximization-problemhttpsqojaccontest1223problem6414v1">例3 Universal Cup 16 H. <a href="https://qoj.ac/contest/1223/problem/6414?v=1">Classical Maximization Problem</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>在一个 <strong>无向图</strong> 中，DFS树是一个生成树（包含 $n-1$ 条边）。DFS树是在DFS过程中，如果从 <code>dfs(u)</code> 走到 <code>dfs(v)</code>，那么 $(u,v)$ 这条边将会加入DFS树。</p>
+<p>BFS树同理。</p>
+<p><img src="/images/106/1.png" alt="img"></p>
+<div style='max-width:50%'>
+<p>上图是一个 DFS 树的形状。</p>
+</div>
+<h2 id="性质">性质</h2>
+<h3 id="dfs树">DFS树</h3>
+<ol>
+<li>在 DFS 树中，所有的 <strong>非树边 $(u,v)$</strong> 都一定<strong>是 back edge</strong>，即 $u$ 是 $v$ 的祖先（或者反过来），不可能出现 cross edge。</li>
+<li>只有 DFS 的树边可能是桥，DFS的非树边不可能是桥。</li>
+<li>如果一条树边 $(u,v)$ 是桥，那么 $v$ 的子树内不存在非树边指向 $u$ 的任意祖先。</li>
+</ol>
+<p>证明：</p>
+<ol>
+<li>如果一条非树边是 cross edge，那么 DFS 的过程中应该会沿着这条边访问，这条边应该是树边。</li>
+<li>因为 DFS树 本身是一棵生成树，所以去掉所有非树边都仍然联通。</li>
+<li>这其实就是 tarjan 的原理。</li>
+</ol>
+<h3 id="bfs树">BFS树</h3>
+<ol>
+<li>在 BFS 树中，所有的 <strong>非树边 $(u,v)$</strong> 一定 <strong>不是 back edge</strong>，即 $u$ 一定与 $v$ 没有祖孙关系，并且 $u,v$ 的深度相差至多 $1$。</li>
+</ol>
+<p>证明：</p>
+<ol>
+<li>如果一条非树边 $(u,v)$ 中，$u,v$ 的深度相差 $\geq 2$，那么 BFS 的过程一定会通过 $u$ 走到 $v$，所以 $(u,v)$ 是树边。</li>
+</ol>
+<h2 id="例题">例题</h2>
+<h3 id="例1-abc251f-two-spanning-treeshttpsatcoderjpcontestsabc251tasksabc251_f">例1 ABC251F. <a href="https://atcoder.jp/contests/abc251/tasks/abc251_f" target="_blank">Two Spanning Trees</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个无向图，求两个生成树 $T_1,T_2$ 分别满足：</p>
+<p>$T_1$：若以 $1$ 为根，对于所有的非树边 $(u,v)$，$u,v$ 互为子孙。</p>
+<p>$T_2$：若以 $1$ 为根，对于所有的非树边 $(u,v)$，$u,v$ 互不为子孙。</p>
+<p>其中，$n,m \leq 2 \times 10^5$，保证图是联通的。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>$T_1$ 就是 DFS 树，而 $T_2$ 就是 BFS 树。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e5+5;
+
+int n, m;
+vector&lt;int&gt; adj[maxn];
+bool vis[maxn];
+vector&lt;pii&gt; dft, bft;
+void dfs(int u) {
+    vis[u] = 1;
+    for (int v : adj[u]) {
+        if (vis[v]) continue;
+        dft.push_back({u,v});
+        dfs(v);
+    }
+}
+void bfs() {
+    queue&lt;int&gt; q;
+    q.push(1);
+    memset(vis, 0, sizeof(vis));
+    vis[1] = 1;
+    while (q.size()) {
+        int u = q.front(); q.pop();
+        for (int v : adj[u]) {
+            if (vis[v]) continue;
+            vis[v] = 1;
+            q.push(v);
+            bft.push_back({u,v});
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int u, v; cin &gt;&gt; u &gt;&gt; v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    dfs(1);
+    bfs();
+    for (auto [u, v] : dft) cout &lt;&lt; u &lt;&lt; &quot; &quot; &lt;&lt; v &lt;&lt; &quot;\n&quot;;
+    for (auto [u, v] : bft) cout &lt;&lt; u &lt;&lt; &quot; &quot; &lt;&lt; v &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<h3 id="例2-cf118e-bertown-roadshttpscodeforcescomcontest118probleme">例2 CF118E. <a href="https://codeforces.com/contest/118/problem/E" target="_blank">Bertown roads</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个无向图，求是否存在一种方案让它变成有向图，并且任意两点之间仍然可以到达？如果有，输出这个方案。</p>
+<p>其中，$n \leq 10^5, m \leq 3 \times 10^5$，原图是一个联通图。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先，如果原图存在桥，那么无解。</p>
+<p>因为如果 $u,v$ 是一个桥，那么如果让它变成有向的 $u \rightarrow v$，那么 $v$ 就无法到达 $u$ 了。</p>
+<p>判桥用 tarjan 即可。</p>
+<hr>
+<p>没有桥说明有解，接下来考虑怎么变成有向图。</p>
+<p>跑一个 DFS 树，然后结论是：</p>
+<blockquote>
+<p>所有树边都从 parent 连向 child，所有非树边都从 child 连向 ancestor。</p>
+</blockquote>
+<p>证明：首先可知根节点可以到达所有的点，只要证明<strong>所有的点均可以到达根节点</strong>即可。</p>
+<p>考虑到这个图没有桥，意味着对于任意的树边 $u \rightarrow v$，$v$ 的子树内一定存在一个点，指向了 $u$ 的某个祖先。所以我们可以从 $u$ 出发，来到 $v$ 的子树中的某一个点，然后通过这条非树边来到 $u$ 的某个祖先。</p>
+<p>由于没有桥，这个过程可以一直重复，也就是从任意点出发，都可以一直往它的祖先走，直到走到根。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e5+5;
+
+int n, m, dfn[maxn], low[maxn], id = 0;
+vector&lt;int&gt; adj[maxn];
+bool bridge = 0;
+set&lt;pii&gt; se;
+void tarjan(int u, int p) {
+    dfn[u] = low[u] = ++id;
+    for (int to : adj[u]) {
+        if (to == p) continue;  // 注意不能用parent
+        if (dfn[to]) low[u] = min(low[u], dfn[to]);
+        else {
+            tarjan(to, u);
+            se.insert({u, to});
+            low[u] = min(low[u], low[to]);
+            if (low[to] &gt; dfn[u]) {  // 注意这里的条件
+                bridge = 1;
+            }
+        }
+    }
+}
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int u, v; cin &gt;&gt; u &gt;&gt; v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    tarjan(1, 0);
+    if (bridge) {
+        cout &lt;&lt; 0 &lt;&lt; &quot;\n&quot;;
+        return 0;
+    }
+    for (int u = 1; u &lt;= n; u++) {
+        for (int v : adj[u]) {
+            if (dfn[u] &lt; dfn[v]) {
+                if (se.count({u,v})) cout &lt;&lt; u &lt;&lt; &quot; &quot; &lt;&lt; v &lt;&lt; &quot;\n&quot;;
+                else cout &lt;&lt; v &lt;&lt; &quot; &quot; &lt;&lt; u &lt;&lt; &quot;\n&quot;;
+            }
+        }
+    }
+}
+</code></pre>
+</details>
+<h3 id="例3-universal-cup-16-h-classical-maximization-problemhttpsqojaccontest1223problem6414v1">例3 Universal Cup 16 H. <a href="https://qoj.ac/contest/1223/problem/6414?v=1" target="_blank">Classical Maximization Problem</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $2n$ 个二维平面上的互不相同的点。</p>
+<p>求出最大数量的 pair，使得每一个pair都是两个点 $i,j$ 使得 $x_i = x_j$ 或者 $y_i = y_j$。</p>
+<p>每个点只能存在于至多一个 pair 中。</p>
+<p>输出最大pair的数量，以及pair的方案。</p>
+<p>其中，$n \leq 10^5, x_i,y_i \in [-10^9, 10^9]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>将所有的 $x$ 坐标，$y$ 坐标作为一个点，每个点 $(x_i,y_i)$ 就是 $x_i \rightarrow y_i$ 的一条边。</p>
+<p>这样可以多个联通分量，每个联通分量都是一个二分图。很明显联通分量之间是分开的。</p>
+<p>然后问题转变成，找出最多的pair使得每两条边之间都有一个共同的点。先给一个结论：</p>
+<blockquote>
+<p>对于大小为 $n$ 的联通分量，一定可以找到一种方案使得有 $\frac{n}{2}$ 个pair。</p>
+</blockquote>
+<p>证明：</p>
+<p>我们在这个图上跑一个 DFS 树，对于每棵子树 $v$，如果里面有偶数条边，那么它们一定可以在 $v$ 的子树内匹配完成。如果这个子树有奇数条边，那么它可以匹配到只剩下一条边，这条边就是连向 parent 的边。</p>
+<p>如何证明？用归纳法：</p>
+<p>考虑当前的节点 $u$，这个节点会有很多个儿子的子树，如果子树 $v$ 里面多了一条边，那么就是 $(u,v)$ 这条树边。</p>
+<p>并且节点 $u$ 自己也会连一些非树边出来，由于这是 DFS 树，这个树边一定是连到 $u$ 的子树内的某个节点。</p>
+<p>也就是说，这些多余的边全部都有 $u$ 这个共同点，那么它们之间就可以俩俩匹配了，所以 $u$ 也满足了偶数条边就可以全部匹配，奇数条边就只贡献一条边的特点。</p>
+<p>这样递归的解决问题即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e5+5;
+const int maxm = 6e5+55;
+
+int n;
+struct Node {
+    int x, y, idx;
+} a[maxn];
+
+struct Edge {
+    int to, idx;
+};
+
+vector&lt;Edge&gt; adj[maxn&lt;&lt;1];
+bool vis[maxn&lt;&lt;1];
+vector&lt;pii&gt; ans;
+int dep[maxn&lt;&lt;1];
+
+// dfs 返回 &gt;0 代表里面剩了一个边，这个边与 v 直接相连，编号就是返回值
+int dfs(int u, int p) {
+    dep[u] = dep[p] + 1;
+    vis[u] = 1;
+    vector&lt;int&gt; vec;
+    for (auto [v, idx] : adj[u]) {
+        if (v == p) continue;
+        if (vis[v] &amp;&amp; dep[v] &lt; dep[u]) continue;  // 如果这是一个backward edge
+        int r = 1;
+        if (!vis[v]) {
+            r = dfs(v, u);
+            if (r) {
+                ans.push_back({r, idx});
+            } else {
+                vec.push_back(idx);
+            }
+        } else vec.push_back(idx);
+    }
+    // vec 里面所有都是与 u 直接相连的
+    while (vec.size() &gt;= 2) {
+        int i = vec.back(); vec.pop_back();
+        int j = vec.back(); vec.pop_back();
+        assert(i &gt; 0); assert(j &gt; 0);
+        ans.push_back({i,j});
+    }
+    if (vec.size()) return vec[0];
+    return 0;
+}
+
+void solve() {
+    int N = 0;
+    cin &gt;&gt; n; n*=2;
+    map&lt;int, int&gt; xs, ys;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; a[i].x &gt;&gt; a[i].y;
+        if (!xs.count(a[i].x)) xs[a[i].x] = ++N;
+        if (!ys.count(a[i].y)) ys[a[i].y] = ++N;
+        a[i].idx = i;
+        int u = xs[a[i].x], v = ys[a[i].y];
+        adj[u].push_back({v, i});
+        adj[v].push_back({u, i});
+    }
+
+    for (int i = 1; i &lt;= N; i++) {
+        if (!vis[i]) dfs(i, 0);
+    }
+
+    vector&lt;bool&gt; used(n+5, 0);
+    cout &lt;&lt; ans.size() &lt;&lt; &quot;\n&quot;;
+    for (auto [u,v] : ans) {
+        cout &lt;&lt; u &lt;&lt; &quot; &quot; &lt;&lt; v &lt;&lt; &quot;\n&quot;;
+        used[u] = used[v] = 1;
+    }
+    vector&lt;int&gt; tmp;
+    for (int i = 1; i &lt;= n; i++) {
+        if (!used[i]) tmp.push_back(i);
+    }
+    for (int i = 0; i &lt; tmp.size(); i+=2) cout &lt;&lt; tmp[i] &lt;&lt; &quot; &quot; &lt;&lt; tmp[i+1] &lt;&lt; &quot;\n&quot;;
+
+    ans.clear();
+    for (int i = 1; i &lt;= N; i++) adj[i].clear();
+    fill(vis, vis+N+2, 0);
+    fill(dep, dep+N+2, 0);
+}
+
+int main() {
+    int T; cin &gt;&gt; T;
+    while (T--) {
+        solve();
+    }
+}
+
+</code></pre>
+</details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://codeforces.com/blog/entry/68138" target="_blank">https://codeforces.com/blog/entry/68138</a></li>
+<li><a href="https://www.cnblogs.com/miraclepbc/p/16280781.html" target="_blank">https://www.cnblogs.com/miraclepbc/p/16280781.html</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2023-05-16 15:59:21 -0500 -0500">2023-05-16</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0f81f96a1dbd4988a7baf711977c81d6b0a7815d" title="add 106" target="_blank">(0f81f96a)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/106-dfs-bfs-tree.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">[置顶]竞赛注意事项/通用模版</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/105-nac2020/">
+            <span class="next-text nav-default">NAC2020</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

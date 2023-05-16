@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/050-%E7%BA%BF%E6%80%A7%E5%9F%BA/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="线性基" />
 <meta property="og:description" content="介绍 线性基是一般用于解决 子集XOR，XOR最值 一类问题的算法。 定义 线性基是一个 linear space，在这个space中，所有的向量为 非负整数，而 scalar 则" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/050-%E7%BA%BF%E6%80%A7%E5%9F%BA/" />
+<meta property="og:url" content="https://tom0727.github.io/post/050-%E7%BA%BF%E6%80%A7%E5%9F%BA/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-09-14T13:44:57+08:00" />
-<meta property="article:modified_time" content="2023-05-01T01:34:07+00:00" />
+<meta property="article:modified_time" content="2023-02-25T23:09:27-06:00" />
+
 <meta itemprop="name" content="线性基">
-<meta itemprop="description" content="介绍 线性基是一般用于解决 子集XOR，XOR最值 一类问题的算法。 定义 线性基是一个 linear space，在这个space中，所有的向量为 非负整数，而 scalar 则">
-<meta itemprop="datePublished" content="2021-09-14T13:44:57&#43;08:00" />
-<meta itemprop="dateModified" content="2023-05-01T01:34:07&#43;00:00" />
+<meta itemprop="description" content="介绍 线性基是一般用于解决 子集XOR，XOR最值 一类问题的算法。 定义 线性基是一个 linear space，在这个space中，所有的向量为 非负整数，而 scalar 则"><meta itemprop="datePublished" content="2021-09-14T13:44:57+08:00" />
+<meta itemprop="dateModified" content="2023-02-25T23:09:27-06:00" />
 <meta itemprop="wordCount" content="6356">
-
-
-
 <meta itemprop="keywords" content="线性基," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="线性基"/>
 <meta name="twitter:description" content="介绍 线性基是一般用于解决 子集XOR，XOR最值 一类问题的算法。 定义 线性基是一个 linear space，在这个space中，所有的向量为 非负整数，而 scalar 则"/>
@@ -269,7 +266,7 @@ bool insert(ll x) {
 <p>查询一个元素 $x$ 是否满足 $x \in span(S)$，只要遵循上面的 <code>insert</code> 操作，然后不进行真正的插入即可。</p>
 <h2 id="应用">应用</h2>
 <h3 id="最大子集-xor-和">最大子集 XOR 和</h3>
-<p>Q: 给定一个数组 $S$，求它的子集 $S&rsquo; \subseteq S$，使得 $S'$ 中所有元素的 XOR值 最大。</p>
+<p>Q: 给定一个数组 $S$，求它的子集 $S' \subseteq S$，使得 $S'$ 中所有元素的 XOR值 最大。</p>
 <p>A: 构造 $S$ 的线性基，然后从高到低位遍历线性基，如果 <code>ans ^ a[i]</code> 更大，则 <code>ans = ans ^ a[i]</code>。</p>
 <h3 id="例-洛谷p3812-模板线性基httpswwwluogucomcnproblemp3812">例 <a href="https://www.luogu.com.cn/problem/P3812" target="_blank">洛谷P3812 【模板】线性基</a></h3>
 <div class="admonition question">
@@ -935,9 +932,9 @@ int main() {
 </details>
 <h2 id="参考链接">参考链接</h2>
 <ol>
-<li><a href="https://oi.men.ci/linear-basis-notes/">https://oi.men.ci/linear-basis-notes/</a></li>
-<li><a href="https://ouuan.github.io/post/%E7%BA%BF%E6%80%A7%E5%9F%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">https://ouuan.github.io/post/%E7%BA%BF%E6%80%A7%E5%9F%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/68575986">https://zhuanlan.zhihu.com/p/68575986</a></li>
+<li><a href="https://oi.men.ci/linear-basis-notes/" target="_blank">https://oi.men.ci/linear-basis-notes/</a></li>
+<li><a href="https://ouuan.github.io/post/%E7%BA%BF%E6%80%A7%E5%9F%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_blank">https://ouuan.github.io/post/%E7%BA%BF%E6%80%A7%E5%9F%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/68575986" target="_blank">https://zhuanlan.zhihu.com/p/68575986</a></li>
 </ol>
 
     </div>
@@ -950,8 +947,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-05-01 01:34:07 &#43;0000 UTC">2023-05-01</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/14d95e7a9b983b042780ad8deaae0222c485903e" title="chore: update clicks" target="_blank">(14d95e7)</a>
+        <span title="2023-02-25 23:09:27 -0600 -0600">2023-02-25</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/c2f667616679de14694c7dd3c527bf5c1d8c9e1f" title="add 096, 097" target="_blank">(c2f66761)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/050-%e7%ba%bf%e6%80%a7%e5%9f%ba.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -1048,7 +1045,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

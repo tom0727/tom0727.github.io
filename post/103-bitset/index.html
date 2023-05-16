@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/103-bitset/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="Bitset优化" />
 <meta property="og:description" content="bitset作为C&#43;&#43;自带的数据结构，利用bit储存信息，由于 1 byte = 8 bits，并且一个int就有 4 bytes，所以通常情况下用 bitset 可以达到 32" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/103-bitset/" />
+<meta property="og:url" content="https://tom0727.github.io/post/103-bitset/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-03-30T22:13:18-05:00" />
-<meta property="article:modified_time" content="2023-05-01T01:34:07+00:00" />
+<meta property="article:modified_time" content="2023-05-16T15:59:21-05:00" />
+
 <meta itemprop="name" content="Bitset优化">
-<meta itemprop="description" content="bitset作为C&#43;&#43;自带的数据结构，利用bit储存信息，由于 1 byte = 8 bits，并且一个int就有 4 bytes，所以通常情况下用 bitset 可以达到 32">
-<meta itemprop="datePublished" content="2023-03-30T22:13:18-05:00" />
-<meta itemprop="dateModified" content="2023-05-01T01:34:07&#43;00:00" />
-<meta itemprop="wordCount" content="5757">
-
-
-
+<meta itemprop="description" content="bitset作为C&#43;&#43;自带的数据结构，利用bit储存信息，由于 1 byte = 8 bits，并且一个int就有 4 bytes，所以通常情况下用 bitset 可以达到 32"><meta itemprop="datePublished" content="2023-03-30T22:13:18-05:00" />
+<meta itemprop="dateModified" content="2023-05-16T15:59:21-05:00" />
+<meta itemprop="wordCount" content="6923">
 <meta itemprop="keywords" content="bitset,," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Bitset优化"/>
 <meta name="twitter:description" content="bitset作为C&#43;&#43;自带的数据结构，利用bit储存信息，由于 1 byte = 8 bits，并且一个int就有 4 bytes，所以通常情况下用 bitset 可以达到 32"/>
@@ -170,6 +167,11 @@
         <li><a href="#bitset结合莫队">bitset结合莫队</a>
           <ul>
             <li><a href="#例1-洛谷p5355-ynoi2017-由乃的玉米田httpswwwluogucomcnproblemp5355">例1 洛谷P5355 <a href="https://www.luogu.com.cn/problem/P5355">[Ynoi2017] 由乃的玉米田</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#bitset-优化二分图匹配">bitset 优化二分图匹配</a>
+          <ul>
+            <li><a href="#例1-universal-cup-12-mcolorful-graphhttpsqojaccontest1207problem6329">例1 Universal Cup 12 M.<a href="https://qoj.ac/contest/1207/problem/6329">Colorful Graph</a></a></li>
           </ul>
         </li>
       </ul>
@@ -647,7 +649,7 @@ int main() {
 <p>首先利用莫队离线所有的询问，然后对于每一个区间 $[l,r]$ 我们都可以知道有哪些数字出现在了这个区间内。</p>
 <p>对于第一种询问，如果 $a-b = x$，那么 $b=a-x$，这说明只要存在 $a$，使得 $a, a-x$ 同时出现在这个区间内即可。</p>
 <p>所以只要维护 <code>bitset&lt;maxn&gt; f</code> 表示这个区间出现的数，然后求 <code>f &amp; (f &gt;&gt; x)</code> 是否有 $1$ 即可。</p>
-<p>对于第二种询问，如果 $a+b = x$，我们希望把 $b$ 的符号反过来，所以我们定义 $N=10^5$（值域的最大值），然后令 $b&rsquo; = N-b$，有 $a+N-b&rsquo; = x$，所以得到 $b&rsquo; = a+N-x$。注意到，$b'$ 对应的 <code>bitset</code> 是 $f$ 反过来的版本 $g$，所以我们只要检查 <code>f &amp; (g&gt;&gt;(N-x))</code> 是否有 $1$ 即可。</p>
+<p>对于第二种询问，如果 $a+b = x$，我们希望把 $b$ 的符号反过来，所以我们定义 $N=10^5$（值域的最大值），然后令 $b' = N-b$，有 $a+N-b' = x$，所以得到 $b' = a+N-x$。注意到，$b'$ 对应的 <code>bitset</code> 是 $f$ 反过来的版本 $g$，所以我们只要检查 <code>f &amp; (g&gt;&gt;(N-x))</code> 是否有 $1$ 即可。</p>
 <hr>
 <p>第三和第四种询问不再需要 <code>bitset</code> 和莫队了。</p>
 <p>对于第三种询问，可以直接暴力枚举 $x$ 的所有因数（只有 $\sqrt n$ 个）。</p>
@@ -789,6 +791,159 @@ int main() {
 }
 </code></pre>
 </details>
+<h2 id="bitset-优化二分图匹配">bitset 优化二分图匹配</h2>
+<p>bitset 在加上一些诡异的优化后，可以在 $n=7000$ 的情况下 $O(n^3)$ 跑出二分图最大匹配。</p>
+<h3 id="例1-universal-cup-12-mcolorful-graphhttpsqojaccontest1207problem6329">例1 Universal Cup 12 M.<a href="https://qoj.ac/contest/1207/problem/6329" target="_blank">Colorful Graph</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个点，$m$ 条边的有向图。</p>
+<p>现在需要将所有的点染色 $c_i$，在染色后，保证对于任意两个节点 $i,j$，如果 $c_i=c_j$，那么有</p>
+<p>$i$ 能够到达 $j$ 或者 $j$ 能够到达 $i$。</p>
+<p>求一个染色方案，使得总颜色数量最小，并且输出这个方案。</p>
+<p>其中，$n,m \leq 7000$，时间限制 $8$ 秒，空间限制 $64$ MB。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>首先 SCC 缩点，缩点后得到一个DAG，我们知道在同一个 SCC 内的颜色肯定相同。</p>
+<p>然后变成 DAG 中可以相交的最小路径覆盖，我们记得可相交的最小路径覆盖需要对于每一个 $i,j$，如果 $i$ 能够到达 $j$ 那么连 $i \rightarrow j$ 这条边。</p>
+<p>但这样的话总共有 $O(n^2)$ 条边，这题卡空间，很明显过不了。</p>
+<p>于是考虑用 bitset 优化空间，然后可达性就用闭包来 $O(\frac{n^3}{w})$ 传递即可。</p>
+<p>这样可以得到一个 <code>bitset&lt;maxn&gt; f[maxn]</code> 来表达一个邻接矩阵。</p>
+<hr>
+<p>然后解决最小路径覆盖问题，用最大匹配，但最大匹配是 $O(n^3)$ 的明显会T。</p>
+<p>我们有三个优化：</p>
+<ol>
+<li>
+<p>注意到在最大匹配里，有 <code>vis[]</code> 数组来表示这个右侧点在这一轮是否被访问过，</p>
+<p>我们可以用一个 <code>bitset&lt;maxn&gt; can</code> 也来表达这个意思。<code>can[j] = 1</code> 代表这个右侧点可以在这一轮被使用。</p>
+</li>
+<li>
+<p>在最大匹配中，我们枚举了所有的边 $(i,j)$，并且check是否有 $j$ 被 visit 过。</p>
+<p>在 bitset 中，我们可以直接用 <code>can</code> 筛选掉所有用不上的边（<code>bitset&lt;maxn&gt; F = (f[i] &amp; can);</code>），然后利用 <code>for (int j = F._Find_first(); j &lt; F.size(); j = F._Find_next(j))</code> 枚举边。</p>
+</li>
+<li>
+<p>如果这一轮匹配未成功，代表没有边发生变化，也就意味着如果右侧点 $j$ 在上一轮匹配失败了，那么这一轮一定也会匹配失败。</p>
+<p>所以，若当前这一轮匹配并未成功，我们无需重置 <code>can</code>。</p>
+</li>
+</ol>
+<p>• 以上三个优化缺一不可，少了一个就会 T。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 7002;
+
+int n, m;
+vector&lt;int&gt; adj[maxn];
+
+struct Tarjan {
+    int dfn[maxn], low[maxn], id, from[maxn], scc = 0, sz[maxn];
+    bool in[maxn];  // instack or not
+    int st[maxn], tail = -1;
+    void dfs(int u) {
+        in[u] = 1;
+        st[++tail] = u;
+        dfn[u] = low[u] = ++id;
+        for (int to : adj[u]) {
+            if (dfn[to] &amp;&amp; in[to]) low[u] = min(low[u], dfn[to]);  // 要记得在栈内
+            if (!dfn[to]) {
+                dfs(to);
+                low[u] = min(low[u], low[to]);
+            }
+        }
+        if (dfn[u] == low[u]) {
+            from[u] = ++scc;
+            sz[scc] = 1;
+            while (tail &gt;= 0 &amp;&amp; st[tail] != u) {
+                int cur = st[tail];
+                from[cur] = from[u];
+                sz[scc]++;
+                tail--;
+                in[cur] = 0;  // 记得这里，将在栈中的标记去掉
+            }
+            tail--;
+            in[u] = 0;  // 记得这里，将在栈中的标记去掉
+        }
+    }
+    // 跑tarjan
+    void solve() {
+        for (int i = 1; i &lt;= n; i++) {
+            if (!dfn[i]) dfs(i);
+        }
+    }
+} tj;
+
+bitset&lt;maxn&gt; f[maxn], can;
+pii ed[maxn];
+
+int match[maxn], id = 0;
+bool dfs(int i) {
+    bitset&lt;maxn&gt; F = (f[i] &amp; can);   // 优化1: 筛选出有用的边
+    for (int j = F._Find_first(); j &lt; F.size(); j = F._Find_next(j)) {   // 优化2: 不考虑不存在的边
+        can[j] = 0;
+        if (!match[j] || dfs(match[j])) {
+            match[j] = i;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int color[maxn], pre[maxn], nxt[maxn], ans[maxn];
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++) {
+        int u, v; cin &gt;&gt; u &gt;&gt; v;
+        adj[u].push_back(v);
+        ed[i] = {u, v};
+    }
+    tj.solve();
+    for (int i = 1; i &lt;= m; i++) {
+        int u = ed[i].first, v = ed[i].second;
+        int fu = tj.from[u], fv = tj.from[v];
+        if (fu == fv) continue;
+        f[fu][fv] = 1;
+    }
+
+    int N = tj.scc;
+    for (int i = 1; i &lt;= N; i++) {
+        for (int j = 1; j &lt;= N; j++) {
+            if (f[j][i]) f[j] |= f[i];
+        }
+    }
+
+    can.set();
+    for (int i = 1; i &lt;= N; i++) {
+        if (dfs(i)) can.set();  // 优化3: 只有在匹配成功时，才重置 can 
+    }
+
+    int c = 0;
+    for (int i = 1; i &lt;= N; i++) {
+        if (match[i]) {
+            nxt[match[i]] = i;
+            pre[i] = match[i];
+        }
+    }
+
+    for (int i = 1; i &lt;= N; i++) {
+        if (!pre[i]) {
+            int j = i;
+            ++c;
+            while (j) {
+                color[j] = c;
+                j = nxt[j];
+            }
+        }
+    }
+
+    for (int i = 1; i &lt;= n; i++) {
+        ans[i] = color[tj.from[i]];
+        cout &lt;&lt; ans[i] &lt;&lt; &quot; &quot;;
+    }
+    cout &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -800,8 +955,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-05-01 01:34:07 &#43;0000 UTC">2023-05-01</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/14d95e7a9b983b042780ad8deaae0222c485903e" title="chore: update clicks" target="_blank">(14d95e7)</a>
+        <span title="2023-05-16 15:59:21 -0500 -0500">2023-05-16</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0f81f96a1dbd4988a7baf711977c81d6b0a7815d" title="add 106" target="_blank">(0f81f96a)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/103-bitset.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -899,7 +1054,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

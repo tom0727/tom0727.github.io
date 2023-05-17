@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.92.2 with theme even" />
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/067-%E6%A0%91%E5%A5%97%E6%A0%91/" />
@@ -31,21 +31,24 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="树套树" />
 <meta property="og:description" content="介绍 树套树常常用于解决一些二维数点问题。 经典的问题如：矩阵内查询和/最大值，更新矩阵内一个点的值等等。 在介绍树套树之前，先简单讲一下树状数组" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/067-%E6%A0%91%E5%A5%97%E6%A0%91/" /><meta property="article:section" content="post" />
+<meta property="og:url" content="https://tom0727.github.io/post/067-%E6%A0%91%E5%A5%97%E6%A0%91/" />
 <meta property="article:published_time" content="2022-01-20T18:30:51+08:00" />
-<meta property="article:modified_time" content="2022-01-26T17:05:47+08:00" />
-
+<meta property="article:modified_time" content="2023-05-16T15:59:21-05:00" />
 <meta itemprop="name" content="树套树">
-<meta itemprop="description" content="介绍 树套树常常用于解决一些二维数点问题。 经典的问题如：矩阵内查询和/最大值，更新矩阵内一个点的值等等。 在介绍树套树之前，先简单讲一下树状数组"><meta itemprop="datePublished" content="2022-01-20T18:30:51+08:00" />
-<meta itemprop="dateModified" content="2022-01-26T17:05:47+08:00" />
-<meta itemprop="wordCount" content="5248">
+<meta itemprop="description" content="介绍 树套树常常用于解决一些二维数点问题。 经典的问题如：矩阵内查询和/最大值，更新矩阵内一个点的值等等。 在介绍树套树之前，先简单讲一下树状数组">
+<meta itemprop="datePublished" content="2022-01-20T18:30:51&#43;08:00" />
+<meta itemprop="dateModified" content="2023-05-16T15:59:21-05:00" />
+<meta itemprop="wordCount" content="5254">
+
+
+
 <meta itemprop="keywords" content="树套树,线段树,树状数组," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="树套树"/>
 <meta name="twitter:description" content="介绍 树套树常常用于解决一些二维数点问题。 经典的问题如：矩阵内查询和/最大值，更新矩阵内一个点的值等等。 在介绍树套树之前，先简单讲一下树状数组"/>
@@ -266,7 +269,7 @@ int main() {
 <p>然后就有了一个比较简单的 <code>dp</code> 思路：</p>
 <p>设 <code>dp[i][j]</code> 代表：当前考虑前 $i$ 个元素，已经用掉了 $j$ 次操作，恰好以 $i$ 为结尾的最长 LIS 的长度。</p>
 <p>然后我们不需要讨论当前用了多少个，我们直接用前面所有可能的状态进行转移：</p>
-<p>$$dp[i][j] = \max\sum\limits_{i' \in [1,i-1], j' \in [0,j]} \{dp[i'][j'] + 1\}, ~ 其中 a[i] + j \geq a[i'] + j'。$$</p>
+<p>$$dp[i][j] = \max\sum\limits_{i&rsquo; \in [1,i-1], j&rsquo; \in [0,j]} \{dp[i&rsquo;][j&rsquo;] + 1\}, ~ 其中 a[i] + j \geq a[i&rsquo;] + j&rsquo;。$$</p>
 <p>总共有 $3$ 个条件（维度），这个东西怎么优化？</p>
 <p>首先，如果我们将 $i$ 从小到大枚举，那么 $i$ 这一维可以直接忽略掉。</p>
 <p>所以我们就剩下了 $a[i] + j$ 和 $j$ 这两个维度。</p>
@@ -734,8 +737,8 @@ int main() {
 </details>
 <h2 id="参考链接">参考链接</h2>
 <ol>
-<li><a href="https://www.cnblogs.com/Mychael/p/9049136.html" target="_blank">https://www.cnblogs.com/Mychael/p/9049136.html</a></li>
-<li><a href="https://www.cnblogs.com/wozaixuexi/p/9462461.html" target="_blank">https://www.cnblogs.com/wozaixuexi/p/9462461.html</a></li>
+<li><a href="https://www.cnblogs.com/Mychael/p/9049136.html">https://www.cnblogs.com/Mychael/p/9049136.html</a></li>
+<li><a href="https://www.cnblogs.com/wozaixuexi/p/9462461.html">https://www.cnblogs.com/wozaixuexi/p/9462461.html</a></li>
 </ol>
 
     </div>
@@ -748,8 +751,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-01-26 17:05:47 &#43;0800 &#43;0800">2022-01-26</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/dcda2a3a32c10dc24832fb84e2059eebbd3c1bc0" title="update 067" target="_blank">(dcda2a3a)</a>
+        <span title="2023-05-16 15:59:21 -0500 -0500">2023-05-16</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0f81f96a1dbd4988a7baf711977c81d6b0a7815d" title="add 106" target="_blank">(0f81f96)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/067-%e6%a0%91%e5%a5%97%e6%a0%91.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -848,7 +851,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

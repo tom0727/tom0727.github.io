@@ -30,12 +30,14 @@ BFS树同理。
 1. 在 DFS 树中，所有的 **非树边 $(u,v)$** 都一定**是 back edge**，即 $u$ 是 $v$ 的祖先（或者反过来），不可能出现 cross edge。
 2. 只有 DFS 的树边可能是桥，DFS的非树边不可能是桥。
 3. 如果一条树边 $(u,v)$ 是桥，那么 $v$ 的子树内不存在非树边指向 $u$ 的任意祖先。
+4. 对于任意的非树边 $(u,v)$，LCA一定是 $u$ （假设 $d_u < d_v$）。
 
 证明：
 
 1. 如果一条非树边是 cross edge，那么 DFS 的过程中应该会沿着这条边访问，这条边应该是树边。
 2. 因为 DFS树 本身是一棵生成树，所以去掉所有非树边都仍然联通。
 3. 这其实就是 tarjan 的原理。
+4. 根据性质1易证。
 
 
 ### BFS树
@@ -352,6 +354,166 @@ int main() {
 ```
 
 {{% /fold %}}
+
+
+### 例4 CF19E. [Fairy](https://codeforces.com/problemset/problem/19/E)
+
+{{% question 题意 %}}
+
+给定一张无向图，现在需要恰好删掉一条边，问有多少种方案，使得恰好删除一条边后，得到的图是二分图。
+
+输出所有的方案。
+
+其中，$n,m \leq 10^4$。
+
+{{% /question %}}
+
+
+{{% fold "题解" %}}
+
+注意到一个图是二分图 $\iff$ 可以被二分染色 $\iff$ 没有奇环。
+
+我们先跑一个 DFS 树出来，由于一棵树一定可以被二分染色，我们不妨先只考虑所有的树边，然后进行一个二分染色。
+
+然后分别讨论树边和非树边。
+
+首先，由于我们是根据树的结构来染色的，所以树边肯定不会有问题。但是非树边有可能会两端颜色相同，我们把两端颜色相同的非树边叫做 **坏边**，否则叫做 **好边**。
+
+1. 非树边：
+
+在染色后，一个非树边可以成为答案，当且仅当 **只有一条非树边是坏边**。显然，如果有至少 $2$ 个坏边，那么怎么remove都不可能得到一个二分图的。
+
+2. 树边：
+
+一个树边 $e$ 可以成为答案，当且仅当 **所有的坏边 $(u,v)$** 在树上的路径均穿过 $e$，并且 **没有好边** 在树上的路径穿过 $e$。
+
+所有的坏边必须穿过 $e$ 这一点好理解，由于坏边一定是构成了奇环，所以要断掉这个奇环，肯定得断掉环上的某一条边，如果存在一个坏边所在的奇环没有经过 $e$，那么断掉 $e$ 以后仍然存在奇环。
+
+为什么还要保证没有好边在树上的路径穿过 $e$ 呢？
+
+![img](/images/106/2.jpg)
+
+考虑这个例子，我们断开一条树边以后，如果我们暂时忽略掉非树边，那么我们可以得到两个联通块。由于坏边没有被删掉，所以坏边两端颜色还是相同。那么我们希望调整其中一个联通块的颜色，使得坏边两端的颜色不同。
+
+而一个联通块内部为了保证染色的正确性，只能将**整个联通块的颜色反转**。此时如果有一个原先的好边，连接了这两个联通块，那么反转后它反而会变成坏边。
+
+所以我们要保证没有好边在树上的路径穿过 $e$。
+
+<hr>
+
+于是我们对于每个树边，都统计有多少条好边的路径，多少条坏边的路径穿过了它即可。
+
+这是一个路径加，然后询问的问题。用树上差分即可实现，由于 DFS树 的特殊性质，一条非树边 $(u,v)$ 的 LCA 一定是 $u$，所以我们在 $O(1)$ 的时间就可以完成树上差分了。
+
+• 最后注意一下原图并非联通图。
+
+{{% /fold %}}
+
+
+{{% fold "代码" %}}
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+const int maxn = 2e5+5;
+const int maxm = 6e5+55;
+
+int n, m, color[maxn];
+struct Edge {
+    int u, v, idx;
+};
+vector<Edge> adj[maxn];
+bool vis[maxn], istree[maxn];  // istree[i]: 第i条边是树边
+bool bad[maxn];  // bad[i]: 第i条边不是树边，并且是坏边 (u,v颜色相同)
+int badcnt = 0;  // 有多少个联通块不是二分的
+int badcomp = 0;  // 这个联通块里有几个边是坏的
+vector<int> tmp;
+
+int good_dp[maxn], bad_dp[maxn], dep[maxn];
+void dfs(int u, int p) {
+    dep[u] = dep[p] + 1;
+    vis[u] = 1;
+    for (auto [_, v, idx] : adj[u]) {
+        if (v == p) continue;
+        if (vis[v] && dep[u] > dep[v]) continue;  // 必须是 ancestor -> child
+        if (!vis[v]) {
+            istree[idx] = 1;
+            color[v] = color[u] ^ 1;
+            dfs(v, u);
+        } else {
+            istree[idx] = 0;
+            // 坏边
+            if (color[u] == color[v]) {
+                badcomp++;
+                bad[idx] = 1;
+                tmp.push_back(idx);
+                bad_dp[v]++, bad_dp[u]--;
+            } else {
+                good_dp[v]++, good_dp[u]--;
+            }
+        }
+    }
+}
+
+vector<int> ans;
+void dfs2(int u, int p) {
+    int pidx = -1;
+    for (auto [_, v, idx] : adj[u]) {
+        if (!istree[idx]) continue;
+        // 树边
+        if (v == p) {
+            pidx = idx;
+            LOG(pidx);
+            continue;
+        }
+        dfs2(v, u);
+        good_dp[u] += good_dp[v];
+        bad_dp[u] += bad_dp[v];
+    }
+    if (good_dp[u] == 0 && bad_dp[u] == badcomp && badcomp > 0) ans.push_back(pidx);
+}
+
+int main() {
+    cin >> n >> m;
+    for (int i = 1; i <= m; i++) {
+        int u, v; cin >> u >> v;
+        adj[u].push_back({u, v, i});
+        adj[v].push_back({v, u, i});
+    }
+    for (int i = 1; i <= n; i++) {
+        if (!vis[i]) {
+            tmp.clear();
+
+            badcomp = 0;
+            dfs(i, 0);
+            badcnt += (badcomp > 0);
+
+            if (badcomp == 1) ans.push_back(tmp[0]); 
+
+            dfs2(i, 0);
+        }
+    }
+
+    if (badcnt == 0) {
+        cout << m << "\n";
+        for (int i = 1; i <= m; i++) cout << i << " ";
+        return 0;
+    } 
+    if (badcnt >= 2) {
+        cout << 0 << "\n";
+        return 0;
+    }
+    sort(ans.begin(), ans.end());
+    cout << ans.size() << "\n";
+    for (int i : ans) cout << i << " ";
+    cout << "\n";
+
+
+}
+```
+
+{{% /fold %}}
+
 
 
 

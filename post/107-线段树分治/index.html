@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>线段树分治 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/107-%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%88%86%E6%B2%BB/" />
+<link rel="manifest" href="/manifest.json">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="线段树分治" />
+<meta property="og:description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/107-%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%88%86%E6%B2%BB/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-05-17T17:42:06-05:00" />
+<meta property="article:modified_time" content="2023-05-27T17:49:00-04:00" />
+
+<meta itemprop="name" content="线段树分治">
+<meta itemprop="description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入"><meta itemprop="datePublished" content="2023-05-17T17:42:06-05:00" />
+<meta itemprop="dateModified" content="2023-05-27T17:49:00-04:00" />
+<meta itemprop="wordCount" content="2530">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="线段树分治"/>
+<meta name="twitter:description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">线段树分治</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-05-17 17:42:06 -0500 -0500"> 2023-05-17 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#经典例题">经典例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p5787-二分图-模板线段树分治httpswwwluogucomcnproblemp5787">例1 洛谷P5787 <a href="https://www.luogu.com.cn/problem/P5787">二分图 /【模板】线段树分治</a></a></li>
+            <li><a href="#例2-洛谷p5631-最小mex生成树httpswwwluogucomcnproblemp5631">例2 洛谷P5631 <a href="https://www.luogu.com.cn/problem/P5631">最小mex生成树</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>线段树分治一般用于处理一些 <strong>“只存在/不存在 权值为 $w$“</strong>，或者 <strong>”某个特定时间点”</strong> 对应状态的问题。</p>
+<p>原理是在线段树上进行 DFS，进入 DFS 时加入节点上的所有信息，回溯时则删除这些信息，当达到了叶子节点时就可以得到对应答案。</p>
+<p>• 由于有撤销操作，所以题目一般得是支持撤销的才行。</p>
+<h2 id="经典例题">经典例题</h2>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有一个 $n$ 个节点的无向图，现在给定一个时间轴 $1&hellip;k$，有 $m$ 条边，每条边 $(u,v)$ 将会在时间段 $[l,r]$ 出现，其他时间消失。</p>
+<p>现在对于每一个时间点，都回答：在这个时间点时，图是否为二分图。</p>
+<p>其中，$n,k \leq 10^5, m \leq 2 \times 10^5, [l,r] \in [1,k]$。</p>
+</div>
+<p>首先注意到，可以利用权值并查集来动态维护是否为二分图。</p>
+<p>然后我们构造一个线段树，当我们有一条在 $[l,r]$ 时间段的边 $(u,v)$ 时，就将这条边塞到 线段树的 $[l,r]$ 区间里，这样每个线段树节点维护一个 <code>vector&lt;Edge&gt;</code> 来保存这个时间段，存在哪些边。</p>
+<p>然后对线段树进行 DFS，进入一个节点时就将它上面的所有边加入并查集，回溯时就将这些边从并查集删除（所以需要可撤销并查集）。</p>
+<p>• 线段树其实就是一个容器，用来储存 Edge 的，本质上并没有维护 “区间信息”（有点类似 <a href="/post/098-nac2022/#l-triangular-logshttpsopenkattiscomproblemstriangularlogs">这道题</a> 中线段树的作用），所以也没有 <code>push_up, push_down</code>。</p>
+<p>• 当我们检测到已经不是二分图的时候就可以<strong>停止继续往里面 DFS，直接回溯即可</strong>，这样也避免了一些复杂的问题，比如非二分图撤销边以后如何判断是不是二分图。</p>
+<p>复杂度：每条边对应的时间段 $[l,r]$ 至多会被拆成 $O(\log k)$ 个线段树区间，而每条边都只会被加入和删除一次。而可撤销并查集的复杂度是 $O(\log n)$ 的，所以总复杂度为 $O(n \log n \log k)$。</p>
+<h3 id="例1-洛谷p5787-二分图-模板线段树分治httpswwwluogucomcnproblemp5787">例1 洛谷P5787 <a href="https://www.luogu.com.cn/problem/P5787" target="_blank">二分图 /【模板】线段树分治</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>如上。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 2e5+5;
+const int maxm = 6e5+55;
+
+struct State {
+    int u, v, szu, szv;
+} st[maxm];  // 注意这里是 maxm，应该是边的数量
+bool ok = 1;
+int n, m, k;
+struct DSU {
+    int par[maxn], sz[maxn], tail = 0;
+    inline void init() {
+        for (int i = 1; i &lt;= n*2; i++) par[i] = i, sz[i] = 1;
+        tail = 0;
+    }
+    int finds(int u) {
+        if (par[u] == u) return u;
+        return finds(par[u]);  // 无路径压缩
+    }
+    void unions(int u, int v) {
+        u = finds(u), v = finds(v);
+        if (sz[u] &lt; sz[v]) swap(u,v);  // sz[u] &gt;= sz[v]
+        st[++tail] = {u, v, sz[u], sz[v]};   // 无论是否 union 成功都要push到 stack 里
+        if (u == v) return;
+        par[v] = u;
+        sz[u] += sz[v];
+
+    }
+    void cancel() {
+        if (tail &gt; 0) {
+            int u = st[tail].u, v = st[tail].v;
+            par[v] = v;
+            sz[u] = st[tail].szu;
+            sz[v] = st[tail].szv;
+            tail--;
+        }
+    }
+} dsu;
+
+struct Edge {
+    int u, v, l, r;
+};
+struct TreeNode {
+    vector&lt;Edge&gt; vec;
+};
+bool ans[maxn];
+int bad = 0;
+struct SegmentTree {
+    TreeNode tr[maxn&lt;&lt;2];
+    void insert(int cur, int l, int r, int L, int R, Edge e) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            tr[cur].vec.push_back(e);
+            return;
+        }
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) insert(cur&lt;&lt;1, l, mid, L, R, e);
+        if (R &gt; mid) insert(cur&lt;&lt;1|1, mid+1, r, L, R, e);
+    }
+    void dfs(int cur, int l, int r) {
+        for (Edge&amp; e : tr[cur].vec) {
+            if (dsu.finds(e.u) == dsu.finds(e.v)) bad++;
+            dsu.unions(e.u, e.v + n);
+            dsu.unions(e.u + n, e.v);
+        }
+
+        if (bad) {
+            for (int i = l; i &lt;= r; i++) ans[l] = 0;
+            bad = 0;
+        } else {
+            if (l == r) {
+                ans[l] = 1;
+            } else {
+                int mid = (l+r) &gt;&gt; 1;
+                dfs(cur&lt;&lt;1, l, mid);
+                dfs(cur&lt;&lt;1|1, mid+1, r);
+            }
+        }
+
+        for (Edge&amp; e : tr[cur].vec) {
+            dsu.cancel();
+            dsu.cancel();
+        }
+    }
+} tr;
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;
+    dsu.init();
+    for (int i = 1; i &lt;= m; i++) {
+        int u, v, l, r; cin &gt;&gt; u &gt;&gt; v &gt;&gt; l &gt;&gt; r;
+        l++;
+        if (l &lt;= r) {
+            tr.insert(1, 1, k, l, r, {u,v,l,r});
+        }
+    }
+    tr.dfs(1, 1, k);
+    for (int i = 1; i &lt;= k; i++) cout &lt;&lt; (ans[i] ? &quot;Yes&quot; : &quot;No&quot;) &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<h3 id="例2-洛谷p5631-最小mex生成树httpswwwluogucomcnproblemp5631">例2 洛谷P5631 <a href="https://www.luogu.com.cn/problem/P5631" target="_blank">最小mex生成树</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个带权的无向联通图。</p>
+<p>求这个图的生成树，使得边权集合的 <code>mex</code> 最小，输出最小mex即可。</p>
+<p>其中，$n \leq 10^6, m \leq 2 \times 10^6, w \in [0,10^5]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>求出最小 mex 只需要对于每一个 $w$，将权值等于 $w$ 的边全部去掉，剩下的都加上，看是否能形成生成树即可。</p>
+<p>上一个例题中，线段树分治用于解决 “只包含权值为 $w$ 的边”，这个题我们可以反过来。例如有一条权值为 $3$ 的边，那么我们将它加入 $[0,2] \cup [4,10^5]$ 这两个区间内，然后再跑线段树分治，在 $3$ 的时候就代表 “仅不包含权值为 $w$ 的边” 了。</p>
+<hr>
+<p>但是注意到这个方法 <strong>不能用于求最大 mex 生成树</strong>！</p>
+<p>比如有三条边的权值分别为 $0,0,1$，任取两条边可以组成生成树，那么首先我们在去掉任意 $\geq 1$ 的边后都能形成生成树，答案看起来是 $1$，但实际上应该选权值为 $0,1$ 的两条边，答案可以得到 $2$。</p>
+<p>简单来说，去掉一个特定权值 $w$，能得到生成树，并不代表这个生成树的 mex 就等于 $w$。</p>
+<p>为什么最小mex就可以呢？</p>
+<p>假如我们去掉一个特定权值 $w$，能得到生成树，但实际上这个生成树的 mex 不等于 $w$，那么真实的 mex $m$ 一定是 $&lt; w$ 的，那么我们在继续判断更小的权值时，一定会判断到真实的 mex $m$（因为线段树分治本质上是暴力枚举）。枚举到 $m$ 时也肯定能组成一个生成树，所以答案为 $m$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+#include &lt;bits/stdc++.h&gt;
+
+using namespace std;
+
+#if __cplusplus &gt;= 201103L
+    struct pairhash {
+        static uint64_t splitmix64(uint64_t x) {
+            x += 0x9e3779b97f4a7c15;
+            x = (x ^ (x &gt;&gt; 30)) * 0xbf58476d1ce4e5b9;
+            x = (x ^ (x &gt;&gt; 27)) * 0x94d049bb133111eb;
+            return x ^ (x &gt;&gt; 31);
+        }
+
+        template&lt;class T, class U&gt;
+        size_t operator() (const pair&lt;T,U&gt; &amp;p) const {
+            static const uint64_t FIXED_RANDOM = (uint64_t)chrono::steady_clock::now().time_since_epoch().count();
+            return splitmix64(p.first + FIXED_RANDOM) ^ splitmix64(p.second+ FIXED_RANDOM);
+        }
+    };
+    struct custom_hash {
+        static uint64_t splitmix64(uint64_t x) {
+            x += 0x9e3779b97f4a7c15;
+            x = (x ^ (x &gt;&gt; 30)) * 0xbf58476d1ce4e5b9;
+            x = (x ^ (x &gt;&gt; 27)) * 0x94d049bb133111eb;
+            return x ^ (x &gt;&gt; 31);
+        }
+
+        size_t operator()(uint64_t x) const {
+            static const uint64_t FIXED_RANDOM = (uint64_t)chrono::steady_clock::now().time_since_epoch().count();
+            return splitmix64(x + FIXED_RANDOM);
+        }
+    };
+    mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
+    inline int randint(int l, int r) {
+        return uniform_int_distribution&lt;int&gt;(l,r)(rng);
+    }
+    inline double randdouble(double l, double r) {
+        return uniform_real_distribution&lt;double&gt;(l,r)(rng);
+    }
+#endif
+ 
+#ifndef ONLINE_JUDGE
+#  define LOG(x) (cerr &lt;&lt; #x &lt;&lt; &quot; = &quot; &lt;&lt; (x) &lt;&lt; endl)
+#else
+#  define LOG(x) 0
+#endif
+
+#define fastio ios::sync_with_stdio(false); cin.tie(0);
+#define ll long long
+#define ull unsigned long long
+#define ll128 __int128_t
+#define PI 3.14159265358979323846
+#define abs(a) ((a&gt;0)?a:-(a))
+#define pii pair&lt;int,int&gt;
+#define pll pair&lt;ll,ll&gt;
+
+const long double pi = acos(-1.0);
+const long double eps = (double)1e-2;
+
+int mod = (1&lt;&lt;30);
+
+template&lt;class T&gt;
+T qpow(T a, int b) {
+    T res = 1;
+    while (b) {
+        if (b &amp; 1) res *= a;
+        a *= a;
+        b &gt;&gt;= 1;
+    }
+    return res;
+}
+int norm(int x) {
+    if (x &lt; 0) {
+        x += mod;
+    }
+    if (x &gt;= mod) {
+        x -= mod;
+    }
+    return x;
+}
+struct Z {
+    int x;
+    Z(int x = 0) : x(norm(x)) {}
+    Z(ll x) : x(norm((int)(x % mod))) {}
+    int val() const {
+        return x;
+    }
+    Z operator-() const {
+        return Z(norm(mod - x));
+    }
+    Z inv() const {
+        assert(x != 0);
+        return qpow(*this, mod - 2);
+    }
+    Z &amp;operator*=(const Z &amp;rhs) {
+        x = (ll)(x) * rhs.x % mod;
+        return *this;
+    }
+    Z &amp;operator+=(const Z &amp;rhs) {
+        x = norm(x + rhs.x);
+        return *this;
+    }
+    Z &amp;operator-=(const Z &amp;rhs) {
+        x = norm(x - rhs.x);
+        return *this;
+    }
+    Z &amp;operator/=(const Z &amp;rhs) {
+        return *this *= rhs.inv();
+    }
+    friend Z operator*(const Z &amp;lhs, const Z &amp;rhs) {
+        Z res = lhs;
+        res *= rhs;
+        return res;
+    }
+    friend Z operator+(const Z &amp;lhs, const Z &amp;rhs) {
+        Z res = lhs;
+        res += rhs;
+        return res;
+    }
+    friend Z operator-(const Z &amp;lhs, const Z &amp;rhs) {
+        Z res = lhs;
+        res -= rhs;
+        return res;
+    }
+    friend Z operator/(const Z &amp;lhs, const Z &amp;rhs) {
+        Z res = lhs;
+        res /= rhs;
+        return res;
+    }
+    friend std::istream &amp;operator&gt;&gt;(std::istream &amp;is, Z &amp;a) {
+        ll v;
+        is &gt;&gt; v;
+        a = Z(v);
+        return is;
+    }
+    friend std::ostream &amp;operator&lt;&lt;(std::ostream &amp;os, const Z &amp;a) {
+        return os &lt;&lt; a.val();
+    }
+};
+
+const int maxn = 1e6+5;
+const int maxm = 4e6+55;
+
+struct State {
+    int u, v, szu, szv;
+} st[maxm];  // 注意这里是 maxm，应该是边的数量
+int uni = 0;  // union 的次数，如果等于 n-1 说明联通了
+int n, m, k;
+struct DSU {
+    int par[maxn], sz[maxn], tail = 0;
+    inline void init() {
+        for (int i = 1; i &lt;= n; i++) par[i] = i, sz[i] = 1;
+        tail = 0;
+    }
+    int finds(int u) {
+        if (par[u] == u) return u;
+        return finds(par[u]);  // 无路径压缩
+    }
+    void unions(int u, int v) {
+        u = finds(u), v = finds(v);
+        if (sz[u] &lt; sz[v]) swap(u,v);  // sz[u] &gt;= sz[v]
+        st[++tail] = {u, v, sz[u], sz[v]};   // 无论是否 union 成功都要push到 stack 里
+        if (u == v) return;
+        par[v] = u;
+        sz[u] += sz[v];
+        uni++;  // 成功union
+    }
+    void cancel() {
+        if (tail &gt; 0) {
+            int u = st[tail].u, v = st[tail].v;
+            par[v] = v;
+            if (sz[u] != st[tail].szu) uni--;  // 成功回退一次union
+            sz[u] = st[tail].szu;
+            sz[v] = st[tail].szv;
+            tail--;
+        }
+    }
+} dsu;
+
+struct Edge {
+    int u, v, w;
+};
+struct TreeNode {
+    vector&lt;Edge&gt; vec;
+};
+
+int ans = 1e5;
+struct SegmentTree {
+    TreeNode tr[(100005)&lt;&lt;2];
+    void insert(int cur, int l, int r, int L, int R, Edge e) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            tr[cur].vec.push_back(e);
+            return;
+        }
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) insert(cur&lt;&lt;1, l, mid, L, R, e);
+        if (R &gt; mid) insert(cur&lt;&lt;1|1, mid+1, r, L, R, e);
+    }
+    void dfs(int cur, int l, int r) {
+        for (Edge&amp; e : tr[cur].vec) {
+            dsu.unions(e.u, e.v);
+        }
+
+        if (l == r) {
+            if (uni == n-1) ans = min(ans, l);
+        } else {
+            int mid = (l+r) &gt;&gt; 1;
+            dfs(cur&lt;&lt;1, l, mid);
+            dfs(cur&lt;&lt;1|1, mid+1, r);
+        }
+
+        for (Edge&amp; e : tr[cur].vec) {
+            dsu.cancel();
+        }
+    }
+} tr;
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m;
+    dsu.init();
+    int N = 1e5;
+    for (int i = 1; i &lt;= m; i++) {
+        int u, v, w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        if (w &gt; 0)
+            tr.insert(1, 0, N, 0, w-1, {u, v, w});
+        if (w &lt; N)
+            tr.insert(1, 0, N, w+1, N, {u, v, w});
+    }
+    tr.dfs(1, 0, N);
+    cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2023-05-27 17:49:00 -0400 -0400">2023-05-27</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/343e95e882cd556447810a98ea9302b1f483d6d5" title="add 108,109,110,111" target="_blank">(343e95e8)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/107-%e7%ba%bf%e6%ae%b5%e6%a0%91%e5%88%86%e6%b2%bb.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/108-universal15/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Universal Cup 15 (Hangzhou)</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/106-dfs-bfs-tree/">
+            <span class="next-text nav-default">DFS/BFS树</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

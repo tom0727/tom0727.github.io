@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/024-%E8%8E%AB%E9%98%9F/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="莫队" />
 <meta property="og:description" content="介绍 莫队算法是一种基于分块思想的暴力算法，一般应用于同时满足以下条件的区间问题中： 已知 $[L,R]$ 之间的答案，能在 $O(1)$ 时间内转移到 $[L&#43;1,R], [L-1,R], [L,R&#43;1], [L,R-1]$ 的答案。 所有询" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/024-%E8%8E%AB%E9%98%9F/" />
+<meta property="og:url" content="https://tom0727.github.io/post/024-%E8%8E%AB%E9%98%9F/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-03-07T21:50:41+08:00" />
-<meta property="article:modified_time" content="2023-05-22T00:34:03+00:00" />
+<meta property="article:modified_time" content="2023-05-27T17:49:00-04:00" />
+
 <meta itemprop="name" content="莫队">
-<meta itemprop="description" content="介绍 莫队算法是一种基于分块思想的暴力算法，一般应用于同时满足以下条件的区间问题中： 已知 $[L,R]$ 之间的答案，能在 $O(1)$ 时间内转移到 $[L&#43;1,R], [L-1,R], [L,R&#43;1], [L,R-1]$ 的答案。 所有询">
-<meta itemprop="datePublished" content="2021-03-07T21:50:41&#43;08:00" />
-<meta itemprop="dateModified" content="2023-05-22T00:34:03&#43;00:00" />
-<meta itemprop="wordCount" content="2432">
-
-
-
+<meta itemprop="description" content="介绍 莫队算法是一种基于分块思想的暴力算法，一般应用于同时满足以下条件的区间问题中： 已知 $[L,R]$ 之间的答案，能在 $O(1)$ 时间内转移到 $[L&#43;1,R], [L-1,R], [L,R&#43;1], [L,R-1]$ 的答案。 所有询"><meta itemprop="datePublished" content="2021-03-07T21:50:41+08:00" />
+<meta itemprop="dateModified" content="2023-05-27T17:49:00-04:00" />
+<meta itemprop="wordCount" content="3385">
 <meta itemprop="keywords" content="莫队," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="莫队"/>
 <meta name="twitter:description" content="介绍 莫队算法是一种基于分块思想的暴力算法，一般应用于同时满足以下条件的区间问题中： 已知 $[L,R]$ 之间的答案，能在 $O(1)$ 时间内转移到 $[L&#43;1,R], [L-1,R], [L,R&#43;1], [L,R-1]$ 的答案。 所有询"/>
@@ -156,11 +153,18 @@
         <li><a href="#算法步骤">算法步骤</a></li>
         <li><a href="#需要注意的点">需要注意的点</a></li>
         <li><a href="#复杂度证明">复杂度证明</a></li>
-        <li><a href="#例题">例题</a></li>
-        <li><a href="#例1-小b的询问httpswwwluogucomcnproblemp2709">例1 <a href="https://www.luogu.com.cn/problem/P2709">小B的询问</a></a></li>
-        <li><a href="#例2-小z的袜子httpswwwluogucomcnproblemp1494">例2 <a href="https://www.luogu.com.cn/problem/P1494">小Z的袜子</a></a></li>
-        <li><a href="#例3-cf617ehttpscodeforcescomcontest617probleme">例3 <a href="https://codeforces.com/contest/617/problem/E">CF617E</a></a></li>
-        <li><a href="#带修莫队">带修莫队</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-小b的询问httpswwwluogucomcnproblemp2709">例1 <a href="https://www.luogu.com.cn/problem/P2709">小B的询问</a></a></li>
+            <li><a href="#例2-小z的袜子httpswwwluogucomcnproblemp1494">例2 <a href="https://www.luogu.com.cn/problem/P1494">小Z的袜子</a></a></li>
+            <li><a href="#例3-cf617ehttpscodeforcescomcontest617probleme">例3 <a href="https://codeforces.com/contest/617/problem/E">CF617E</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#带修莫队">带修莫队</a>
+          <ul>
+            <li><a href="#例1-洛谷p1903-国家集训队-数颜色--维护队列httpswwwluogucomcnproblemp1903">例1 洛谷P1903 <a href="https://www.luogu.com.cn/problem/P1903">[国家集训队] 数颜色 / 维护队列</a></a></li>
+          </ul>
+        </li>
         <li><a href="#参考链接">参考链接</a></li>
       </ul>
     </li>
@@ -224,7 +228,7 @@
 <p>当我们取 $B = \sqrt n$ 时，复杂度为 $O(n \sqrt n)$</p>
 <p>• 实际上最优复杂度应该取 $B = \frac{n}{\sqrt m}$，总复杂度为 $O(n \sqrt m)$</p>
 <h2 id="例题">例题</h2>
-<h2 id="例1-小b的询问httpswwwluogucomcnproblemp2709">例1 <a href="https://www.luogu.com.cn/problem/P2709" target="_blank">小B的询问</a></h2>
+<h3 id="例1-小b的询问httpswwwluogucomcnproblemp2709">例1 <a href="https://www.luogu.com.cn/problem/P2709" target="_blank">小B的询问</a></h3>
 <p>就是上面的例题，这里直接放代码。</p>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">using namespace std;
@@ -286,7 +290,7 @@ int main() {
 }
 </code></pre>
 </details>
-<h2 id="例2-小z的袜子httpswwwluogucomcnproblemp1494">例2 <a href="https://www.luogu.com.cn/problem/P1494" target="_blank">小Z的袜子</a></h2>
+<h3 id="例2-小z的袜子httpswwwluogucomcnproblemp1494">例2 <a href="https://www.luogu.com.cn/problem/P1494" target="_blank">小Z的袜子</a></h3>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
 <p>有 $N$ 个袜子，每个袜子 $i$ 有一个颜色 $c_i$，给定 $M$ 个询问 $[L,R]$，每次询问回答 $[L,R]$ 区间内随机抽两个袜子，颜色相同的概率？</p>
@@ -368,7 +372,7 @@ int main() {
 }
 </code></pre>
 </details>
-<h2 id="例3-cf617ehttpscodeforcescomcontest617probleme">例3 <a href="https://codeforces.com/contest/617/problem/E" target="_blank">CF617E</a></h2>
+<h3 id="例3-cf617ehttpscodeforcescomcontest617probleme">例3 <a href="https://codeforces.com/contest/617/problem/E" target="_blank">CF617E</a></h3>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
 <p>给定 $n$ 个整数 $a_1,a_2,&hellip;,a_n$，还有一个整数 $k$ ，以及 $m$ 个询问 $[l,r]$，每次询问求 有多少个$i,j$ 满足：</p>
@@ -458,11 +462,118 @@ int main() {
 </code></pre>
 </details>
 <h2 id="带修莫队">带修莫队</h2>
-<p>略。例题参考：https://www.luogu.com.cn/problem/P1903</p>
+<p>常规的莫队的状态是两个指针 $(l,r)$。带修莫队则增加了一个状态的指针 $t$，代表时间，这样就是 $(l,r,t)$ 作为一个状态了。</p>
+<p>转移的时候则可以往 $6$ 个方向转移，每次转移仍然是 $O(1)$ 的。</p>
+<p>为什么要带时间呢？我们利用时间来记录修改。每有一次修改，我们就记录这个修改的时间为 <code>++t</code>，查询不计入时间轴内，但查询本身需要记录它对应的时间点。</p>
+<p>然后在回答每一次查询的时候，我们希望把时间轴调整到这个查询所在的时间点，在调整时间的时候就进行/回溯修改。</p>
+<p>• 我们记录两种 struct，一种是查询，一种是修改。</p>
+<p>而每个查询sort的时候也是有讲究的，第一优先级是 $l$ 所在的block（和原先一样），第二优先级是 $r$ <strong>所在的 block</strong>（注意和原先<strong>不一样</strong>！），第三优先级是时间。</p>
+<h3 id="例1-洛谷p1903-国家集训队-数颜色--维护队列httpswwwluogucomcnproblemp1903">例1 洛谷P1903 <a href="https://www.luogu.com.cn/problem/P1903" target="_blank">[国家集训队] 数颜色 / 维护队列</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个元素，每个元素拥有一个颜色 $c_i$。</p>
+<p>现在有两种询问，询问共 $m$ 个。</p>
+<ol>
+<li>$Q~L~R$：询问 $[L,R]$ 之间有几种颜色。</li>
+<li>$R~P~C$：将位置 $P$ 的颜色替换为 $C$。</li>
+</ol>
+<p>其中，$n,m \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>上面都说完了，讲一些需要注意的点。</p>
+<ol>
+<li>查询和修改分开储存，并且 sort 只考虑查询，时间点的增加只考虑修改。</li>
+<li>块的大小取 $n^{\frac{2}{3}}$。</li>
+<li>在移动时间点，进行修改的时候，不用区分是修改还是回溯，只要将当前的颜色与询问里的 swap 就行了。因为修改以后，下一次跑到这个时间点肯定是回溯。直接交换就很方便。</li>
+<li>在移动时间点修改时，要讨论一下这次修改是否在当前查询范围内，在的话才修改答案。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 133333 + 5;
+int n, m, a[maxn];
+struct Query {
+    int l, r, t, id;
+} q[maxn];
+struct Modify {
+    int p, c, t;  // p: pos, c: color, t: time
+} mo[maxn];
+int tim = 0;  // time for modify
+int B, cnt[(int)(1e6+5)];
+int ans = 0;
+
+void add(int x) {
+    int c = a[x];
+    cnt[c]++;
+    if (cnt[c] == 1) ans++;
+}
+void del(int x) {
+    int c = a[x];
+    cnt[c]--;
+    if (cnt[c] == 0) ans--;
+}
+// 当前的询问 (query) 编号是 i, 要执行的修改是第t个（时间为t）
+void modify(int i, int t) {
+    auto [p,c,_] = mo[t];
+    auto [L,R,__,id] = q[i];
+    if (L &lt;= p &amp;&amp; R &gt;= p) {  // 当前的 count 要更改
+        del(p);  // 删掉这个颜色
+        cnt[c]++;
+        if (cnt[c] == 1) ans++;  // 加上新颜色
+    }
+    swap(a[p], mo[t].c);
+}
+
+
+int res[maxn];
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; a[i];
+    B = pow(n, 0.6666);
+
+    int qid = 0;
+    for (int i = 1; i &lt;= m; i++) {
+        char c; cin &gt;&gt; c;
+        if (c == 'Q') {
+            int l,r; cin &gt;&gt; l &gt;&gt; r;
+            ++qid;
+            q[qid] = {l, r, tim, qid};
+        } else {
+            int p,c; cin &gt;&gt; p &gt;&gt; c;
+            ++tim;
+            mo[tim] = {p, c, tim};
+        }
+    }
+    sort(q+1, q+qid+1, [](auto a, auto b) {
+        if (a.l / B == b.l / B) {
+            if (a.r / B == b.r / B) return a.t &lt; b.t;
+            return a.r / B &lt; b.r / B;
+        }
+        return a.l / B &lt; b.l / B;
+    });
+
+    int l = 1, r = 0, now = 0;
+    for (int i = 1; i &lt;= qid; i++) {
+        auto [L, R, t, id] = q[i];
+        while (l &lt; L) del(l++);
+        while (l &gt; L) add(--l);
+        while (r &gt; R) del(r--);
+        while (r &lt; R) add(++r);
+        while (now &lt; t) modify(i, ++now);
+        while (now &gt; t) modify(i, now--);
+        res[id] = ans;
+    }
+    for (int i = 1; i &lt;= qid; i++) cout &lt;&lt; res[i] &lt;&lt; &quot;\n&quot;;
+}
+
+</code></pre>
+</details>
 <h2 id="参考链接">参考链接</h2>
 <ol>
-<li><a href="https://ouuan.github.io/post/%E8%8E%AB%E9%98%9F%E5%B8%A6%E4%BF%AE%E8%8E%AB%E9%98%9F%E6%A0%91%E4%B8%8A%E8%8E%AB%E9%98%9F%E8%AF%A6%E8%A7%A3/#%E5%B8%A6%E4%BF%AE%E8%8E%AB%E9%98%9F">https://ouuan.github.io/post/%E8%8E%AB%E9%98%9F%E5%B8%A6%E4%BF%AE%E8%8E%AB%E9%98%9F%E6%A0%91%E4%B8%8A%E8%8E%AB%E9%98%9F%E8%AF%A6%E8%A7%A3/#%E5%B8%A6%E4%BF%AE%E8%8E%AB%E9%98%9F</a></li>
-<li><a href="https://www.cnblogs.com/WAMonster/p/10118934.html">https://www.cnblogs.com/WAMonster/p/10118934.html</a></li>
+<li><a href="https://ouuan.github.io/post/%E8%8E%AB%E9%98%9F%E5%B8%A6%E4%BF%AE%E8%8E%AB%E9%98%9F%E6%A0%91%E4%B8%8A%E8%8E%AB%E9%98%9F%E8%AF%A6%E8%A7%A3/#%E5%B8%A6%E4%BF%AE%E8%8E%AB%E9%98%9F" target="_blank">https://ouuan.github.io/post/%E8%8E%AB%E9%98%9F%E5%B8%A6%E4%BF%AE%E8%8E%AB%E9%98%9F%E6%A0%91%E4%B8%8A%E8%8E%AB%E9%98%9F%E8%AF%A6%E8%A7%A3/#%E5%B8%A6%E4%BF%AE%E8%8E%AB%E9%98%9F</a></li>
+<li><a href="https://www.cnblogs.com/WAMonster/p/10118934.html" target="_blank">https://www.cnblogs.com/WAMonster/p/10118934.html</a></li>
 </ol>
 
     </div>
@@ -475,8 +586,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-05-22 00:34:03 &#43;0000 UTC">2023-05-22</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/c53b133487b090ec4158ddc272fb6be9437c567a" title="chore: update CF Problems" target="_blank">(c53b133)</a>
+        <span title="2023-05-27 17:49:00 -0400 -0400">2023-05-27</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/343e95e882cd556447810a98ea9302b1f483d6d5" title="add 108,109,110,111" target="_blank">(343e95e8)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/024-%e8%8e%ab%e9%98%9f.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -573,7 +684,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

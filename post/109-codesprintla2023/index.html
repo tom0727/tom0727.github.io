@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>CodeSprint UCLA 2023 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="L. Blooper Game 题意 给定 $n$ 个概率 $S_1, S_2, &amp;hellip;, S_n$，同时给定一个实数 $P \in (0,1)$。 现在有 $L$ 次操作机会，每次操作可以选择一个 $S_i$，让 $S_i = (S_i)" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/109-codesprintla2023/" />
+<link rel="manifest" href="/manifest.json">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="CodeSprint UCLA 2023" />
+<meta property="og:description" content="L. Blooper Game 题意 给定 $n$ 个概率 $S_1, S_2, &hellip;, S_n$，同时给定一个实数 $P \in (0,1)$。 现在有 $L$ 次操作机会，每次操作可以选择一个 $S_i$，让 $S_i = (S_i)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/109-codesprintla2023/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-05-22T10:56:21-05:00" />
+<meta property="article:modified_time" content="2023-05-27T17:49:00-04:00" />
+
+<meta itemprop="name" content="CodeSprint UCLA 2023">
+<meta itemprop="description" content="L. Blooper Game 题意 给定 $n$ 个概率 $S_1, S_2, &hellip;, S_n$，同时给定一个实数 $P \in (0,1)$。 现在有 $L$ 次操作机会，每次操作可以选择一个 $S_i$，让 $S_i = (S_i)"><meta itemprop="datePublished" content="2023-05-22T10:56:21-05:00" />
+<meta itemprop="dateModified" content="2023-05-27T17:49:00-04:00" />
+<meta itemprop="wordCount" content="1842">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CodeSprint UCLA 2023"/>
+<meta name="twitter:description" content="L. Blooper Game 题意 给定 $n$ 个概率 $S_1, S_2, &hellip;, S_n$，同时给定一个实数 $P \in (0,1)$。 现在有 $L$ 次操作机会，每次操作可以选择一个 $S_i$，让 $S_i = (S_i)"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">CodeSprint UCLA 2023</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-05-22 10:56:21 -0500 -0500"> 2023-05-22 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#l-blooper-gamehttpscodesprintla23kattiscomcontestscodesprintla23openproblemscodesprintla23bloopergame">L. <a href="https://codesprintla23.kattis.com/contests/codesprintla23open/problems/codesprintla23.bloopergame">Blooper Game</a></a></li>
+            <li><a href="#m-toadshttpscodesprintla23kattiscomcontestscodesprintla23openproblemscodesprintla23toads">M. <a href="https://codesprintla23.kattis.com/contests/codesprintla23open/problems/codesprintla23.toads">Toads</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="l-blooper-gamehttpscodesprintla23kattiscomcontestscodesprintla23openproblemscodesprintla23bloopergame">L. <a href="https://codesprintla23.kattis.com/contests/codesprintla23open/problems/codesprintla23.bloopergame" target="_blank">Blooper Game</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个概率 $S_1, S_2, &hellip;, S_n$，同时给定一个实数 $P \in (0,1)$。</p>
+<p>现在有 $L$ 次操作机会，每次操作可以选择一个 $S_i$，让 $S_i = (S_i)^P$。</p>
+<p>求操作结束后，所有概率乘起来得到的最大值？</p>
+<p>其中，$n \leq 10^5, L \leq 10^9, S_i \in (0,1]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>很巧妙的思路。</p>
+<p>如果我们一次次分配，显然是用一个 pq 每次优先操作当前最小的那个概率。但 L 太大了怎么办？</p>
+<p>考虑 pigeon-hole principle。无论我们怎么分配这些操作次数，至少有一个 $S_i$ 会被分配到 $\lceil \frac{L}{n} \rceil$ 次。显然，我们仍然选择当前最小的那个概率执行这些操作。</p>
+<p>而我们知道一个概率 $x$ 被操作 $k$ 次，得到的值就是 $x^{P^k}$，这个用快速幂就可以实现。</p>
+<p>取 $L=10^9, n=10^5$ 可以发现，这样我们只会至多操作 $10^6$ 次。</p>
+<p>所以按照这个 pq 思路就行，利用 pigeon-hole principle 大幅度减少了操作次数。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+int n, L;
+long double P, S[maxn];
+long double pp[31];  // pp[i]: P^(2^i)
+
+// 返回 P^k
+long double qpow(int k) {
+    if (!k) return 1;
+    long double res = 1;
+    for (int j = 30; j &gt;= 0; j--) {
+        if (k &amp; (1&lt;&lt;j)) {
+            res *= pp[j];
+        }
+    }
+    return res;
+}
+
+// 将一个概率 x, 执行 k 次 pow 操作，返回的值应该是 x ^ (P^k)
+long double po(long double x, int k) {
+    // long double p = qpow(P, k);
+    long double p = qpow(k);
+    return pow(x, p);
+}
+// 返回 x 的执行k次pow操作的值
+long double get(long double x, int k) {
+    if (k == 0) return x;
+    return po(x, k);
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; L &gt;&gt; P;
+    for (int j = 1; j &lt;= 30; j++) pp[j] = qpow(P, (1&lt;&lt;j));
+    pp[0] = P;
+
+    priority_queue&lt;long double, vector&lt;long double&gt;, greater&lt;long double&gt;&gt; pq;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; S[i], S[i] = 1/S[i], pq.push(S[i]);
+    while (L) {
+        int use = (L + n - 1) / n;  // ceil(L/n)
+        auto d = pq.top(); pq.pop();
+        d = get(d, use);
+        pq.push(d);
+        L -= use;
+    }
+    long double res = 1;
+    while (pq.size()) res *= pq.top(), pq.pop();
+    cout &lt;&lt; setprecision(10) &lt;&lt; res &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<h3 id="m-toadshttpscodesprintla23kattiscomcontestscodesprintla23openproblemscodesprintla23toads">M. <a href="https://codesprintla23.kattis.com/contests/codesprintla23open/problems/codesprintla23.toads" target="_blank">Toads</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n$ 个点的图，有 $n$ 条边，每条边有边权 $w_i$。</p>
+<p>现在加上 $L$ 条额外的带权边。</p>
+<p>然后给定 $Q$ 个询问，每次询问 $a,b$ 两个点之间的最短距离。</p>
+<p>其中，$n,Q \leq 10^5, L \leq 7, 1 \leq w_i \leq 10^9$，无自环，可能有重边，图可能不联通。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>注意到 $n$ 个点和 $n$ 条边！基环树吗？错误的，这只是个误导。</p>
+<p>又注意到 $L \leq 7$。</p>
+<p>对于每一个联通分量，我们可以求出一个生成树，然后两个点在生成树上的最短距离很好算。不过任意一个联通分量中，由一个生成树加上至多 $L+1$ 条边组成。</p>
+<p>所以两点 $(u,v)$ 间的最短路如果因为一个额外的边 $(a,b)$ 更优了，那么这个最短路肯定经过了 $(a,b)$ 这条边，也就是经过了 $a$ 这个点。</p>
+<p>那么我们从 $a$ 开始跑一个 dijkstra，然后 $u,v$ 之间的最短路要么是树上的距离，要么是 $d(u,a) + d(v,a)$，取最小值即可。</p>
+<hr>
+<p>实现的时候有一些需要注意的点：</p>
+<ol>
+<li>处理重边的时候我们只保留最小的权值即可，一开始先读入所有的边，把所有的边sort一下，再加入图中。</li>
+<li>我们不必区分这 $L$ 条新边，把它们全都当成普通边来看即可，用 dfs 树跑一个生成树出来，剩下的非树边就是额外的边。</li>
+<li>对于每一个非树边 $(a,b)$，我们只需要从 $a$ 跑 dijkstra 即可，$b$ 不用跑（否则会T）。</li>
+<li>注意到每个联通分量都至少有 $1$ 条非树边。总的非树边数量是 $M + L$，$M$ 为联通分量的数量。然而对于 dijkstra 来说我们需要储存 $a$ 到每个点的距离，所以储存 $M+L$ 个 dijkstra 的数组显然会 MLE。所以我们需要根据联通分量，一个个处理（我的方式是离线询问）。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+55;
+const int maxm = 4e4+55;
+
+struct Edge {
+    int u, v, w;
+};
+int n;
+vector&lt;Edge&gt; adj[maxn];
+vector&lt;Edge&gt; edges;
+bool vis[maxn];
+
+int par[maxn][18], de[maxn], from[maxn];  
+ll dep[maxn];
+vector&lt;Edge&gt; nontree;
+
+int jump(int x, int d) {
+    for (int j = 17; j &gt;= 0; j--) {
+        if (d&amp;(1&lt;&lt;j)) x = par[x][j];
+    }
+    return x;
+}
+
+int LCA(int u, int v) {
+    if (from[u] != from[v]) return -1;
+    if (de[u] &lt; de[v]) swap(u, v);
+    int d = de[u] - de[v];
+    u = jump(u, d);
+    if (u == v) return u;
+    for (int j = 17; j &gt;= 0; j--) {
+        if (par[u][j] != par[v][j]) u = par[u][j], v = par[v][j];
+    }
+    return par[u][0];
+}
+
+int cid = 0;
+
+ll treedis(int u, int v) {
+    int x = LCA(u,v);
+    if (x == -1) return -1;
+    return dep[u] + dep[v] - 2 * dep[x];
+}
+
+void dfs(int u, int p) {
+    from[u] = cid;
+    vis[u] = 1;
+    de[u] = de[p] + 1;
+    par[u][0] = p;
+    for (int j = 1; j &lt; 18; j++) par[u][j] = par[par[u][j-1]][j-1];
+
+    for (auto&amp; [_, v, w] : adj[u]) {
+        if (v == p) continue;
+        if (vis[v]) {
+            if (de[u] &lt; de[v]) nontree.push_back({u,v,w});
+        } else {
+            dep[v] = dep[u] + w;
+            dfs(v, u);
+        }
+    }
+}
+
+struct Node {
+    int v;
+    ll d;
+    bool operator&lt;(const Node&amp; other) const {
+        return d &gt; other.d;
+    }
+};
+
+struct Dijkstra {
+    int x;
+    ll dis[maxn];
+    priority_queue&lt;Node&gt; pq;
+    void run() {
+        memset(dis, -1, sizeof(dis));
+        memset(vis, 0, sizeof(vis));
+        pq.push({x, 0});
+        dis[x] = 0;
+        while (pq.size()) {
+            auto [u, d] = pq.top(); pq.pop();
+            if (vis[u]) continue;
+            vis[u] = 1;
+            for (auto [_, v, w] : adj[u]) {
+                if (dis[v] == -1 || dis[v] &gt; dis[u] + w) {
+                    dis[v] = dis[u] + w;
+                    pq.push({v, dis[v]});
+                }
+            }
+        }
+    }
+};
+vector&lt;Dijkstra&gt; vec;
+struct Query {
+    int u, v, cid, id;
+};
+ll ans[maxn];
+
+int main() {
+    fastio;
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        int u = i, v, w; cin &gt;&gt; v &gt;&gt; w;
+        if (u &gt; v) swap(u, v);
+        edges.push_back({u,v,w});
+    }
+    int L; cin &gt;&gt; L;
+    for (int _ = 0; _ &lt; L; _++) {
+        int u, v, w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        if (u &gt; v) swap(u, v);
+        edges.push_back({u,v,w});
+    }
+
+    sort(edges.begin(), edges.end(), [](auto a, auto b) {
+        if (a.u == b.u) {
+            if (a.v == b.v) return a.w &lt; b.w;
+            return a.v &lt; b.v;
+        }
+        return a.u &lt; b.u;
+    });
+
+    for (int i = 0; i &lt; edges.size(); i++) {
+        if (i &gt; 0 &amp;&amp; edges[i].u == edges[i-1].u &amp;&amp; edges[i].v == edges[i-1].v) continue;
+        auto [u, v, w] = edges[i];
+        adj[u].push_back({u,v,w});
+        adj[v].push_back({v,u,w});
+    }
+    for (int i = 1; i &lt;= n; i++) {
+        if (!vis[i]) cid++, dfs(i, 0);
+    }
+
+    // nontree 里面已经按照 cid 排好了
+    int Q; cin &gt;&gt; Q;
+    vector&lt;Query&gt; que;
+
+    for (int i = 1; i &lt;= Q; i++) {
+        int u, v; cin &gt;&gt; u &gt;&gt; v;
+        int cid = -1;
+        if (from[u] == from[v]) cid = from[u];
+        que.push_back({u, v, cid, i});
+    }
+
+    sort(que.begin(), que.end(), [](auto a, auto b) {
+        return a.cid &lt; b.cid;
+    });
+
+    int idx = -1;
+    for (auto [u, v, curid, id] : que) {
+        if (curid == -1) ans[id] = -1;
+        else {
+            // 判断一下这个 cid 的dijkstra是否都被处理完了
+            if (vec.size() &amp;&amp; from[vec[0].x] == curid) {  // 处理完了，无需处理
+                
+            } else {
+                vec.clear();
+                while (idx + 1 &lt; nontree.size() &amp;&amp; from[nontree[idx+1].u] &lt; curid) idx++;
+                while (idx + 1 &lt; nontree.size() &amp;&amp; from[nontree[idx+1].u] == curid) {
+                    Dijkstra di;
+                    di.x = nontree[idx+1].u;
+                    di.run();
+                    vec.push_back(di);
+                    idx++;
+                }
+            }
+
+            ans[id] = treedis(u, v);
+            assert(vec.size() &lt;= L+1);
+            for (auto&amp; di : vec) {
+                assert(from[u] == from[di.x]);
+                ans[id] = min(ans[id], di.dis[u] + di.dis[v]);
+            }
+        }
+    }
+
+    for (int i = 1; i &lt;= Q; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2023-05-27 17:49:00 -0400 -0400">2023-05-27</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/343e95e882cd556447810a98ea9302b1f483d6d5" title="add 108,109,110,111" target="_blank">(343e95e8)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/109-codesprintla2023.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/110-%E9%9A%8F%E6%9C%BA%E5%8C%96/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">随机化</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/108-universal15/">
+            <span class="next-text nav-default">Universal Cup 15 (Hangzhou)</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

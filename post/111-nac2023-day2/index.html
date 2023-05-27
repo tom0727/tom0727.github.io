@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>NAC2023 Training Camp Day2 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="F. Factor-Free Tree 题意 给定一个长度为 $n$ 的数组 $a_1, a_2, &amp;hellip;, a_n$。 是否存在一个二叉树，使得这个二叉树的 in-order 遍历的sequence等于这个数组，且保证对于每一个节" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/111-nac2023-day2/" />
+<link rel="manifest" href="/manifest.json">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="NAC2023 Training Camp Day2" />
+<meta property="og:description" content="F. Factor-Free Tree 题意 给定一个长度为 $n$ 的数组 $a_1, a_2, &hellip;, a_n$。 是否存在一个二叉树，使得这个二叉树的 in-order 遍历的sequence等于这个数组，且保证对于每一个节" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/111-nac2023-day2/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-05-27T17:07:31-04:00" />
+<meta property="article:modified_time" content="2023-05-27T17:49:00-04:00" />
+
+<meta itemprop="name" content="NAC2023 Training Camp Day2">
+<meta itemprop="description" content="F. Factor-Free Tree 题意 给定一个长度为 $n$ 的数组 $a_1, a_2, &hellip;, a_n$。 是否存在一个二叉树，使得这个二叉树的 in-order 遍历的sequence等于这个数组，且保证对于每一个节"><meta itemprop="datePublished" content="2023-05-27T17:07:31-04:00" />
+<meta itemprop="dateModified" content="2023-05-27T17:49:00-04:00" />
+<meta itemprop="wordCount" content="1091">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="NAC2023 Training Camp Day2"/>
+<meta name="twitter:description" content="F. Factor-Free Tree 题意 给定一个长度为 $n$ 的数组 $a_1, a_2, &hellip;, a_n$。 是否存在一个二叉树，使得这个二叉树的 in-order 遍历的sequence等于这个数组，且保证对于每一个节"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">NAC2023 Training Camp Day2</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-05-27 17:07:31 -0400 -0400"> 2023-05-27 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/"> 解题报告 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#f-factor-free-treehttpsnapc23kattiscomcontestsympbg8problemsfactorfree">F. <a href="https://napc23.kattis.com/contests/ympbg8/problems/factorfree">Factor-Free Tree</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="f-factor-free-treehttpsnapc23kattiscomcontestsympbg8problemsfactorfree">F. <a href="https://napc23.kattis.com/contests/ympbg8/problems/factorfree" target="_blank">Factor-Free Tree</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的数组 $a_1, a_2, &hellip;, a_n$。</p>
+<p>是否存在一个二叉树，使得这个二叉树的 in-order 遍历的sequence等于这个数组，且保证对于每一个节点 $i$，它与它所有的祖先节点都互质。</p>
+<p><img src="/images/111/1.png" alt="img"></p>
+<p>样例如上图。</p>
+<p>如果有，输出方案。</p>
+<p>其中，$n \leq 10^6, a_i \in [1, 10^7]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>很明显递归解决。对于 <code>solve(l, r)</code> 来说，确定一个根节点以后，保证这个根节点 $i \in [l,r]$ 并且 $i$ 与所有的 $[l,r]$ 内的数都互质即可。</p>
+<p>但可能有很多这样的可行根节点。</p>
+<p>一个重要猜想：<strong>随便选一个满足条件的根节点</strong>即可。</p>
+<p>证明：假设我们找出了所有可行的根节点，那一个最佳方案是将这些根节点都split掉。这和我们按照顺序来split其实并无区别。所以随便选一个可行根节点即可。</p>
+<p>那么只要知道，给定一个index的范围 $[L,R]$，从里面随便找出一个和其他都互质的数字即可。</p>
+<p>这个好办，每个数字质因数分解一下，然后对于每一个质因数找到它们所在的位置，这样可以处理出两个数组 <code>nxt[i]</code> 表示 $a_i$ 右侧距离它最近的 $j$ 使得 $a_j$ 与 $a_i$ 不互质。同理可以得到 <code>pre[i]</code> 就是左侧最近的。</p>
+<p>然后只要满足 <code>nxt[i] &gt; R &amp;&amp; pre[i] &lt; L</code> 即可。</p>
+<hr>
+<p>最后一个问题：复杂度是多少？</p>
+<p>对于一个长度为 $n$ 的区间，我们最多需要 $O(n)$ 的时间找到这样的根 $i$，而最坏情况下可能会 split 成 $1, n-1$ 两个大小，所以看起来 $T(n) = T(1) + T(n-1) + O(n) = O(n^2)$？</p>
+<p>一个很重要的优化：</p>
+<blockquote>
+<p>我们在找这样的根 $i$ 时，不要从 $L$ 遍历到 $R$，而是从两边开始遍历，也就是 $L,R,L+1,R-1,L+2,R-2&hellip;$。</p>
+</blockquote>
+<p>这样复杂度来到 $O(n\log n)$。</p>
+<p>为什么呢？</p>
+<p>因为这样可以最快的找到满足条件的根 $i$。假设 $\min(i-L+1, R-i+1) = k$，也就是根距离两个端点的最近距离，那么有</p>
+<p>$$T(n) = T(k) + T(n-k-1) + 2k$$</p>
+<p>那么最坏情况下是 $k=\frac{n}{2}$，也就是</p>
+<p>$$T(n) = 2T(\frac{n}{2}) + n = O(n\log n)$$</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int n, a[maxn];
+bool isPrime[maxm];
+int small[maxm];
+vector&lt;int&gt; primes;
+void preprocess() {   // 线性筛优化
+    memset(isPrime, 1, sizeof(isPrime));
+    small[1] = 1;
+    for (int i = 2; i &lt;= maxm-5; i++) {
+        if (isPrime[i]) primes.push_back(i), small[i] = i;
+        for (int j = 0; j &lt; primes.size() &amp;&amp; i * primes[j] &lt;= maxm-5; j++) {
+            int cur = i * primes[j];
+            isPrime[cur] = 0;
+            small[cur] = primes[j];
+            if (i % primes[j] == 0) break;
+        }
+    }
+}
+vector&lt;int&gt; pos[maxm];
+int nxt[maxn], pre[maxn];
+
+
+int par[maxn];
+
+// if ok: return index of root
+// if not ok: return 0
+// if empty: return -1
+int solve(int l, int r) {
+    if (l &gt; r) return -1;
+    if (l == r) return l;
+
+    // l, r, l+1, r-1, l+2, r-2
+    int i = l, j = r;
+    while (i &lt;= j) {
+        if (pre[i] &lt; l &amp;&amp; nxt[i] &gt; r) {
+            int lres = solve(l, i-1), rres = solve(i+1, r);
+            if (lres == 0 || rres == 0) return 0;
+            if (lres &gt; 0) par[lres] = i;
+            if (rres &gt; 0) par[rres] = i;
+            return i;
+        }
+
+        swap(i, j);
+        if (pre[i] &lt; l &amp;&amp; nxt[i] &gt; r) {
+            int lres = solve(l, i-1), rres = solve(i+1, r);
+            if (lres == 0 || rres == 0) return 0;
+            if (lres &gt; 0) par[lres] = i;
+            if (rres &gt; 0) par[rres] = i;
+            return i;
+        }
+        swap(i, j);
+
+        i++, j--;
+    }
+    return 0;
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; a[i];
+    preprocess();
+    fill(nxt, nxt+maxn, n+1);
+    fill(pre, pre+maxn, 0);
+
+    for (int i = 1; i &lt;= n; i++) {
+        int x = a[i];
+        while (x &gt; 1) {
+            int sp = small[x];
+            while (x % sp == 0) x /= sp;
+            pos[sp].push_back(i);
+        }
+    }
+    for (int sp = 2; sp &lt;= maxm-5; sp++) {
+        for (int i = 0; i &lt; pos[sp].size(); i++) {
+            int curp = pos[sp][i];
+            if (i &gt; 0) {
+                pre[curp] = max(pre[curp], pos[sp][i-1]);
+            }
+            if (i &lt; pos[sp].size() - 1) {
+                nxt[curp] = min(nxt[curp], pos[sp][i+1]);
+            }
+        }
+    }
+    if (!solve(1, n)) {
+        cout &lt;&lt; &quot;impossible\n&quot;;
+    } else {
+        for (int i = 1; i &lt;= n; i++) cout &lt;&lt; par[i] &lt;&lt; &quot; &quot;;
+        cout &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2023-05-27 17:49:00 -0400 -0400">2023-05-27</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/343e95e882cd556447810a98ea9302b1f483d6d5" title="add 108,109,110,111" target="_blank">(343e95e8)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/111-NAC2023-Day2.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">[置顶]竞赛注意事项/通用模版</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/110-%E9%9A%8F%E6%9C%BA%E5%8C%96/">
+            <span class="next-text nav-default">随机化</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

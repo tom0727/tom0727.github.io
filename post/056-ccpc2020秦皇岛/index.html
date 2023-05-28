@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.92.2 with theme even" />
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/056-ccpc2020%E7%A7%A6%E7%9A%87%E5%B2%9B/" />
@@ -31,21 +31,24 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="CCPC2020秦皇岛" />
 <meta property="og:description" content="排名 Solve: 5 (ADEFJ) Penalty: 767 Rank: 122/343 (35%) 题解 D - Exam Results 题意 给定 $n$ 个学生，第 $i$ 个学生的分数要么为 $a_i$，要么为 $b_i$。 给定整数 $P \in [1,100]$，如果最高" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/056-ccpc2020%E7%A7%A6%E7%9A%87%E5%B2%9B/" /><meta property="article:section" content="post" />
+<meta property="og:url" content="https://tom0727.github.io/post/056-ccpc2020%E7%A7%A6%E7%9A%87%E5%B2%9B/" />
 <meta property="article:published_time" content="2021-10-31T11:32:46+08:00" />
-<meta property="article:modified_time" content="2021-11-13T22:31:52+08:00" />
-
+<meta property="article:modified_time" content="2023-05-27T17:49:00-04:00" />
 <meta itemprop="name" content="CCPC2020秦皇岛">
-<meta itemprop="description" content="排名 Solve: 5 (ADEFJ) Penalty: 767 Rank: 122/343 (35%) 题解 D - Exam Results 题意 给定 $n$ 个学生，第 $i$ 个学生的分数要么为 $a_i$，要么为 $b_i$。 给定整数 $P \in [1,100]$，如果最高"><meta itemprop="datePublished" content="2021-10-31T11:32:46+08:00" />
-<meta itemprop="dateModified" content="2021-11-13T22:31:52+08:00" />
-<meta itemprop="wordCount" content="2273">
+<meta itemprop="description" content="排名 Solve: 5 (ADEFJ) Penalty: 767 Rank: 122/343 (35%) 题解 D - Exam Results 题意 给定 $n$ 个学生，第 $i$ 个学生的分数要么为 $a_i$，要么为 $b_i$。 给定整数 $P \in [1,100]$，如果最高">
+<meta itemprop="datePublished" content="2021-10-31T11:32:46&#43;08:00" />
+<meta itemprop="dateModified" content="2023-05-27T17:49:00-04:00" />
+<meta itemprop="wordCount" content="2279">
+
+
+
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="CCPC2020秦皇岛"/>
 <meta name="twitter:description" content="排名 Solve: 5 (ADEFJ) Penalty: 767 Rank: 122/343 (35%) 题解 D - Exam Results 题意 给定 $n$ 个学生，第 $i$ 个学生的分数要么为 $a_i$，要么为 $b_i$。 给定整数 $P \in [1,100]$，如果最高"/>
@@ -356,8 +359,8 @@ int main() {
 <p>证明？我也不会。</p>
 <p>现在考虑一下如果我们加入了一个新的向量 $(x,y)$，怎么更新这些向量？</p>
 <p>在整数域下，就需要保证 $d$ 尽量小，而 $y_2$ 也尽量小。</p>
-<p>所以我们可以先用 $(x_2,y_2)$ 与 $(x,y)$ 构造出一个 $(x',0)$ 的向量，然后更新 $d = \gcd(d,x')$。</p>
-<p>要令 $y_2$ 尽量小，则我们用 $(x_2,y_2)$ 与 $(x,y)$ 构造出 $(x'', \gcd(y_2,y))$。</p>
+<p>所以我们可以先用 $(x_2,y_2)$ 与 $(x,y)$ 构造出一个 $(x&rsquo;,0)$ 的向量，然后更新 $d = \gcd(d,x&rsquo;)$。</p>
+<p>要令 $y_2$ 尽量小，则我们用 $(x_2,y_2)$ 与 $(x,y)$ 构造出 $(x&rsquo;', \gcd(y_2,y))$。</p>
 <p>这个构造的过程，就是一个 linear combination 的过程。</p>
 <p>那么怎么构造呢？注意到是在整数域下，所以用 $exgcd$！</p>
 <p>所以设：</p>
@@ -365,10 +368,10 @@ int main() {
 <p>令 $g = \gcd(y_2,y)$，就有：</p>
 <p>$$a\frac{y_2}{g} + b\frac{y}{g} = 0$$</p>
 <p>所以 $a = -\frac{y}{g}, b = \frac{y_2}{g}$，就有：</p>
-<p>$$a(x_2,y_2) + b(x,y) = (x', 0)$$</p>
+<p>$$a(x_2,y_2) + b(x,y) = (x&rsquo;, 0)$$</p>
 <p>然后同理，解出</p>
-<p>$$a(x_2,y_2) + b(x,y) = (x'', \gcd(y_2,y))$$</p>
-<p>解出来以后，令 $x_2 = x'', y_2 = \gcd(y_2,y)$ 即可。</p>
+<p>$$a(x_2,y_2) + b(x,y) = (x&rsquo;', \gcd(y_2,y))$$</p>
+<p>解出来以后，令 $x_2 = x&rsquo;', y_2 = \gcd(y_2,y)$ 即可。</p>
 <p>• 注意需要单独处理 $d,x,y=0$ 的情况。</p>
 </details>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
@@ -445,10 +448,10 @@ int main() {
 </details>
 <div class="admonition info">
   <p class="admonition-title">参考链接</p>
-<p><a href="https://www.silllage.com/2020-ccpc-qhd-i-interstellar-hunter/" target="_blank">https://www.silllage.com/2020-ccpc-qhd-i-interstellar-hunter/</a>
-<a href="https://blog.csdn.net/nagisa2019/article/details/115414362" target="_blank">https://blog.csdn.net/nagisa2019/article/details/115414362</a>
-<a href="https://blog.csdn.net/wanherun/article/details/114477252" target="_blank">https://blog.csdn.net/wanherun/article/details/114477252</a>
-<a href="https://www.cnblogs.com/st1vdy/p/13870452.html" target="_blank">https://www.cnblogs.com/st1vdy/p/13870452.html</a></p>
+<p><a href="https://www.silllage.com/2020-ccpc-qhd-i-interstellar-hunter/">https://www.silllage.com/2020-ccpc-qhd-i-interstellar-hunter/</a>
+<a href="https://blog.csdn.net/nagisa2019/article/details/115414362">https://blog.csdn.net/nagisa2019/article/details/115414362</a>
+<a href="https://blog.csdn.net/wanherun/article/details/114477252">https://blog.csdn.net/wanherun/article/details/114477252</a>
+<a href="https://www.cnblogs.com/st1vdy/p/13870452.html">https://www.cnblogs.com/st1vdy/p/13870452.html</a></p>
 </div>
 
     </div>
@@ -461,8 +464,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2021-11-13 22:31:52 &#43;0800 &#43;0800">2021-11-13</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/716885b4028a14a1744e31f403eeb9ed5528e729" title="add an example to 032" target="_blank">(716885b4)</a>
+        <span title="2023-05-27 17:49:00 -0400 -0400">2023-05-27</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/343e95e882cd556447810a98ea9302b1f483d6d5" title="add 108,109,110,111" target="_blank">(343e95e)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/056-CCPC2020%e7%a7%a6%e7%9a%87%e5%b2%9b.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -560,7 +563,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

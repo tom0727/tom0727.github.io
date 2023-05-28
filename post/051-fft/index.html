@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.92.2 with theme even" />
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/051-fft/" />
@@ -31,21 +31,24 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="FFT" />
 <meta property="og:description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; } 模版 FFT const int maxn = (1&lt;&lt;22) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex operator-(const Complex&amp; b)" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/051-fft/" /><meta property="article:section" content="post" />
+<meta property="og:url" content="https://tom0727.github.io/post/051-fft/" />
 <meta property="article:published_time" content="2021-09-17T13:52:57+08:00" />
-<meta property="article:modified_time" content="2022-08-29T11:54:05-05:00" />
-
+<meta property="article:modified_time" content="2023-05-27T17:49:00-04:00" />
 <meta itemprop="name" content="FFT">
-<meta itemprop="description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; } 模版 FFT const int maxn = (1&lt;&lt;22) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex operator-(const Complex&amp; b)"><meta itemprop="datePublished" content="2021-09-17T13:52:57+08:00" />
-<meta itemprop="dateModified" content="2022-08-29T11:54:05-05:00" />
-<meta itemprop="wordCount" content="6130">
+<meta itemprop="description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; } 模版 FFT const int maxn = (1&lt;&lt;22) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex operator-(const Complex&amp; b)">
+<meta itemprop="datePublished" content="2021-09-17T13:52:57&#43;08:00" />
+<meta itemprop="dateModified" content="2023-05-27T17:49:00-04:00" />
+<meta itemprop="wordCount" content="6138">
+
+
+
 <meta itemprop="keywords" content="FFT," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="FFT"/>
 <meta name="twitter:description" content=".center { margin-left: auto; margin-right: auto; display: table; width: auto; } 模版 FFT const int maxn = (1&lt;&lt;22) &#43; 5; // 注意这里需要是 &gt; 2^k struct Complex { double x,y; Complex(double _x = 0.0, double _y = 0.0) { x = _x; y = _y; } Complex operator&#43;(const Complex&amp; b) const { return Complex(x &#43; b.x, y &#43; b.y); } Complex operator-(const Complex&amp; b)"/>
@@ -335,23 +338,23 @@ int main() {
 <blockquote>
 <p>注意到这个问题也等价于一个矩阵乘法，即给定 一个矩阵 $X$ 和一个向量 $\vec a$，在我们可以自由选择 $x_0,x_1,&hellip;,x_{n-1}$ 的情况下，用 $O(n \log n)$ 的时间求出 $\vec y = X \vec a$ 的值？</p>
 <p>$$\begin{bmatrix}
-1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\
-1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\
-&hellip;\\
-1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\
+1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\<br>
+1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\<br>
+&hellip;\\<br>
+1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\<br>
 \end{bmatrix}
 \begin{bmatrix}
-a_0 \\
-a_1 \\
-&hellip;\\
-a_{n-1} \\
+a_0 \\<br>
+a_1 \\<br>
+&hellip;\\<br>
+a_{n-1} \\<br>
 \end{bmatrix}
 =
 \begin{bmatrix}
-y_0 \\
-y_1 \\
-&hellip;\\
-y_{n-1} \\
+y_0 \\<br>
+y_1 \\<br>
+&hellip;\\<br>
+y_{n-1} \\<br>
 \end{bmatrix}
 $$</p>
 </blockquote>
@@ -389,65 +392,65 @@ $$f_{odd}(x) = a_1 + a_3x + a_5x^2 + &hellip; + a_{n-1}x^{\frac{n}{2} - 1}$$</p>
 <blockquote>
 <p>注意到这个问题也等价于一个矩阵乘法，即给定 一个矩阵 $X$ 和一个向量 $\vec y$，已知 $X\vec a = \vec y$，如何用 $O(n \log n)$ 的时间求出 $\vec a$ 的值？</p>
 <p>$$\begin{bmatrix}
-1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\
-1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\
-&hellip;\\
-1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\
+1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\<br>
+1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\<br>
+&hellip;\\<br>
+1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\<br>
 \end{bmatrix}
 \begin{bmatrix}
-a_0 \\
-a_1 \\
-&hellip;\\
-a_{n-1} \\
+a_0 \\<br>
+a_1 \\<br>
+&hellip;\\<br>
+a_{n-1} \\<br>
 \end{bmatrix}
 =
 \begin{bmatrix}
-y_0 \\
-y_1 \\
-&hellip;\\
-y_{n-1} \\
+y_0 \\<br>
+y_1 \\<br>
+&hellip;\\<br>
+y_{n-1} \\<br>
 \end{bmatrix}
 $$</p>
 </blockquote>
 <p>发现了什么？这实际上和第一步 DFT 的过程是一样的，如果我们把 $X^{-1}$ 给两边乘上 ，就变成了</p>
 <p>$$\begin{bmatrix}
-1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\
-1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\
-&hellip;\\
-1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\
+1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\<br>
+1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\<br>
+&hellip;\\<br>
+1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\<br>
 \end{bmatrix}^{-1} \begin{bmatrix}
-y_0 \\
-y_1 \\
-&hellip;\\
-y_{n-1} \\
+y_0 \\<br>
+y_1 \\<br>
+&hellip;\\<br>
+y_{n-1} \\<br>
 \end{bmatrix}
 = \begin{bmatrix}
-a_0 \\
-a_1 \\
-&hellip;\\
-a_{n-1} \\
+a_0 \\<br>
+a_1 \\<br>
+&hellip;\\<br>
+a_{n-1} \\<br>
 \end{bmatrix}$$</p>
 <p>那么，令</p>
-<p>$$X=\begin{bmatrix}1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\
-1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\
-&hellip;\\
-1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\
+<p>$$X=\begin{bmatrix}1 &amp; x_0 &amp; x_0^2 &amp; &hellip; &amp; x_0^{n-1} \\<br>
+1 &amp; x_1 &amp; x_1^2 &amp; &hellip; &amp; x_1^{n-1} \\<br>
+&hellip;\\<br>
+1 &amp; x_{n-1} &amp; x_{n-1}^2 &amp; &hellip; &amp; x_{n-1}^{n-1} \\<br>
 \end{bmatrix}$$</p>
 <p>把 $x_i = \omega^i$ 代进去，就可以得到：</p>
-<p>$$X = \begin{bmatrix}1 &amp; 1 &amp; 1 &amp; &hellip; &amp; 1 \\
-1 &amp; \omega^1 &amp; \omega^{1\cdot 2} &amp; &hellip; &amp; \omega^{1\cdot (n-1)} \\
-&hellip;\\
-1 &amp; \omega^{1} &amp; \omega^{(n-1)\cdot 2} &amp; &hellip; &amp; \omega^{(n-1)\cdot (n-1)} \\
+<p>$$X = \begin{bmatrix}1 &amp; 1 &amp; 1 &amp; &hellip; &amp; 1 \\<br>
+1 &amp; \omega^1 &amp; \omega^{1\cdot 2} &amp; &hellip; &amp; \omega^{1\cdot (n-1)} \\<br>
+&hellip;\\<br>
+1 &amp; \omega^{1} &amp; \omega^{(n-1)\cdot 2} &amp; &hellip; &amp; \omega^{(n-1)\cdot (n-1)} \\<br>
 \end{bmatrix}$$</p>
 <p>令</p>
-<p>$$V(\omega) = X = \begin{bmatrix}1 &amp; 1 &amp; 1 &amp; &hellip; &amp; 1 \\
-1 &amp; \omega^1 &amp; \omega^{1\cdot 2} &amp; &hellip; &amp; \omega^{1\cdot (n-1)} \\
-&hellip;\\
-1 &amp; \omega^{1} &amp; \omega^{(n-1)\cdot 2} &amp; &hellip; &amp; \omega^{(n-1)\cdot (n-1)} \\
-\end{bmatrix}, ~~~V(\omega^{-1}) = \begin{bmatrix}1 &amp; 1 &amp; 1 &amp; &hellip; &amp; 1 \\
-1 &amp; \omega^{-1} &amp; \omega^{-1\cdot 2} &amp; &hellip; &amp; \omega^{-1\cdot (n-1)} \\
-&hellip;\\
-1 &amp; \omega^{-1} &amp; \omega^{-(n-1)\cdot 2} &amp; &hellip; &amp; \omega^{-(n-1)\cdot (n-1)} \\
+<p>$$V(\omega) = X = \begin{bmatrix}1 &amp; 1 &amp; 1 &amp; &hellip; &amp; 1 \\<br>
+1 &amp; \omega^1 &amp; \omega^{1\cdot 2} &amp; &hellip; &amp; \omega^{1\cdot (n-1)} \\<br>
+&hellip;\\<br>
+1 &amp; \omega^{1} &amp; \omega^{(n-1)\cdot 2} &amp; &hellip; &amp; \omega^{(n-1)\cdot (n-1)} \\<br>
+\end{bmatrix}, ~~~V(\omega^{-1}) = \begin{bmatrix}1 &amp; 1 &amp; 1 &amp; &hellip; &amp; 1 \\<br>
+1 &amp; \omega^{-1} &amp; \omega^{-1\cdot 2} &amp; &hellip; &amp; \omega^{-1\cdot (n-1)} \\<br>
+&hellip;\\<br>
+1 &amp; \omega^{-1} &amp; \omega^{-(n-1)\cdot 2} &amp; &hellip; &amp; \omega^{-(n-1)\cdot (n-1)} \\<br>
 \end{bmatrix}$$</p>
 <p>则有：</p>
 <p>$$V(\omega) \cdot V(\omega^{-1}) = nI$$</p>
@@ -456,27 +459,27 @@ a_{n-1} \\
 <p>$$X^{-1} = V(w)^{-1} = \frac{1}{n} V(\omega^{-1})$$</p>
 <p>所以上面的 $X^{-1}\vec y = \vec a$ 就可以表示为：</p>
 <p>$$V(\omega)^{-1} \begin{bmatrix}
-y_0 \\
-y_1 \\
-&hellip;\\
-y_{n-1} \\
+y_0 \\<br>
+y_1 \\<br>
+&hellip;\\<br>
+y_{n-1} \\<br>
 \end{bmatrix}
 = \begin{bmatrix}
-a_0 \\
-a_1 \\
-&hellip;\\
-a_{n-1} \\
-\end{bmatrix} <del>\Rightarrow</del> \frac{1}{n}V(\omega^{-1})\begin{bmatrix}
-y_0 \\
-y_1 \\
-&hellip;\\
-y_{n-1} \\
+a_0 \\<br>
+a_1 \\<br>
+&hellip;\\<br>
+a_{n-1} \\<br>
+\end{bmatrix} ~~\Rightarrow~~ \frac{1}{n}V(\omega^{-1})\begin{bmatrix}
+y_0 \\<br>
+y_1 \\<br>
+&hellip;\\<br>
+y_{n-1} \\<br>
 \end{bmatrix}
 = \begin{bmatrix}
-a_0 \\
-a_1 \\
-&hellip;\\
-a_{n-1} \\
+a_0 \\<br>
+a_1 \\<br>
+&hellip;\\<br>
+a_{n-1} \\<br>
 \end{bmatrix}$$</p>
 <p>这就等价于我们有一个系数为 $y_0, y_1, &hellip; y_{n}$ 的多项式，然后要在 $x_0^{-1}, x_1^{-1}, &hellip;, x_n^{-1}$ 这些特殊点上进行求值。</p>
 <p>我们发现 $x_0^{-1} = \omega^{-1}$ 仍然是一个 $n$ 次<strong>本原</strong>单位根 (primitive n-th root of unity)（证明略），所以它仍然有上述优秀的性质。</p>
@@ -655,13 +658,13 @@ int main() {
 <p>注意到第一项 $\sum\limits_{i=1}^{j-1}f_ig_{j-i}$ 可以写成 $i=0$ 开始，到 $j$ 结束（令 $f_0 = g_0 = 0$ 即可），所以第一项等于 $\sum\limits_{i=0}^{j}f_ig_{j-i}$，也就是一个卷积形式，可以利用 FFT 计算。</p>
 <hr>
 <p>第二项 $\sum\limits_{i=j+1}^{n}f_ig_{i-j}$ 怎么写成卷积呢？</p>
-<p>注意到，如果我们令 $f_j' = f_{n-j}$，则有</p>
-<p>$$\sum\limits_{i=j+1}^{n}f_ig_{i-j} = \sum\limits_{i=j}^{n}f'<em>{n-i}g</em>{i-j} = g_0f'<em>{n-j} + g_1f'</em>{n-j-1} + &hellip; + g_{n-j}f'_0$$</p>
+<p>注意到，如果我们令 $f_j&rsquo; = f_{n-j}$，则有</p>
+<p>$$\sum\limits_{i=j+1}^{n}f_ig_{i-j} = \sum\limits_{i=j}^{n}f&rsquo;_{n-i}g_{i-j} = g_0f&rsquo;_{n-j} + g_1f&rsquo;_{n-j-1} + &hellip; + g_{n-j}f&rsquo;_0$$</p>
 <p>那么，这就又是一个卷积了，所以最后我们的结果可以表示为：</p>
-<p>$$E_j = \sum\limits_{i=0}^{j}f_ig_{j-i} - \sum\limits_{i=j}^{n}f'<em>{n-i}g</em>{i-j}$$</p>
+<p>$$E_j = \sum\limits_{i=0}^{j}f_ig_{j-i} - \sum\limits_{i=j}^{n}f&rsquo;_{n-i}g_{i-j}$$</p>
 <hr>
 <p>第一项 $\sum\limits_{i=0}^{j}f_ig_{j-i}$：计算多项式 $f(x) * g(x)$，取第 $j$ 项的系数即可。</p>
-<p>第二项 $\sum\limits_{i=j}^{n}f'<em>{n-i}g</em>{i-j}$：计算多项式 $f'(x) * g(x)$，取第 $n-j$ 项的系数即可。</p>
+<p>第二项 $\sum\limits_{i=j}^{n}f&rsquo;_{n-i}g_{i-j}$：计算多项式 $f&rsquo;(x) * g(x)$，取第 $n-j$ 项的系数即可。</p>
 </details>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
@@ -944,9 +947,9 @@ int main() {
 <h2 id="参考资料">参考资料</h2>
 <ol>
 <li><a href="/files/051/FFT.pdf">HKU COMP3250 FFT课件</a></li>
-<li><a href="https://oi-wiki.org/math/poly/fft/" target="_blank">https://oi-wiki.org/math/poly/fft/</a></li>
-<li><a href="https://oi.men.ci/fft-notes/" target="_blank">https://oi.men.ci/fft-notes/</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/128661674" target="_blank">https://zhuanlan.zhihu.com/p/128661674</a></li>
+<li><a href="https://oi-wiki.org/math/poly/fft/">https://oi-wiki.org/math/poly/fft/</a></li>
+<li><a href="https://oi.men.ci/fft-notes/">https://oi.men.ci/fft-notes/</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/128661674">https://zhuanlan.zhihu.com/p/128661674</a></li>
 </ol>
 
     </div>
@@ -959,8 +962,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-08-29 11:54:05 -0500 -0500">2022-08-29</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/31e874c3c81bfd62a5a381a2f0e02c6238c424e8" title="init 070, update 048, update cdn source" target="_blank">(31e874c3)</a>
+        <span title="2023-05-27 17:49:00 -0400 -0400">2023-05-27</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/343e95e882cd556447810a98ea9302b1f483d6d5" title="add 108,109,110,111" target="_blank">(343e95e)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/051-fft.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -1057,7 +1060,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

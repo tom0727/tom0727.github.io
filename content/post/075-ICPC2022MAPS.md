@@ -59,16 +59,17 @@ $$f(n) = (m_1+1)(m_2+1)...(m_k+1)$$
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
+const int M = 5e7;
 struct PollardRho {
-    bool isPrime[50000005];
-    int small[50000005];
+    bool isPrime[M+5];
+    int small[M+5];
     vector<int> primes;
     void preprocess() {   // 线性筛优化
         memset(isPrime, 1, sizeof(isPrime));
         small[1] = 1;
-        for (int i = 2; i <= 5e7; i++) {
+        for (int i = 2; i <= M; i++) {
             if (isPrime[i]) primes.push_back(i), small[i] = i;
-            for (int j = 0; j < primes.size() && i * primes[j] <= 5e7; j++) {
+            for (int j = 0; j < primes.size() && i * primes[j] <= M; j++) {
                 int cur = i * primes[j];
                 isPrime[cur] = 0;
                 small[cur] = primes[j];
@@ -86,8 +87,8 @@ struct PollardRho {
     ll quick_pow(ll x, ll p, ll mod) {  // 快速幂
         ll ans = 1;
         while (p) {
-            if (p & 1) ans = (__int128)ans * x % mod;
-            x = (__int128)x * x % mod;
+            if (p & 1) ans = (__int128_t)ans * x % mod;
+            x = (__int128_t)x * x % mod;
             p >>= 1;
         }
         return ans;
@@ -104,7 +105,7 @@ struct PollardRho {
             ll x = quick_pow(a, d, p);
             if (x == 1 || x == p - 1) continue;
             for (int i = 0; i < r - 1; ++i) {
-                x = (__int128)x * x % p;
+                x = (__int128_t)x * x % p;
                 if (x == p - 1) break;
             }
             if (x != p - 1) return 0;
@@ -119,8 +120,8 @@ struct PollardRho {
         ll val = 1;
         for (goal = 1;; goal *= 2, s = t, val = 1) {  // 倍增优化
             for (step = 1; step <= goal; ++step) {
-                t = ((__int128)t * t + c) % x;
-                val = (__int128)val * abs(t - s) % x;
+                t = ((__int128_t)t * t + c) % x;
+                val = (__int128_t)val * abs(t - s) % x;
                 if ((step % 127) == 0) {
                     ll d = gcd(val, x);
                     if (d > 1) return d;
@@ -132,10 +133,11 @@ struct PollardRho {
     }
 
     void findFac(ll x) {
-        if (x <= 5e7) {
+        if (x <= M) {
             while (x > 1) {
                 int sp = small[x];
-                while (x % sp == 0) x /= sp, factor.push_back(sp);
+                while (x % sp == 0) x /= sp, factor.push_back(sp);  
+                // factor里会有重复质因数，如果不要重复的话把 push_back 放下面即可
             }
             return;
         }

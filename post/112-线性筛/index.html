@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>线性筛 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 线性筛不仅能用 $O(n)$ 求出每一个数是否为质数，它还能求出每一个数的因数数量，因数和，甚至更加general的除数函数，莫比乌斯函数等等。 总结来" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/112-%E7%BA%BF%E6%80%A7%E7%AD%9B/" />
+<link rel="manifest" href="/manifest.json">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="线性筛" />
+<meta property="og:description" content="介绍 线性筛不仅能用 $O(n)$ 求出每一个数是否为质数，它还能求出每一个数的因数数量，因数和，甚至更加general的除数函数，莫比乌斯函数等等。 总结来" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/112-%E7%BA%BF%E6%80%A7%E7%AD%9B/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-06-04T18:25:03-05:00" />
+<meta property="article:modified_time" content="2023-07-13T13:11:36-05:00" />
+
+<meta itemprop="name" content="线性筛">
+<meta itemprop="description" content="介绍 线性筛不仅能用 $O(n)$ 求出每一个数是否为质数，它还能求出每一个数的因数数量，因数和，甚至更加general的除数函数，莫比乌斯函数等等。 总结来"><meta itemprop="datePublished" content="2023-06-04T18:25:03-05:00" />
+<meta itemprop="dateModified" content="2023-07-13T13:11:36-05:00" />
+<meta itemprop="wordCount" content="1260">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="线性筛"/>
+<meta name="twitter:description" content="介绍 线性筛不仅能用 $O(n)$ 求出每一个数是否为质数，它还能求出每一个数的因数数量，因数和，甚至更加general的除数函数，莫比乌斯函数等等。 总结来"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">线性筛</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-06-04 18:25:03 -0500 -0500"> 2023-06-04 </span>
+        <div class="post-category">
+            <a href="/categories//">  </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#原理">原理</a></li>
+        <li><a href="#应用">应用</a>
+          <ul>
+            <li><a href="#欧拉函数">欧拉函数</a></li>
+            <li><a href="#因数个数">因数个数</a></li>
+            <li><a href="#因数和">因数和</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>线性筛不仅能用 $O(n)$ 求出每一个数是否为质数，它还能求出每一个数的因数数量，因数和，甚至更加general的除数函数，莫比乌斯函数等等。</p>
+<p>总结来说，线性筛可以在 $O(n)$ 中求出一些积性函数的值。</p>
+<h2 id="原理">原理</h2>
+<p>线性筛之所以是 $O(n)$，是因为对于每一个数 $x$，我们只考虑它 <strong>最小</strong> 的那个质因数。</p>
+<p>在当前使用 $i$ 来筛的时候，如果 <code>i % primes[j] == 0</code>，说明 $i$ 中包含了 <code>primes[j]</code>，那么再往后的话筛掉 <code>cur = i * primes[j+1]</code> 时用到的最小质因数就是 <code>primes[j]</code> 了，所以可以直接break。</p>
+<pre><code class="language-cpp">bool isPrime[M+5];
+int small[M+5];
+vector&lt;int&gt; primes;
+void preprocess() {   // 线性筛
+    memset(isPrime, 1, sizeof(isPrime));
+    small[1] = 1;
+    for (int i = 2; i &lt;= M; i++) {
+        if (isPrime[i]) primes.push_back(i), small[i] = i;
+        for (int j = 0; j &lt; primes.size() &amp;&amp; i * primes[j] &lt;= M; j++) {
+            int cur = i * primes[j];
+            isPrime[cur] = 0;
+            small[cur] = primes[j];   // 最小的质因子
+            if (i % primes[j] == 0) break;
+        }
+    }
+}
+</code></pre>
+<p>那么观察上述过程，其实我们发现了：</p>
+<ol>
+<li>当 <code>i % primes[j] == 0</code> 时，说明 <code>cur = i * primes[j]</code> 里面至少有 $2$ 个 $p_j$（后文中 $p_j$ 代指 <code>primes[j]</code>），并且 <code>cur</code> 与 <code>i</code> 的最小质因子均为 $p_j$。</li>
+<li>当 <code>i % primes[j] != 0</code> 时，说明 <code>cur = i * primes[j]</code> 里面只有 $1$ 个 $p_j$。</li>
+</ol>
+<p>这个重要性质在后面我们求欧拉函数，因数个数时都有重大用处。</p>
+<p>• 简单证明一下第一条中的 <code>cur</code> 与 $i$ 的最小质因子均为 $p_j$：首先 <code>cur</code> 肯定满足，因为线性筛的本质就是只用最小质因子筛掉一个数。对于 $i$ 来说，$i = \frac{cur}{p_j}$，说明 $i$ 只是比 <code>cur</code> 少了一个 $p_j$ 而已，所以 $i$ 的最小质因子也是 $p_j$。</p>
+<h2 id="应用">应用</h2>
+<h3 id="欧拉函数">欧拉函数</h3>
+<p>欧拉函数的两个性质：</p>
+<ol>
+<li>积性函数：$\varphi(mn) = \varphi(m)\varphi(n) \iff \gcd(m,n) = 1$</li>
+<li>质因数：$\forall n = p_1^{k_1}p_2^{k_2}&hellip;p_r^{k_r}$, 如果 $~\exists ~i, ~s.t. ~k_i &gt; 1$, 则 $\varphi(n) = \varphi(\frac{n}{p_i})*p_i$</li>
+</ol>
+<p>运用上面的性质就可以用线性筛了。</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">const int M = 1e7;
+int phi[M+5];
+bool isPrime[M+5];
+vector&lt;int&gt; primes;
+void euler_function() {
+    phi[1] = 1;
+    memset(isPrime, 1, sizeof(isPrime));
+    for (int i = 2; i &lt;= M; i++) {
+        if (isPrime[i]) {
+            phi[i] = i-1;
+            primes.push_back(i);
+        }
+        for (int j = 0; j &lt; primes.size() &amp;&amp; i * primes[j] &lt;= M; j++) {
+            int cur = i * primes[j];
+            isPrime[cur] = 0;
+            if (i % primes[j] == 0) {
+                phi[cur] = phi[i] * primes[j];
+                break;
+            } else {
+                phi[cur] = phi[i] * phi[primes[j]];
+            }
+        }
+    }
+}
+</code></pre>
+</details>
+<h3 id="因数个数">因数个数</h3>
+<p>用 $d_i$ 表示 $i$ 的因数个数（有多少个数整除它），用 <code>cnt[i]</code> 表示 $i$ 的最小质因数个数。</p>
+<p>$d_i$ 是积性函数，所以可以用线性筛。</p>
+<p>注意到因为 $n=\prod\limits_{i=1}^m p_i^{c_i}$，则</p>
+<p>$$d_n = \prod\limits_{i=1}^m (c_i+1) = (1+c_1)(1+c_2)&hellip;(1+c_m)$$</p>
+<p>所以需要统计 <code>cnt[i]</code> 表示 $i$ 的最小质因数个数。</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">const int M = 1e7;
+int d[M+5], cnt[M+5];  // d[i]: i 的因数数量，cnt[i]: i 的最小质因数次数
+bool isPrime[M+5];
+vector&lt;int&gt; primes;
+void divisor_count() {
+    cnt[1] = d[1] = 1;
+    memset(isPrime, 1, sizeof(isPrime));
+    for (int i = 2; i &lt;= M; i++) {
+        if (isPrime[i]) {
+            cnt[i] = 1;
+            d[i] = 2;
+            primes.push_back(i);
+        }
+        for (int j = 0; j &lt; primes.size() &amp;&amp; i * primes[j] &lt;= M; j++) {
+            int cur = i * primes[j];
+            isPrime[cur] = 0;
+            if (i % primes[j] == 0) {
+                cnt[cur] = cnt[i] + 1;
+                d[cur] = d[i] / (cnt[i] + 1) * (cnt[i] + 2);  // 已经有的质因数，所以把原来的次数+1除掉，再乘上次数+2
+                break;
+            } else {
+                cnt[cur] = 1;
+                d[cur] = d[i] * 2;  // 出现了一个新的质因数，出现次数为 1，所以直接 *2
+            }
+        }
+    }
+}
+</code></pre>
+</details>
+<h3 id="因数和">因数和</h3>
+<p>对于一个数 $n$ 的因数和，我们将它质因数分解后有 $n=\prod\limits_{i=1}^m p_i^{c_i}$，则</p>
+<p>$$sum_n = \prod\limits_{i=1}^m (\sum\limits_{j=1}^{c_i} p_j) = (1+p_1+p_1^2+&hellip;+p_1^{c_1})(1+p_2+p_2^2+&hellip;+p_2^{c_2})&hellip;(1+p^m+p_m^2+&hellip;+p_m^{c_m})$$</p>
+<p>所以与因数个数不同的地方在于，我们需要处理 <code>small_sum[i]</code> 代表：</p>
+<p>若 $i$ 的最小质因数为 $p$，出现次数为 $c$，那么</p>
+<p>$$smallsum[i] = p^0 + p^1 + &hellip; + p^c$$</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">const int M = 1e7;
+ll sum[M+5], small_sum[M+5];  // sum[i]: i 的因数和
+// small_sum[i]: i 的最小质因数为 p，出现次数为 c，那么 small_sum[i] = p^0 + p^1 + ... + p^c
+bool isPrime[M+5];
+vector&lt;int&gt; primes;
+void divisor_sum() {
+    sum[1] = small_sum[1] = 1;
+    memset(isPrime, 1, sizeof(isPrime));
+    for (int i = 2; i &lt;= M; i++) {
+        if (isPrime[i]) {
+            small_sum[i] = i + 1;
+            sum[i] = i + 1;
+            primes.push_back(i);
+        }
+        for (int j = 0; j &lt; primes.size() &amp;&amp; i * primes[j] &lt;= M; j++) {
+            int cur = i * primes[j];
+            isPrime[cur] = 0;
+            if (i % primes[j] == 0) {
+                sum[cur] = sum[i] / small_sum[i];
+                small_sum[cur] = small_sum[i] * primes[j] + 1;
+                sum[cur] *= small_sum[cur];
+                break;
+            } else {
+                small_sum[cur] = primes[j] + 1;
+                sum[cur] = sum[i] * small_sum[cur];
+            }
+        }
+    }
+}
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2023-07-13 13:11:36 -0500 -0500">2023-07-13</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/a84c541fde88b7ac5dd2ab3f240dae269d289984" title="add 112" target="_blank">(a84c541f)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/112-%e7%ba%bf%e6%80%a7%e7%ad%9b.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">[置顶]竞赛注意事项/通用模版</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/111-nac2023-day2/">
+            <span class="next-text nav-default">NAC2023 Training Camp Day2</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

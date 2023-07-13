@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/107-%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%88%86%E6%B2%BB/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="线段树分治" />
 <meta property="og:description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/107-%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%88%86%E6%B2%BB/" />
+<meta property="og:url" content="https://tom0727.github.io/post/107-%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%88%86%E6%B2%BB/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-05-17T17:42:06-05:00" />
-<meta property="article:modified_time" content="2023-07-07T00:38:49+00:00" />
+<meta property="article:modified_time" content="2023-07-13T13:11:36-05:00" />
+
 <meta itemprop="name" content="线段树分治">
-<meta itemprop="description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入">
-<meta itemprop="datePublished" content="2023-05-17T17:42:06-05:00" />
-<meta itemprop="dateModified" content="2023-07-07T00:38:49&#43;00:00" />
-<meta itemprop="wordCount" content="2530">
-
-
-
+<meta itemprop="description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入"><meta itemprop="datePublished" content="2023-05-17T17:42:06-05:00" />
+<meta itemprop="dateModified" content="2023-07-13T13:11:36-05:00" />
+<meta itemprop="wordCount" content="2053">
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="线段树分治"/>
 <meta name="twitter:description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入"/>
@@ -305,145 +302,6 @@ int main() {
 <details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
 using namespace std;
-#include &lt;bits/stdc++.h&gt;
-
-using namespace std;
-
-#if __cplusplus &gt;= 201103L
-    struct pairhash {
-        static uint64_t splitmix64(uint64_t x) {
-            x += 0x9e3779b97f4a7c15;
-            x = (x ^ (x &gt;&gt; 30)) * 0xbf58476d1ce4e5b9;
-            x = (x ^ (x &gt;&gt; 27)) * 0x94d049bb133111eb;
-            return x ^ (x &gt;&gt; 31);
-        }
-
-        template&lt;class T, class U&gt;
-        size_t operator() (const pair&lt;T,U&gt; &amp;p) const {
-            static const uint64_t FIXED_RANDOM = (uint64_t)chrono::steady_clock::now().time_since_epoch().count();
-            return splitmix64(p.first + FIXED_RANDOM) ^ splitmix64(p.second+ FIXED_RANDOM);
-        }
-    };
-    struct custom_hash {
-        static uint64_t splitmix64(uint64_t x) {
-            x += 0x9e3779b97f4a7c15;
-            x = (x ^ (x &gt;&gt; 30)) * 0xbf58476d1ce4e5b9;
-            x = (x ^ (x &gt;&gt; 27)) * 0x94d049bb133111eb;
-            return x ^ (x &gt;&gt; 31);
-        }
-
-        size_t operator()(uint64_t x) const {
-            static const uint64_t FIXED_RANDOM = (uint64_t)chrono::steady_clock::now().time_since_epoch().count();
-            return splitmix64(x + FIXED_RANDOM);
-        }
-    };
-    mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
-    inline int randint(int l, int r) {
-        return uniform_int_distribution&lt;int&gt;(l,r)(rng);
-    }
-    inline double randdouble(double l, double r) {
-        return uniform_real_distribution&lt;double&gt;(l,r)(rng);
-    }
-#endif
- 
-#ifndef ONLINE_JUDGE
-#  define LOG(x) (cerr &lt;&lt; #x &lt;&lt; &quot; = &quot; &lt;&lt; (x) &lt;&lt; endl)
-#else
-#  define LOG(x) 0
-#endif
-
-#define fastio ios::sync_with_stdio(false); cin.tie(0);
-#define ll long long
-#define ull unsigned long long
-#define ll128 __int128_t
-#define PI 3.14159265358979323846
-#define abs(a) ((a&gt;0)?a:-(a))
-#define pii pair&lt;int,int&gt;
-#define pll pair&lt;ll,ll&gt;
-
-const long double pi = acos(-1.0);
-const long double eps = (double)1e-2;
-
-int mod = (1&lt;&lt;30);
-
-template&lt;class T&gt;
-T qpow(T a, int b) {
-    T res = 1;
-    while (b) {
-        if (b &amp; 1) res *= a;
-        a *= a;
-        b &gt;&gt;= 1;
-    }
-    return res;
-}
-int norm(int x) {
-    if (x &lt; 0) {
-        x += mod;
-    }
-    if (x &gt;= mod) {
-        x -= mod;
-    }
-    return x;
-}
-struct Z {
-    int x;
-    Z(int x = 0) : x(norm(x)) {}
-    Z(ll x) : x(norm((int)(x % mod))) {}
-    int val() const {
-        return x;
-    }
-    Z operator-() const {
-        return Z(norm(mod - x));
-    }
-    Z inv() const {
-        assert(x != 0);
-        return qpow(*this, mod - 2);
-    }
-    Z &amp;operator*=(const Z &amp;rhs) {
-        x = (ll)(x) * rhs.x % mod;
-        return *this;
-    }
-    Z &amp;operator+=(const Z &amp;rhs) {
-        x = norm(x + rhs.x);
-        return *this;
-    }
-    Z &amp;operator-=(const Z &amp;rhs) {
-        x = norm(x - rhs.x);
-        return *this;
-    }
-    Z &amp;operator/=(const Z &amp;rhs) {
-        return *this *= rhs.inv();
-    }
-    friend Z operator*(const Z &amp;lhs, const Z &amp;rhs) {
-        Z res = lhs;
-        res *= rhs;
-        return res;
-    }
-    friend Z operator+(const Z &amp;lhs, const Z &amp;rhs) {
-        Z res = lhs;
-        res += rhs;
-        return res;
-    }
-    friend Z operator-(const Z &amp;lhs, const Z &amp;rhs) {
-        Z res = lhs;
-        res -= rhs;
-        return res;
-    }
-    friend Z operator/(const Z &amp;lhs, const Z &amp;rhs) {
-        Z res = lhs;
-        res /= rhs;
-        return res;
-    }
-    friend std::istream &amp;operator&gt;&gt;(std::istream &amp;is, Z &amp;a) {
-        ll v;
-        is &gt;&gt; v;
-        a = Z(v);
-        return is;
-    }
-    friend std::ostream &amp;operator&lt;&lt;(std::ostream &amp;os, const Z &amp;a) {
-        return os &lt;&lt; a.val();
-    }
-};
 
 const int maxn = 1e6+5;
 const int maxm = 4e6+55;
@@ -550,8 +408,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-07-07 00:38:49 &#43;0000 UTC">2023-07-07</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/8e6cae033d00e0bf25e2e63556eab8f6954618b2" title="chore: update CF Problems" target="_blank">(8e6cae0)</a>
+        <span title="2023-07-13 13:11:36 -0500 -0500">2023-07-13</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/a84c541fde88b7ac5dd2ab3f240dae269d289984" title="add 112" target="_blank">(a84c541f)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/107-%e7%ba%bf%e6%ae%b5%e6%a0%91%e5%88%86%e6%b2%bb.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -649,7 +507,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

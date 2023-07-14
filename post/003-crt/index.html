@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.92.2 with theme even" />
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/003-crt/" />
@@ -31,21 +31,24 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="exgcd/中国剩余定理介绍" />
 <meta property="og:description" content="扩展欧几里得 (exgcd) 这是 CRT 的前置知识，用于解决如下问题： 题意 给定方程 ax &#43; by = c，其中 $a,b,c$ 为已知的正整数，求一组正整数解 $x,y$？ Follow up: 如果解不存在，" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/003-crt/" /><meta property="article:section" content="post" />
+<meta property="og:url" content="https://tom0727.github.io/post/003-crt/" />
 <meta property="article:published_time" content="2021-02-06T10:46:42+08:00" />
-<meta property="article:modified_time" content="2022-10-10T18:37:26-05:00" />
-
+<meta property="article:modified_time" content="2023-07-13T13:11:36-05:00" />
 <meta itemprop="name" content="exgcd/中国剩余定理介绍">
-<meta itemprop="description" content="扩展欧几里得 (exgcd) 这是 CRT 的前置知识，用于解决如下问题： 题意 给定方程 ax &#43; by = c，其中 $a,b,c$ 为已知的正整数，求一组正整数解 $x,y$？ Follow up: 如果解不存在，"><meta itemprop="datePublished" content="2021-02-06T10:46:42+08:00" />
-<meta itemprop="dateModified" content="2022-10-10T18:37:26-05:00" />
+<meta itemprop="description" content="扩展欧几里得 (exgcd) 这是 CRT 的前置知识，用于解决如下问题： 题意 给定方程 ax &#43; by = c，其中 $a,b,c$ 为已知的正整数，求一组正整数解 $x,y$？ Follow up: 如果解不存在，">
+<meta itemprop="datePublished" content="2021-02-06T10:46:42&#43;08:00" />
+<meta itemprop="dateModified" content="2023-07-13T13:11:36-05:00" />
 <meta itemprop="wordCount" content="2421">
+
+
+
 <meta itemprop="keywords" content="数学,中国剩余定理,crt,exgcd," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="exgcd/中国剩余定理介绍"/>
 <meta name="twitter:description" content="扩展欧几里得 (exgcd) 这是 CRT 的前置知识，用于解决如下问题： 题意 给定方程 ax &#43; by = c，其中 $a,b,c$ 为已知的正整数，求一组正整数解 $x,y$？ Follow up: 如果解不存在，"/>
@@ -235,10 +238,10 @@ $$a(x\pm kb) + b(y \mp ka) = c$$
 <h3 id="定义">定义</h3>
 <p>给定方程组：
 $$\begin{cases}
-x\equiv a_1 (\text{mod }m_1) \\
-x\equiv a_2 (\text{mod }m_2) \\
-&hellip; \\
-x\equiv a_k (\text{mod }m_k) \\
+x\equiv a_1 (\text{mod }m_1) \\<br>
+x\equiv a_2 (\text{mod }m_2) \\<br>
+&hellip; \\<br>
+x\equiv a_k (\text{mod }m_k) \\<br>
 \end{cases}$$</p>
 <p>其中 $a_i \geq 0, m_i &gt; 0, a_i,m_i \in \mathbb{Z}$, 且 $m_i$ 之间<strong>两两互质</strong>。</p>
 <p>求满足条件的<strong>最小非负整数解</strong> $x$ ？</p>
@@ -263,7 +266,7 @@ x\equiv a_k (\text{mod }m_k) \\
 </details>
 <h3 id="例题">例题</h3>
 <ol>
-<li><a href="https://www.luogu.com.cn/problem/P3868" target="_blank">https://www.luogu.com.cn/problem/P3868</a></li>
+<li><a href="https://www.luogu.com.cn/problem/P3868">https://www.luogu.com.cn/problem/P3868</a></li>
 </ol>
 <h3 id="快速乘">快速乘</h3>
 <p>在题目中，有可能出现 $\bmod$ 接近 $1e18$ 的情况，有可能会爆 long long，所以在计算大数乘法时，要用快速乘（原理类似于快速幂）：</p>
@@ -279,7 +282,7 @@ x\equiv a_k (\text{mod }m_k) \\
 </code></pre>
 <h3 id="模版">模版</h3>
 <details class="admonition note"><summary class="admonition-title">luogu-P3868-AC代码</summary>
-<p>题目链接: <a href="https://www.luogu.com.cn/problem/P3868" target="_blank">https://www.luogu.com.cn/problem/P3868</a></p>
+<p>题目链接: <a href="https://www.luogu.com.cn/problem/P3868">https://www.luogu.com.cn/problem/P3868</a></p>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
  
 #define fastio ios::sync_with_stdio(false); cin.tie(0);
@@ -343,17 +346,17 @@ int main() {
 </details>
 <h3 id="参考链接">参考链接</h3>
 <ol>
-<li><a href="https://zhuanlan.zhihu.com/p/103394468" target="_blank">https://zhuanlan.zhihu.com/p/103394468</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/103394468">https://zhuanlan.zhihu.com/p/103394468</a></li>
 </ol>
 <h2 id="拓展中国剩余定理-excrt">拓展中国剩余定理 (excrt)</h2>
 <h3 id="定义-1">定义</h3>
 <p>用于 $m_1,m_2,&hellip;,m_k$ 并<strong>不互质</strong>的情况</p>
 <p>给定方程组：
 $$\begin{cases}
-x\equiv a_1 (\text{mod }m_1) \\
-x\equiv a_2 (\text{mod }m_2) \\
-&hellip; \\
-x\equiv a_k (\text{mod }m_k) \\
+x\equiv a_1 (\text{mod }m_1) \\<br>
+x\equiv a_2 (\text{mod }m_2) \\<br>
+&hellip; \\<br>
+x\equiv a_k (\text{mod }m_k) \\<br>
 \end{cases}$$</p>
 <p>其中 $a_i \geq 0, m_i &gt; 0, a_i,m_i \in \mathbb{Z}$，（$m_i$ 之间无特殊关联）</p>
 <p>求满足条件的<strong>最小非负整数解</strong> $x$ ？</p>
@@ -361,14 +364,14 @@ x\equiv a_k (\text{mod }m_k) \\
 <p>先看一些简单的例子：</p>
 <p>$$\begin{cases}
 x\equiv 2 ~(\text{mod }4) \\<br>
-\\
-x\equiv 4 ~(\text{mod }6) \\
+\\<br>
+x\equiv 4 ~(\text{mod }6) \\<br>
 \end{cases}\Longrightarrow
 x \equiv 10 ~(\text{mod } 12)$$</p>
 <p>$$\begin{cases}
 x\equiv 4 ~(\text{mod }6) \\<br>
-\\
-x\equiv 3 ~(\text{mod }5) \\
+\\<br>
+x\equiv 3 ~(\text{mod }5) \\<br>
 \end{cases}\Longrightarrow
 ~\varnothing$$</p>
 <p>可以看出几个特点：</p>
@@ -380,8 +383,8 @@ x\equiv 3 ~(\text{mod }5) \\
 <p>考虑 $x$ 满足：</p>
 <p>$$\begin{cases}
 x\equiv a_1 ~(\text{mod }m_1) \\<br>
-\\
-x\equiv a_2 ~(\text{mod }m_2) \\
+\\<br>
+x\equiv a_2 ~(\text{mod }m_2) \\<br>
 \end{cases}$$</p>
 <p>则有 $x = k_1m_1 + a_1 = k_2m_2 + a_2$</p>
 <blockquote>
@@ -389,14 +392,14 @@ x\equiv a_2 ~(\text{mod }m_2) \\
 <p>这个<strong>方程有解</strong> $\iff \gcd(m_1,m_2) | (a_2 - a_1)$ （即 $(a_2 - a_1)$ 是 $\gcd(m_1,m_2)$ 的倍数）。</p>
 </blockquote>
 <p>如果无解，就直接退出。</p>
-<p>如果有解，就用 $exgcd(m_1, m_2, x', y')$ 解出 $k_1$ 的值。</p>
-<p>设 $\gcd(m_1, m_2) = g$，则 $k_1 = x' \cdot\frac{a_2 - a_1}{g}$</p>
+<p>如果有解，就用 $exgcd(m_1, m_2, x&rsquo;, y&rsquo;)$ 解出 $k_1$ 的值。</p>
+<p>设 $\gcd(m_1, m_2) = g$，则 $k_1 = x&rsquo; \cdot\frac{a_2 - a_1}{g}$</p>
 <p>然后将 $k_1$ 代入 $x = k_1m_1 + a_1$，得到 $x$ 的值，答案就是 $x \equiv (k_1m_1 + a_1) (\text{mod  ~lcm}(m_1,m_2))$</p>
 <p>这样，$2$个同余方程就转化为了$1$个，用同样的方法继续进行下去，即可化为一个同余方程。</p>
 <p>最终的 $\text{mod}$ 数就是 $M = \text{lcm}(m_1, m_2, m_3 &hellip; , m_n)$</p>
 <h3 id="模版-1">模版</h3>
 <details class="admonition note"><summary class="admonition-title">luogu-P4777-AC代码</summary>
-<p>题目链接: <a href="https://www.luogu.com.cn/problem/P4777" target="_blank">https://www.luogu.com.cn/problem/P4777</a></p>
+<p>题目链接: <a href="https://www.luogu.com.cn/problem/P4777">https://www.luogu.com.cn/problem/P4777</a></p>
 <pre><code class="language-cpp">using namespace std;
 #include &lt;bits/stdc++.h&gt;
 
@@ -462,12 +465,12 @@ int main() {
 <li>
 <p>我们需要处理可能出现的负数！（比如在快速乘的时候，如果 $b$ 为负数就会炸）</p>
 <ol>
-<li>在 $exgcd(a,b,x',y')$ 中，$x'$ 有可能为负数。</li>
+<li>在 $exgcd(a,b,x&rsquo;,y&rsquo;)$ 中，$x'$ 有可能为负数。</li>
 <li>$c = a_2 - a_1$，则 $c$ 也有可能为负数。</li>
 </ol>
 <p>那么如何处理负数？我们<strong>需要找到这个负数对应的</strong> $\text{mod}$为多少，我们可以在等式 $k_1m_1 - k_2m_2 = a_2 - a_1$ 中找到！</p>
 <p>因为我们要求的是 $k_1$ 的值，实际上 $k_1m_1 = (a_2-a_1) + k_2m_2$，即 $k_1m_1 \equiv (a_2-a_1) \text{ (mod } m_2)$</p>
-<p>所以无论是 $k_1 = x' \cdot\frac{a_2 - a_1}{g}$ 还是 $(a_2-a_1)$，都取一个 $\text{mod } m_2$ 即可！</p>
+<p>所以无论是 $k_1 = x&rsquo; \cdot\frac{a_2 - a_1}{g}$ 还是 $(a_2-a_1)$，都取一个 $\text{mod } m_2$ 即可！</p>
 <p>代码段：</p>
 <pre><code class="language-cpp"> ll c = a[i] - cura;
  c = ((c % m[i]) + m[i]) % m[i];  // 处理负数，注意是 mod m2 (即 m[i])
@@ -485,7 +488,7 @@ int main() {
 </ol>
 <h3 id="参考链接-1">参考链接</h3>
 <ol>
-<li><a href="https://www.luogu.com.cn/blog/blue/kuo-zhan-zhong-guo-sheng-yu-ding-li" target="_blank">https://www.luogu.com.cn/blog/blue/kuo-zhan-zhong-guo-sheng-yu-ding-li</a></li>
+<li><a href="https://www.luogu.com.cn/blog/blue/kuo-zhan-zhong-guo-sheng-yu-ding-li">https://www.luogu.com.cn/blog/blue/kuo-zhan-zhong-guo-sheng-yu-ding-li</a></li>
 </ol>
 
     </div>
@@ -498,8 +501,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2022-10-10 18:37:26 -0500 -0500">2022-10-10</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/319a93cf7387df2dd71b26dbf6c6874ac3f65e0c" title="init 074, 075, 076, update ABOUT" target="_blank">(319a93cf)</a>
+        <span title="2023-07-13 13:11:36 -0500 -0500">2023-07-13</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/a84c541fde88b7ac5dd2ab3f240dae269d289984" title="add 112" target="_blank">(a84c541)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/003-crt.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -599,7 +602,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

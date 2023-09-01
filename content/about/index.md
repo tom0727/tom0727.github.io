@@ -21,7 +21,7 @@ https://tom0727.gitee.io/
 
 # Links
 
-- Linkedin: [Zhenwei Hu](https://www.linkedin.com/in/zhenwei-hu-059024184/)
+- Linkedin: [Zhenwei Hu](https://www.linkedin.com/in/zhenweihu)
 - Codeforces: [![Codeforces Rating](https://cfrating.ihcr.top/?user=tom0727&style=flat-square)](https://codeforces.com/profile/tom0727)
 - Leetcode: [tom0727](https://leetcode.com/tom0727)
 

@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/112-%E7%BA%BF%E6%80%A7%E7%AD%9B/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="线性筛" />
 <meta property="og:description" content="介绍 线性筛不仅能用 $O(n)$ 求出每一个数是否为质数，它还能求出每一个数的因数数量，因数和，甚至更加general的除数函数，莫比乌斯函数等等。 总结来" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/112-%E7%BA%BF%E6%80%A7%E7%AD%9B/" />
+<meta property="og:url" content="https://tom0727.github.io/post/112-%E7%BA%BF%E6%80%A7%E7%AD%9B/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-06-04T18:25:03-05:00" />
-<meta property="article:modified_time" content="2023-08-17T00:25:41+00:00" />
+<meta property="article:modified_time" content="2023-09-01T11:35:59-05:00" />
+
 <meta itemprop="name" content="线性筛">
-<meta itemprop="description" content="介绍 线性筛不仅能用 $O(n)$ 求出每一个数是否为质数，它还能求出每一个数的因数数量，因数和，甚至更加general的除数函数，莫比乌斯函数等等。 总结来">
-<meta itemprop="datePublished" content="2023-06-04T18:25:03-05:00" />
-<meta itemprop="dateModified" content="2023-08-17T00:25:41&#43;00:00" />
-<meta itemprop="wordCount" content="1260">
-
-
-
+<meta itemprop="description" content="介绍 线性筛不仅能用 $O(n)$ 求出每一个数是否为质数，它还能求出每一个数的因数数量，因数和，甚至更加general的除数函数，莫比乌斯函数等等。 总结来"><meta itemprop="datePublished" content="2023-06-04T18:25:03-05:00" />
+<meta itemprop="dateModified" content="2023-09-01T11:35:59-05:00" />
+<meta itemprop="wordCount" content="2288">
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="线性筛"/>
 <meta name="twitter:description" content="介绍 线性筛不仅能用 $O(n)$ 求出每一个数是否为质数，它还能求出每一个数的因数数量，因数和，甚至更加general的除数函数，莫比乌斯函数等等。 总结来"/>
@@ -155,6 +152,12 @@
             <li><a href="#因数和">因数和</a></li>
           </ul>
         </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-loj124-除数函数求和-1httpslojacp124">例1 loj124. <a href="https://loj.ac/p/124">除数函数求和 1</a></a></li>
+            <li><a href="#例2-loj125-除数函数求和-2httpslojacp125">例2 loj125. <a href="https://loj.ac/p/125">除数函数求和 2</a></a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -228,7 +231,7 @@ void euler_function() {
 </code></pre>
 </details>
 <h3 id="因数个数">因数个数</h3>
-<p>用 $d_i$ 表示 $i$ 的因数个数（有多少个数整除它），用 <code>cnt[i]</code> 表示 $i$ 的最小质因数个数。</p>
+<p>用 $d_i$ 表示 $i$ 的因数个数（有多少个数整除它），用 <code>cnt[i]</code> 表示 $i$ 的最小质因数出现次数。</p>
 <p>$d_i$ 是积性函数，所以可以用线性筛。</p>
 <p>注意到因为 $n=\prod\limits_{i=1}^m p_i^{c_i}$，则</p>
 <p>$$d_n = \prod\limits_{i=1}^m (c_i+1) = (1+c_1)(1+c_2)&hellip;(1+c_m)$$</p>
@@ -301,6 +304,151 @@ void divisor_sum() {
 }
 </code></pre>
 </details>
+<h2 id="例题">例题</h2>
+<h3 id="例1-loj124-除数函数求和-1httpslojacp124">例1 loj124. <a href="https://loj.ac/p/124" target="_blank">除数函数求和 1</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>定义 $\sigma_k(n) = \sum_{d | n} d ^ k$，给定 $k$，求 $\sum\limits_{i=1}^n \sigma_k(i)$。</p>
+<p>其中，$1 \leq n,k \leq 10^7$，答案对 $10^9+7$ 取模。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">法一 因数贡献 - 题解</summary>
+<p>考虑每一个因数 $d$ 对于答案的贡献，很明显贡献为 $d^k * \lfloor \frac{n}{d} \rfloor$。</p>
+<p>那么枚举因数即可。按理来说这个复杂度应该不好过，但是居然过了？</p>
+<p>• 如果过不了，那么可以预处理每一个质因数的 $p^k$，然后通过分解质因数来计算 $d^k$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ll k;
+int n;
+int main() {
+    cin &gt;&gt; n &gt;&gt; k;
+    Z ans = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        ans += qpow((Z)(i), k) * (n / i);
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<details class="admonition note"><summary class="admonition-title">法二 线性筛 - 题解</summary>
+<p>参考上面的因数和计算方式，由于 $n=\prod\limits_{i=1}^m p_i^{c_i}$，那么要求出一个数 $n$ 的 $\sigma_k(n) = \sum_{d | n} d ^ k$，我们实际上有：</p>
+<p>$$\sigma_k(n) = \sum_{d | n} d ^ k = (1^k + p_1^k + p_1^{2k} + &hellip; + p_1^{c_1k})(1^k + p_2^k + p_2^{2k} + &hellip; + p_2^{c_2k}) &hellip;$$</p>
+<p>那么可以用线性筛如法炮制上面的做法，不过这个还是需要预处理每个质因数的 $k$ 次方，不仅复杂度没改善，还难写。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e7+5;
+
+ll k;
+const int M = 1e7;
+Z sum[M+5], small_sum[M+5];  // sum[i]: i 的所有因数 d^k 之和
+// small_sum[i]: i 的最小质因数为 p，出现次数为 c，那么 small_sum[i] = p^0k + p^1k + ... + p^ck
+bool isPrime[M+5];
+vector&lt;int&gt; primes;
+vector&lt;Z&gt; primes_k;  // primes_k[j] = qpow(primes[j], k)
+void divisor_sum() {
+    sum[1] = small_sum[1] = 1;
+    memset(isPrime, 1, sizeof(isPrime));
+    for (int i = 2; i &lt;= M; i++) {
+        if (isPrime[i]) {
+            small_sum[i] = qpow((Z)i, k) + 1;
+            sum[i] = small_sum[i];
+            primes.push_back(i);
+            primes_k.push_back(qpow((Z)i, k));
+        }
+        for (int j = 0; j &lt; primes.size() &amp;&amp; i * primes[j] &lt;= M; j++) {
+            int cur = i * primes[j];
+            isPrime[cur] = 0;
+            if (i % primes[j] == 0) {
+                sum[cur] = sum[i] / small_sum[i];
+                small_sum[cur] = small_sum[i] * primes_k[j] + 1;
+                sum[cur] *= small_sum[cur];
+                break;
+            } else {
+                small_sum[cur] = primes_k[j] + 1;
+                sum[cur] = sum[i] * small_sum[cur];
+            }
+        }
+    }
+}
+
+int n;
+int main() {
+    cin &gt;&gt; n &gt;&gt; k;
+    divisor_sum();
+    Z ans = 0;
+    for (int i = 1; i &lt;= n; i++) ans += sum[i];
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例2-loj125-除数函数求和-2httpslojacp125">例2 loj125. <a href="https://loj.ac/p/125" target="_blank">除数函数求和 2</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$，求 $\sum_{i = 1} ^ n 2\sigma_2(i)+3\sigma_1(i)+5\sigma_0(i)$，其中 $\sigma_k(n) = \sum_{d | n} d ^ k$。</p>
+<p>答案对 998244353 取模。</p>
+<p>其中，$1 \leq n \leq 10^9$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>其实就是上一题的加强版，仍然是考虑贡献。</p>
+<blockquote>
+<p>考虑每一个因数 $d$ 对于答案的贡献，很明显贡献为 $d^k * \lfloor \frac{n}{d} \rfloor$。</p>
+</blockquote>
+<p>注意到 $\lfloor \frac{n}{d} \rfloor$ 很明显可以用数论分块。</p>
+<p>我们只要能求出在一个块 $[L,R]$ 中，$d^2$ 的和即可。</p>
+<p>这个其实就是平方和公式：</p>
+<p>$$\sum\limits_{i=1}^n i^2 = 1^2+2^2+&hellip;+n^2 = \frac{n(n+1)(2n+1)}{6}$$</p>
+</details>
+<div class="admonition info">
+  <p class="admonition-title">平方和公式推导</p>
+<p>$$(n+1)^3 - n^3 = 3n^2+3n+1$$</p>
+<p>从 $1$ 开始的话有</p>
+<p>$$2^3 - 1^3 = 3\times1^2 + 3\times1 + 1$$</p>
+<p>那么一直累加，可以得到</p>
+<p>$$(n+1)^3 - 1^3 = 3 \sum\limits_{i=1}^n i^2 + 3 \sum\limits_{i=1}^n i + \sum\limits_{i=1}^n 1$$</p>
+<p>$$= 3 \sum\limits_{i=1}^n i^2 + 3 \frac{n(n+1)}{2} + n$$</p>
+<p>那么移项可以得到</p>
+<p>$$3\sum\limits_{i=1}^n i^2 = (n+1)^3 + 3 \frac{n(n+1)}{2} + (n + 1)$$</p>
+<p>化简可得到</p>
+<p>$$\sum\limits_{i=1}^n i^2 = \frac{n(n+1)(2n+1)}{6}$$</p>
+<p><a href="https://zhuanlan.zhihu.com/p/190236854" target="_blank">参考链接</a></p>
+</div>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+ll n;
+Z inv6 = (Z)(1) / 6;
+
+Z sum2(ll x) {
+    return (Z)(x) * (x+1) * (2*x+1) * inv6;
+}
+Z sum2(ll L, ll R) {
+    return sum2(R) - sum2(L-1);
+}
+Z sum1(ll x) {
+    return (x * (x+1)) / 2;
+}
+Z sum1(ll L, ll R) {
+    return sum1(R) - sum1(L-1);
+}
+Z sum0(ll L, ll R) {
+    return R - L + 1;
+}
+int main() {
+    cin &gt;&gt; n;
+    ll L = 1;
+    Z ans = 0;
+    while (L &lt;= n) {
+        ll R = n / (n / L);
+        ans += (2 * sum2(L, R) + 3 * sum1(L, R) + 5 * sum0(L, R)) * (n / L);
+        L = R + 1;
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -312,8 +460,8 @@ void divisor_sum() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-08-17 00:25:41 &#43;0000 UTC">2023-08-17</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/71873827404d48a1b98927441bd89384d22b8b38" title="chore: update CF Problems" target="_blank">(7187382)</a>
+        <span title="2023-09-01 11:35:59 -0500 -0500">2023-09-01</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/a021854d9d9072f0135c8e51a5d41794033cf1ce" title="add 113, 114" target="_blank">(a021854d)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/112-%e7%ba%bf%e6%80%a7%e7%ad%9b.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -329,9 +477,9 @@ void divisor_sum() {
           <a href="/tags//"></a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/">
+        <a class="prev" href="/post/113-%E6%95%B4%E4%BD%93%E4%BA%8C%E5%88%86/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">[置顶]竞赛注意事项/通用模版</span>
+            <span class="prev-text nav-default">整体二分</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="/post/111-nac2023-day2/">
@@ -411,7 +559,7 @@ void divisor_sum() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/001-hugo-tutorial/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="Hugo博客搭建小记" />
 <meta property="og:description" content="起因 在几天前折腾了爬虫，成功爬下来とにかくかわいい的漫画以后，我发现我折腾似乎上瘾了。聊天时无意提到”要是我有个人网站就好了“，于是就决定动" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/001-hugo-tutorial/" />
+<meta property="og:url" content="https://tom0727.github.io/post/001-hugo-tutorial/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-02-01T21:21:41+08:00" />
-<meta property="article:modified_time" content="2023-08-17T00:25:41+00:00" />
+<meta property="article:modified_time" content="2023-03-26T12:58:57-05:00" />
+
 <meta itemprop="name" content="Hugo博客搭建小记">
-<meta itemprop="description" content="起因 在几天前折腾了爬虫，成功爬下来とにかくかわいい的漫画以后，我发现我折腾似乎上瘾了。聊天时无意提到”要是我有个人网站就好了“，于是就决定动">
-<meta itemprop="datePublished" content="2021-02-01T21:21:41&#43;08:00" />
-<meta itemprop="dateModified" content="2023-08-17T00:25:41&#43;00:00" />
+<meta itemprop="description" content="起因 在几天前折腾了爬虫，成功爬下来とにかくかわいい的漫画以后，我发现我折腾似乎上瘾了。聊天时无意提到”要是我有个人网站就好了“，于是就决定动"><meta itemprop="datePublished" content="2021-02-01T21:21:41+08:00" />
+<meta itemprop="dateModified" content="2023-03-26T12:58:57-05:00" />
 <meta itemprop="wordCount" content="3360">
-
-
-
 <meta itemprop="keywords" content="hugo,博客," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Hugo博客搭建小记"/>
 <meta name="twitter:description" content="起因 在几天前折腾了爬虫，成功爬下来とにかくかわいい的漫画以后，我发现我折腾似乎上瘾了。聊天时无意提到”要是我有个人网站就好了“，于是就决定动"/>
@@ -185,7 +182,7 @@
 <p>由于我对自己的前端水平十分有数，所以想都没想就立刻放弃了“要不自己写一个网站？”的想法。</p>
 <p>后来想起之前逛过的ouuan大佬的博客非常好看，我的收藏夹里甚至还有他搭建博客的指南，就直接拿来用了，采用的是 <strong>hugo + even主题 + github actions</strong>，参考资料如下:</p>
 <blockquote>
-<p><a href="https://ouuan.gitee.io/post/from-hexo-to-hugo/">https://ouuan.gitee.io/post/from-hexo-to-hugo/</a></p>
+<p><a href="https://ouuan.gitee.io/post/from-hexo-to-hugo/" target="_blank">https://ouuan.gitee.io/post/from-hexo-to-hugo/</a></p>
 </blockquote>
 <h2 id="搭建过程">搭建过程</h2>
 <h3 id="step-1-阅读指南">Step 1 阅读指南</h3>
@@ -220,7 +217,7 @@
 <h3 id="step-5-github-actions">Step 5 Github Actions</h3>
 <p>我们配置一下Github actions，它能自动化部署流程。参考资料:</p>
 <blockquote>
-<p><a href="https://segmentfault.com/a/1190000021815477">https://segmentfault.com/a/1190000021815477</a></p>
+<p><a href="https://segmentfault.com/a/1190000021815477" target="_blank">https://segmentfault.com/a/1190000021815477</a></p>
 </blockquote>
 <p>需要注意，因为源代码和网页内容在同一个repository里，就不用在github上折腾secret key之类的了，直接修改一下 <code>hugo-blog/.github/workflows/deploy.yml</code> (这个是template里自带的) 即可：</p>
 <ol>
@@ -243,10 +240,10 @@
 <h3 id="step-6-gitee镜像">Step 6 gitee镜像</h3>
 <p>因为github.io似乎被墙了，所以学ouuan弄了一个gitee镜像，教程的话参照这两个就可以了：</p>
 <blockquote>
-<p><a href="https://jasonkayzk.github.io/2020/09/18/%E5%9C%A8Gitee%E6%90%AD%E5%BB%BAGithub-Pages/">https://jasonkayzk.github.io/2020/09/18/%E5%9C%A8Gitee%E6%90%AD%E5%BB%BAGithub-Pages/</a></p>
+<p><a href="https://jasonkayzk.github.io/2020/09/18/%E5%9C%A8Gitee%E6%90%AD%E5%BB%BAGithub-Pages/" target="_blank">https://jasonkayzk.github.io/2020/09/18/%E5%9C%A8Gitee%E6%90%AD%E5%BB%BAGithub-Pages/</a></p>
 </blockquote>
 <blockquote>
-<p><a href="https://github.com/yanglbme/gitee-pages-action">https://github.com/yanglbme/gitee-pages-action</a></p>
+<p><a href="https://github.com/yanglbme/gitee-pages-action" target="_blank">https://github.com/yanglbme/gitee-pages-action</a></p>
 </blockquote>
 <p>gitee镜像的访问网址：<a href="https://tom0727.gitee.io" target="_blank">tom0727.gitee.io</a></p>
 <p>注：在 <code>hugo-blog/.github/workflows/sync.yml</code>里记得设置一下<code>on</code>，不然触发不了自动部署。</p>
@@ -295,7 +292,7 @@
 <li><code>small</code>：让内部的图片变小（原理是 max-width:50%）</li>
 </ol>
 <h2 id="自定义页面">自定义页面</h2>
-<p>在 2021年06月09日，我参考 <a href="https://kenkoooo.com/atcoder#/table/">https://kenkoooo.com/atcoder#/table/</a> ，利用 Codeforces API 高仿一个类似的页面。经 kenkoooo 本人同意，现在已经上线在 <a href="/cf-problems">这里</a> 了。主要的技术点如下：</p>
+<p>在 2021年06月09日，我参考 <a href="https://kenkoooo.com/atcoder#/table/" target="_blank">https://kenkoooo.com/atcoder#/table/</a> ，利用 Codeforces API 高仿一个类似的页面。经 kenkoooo 本人同意，现在已经上线在 <a href="/cf-problems">这里</a> 了。主要的技术点如下：</p>
 <ol>
 <li>利用 python 和 Codeforces API 进行交互（因为 <code>requests</code> 有自动重试功能，而 CF 的 API 并不是太稳定）。数据以 <code>contests.json</code> 的形式存在 <code>/static/</code> 中，<code>/scripts/UpdateCF_Problems.py</code> 用于更新这个 <code>json</code>，这个更新的过程已经设置在 Github Action 中了。</li>
 <li>将写好的 <code>html</code> 文件放在 <code>/layouts/_default/cf-problems.html</code> 中（需要更改一下才能正常使用导航栏等模版，具体的看这个文件里的内容即可），再创建 <code>/content/cf-problems.md</code>（其中需要更改 <code>layout = 'cf-problems'</code>），最后在 <code>/config.toml</code> 中把这个页面挂在导航栏里面。对应的 <code>css</code> 和 <code>js</code> 文件我分别放在了 <code>/static/css/cf-problems.css</code> 和 <code>/static/js/cf-problem.js</code>（在 <code>cf-problems.html</code> 中引用的时候也要注意使用变量名）。</li>
@@ -336,8 +333,8 @@ weight = 1
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-08-17 00:25:41 &#43;0000 UTC">2023-08-17</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/71873827404d48a1b98927441bd89384d22b8b38" title="chore: update CF Problems" target="_blank">(7187382)</a>
+        <span title="2023-03-26 12:58:57 -0500 -0500">2023-03-26</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/5977291b6970cee9c2fbc4981e6215b90d5f52ad" title="add 099,100,101,102" target="_blank">(5977291b)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/001-hugo-tutorial.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -431,7 +428,7 @@ weight = 1
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

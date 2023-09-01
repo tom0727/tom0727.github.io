@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/093-2sat/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="2-SAT" />
 <meta property="og:description" content="模版 struct Edge { int from, to, nxt; }; int n; // 变量个数 struct SAT2 { // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小 int dfn[maxn], low[maxn], id, from[maxn], scc = 0," />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/093-2sat/" />
+<meta property="og:url" content="https://tom0727.github.io/post/093-2sat/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-01-09T18:27:02-06:00" />
-<meta property="article:modified_time" content="2023-08-17T00:25:41+00:00" />
+<meta property="article:modified_time" content="2023-01-15T23:35:40-06:00" />
+
 <meta itemprop="name" content="2-SAT">
-<meta itemprop="description" content="模版 struct Edge { int from, to, nxt; }; int n; // 变量个数 struct SAT2 { // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小 int dfn[maxn], low[maxn], id, from[maxn], scc = 0,">
-<meta itemprop="datePublished" content="2023-01-09T18:27:02-06:00" />
-<meta itemprop="dateModified" content="2023-08-17T00:25:41&#43;00:00" />
+<meta itemprop="description" content="模版 struct Edge { int from, to, nxt; }; int n; // 变量个数 struct SAT2 { // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小 int dfn[maxn], low[maxn], id, from[maxn], scc = 0,"><meta itemprop="datePublished" content="2023-01-09T18:27:02-06:00" />
+<meta itemprop="dateModified" content="2023-01-15T23:35:40-06:00" />
 <meta itemprop="wordCount" content="2375">
-
-
-
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="2-SAT"/>
 <meta name="twitter:description" content="模版 struct Edge { int from, to, nxt; }; int n; // 变量个数 struct SAT2 { // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小 int dfn[maxn], low[maxn], id, from[maxn], scc = 0,"/>
@@ -281,30 +278,30 @@ int main() {
 <table>
 <thead>
 <tr>
-<th align="center">表达式</th>
-<th align="center">连边方式</th>
+<th style="text-align:center">表达式</th>
+<th style="text-align:center">连边方式</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">$a \vee b = 1$</td>
-<td align="center">$\neg a \rightarrow b, \neg b \rightarrow a$</td>
+<td style="text-align:center">$a \vee b = 1$</td>
+<td style="text-align:center">$\neg a \rightarrow b, \neg b \rightarrow a$</td>
 </tr>
 <tr>
-<td align="center">$a \wedge b = 0$</td>
-<td align="center">$a \rightarrow \neg b, b \rightarrow \neg a$</td>
+<td style="text-align:center">$a \wedge b = 0$</td>
+<td style="text-align:center">$a \rightarrow \neg b, b \rightarrow \neg a$</td>
 </tr>
 <tr>
-<td align="center">$a = 1$</td>
-<td align="center">$\neg a \rightarrow a$</td>
+<td style="text-align:center">$a = 1$</td>
+<td style="text-align:center">$\neg a \rightarrow a$</td>
 </tr>
 <tr>
-<td align="center">$a = 0$</td>
-<td align="center">$a \rightarrow \neg a$</td>
+<td style="text-align:center">$a = 0$</td>
+<td style="text-align:center">$a \rightarrow \neg a$</td>
 </tr>
 <tr>
-<td align="center">$a,b$ 冲突(不能同时出现)</td>
-<td align="center">$a \rightarrow \neg b, b \rightarrow \neg a$</td>
+<td style="text-align:center">$a,b$ 冲突(不能同时出现)</td>
+<td style="text-align:center">$a \rightarrow \neg b, b \rightarrow \neg a$</td>
 </tr>
 </tbody>
 </table>
@@ -550,8 +547,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-08-17 00:25:41 &#43;0000 UTC">2023-08-17</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/71873827404d48a1b98927441bd89384d22b8b38" title="chore: update CF Problems" target="_blank">(7187382)</a>
+        <span title="2023-01-15 23:35:40 -0600 -0600">2023-01-15</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f328027b03eb07021a7ec0d812fa4311e06ec1a6" title="init 092, 093" target="_blank">(f328027b)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/093-2SAT.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -649,7 +646,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

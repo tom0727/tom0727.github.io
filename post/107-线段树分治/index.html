@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/107-%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%88%86%E6%B2%BB/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="线段树分治" />
 <meta property="og:description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/107-%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%88%86%E6%B2%BB/" />
+<meta property="og:url" content="https://tom0727.github.io/post/107-%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%88%86%E6%B2%BB/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-05-17T17:42:06-05:00" />
-<meta property="article:modified_time" content="2023-08-17T00:25:41+00:00" />
+<meta property="article:modified_time" content="2023-09-01T11:35:59-05:00" />
+
 <meta itemprop="name" content="线段树分治">
-<meta itemprop="description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入">
-<meta itemprop="datePublished" content="2023-05-17T17:42:06-05:00" />
-<meta itemprop="dateModified" content="2023-08-17T00:25:41&#43;00:00" />
-<meta itemprop="wordCount" content="2053">
-
-
-
+<meta itemprop="description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入"><meta itemprop="datePublished" content="2023-05-17T17:42:06-05:00" />
+<meta itemprop="dateModified" content="2023-09-01T11:35:59-05:00" />
+<meta itemprop="wordCount" content="2919">
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="线段树分治"/>
 <meta name="twitter:description" content="介绍 线段树分治一般用于处理一些 “只存在/不存在 权值为 $w$“，或者 ”某个特定时间点” 对应状态的问题。 原理是在线段树上进行 DFS，进入 DFS 时加入"/>
@@ -151,6 +148,7 @@
           <ul>
             <li><a href="#例1-洛谷p5787-二分图-模板线段树分治httpswwwluogucomcnproblemp5787">例1 洛谷P5787 <a href="https://www.luogu.com.cn/problem/P5787">二分图 /【模板】线段树分治</a></a></li>
             <li><a href="#例2-洛谷p5631-最小mex生成树httpswwwluogucomcnproblemp5631">例2 洛谷P5631 <a href="https://www.luogu.com.cn/problem/P5631">最小mex生成树</a></a></li>
+            <li><a href="#例3-cf1140f-extending-set-of-pointshttpscodeforcescomcontest1140problemf">例3 CF1140F. <a href="https://codeforces.com/contest/1140/problem/F">Extending Set of Points</a></a></li>
           </ul>
         </li>
       </ul>
@@ -224,7 +222,7 @@ struct DSU {
 } dsu;
 
 struct Edge {
-    int u, v, l, r;
+    int u, v;
 };
 struct TreeNode {
     vector&lt;Edge&gt; vec;
@@ -277,7 +275,7 @@ int main() {
         int u, v, l, r; cin &gt;&gt; u &gt;&gt; v &gt;&gt; l &gt;&gt; r;
         l++;
         if (l &lt;= r) {
-            tr.insert(1, 1, k, l, r, {u,v,l,r});
+            tr.insert(1, 1, k, l, r, {u,v});
         }
     }
     tr.dfs(1, 1, k);
@@ -400,6 +398,141 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例3-cf1140f-extending-set-of-pointshttpscodeforcescomcontest1140problemf">例3 CF1140F. <a href="https://codeforces.com/contest/1140/problem/F" target="_blank">Extending Set of Points</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个包含二维平面中的点的集合 $S$，定义操作 $E(S)$ 为：</p>
+<p>初始定义 $R=S$，如果对于任何的 $x_1,y_1,x_2,y_2$，如果 $(x_1,y_1) \in R, (x_1,y_2) \in R, (x_2,y_1) \in R$ 且 $(x_2,y_2) \notin R$，则将 $(x_2,y_2)$ 加入到 $R$，直到这种操作无法继续进行。</p>
+<p>定义 $E(S)$ 为上述操作后得到的 $R$ 的大小（这个操作不影响 $S$ 本身）。</p>
+<p>现在给定 $n$ 个询问，每次询问为 $(x,y)$，如果这个点不在 $S$ 内，将其加入 $S$。否则将其从 $S$ 中删除。</p>
+<p>每次询问后，回答 $E(S)$ 的大小。</p>
+<p>其中，$n \leq 3 \times 10^5, x,y \in [1,3\times 10^5]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>经典套路：将 $x,y$ 坐标轴看作二分图里面的点，将二维平面上的点看作二分图里的边。</p>
+<p>然后就能发现 $E(S)$ 本质上是计算了二分图里所有联通块的 <strong>左点数量</strong> 乘以 <strong>右点数量</strong> 的和。</p>
+<p>现在问题来了，怎么在增加/删除边的情况下，动态维护并查集？</p>
+<p>没有办法！</p>
+<p>但注意到可以把 $n$ 个询问看作一个时间从 $1$ 到 $n$ 的时间轴，离线处理询问后，可以知道每条边所在的时间区间。那么这个问题就跟 <a href="/post/107-%e7%ba%bf%e6%ae%b5%e6%a0%91%e5%88%86%e6%b2%bb/#%e4%be%8b1-%e6%b4%9b%e8%b0%b7p5787-%e4%ba%8c%e5%88%86%e5%9b%be-%e6%a8%a1%e6%9d%bf%e7%ba%bf%e6%ae%b5%e6%a0%91%e5%88%86%e6%b2%bbhttpswwwluogucomcnproblemp5787">例1</a> 几乎一模一样了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 6e5+5;
+
+const int M = 3e5;
+struct State {
+    int u, v;
+    pll szu, szv;
+} st[maxn];  // 注意这里是 maxm，应该是边的数量
+ll res = 0;
+ll ans[maxn];
+struct DSU {
+    int par[maxn], tail = 0;
+    pll sz[maxn];
+    inline void init() {
+        for (int i = 1; i &lt;= M*2; i++) {
+            par[i] = i;
+            if (i &lt;= M) sz[i] = {1, 0};
+            else sz[i] = {0, 1};
+        }
+        tail = 0;
+    }
+    int finds(int u) {
+        if (par[u] == u) return u;
+        return finds(par[u]);  // 无路径压缩
+    }
+    void unions(int u, int v) {
+        u = finds(u), v = finds(v);
+        if (sz[u].first + sz[u].second &lt; sz[v].first + sz[v].second) swap(u,v);  // sz[u] &gt;= sz[v]
+        st[++tail] = {u, v, sz[u], sz[v]};   // 无论是否 union 成功都要push到 stack 里
+        if (u == v) return;
+        par[v] = u;
+        res -= sz[u].first * sz[u].second;
+        res -= sz[v].first * sz[v].second;
+        sz[u].first += sz[v].first;
+        sz[u].second += sz[v].second;
+        res += sz[u].first * sz[u].second;
+    }
+    void cancel() {
+        if (tail &gt; 0) {
+            int u = st[tail].u, v = st[tail].v;
+            bool f = 0;
+            if (sz[u] != st[tail].szu) {
+                res -= sz[u].first * sz[u].second;
+                f = 1;
+            }
+            par[v] = v;
+            sz[u] = st[tail].szu;
+            sz[v] = st[tail].szv;
+            if (f) {
+                res += sz[u].first * sz[u].second;
+                res += sz[v].first * sz[v].second;
+            }
+            tail--;
+        }
+    }
+} dsu;
+
+struct Edge {
+    int u, v;
+};
+struct TreeNode {
+    vector&lt;Edge&gt; vec;
+};
+struct SegmentTree {
+    TreeNode tr[maxn&lt;&lt;2];
+    void insert(int cur, int l, int r, int L, int R, Edge e) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            tr[cur].vec.push_back(e);
+            return;
+        }
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) insert(cur&lt;&lt;1, l, mid, L, R, e);
+        if (R &gt; mid) insert(cur&lt;&lt;1|1, mid+1, r, L, R, e);
+    }
+    void dfs(int cur, int l, int r) {
+        for (Edge&amp; e : tr[cur].vec) {
+            dsu.unions(e.u, e.v);
+        }
+        if (l == r) {
+            ans[l] = res;
+        } else {
+            int mid = (l+r) &gt;&gt; 1;
+            dfs(cur&lt;&lt;1, l, mid);
+            dfs(cur&lt;&lt;1|1, mid+1, r);
+        }
+        for (Edge&amp; e : tr[cur].vec) {
+            dsu.cancel();
+        }
+    }
+} tr;
+
+
+int n;
+map&lt;pii, int&gt; mp;
+int main() {
+    cin &gt;&gt; n;
+    dsu.init();
+    for (int t = 1; t &lt;= n; t++) {
+        int u, v; cin &gt;&gt; u &gt;&gt; v; v += M;
+        if (mp.count({u,v})) {
+            int pt = mp[{u,v}];
+            mp.erase({u,v});
+            tr.insert(1, 1, n, pt, t-1, {u,v});
+        } else {
+            mp[{u,v}] = t;
+        }
+    }
+    for (auto itr : mp) {
+        tr.insert(1, 1, n, itr.second, n, {itr.first.first, itr.first.second});
+    }
+    tr.dfs(1, 1, n);
+    for (int i = 1; i &lt;= n; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -411,8 +544,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-08-17 00:25:41 &#43;0000 UTC">2023-08-17</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/71873827404d48a1b98927441bd89384d22b8b38" title="chore: update CF Problems" target="_blank">(7187382)</a>
+        <span title="2023-09-01 11:35:59 -0500 -0500">2023-09-01</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/a021854d9d9072f0135c8e51a5d41794033cf1ce" title="add 113, 114" target="_blank">(a021854d)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/107-%e7%ba%bf%e6%ae%b5%e6%a0%91%e5%88%86%e6%b2%bb.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -510,7 +643,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

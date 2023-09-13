@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>线段树优化建图 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 线段树优化建图用于解决图中边数过多，不能直接建的问题。 直接看例题： 例1 CF786B. Legacy 题意 给定 $n$ 个点的有向带权图，初始状态下图中没有边。给定 $q$ 个操作" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/115-%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%BC%98%E5%8C%96%E5%BB%BA%E5%9B%BE/" />
+<link rel="manifest" href="/manifest.json">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="线段树优化建图" />
+<meta property="og:description" content="介绍 线段树优化建图用于解决图中边数过多，不能直接建的问题。 直接看例题： 例1 CF786B. Legacy 题意 给定 $n$ 个点的有向带权图，初始状态下图中没有边。给定 $q$ 个操作" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/115-%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%BC%98%E5%8C%96%E5%BB%BA%E5%9B%BE/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-09-04T23:51:58-05:00" />
+<meta property="article:modified_time" content="2023-09-13T11:48:17-05:00" />
+
+<meta itemprop="name" content="线段树优化建图">
+<meta itemprop="description" content="介绍 线段树优化建图用于解决图中边数过多，不能直接建的问题。 直接看例题： 例1 CF786B. Legacy 题意 给定 $n$ 个点的有向带权图，初始状态下图中没有边。给定 $q$ 个操作"><meta itemprop="datePublished" content="2023-09-04T23:51:58-05:00" />
+<meta itemprop="dateModified" content="2023-09-13T11:48:17-05:00" />
+<meta itemprop="wordCount" content="3202">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="线段树优化建图"/>
+<meta name="twitter:description" content="介绍 线段树优化建图用于解决图中边数过多，不能直接建的问题。 直接看例题： 例1 CF786B. Legacy 题意 给定 $n$ 个点的有向带权图，初始状态下图中没有边。给定 $q$ 个操作"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">线段树优化建图</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-09-04 23:51:58 -0500 -0500"> 2023-09-04 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a>
+          <ul>
+            <li><a href="#例1-cf786b-legacyhttpcodeforcescomproblemsetproblem786b">例1 CF786B. <a href="http://codeforces.com/problemset/problem/786/B">Legacy</a></a></li>
+            <li><a href="#例2-洛谷p6348-pa2011-journeyshttpswwwluogucomcnproblemp6348">例2 洛谷P6348 <a href="https://www.luogu.com.cn/problem/P6348">[PA2011] Journeys</a></a></li>
+            <li><a href="#例3-洛谷p5025-snoi2017-炸弹httpswwwluogucomcnproblemp5025">例3 洛谷P5025 <a href="https://www.luogu.com.cn/problem/P5025">[SNOI2017] 炸弹</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>线段树优化建图用于解决图中边数过多，不能直接建的问题。</p>
+<p>直接看例题：</p>
+<h3 id="例1-cf786b-legacyhttpcodeforcescomproblemsetproblem786b">例1 CF786B. <a href="http://codeforces.com/problemset/problem/786/B" target="_blank">Legacy</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个点的有向带权图，初始状态下图中没有边。给定 $q$ 个操作。每次操作有 $3$ 种：</p>
+<p>$1~u~v~w$：从 $u$ 向 $v$ 连一条权值为 $w$ 的边。</p>
+<p>$2~u~l~r~w$：从 $u$ 向 $[l,r]$ 的所有点连一条权值为 $w$ 的边。</p>
+<p>$3~u~l~r~w$：从 $[l,r]$ 的所有点向 $u$ 连一条权值为 $w$ 的边。</p>
+<p>最后输出从点 $s$ 出发到其他所有点的最短路。</p>
+</div>
+<p>我们利用线段树优化建图。建一棵线段树，假设我们要从 $8$ 连向 $[3,7]$，则我们可以这样建：</p>
+<p><img src="/images/115/2.png" alt="img"></p>
+<p>这样每次只需要建 $O(\log n)$ 条边。</p>
+<p>其中，连出的粉色边拥有边权 $w$，而线段树上的边的边权均为 $0$，表达了从上面的节点可以无损耗的来到叶子节点（也就是原图中真正的节点）。</p>
+<p>如果是从 $[3,7]$ 连向 $8$，则是反过来的。</p>
+<p>但不能把这些边都建在同一棵树上，需要两棵线段树分别来表示这两种操作。</p>
+<p>建立两棵线段树，一个的边是从上到下（叫 out-tree），一个的边是从下到上（叫 in-tree），而这些的线段树的叶子节点均代表原图中的节点。它们本质上是同一个节点，所以它们之间需要连权值为 $0$ 的双向边。</p>
+<p><img src="/images/115/3.png" alt="img"></p>
+<p>建好以后就可以连边了，无论是从区间连到点，还是从点连到区间，都是从in-tree出发，连到out-tree。其中，</p>
+<ol>
+<li>区间 $\rightarrow$ 点：in-tree 的区间节点 $\rightarrow$ out-tree 的叶子节点。</li>
+<li>点 $\rightarrow$ 区间：in-tree 的叶子节点 $\rightarrow$ out-tree 的区间节点。</li>
+</ol>
+<p>最后怎么跑最短路呢？</p>
+<p>实际上就是在这两棵线段树上跑，只不过除了原图中的点（叶子节点）以外，多了线段树上的一些点而已。我们就从任何一棵树的叶子节点 $s$ 出发，然后到任何一棵树的其他叶子节点的最短距离即是我们的最短路。本质上是给原图添加了一些辅助点。</p>
+<p>• 写代码的时候用 <code>u</code> 和 <code>u+N</code> 区分两棵树上的节点，并且注意原图中的点对应的是叶子节点，所以编号不再是 1-n 了，用 <code>inleaf[maxn], outleaf[maxn]</code> 来记录编号。</p>
+<p>时间复杂度：$O(m \log m) = O(n\log^2n)$，空间复杂度：$O(m) = O(n \log n)$。</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e6+500;
+
+struct Edge {
+    int u, v, w;
+};
+vector&lt;Edge&gt; adj[maxn];
+struct Node {
+    int v; ll d;
+    bool operator&lt;(const Node&amp; other) const {
+        return d &gt; other.d;
+    }
+};
+struct Dijkstra {
+    bool vis[maxn];
+    ll dis[maxn];
+    priority_queue&lt;Node&gt; pq;
+    void run(int x) {
+        memset(dis, -1, sizeof(dis));
+        memset(vis, 0, sizeof(vis));
+        pq.push({x, 0});
+        dis[x] = 0;
+        while (pq.size()) {
+            auto [u, d] = pq.top(); pq.pop();
+            if (vis[u]) continue;
+            vis[u] = 1;
+            for (auto [_, v, w] : adj[u]) {
+                if (dis[v] == -1 || dis[v] &gt; dis[u] + w) {
+                    dis[v] = dis[u] + w;
+                    pq.push({v, dis[v]});
+                }
+            }
+        }
+    }
+} di;
+int n, q, s;
+int N = 5e5;
+void addEdge(int u, int v, int w) {
+    adj[u].push_back({u,v,w});
+}
+
+// [1...N] 是 out-tree的范畴，[N+1...2N] 是in-tree的范畴
+int outleaf[maxn], inleaf[maxn];
+void build(int cur, int l, int r) {
+    if (l == r) {
+        outleaf[l] = cur;
+        inleaf[l] = cur+N;
+        addEdge(outleaf[l], inleaf[l], 0);
+        addEdge(inleaf[l], outleaf[l], 0);
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    int lc = cur&lt;&lt;1, rc = lc|1;
+    addEdge(cur, lc, 0);
+    addEdge(cur, rc, 0);
+    addEdge(lc+N, cur+N, 0);
+    addEdge(rc+N, cur+N, 0);
+    build(cur&lt;&lt;1, l, mid);
+    build(cur&lt;&lt;1|1, mid+1, r);
+}
+
+// type = 1 单独处理了 (从 in-&gt;out 或者 反过来都没区别)
+// type = 2: 从 u 连一条边到 [L,R]，那么从 inleaf[u] -&gt; out  (N+1...2N -&gt; 1...N)
+// type = 3: 从 [L,R] 连一条边到 u，那么从 in -&gt; outleaf[u]  (N+1...2N -&gt; 1...N)
+// w 为权值
+void add(int cur, int l, int r, int u, int L, int R, int w, int type) {
+    if (L &lt;= l &amp;&amp; R &gt;= r) {
+        if (type == 2) addEdge(inleaf[u], cur, w);
+        else addEdge(cur+N, outleaf[u], w);
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) add(cur&lt;&lt;1, l, mid, u, L, R, w, type);
+    if (R &gt; mid) add(cur&lt;&lt;1|1, mid+1, r, u, L, R, w, type);
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; q &gt;&gt; s;
+    build(1, 1, n);
+    while (q--) {
+        int type; cin &gt;&gt; type;
+        if (type == 1) {
+            int u, v, w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+            addEdge(inleaf[u], outleaf[v], w);
+        } else {
+            int u, L, R, w; cin &gt;&gt; u &gt;&gt; L &gt;&gt; R &gt;&gt; w;
+            add(1, 1, n, u, L, R, w, type);
+        }
+    }
+    di.run(inleaf[s]);
+    for (int i = 1; i &lt;= n; i++) {
+        cout &lt;&lt; di.dis[outleaf[i]] &lt;&lt; &quot; &quot;;
+    }
+    cout &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<h3 id="例2-洛谷p6348-pa2011-journeyshttpswwwluogucomcnproblemp6348">例2 洛谷P6348 <a href="https://www.luogu.com.cn/problem/P6348" target="_blank">[PA2011] Journeys</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>$n$ 个节点的无权无向图中，有 $m$ 条道路。</p>
+<p>每条道路代表从 $[a,b]$ 都能走到 $[c,d]$。</p>
+<p>给定出发点 $s$，求从 $s$ 出发到其他点的最短路。</p>
+<p>其中，$n \leq 5 \times 10^5, m \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>几乎和上一道题一样，区别在于这次可以从区间连到区间了，而且是双向边。</p>
+<p>把一个区间 $[a,b]$ 拆成线段树上的节点 $x_1,x_2,&hellip;,x_k$，然后把 $[c,d]$ 拆成 $y_1,y_2,&hellip;,y_l$。</p>
+<p>然后对于每个 $i,j$，都连 $x_i \leftrightarrow y_j$。不过这样每次要连 $O(log^2 n)$ 条边，复杂度太高了。</p>
+<p>可以建一个虚拟的点 $u$，然后将所有 $x_i \rightarrow u \rightarrow y_j$。由于是双向边，就再建一个 $v$，$y_j \rightarrow v \rightarrow x_i$。</p>
+<p>这样复杂度又降回 $O(\log n)$ 了。</p>
+<p>• 最后注意这是无权图，跑个 01-BFS 找最短路即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+struct Edge {
+    int u, v, w;
+};
+vector&lt;Edge&gt; adj[maxn];
+int n, m, s;
+int N = 2e6;
+void addEdge(int u, int v, int w) {
+    adj[u].push_back({u,v,w});
+}
+
+// [1...N] 是 out-tree的范畴，[N+1...2N] 是in-tree的范畴
+int outleaf[maxn], inleaf[maxn];
+void build(int cur, int l, int r) {
+    if (l == r) {
+        outleaf[l] = cur;
+        inleaf[l] = cur+N;
+        addEdge(outleaf[l], inleaf[l], 0);
+        addEdge(inleaf[l], outleaf[l], 0);
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    int lc = cur&lt;&lt;1, rc = lc|1;
+    addEdge(cur, lc, 0);
+    addEdge(cur, rc, 0);
+    addEdge(lc+N, cur+N, 0);
+    addEdge(rc+N, cur+N, 0);
+    build(cur&lt;&lt;1, l, mid);
+    build(cur&lt;&lt;1|1, mid+1, r);
+}
+
+void find_nodes(int cur, int l, int r, int L, int R, vector&lt;int&gt;&amp; nodes) {
+    if (L &lt;= l &amp;&amp; R &gt;= r) {
+        nodes.push_back(cur);
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) find_nodes(cur&lt;&lt;1, l, mid, L, R, nodes);
+    if (R &gt; mid) find_nodes(cur&lt;&lt;1|1, mid+1, r, L, R, nodes);
+}
+
+int id = 0;
+void add(int L1, int R1, int L2, int R2) {
+    vector&lt;int&gt; nodes1, nodes2;
+    find_nodes(1, 1, n, L1, R1, nodes1);
+    find_nodes(1, 1, n, L2, R2, nodes2);
+
+    int nd1 = 2*N + id + 1, nd2 = 2*N + id + 2;
+    id += 2;
+    for (int x : nodes1) {
+        addEdge(x+N, nd1, 1);
+        addEdge(nd2, x, 1);
+    }
+    for (int y : nodes2) {
+        addEdge(nd1, y, 1);
+        addEdge(y+N, nd2, 1);
+    }
+}
+
+
+deque&lt;int&gt; q;
+int dis[maxn];
+bool vis[maxn];
+void bfs01(int x) {
+    memset(dis, -1, sizeof(dis));
+    q.push_back(x);
+    dis[x] = 0;
+    while (q.size()) {
+        int u = q.front(); q.pop_front();
+        if (vis[u]) continue;
+        vis[u] = 1;
+        for (auto [_, v, w] : adj[u]) {
+            if (dis[v] == -1 || dis[v] &gt; dis[u] + w) {
+                dis[v] = dis[u] + w;
+                if (w == 0) q.push_front(v);
+                else q.push_back(v);
+            }
+        }
+    }
+}
+
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; s;
+    build(1, 1, n);
+    while (m--) {
+        int a, b, c, d; cin &gt;&gt; a &gt;&gt; b &gt;&gt; c &gt;&gt; d;
+        add(a, b, c, d);
+    }
+    bfs01(inleaf[s]);
+    for (int i = 1; i &lt;= n; i++) {
+        cout &lt;&lt; dis[outleaf[i]] / 2 &lt;&lt; &quot;\n&quot;;
+    }
+}
+</code></pre>
+</details>
+<h3 id="例3-洛谷p5025-snoi2017-炸弹httpswwwluogucomcnproblemp5025">例3 洛谷P5025 <a href="https://www.luogu.com.cn/problem/P5025" target="_blank">[SNOI2017] 炸弹</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>在一条直线上有 $n$ 个炸弹，每个炸弹的坐标是 $x_i$，爆炸半径是 $r_i$。</p>
+<p>当一个炸弹 $i$ 爆炸时，如果另一个炸弹 $j$ 满足 $|x_j-x_i| \leq r_i$，那么炸弹 $j$ 也会被引爆。</p>
+<p>对于每一个 $i$，计算如果一开始引爆 $i$，将会有多少个炸弹被引爆，设这个值为 $k_i$，计算 $\sum\limits_{i=1}^n i*k_i$。</p>
+<p>其中，$n \leq 5 \times 10^5, |x_i| \leq 10^{18}, r_i \in [0, 2\times 10^{18}]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>显然，一个炸弹 $i$ 被引爆后，一定影响的是以它为中心的一个区间的范围。那么可以用二分求出这个区间，然后线段树优化建图来连边。</p>
+<p>建完边以后，相当于给定一个图，问从每一个节点出发，能到达多少个节点？</p>
+<p>那么可以先SCC缩点，得到一个DAG，然后在DAG上跑dp。</p>
+<p>但DAG上的dp其实有一个问题，见下图：</p>
+<div style='max-width:50%'>
+  <p><img src="/images/115/4.png" alt="img"></p>
+</div>
+<p>节点 $2$ 和 $3$ 可到达的数量均为 $2$，但这样的话节点 $4$ 可到达的数量就会变成 $5$，因为节点 $1$ 被统计了两次。</p>
+<p>并没有什么好办法来处理这个问题，但我们注意到，初始情况下引爆一个炸弹，最后的影响范围一定是一个区间。</p>
+<p>于是 <code>dp</code> 值维护的是能够影响到的<strong>区间左端点和右端点</strong>，而不是影响到的节点数量，这样就没有这个问题了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 4e6+50000;
+
+vector&lt;int&gt; adj[maxn];
+struct Node {
+    int v; ll d;
+    bool operator&lt;(const Node&amp; other) const {
+        return d &gt; other.d;
+    }
+};
+int n;
+int N = 2e6;
+void addEdge(int u, int v) {
+    adj[u].push_back(v);
+}
+// [1...N] 是 out-tree的范畴，[N+1...2N] 是in-tree的范畴
+int outleaf[maxn], inleaf[maxn];
+void build(int cur, int l, int r) {
+    if (l == r) {
+        outleaf[l] = cur;
+        inleaf[l] = cur+N;
+        addEdge(outleaf[l], inleaf[l]);
+        addEdge(inleaf[l], outleaf[l]);
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    int lc = cur&lt;&lt;1, rc = lc|1;
+    addEdge(cur, lc);
+    addEdge(cur, rc);
+    addEdge(lc+N, cur+N);
+    addEdge(rc+N, cur+N);
+    build(cur&lt;&lt;1, l, mid);
+    build(cur&lt;&lt;1|1, mid+1, r);
+}
+void add(int cur, int l, int r, int u, int L, int R) {
+    if (L &lt;= l &amp;&amp; R &gt;= r) {
+        addEdge(inleaf[u], cur);
+        return;
+    }
+    int mid = (l+r) &gt;&gt; 1;
+    if (L &lt;= mid) add(cur&lt;&lt;1, l, mid, u, L, R);
+    if (R &gt; mid) add(cur&lt;&lt;1|1, mid+1, r, u, L, R);
+}
+
+// from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小
+struct Tarjan {
+    int dfn[maxn], low[maxn], id, from[maxn], scc = 0, sz[maxn];
+    bool in[maxn];  // instack or not
+    int st[maxn], tail = -1;
+    void dfs(int u) {
+        in[u] = 1;
+        st[++tail] = u;
+        dfn[u] = low[u] = ++id;
+        for (int to : adj[u]) {
+            if (dfn[to] &amp;&amp; in[to]) low[u] = min(low[u], dfn[to]);  // 要记得在栈内
+            if (!dfn[to]) {
+                dfs(to);
+                low[u] = min(low[u], low[to]);
+            }
+        }
+        if (dfn[u] == low[u]) {
+            from[u] = ++scc;
+            sz[scc] = 1;
+            while (tail &gt;= 0 &amp;&amp; st[tail] != u) {
+                int cur = st[tail];
+                from[cur] = from[u];
+                sz[scc]++;
+                tail--;
+                in[cur] = 0;  // 记得这里，将在栈中的标记去掉
+            }
+            tail--;
+            in[u] = 0;  // 记得这里，将在栈中的标记去掉
+        }
+    }
+    // 跑tarjan
+    void solve() {
+        for (int i = 1; i &lt;= N*2; i++) {
+            if (!dfn[i]) dfs(i);
+        }
+    }
+} tj;
+
+struct Graph {
+    int n;
+    vector&lt;int&gt; adj[maxn];
+    int w[maxn], deg[maxn];
+    pii dp[maxn];
+    void addEdge(int u, int v) {
+        adj[u].push_back(v);
+    }
+    void remove_dup() {
+        for (int i = 1; i &lt;= n; i++) {
+            sort(adj[i].begin(), adj[i].end());
+            adj[i].resize(unique(adj[i].begin(), adj[i].end()) - adj[i].begin());
+            for (int v : adj[i]) deg[v]++;  // 注意重边，所以不能在addEdge的时候统计deg，得先去重
+        }
+    }
+
+    vector&lt;int&gt; seq;  // 拓扑排序的逆序列
+    void topo() {
+        vector&lt;int&gt; q;
+        for (int i = 1; i &lt;= n; i++) {
+            if (!deg[i]) q.push_back(i);
+        }
+        while (q.size()) {
+            int u = q.back();
+            q.pop_back();
+            for (int v : adj[u]) {
+                deg[v]--;
+                if (deg[v] == 0) {
+                    q.push_back(v);
+                }
+            }
+            seq.push_back(u);
+        }
+        reverse(seq.begin(), seq.end());
+    }
+
+    void run_dp() {
+        for (int u : seq) {
+            for (int v : adj[u]) {
+                dp[u].first = min(dp[u].first, dp[v].first);
+                dp[u].second = max(dp[u].second, dp[v].second);
+            }
+        }
+    }
+} graph;
+
+struct Bomb {
+    ll x, r;
+    int id;
+    bool operator&lt;(const Bomb&amp; other) const {
+        return x &lt; other.x;
+    }
+} a[maxn];
+int main() {
+    fastio;
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; a[i].x &gt;&gt; a[i].r, a[i].id = i;
+    sort(a+1, a+n+1);
+
+    build(1, 1, n);
+    for (int i = 1; i &lt;= n; i++) {
+        int l = lower_bound(a+1, a+i+1, Bomb {a[i].x - a[i].r, 0, 0}) - a;
+        int r = prev(upper_bound(a+i+1, a+n+1, Bomb {a[i].x + a[i].r, 0, 0})) - a;
+        add(1, 1, n, i, l, r);
+    }
+
+    tj.solve();
+    for (int i = 1; i &lt;= N*2; i++) {
+        for (int j : adj[i]) {
+            int fu = tj.from[i], fv = tj.from[j];
+            if (fu == fv) continue;
+            graph.addEdge(fu, fv);
+        }
+    }
+    graph.n = tj.scc;
+    for (int i = 1; i &lt;= graph.n; i++) graph.dp[i] = {1e9, -1};
+
+    for (int i = 1; i &lt;= n; i++) {
+        int u = tj.from[inleaf[i]];
+        graph.dp[u].first = min(graph.dp[u].first, i);
+        graph.dp[u].second = max(graph.dp[u].second, i);
+    }
+    graph.remove_dup();
+    graph.topo();
+    graph.run_dp();
+
+    Z ans = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        Z res = 0;
+        int from = tj.from[inleaf[i]];
+        ll num = graph.dp[from].second - graph.dp[from].first + 1;
+        res = num * a[i].id;
+        ans += res;
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2023-09-13 11:48:17 -0500 -0500">2023-09-13</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/b751144c789ddafa314220fc4d9a489f7d5fca00" title="add 115" target="_blank">(b751144c)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/115-%e7%ba%bf%e6%ae%b5%e6%a0%91%e4%bc%98%e5%8c%96%e5%bb%ba%e5%9b%be.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">[置顶]竞赛注意事项/通用模版</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/114-%E7%AC%9B%E5%8D%A1%E5%B0%94%E6%A0%91/">
+            <span class="next-text nav-default">笛卡尔树</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/114-%E7%AC%9B%E5%8D%A1%E5%B0%94%E6%A0%91/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="笛卡尔树" />
 <meta property="og:description" content="定义 笛卡尔树是一种二叉树，每一个结点由一个键值二元组 $(k,v)$ 构成。 性质 $k$ 满足 BST 的性质 $v$ 满足 min-heap 的性质。 如果笛卡尔树的 $k,v$ 值确定，且 $k$ 互不相同，$v$ 互" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/114-%E7%AC%9B%E5%8D%A1%E5%B0%94%E6%A0%91/" />
+<meta property="og:url" content="https://tom0727.github.io/post/114-%E7%AC%9B%E5%8D%A1%E5%B0%94%E6%A0%91/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-09-01T11:14:35-05:00" />
-<meta property="article:modified_time" content="2023-09-01T11:35:59-05:00" />
+<meta property="article:modified_time" content="2023-09-13T11:48:17-05:00" />
+
 <meta itemprop="name" content="笛卡尔树">
-<meta itemprop="description" content="定义 笛卡尔树是一种二叉树，每一个结点由一个键值二元组 $(k,v)$ 构成。 性质 $k$ 满足 BST 的性质 $v$ 满足 min-heap 的性质。 如果笛卡尔树的 $k,v$ 值确定，且 $k$ 互不相同，$v$ 互">
-<meta itemprop="datePublished" content="2023-09-01T11:14:35-05:00" />
-<meta itemprop="dateModified" content="2023-09-01T11:35:59-05:00" />
-<meta itemprop="wordCount" content="463">
-
-
-
+<meta itemprop="description" content="定义 笛卡尔树是一种二叉树，每一个结点由一个键值二元组 $(k,v)$ 构成。 性质 $k$ 满足 BST 的性质 $v$ 满足 min-heap 的性质。 如果笛卡尔树的 $k,v$ 值确定，且 $k$ 互不相同，$v$ 互"><meta itemprop="datePublished" content="2023-09-01T11:14:35-05:00" />
+<meta itemprop="dateModified" content="2023-09-13T11:48:17-05:00" />
+<meta itemprop="wordCount" content="1159">
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="笛卡尔树"/>
 <meta name="twitter:description" content="定义 笛卡尔树是一种二叉树，每一个结点由一个键值二元组 $(k,v)$ 构成。 性质 $k$ 满足 BST 的性质 $v$ 满足 min-heap 的性质。 如果笛卡尔树的 $k,v$ 值确定，且 $k$ 互不相同，$v$ 互"/>
@@ -148,9 +145,11 @@
       <ul>
         <li><a href="#定义">定义</a></li>
         <li><a href="#性质">性质</a></li>
-        <li><a href="#on-建树">$O(n) 建树$</a>
+        <li><a href="#on-建树">$O(n) 建树$</a></li>
+        <li><a href="#应用">应用</a>
           <ul>
             <li><a href="#例1-洛谷p5854模板笛卡尔树httpswwwluogucomcnproblemp5854">例1 洛谷P5854<a href="https://www.luogu.com.cn/problem/P5854">【模板】笛卡尔树</a></a></li>
+            <li><a href="#例2-洛谷p1377-tjoi2011-树的序httpswwwluogucomcnproblemp1377">例2 洛谷P1377 <a href="https://www.luogu.com.cn/problem/P1377">[TJOI2011] 树的序</a></a></li>
           </ul>
         </li>
       </ul>
@@ -177,6 +176,8 @@
 <li>如果之前有弹出元素，那么最后一个弹出的元素作为 $x$ 的左child。</li>
 <li>如果此时栈上有元素，那么栈顶的元素的右 $child$ 是 $x$。</li>
 </ol>
+<h2 id="应用">应用</h2>
+<p>笛卡尔树可以用于 $O(n)$ 或者 $O(n\log n)$ 建BST，见 <a href="/post/114-%e7%ac%9b%e5%8d%a1%e5%b0%94%e6%a0%91/#%e4%be%8b2-%e6%b4%9b%e8%b0%b7p1377-tjoi2011-%e6%a0%91%e7%9a%84%e5%ba%8fhttpswwwluogucomcnproblemp1377">例2</a></p>
 <h3 id="例1-洛谷p5854模板笛卡尔树httpswwwluogucomcnproblemp5854">例1 洛谷P5854<a href="https://www.luogu.com.cn/problem/P5854" target="_blank">【模板】笛卡尔树</a></h3>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
@@ -198,7 +199,7 @@ int main() {
         cin &gt;&gt; a[i].p;
         a[i].idx = i;
     }
-    stack&lt;pii&gt; st;
+    stack&lt;pii&gt; st;  // {val, idx}，idx作为树Node的index
     for (int i = 1; i &lt;= n; i++) {
         int last = 0;
         while (st.size() &amp;&amp; st.top().first &gt; a[i].p) last = st.top().second, st.pop();
@@ -216,6 +217,74 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例2-洛谷p1377-tjoi2011-树的序httpswwwluogucomcnproblemp1377">例2 洛谷P1377 <a href="https://www.luogu.com.cn/problem/P1377" target="_blank">[TJOI2011] 树的序</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $1$ 到 $n$ 的permutation，代表按照这个顺序将这些元素插入到一个 BST 中。</p>
+<p>求所有能够生成同样BST的所有permutation中，字典序最小的一个。</p>
+<p>其中，$n \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>很容易可以想到一个思路：按照给定的序列，把BST建出来，然后求这个BST的pre-order就是字典序最小的了（因为先访问左边，再访问右边，并且pre-order保证了结构一致，所以pre-order即是所求）。</p>
+<p>现在问题来了：根据这个序列建BST，最坏情况下是 $O(n^2)$ 的，怎么加速？</p>
+<p>注意到，根据一个序列建BST，得到的BST满足两个性质：</p>
+<ol>
+<li>每个节点的 index 满足小根堆的性质：因为在BST中，一个 $u$ 的index一定比它的 parent 的index更加靠后。</li>
+<li>每个节点的值 (value) 满足BST的性质：因为这就是一个BST。</li>
+</ol>
+<p>回忆笛卡尔树的性质：</p>
+<ol>
+<li>每个节点的 index 满足BST性质。</li>
+<li>每个节点的 value 满足小根堆性质。</li>
+</ol>
+<p>恰好是反过来的！</p>
+<p>于是我们将原序列的 index 与 value 反过来，然后建立笛卡尔树，建好以后再反一次，就得到了想要的BST了。</p>
+<p>• 由于这个题给定的 value 是 $1$ 到 $n$ 的排序，所以可以直接 $O(n)$ 反过来，否则需要 $O(n\log n)$。</p>
+<p>• BST的根就是栈最底下的那个节点（因为我们维护的是一个从根开始向右的链）。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+struct Node {
+    int lc, rc, p, idx;
+} a[maxn];
+
+int idx_to_val[maxn], val_to_idx[maxn];
+int n;
+void dfs(int u) {
+    cout &lt;&lt; idx_to_val[a[u].p] &lt;&lt; &quot; &quot;;
+    if (a[u].lc) dfs(a[u].lc);
+    if (a[u].rc) dfs(a[u].rc);
+}
+int main() {
+    fastio;
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        int val; cin &gt;&gt; val;
+        idx_to_val[i] = val;
+        val_to_idx[val] = i;
+        a[i].idx = i;
+        a[val].p = i;
+    }
+
+    stack&lt;pii&gt; st;
+    for (int i = 1; i &lt;= n; i++) {
+        int last = 0;
+        while (st.size() &amp;&amp; st.top().first &gt; a[i].p) last = st.top().second, st.pop();
+        if (last) a[i].lc = last;
+        if (st.size()) a[st.top().second].rc = a[i].idx;
+        st.push({a[i].p, i});
+    }
+
+    int rt = -1;
+    while (st.size()) rt = st.top().second, st.pop();
+    dfs(rt);
+    cout &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -227,8 +296,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-09-01 11:35:59 -0500 -0500">2023-09-01</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/a021854d9d9072f0135c8e51a5d41794033cf1ce" title="add 113, 114" target="_blank">(a021854)</a>
+        <span title="2023-09-13 11:48:17 -0500 -0500">2023-09-13</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/b751144c789ddafa314220fc4d9a489f7d5fca00" title="add 115" target="_blank">(b751144c)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/114-%e7%ac%9b%e5%8d%a1%e5%b0%94%e6%a0%91.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -244,9 +313,9 @@ int main() {
           <a href="/tags//"></a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/">
+        <a class="prev" href="/post/115-%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%BC%98%E5%8C%96%E5%BB%BA%E5%9B%BE/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">[置顶]竞赛注意事项/通用模版</span>
+            <span class="prev-text nav-default">线段树优化建图</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="/post/113-%E6%95%B4%E4%BD%93%E4%BA%8C%E5%88%86/">
@@ -326,7 +395,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

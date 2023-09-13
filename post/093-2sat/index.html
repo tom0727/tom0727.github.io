@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/093-2sat/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="2-SAT" />
 <meta property="og:description" content="模版 struct Edge { int from, to, nxt; }; int n; // 变量个数 struct SAT2 { // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小 int dfn[maxn], low[maxn], id, from[maxn], scc = 0," />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/093-2sat/" />
+<meta property="og:url" content="https://tom0727.github.io/post/093-2sat/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-01-09T18:27:02-06:00" />
-<meta property="article:modified_time" content="2023-09-01T11:35:59-05:00" />
+<meta property="article:modified_time" content="2023-09-13T11:48:17-05:00" />
+
 <meta itemprop="name" content="2-SAT">
-<meta itemprop="description" content="模版 struct Edge { int from, to, nxt; }; int n; // 变量个数 struct SAT2 { // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小 int dfn[maxn], low[maxn], id, from[maxn], scc = 0,">
-<meta itemprop="datePublished" content="2023-01-09T18:27:02-06:00" />
-<meta itemprop="dateModified" content="2023-09-01T11:35:59-05:00" />
-<meta itemprop="wordCount" content="2375">
-
-
-
+<meta itemprop="description" content="模版 struct Edge { int from, to, nxt; }; int n; // 变量个数 struct SAT2 { // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小 int dfn[maxn], low[maxn], id, from[maxn], scc = 0,"><meta itemprop="datePublished" content="2023-01-09T18:27:02-06:00" />
+<meta itemprop="dateModified" content="2023-09-13T11:48:17-05:00" />
+<meta itemprop="wordCount" content="4035">
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="2-SAT"/>
 <meta name="twitter:description" content="模版 struct Edge { int from, to, nxt; }; int n; // 变量个数 struct SAT2 { // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小 int dfn[maxn], low[maxn], id, from[maxn], scc = 0,"/>
@@ -153,10 +150,12 @@
           </ul>
         </li>
         <li><a href="#常用连边模型">常用连边模型</a></li>
+        <li><a href="#2-sat的优化建图">2-SAT的优化建图</a></li>
         <li><a href="#例题">例题</a>
           <ul>
             <li><a href="#例1-洛谷p5782-poi2001-和平委员会httpswwwluogucomcnproblemp5782">例1 洛谷P5782 <a href="https://www.luogu.com.cn/problem/P5782">[POI2001] 和平委员会</a></a></li>
             <li><a href="#例2-cf1250e-the-coronationhttpscodeforcescomcontest1250probleme">例2 CF1250E. <a href="https://codeforces.com/contest/1250/problem/E">The Coronation</a></a></li>
+            <li><a href="#例3-abc210f-coprime-solitairehttpsatcoderjpcontestsabc210tasksabc210_f">例3 ABC210F. <a href="https://atcoder.jp/contests/abc210/tasks/abc210_f">Coprime Solitaire</a></a></li>
           </ul>
         </li>
       </ul>
@@ -259,18 +258,23 @@ int main() {
 <p>$$a_2 \wedge a_4 = 0$$</p>
 <p>$$&hellip;$$</p>
 <p>注意到每一个方程都只有两个变量 $a_i, a_j$，所以叫做 2-SAT。如果有超过 $2$ 个变量，那么是 NP 问题，只能暴力。</p>
+<p>• 一般在题目中，当一个元素要么取某一个值，要么取另外一个值（或者状态）时，就可以将这个元素看作一个 boolean 变量，而它的两个值/状态就代表了 2-SAT 中的两个点。</p>
 <h2 id="原理">原理</h2>
 <p>2-SAT 本质上是利用了 boolean 表达式之间的推导关系。</p>
 <p>比如 $a_1 \vee a_4 = 1$ 可以等效转化为 $(\neg a_1 \rightarrow a_4) \wedge (\neg a_4 \rightarrow a_1)$。</p>
 <p>这意味着，如果 $a_1 = 0$，那么 $a_4 = 1$，且，如果 $a_4 = 0$，那么 $a_1 = 1$。</p>
 <p>那么我们就可以这么连边：</p>
+<div style='max-width:50%'>
 <p><img src="/images/093/1.jpg" alt="img"></p>
+</div>
 <p>因为是推导关系所以是有向边。</p>
 <p>那么 2-SAT 问题有解 $\iff$ 对于所有的 $i$，$a_i$ 和 $\neg a_i$ 并不在同一个强连通分量（SCC）中。</p>
 <p>所以跑 tarjan 找SCC即可。</p>
 <h3 id="一些例子">一些例子</h3>
 <p>考虑如下的情况：</p>
+<div style='max-width:50%'>
 <p><img src="/images/093/2.jpg" alt="img"></p>
+</div>
 <p>在这个图中，如果我们从 $\neq a$ 出发，最终会走到 $a$。这说明 $\neq a$ 是不可能成立的。</p>
 <p>由此可知，$a=1$。</p>
 <p>所以我们在找 SCC 过后，还需要判断 $a$ 和 $\neq a$ 的<strong>拓扑序</strong>。哪个拓扑序更靠后，就说明这个变量必须取这个值。</p>
@@ -281,34 +285,72 @@ int main() {
 <table>
 <thead>
 <tr>
-<th align="center">表达式</th>
-<th align="center">连边方式</th>
+<th style="text-align:center">表达式</th>
+<th style="text-align:center">连边方式</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">$a \vee b = 1$</td>
-<td align="center">$\neg a \rightarrow b, \neg b \rightarrow a$</td>
+<td style="text-align:center">$a \vee b = 1$</td>
+<td style="text-align:center">$\neg a \rightarrow b, \neg b \rightarrow a$</td>
 </tr>
 <tr>
-<td align="center">$a \wedge b = 0$</td>
-<td align="center">$a \rightarrow \neg b, b \rightarrow \neg a$</td>
+<td style="text-align:center">$a \wedge b = 0$</td>
+<td style="text-align:center">$a \rightarrow \neg b, b \rightarrow \neg a$</td>
 </tr>
 <tr>
-<td align="center">$a = 1$</td>
-<td align="center">$\neg a \rightarrow a$</td>
+<td style="text-align:center">$a = 1$</td>
+<td style="text-align:center">$\neg a \rightarrow a$</td>
 </tr>
 <tr>
-<td align="center">$a = 0$</td>
-<td align="center">$a \rightarrow \neg a$</td>
+<td style="text-align:center">$a = 0$</td>
+<td style="text-align:center">$a \rightarrow \neg a$</td>
 </tr>
 <tr>
-<td align="center">$a,b$ 冲突(不能同时出现)</td>
-<td align="center">$a \rightarrow \neg b, b \rightarrow \neg a$</td>
+<td style="text-align:center">$a,b$ 冲突(不能同时出现)</td>
+<td style="text-align:center">$a \rightarrow \neg b, b \rightarrow \neg a$</td>
 </tr>
 </tbody>
 </table>
+</div class='center'>
+<h2 id="2-sat的优化建图">2-SAT的优化建图</h2>
+<p>在一些特定的问题中，直接建图的复杂度可能过高，需要优化建图后才能跑 2-SAT。</p>
+<p>举个例子：</p>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个元素，给定 $m$ 个组，每一组有一些元素，一个元素可能属于多个组。</p>
+<p>现在要给一些元素加标记，使得每个组都恰好只有一个元素有标记，问这种方案是否存在？</p>
+<p>$n,m \leq 10^5$，每个组的元素数量和不超过 $10^6$。</p>
 </div>
+<p>每个元素就两种状态：有标记/无标记，所以每个元素都是一个boolean变量。</p>
+<p>然后看每一组：每组内的元素都互相冲突，所以可以用连边的方式来表示。</p>
+<p>在一个组内，<strong>当任意一个元素有标记了，则其他元素都没有标记</strong>，也就是：</p>
+<p>$$x_i \rightarrow \neg x_j, \forall j \neq i$$</p>
+<div style='max-width:50%'>
+<p><img src="/images/093/3.jpg" alt="img"></p>
+</div>
+<p>这样连边是 $O(n^2)$ 的，不能接受。</p>
+<p>但是注意到，2-SAT中的边是用于表达逻辑推导关系的，也就是说具有传递性，只要有 $a\rightarrow b, b\rightarrow c$，则有 $a \rightarrow c$。</p>
+<p>这意味着，从一个点 $x$ 出发，考虑能够到达的所有点 $y$，本质上都相当于直接连了 $x \rightarrow y$ 这条边。</p>
+<p>所以我们建 $2n$ 个辅助点，分别代表前缀和后缀。</p>
+<div style='max-width:50%'>
+<p><img src="/images/093/4.jpg" alt="img"></p>
+</div>
+<ol>
+<li>
+<p>对于每一个 $R_i$，连 $R_i \rightarrow R_{i+1}, R_i \rightarrow \neg X_{i+1}$。</p>
+</li>
+<li>
+<p>对于每一个 $L_i$，连 $R_i \rightarrow L_{i-1}, L_i \rightarrow \neg X_{i-1}$。</p>
+</li>
+<li>
+<p>对于每一个 $X_i$，连 $X_i \rightarrow R_i, X_i \rightarrow L_i$。</p>
+</li>
+</ol>
+<p>$R_i$ 代表后缀：从 $R_i$ 出发，就能到达所有的 $\neg X_j, \forall j &gt; i$。</p>
+<p>$L_i$ 代表前缀：从 $L_i$ 出发，就能到达所有的 $\neg X_j, \forall j &lt; i$。</p>
+<p>相当于 $X_i$ 连上了 $R_i$，就与它右边的所有 $\neg X_j$ 相连了，而连上了 $L_i$，就与它左边的所有 $\neg X_j$ 相连了。</p>
+<p>可以发现这个新图和原图等效，在这个新图上跑 2-SAT 即可。</p>
 <h2 id="例题">例题</h2>
 <h3 id="例1-洛谷p5782-poi2001-和平委员会httpswwwluogucomcnproblemp5782">例1 洛谷P5782 <a href="https://www.luogu.com.cn/problem/P5782" target="_blank">[POI2001] 和平委员会</a></h3>
 <div class="admonition question">
@@ -539,6 +581,143 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例3-abc210f-coprime-solitairehttpsatcoderjpcontestsabc210tasksabc210_f">例3 ABC210F. <a href="https://atcoder.jp/contests/abc210/tasks/abc210_f" target="_blank">Coprime Solitaire</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $n$ 张卡片，每张卡片正面写了 $A_i$，背面写了 $B_i$。</p>
+<p>求是否存在一种方案，使得所有卡片朝上的那一面的所有数字互质？</p>
+<p>其中，$n \leq 3 \times 10^4, A_i,B_i \in [1,2\times 10^6]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>注意到每张卡片要么正面朝上，要么背面朝上，所以每张卡片都是一个boolean变量 $x$，而 正面朝上/背面朝上 则分别代表了 $x$ 和 $\neg x$。</p>
+<p>但不能枚举 $O(n^2)$ 种卡片pairs，不过可以对于每一个数字进行质因数分解。</p>
+<p>每个质数 $p$ 维护一个组，每一组里面有一些数，代表这个数有 $p$ 这个质因数。而这意味着，每一组数里面 <strong>最多只能有一个是朝上</strong>的。</p>
+<p>每一组里面的数有可能是正面的数，也有可能是背面的数。如果是正面的数，就把 $x$ 这个变量放进去，否则把 $\neg x$ 这个变量放进去，这样每一组里面就维护了 $X_1,X_2, &hellip;, X_k$ 这些boolean变量。</p>
+<p>而每一组的限制条件意味着，每一组里面如果取了 $X_i = 1$，那么其他的 $X_j = 0$。</p>
+<p>所以需要 <a href="/post/093-2sat/#2-sat%e7%9a%84%e4%bc%98%e5%8c%96%e5%bb%ba%e5%9b%be">2SAT的优化建图</a>。</p>
+<p>对于每一组都进行优化建图即可。由于每一个数最多有 $20$ 个不同的质因子，所以复杂度为 $O(20n)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int n, a[maxn], b[maxn];
+int f(int u) {
+    if (u &gt; n) return u - n;
+    return u + n;
+}
+struct Edge {
+    int from, to, nxt;
+};
+
+struct SAT2 {
+    // from[u] 代表 u 所在的SCC编号，scc代表scc编号，sz[scc] 代表对应scc的大小
+    int dfn[maxn], low[maxn], id, from[maxn], scc = 0, sz[maxn], head[maxn];
+    bool in[maxn];  // instack or not
+    int st[maxn], tail = -1, ecnt = 1;
+    Edge edges[maxm];
+    void dfs(int u) {
+        in[u] = 1;
+        st[++tail] = u;
+        dfn[u] = low[u] = ++id;
+        for (int e = head[u]; e; e = edges[e].nxt) {
+            int to = edges[e].to;
+            if (dfn[to] &amp;&amp; in[to]) low[u] = min(low[u], dfn[to]);  // 要记得在栈内
+            if (!dfn[to]) {
+                dfs(to);
+                low[u] = min(low[u], low[to]);
+            }
+        }
+        if (dfn[u] == low[u]) {
+            from[u] = ++scc;
+            sz[scc] = 1;
+            while (tail &gt;= 0 &amp;&amp; st[tail] != u) {
+                int cur = st[tail];
+                from[cur] = from[u];
+                sz[scc]++;
+                tail--;
+                in[cur] = 0;  // 记得这里，将在栈中的标记去掉
+            }
+            tail--;
+            in[u] = 0;  // 记得这里，将在栈中的标记去掉
+        }
+    }
+    void addEdge(int u, int v) {
+        Edge e = {u, v, head[u]};
+        head[u] = ecnt;
+        edges[ecnt++] = e;
+    }
+
+    bool solve() {
+        for (int i = 1; i &lt;= 2*n; i++) {
+            if (!dfn[i]) dfs(i);
+        }
+        for (int i = 1; i &lt;= n; i++) {
+            if (from[i] == from[i+n]) {
+                return 0;
+            }
+        }
+        return 1;
+    }
+} sat;
+
+const int M = 2e6;
+bool isPrime[M+5];
+int small[M+5];
+vector&lt;int&gt; primes;
+int idx[M+5];
+vector&lt;int&gt; group[maxn];
+void preprocess() {   // 线性筛
+    memset(isPrime, 1, sizeof(isPrime));
+    small[1] = 1;
+    for (int i = 2; i &lt;= M; i++) {
+        if (isPrime[i]) primes.push_back(i), small[i] = i;
+        for (int j = 0; j &lt; primes.size() &amp;&amp; i * primes[j] &lt;= M; j++) {
+            int cur = i * primes[j];
+            isPrime[cur] = 0;
+            small[cur] = primes[j];   // 最小的质因子
+            if (i % primes[j] == 0) break;
+        }
+    }
+    for (int i = 0; i &lt; primes.size(); i++) idx[primes[i]] = i;
+}
+
+int main() {
+    preprocess();
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; a[i] &gt;&gt; b[i];
+    for (int i = 1; i &lt;= n; i++) {
+        int x = a[i];
+        while (x &gt; 1) {
+            int sm = small[x];
+            int smidx = idx[sm];
+            while (x &gt; 1 &amp;&amp; x % sm == 0) x /= sm;
+            group[smidx].push_back(i);
+        }
+        x = b[i];
+        while (x &gt; 1) {
+            int sm = small[x];
+            int smidx = idx[sm];
+            while (x &gt; 1 &amp;&amp; x % sm == 0) x /= sm;
+            group[smidx].push_back(i+n);
+        }
+    }
+
+    int id = 2*n;
+    for (int j = 0; j &lt; primes.size(); j++) {
+        int k = group[j].size();
+        for (int i = id+1; i &lt;= id+k; i++) {
+            int u = group[j][i-id-1];
+            if (i &lt; id+k) sat.addEdge(i, f(group[j][i-id])), sat.addEdge(i, i+1);
+            if (i &gt; id+1) sat.addEdge(i+k, f(group[j][i-id-2])), sat.addEdge(i+k, i+k-1);
+            sat.addEdge(u, i);
+            sat.addEdge(u, i+k);
+        }
+        id += 2*k;
+    }
+    cout &lt;&lt; (sat.solve() ? &quot;Yes&quot; : &quot;No&quot;) &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -550,8 +729,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-09-01 11:35:59 -0500 -0500">2023-09-01</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/a021854d9d9072f0135c8e51a5d41794033cf1ce" title="add 113, 114" target="_blank">(a021854)</a>
+        <span title="2023-09-13 11:48:17 -0500 -0500">2023-09-13</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/b751144c789ddafa314220fc4d9a489f7d5fca00" title="add 115" target="_blank">(b751144c)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/093-2SAT.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -649,7 +828,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

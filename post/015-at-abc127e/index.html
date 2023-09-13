@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/015-at-abc127e/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="Atcoder ABC 127E（数学，计数，概率）" />
 <meta property="og:description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_e 题意 给定一个矩阵，包含 $N \times M$ 个格子，现在从中选出 $K \leq N \times M$ 个不同的格子，记为 $(x_1,y_1), (x_2, y_2), &hellip; , (x_K, y_K)$ ，记 $cost = \sum\limits_{i=1}^{K-1}\sum\limits_{j=i&#43;1}^{K}(|x_i-x_j| &#43; |y_i-y_j|)$ 求：对于所有不同的 $K$ 个格子" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/015-at-abc127e/" />
+<meta property="og:url" content="https://tom0727.github.io/post/015-at-abc127e/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-02-28T23:20:51+08:00" />
-<meta property="article:modified_time" content="2023-09-01T11:35:59-05:00" />
+<meta property="article:modified_time" content="2021-03-05T16:19:40+08:00" />
+
 <meta itemprop="name" content="Atcoder ABC 127E（数学，计数，概率）">
-<meta itemprop="description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_e 题意 给定一个矩阵，包含 $N \times M$ 个格子，现在从中选出 $K \leq N \times M$ 个不同的格子，记为 $(x_1,y_1), (x_2, y_2), &hellip; , (x_K, y_K)$ ，记 $cost = \sum\limits_{i=1}^{K-1}\sum\limits_{j=i&#43;1}^{K}(|x_i-x_j| &#43; |y_i-y_j|)$ 求：对于所有不同的 $K$ 个格子">
-<meta itemprop="datePublished" content="2021-02-28T23:20:51&#43;08:00" />
-<meta itemprop="dateModified" content="2023-09-01T11:35:59-05:00" />
+<meta itemprop="description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_e 题意 给定一个矩阵，包含 $N \times M$ 个格子，现在从中选出 $K \leq N \times M$ 个不同的格子，记为 $(x_1,y_1), (x_2, y_2), &hellip; , (x_K, y_K)$ ，记 $cost = \sum\limits_{i=1}^{K-1}\sum\limits_{j=i&#43;1}^{K}(|x_i-x_j| &#43; |y_i-y_j|)$ 求：对于所有不同的 $K$ 个格子"><meta itemprop="datePublished" content="2021-02-28T23:20:51+08:00" />
+<meta itemprop="dateModified" content="2021-03-05T16:19:40+08:00" />
 <meta itemprop="wordCount" content="1024">
-
-
-
 <meta itemprop="keywords" content="数学,计数,概率," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Atcoder ABC 127E（数学，计数，概率）"/>
 <meta name="twitter:description" content="题目链接 https://atcoder.jp/contests/abc127/tasks/abc127_e 题意 给定一个矩阵，包含 $N \times M$ 个格子，现在从中选出 $K \leq N \times M$ 个不同的格子，记为 $(x_1,y_1), (x_2, y_2), &hellip; , (x_K, y_K)$ ，记 $cost = \sum\limits_{i=1}^{K-1}\sum\limits_{j=i&#43;1}^{K}(|x_i-x_j| &#43; |y_i-y_j|)$ 求：对于所有不同的 $K$ 个格子"/>
@@ -158,7 +155,7 @@
 </div>
     <div class="post-content">
       <h2 id="题目链接">题目链接</h2>
-<p><a href="https://atcoder.jp/contests/abc127/tasks/abc127_e">https://atcoder.jp/contests/abc127/tasks/abc127_e</a></p>
+<p><a href="https://atcoder.jp/contests/abc127/tasks/abc127_e" target="_blank">https://atcoder.jp/contests/abc127/tasks/abc127_e</a></p>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
 <p>给定一个矩阵，包含 $N \times M$ 个格子，现在从中选出 $K \leq N \times M$ 个不同的格子，记为 $(x_1,y_1), (x_2, y_2), &hellip; , (x_K, y_K)$ ，记</p>
@@ -193,7 +190,7 @@
 <p>对于横坐标的差值为 $d_x$ 的情况，有 $(n-d_x) m^2$ 种。贡献就是 $(n-d_x)m^2*d_x$</p>
 <p>对于纵坐标的差值为 $d_y$ 的情况，有 $(m-d_y) n^2$ 种。贡献就是 $(m-d_y) n^2*d_y$</p>
 <p>所以答案就是</p>
-<p>$ans = C(nm-2, k-2) (\sum\limits_{d_x=1}^{n-1} (n-d_x)m^2*d_x + \sum\limits_{d_y=1}^{m-1} (m-d_y)n^2*d_y)$</p>
+<p>$ans = C(nm-2, k-2) (\sum\limits_{d_x=1}^{n-1} (n-d_x)m^2<em>d_x + \sum\limits_{d_y=1}^{m-1} (m-d_y)n^2</em>d_y)$</p>
 </details>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">using namespace std;
@@ -241,8 +238,8 @@ int main() {
 </details>
 <h2 id="参考链接">参考链接</h2>
 <ol>
-<li><a href="https://blog.csdn.net/weixin_30323631/article/details/96351727">https://blog.csdn.net/weixin_30323631/article/details/96351727</a></li>
-<li><a href="https://blog.csdn.net/qq_40655981/article/details/90642350">https://blog.csdn.net/qq_40655981/article/details/90642350</a></li>
+<li><a href="https://blog.csdn.net/weixin_30323631/article/details/96351727" target="_blank">https://blog.csdn.net/weixin_30323631/article/details/96351727</a></li>
+<li><a href="https://blog.csdn.net/qq_40655981/article/details/90642350" target="_blank">https://blog.csdn.net/qq_40655981/article/details/90642350</a></li>
 </ol>
 <h2 id="一些数学知识">一些数学知识</h2>
 <p>Q1. 如果<strong>不限定</strong>坐标为整数，长度为 $n$ 的线段上任取两个点，距离期望值是？</p>
@@ -257,7 +254,7 @@ int main() {
 <p>A2. 答案约为 $0.521$，具体分析可以见 <a href="http://mjm1990.com/article/%E9%9A%8F%E6%9C%BA%E4%B8%A4%E7%82%B9%E8%B7%9D%E7%A6%BB%E7%9A%84%E6%9C%9F%E6%9C%9B" target="_blank">这里</a> 和 <a href="https://blog.csdn.net/luixiao1220/article/details/107519712" target="_blank">这里</a></p>
 <h2 id="其他例题todo">其他例题(TODO)</h2>
 <ol>
-<li><a href="https://www.luogu.com.cn/problem/P4781">https://www.luogu.com.cn/problem/P4781</a></li>
+<li><a href="https://www.luogu.com.cn/problem/P4781" target="_blank">https://www.luogu.com.cn/problem/P4781</a></li>
 </ol>
 
     </div>
@@ -270,8 +267,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-09-01 11:35:59 -0500 -0500">2023-09-01</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/a021854d9d9072f0135c8e51a5d41794033cf1ce" title="add 113, 114" target="_blank">(a021854)</a>
+        <span title="2021-03-05 16:19:40 &#43;0800 &#43;0800">2021-03-05</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/0a5152fcc4d10f442f6badaaa694e8cd4dd873f7" title="init 018,019" target="_blank">(0a5152fc)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/015-at-abc127E.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -370,7 +367,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

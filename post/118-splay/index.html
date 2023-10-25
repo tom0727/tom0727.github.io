@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Splay - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 Splay 是一种自平衡的 BST（二叉搜索树）。 模版 代码 struct Splay { struct Node { int par, child[2], sz, cnt; ll val, flag; } tr[maxn]; int rt, id = 0; void push_up(int cur) { if (!cur) return; int lc = tr[cur].child[0], rc = tr[cur].child[1]; tr[cur].sz = tr[lc].sz &#43; tr[rc].sz &#43; tr[cur].cnt; } void push_down(int" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/118-splay/" />
+<link rel="manifest" href="/manifest.json">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="Splay" />
+<meta property="og:description" content="介绍 Splay 是一种自平衡的 BST（二叉搜索树）。 模版 代码 struct Splay { struct Node { int par, child[2], sz, cnt; ll val, flag; } tr[maxn]; int rt, id = 0; void push_up(int cur) { if (!cur) return; int lc = tr[cur].child[0], rc = tr[cur].child[1]; tr[cur].sz = tr[lc].sz &#43; tr[rc].sz &#43; tr[cur].cnt; } void push_down(int" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/118-splay/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-10-16T21:57:15-05:00" />
+<meta property="article:modified_time" content="2023-10-25T11:55:24-05:00" />
+
+<meta itemprop="name" content="Splay">
+<meta itemprop="description" content="介绍 Splay 是一种自平衡的 BST（二叉搜索树）。 模版 代码 struct Splay { struct Node { int par, child[2], sz, cnt; ll val, flag; } tr[maxn]; int rt, id = 0; void push_up(int cur) { if (!cur) return; int lc = tr[cur].child[0], rc = tr[cur].child[1]; tr[cur].sz = tr[lc].sz &#43; tr[rc].sz &#43; tr[cur].cnt; } void push_down(int"><meta itemprop="datePublished" content="2023-10-16T21:57:15-05:00" />
+<meta itemprop="dateModified" content="2023-10-25T11:55:24-05:00" />
+<meta itemprop="wordCount" content="6331">
+<meta itemprop="keywords" content="平衡树,," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Splay"/>
+<meta name="twitter:description" content="介绍 Splay 是一种自平衡的 BST（二叉搜索树）。 模版 代码 struct Splay { struct Node { int par, child[2], sz, cnt; ll val, flag; } tr[maxn]; int rt, id = 0; void push_up(int cur) { if (!cur) return; int lc = tr[cur].child[0], rc = tr[cur].child[1]; tr[cur].sz = tr[lc].sz &#43; tr[rc].sz &#43; tr[cur].cnt; } void push_down(int"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Splay</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-10-16 21:57:15 -0500 -0500"> 2023-10-16 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#模版">模版</a></li>
+        <li><a href="#数据结构操作">数据结构操作</a>
+          <ul>
+            <li><a href="#push_up">push_up</a></li>
+            <li><a href="#旋转">旋转</a></li>
+            <li><a href="#splay">Splay</a></li>
+            <li><a href="#插入">插入</a></li>
+            <li><a href="#查找-x">查找 $x$</a></li>
+            <li><a href="#查询-x-的排名">查询 $x$ 的排名</a></li>
+            <li><a href="#查询第-k-大的数">查询第 $k$ 大的数</a></li>
+            <li><a href="#查询-x-的前驱">查询 $x$ 的前驱</a></li>
+            <li><a href="#查询-x-的后继">查询 $x$ 的后继</a></li>
+            <li><a href="#删除">删除</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p3369-模板普通平衡树httpswwwluogucomcnproblemp3369">例1 洛谷P3369 <a href="https://www.luogu.com.cn/problem/P3369">【模板】普通平衡树</a></a></li>
+            <li><a href="#例2-洛谷p3391模板文艺平衡树httpswwwluogucomcnproblemp3391">例2 洛谷P3391<a href="https://www.luogu.com.cn/problem/P3391">【模板】文艺平衡树</a></a></li>
+            <li><a href="#例3-洛谷p3165cqoi2014-排序机械臂httpswwwluogucomcnproblemp3165">例3 洛谷P3165<a href="https://www.luogu.com.cn/problem/P3165">[CQOI2014] 排序机械臂</a></a></li>
+            <li><a href="#例4-bzoj4923-k小值查询httpsdarkbzojccproblem4923">例4 BZOJ4923 <a href="https://darkbzoj.cc/problem/4923">K小值查询</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>Splay 是一种自平衡的 BST（二叉搜索树）。</p>
+<h2 id="模版">模版</h2>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">struct Splay {
+    struct Node {
+        int par, child[2], sz, cnt; 
+        ll val, flag; 
+    } tr[maxn];
+    int rt, id = 0;
+    void push_up(int cur) {
+        if (!cur) return;
+        int lc = tr[cur].child[0], rc = tr[cur].child[1];
+        tr[cur].sz = tr[lc].sz + tr[rc].sz + tr[cur].cnt;
+    }
+    void push_down(int cur) {
+        if (!cur || !tr[cur].flag) return;
+        int lc = tr[cur].child[0], rc = tr[cur].child[1];
+        ll f = tr[cur].flag;
+        tr[lc].flag += f, tr[rc].flag += f;
+        tr[lc].val += f, tr[rc].val += f;
+        tr[cur].flag = 0;
+    }
+    void clear(int cur) {
+        tr[cur].par = tr[cur].val = tr[cur].sz = tr[cur].cnt = tr[cur].child[0] = tr[cur].child[1] = 0;
+    }
+    bool isright(int cur) {
+        return cur == tr[tr[cur].par].child[1];
+    }
+    void rotate(int x) {
+        if (!x || x == rt) return;
+        int y = tr[x].par, z = tr[y].par;
+        push_down(y); push_down(x);  // 注意先 push_down parent
+        bool r = isright(x);  // 注意这里, 是先 push_down 之后，才判断 isright(x) 的
+        tr[y].child[r] = tr[x].child[r^1];
+        if (tr[x].child[r^1]) tr[tr[x].child[r^1]].par = y;
+        tr[x].child[r^1] = y;
+        tr[y].par = x;
+        tr[x].par = z;
+        if (z) tr[z].child[y == tr[z].child[1]] = x;
+        push_up(y); push_up(x);
+    }
+    void splay(int x, int tar = 0) {
+        assert(x != 0);
+        while (tr[x].par != tar) {
+            int y = tr[x].par, z = tr[y].par;
+            if (z != tar) {
+                if (isright(y) == isright(z)) rotate(y);
+                else rotate(x);
+            }
+            rotate(x);
+        }
+        if (tar == 0) rt = x;
+    }
+    void insert(ll val) {
+        if (!rt) {
+            tr[++id].val = val;
+            tr[id].cnt++;
+            rt = id;
+            push_up(id);
+            return;
+        }
+        int cur = rt, p = 0;
+        while (1) {
+            push_down(cur);
+            if (tr[cur].val == val) {
+                tr[cur].cnt++;
+                push_up(cur);
+                push_up(p);
+                splay(cur);
+                break;
+            }
+            p = cur;
+            cur = tr[p].child[tr[p].val &lt; val];
+            if (!cur) {
+                cur = ++id;
+                tr[cur].val = val;
+                tr[cur].cnt++;
+                tr[cur].par = p;
+                tr[p].child[tr[p].val &lt; val] = cur;
+                push_up(cur);
+                push_up(p);
+                splay(cur);
+                break;
+            }
+        }
+    }
+    int query_rank(int x) {  // 查询 x 所在的rank
+        splay(find(x));
+        return tr[tr[rt].child[0]].sz + 1;
+    }
+    int kth(int k) {  // 查询第k大 (注意返回的是节点编号，不是值)
+        int cur = rt;
+        assert(cur != 0);
+        while (1) {
+            push_down(cur);  // pushdown
+            int lc = tr[cur].child[0], rc = tr[cur].child[1];
+            if (lc &amp;&amp; k &lt;= tr[lc].sz) {
+                cur = lc;
+            } else {
+                k -= (tr[cur].cnt + tr[lc].sz);
+                if (k &lt;= 0) {
+                    return cur;
+                }
+                cur = rc;
+            }
+        }
+    }
+    int find(ll x) {
+        // 找一个值为 x 的节点，如果找不到就寻找最近的一个（可大可小）
+        int cur = rt;
+        while (tr[cur].child[tr[cur].val &lt; x] &amp;&amp; tr[cur].val != x) {
+            push_down(cur);
+            cur = tr[cur].child[tr[cur].val &lt; x];
+        }
+        return cur;
+    }
+    int pre() {
+        int cur = tr[rt].child[0];
+        if (!cur) return cur;
+        while (tr[cur].child[1]) cur = tr[cur].child[1];
+        splay(cur);
+        return cur;
+    }
+    int nxt() {
+        int cur = tr[rt].child[1];
+        if (!cur) return cur;
+        while (tr[cur].child[0]) cur = tr[cur].child[0];
+        splay(cur);
+        return cur;
+    }
+    void del(ll val) {
+        splay(find(val));  // 将它旋转到根
+        if (tr[rt].cnt &gt; 1) {
+            tr[rt].cnt--;
+            push_up(rt);
+            return;
+        }
+        int lc = tr[rt].child[0], rc = tr[rt].child[1];
+        if (!lc &amp;&amp; !rc) {
+            clear(rt);
+            rt = 0;
+            return;
+        }
+        if (!lc || !rc) {
+            int tmp = rt;
+            if (!lc) rt = rc;
+            else rt = lc;
+            tr[rt].par = 0;
+            clear(tmp);
+            return;
+        }
+        int tmp = rt, cur = pre(), splay(cur);  // 现在 cur 变为根了
+        tr[tr[tmp].child[1]].par = cur;
+        tr[cur].child[1] = tr[tmp].child[1];
+        clear(tmp);
+        push_up(rt);
+    }
+    int find_pre(ll val) {  // 查询前驱所在的编号，需要保证一定存在
+        splay(find(val));
+        if (tr[rt].val &lt; val) return rt;
+        else return pre();
+    }
+    int find_nxt(ll val) {  // 查询后继所在的编号，需要保证一定存在
+        splay(find(val));
+        if (tr[rt].val &gt; val) return rt;
+        else return nxt();
+    }
+} tr;
+
+int main() {
+    int n; cin &gt;&gt; n;
+    while (n--) {
+        int op, x; cin &gt;&gt; op &gt;&gt; x;
+        if (op == 1) tr.insert(x);
+        if (op == 2) tr.del(x);
+        if (op == 3) cout &lt;&lt; tr.query_rank(x) &lt;&lt; endl;
+        if (op == 4) {
+            int cur = tr.kth(x);
+            cout &lt;&lt; tr.tr[cur].val &lt;&lt; endl;
+            tr.splay(cur);
+        }
+        if (op == 5) {
+            int p = tr.find_pre(x);
+            cout &lt;&lt; tr.tr[p].val &lt;&lt; endl;
+        }
+        if (op == 6) {
+            int p = tr.find_nxt(x);
+            cout &lt;&lt; tr.tr[p].val &lt;&lt; endl;
+        }
+    }
+}
+</code></pre>
+</details>
+<h2 id="数据结构操作">数据结构操作</h2>
+<h3 id="push_up">push_up</h3>
+<p>维护一个节点的信息，和线段树里的 push_up 没有区别。一般一个节点维护的是 <code>par</code>，<code>child[2]</code>，以及 <code>val</code>（这个节点里储存的值），<code>sz</code>（这个节点对应的子树内的值的数量，包括重复的），<code>cnt</code>（这个节点储存的值出现的次数）。</p>
+<p>• splay 本质是 multiset，所以可以储存重复值。</p>
+<h3 id="旋转">旋转</h3>
+<p><img src="/images/118/1.png" alt="img"></p>
+<p>如图，对左图的节点 $2$ 进行右旋可以得到右图，而对于右图的节点 $1$ 进行左旋可以得到左图。</p>
+<p>对节点 $x$ 进行旋转本质上就是旋转了它的parent $p$，让 $x$ 变成根，至于这次旋转是左旋还是右旋，则根据 $x$ 是 $p$ 的左儿子还是右儿子决定。</p>
+<p>旋转时需要继承儿子，例如上图的节点 $5$，在左图是 $2$ 的右儿子，旋转后变成了 $1$ 的左儿子，这个继承儿子的过程不难想，思考一下即可。</p>
+<p>• 有趣的是，无论怎么旋转，树的 <strong>in-order 始终不变</strong>。</p>
+<h3 id="splay">Splay</h3>
+<p>Splay 操作是让一个节点旋转至根（或者是旋转 $x$ 直到其成为某一个目标节点 $tar$ 的直接儿子）。</p>
+<p>在 Splay 树的设计中，每次访问一个节点 $x$ 后都要将其旋转至根节点。</p>
+<p>分为两种情况：</p>
+<ol>
+<li>
+<p>如果 $x$ 离根节点就差一层了，意味着 $x$ 的parent就是 <code>rt</code>，那么直接旋转一次即可。</p>
+</li>
+<li>
+<p>如果 $x$ 离节点差至少 $2$ 层，那么考虑其 parent $p$，分为两种情况：</p>
+<p>2.1. $x$ 和 $p$ 均为其parent的左/右儿子，那么先旋转 $p$，再旋转 $x$。</p>
+<p>2.2. $x$ 和 $p$ 一个是其parent的左儿子，一个是右儿子，那么旋转 $x$ 两次。</p>
+</li>
+</ol>
+<h3 id="插入">插入</h3>
+<p>插入一个值 $x$ 时，先在树中找到 $x$ 所在的节点，如果找到了直接 <code>cnt++</code> 然后 pushup 一下即可。</p>
+<p>如果没找到，就按照 BST 的性质一直往下，直到来到一个空的节点，然后在这个位置插入。</p>
+<p>无论什么情况，插入后都记得要 <code>push_up(cur), push_up(p), splay(cur)</code>。</p>
+<h3 id="查找-x">查找 $x$</h3>
+<p>和插入本质一样，按照 BST 的性质来即可。</p>
+<p>如果没找到的话，返回的 node index 所对应的 node value 可能比 $x$ 大，或者小，但无论如何一定是离 $x$ 最近的（如果是大，那么就是后继，如果是小，那么就是前驱）。</p>
+<p>• 由于查找后不一定要 splay，如例$2$ 里面，所以可以在外面 splay。</p>
+<h3 id="查询-x-的排名">查询 $x$ 的排名</h3>
+<p>$x$ 的排名 = 树中$&lt;x$ 的值的数量 $+1$。</p>
+<p>那本质上就是一个查找以后，splay到根，然后返回根的 <strong>左child的 size + 1</strong> 即可。</p>
+<h3 id="查询第-k-大的数">查询第 $k$ 大的数</h3>
+<p>按照节点的左子树的 size，一路顺着左/右节点走即可。</p>
+<p>• 注意，<code>kth()</code> 是唯一一个查询时，和<strong>节点本身的值无关，仅与其 size 有关</strong>的函数。</p>
+<h3 id="查询-x-的前驱">查询 $x$ 的前驱</h3>
+<p>一个查找 $x$ 以后 splay 到根，如果根的值比 $x$ 本身的小，它就是前驱，否则的话，在 $x$ 的左子树里找到最大值（进入左子树以后一直往右走即可）。</p>
+<h3 id="查询-x-的后继">查询 $x$ 的后继</h3>
+<p>一个查找 $x$ 以后 splay 到根，如果根的值比 $x$ 本身的大，它就是后继，否则的话，在 $x$ 的右子树里找到最小值（进入右子树以后一直往左走即可）。</p>
+<h3 id="删除">删除</h3>
+<p>删除操作保证 $x$ 存在于树内，那么一个 find 先给它 splay 到根，然后分类讨论：</p>
+<ol>
+<li>
+<p><code>cnt &gt; 1</code>，那么 <code>cnt -= 1</code> 即可返回。</p>
+</li>
+<li>
+<p>否则，删除这个节点，然后根据它是否存在左右儿子来考虑。</p>
+<p>2.1. 没有左右儿子：直接删除节点即可。</p>
+<p>2.2. 有一个儿子：让这个儿子当根，然后删除节点即可。</p>
+<p>2.3. 有两个儿子：让左儿子当根，将右儿子设为新根的右儿子，然后删除节点。</p>
+</li>
+</ol>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p3369-模板普通平衡树httpswwwluogucomcnproblemp3369">例1 洛谷P3369 <a href="https://www.luogu.com.cn/problem/P3369" target="_blank">【模板】普通平衡树</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>写一种数据结构（可参考题目标题），来维护一些数，其中需要提供以下操作：</p>
+<ol>
+<li>插入一个数字 $x$。</li>
+<li>删除一个数字 $x$（若有多个相同的数，应只删除一个）。</li>
+<li>查询数字 $x$ 的排名。</li>
+<li>查询排名为 $k$ 的数。</li>
+<li>求 $x$ 的前驱。</li>
+<li>求 $x$ 的后继。</li>
+</ol>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>见模版。</p>
+</details>
+<h3 id="例2-洛谷p3391模板文艺平衡树httpswwwluogucomcnproblemp3391">例2 洛谷P3391<a href="https://www.luogu.com.cn/problem/P3391" target="_blank">【模板】文艺平衡树</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的序列 $1, 2, &hellip;, n$，再给定 $m$ 次操作，每次操作指定一个区间 $[L,R]$，翻转这个区间。</p>
+<p>输出所有操作结束后的结果。</p>
+<p>其中，$n,m \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>与普通平衡树不一样的是，这次按照 index 作为权值。</p>
+<p>那么我们翻转 $[L,R]$ 的时候，可以将 <code>L-1</code> splay到根，然后让 <code>R+1</code> 成为其 right child，然后 <code>R+1</code> 的左儿子就变成了 $[L,R]$ 这个区间。</p>
+<p>然后怎么翻转呢？给这个区间的根节点打上标记即可。标记下传时，将这个节点的左右儿子换一下。（注意和线段树不同的是，是先打标记，下传时才更换左右儿子）。</p>
+<p>• 本质上相当于将这个子树的所有节点的左右儿子都翻转了。</p>
+<p>为什么这样做是对的？</p>
+<p>注意到一个区间的值的排序方式，对应的其实是平衡树的 in-order。如下图，对应的就是 $[1,2,3,4,5,6]$。</p>
+<div style='max-width:50%'>
+  <p><img src="/images/118/2.png" alt="img"></p>
+</div>
+<p>在翻转了所有节点的左右儿子以后如下图，可以发现现在的 in-order 就是 $[6,5,4,3,2,1]$ 了。</p>
+<div style='max-width:50%'>
+  <p><img src="/images/118/3.png" alt="img"></p>
+</div>
+<p>原因也很好理解，毕竟 in-order 就是根据左右子树的顺序来的。</p>
+<p>但是，在换了左右儿子以后，看起来这个BST的结构被破坏了，不再是按照权值排序了？确实，但本来我们就不是按照权值排序的，图上的标号只不过是节点里储存的值，实际上，现在储存了 $6$ 的节点才是所谓的节点 $1$（意味着它在 <code>kth(1)</code> 时会被返回）。</p>
+<p>这意味着：整棵平衡树已经不再使用 BST 的性质了，而是仅仅维护了一个 in-order 的结构而已。</p>
+<p>那么我们要找到位于 $L-1$ 和 $R+1$ 的节点怎么办？用 <code>kth()</code> 函数即可。</p>
+<p>• 注意到 <code>kth()</code> 函数是唯一一个没有用到 BST 性质的函数。</p>
+<p>在最后，输出平衡树的 in-order 即可。</p>
+<p>• 同时因为我们前面证明过，无论怎么旋转，这个树的 in-order 不变，所以改变 in-order 的也只有翻转左右儿子这个操作。</p>
+<p>在实现的时候，如果要翻转整个区间 $1,n$，那么它们没有对应的 $L-1$ 和 $R+1$，我们就在一开始额外在首尾各加一个节点即可，分别赋值为 -1e9, 1e9。</p>
+<hr>
+<p>题外话：如果这个时候我想按照数组的值本身来查询怎么办？比如我想知道哪个节点储存了 $3$ 这个值？</p>
+<p>可以发现：无论怎么翻转左右儿子或者旋转，储存了 $3$ 这个值的节点 index 从来没变过，我们其实可以预先处理每个值所在的节点编号，到时候直接去里面找就行。</p>
+<p>当然，这样只支持查询原本在数组里的值，至于前驱后继就没法查询了，它们必须使用 BST 的性质。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+struct Splay {
+    struct Node {
+        int par, child[2], sz, cnt; 
+        ll val, flag; 
+    } tr[maxn];
+    int rt, id = 0;
+    void push_up(int cur) {
+        if (!cur) return;
+        int lc = tr[cur].child[0], rc = tr[cur].child[1];
+        tr[cur].sz = tr[lc].sz + tr[rc].sz + tr[cur].cnt;
+    }
+    void push_down(int cur) {
+        if (!cur || !tr[cur].flag) return;
+        int lc = tr[cur].child[0], rc = tr[cur].child[1];
+        swap(tr[cur].child[0], tr[cur].child[1]);
+        tr[lc].flag ^= 1, tr[rc].flag ^= 1;
+        tr[cur].flag = 0;
+    }
+    void clear(int cur) {
+        tr[cur].par = tr[cur].val = tr[cur].sz = tr[cur].cnt = tr[cur].child[0] = tr[cur].child[1] = 0;
+    }
+    bool isright(int cur) {
+        return cur == tr[tr[cur].par].child[1];
+    }
+    void rotate(int x) {
+        if (!x || x == rt) return;
+        int y = tr[x].par, z = tr[y].par;
+        push_down(y); push_down(x);  // 注意先 push_down parent
+        bool r = isright(x);  // 注意这里, 是先 push_down 之后，才判断 isright(x) 的
+        tr[y].child[r] = tr[x].child[r^1];
+        if (tr[x].child[r^1]) tr[tr[x].child[r^1]].par = y;
+        tr[x].child[r^1] = y;
+        tr[y].par = x;
+        tr[x].par = z;
+        if (z) tr[z].child[y == tr[z].child[1]] = x;
+        push_up(y); push_up(x);
+    }
+    void splay(int x, int tar = 0) {
+        assert(x != 0);
+        while (tr[x].par != tar) {
+            int y = tr[x].par, z = tr[y].par;
+            if (z != tar) {
+                if (isright(y) == isright(z)) rotate(y);
+                else rotate(x);
+            }
+            rotate(x);
+        }
+        if (tar == 0) rt = x;
+    }
+    void insert(ll val) {
+        if (!rt) {
+            tr[++id].val = val;
+            tr[id].cnt++;
+            rt = id;
+            push_up(id);
+            return;
+        }
+        int cur = rt, p = 0;
+        while (1) {
+            push_down(cur);
+            if (tr[cur].val == val) {
+                tr[cur].cnt++;
+                push_up(cur);
+                push_up(p);
+                splay(cur);
+                break;
+            }
+            p = cur;
+            cur = tr[p].child[tr[p].val &lt; val];
+            if (!cur) {
+                cur = ++id;
+                tr[cur].val = val;
+                tr[cur].cnt++;
+                tr[cur].par = p;
+                tr[p].child[tr[p].val &lt; val] = cur;
+                push_up(cur);
+                push_up(p);
+                splay(cur);
+                break;
+            }
+        }
+    }
+    int query_rank(int x) {  // 查询 x 所在的rank
+        splay(find(x));
+        return tr[tr[rt].child[0]].sz + 1;
+    }
+    int kth(int k) {  // 查询第k大 (注意返回的是节点编号，不是值)
+        int cur = rt;
+        assert(cur != 0);
+        while (1) {
+            push_down(cur);  // pushdown
+            int lc = tr[cur].child[0], rc = tr[cur].child[1];
+            if (lc &amp;&amp; k &lt;= tr[lc].sz) {
+                cur = lc;
+            } else {
+                k -= (tr[cur].cnt + tr[lc].sz);
+                if (k &lt;= 0) {
+                    return cur;
+                }
+                cur = rc;
+            }
+        }
+    }
+    int find(ll x) {
+        // 找一个值为 x 的节点，如果找不到就寻找最近的一个（可大可小）
+        int cur = rt;
+        while (tr[cur].child[tr[cur].val &lt; x] &amp;&amp; tr[cur].val != x) {
+            push_down(cur);
+            cur = tr[cur].child[tr[cur].val &lt; x];
+        }
+        return cur;
+    }
+    int pre() {
+        int cur = tr[rt].child[0];
+        if (!cur) return cur;
+        while (tr[cur].child[1]) cur = tr[cur].child[1];
+        splay(cur);
+        return cur;
+    }
+    int nxt() {
+        int cur = tr[rt].child[1];
+        if (!cur) return cur;
+        while (tr[cur].child[0]) cur = tr[cur].child[0];
+        splay(cur);
+        return cur;
+    }
+    void del(ll val) {
+        splay(find(val));  // 将它旋转到根
+        if (tr[rt].cnt &gt; 1) {
+            tr[rt].cnt--;
+            push_up(rt);
+            return;
+        }
+        int lc = tr[rt].child[0], rc = tr[rt].child[1];
+        if (!lc &amp;&amp; !rc) {
+            clear(rt);
+            rt = 0;
+            return;
+        }
+        if (!lc || !rc) {
+            int tmp = rt;
+            if (!lc) rt = rc;
+            else rt = lc;
+            tr[rt].par = 0;
+            clear(tmp);
+            return;
+        }
+        int tmp = rt, cur = pre(), splay(cur);  // 现在 cur 变为根了
+        tr[tr[tmp].child[1]].par = cur;
+        tr[cur].child[1] = tr[tmp].child[1];
+        clear(tmp);
+        push_up(rt);
+    }
+    int find_pre(ll val) {  // 查询前驱所在的编号，需要保证一定存在
+        splay(find(val));
+        if (tr[rt].val &lt; val) return rt;
+        else return pre();
+    }
+    int find_nxt(ll val) {  // 查询后继所在的编号，需要保证一定存在
+        splay(find(val));
+        if (tr[rt].val &gt; val) return rt;
+        else return nxt();
+    }
+    void dfs(int cur) {
+        push_down(cur);
+        if (tr[cur].child[0]) dfs(tr[cur].child[0]);
+        if (tr[cur].val &gt;= -1e8 &amp;&amp; tr[cur].val &lt;= 1e8)
+            cout &lt;&lt; tr[cur].val &lt;&lt; &quot; &quot;;
+        if (tr[cur].child[1]) dfs(tr[cur].child[1]);
+    }
+
+} tr;
+
+int main() {
+    int n, m; cin &gt;&gt; n &gt;&gt; m;
+    tr.insert(-1e9);
+    for (int i = 1; i &lt;= n; i++) tr.insert(i);
+    tr.insert(1e9);
+    while (m--) {
+        int L, R; cin &gt;&gt; L &gt;&gt; R;
+        L++, R++;
+        int l = tr.kth(L-1); tr.splay(l);
+        int r = tr.kth(R+1); tr.splay(r, l);
+        assert(tr.rt == l);
+        tr.tr[tr.tr[r].child[0]].flag ^= 1;
+    }
+    tr.dfs(tr.rt);
+    cout &lt;&lt; &quot;\n&quot;;
+}
+
+
+</code></pre>
+</details>
+<h3 id="例3-洛谷p3165cqoi2014-排序机械臂httpswwwluogucomcnproblemp3165">例3 洛谷P3165<a href="https://www.luogu.com.cn/problem/P3165" target="_blank">[CQOI2014] 排序机械臂</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个正整数 $a_1,a_2,&hellip;,a_n$，然后进行 $n$ 次操作将这个数组排序，操作如下：</p>
+<p>第 $i$ 次操作时，选择第 $i$ 大的数所在的位置 $p$，然后将 $[i,p]$ 这个区间翻转。</p>
+<p>• 如果两个数相同，则按照它们在原数组的出现次序来决定相对次序。</p>
+<p>输出每次操作时，选中的第 $i$ 大的数所在的位置。</p>
+<p>其中，$n \leq 10^5, a_i \in [1, 10^7]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>区间翻转，和上题一样。不过这题需要选择当前第 $i$ 大的数。</p>
+<p>不过记得上面我们提到，当一棵splay树被建好以后，无论怎么转，一个元素在哪个节点，它以后就不会动了。</p>
+<p>所以我们预先sort所有的数，然后记录第 $i$ 大的数所在的节点编号即可。</p>
+<p>这样每次询问的时候，一个 <code>splay()</code> 将第 $i$ 大的数 splay 到根节点，然后看一下它左子树有多大，就知道它所在的位置了。</p>
+<p>• 不过注意，在翻转的时候，查询 <code>L-1</code> 和 <code>R+1</code> 还是得用 <code>tr.kth()</code> 函数，保证标记正确下传了，而不能直接用预先记录好的节点编号。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int n;
+struct Splay {
+    struct Node {
+        int par, child[2], val, sz, cnt;
+        int flag;
+    } tr[maxn];
+    int rt, id = 0;
+    void push_up(int cur) {
+        if (!cur) return;
+        int lc = tr[cur].child[0], rc = tr[cur].child[1];
+        tr[cur].sz = tr[lc].sz + tr[rc].sz + tr[cur].cnt;
+    }
+    void push_down(int cur) {
+        if (!cur || !tr[cur].flag) return;
+        int lc = tr[cur].child[0], rc = tr[cur].child[1];
+        swap(tr[cur].child[0], tr[cur].child[1]);
+        tr[lc].flag ^= 1, tr[rc].flag ^= 1;
+        tr[cur].flag = 0;
+    }
+    void clear(int cur) {
+        tr[cur].par = tr[cur].val = tr[cur].sz = tr[cur].cnt = tr[cur].child[0] = tr[cur].child[1] = 0;
+    }
+    bool isright(int cur) {
+        return cur == tr[tr[cur].par].child[1];
+    }
+    void rotate(int x) {
+        if (!x || x == rt) return;
+        int y = tr[x].par, z = tr[y].par;
+        push_down(y); push_down(x);  // 注意先 push_down parent
+        bool r = isright(x);  // 注意这里, 是先 push_down 之后，才判断 isright(x) 的
+        tr[y].child[r] = tr[x].child[r^1];
+        if (tr[x].child[r^1]) tr[tr[x].child[r^1]].par = y;
+        tr[x].child[r^1] = y;
+        tr[y].par = x;
+        tr[x].par = z;
+        if (z) tr[z].child[y == tr[z].child[1]] = x;
+        push_up(y); push_up(x);
+    }
+    void splay(int x, int tar = 0) {
+        while (tr[x].par != tar) {
+            int y = tr[x].par, z = tr[y].par;
+            if (z != tar) {
+                if (isright(y) == isright(z)) rotate(y);
+                else rotate(x);
+            }
+            rotate(x);
+        }
+        if (tar == 0) rt = x;
+    }
+    void insert(int val) {
+        if (!rt) {
+            tr[++id].val = val;
+            tr[id].cnt++;
+            rt = id;
+            push_up(id);
+            return;
+        }
+        int cur = rt, p = 0;
+        while (1) {
+            if (tr[cur].val == val) {
+                tr[cur].cnt++;
+                push_up(cur);
+                push_up(p);
+                splay(cur);
+                break;
+            }
+            p = cur;
+            cur = tr[p].child[tr[p].val &lt; val];
+            if (!cur) {
+                cur = ++id;
+                tr[cur].val = val;
+                tr[cur].cnt++;
+                tr[cur].par = p;
+                tr[p].child[tr[p].val &lt; val] = cur;
+                push_up(cur);
+                push_up(p);
+                splay(cur);
+                break;
+            }
+        }
+    }
+    int query_rank(int x) {  // 查询 x 所在的rank
+        splay(find(x));
+        return tr[tr[rt].child[0]].sz + 1;
+    }
+    int kth(int k) {  // 查询第k大 (注意返回的是节点编号，不是值)
+        int cur = rt;
+        while (1) {
+            push_down(cur);  // pushdown
+            int lc = tr[cur].child[0], rc = tr[cur].child[1];
+            if (lc &amp;&amp; k &lt;= tr[lc].sz) {
+                cur = lc;
+            } else {
+                k -= (tr[cur].cnt + tr[lc].sz);
+                if (k &lt;= 0) {
+                    return cur;
+                }
+                cur = rc;
+            }
+        }
+    }
+    int find(int x) {
+        // 找一个值为 x 的节点，如果找不到就寻找最近的一个（可大可小）
+        int cur = rt;
+        while (tr[cur].child[tr[cur].val &lt; x] &amp;&amp; tr[cur].val != x) {
+            push_down(cur);
+            cur = tr[cur].child[tr[cur].val &lt; x];
+        }
+        return cur;
+    }
+    int pre() {
+        int cur = tr[rt].child[0];
+        if (!cur) return cur;
+        while (tr[cur].child[1]) cur = tr[cur].child[1];
+        splay(cur);
+        return cur;
+    }
+    int nxt() {
+        int cur = tr[rt].child[1];
+        if (!cur) return cur;
+        while (tr[cur].child[0]) cur = tr[cur].child[0];
+        splay(cur);
+        return cur;
+    }
+    void del(int val) {
+        splay(find(val));  // 将它旋转到根
+        if (tr[rt].cnt &gt; 1) {
+            tr[rt].cnt--;
+            push_up(rt);
+            return;
+        }
+        int lc = tr[rt].child[0], rc = tr[rt].child[1];
+        if (!lc &amp;&amp; !rc) {
+            clear(rt);
+            rt = 0;
+            return;
+        }
+        if (!lc || !rc) {
+            int tmp = rt;
+            if (!lc) rt = rc;
+            else rt = lc;
+            tr[rt].par = 0;
+            clear(tmp);
+            return;
+        }
+        int tmp = rt, cur = pre(), splay(cur);  // 现在 cur 变为根了
+        tr[tr[tmp].child[1]].par = cur;
+        tr[cur].child[1] = tr[tmp].child[1];
+        clear(tmp);
+        push_up(rt);
+    }
+    // 查询 val 的前驱的值
+    int query_pre(int val) {
+        splay(find(val));
+        if (tr[rt].val &lt; val) return tr[rt].val;
+        else return tr[pre()].val;
+    }
+    int query_nxt(int val) {
+        splay(find(val));
+        if (tr[rt].val &gt; val) return tr[rt].val;
+        else return tr[nxt()].val;
+    }
+} tr;
+
+
+int cnt[(int)(1e7+5)], pos[maxn];
+
+struct Data {
+    int val, cnt, id;
+} a[maxn];
+int main() {
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; a[i].val;
+        cnt[a[i].val]++;
+        a[i].cnt = cnt[a[i].val];
+        a[i].id = i;
+    }
+    sort(a+1, a+n+1, [](auto a, auto b) {
+        return tuple {a.val, a.cnt} &lt; tuple {b.val, b.cnt};
+    });
+    for (int i = 1; i &lt;= n; i++) {
+        pos[i] = a[i].id + 1;
+    }
+    tr.insert(-1e9);
+    for (int i = 1; i &lt;= n; i++) {
+        tr.insert(i);
+    }
+    tr.insert(1e9);
+    for (int i = 1; i &lt;= n; i++) {
+        int p = pos[i];
+        tr.splay(p);
+        int rt = tr.rt;
+        int sz = tr.tr[tr.tr[rt].child[0]].sz;
+        cout &lt;&lt; sz &lt;&lt; &quot; &quot;;
+        int L = tr.kth(i); tr.splay(L);
+        int R = tr.kth(sz+2); tr.splay(R, L);
+        tr.tr[tr.tr[R].child[0]].flag ^= 1;
+    }
+    cout &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<h3 id="例4-bzoj4923-k小值查询httpsdarkbzojccproblem4923">例4 BZOJ4923 <a href="https://darkbzoj.cc/problem/4923" target="_blank">K小值查询</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>维护一个长度为 $n$ 的正整数序列 $a_1,a_2,&hellip;,a_n$，现在有 $m$ 次操作，支持以下两种操作：</p>
+<p>$1~ k$：输出当前序列第 $k$ 大的值。</p>
+<p>$2~ k$：将所有 $&gt;k$ 的数 $a_i$ 减去 $k$。</p>
+<p>其中，$n,m \leq 10^5, a_i \in [1,10^9]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>splay的区间操作不仅限于反转（用index作为权值），同样也可以对某一个值域区间内的数进行操作（前提是不破坏splay本身的结构）。</p>
+<p>然而这个题，将所有 $&gt;k$ 的数 $a_i$ 减去 $k$ 似乎会破坏splay本身的结构？</p>
+<p>于是分类讨论：</p>
+<p>对于在 $[k+1, 2k]$ 的数，可以将它们删掉，然后减去 $k$ 以后再塞回去。</p>
+<p>对于 $&gt;2k$ 的数，则利用打标记的方式，因为将它们减去 $k$ 并不影响 splay 的整体结构。</p>
+<p>那么修改的时候，就查询一下 $k+1$ 的前驱 $x$ splay 到根，然后查询一下 $2k$ 的后继 $y$ splay到以 $x$ 为根，和上一题一样的处理方法，那么 $y$ 的左儿子就是 $[k+1,2k]$ 的数了。删除的时候其实不需要一个个删，只需要直接把这个子树的根和splay断开就行了。</p>
+<p>• 由于有额外insert，注意多开一倍空间，同时注意到可能有重复的值，所以要根据 <code>cnt</code> 来进行insert。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e6+5;
+vector&lt;int&gt; vec;
+int n;
+struct Splay {
+    struct Node {
+        int par, child[2], sz, cnt; 
+        ll val, flag; 
+    } tr[maxn];
+    int rt, id = 0;
+    void push_up(int cur) {
+        if (!cur) return;
+        int lc = tr[cur].child[0], rc = tr[cur].child[1];
+        tr[cur].sz = tr[lc].sz + tr[rc].sz + tr[cur].cnt;
+    }
+    void push_down(int cur) {
+        if (!cur || !tr[cur].flag) return;
+        int lc = tr[cur].child[0], rc = tr[cur].child[1];
+        ll f = tr[cur].flag;
+        tr[lc].flag += f, tr[rc].flag += f;
+        tr[lc].val += f, tr[rc].val += f;
+        tr[cur].flag = 0;
+    }
+    void clear(int cur) {
+        tr[cur].par = tr[cur].val = tr[cur].sz = tr[cur].cnt = tr[cur].child[0] = tr[cur].child[1] = 0;
+    }
+    bool isright(int cur) {
+        return cur == tr[tr[cur].par].child[1];
+    }
+    void rotate(int x) {
+        if (!x || x == rt) return;
+        int y = tr[x].par, z = tr[y].par;
+        push_down(y); push_down(x);  // 注意先 push_down parent
+        bool r = isright(x);  // 注意这里, 是先 push_down 之后，才判断 isright(x) 的
+        tr[y].child[r] = tr[x].child[r^1];
+        if (tr[x].child[r^1]) tr[tr[x].child[r^1]].par = y;
+        tr[x].child[r^1] = y;
+        tr[y].par = x;
+        tr[x].par = z;
+        if (z) tr[z].child[y == tr[z].child[1]] = x;
+        push_up(y); push_up(x);
+    }
+    void splay(int x, int tar = 0) {
+        assert(x != 0);
+        while (tr[x].par != tar) {
+            int y = tr[x].par, z = tr[y].par;
+            if (z != tar) {
+                if (isright(y) == isright(z)) rotate(y);
+                else rotate(x);
+            }
+            rotate(x);
+        }
+        if (tar == 0) rt = x;
+    }
+    void insert(ll val) {
+        if (!rt) {
+            tr[++id].val = val;
+            tr[id].cnt++;
+            rt = id;
+            push_up(id);
+            return;
+        }
+        int cur = rt, p = 0;
+        while (1) {
+            push_down(cur);
+            if (tr[cur].val == val) {
+                tr[cur].cnt++;
+                push_up(cur);
+                push_up(p);
+                splay(cur);
+                break;
+            }
+            p = cur;
+            cur = tr[p].child[tr[p].val &lt; val];
+            if (!cur) {
+                cur = ++id;
+                tr[cur].val = val;
+                tr[cur].cnt++;
+                tr[cur].par = p;
+                tr[p].child[tr[p].val &lt; val] = cur;
+                push_up(cur);
+                push_up(p);
+                splay(cur);
+                break;
+            }
+        }
+    }
+    int query_rank(int x) {  // 查询 x 所在的rank
+        splay(find(x));
+        return tr[tr[rt].child[0]].sz + 1;
+    }
+    int kth(int k) {  // 查询第k大 (注意返回的是节点编号，不是值)
+        int cur = rt;
+        assert(cur != 0);
+        while (1) {
+            push_down(cur);  // pushdown
+            int lc = tr[cur].child[0], rc = tr[cur].child[1];
+            if (lc &amp;&amp; k &lt;= tr[lc].sz) {
+                cur = lc;
+            } else {
+                k -= (tr[cur].cnt + tr[lc].sz);
+                if (k &lt;= 0) {
+                    return cur;
+                }
+                cur = rc;
+            }
+        }
+    }
+    int find(ll x) {
+        // 找一个值为 x 的节点，如果找不到就寻找最近的一个（可大可小）
+        int cur = rt;
+        while (tr[cur].child[tr[cur].val &lt; x] &amp;&amp; tr[cur].val != x) {
+            push_down(cur);
+            cur = tr[cur].child[tr[cur].val &lt; x];
+        }
+        return cur;
+    }
+    int pre() {
+        int cur = tr[rt].child[0];
+        if (!cur) return cur;
+        while (tr[cur].child[1]) cur = tr[cur].child[1];
+        splay(cur);
+        return cur;
+    }
+    int nxt() {
+        int cur = tr[rt].child[1];
+        if (!cur) return cur;
+        while (tr[cur].child[0]) cur = tr[cur].child[0];
+        splay(cur);
+        return cur;
+    }
+    void del(ll val) {
+        splay(find(val));  // 将它旋转到根
+        if (tr[rt].cnt &gt; 1) {
+            tr[rt].cnt--;
+            push_up(rt);
+            return;
+        }
+        int lc = tr[rt].child[0], rc = tr[rt].child[1];
+        if (!lc &amp;&amp; !rc) {
+            clear(rt);
+            rt = 0;
+            return;
+        }
+        if (!lc || !rc) {
+            int tmp = rt;
+            if (!lc) rt = rc;
+            else rt = lc;
+            tr[rt].par = 0;
+            clear(tmp);
+            return;
+        }
+        int tmp = rt, cur = pre(), splay(cur);  // 现在 cur 变为根了
+        tr[tr[tmp].child[1]].par = cur;
+        tr[cur].child[1] = tr[tmp].child[1];
+        clear(tmp);
+        push_up(rt);
+    }
+    int find_pre(ll val) {  // 查询前驱所在的编号，需要保证一定存在
+        splay(find(val));
+        if (tr[rt].val &lt; val) return rt;
+        else return pre();
+    }
+    int find_nxt(ll val) {  // 查询后继所在的编号，需要保证一定存在
+        splay(find(val));
+        if (tr[rt].val &gt; val) return rt;
+        else return nxt();
+    }
+    void dfs(int cur, int k) {
+        if (!cur) return;
+        push_down(cur);
+        if (tr[cur].val &gt;= k+1 &amp;&amp; tr[cur].val &lt;= 2*k) {
+            vec.push_back(cur);
+        }
+        dfs(tr[cur].child[0], k);
+        dfs(tr[cur].child[1], k);
+    }
+} tr;
+
+int main() {
+    int n, m; cin &gt;&gt; n &gt;&gt; m;
+    tr.insert(-1e18);
+    for (int i = 1; i &lt;= n; i++) {
+        int a; cin &gt;&gt; a;
+        tr.insert(a);
+    }
+    tr.insert(1e18);
+    while (m--) {
+        int op, k; cin &gt;&gt; op &gt;&gt; k;
+        if (op == 1) {
+            cout &lt;&lt; tr.tr[tr.kth(k+1)].val &lt;&lt; &quot;\n&quot;;
+        } else {
+            vec.clear();
+            int rt = tr.find_pre(k+1);  // &lt; k+1
+            int x = tr.find_nxt(2*k);  // &gt; 2*k
+            tr.splay(rt);
+            tr.splay(x, rt);
+
+            int lc = tr.tr[x].child[0];
+            int rc = tr.tr[x].child[1];
+
+            tr.dfs(lc, k);
+            if (lc) {
+                assert(tr.tr[lc].par == x);
+                tr.tr[lc].par = 0;
+                tr.tr[x].child[0] = 0;
+            }
+
+            assert(x != 0);
+            tr.tr[x].flag -= k;
+            tr.tr[x].val -= k;
+
+            sort(vec.begin(), vec.end());
+            vec.resize(unique(vec.begin(), vec.end()) - vec.begin());
+            vector&lt;int&gt; tmp;
+
+            for (int j : vec) {
+                if (tr.tr[j].val &gt;= k+1)
+                    for (int k = 0; k &lt; tr.tr[j].cnt; k++) tmp.push_back(j);
+            }
+            vec = tmp;
+
+            for (int nd : vec) {
+                ll v = tr.tr[nd].val;
+                tr.insert(v - k);
+            }
+        }
+    }
+}
+
+</code></pre>
+</details>
+<div class="admonition info">
+  <p class="admonition-title">注意事项</p>
+<ol>
+<li>做这种题的时候，不要吝啬 <code>push_down()</code>，能加的地方尽量多加加。</li>
+<li>由于前驱和后继不一定存在，而splay不支持在其不存在的情况下进行操作，那么我们在一开始手动加上前驱 $-10^{18}$ 和后继 $10^{18}$。</li>
+<li>在修改时，先查找好需要splay的节点，然后再一起 splay，因为查找的过程中可能会调用 <code>pre()</code> 和 <code>nxt()</code> 导致根被改变了。</li>
+</ol>
+</div>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2023-10-25 11:55:24 -0500 -0500">2023-10-25</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f76350663990773b2bd1640477713f385354d558" title="add 116, 117, 118, 119" target="_blank">(f7635066)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/118-splay.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%B9%B3%E8%A1%A1%E6%A0%91/">平衡树</a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/119-%E6%95%B0%E8%AE%BA%E6%80%A7%E8%B4%A8/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">一些数论性质与方法</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/117-%E6%89%AB%E6%8F%8F%E7%BA%BF/">
+            <span class="next-text nav-default">扫描线</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

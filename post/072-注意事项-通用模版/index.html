@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="[置顶]竞赛注意事项/通用模版" />
 <meta property="og:description" content="注意事项 Set中的Comparator定义 在定义Set的Comparator时，一定要小心保证元素不会因为定义被判定为重复，例如： • 注意这里" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/" />
+<meta property="og:url" content="https://tom0727.github.io/post/072-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-%E9%80%9A%E7%94%A8%E6%A8%A1%E7%89%88/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-09-19T10:26:35-05:00" />
-<meta property="article:modified_time" content="2023-10-19T00:27:58+00:00" />
+<meta property="article:modified_time" content="2023-10-25T11:55:24-05:00" />
+
 <meta itemprop="name" content="[置顶]竞赛注意事项/通用模版">
-<meta itemprop="description" content="注意事项 Set中的Comparator定义 在定义Set的Comparator时，一定要小心保证元素不会因为定义被判定为重复，例如： • 注意这里">
-<meta itemprop="datePublished" content="2022-09-19T10:26:35-05:00" />
-<meta itemprop="dateModified" content="2023-10-19T00:27:58&#43;00:00" />
-<meta itemprop="wordCount" content="6330">
-
-
-
+<meta itemprop="description" content="注意事项 Set中的Comparator定义 在定义Set的Comparator时，一定要小心保证元素不会因为定义被判定为重复，例如： • 注意这里"><meta itemprop="datePublished" content="2022-09-19T10:26:35-05:00" />
+<meta itemprop="dateModified" content="2023-10-25T11:55:24-05:00" />
+<meta itemprop="wordCount" content="6446">
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="[置顶]竞赛注意事项/通用模版"/>
 <meta name="twitter:description" content="注意事项 Set中的Comparator定义 在定义Set的Comparator时，一定要小心保证元素不会因为定义被判定为重复，例如： • 注意这里"/>
@@ -151,6 +148,7 @@
             <li><a href="#set中的comparator定义">Set中的Comparator定义</a></li>
             <li><a href="#swap函数的时间复杂度">swap函数的时间复杂度</a></li>
             <li><a href="#vector的unique--resize写法">vector的unique + resize写法</a></li>
+            <li><a href="#compile-error-的一些解决方案">Compile Error 的一些解决方案</a></li>
           </ul>
         </li>
         <li><a href="#通用模版">通用模版</a>
@@ -191,6 +189,18 @@ set&lt;int, Cmp&gt; s;
 sort(a.begin(), a.end());  // unique 之前需要sort
 a.resize(unique(a.begin(), a.end()) - a.begin());
 </code></pre>
+<h3 id="compile-error-的一些解决方案">Compile Error 的一些解决方案</h3>
+<p>除了syntax error以外，一些compile error也有可能是 <code>Compiler Memory Limit Exceeded</code> 导致的。</p>
+<p>一些解决这个错误的方法：</p>
+<ol>
+<li>数组开小一些。</li>
+<li>不要在 struct 内使用初始化。</li>
+</ol>
+<pre><code class="language-cpp">struct Node {
+	int mx = -1e9, tag = 0;
+};
+</code></pre>
+<p>比如这个，就可以把初始化去掉，在代码里手动初始化。</p>
 <h2 id="通用模版">通用模版</h2>
 <h3 id="z自动取模整数">Z自动取模整数</h3>
 <details class="admonition note"><summary class="admonition-title">Z自动取模整数</summary>
@@ -326,7 +336,7 @@ struct Z {
 <pre><code class="language-cpp">int n, m, a[maxn];
 
 struct Node {
-    ll sum, tag = 0;
+    ll sum, tag;
 };
 
 struct SegmentTree {
@@ -431,6 +441,7 @@ struct Dijkstra {
 <pre><code class="language-cpp">const int MAX_TIME = 950;  // 950 ms
 while ((double)clock() / CLOCKS_PER_SEC &lt; MAX_TIME) doSomething();
 </code></pre>
+<!-- ## 计算全局变量的Memory Usage -->
 <h2 id="几何模版">几何模版</h2>
 <p>kuangbin的板子：</p>
 <p>链接：<a href="https://kuangbin.github.io/2019/04/28/20190428/" target="_blank">https://kuangbin.github.io/2019/04/28/20190428/</a></p>
@@ -1460,8 +1471,8 @@ struct circles{
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-10-19 00:27:58 &#43;0000 UTC">2023-10-19</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/b754e56be6d4b1ff624166e88f4ac83eb7e5ed63" title="chore: update CF Problems" target="_blank">(b754e56)</a>
+        <span title="2023-10-25 11:55:24 -0500 -0500">2023-10-25</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f76350663990773b2bd1640477713f385354d558" title="add 116, 117, 118, 119" target="_blank">(f7635066)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/072-%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9-%e9%80%9a%e7%94%a8%e6%a8%a1%e7%89%88.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -1478,8 +1489,8 @@ struct circles{
           </div>
       <nav class="post-nav">
         
-        <a class="next" href="/post/115-%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%BC%98%E5%8C%96%E5%BB%BA%E5%9B%BE/">
-            <span class="next-text nav-default">线段树优化建图</span>
+        <a class="next" href="/post/119-%E6%95%B0%E8%AE%BA%E6%80%A7%E8%B4%A8/">
+            <span class="next-text nav-default">一些数论性质与方法</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -1555,7 +1566,7 @@ struct circles{
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

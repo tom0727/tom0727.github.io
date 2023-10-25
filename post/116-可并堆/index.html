@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>可并堆/左偏树 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 可并堆是一种特殊的最小/大堆，使得两个堆之间能用 $O(\log n)$ 的时间内进行合并。由于其形态，也叫左偏树。 定义 距离：一个节点 $x$ 的距离 dis[x] 定义为：$x$" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/116-%E5%8F%AF%E5%B9%B6%E5%A0%86/" />
+<link rel="manifest" href="/manifest.json">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="可并堆/左偏树" />
+<meta property="og:description" content="介绍 可并堆是一种特殊的最小/大堆，使得两个堆之间能用 $O(\log n)$ 的时间内进行合并。由于其形态，也叫左偏树。 定义 距离：一个节点 $x$ 的距离 dis[x] 定义为：$x$" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/116-%E5%8F%AF%E5%B9%B6%E5%A0%86/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-10-04T16:05:48-05:00" />
+<meta property="article:modified_time" content="2023-10-25T11:55:24-05:00" />
+
+<meta itemprop="name" content="可并堆/左偏树">
+<meta itemprop="description" content="介绍 可并堆是一种特殊的最小/大堆，使得两个堆之间能用 $O(\log n)$ 的时间内进行合并。由于其形态，也叫左偏树。 定义 距离：一个节点 $x$ 的距离 dis[x] 定义为：$x$"><meta itemprop="datePublished" content="2023-10-04T16:05:48-05:00" />
+<meta itemprop="dateModified" content="2023-10-25T11:55:24-05:00" />
+<meta itemprop="wordCount" content="4049">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="可并堆/左偏树"/>
+<meta name="twitter:description" content="介绍 可并堆是一种特殊的最小/大堆，使得两个堆之间能用 $O(\log n)$ 的时间内进行合并。由于其形态，也叫左偏树。 定义 距离：一个节点 $x$ 的距离 dis[x] 定义为：$x$"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">可并堆/左偏树</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-10-04 16:05:48 -0500 -0500"> 2023-10-04 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a>
+          <ul>
+            <li><a href="#定义">定义</a></li>
+          </ul>
+        </li>
+        <li><a href="#性质">性质</a></li>
+        <li><a href="#操作">操作</a>
+          <ul>
+            <li><a href="#合并-mergex-y">合并 merge$(x, y)$</a></li>
+            <li><a href="#插入节点-x">插入节点 $x$</a></li>
+            <li><a href="#删除根节点-x">删除根节点 $x$</a></li>
+            <li><a href="#删除任意节点-x">删除任意节点 $x$</a></li>
+          </ul>
+        </li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例1-洛谷p3377-模板左偏树可并堆httpswwwluogucomcnproblemp3377">例1 洛谷P3377 <a href="https://www.luogu.com.cn/problem/P3377">【模板】左偏树/可并堆</a></a></li>
+            <li><a href="#例2-洛谷p1456-monkey-kinghttpswwwluogucomcnproblemp1456">例2 洛谷P1456 <a href="https://www.luogu.com.cn/problem/P1456">Monkey King</a></a></li>
+            <li><a href="#例3-洛谷p1552-apio2012-派遣httpswwwluogucomcnproblemp1552">例3 洛谷P1552 <a href="https://www.luogu.com.cn/problem/P1552">[APIO2012] 派遣</a></a></li>
+            <li><a href="#例4-洛谷p3273-scoi2011-棘手的操作httpswwwluogucomcnproblemsolutionp3273page1">例4 洛谷P3273 <a href="https://www.luogu.com.cn/problem/solution/P3273?page=1">[SCOI2011] 棘手的操作</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>可并堆是一种特殊的最小/大堆，使得两个堆之间能用 $O(\log n)$ 的时间内进行合并。由于其形态，也叫左偏树。</p>
+<h3 id="定义">定义</h3>
+<ol>
+<li>距离：一个节点 $x$ 的距离 <code>dis[x]</code> 定义为：$x$ 与其子树中<strong>最近</strong>的一个children不满（指可以插入）的叶子节点的距离。</li>
+</ol>
+<h2 id="性质">性质</h2>
+<ol>
+<li>左偏树是一个最小堆，每个节点有 $0-2$ 个child，并且保证节点的值 $\leq$ 其parent。</li>
+<li>对于每一个节点 $x$，其子树均是左偏的，定义 $lc, rc$ 分别为 $x$ 的左右child，那么有 $dis_{lc} \geq dis_{rc}$。</li>
+<li>$dis_x = dis_{rc} + 1$。</li>
+<li>如果一个根节点的距离为 $n$，那么这个子树至少有 $2^{n+1}-1$ 个节点（因为 $dis$ 是离最近的一个未满节点的距离，意味着距离为 $n$ 之内的所有节点都满了）。由此也可以推出，拥有 $n$ 个节点的左偏树的根节点距离是 $O(\log n)$ 的。</li>
+</ol>
+<h2 id="操作">操作</h2>
+<h3 id="合并-mergex-y">合并 merge$(x, y)$</h3>
+<p>合并两个分别以 $x,y$ <strong>作为根节点</strong>的左偏树，返回合并之后的根节点。</p>
+<ol>
+<li>WLOG 假设 $v_x \leq v_y$。</li>
+<li>将 $y$ 与 $x$ 的右儿子 $rc$ 进行递归合并。</li>
+<li>如果 $x, y$ 之间有任意一个为空节点（为 $0$），那么返回 $x+y$。</li>
+</ol>
+<p>• 合并后，为了保持左偏特性，检查是否有 $dis_{lc} \geq dis_{rc}$，如果没有，<code>swap(lc, rc)</code>，然后令 $dis_x = dis_{rc} + 1$。</p>
+<p>复杂度：由于递归 $rc$，且 $dis_x = dis_{rc} + 1$，所以每次递归一层则 <code>dis</code> 减少 $1$。由于性质 $4$，最多递归 $O(\log n)$ 层。所以合并两个大小分别为 $n,m$ 的堆的复杂度为 $O(\log n + \log m)$。</p>
+<h3 id="插入节点-x">插入节点 $x$</h3>
+<p>将 $x$ 看作一个包含一个元素的堆，然后用 merge 解决。</p>
+<h3 id="删除根节点-x">删除根节点 $x$</h3>
+<p>直接 <code>merge(lc, rc)</code>（合并 $x$ 的左右child节点）即可。</p>
+<h3 id="删除任意节点-x">删除任意节点 $x$</h3>
+<p><code>merge(lc, rc)</code> 后，自底向上更新 $dis$，当不满足左偏性质时交换左右儿子，当 $dis$ 无需更新时停止递归。</p>
+<p>代码：TODO</p>
+<h2 id="例题">例题</h2>
+<h3 id="例1-洛谷p3377-模板左偏树可并堆httpswwwluogucomcnproblemp3377">例1 洛谷P3377 <a href="https://www.luogu.com.cn/problem/P3377" target="_blank">【模板】左偏树/可并堆</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个最小堆，每个堆一开始只有一个数。有 $m$ 个操作，每个操作有两种：</p>
+<p>$1 ~ x ~ y$：将第 $x$ 个数所在的堆和第 $y$ 个数所在的堆合并，如果第 $x$ 个数或者第 $y$ 个数已经被删除，或者这两个数已经在同一个堆内，无视此操作。</p>
+<p>$2 ~ x$：删除第 $x$ 个数所在的堆的最小值，并且将这个最小值从堆中删除，如果已经删除则输出 $-1$ 并无视此操作。</p>
+<p>其中，$n, m \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>本题需要与并查集结合，因为堆的最小值本质上是询问一个堆的根，所以每一个节点都要维护其 parent。</p>
+<p>几个需要注意的点：</p>
+<ol>
+<li>需要使用路径压缩。</li>
+<li>merge$(x,y)$ 后，由于返回的新根一定是 $x$，所以需要让 $lc, rc$ 的 par 都设为 $x$。</li>
+<li>del$(x)$ 时，先让左右子树断开（设 par 为它们自己），然后将它们 merge 起来。另外，由于路径压缩，尽管 $x$ 已经被删除了，但可能有其他节点的 par 指向了 $x$，所以 $x$ 的parent需要指向 merge 之后的节点。</li>
+</ol>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+struct MergeHeap {
+    struct Node {
+        int dis, val, par, lc, rc;
+    } tr[maxn];
+    int merge(int x, int y) {
+        if (!x || !y) return x + y;
+        if (tuple {tr[x].val, x} &gt; tuple {tr[y].val, y}) swap(x, y);
+        tr[x].rc = merge(tr[x].rc, y);
+        int lc = tr[x].lc, rc = tr[x].rc;
+        tr[lc].par = tr[rc].par = x;  // 注意 merge 过后，需要调整 par
+        if (tr[lc].dis &lt; tr[rc].dis) swap(tr[x].lc, tr[x].rc);
+        tr[x].dis = tr[tr[x].rc].dis + 1;
+        return x;
+    }
+    void del(int x) {
+        tr[x].val = -1;  // 删除这个元素
+        int lc = tr[x].lc, rc = tr[x].rc;
+        tr[lc].par = lc, tr[rc].par = rc;  // 这里要先断开 (让lc和rc的par等于自己)
+        tr[x].par = merge(lc, rc);  // 由于路径压缩，虽然 x 被删除了，但是其子树有可能有指向 $x$ 的
+    }
+
+    int finds(int x) {
+        if (tr[x].par == x) return x;
+        return tr[x].par = finds(tr[x].par);
+    }
+    void unions(int x, int y) {
+        if (tr[x].val == -1 || tr[y].val == -1) return;  // 需要在 finds(x) 之前检查是否删除
+        x = finds(x), y = finds(y);
+        if (x == y) return;  // finds 之后再检查是否已经union在一起了
+        merge(x, y);
+    }
+} tr;
+
+int n, m;
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; tr.tr[i].val, tr.tr[i].par = i;  // 注意初始化 par
+    while (m--) {
+        int op; cin &gt;&gt; op;
+        if (op == 1) {
+            int x, y; cin &gt;&gt; x &gt;&gt; y;
+            tr.unions(x, y);
+        } else {
+            int x; cin &gt;&gt; x;
+            if (tr.tr[x].val == -1) cout &lt;&lt; -1 &lt;&lt; &quot;\n&quot;;
+            else {
+                x = tr.finds(x);
+                cout &lt;&lt; tr.tr[x].val &lt;&lt; &quot;\n&quot;;
+                tr.del(x);
+            }
+        }
+    }
+}
+</code></pre>
+</details>
+<h3 id="例2-洛谷p1456-monkey-kinghttpswwwluogucomcnproblemp1456">例2 洛谷P1456 <a href="https://www.luogu.com.cn/problem/P1456" target="_blank">Monkey King</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $n$ 个猴子，每个猴子有一个强壮值。</p>
+<p>一开始每个猴子互不认识。有 $m$ 次决斗，每次决斗发生时，两个猴子所认识的所有猴子中最强的会参战，参战后其强壮值会减半。并且每次决斗后，两方的所有猴子都会互相认识了。</p>
+<p>对于每次决斗，输出决斗后，它们认识中的所有猴子的最大的强壮值。</p>
+<p>其中，$n, m \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>和上一题一样，只不过这次有一个 decrease-key 的操作，其实就相当于删除，再加入即可。</p>
+<p>不过区别在于，这个删除并不是真的删除了，它只不过是value减半了而已，所以不需要调用之前的 <code>del(x)</code>，直接再merge回去就行了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+struct MergeHeap {
+    struct Node {
+        int dis, val, par, lc, rc;
+    } tr[maxn];
+    int merge(int x, int y) {
+        if (!x || !y) return x + y;
+        if (tuple {tr[x].val, x} &lt; tuple {tr[y].val, y}) swap(x, y);
+        tr[x].rc = merge(tr[x].rc, y);
+        int lc = tr[x].lc, rc = tr[x].rc;
+        tr[lc].par = tr[rc].par = x;  // 调整 lc, rc 的parent
+        if (tr[lc].dis &lt; tr[rc].dis) swap(tr[x].lc, tr[x].rc);
+        tr[x].dis = tr[tr[x].rc].dis + 1;
+        return x;
+    }
+    int finds(int x) {
+        if (tr[x].par == x) return x;
+        return tr[x].par = finds(tr[x].par);
+    }
+    int decrease(int x) {
+        tr[x].val /= 2;
+        int lc = tr[x].lc, rc = tr[x].rc;
+        int rt = merge(lc, rc);
+        tr[x] = {0, tr[x].val, 0, 0, 0};
+        tr[x].par = tr[rt].par = merge(x, rt);
+        return tr[rt].par;
+    }
+} tr;
+
+int n, m;
+int main() {
+    while (cin &gt;&gt; n) {
+        for (int i = 1; i &lt;= n; i++) {
+            tr.tr[i] = {0, 0, 0, 0, 0};
+            cin &gt;&gt; tr.tr[i].val, tr.tr[i].par = i;
+        }
+        cin &gt;&gt; m;
+        while (m--) {
+            int x, y; cin &gt;&gt; x &gt;&gt; y;
+            x = tr.finds(x), y = tr.finds(y);
+            if (x == y) cout &lt;&lt; -1 &lt;&lt; &quot;\n&quot;;
+            else {
+                x = tr.decrease(x); y = tr.decrease(y);
+                tr.merge(x, y);
+                cout &lt;&lt; tr.tr[tr.finds(x)].val &lt;&lt; &quot;\n&quot;;
+            }
+        }
+    }
+}
+</code></pre>
+</details>
+<h3 id="例3-洛谷p1552-apio2012-派遣httpswwwluogucomcnproblemp1552">例3 洛谷P1552 <a href="https://www.luogu.com.cn/problem/P1552" target="_blank">[APIO2012] 派遣</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个人，这 $n$ 个人形成了一棵树，每个人有一个工资 $c_i$，以及领导力 $L_i$。</p>
+<p>现在总预算有 $m$，我们需要选择一个人 $x$ 作为领导，并且从它的子树内选中一些人，使得这些人的工资总和 $\leq m$，需要最大化 $L_x * sz$，其中 $sz$ 是被选中的人的数量。</p>
+<p>求出这个最大值。</p>
+<p>其中，$n \leq 10^5, m, c_i, L_i \in [1,10^9]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>不难发现，枚举每一个可能的领导，然后保留他手下所有工资最低的人即可。</p>
+<p>所以对于每棵子树，维护一个最大堆，当堆内的工资和 $&gt; m$ 时，就pop掉。因为被pop掉后一定不会再被考虑进去，所以这样做是对的。</p>
+<p>用可并堆，将 $x$ 与它的所有子树的堆合并在一起，递归解决即可。</p>
+<p>• 对于本题，删除一个节点后，<code>unions(u,v)</code> 不能直接跳过，因为一个子树被删除的节点有可能是这个子树的根，所以还是需要先 <code>finds(u)</code>，然后再merge。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+const int maxm = 2e7+500;
+
+vector&lt;int&gt; adj[maxn];
+ll cost[maxn];  // 节点本身的 cost
+struct MergeHeap {
+    struct Node {
+        int dis, val, par, lc, rc, sz;
+        ll cost, L;  // cost 的和
+    } tr[maxn];
+    int merge(int x, int y) {
+        if (!x || !y) return x + y;
+        if (cost[x] &lt; cost[y] || (cost[x] == cost[y] &amp;&amp; x &lt; y)) swap(x, y);  // 这里不要比较错了
+        tr[x].rc = merge(tr[x].rc, y);
+        int lc = tr[x].lc, rc = tr[x].rc;
+        if (tr[lc].dis &lt; tr[rc].dis) swap(tr[x].lc, tr[x].rc);
+
+        tr[lc].par = tr[rc].par = x;  // 注意 merge 过后，需要调整 par
+        tr[x].sz = tr[lc].sz + tr[rc].sz + 1;
+        tr[x].cost = tr[lc].cost + tr[rc].cost + cost[x];
+        tr[x].dis = tr[tr[x].rc].dis + 1;
+        return x;
+    }
+    void del(int x) {
+        tr[x].val = -1;  // 删除这个元素
+        int lc = tr[x].lc, rc = tr[x].rc;
+        tr[lc].par = lc, tr[rc].par = rc;  // 这里要先断开 (让lc和rc的par等于自己)
+        tr[x].par = merge(lc, rc);  // 由于路径压缩，虽然 x 被删除了，但是其子树有可能有指向 $x$ 的
+    }
+
+    int finds(int x) {
+        if (tr[x].par == x) return x;
+        return tr[x].par = finds(tr[x].par);
+    }
+    void unions(int x, int y) {
+        // if (tr[x].val == -1 || tr[y].val == -1) return;  // 需要在 finds(x) 之前检查是否删除
+        x = finds(x), y = finds(y);
+        if (x == y) return;  // finds 之后再检查是否已经union在一起了
+        merge(x, y);
+    }
+} tr;
+
+int n, m;
+ll ans = 0;
+void dfs(int u, int p) {
+    for (int v : adj[u]) {
+        if (v == p) continue;
+        dfs(v, u);
+        tr.unions(u, v);
+    }
+    int rt = tr.finds(u);
+    while (tr.tr[rt].cost &gt; m) {
+        tr.del(rt);
+        rt = tr.finds(u);
+    }
+    rt = tr.finds(u);
+    ans = max(ans, tr.tr[rt].sz * tr.tr[u].L);
+}
+int main() {
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) {
+        int p; cin &gt;&gt; p;
+        adj[p].push_back(i);
+        adj[i].push_back(p);
+        cin &gt;&gt; cost[i] &gt;&gt; tr.tr[i].L;
+        tr.tr[i].par = i;  // 注意初始化 par
+        tr.tr[i].sz = 1;
+        tr.tr[i].cost = cost[i];
+    } 
+    dfs(1, 0);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例4-洛谷p3273-scoi2011-棘手的操作httpswwwluogucomcnproblemsolutionp3273page1">例4 洛谷P3273 <a href="https://www.luogu.com.cn/problem/solution/P3273?page=1" target="_blank">[SCOI2011] 棘手的操作</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>有 $N$ 个节点，标号从 $1$ 到 $N$，这 $N$ 个节点一开始相互不连通。第 $i$ 个节点的初始权值为 $a_i$，有 $m$ 个如下操作：</p>
+<p>$U ~x ~y$: 加一条边，连接第 $x$ 个节点和第 $y$ 个节点</p>
+<p>$A_1 ~x ~v$: 将第 $x$ 个节点的权值增加 $v$</p>
+<p>$A_2 ~x ~v$: 将第 $x$ 个节点所在的连通块的所有节点的权值都增加 $v$</p>
+<p>$A_3 ~v$: 将所有节点的权值都增加 $v$</p>
+<p>$F_1 ~x$: 输出第 $x$ 个节点当前的权值</p>
+<p>$F_2 ~x$: 输出第 $x$ 个节点所在的连通块中，权值最大的节点的权值</p>
+<p>$F_3$: 输出所有节点中，权值最大的节点的权值</p>
+<p>其中，$n, m \leq 3\times 10^5, v, a_i \in [-1000,1000]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>虽然可并堆可做，但做起来太阴间了，所以我们利用离线，然后用线段树来做。</p>
+<hr>
+<p>怎么离线呢？</p>
+<p>注意到我们唯一的连接操作是链接两个联通块。那么易知存在一种<strong>映射方式</strong>，将 1-n 映射到另外一个 1-n 的permutation，使得每次链接的两个联通块一定是两个相邻的区间，这也意味着在任意时刻，每个联通块都只由一个区间组成。</p>
+<p>如何映射？</p>
+<p>我们先把所有的 <code>U x y</code> 操作都拿出来，用并查集模拟这个链接过程，用链表来维护。</p>
+<p>在初始情况下，每个节点都是一个链表，在并查集链接时，将两个链表接在一起，这样就保证了每次链接后，每个联通块都是一个链表。在全部链接结束后，遍历所有的链表，按照顺序给它们编号即可，如 <code>1 -&gt; 4 -&gt; 2 -&gt; 3</code> 和 <code>6 -&gt; 5</code> 这两个链表，我们就可以映射成 <code>1 -&gt; 2 -&gt; 3 -&gt; 4</code> 和 <code>5 -&gt; 6</code>。</p>
+<p>在重新映射后，所有的询问和修改操作都变成了对一个区间进行，当然我们需要快速的找出第 $x$ 个节点所在的区间，这个在并查集的时候维护一个 <code>L, R</code> 即可。</p>
+<p>时间复杂度就是 $O(n \log n)$ 了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 3e5+5;
+const int maxm = 2e5+500;
+
+struct UnionFind {
+    int n, par[maxn], L[maxn], R[maxn];
+    UnionFind(int n) : n(n) {
+        for (int i = 1; i &lt;= n; i++) par[i] = i, L[i] = R[i] = i;
+    }
+    int finds(int u) {
+        if (u == par[u]) return u;
+        return par[u] = finds(par[u]);
+    }
+    void unions(int u, int v) {
+        u = finds(u), v = finds(v);
+        if (u == v) return;
+        par[v] = u;
+        L[u] = min(L[u], L[v]);
+        R[u] = max(R[u], R[v]);
+    }
+};
+
+struct LinkedList {
+    int pre, nxt;
+} b[maxn];
+
+int n, a[maxn], Q;
+struct Query {
+    char type[2];
+    int x, v;
+} queries[maxn];
+
+int ori_to_time[maxn];
+void preprocess() {
+    UnionFind uf = UnionFind(n);
+    for (int i = 1; i &lt;= n; i++) uf.L[i] = uf.R[i] = i, b[i].pre = b[i].nxt = i;
+    for (int i = 1; i &lt;= Q; i++) {
+        int u = queries[i].x, v = queries[i].v;
+        if (queries[i].type[0] != 'U') continue;
+        u = uf.finds(u), v = uf.finds(v);
+        if (u == v) continue;
+        int utail = uf.R[u], vhead = uf.L[v];
+        b[utail].nxt = vhead;
+        b[vhead].pre = utail;
+        uf.par[v] = u;
+        uf.R[u] = uf.R[v];
+    }
+    int id = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        if (b[i].pre == i) {
+            int p = i;
+            while (b[p].nxt != p) {
+                ori_to_time[p] = ++id;
+                p = b[p].nxt;
+            }
+            ori_to_time[p] = ++id;
+        }
+    }
+}
+
+struct SegmentTree {
+    struct Node {
+        int mx, tag;
+    };
+    Node tr[maxn&lt;&lt;2];
+    void push_up(int cur) {
+        tr[cur].mx = max(tr[cur&lt;&lt;1].mx, tr[cur&lt;&lt;1|1].mx);
+    }
+    void push_down(int cur, int l, int r) {
+        if (!tr[cur].tag) return;
+        ll tag = tr[cur].tag;
+        tr[cur].tag = 0;
+        int lc = cur&lt;&lt;1, rc = lc + 1;
+        tr[lc].mx += tag;
+        tr[rc].mx += tag;
+        tr[lc].tag += tag;
+        tr[rc].tag += tag;
+    }
+    void update(int cur, int l, int r, int L, int R, ll x) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            tr[cur].tag += x;
+            tr[cur].mx += x;
+            return;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, x);
+        if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+        push_up(cur);
+    }
+    ll query(int cur, int l, int r, int L, int R) {
+        if (l &gt;= L &amp;&amp; r &lt;= R) return tr[cur].mx;
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        ll res = -1e18;
+        if (L &lt;= mid) res = max(res, query(cur&lt;&lt;1, l, mid, L, R));
+        if (R &gt; mid) res = max(res, query(cur&lt;&lt;1|1, mid+1, r, L, R));
+        push_up(cur);
+        return res;
+    }
+    void build(int cur, int l, int r) {
+        if (l == r) {
+            tr[cur].mx = a[l];
+            return;
+        }
+        int mid = (l+r) &gt;&gt; 1;
+        build(cur&lt;&lt;1, l, mid);
+        build(cur&lt;&lt;1|1, mid+1, r);
+        push_up(cur);
+    }
+} tr;
+
+
+int FLAG = 0;
+ll MX = -1e18;
+int ttmp[maxn];
+int main() {
+    fastio;
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; a[i];
+    cin &gt;&gt; Q;
+
+    for (int i = 1; i &lt;= Q; i++) {
+        string tmp; cin &gt;&gt; tmp;
+        queries[i].type[0] = tmp[0];
+        if (tmp.size() &gt; 1) queries[i].type[1] = tmp[1];
+        if (queries[i].type[0] == 'U') {
+            int x, y; cin &gt;&gt; x &gt;&gt; y;
+            queries[i].x = x, queries[i].v = y;
+        } else {
+            if (queries[i].type[0] == 'A' &amp;&amp; queries[i].type[1] &lt;= '2') cin &gt;&gt; queries[i].x &gt;&gt; queries[i].v;
+            if (queries[i].type[0] == 'A' &amp;&amp; queries[i].type[1] == '3') cin &gt;&gt; queries[i].v;
+            if (queries[i].type[0] == 'F' &amp;&amp; queries[i].type[1] &lt;= '2') cin &gt;&gt; queries[i].x;
+        }
+    }
+    preprocess();
+
+    for (int i = 1; i &lt;= n; i++) ttmp[i] = a[i];
+    for (int i = 1; i &lt;= n; i++) a[ori_to_time[i]] = ttmp[i];
+    UnionFind uf = UnionFind(n);
+    tr.build(1, 1, n);
+    MX = tr.query(1, 1, n, 1, n);
+
+    for (int i = 1; i &lt;= Q; i++) {
+        char* type = queries[i].type;
+        int x = queries[i].x, v = queries[i].v;
+        x = ori_to_time[x];
+        if (type[0] == 'U') {
+            uf.unions(x, ori_to_time[v]);
+        } 
+        if (type[0] == 'A' &amp;&amp; type[1] == '1') {
+            tr.update(1, 1, n, x, x, v);
+            MX = tr.query(1, 1, n, 1, n);
+        }
+        if (type[0] == 'A' &amp;&amp; type[1] == '2') {
+            x = uf.finds(x);
+            int L = uf.L[x], R = uf.R[x];
+            tr.update(1, 1, n, L, R, v);
+            MX = tr.query(1, 1, n, 1, n);
+        }
+        if (type[0] == 'A' &amp;&amp; type[1] == '3') {
+            FLAG += v;
+        }
+        if (type[0] == 'F' &amp;&amp; type[1] == '1') {
+            cout &lt;&lt; tr.query(1, 1, n, x, x) + FLAG &lt;&lt; &quot;\n&quot;;
+        }
+        if (type[0] == 'F' &amp;&amp; type[1] == '2') {
+            x = uf.finds(x);
+            int L = uf.L[x], R = uf.R[x];
+            cout &lt;&lt; tr.query(1, 1, n, L, R) + FLAG &lt;&lt; &quot;\n&quot;;
+        }
+        if (type[0] == 'F' &amp;&amp; type[1] == '3') {
+            cout &lt;&lt; MX + FLAG &lt;&lt; &quot;\n&quot;;
+        }
+    }
+}
+
+
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2023-10-25 11:55:24 -0500 -0500">2023-10-25</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f76350663990773b2bd1640477713f385354d558" title="add 116, 117, 118, 119" target="_blank">(f7635066)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/116-%e5%8f%af%e5%b9%b6%e5%a0%86.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/117-%E6%89%AB%E6%8F%8F%E7%BA%BF/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">扫描线</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/115-%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%BC%98%E5%8C%96%E5%BB%BA%E5%9B%BE/">
+            <span class="next-text nav-default">线段树优化建图</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

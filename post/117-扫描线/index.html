@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>扫描线 - tom0727&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tom0727" /><meta name="description" content="介绍 扫描线是一种思想，本质上是利用了线段树。可以用来处理 矩形面积并，矩形周长并 等经典问题。 如图，我们用一条竖着的线从左到右扫描。我们将每一个" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+
+
+<meta name="baidu-site-verification" content="tom0727" />
+<meta name="google-site-verification" content="tom0727" />
+
+
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
+
+
+<link rel="canonical" href="https://tom0727.github.io/post/117-%E6%89%AB%E6%8F%8F%E7%BA%BF/" />
+<link rel="manifest" href="/manifest.json">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="扫描线" />
+<meta property="og:description" content="介绍 扫描线是一种思想，本质上是利用了线段树。可以用来处理 矩形面积并，矩形周长并 等经典问题。 如图，我们用一条竖着的线从左到右扫描。我们将每一个" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tom0727.github.io/post/117-%E6%89%AB%E6%8F%8F%E7%BA%BF/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-10-07T12:29:25-05:00" />
+<meta property="article:modified_time" content="2023-10-25T11:55:24-05:00" />
+
+<meta itemprop="name" content="扫描线">
+<meta itemprop="description" content="介绍 扫描线是一种思想，本质上是利用了线段树。可以用来处理 矩形面积并，矩形周长并 等经典问题。 如图，我们用一条竖着的线从左到右扫描。我们将每一个"><meta itemprop="datePublished" content="2023-10-07T12:29:25-05:00" />
+<meta itemprop="dateModified" content="2023-10-25T11:55:24-05:00" />
+<meta itemprop="wordCount" content="3283">
+<meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="扫描线"/>
+<meta name="twitter:description" content="介绍 扫描线是一种思想，本质上是利用了线段树。可以用来处理 矩形面积并，矩形周长并 等经典问题。 如图，我们用一条竖着的线从左到右扫描。我们将每一个"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tom0727&#39;s blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Post</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a><a href="/cf-problems/">
+        <li class="mobile-menu-item">CF-Problems</li>
+      </a><a href="/search/">
+        <li class="mobile-menu-item">Search</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tom0727&#39;s blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Post</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/cf-problems/">CF-Problems</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/search/">Search</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">扫描线</h1>
+
+      <div class="post-meta">
+        <span class="post-time" title="2023-10-07 12:29:25 -0500 -0500"> 2023-10-07 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#例题">例题</a>
+          <ul>
+            <li><a href="#例2-洛谷p1856-ioi1998-矩形周长picturehttpswwwluogucomcnproblemp1856">例2 洛谷P1856 <a href="https://www.luogu.com.cn/problem/P1856">[IOI1998] 矩形周长Picture</a></a></li>
+            <li><a href="#例3-洛谷p3755-cqoi2017-老c的任务httpswwwluogucomcnproblemp3755">例3 洛谷P3755 <a href="https://www.luogu.com.cn/problem/P3755">[CQOI2017] 老C的任务</a></a></li>
+            <li><a href="#例4-洛谷p1502-窗口的星星httpswwwluogucomcnproblemp1502">例4 洛谷P1502 <a href="https://www.luogu.com.cn/problem/P1502">窗口的星星</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>扫描线是一种思想，本质上是利用了线段树。可以用来处理 <a href="https://www.luogu.com.cn/problem/P5490" target="_blank">矩形面积并</a>，矩形周长并 等经典问题。</p>
+<p><img src="/images/117/1.png" alt="img"></p>
+<p>如图，我们用一条竖着的线从左到右扫描。我们将每一个矩形的左右两个边分别拿出来，作为两个线段。并且我们用一颗线段树维护 $y$ 坐标，这样一个线段覆盖的就是一个 $y$ 坐标的区间了（注意 $y$ 坐标需要离散化）。</p>
+<p>同时注意到，左边是<strong>入边</strong>，象征着一个矩形开始了，右边是<strong>出边</strong>，象征着这个矩形结束了，所以我们给入边赋权值 $+1$，而给出边赋权值 $-1$，对应在线段树上给一个区间全部 $+1$ 或者 $-1$。</p>
+<p>然后将所有的线段按照其 $x$ 坐标进行 sort，然后每次扫到一个线段，就更新线段树，并且和前一个线段树的 $x$ 坐标差 $(x_i - x_{i-1})$ 就可以作为这段矩形的宽了，然后询问当前线段树的 $y$ 坐标有多少被覆盖（权值 $&gt;0$）即可得到这段的面积贡献。</p>
+<div class="admonition info">
+  <p class="admonition-title">注意事项</p>
+<ol>
+<li>
+<p>实现的时候需要注意，线段树的节点维护的应该是原图形中的 “线段“，而不是 ”点“，如果维护的是点的话，那么 $[1,1]$ 这种对应的只有一个点，没有任何意义。例如 $y$ 坐标离散化后为 $[1,2,3,4]$，那么线段树应该只有 $1,2,3$ 这三个节点，分别代表了 $[1,2], [2,3], [3,4]$ 这三个区间，换言之在线段树上的 $[i,j]$ 对应了原矩形 $y$ 坐标的 $[i,j+1]$。</p>
+</li>
+<li>
+<p>线段树中需要利用到区间更新，区间查询。但是由于一个矩形一定是入边先到，然后才是出边，所以并不需要 <code>push_down()</code>，直接对 <code>flag</code> 本身进行操作即可。</p>
+</li>
+<li>
+<p>注意下面代码中的实现，在叶子节点也调用了 <code>push_up()</code>，所以空间需要额外开个 $2$ 倍。</p>
+</li>
+<li>
+<p>代码中不要使用 <code>x1, y1</code> 之类的变量名，和 std 冲突了。</p>
+</li>
+</ol>
+</div>
+<details class="admonition note"><summary class="admonition-title">模版（矩形面积并）</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 4e5+5;  // 注意原题数据范围为 1e5, 需要额外开 2倍空间
+
+map&lt;int, int&gt; mp;
+int rev_mp[maxn];
+struct SegmentTree {
+    struct Node {
+        ll sum;
+        int flag;
+    } tr[maxn&lt;&lt;2];
+    void build(int cur, int l, int r) {
+        tr[cur].sum = tr[cur].flag = 0;
+        if (l == r) return;
+        int mid = (l+r) &gt;&gt; 1;
+        build(cur&lt;&lt;1, l, mid);
+        build(cur&lt;&lt;1|1, mid+1, r);
+    }
+    void push_up(int cur, int l, int r) {
+        if (tr[cur].flag) tr[cur].sum = rev_mp[r+1] - rev_mp[l];
+        else tr[cur].sum = tr[cur&lt;&lt;1].sum + tr[cur&lt;&lt;1|1].sum;
+    }
+    void update(int cur, int l, int r, int L, int R, int X) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            tr[cur].flag += X;
+            push_up(cur, l, r);
+            return;
+        }
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, X);
+        if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, X);
+        push_up(cur, l, r);
+    }
+} tr;
+
+struct Line {
+    int X, Y1, Y2, flag;
+    bool operator&lt;(const Line&amp; other) const {
+        return tuple {X, -flag} &lt; tuple {other.X, -other.flag};
+    }
+} l[maxn];
+
+int n, X1[maxn], Y1[maxn], X2[maxn], Y2[maxn];
+int main() {
+    cin &gt;&gt; n;
+    set&lt;int&gt; se;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; X1[i] &gt;&gt; Y1[i] &gt;&gt; X2[i] &gt;&gt; Y2[i], se.insert(Y1[i]), se.insert(Y2[i]);
+    int N = 0;
+    for (int X : se) mp[X] = ++N, rev_mp[N] = X;
+    for (int i = 1; i &lt;= n; i++) {
+        l[i*2 - 1] = {X1[i], Y1[i], Y2[i], 1};
+        l[i*2] = {X2[i], Y1[i], Y2[i], -1};
+    }
+    sort(l+1, l+2*n+1);
+
+    ll ans = 0;
+    for (int i = 1; i &lt;= 2*n; i++) {
+        ans += tr.tr[1].sum * (l[i].X - l[i-1].X);
+        tr.update(1, 1, N-1, mp[l[i].Y1], mp[l[i].Y2]-1, l[i].flag);
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h2 id="例题">例题</h2>
+<h3 id="例2-洛谷p1856-ioi1998-矩形周长picturehttpswwwluogucomcnproblemp1856">例2 洛谷P1856 <a href="https://www.luogu.com.cn/problem/P1856" target="_blank">[IOI1998] 矩形周长Picture</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个矩形，求它们并起来的图形的周长。</p>
+<p>其中，$n \leq 5000$，坐标数据范围在 $[-10^4, 10^4]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>注意到，用一条竖线从左往右扫，其实计算的是矩形的横边的长。那么我们如何知道在扫描过程中，当前有几条横边？</p>
+<p>显然，扫描过程中，有 $x$ 条独立的竖线段，就有 $2x$ 条横边。</p>
+<p>所以我们在线段树上维护有多少条独立的竖着的线段，并且支持加入/减去一条线段即可。</p>
+<p>这个在每个节点里面维护其最右端和最左端是否被覆盖即可，如果覆盖的话相当于这个区间内的线段少了一条，因为左child的右端点 和 右child的左端点 分别被两条线段覆盖，说明这两条线段可以合并。</p>
+<p>• 这题还需要从下往上再扫一边，来计算竖边的长。不过写起来很简单，把 $x,y$ 坐标颠倒一下即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+const int maxm = 2e5+500;
+
+map&lt;int, int&gt; mp;
+int rev_mp[maxn];
+struct SegmentTree {
+    struct Node {
+        ll sum;
+        int flag;
+        int l, r;  // 左边被覆盖，右边被覆盖
+    } tr[maxn&lt;&lt;2];
+    void build(int cur, int l, int r) {
+        tr[cur].sum = tr[cur].flag = tr[cur].l = tr[cur].r = 0;
+        if (l == r) return;
+        int mid = (l+r) &gt;&gt; 1;
+        build(cur&lt;&lt;1, l, mid);
+        build(cur&lt;&lt;1|1, mid+1, r);
+    }
+    void push_up(int cur) {
+        if (tr[cur].flag) tr[cur].sum = tr[cur].l = tr[cur].r = 1;
+        else {
+            tr[cur].sum = tr[cur&lt;&lt;1].sum + tr[cur&lt;&lt;1|1].sum - (tr[cur&lt;&lt;1].r &amp;&amp; tr[cur&lt;&lt;1|1].l);
+            tr[cur].l = tr[cur&lt;&lt;1].l;
+            tr[cur].r = tr[cur&lt;&lt;1|1].r;
+        }
+
+    }
+    void update(int cur, int l, int r, int L, int R, int x) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            tr[cur].flag += x;
+            push_up(cur);
+            return;
+        }
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, x);
+        if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+        push_up(cur);
+    }
+} tr;
+struct LineX {
+    int X, Y1, Y2, flag;
+} l[maxn];
+
+int n, X1[maxn], Y1[maxn], X2[maxn], Y2[maxn];
+int main() {
+    cin &gt;&gt; n;
+    set&lt;int&gt; se;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; X1[i] &gt;&gt; Y1[i] &gt;&gt; X2[i] &gt;&gt; Y2[i], se.insert(Y1[i]), se.insert(Y2[i]);
+    int N = 0;
+    for (int X : se) mp[X] = ++N, rev_mp[N] = X;
+    for (int i = 1; i &lt;= n; i++) {
+        l[i*2 - 1] = {X1[i], Y1[i], Y2[i], 1};
+        l[i*2] = {X2[i], Y1[i], Y2[i], -1};
+    }
+    sort(l+1, l+2*n+1, [](auto a, auto b) {
+        return tuple {a.X, a.flag} &lt; tuple {b.X, b.flag};
+    });
+    ll ans = 0;
+    for (int i = 1; i &lt;= 2*n; i++) {
+        ans += tr.tr[1].sum * (l[i].X - l[i-1].X);
+        tr.update(1, 1, N-1, mp[l[i].Y1], mp[l[i].Y2]-1, l[i].flag);
+    }
+    
+    se.clear();
+    mp.clear();
+    for (int i = 1; i &lt;= n; i++) se.insert(X1[i]), se.insert(X2[i]);
+    N = 0;
+    for (int x : se) mp[x] = ++N, rev_mp[N] = x;
+    for (int i = 1; i &lt;= n; i++) {
+        l[i*2 - 1] = {Y1[i], X1[i], X2[i], 1};
+        l[i*2] = {Y2[i], X1[i], X2[i], -1};
+    }
+    sort(l+1, l+2*n+1, [](auto a, auto b) {
+        return tuple {a.X, a.flag} &lt; tuple {b.X, b.flag};
+    });
+    tr.build(1, 1, N-1);
+    for (int i = 1; i &lt;= 2*n; i++) {
+        ans += tr.tr[1].sum * (l[i].X - l[i-1].X);
+        tr.update(1, 1, N-1, mp[l[i].Y1], mp[l[i].Y2]-1, l[i].flag);
+    }
+    cout &lt;&lt; ans*2 &lt;&lt; endl;
+}
+
+</code></pre>
+</details>
+<h3 id="例3-洛谷p3755-cqoi2017-老c的任务httpswwwluogucomcnproblemp3755">例3 洛谷P3755 <a href="https://www.luogu.com.cn/problem/P3755" target="_blank">[CQOI2017] 老C的任务</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>二维平面上给定 $n$ 个点，每个点位于 $(x_i,y_i)$，有一个权值 $p_i$。</p>
+<p>有 $m$ 次询问，每次询问一个矩阵 $x_1,y_1,x_2,y_2$，询问矩阵内（包括边界）的点的权值和。</p>
+<p>其中，$n,m \leq 10^5, x,y \in [-2^{31}, 2^{31}]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>虽然和扫描线并没有什么关系，但是思想有点类似。</p>
+<p>这一类<strong>二维数点</strong>问题，都可以转化为<strong>二维偏序</strong>问题。</p>
+<p>如果是在线可以用树套树，离线的话可以用线段树。</p>
+<p>怎么偏序呢？注意到询问 $x_1,y_1,x_2,y_2$，本质上可以用二维前缀和拆成 $4$ 个不同的询问</p>
+<p>$$(x_2,y_2), (x_1-1,y_2), (x_2,y_1-1), (x_1-1,y_1-1)$$</p>
+<p>每次询问有哪些点在它的左下方，也就是询问 $(x,y)$ 的数量使得 $x \leq x_2, y \leq y_2$ 等等（这题是权值和，但本质一样）。</p>
+<p>这样就好偏序了，离散化所有的 $x,y$ 坐标（记得 $x,y$ 分开离散化，并且询问也要离散化进去），然后将询问根据 $x$ 坐标一存，然后从左往右加点进线段树/树状数组即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 4e5+5;
+const int maxm = 2e5+500;
+
+struct Node {
+    int x, y;
+    ll p;
+} a[maxn];
+struct Query {
+    int x1, y1, x2, y2;
+} q[maxn];
+struct Ask {
+    int x, y, id, flag;
+};
+vector&lt;Ask&gt; adj[maxn];
+vector&lt;Node&gt; points[maxn];
+
+set&lt;int&gt; sx, sy;
+map&lt;int, int&gt; mx, my;
+
+struct SegmentTree {
+    struct Node {
+        ll sum, tag;
+    };
+    Node tr[maxn&lt;&lt;2];
+    void push_up(int cur) {
+        tr[cur].sum = tr[cur&lt;&lt;1].sum + tr[cur&lt;&lt;1|1].sum;
+    }
+    void push_down(int cur, int l, int r) {
+        if (!tr[cur].tag) return;
+        ll tag = tr[cur].tag;
+        tr[cur].tag = 0;
+        int lc = cur&lt;&lt;1, rc = lc + 1;
+        int mid = (l+r) &gt;&gt; 1;
+        tr[lc].sum += tag * (mid-l+1);
+        tr[rc].sum += tag * (r-mid);
+        tr[lc].tag += tag;
+        tr[rc].tag += tag;
+    }
+    void update(int cur, int l, int r, int L, int R, ll x) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            tr[cur].tag += x;
+            tr[cur].sum += x * (r-l+1);
+            return;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, x);
+        if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+        push_up(cur);
+    }
+    void update(int cur, int l, int r, int p, ll x) {
+        if (l == r) {
+            tr[cur].sum += x; return;
+        }
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        if (p &lt;= mid) update(cur&lt;&lt;1, l, mid, p, x);
+        else update(cur&lt;&lt;1|1, mid+1, r, p, x);
+        push_up(cur);
+    } 
+    ll query(int cur, int l, int r, int L, int R) {
+        if (l &gt;= L &amp;&amp; r &lt;= R) return tr[cur].sum;
+        push_down(cur, l, r);
+        int mid = (l+r) &gt;&gt; 1;
+        ll res = 0;
+        if (L &lt;= mid) res += query(cur&lt;&lt;1, l, mid, L, R);
+        if (R &gt; mid) res += query(cur&lt;&lt;1|1, mid+1, r, L, R);
+        push_up(cur);
+        return res;
+    }
+} tr;
+
+int n, m;
+ll ans[maxn];
+int main() {
+    fastio;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; a[i].x &gt;&gt; a[i].y &gt;&gt; a[i].p, sx.insert(a[i].x), sy.insert(a[i].y);
+    for (int i = 1; i &lt;= m; i++) {
+        cin &gt;&gt; q[i].x1 &gt;&gt; q[i].y1 &gt;&gt; q[i].x2 &gt;&gt; q[i].y2;
+        sx.insert(q[i].x2); sx.insert(q[i].x1-1);
+        sy.insert(q[i].y2); sy.insert(q[i].y1-1);
+    }
+    int id = 0;
+    for (int i : sx) mx[i] = ++id;
+    id = 0;
+    for (int i : sy) my[i] = ++id;
+    for (int i = 1; i &lt;= n; i++) {
+        a[i].x = mx[a[i].x], a[i].y = my[a[i].y];
+        int x = a[i].x, y = a[i].y;
+        points[x].push_back({a[i]});
+    }
+    for (int i = 1; i &lt;= m; i++) {
+        int X1 = mx[q[i].x1 - 1], X2 = mx[q[i].x2], Y1 = my[q[i].y1 - 1], Y2 = my[q[i].y2];
+        adj[X2].push_back({X2, Y2, i, 1});
+        adj[X2].push_back({X2, Y1, i, -1});
+        adj[X1].push_back({X1, Y2, i, -1});
+        adj[X1].push_back({X1, Y1, i, 1});
+    }
+
+    int N = sx.size(), M = sy.size();
+    for (int i = 1; i &lt;= N; i++) {
+        for (auto [x, y, p] : points[i]) {
+            tr.update(1, 1, M, y, p);
+        }
+        for (auto [x, y, id, flag] : adj[i]) {
+            assert(x == i);
+            ans[id] += tr.query(1, 1, M, 1, y) * flag;
+        }
+    }
+    for (int i = 1; i &lt;= m; i++) cout &lt;&lt; ans[i] &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<h3 id="例4-洛谷p1502-窗口的星星httpswwwluogucomcnproblemp1502">例4 洛谷P1502 <a href="https://www.luogu.com.cn/problem/P1502" target="_blank">窗口的星星</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个点，坐标为 $(x_i,y_i)$ 并且带一个权值 $L_i$。</p>
+<p>现在需要用一个宽为 $W$，高为 $H$ 的矩形框起一些点，使得这些点的权值和最大。矩形边框上的点不计入。</p>
+<p>注意这个矩形所在的坐标可以是小数。</p>
+<p>其中，$n \leq 10^4, W,H \leq 10^6, x_i, y_i \in [0,2^{31}]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>对于每个点 $(x,y)$，考虑我们矩形的右上角在哪。如果计入边框，那么矩形的右上角只需要在 $(x,y)$ 到 $(x+W,y+H)$，就能覆盖到这个点。</p>
+<p>既然矩形所在位置可以是小数，且边框不计入，那么我们直接将这个矩形的长宽各减去 $0.5$。</p>
+<p>这样本来从 $(x,y)$ 作为左下角的，覆盖到的范围就是 $(x,y)$ 到 $(x+W-1,y+H-1)$ 了（包括边框）。</p>
+<p>那么这个问题转化为：</p>
+<p>将每个点 $(x,y)$ 看作一个带权值 $L$ 的矩形 $[x, x+W-1] \times [y, y+H-1]$，求平面上哪个点的权值最大？</p>
+<p>那这就是一个标准的扫描线问题了，线段树维护最大值，进边加入线段树，出边减去线段树即可。</p>
+<p>（甚至比面积并还好写，因为这次线段树维护的确确实实是点的坐标，而不是线段了）</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+
+map&lt;int, int&gt; mp;
+int rev_mp[maxn];
+struct SegmentTree {
+    struct Node {
+        ll mx;
+        ll flag;
+    } tr[maxn&lt;&lt;2];
+    void build(int cur, int l, int r) {
+        tr[cur].mx = tr[cur].flag = 0;
+        if (l == r) return;
+        int mid = (l+r) &gt;&gt; 1;
+        build(cur&lt;&lt;1, l, mid);
+        build(cur&lt;&lt;1|1, mid+1, r);
+    }
+    void push_up(int cur) {
+        tr[cur].mx = max(tr[cur&lt;&lt;1].mx, tr[cur&lt;&lt;1|1].mx);
+    }
+    void push_down(int cur) {
+        if (!tr[cur].flag) return;
+        ll f = tr[cur].flag;
+        tr[cur].flag = 0;
+        tr[cur&lt;&lt;1].mx += f, tr[cur&lt;&lt;1].flag += f;
+        tr[cur&lt;&lt;1|1].mx += f, tr[cur&lt;&lt;1|1].flag += f;
+    }
+    void update(int cur, int l, int r, int L, int R, int x) {
+        if (L &lt;= l &amp;&amp; R &gt;= r) {
+            tr[cur].mx += x;
+            tr[cur].flag += x;
+            return;
+        }
+        push_down(cur);
+        int mid = (l+r) &gt;&gt; 1;
+        if (L &lt;= mid) update(cur&lt;&lt;1, l, mid, L, R, x);
+        if (R &gt; mid) update(cur&lt;&lt;1|1, mid+1, r, L, R, x);
+        push_up(cur);
+    }
+} tr;
+
+struct Line {
+    int x, y1, y2, flag;
+} l[maxn];
+
+int n, X1[maxn], Y1[maxn], X2[maxn], Y2[maxn];
+
+void solve() {
+    int n, W, H; cin &gt;&gt; n &gt;&gt; W &gt;&gt; H;
+    set&lt;int&gt; se;
+    mp.clear();
+    for (int i = 1; i &lt;= n; i++) {
+        int x, y, L; cin &gt;&gt; x &gt;&gt; y &gt;&gt; L;
+        l[i*2 - 1] = {x, y, y+H-1, L};
+        l[i*2] = {x+W, y, y+H-1, -L};
+        se.insert(y);
+        se.insert(y+H-1);
+    }
+    int N = 0;
+    for (int x : se) mp[x] = ++N, rev_mp[N] = x;
+    sort(l+1, l+2*n+1, [](auto a, auto b) {
+        return tuple {a.x, a.flag} &lt; tuple {b.x, b.flag};
+    });
+    tr.build(1, 1, N);
+    ll ans = 0;
+    for (int i = 1; i &lt;= 2*n; i++) {
+        tr.update(1, 1, N, mp[l[i].y1], mp[l[i].y2], l[i].flag);
+        ans = max(ans, tr.tr[1].mx);
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+
+int main() {
+    int T; cin &gt;&gt; T;
+    while (T--) {
+        solve();
+    }
+}
+
+</code></pre>
+</details>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tom0727</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        <span title="2023-10-25 11:55:24 -0500 -0500">2023-10-25</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/f76350663990773b2bd1640477713f385354d558" title="add 116, 117, 118, 119" target="_blank">(f7635066)</a>
+        ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/117-%e6%89%ab%e6%8f%8f%e7%ba%bf.md" target="_blank">更新历史</a>
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags//"></a>
+          <a href="/tags//"></a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/118-splay/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Splay</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/116-%E5%8F%AF%E5%B9%B6%E5%A0%86/">
+            <span class="next-text nav-default">可并堆/左偏树</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="tom0727/tom0727.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:huzhenweitom@gmail.com" class="iconfont icon-email" title="email" target="_blank"></a>
+      <a href="https://github.com/tom0727" class="iconfont icon-github" title="github" target="_blank"></a>
+  <a href="https://tom0727.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io" target="_blank">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ouuan/hugo-theme-even" target="_blank">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023
+    <span class="heart">
+      <a class="iconfont icon-github" title="source code" href="https://github.com/tom0727/hugo-blog" target="_blank"></a>
+    </span> 
+    <span class="author">tom0727</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/tomorrow.min.css" rel="stylesheet">
+  
+  <script>hljs.configure({tabReplace: '    '});</script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-tom0727', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script id="baidu_push">
+  (function(){
+    if (window.location.hostname === 'localhost') return;
+    var bp = document.createElement('script'); bp.async = true;
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+</body>
+</html>

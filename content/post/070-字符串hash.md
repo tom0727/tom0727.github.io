@@ -76,9 +76,8 @@ void p_init() {
 
 struct StringHash {
     ll hs[maxn][NUM];
-    string s;
     int n;
-    void init() {
+    void init(string& s) {
         n = s.size();
         for (int j = 0; j < NUM; j++) {
             for (int i = 1; i <= n; i++) {
@@ -110,9 +109,9 @@ int main() {
     p_init();  // 先 init 所有p 的次方
     cin >> s >> t;
     n = s.size();
-    hs.s = s; rev_hs.s = s;;
-    reverse(rev_hs.s.begin(), rev_hs.s.end());
-    hs.init(); rev_hs.init();
+    hs.init(s);
+    reverse(s.begin(), s.end());
+    rev_hs.init(s);
 
     isPalindrome(1, n);  // 测试
 }
@@ -122,7 +121,7 @@ int main() {
 
 {{% fold "自然溢出" %}}
 
-没有 MOD 操作，依靠 `unsigned long long` 的 $2^64$ 自然溢出取模，速度快很多。
+没有 MOD 操作，依靠 `unsigned long long` 的 $2^{64}$ 自然溢出取模，速度快很多。
 
 不是特别推荐这种方法，无论双哈希或者如何选择 base 都会被卡，卡自然溢出哈希的方法见 [这里](https://notes.sshwy.name/Math/Rolling-Hash-and-Hack/)
 
@@ -765,6 +764,133 @@ int main() {
     }
     if (ok) cout << ans << endl;
     else cout << -1 << endl;
+}
+```
+
+{{% /fold %}}
+
+
+### 例5 CF710F. [String Set Queries](https://codeforces.com/contest/710/problem/F)
+
+{{% question 题意 %}}
+
+初始状态下给定一个空的集合 $D$，给定 $m$ 个询问，询问有 3 种：
+
+1. 将一个 string $s$ 加入集合 $D$。
+2. 将一个 string $s$ 从集合 $D$ 中删除。
+3. 给定一个字符串 $s$，回答 $D$ 中的所有字符串，在 $s$ 中出现的次数之和。
+
+例如：`D = {"a", "abc"}`, `s = "aabc"`，那么 `"a"` 出现了 $2$ 次，而 `"abc"` 出现了 $1$ 次，所以本次询问答案为 $3$。
+
+其中，$m \leq 3 \times 10^5$，所有询问中的所有字符串的长度和不超过 $3 \times 10^5$，询问强制在线。
+
+{{% /question %}}
+
+{{% fold "题解" %}}
+
+经典套路：注意到字符串的不同长度只有 $\sqrt {3 \times 10^5}$ 种。
+
+我们直接将所有 $D$ 中的字符串哈希一下，然后将其哈希值根据字符串长度放在相应的 set 里面。
+
+在询问 $3$ 出现时，直接哈希这个字符串 $s$，并且暴力枚举 $s$ 的每一个开头，并查询当前 $D$ 中存在的所有长度（最多 $\sqrt {3 \times 10^5}$ 种）中的 set，询问其对应长度的哈希值是否存在。
+
+最终复杂度 $m \sqrt m$，用单哈希（取模）勉强能卡过去。
+
+{{% /fold %}}
+
+
+{{% fold "代码" %}}
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+const int NUM = 1;
+ll base[2] = {131, 137};
+int MOD[2] = {(int)(1e9+7), (int)(1e9+9)};
+ll p[maxn][NUM];
+
+void p_init() {
+    for (int j = 0; j < NUM; j++) {
+        p[0][j] = 1;
+        for (int i = 1; i <= maxn-1; i++) {
+            p[i][j] = p[i-1][j] * base[j] % MOD[j];
+        }
+    }
+}
+
+ll tmp[maxn][NUM];
+void cal_hash(string& s) {
+    int n = s.size();
+    for (int j = 0; j < NUM; j++) {
+        for (int i = 1; i <= n; i++) {
+            tmp[i][j] = (tmp[i-1][j] * base[j] % MOD[j] + (ll)s[i-1]) % MOD[j];
+        }
+    }
+}
+
+struct StringHash {
+    ll hs[maxn][NUM];
+    int n;
+    void init(string& s) {
+        n = s.size();
+        for (int j = 0; j < NUM; j++) {
+            for (int i = 1; i <= n; i++) {
+                hs[i][j] = (hs[i-1][j] * base[j] % MOD[j] + (ll)s[i-1]) % MOD[j];
+            }
+        }
+    }
+    // get the hash of j-th HASH function
+    int gethash(int l, int r, int j) {
+        return (hs[r][j] - hs[l-1][j] * p[r-l+1][j] % MOD[j] + MOD[j]) % MOD[j];
+    }
+    array<int, NUM> gethash(int l, int r) {
+        array<int, NUM> res;
+        for (int j = 0; j < NUM; j++) {
+            res[j] = gethash(l, r, j);
+        }
+        return res;
+    }
+} hs;
+
+set<string> se[maxn];
+int cnt[maxn];
+unordered_set<int> have;
+unordered_set<ll> hashset[maxn];
+
+int main() {
+    p_init();
+    int M; cin >> M;
+    while (M--) {
+        int t; string s; cin >> t >> s;
+        int n = s.size();
+        if (t == 1) {
+            se[n].insert(s);
+            cnt[n]++;
+            if (cnt[n] == 1) have.insert(n);
+            cal_hash(s);
+            ll val = tmp[n][0];
+            hashset[n].insert(val);
+        } else if (t == 2) {
+            se[n].erase(s);
+            cnt[n]--;
+            if (cnt[n] == 0) have.erase(n);
+            cal_hash(s);
+            ll val = tmp[n][0];
+            hashset[n].erase(val);
+        } else {
+            hs.init(s);
+            int res = 0;
+            for (int i = 1; i <= n; i++) {
+                for (int len : have) {
+                    if (i + len - 1 <= n) {
+                        ll val = hs.gethash(i, i+len-1, 0);
+                        if (hashset[len].count(val)) res++;
+                    }
+                }
+            }
+            cout << res << endl;
+        }
+    }
 }
 ```
 

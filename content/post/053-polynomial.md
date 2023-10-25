@@ -112,7 +112,7 @@ void dft(std::vector<Z> &a) {
         int k = __builtin_ctz(roots.size());
         roots.resize(n);
         while ((1 << k) < n) {
-            Z e = power(Z(3), (P - 1) >> (k + 1));
+            Z e = qpow(Z(3), (mod - 1) >> (k + 1));
             for (int i = 1 << (k - 1); i < (1 << k); i++) {
                 roots[2 * i] = roots[i];
                 roots[2 * i + 1] = roots[i] * e;
@@ -135,7 +135,7 @@ void idft(std::vector<Z> &a) {
     int n = a.size();
     std::reverse(a.begin() + 1, a.end());
     dft(a);
-    Z inv = (1 - P) / n;
+    Z inv = (1 - mod) / n;
     for (int i = 0; i < n; i++) {
         a[i] *= inv;
     }
@@ -143,6 +143,7 @@ void idft(std::vector<Z> &a) {
 struct Poly {
     std::vector<Z> a;
     Poly() {}
+    Poly(const int n) { resize(n); }
     Poly(const std::vector<Z> &a) : a(a) {}
     Poly(const std::initializer_list<Z> &a) : a(a) {}
     int size() const {
@@ -221,6 +222,9 @@ struct Poly {
         }
         return a;
     }
+    friend Poly operator*(Poly a, int b) {
+        return operator*(a, Z(b));
+    }
     Poly &operator+=(Poly b) {
         return (*this) = (*this) + b;
     }
@@ -278,14 +282,14 @@ struct Poly {
         }
         Z v = a[i];
         auto f = divxk(i) * v.inv();
-        return (f.log(m - i * k) * k).exp(m - i * k).mulxk(i * k) * power(v, k);
+        return (f.log(m - i * k) * k).exp(m - i * k).mulxk(i * k) * qpow(v, k);
     }
     Poly sqrt(int m) const {
         Poly x{1};
         int k = 1;
         while (k < m) {
             k *= 2;
-            x = (x + (modxk(k) * x.inv(k)).modxk(k)) * ((P + 1) / 2);
+            x = (x + (modxk(k) * x.inv(k)).modxk(k)) * ((mod + 1) / 2);
         }
         return x.modxk(m);
     }

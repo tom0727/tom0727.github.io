@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/062-%E5%B9%B6%E6%9F%A5%E9%9B%86/" />
@@ -31,24 +31,21 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="并查集" />
 <meta property="og:description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/062-%E5%B9%B6%E6%9F%A5%E9%9B%86/" />
+<meta property="og:url" content="https://tom0727.github.io/post/062-%E5%B9%B6%E6%9F%A5%E9%9B%86/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-12-27T18:43:41+08:00" />
-<meta property="article:modified_time" content="2023-11-26T00:31:32+00:00" />
+<meta property="article:modified_time" content="2023-11-29T16:37:52-06:00" />
+
 <meta itemprop="name" content="并查集">
-<meta itemprop="description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的">
-<meta itemprop="datePublished" content="2021-12-27T18:43:41&#43;08:00" />
-<meta itemprop="dateModified" content="2023-11-26T00:31:32&#43;00:00" />
-<meta itemprop="wordCount" content="2877">
-
-
-
+<meta itemprop="description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的"><meta itemprop="datePublished" content="2021-12-27T18:43:41+08:00" />
+<meta itemprop="dateModified" content="2023-11-29T16:37:52-06:00" />
+<meta itemprop="wordCount" content="4410">
 <meta itemprop="keywords" content="并查集,," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="并查集"/>
 <meta name="twitter:description" content="介绍 这篇博客主要介绍一些并查集的高级应用。 目前我所知的并查集应用有： 权值并查集 可撤销并查集 可持久化并查集（还没学） 权值并查集 略，目前我所知的"/>
@@ -149,10 +146,13 @@
         <li><a href="#介绍">介绍</a></li>
         <li><a href="#权值并查集">权值并查集</a></li>
         <li><a href="#可撤销并查集">可撤销并查集</a></li>
+        <li><a href="#并查集维护仅删除的单向链表树">并查集维护仅删除的单向链表/树</a></li>
         <li><a href="#例题">例题</a>
           <ul>
             <li><a href="#例1-hnoi2016最小公倍数httpswwwluogucomcnproblemp3247">例1 <a href="https://www.luogu.com.cn/problem/P3247">[HNOI2016]最小公倍数</a></a></li>
             <li><a href="#例2-bzoj4668-冷战httpsdarkbzojtkproblem4668">例2 <a href="https://darkbzoj.tk/problem/4668">BZOJ4668 冷战</a></a></li>
+            <li><a href="#例3-do-not-try-this-problemhttpscodeforcescomgym102307problemd">例3 <a href="https://codeforces.com/gym/102307/problem/D">Do Not Try This Problem</a></a></li>
+            <li><a href="#例4-tjoi2016-树httpswwwluogucomcnproblemp4092">例4 TJOI2016 <a href="https://www.luogu.com.cn/problem/P4092">树</a></a></li>
           </ul>
         </li>
       </ul>
@@ -223,6 +223,16 @@ struct DSU {
 } dsu;
 </code></pre>
 </details>
+<h2 id="并查集维护仅删除的单向链表树">并查集维护仅删除的单向链表/树</h2>
+<p>并查集还可以用于维护一个只有删除操作的单向链表 / 树，维护的信息是一个节点的 “下一个xx” 相关信息。</p>
+<p>例如在一棵树上，支持两种操作：</p>
+<ol>
+<li>删除一个节点 $u$，将其所有 child 连到节点 $u$ 的parent上。</li>
+<li>查询一个节点的parent。</li>
+</ol>
+<p>就可以将它看作并查集问题，每个节点 $u$ 的并查集中，<code>par[u]</code> 记录的是：在它的上方，第一个还存在的节点是谁。</p>
+<p>所以当一个节点还存在时，<code>par[u] = u</code>，当它被删除时，就 <code>unions(u, p)</code>，其中 $p$ 是 $u$ 在树上的 parent。</p>
+<p>• 需要注意，<code>unions(u,p)</code> 时不能随便 <code>unions</code>，我们需要保证 <code>par[finds(u)] = finds(p)</code>。</p>
 <h2 id="例题">例题</h2>
 <h3 id="例1-hnoi2016最小公倍数httpswwwluogucomcnproblemp3247">例1 <a href="https://www.luogu.com.cn/problem/P3247" target="_blank">[HNOI2016]最小公倍数</a></h3>
 <div class="admonition question">
@@ -419,7 +429,7 @@ int main() {
 </div>
 <details class="admonition note"><summary class="admonition-title">题解</summary>
 <p>启发式合并并查集的题。</p>
-<p>第一反应是每次链接的时候，新建一个 parent 节点储存这是第几条边，然后把 $u&rsquo;, v'$ 作为它的两个 child。（$u&rsquo;,v'$ 是在 <code>finds(u), finds(v)</code> 得到的根节点）。类似于 kruskal 重构树的思路。</p>
+<p>第一反应是每次链接的时候，新建一个 parent 节点储存这是第几条边，然后把 $u', v'$ 作为它的两个 child。（$u',v'$ 是在 <code>finds(u), finds(v)</code> 得到的根节点）。类似于 kruskal 重构树的思路。</p>
 <p>然后每次询问 $1 ~ u ~ v$ 的时候，直接找到 LCA 位置的那个节点即可。</p>
 <hr>
 <p>这样是正确的，不过有个更优雅的写法：</p>
@@ -491,6 +501,177 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例3-do-not-try-this-problemhttpscodeforcescomgym102307problemd">例3 <a href="https://codeforces.com/gym/102307/problem/D" target="_blank">Do Not Try This Problem</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的 string $s$，给定 $q$ 个操作，每次操作的格式是 $i~a~k~c$，将从index $i$ 开始，将 $s_i,s_{i+a},&hellip;,s_{i+ka}$ 替换为字符 $c$。</p>
+<p>输出所有操作结束后的string。</p>
+<p>其中，$n, q \leq 10^5, i \in [1,n], a \in [1, n), k \in [0,n), i+ka \leq n$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>由于询问离线，所以可以从后向前处理。因为后面的操作优先级更高，当一个后面的操作更改了某个位置，说明之后再也不用改这个位置了。</p>
+<p>然后考虑分块，对于 $a &gt; \sqrt n$ 的操作，直接暴力修改即可。</p>
+<p>对于 $a \leq \sqrt n$ 的操作，我们利用 <strong>并查集维护仅带删除的单向链表</strong>。</p>
+<p>由于一个位置被更改以后，就再也不用改这个位置了，把它当作被修改后，<strong>直接删除</strong>这个位置，那么我们维护 $\sqrt n$ 种链表，第 $j$ 种链表将会维护 $j$ 个跨度为 $j$ 的链表，例如 $j=3$，那么维护的就是 $1 \rightarrow 4 \rightarrow 7 \rightarrow &hellip;$ 和 $2 \rightarrow 5 \rightarrow 8 \rightarrow&hellip;$ 和 $3 \rightarrow 6 \rightarrow 9 \rightarrow &hellip;$。</p>
+<p>而每一种链表就是一个并查集，每一个元素的parent是它 <strong>下一个存在的元素</strong>。</p>
+<p>在删除一个元素时，更新其 parent 即可。</p>
+<p>按理说，删除一个元素时，应该更新其所有的parent，即更新 $\sqrt n$ 种链表，如：</p>
+<pre><code class="language-cpp">void del(int p, char c) {  // 删除位置p
+    if (vis[p]) return;
+    vis[p] = 1;
+    s[p] = c;
+    for (int i = 1; i &lt; m; i++) {
+        uf[i].unions(p, min(p+i, n+1));
+    }
+}
+</code></pre>
+<p>但是这样每次删除一个元素都要更新，虽然复杂度还是 $O(n \log n)$ ，但常数略高会T。</p>
+<p>我们改成在询问 $&lt; \sqrt n$ 的情况下才更新，并且只更新对应的 $a$，详情见代码。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+3;
+ 
+struct UnionFind {
+    int par[maxn];
+    int finds(int u) {
+        if (par[u] == u) return u;
+        return par[u] = finds(par[u]);
+    }
+    void unions(int u, int v) {
+        u = finds(u), v = finds(v);
+        if (u &lt; v) swap(u, v);
+        par[v] = u;
+    }
+} uf[320];
+ 
+struct Query {
+    int i, a, k;
+    char c;
+} q[maxn];
+int n, m, Q;
+string s;
+ 
+bool vis[maxn];
+void del(int p, char c) {  // 删除位置p
+    if (vis[p]) return;
+    vis[p] = 1;
+    s[p] = c;
+}
+int main() {
+    fastio;
+    cin &gt;&gt; s;
+    n = s.size();
+    s = &quot;#&quot; + s;
+    m = sqrt(n);
+    for (int i = 1; i &lt; m; i++) {
+        for (int j = 1; j &lt;= n+1; j++) uf[i].par[j] = j;
+    }
+    cin &gt;&gt; Q;
+    for (int i = 1; i &lt;= Q; i++) cin &gt;&gt; q[i].i &gt;&gt; q[i].a &gt;&gt; q[i].k &gt;&gt; q[i].c;
+    for (int i = Q; i &gt;= 1; i--) {
+        auto [st, a, k, c] = q[i];
+        if (a &gt;= m) {
+            for (int j = st; j &lt;= st+a*k; j += a) {
+                del(j, c);
+            }
+        } else {
+            int j = st;
+            while (j &lt;= st+a*k) {
+                del(j, c);
+                uf[a].unions(j, min(j+a, n+1));
+                j = uf[a].finds(j);
+            }
+        }
+    }
+    for (int i = 1; i &lt;= n; i++) cout &lt;&lt; s[i];
+    cout &lt;&lt; &quot;\n&quot;;
+}
+
+</code></pre>
+</details>
+<h3 id="例4-tjoi2016-树httpswwwluogucomcnproblemp4092">例4 TJOI2016 <a href="https://www.luogu.com.cn/problem/P4092" target="_blank">树</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一棵树，根为 $1$，现在有两个操作：</p>
+<p><code>C u</code>：给节点 $u$ 打标记（一个节点可能被打上多次标记）。</p>
+<p><code>Q u</code>：询问节点 $u$ 打了标记的最近祖先（算上它自己）。</p>
+<p>一开始 $1$ 被标记了，其他所有节点无标记。</p>
+<p>其中，$n,q \leq 10^5$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>离线操作，将问题反过来看：</p>
+<p>先给所有节点打上标记，然后利用并查集来维护支持删点的树。并查集上维护每一个节点上方的第一个打了标记的点。</p>
+<p>然后将所有询问从后往前处理，遇到一个标记操作，就将这个节点的标记次数 -1（因为一个节点可以被标记多次），当一个节点的标记次数归0时，将这个节点从树中删除。</p>
+<p>这样就可以 $O(n)$ 解决这个问题了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5;
+pair&lt;char, int&gt; q[maxn];
+vector&lt;int&gt; adj[maxn];
+int f[maxn];
+int par[maxn], dep[maxn];
+
+struct UnionFind {
+    int par[maxn];
+    int finds(int u) {
+        if (par[u] == u) return u;
+        return par[u] = finds(par[u]);
+    }
+    void unions(int u, int v) {
+        u = finds(u), v = finds(v);
+        if (dep[u] &gt; dep[v]) swap(u, v);
+        par[v] = u;
+    }
+} uf;
+
+void dfs(int u, int p) {
+    par[u] = p;
+    dep[u] = dep[p] + 1;
+    if (!f[u]) {
+        uf.unions(u, p);
+    }
+    for (int v : adj[u]) {
+        if (v == p) continue;
+        dfs(v, u);
+    }
+}
+int main() {
+    int n, Q; cin &gt;&gt; n &gt;&gt; Q;
+    for (int i = 1; i &lt; n; i++) {
+        int u, v; cin &gt;&gt; u &gt;&gt; v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    f[1] = 1;
+    for (int i = 1; i &lt;= Q; i++) {
+        cin &gt;&gt; q[i].first &gt;&gt; q[i].second;
+        if (q[i].first == 'C') {
+            f[q[i].second]++;
+        }
+    }
+    for (int i = 1; i &lt;= n; i++) uf.par[i] = i;
+
+    dfs(1, 0);
+    vector&lt;int&gt; ans;
+    for (int i = Q; i &gt;= 1; i--) {
+        int u = q[i].second;
+        if (q[i].first == 'C') {
+            f[u]--;
+            if (!f[u])
+                uf.unions(u, par[u]);
+        } else {
+            ans.push_back(uf.finds(u));
+        }
+    }
+    reverse(ans.begin(), ans.end());
+    for (int i : ans) cout &lt;&lt; i &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -502,8 +683,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-11-26 00:31:32 &#43;0000 UTC">2023-11-26</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/1dffe2ba18a6a2705a8e2e6ff812a9376f3d1bdb" title="chore: update CF Problems" target="_blank">(1dffe2b)</a>
+        <span title="2023-11-29 16:37:52 -0600 -0600">2023-11-29</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/6c13bc81eafd33872555b90b845caa49b34494f5" title="add leetcode badge, update many posts, move images from 103 to 102" target="_blank">(6c13bc81)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/062-%e5%b9%b6%e6%9f%a5%e9%9b%86.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -601,7 +782,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

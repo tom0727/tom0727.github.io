@@ -16,14 +16,14 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="多重背包二进制优化 代码 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &amp;gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; V; while (n--) { int v,w,s; cin &amp;gt;&amp;gt; v &amp;gt;&amp;gt; w &amp;gt;&amp;gt; s; int k = 1; while (k &amp;lt;= s) { pack01(v*k," /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="多重背包 01 背包中每个物品只有一个，而多重背包中每个物品有 $s_i$ 个。 多重背包二进制优化 对于第 $i$ 个物品，如果它有 $s_i$ 个，就将其用二进制拆分，然后转成 01" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/039-%E8%83%8C%E5%8C%85/" />
@@ -31,27 +31,24 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="背包问题" />
-<meta property="og:description" content="多重背包二进制优化 代码 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &gt;&gt; n &gt;&gt; V; while (n--) { int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s; int k = 1; while (k &lt;= s) { pack01(v*k," />
+<meta property="og:description" content="多重背包 01 背包中每个物品只有一个，而多重背包中每个物品有 $s_i$ 个。 多重背包二进制优化 对于第 $i$ 个物品，如果它有 $s_i$ 个，就将其用二进制拆分，然后转成 01" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/039-%E8%83%8C%E5%8C%85/" />
+<meta property="og:url" content="https://tom0727.github.io/post/039-%E8%83%8C%E5%8C%85/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-04-11T21:42:06+08:00" />
-<meta property="article:modified_time" content="2023-11-26T00:31:32+00:00" />
+<meta property="article:modified_time" content="2023-11-29T16:37:52-06:00" />
+
 <meta itemprop="name" content="背包问题">
-<meta itemprop="description" content="多重背包二进制优化 代码 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &gt;&gt; n &gt;&gt; V; while (n--) { int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s; int k = 1; while (k &lt;= s) { pack01(v*k,">
-<meta itemprop="datePublished" content="2021-04-11T21:42:06&#43;08:00" />
-<meta itemprop="dateModified" content="2023-11-26T00:31:32&#43;00:00" />
-<meta itemprop="wordCount" content="2069">
-
-
-
+<meta itemprop="description" content="多重背包 01 背包中每个物品只有一个，而多重背包中每个物品有 $s_i$ 个。 多重背包二进制优化 对于第 $i$ 个物品，如果它有 $s_i$ 个，就将其用二进制拆分，然后转成 01"><meta itemprop="datePublished" content="2021-04-11T21:42:06+08:00" />
+<meta itemprop="dateModified" content="2023-11-29T16:37:52-06:00" />
+<meta itemprop="wordCount" content="3149">
 <meta itemprop="keywords" content="DP,背包," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="背包问题"/>
-<meta name="twitter:description" content="多重背包二进制优化 代码 int n, V; int dp[2005]; void pack01(int v, int w) { for (int j = V; j &gt;= v; j--) { dp[j] = max(dp[j], dp[j-v] &#43; w); } } int main() { cin &gt;&gt; n &gt;&gt; V; while (n--) { int v,w,s; cin &gt;&gt; v &gt;&gt; w &gt;&gt; s; int k = 1; while (k &lt;= s) { pack01(v*k,"/>
+<meta name="twitter:description" content="多重背包 01 背包中每个物品只有一个，而多重背包中每个物品有 $s_i$ 个。 多重背包二进制优化 对于第 $i$ 个物品，如果它有 $s_i$ 个，就将其用二进制拆分，然后转成 01"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -146,17 +143,19 @@
   <ul>
     <li>
       <ul>
-        <li>
+        <li><a href="#多重背包">多重背包</a>
           <ul>
             <li><a href="#多重背包二进制优化">多重背包二进制优化</a></li>
             <li><a href="#多重背包单调队列优化">多重背包（单调队列优化）</a></li>
-            <li><a href="#背包删除元素">背包删除元素</a></li>
           </ul>
         </li>
+        <li><a href="#分组背包">分组背包</a></li>
+        <li><a href="#背包删除元素">背包删除元素</a></li>
         <li><a href="#例题">例题</a>
           <ul>
             <li><a href="#例1-google-kickstart-2022-roundh-d-level-designhttpscodingcompetitionswithgooglecomkickstartround00000000008cb1b60000000000c47792">例1 Google Kickstart 2022 RoundH D. <a href="https://codingcompetitions.withgoogle.com/kickstart/round/00000000008cb1b6/0000000000c47792">Level Design</a></a></li>
             <li><a href="#例2-cf95e-lucky-countryhttpscodeforcescomproblemsetproblem95e">例2 CF95E <a href="https://codeforces.com/problemset/problem/95/E">Lucky Country</a></a></li>
+            <li><a href="#例3-the-knapsack-problemhttpscodeforcescomproblemsetgymproblem101064l">例3 <a href="https://codeforces.com/problemset/gymProblem/101064/L">The Knapsack problem</a></a></li>
           </ul>
         </li>
       </ul>
@@ -166,7 +165,13 @@
   </div>
 </div>
     <div class="post-content">
-      <h3 id="多重背包二进制优化">多重背包二进制优化</h3>
+      <h2 id="多重背包">多重背包</h2>
+<p>01 背包中每个物品只有一个，而多重背包中每个物品有 $s_i$ 个。</p>
+<h3 id="多重背包二进制优化">多重背包二进制优化</h3>
+<p>对于第 $i$ 个物品，如果它有 $s_i$ 个，就将其用二进制拆分，然后转成 01 背包。</p>
+<p>如 $13 = 1 + 2 + 4 + 6$。</p>
+<p>注意拆分时，拆出来的物品也要修改它的价值。</p>
+<p>复杂度：$O(W \sum\limits_{i=1}^n \log s_i)$，其中 $W$ 为背包容量。</p>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">int n, V;
 int dp[2005];
@@ -196,6 +201,12 @@ int main() {
 </code></pre>
 </details>
 <h3 id="多重背包单调队列优化">多重背包（单调队列优化）</h3>
+<p>设 $f_j$ 为装容量为 $j$ 的最大价值，$i$ 为当前考虑的物品，有 $s_i$ 个。</p>
+<p>暴力跑多重背包的转移方程是：</p>
+<p>$$f_j = \max\limits_{k \in [0,s_i]} f_{j-kw_i} + kv_i$$</p>
+<p>这显然是一个滑动窗口的模版，只不过这个窗口是按同余类来的，比如 $j=10$，而 $w_i=3$，$s_i=2$，那么转移 $f_{10}$ 时由 $f_7, f_4$ 来转移。</p>
+<p>于是枚举同余类，然后对于每一个同余类都用滑动窗口来优化即可。</p>
+<p>复杂度：$O(nW)$，其中 $n$ 为物品种类数。</p>
 <details class="admonition note"><summary class="admonition-title">代码</summary>
 <pre><code class="language-cpp">struct node {
     int pos, val;
@@ -230,7 +241,32 @@ int main() {
 }
 </code></pre>
 </details>
-<h3 id="背包删除元素">背包删除元素</h3>
+<h2 id="分组背包">分组背包</h2>
+<p>01背包的变形，每一个物品只有一个，但它属于某个组，一个组内只能选最多一个物品。</p>
+<p>只要对每一组来跑 01 背包即可。</p>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">int dp[1005];
+int W, n;
+vector&lt;pii&gt; adj[105];
+void pack01(int k) {
+    for (int w = W; w &gt;= 0; w--) {
+        for (auto [c, v] : adj[k]) {
+            if (w &gt;= c) dp[w] = max(dp[w], dp[w-c] + v);
+        }
+    }
+}
+int main() {
+    cin &gt;&gt; W &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++) {
+        int w, v, k; cin &gt;&gt; w &gt;&gt; v &gt;&gt; k;
+        adj[k].push_back({w, v});
+    }
+    for (int k = 1; k &lt;= 100; k++) pack01(k);
+    cout &lt;&lt; dp[W] &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h2 id="背包删除元素">背包删除元素</h2>
 <p>众所周知，背包内加入一个元素是（这里 <code>dp[i]</code> 代表能够装重量和为 $i$ 的物品的方案数）：</p>
 <pre><code class="language-cpp">for (int i = N; i &gt;= w; i--) dp[i] += dp[i - w];
 </code></pre>
@@ -444,6 +480,73 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例3-the-knapsack-problemhttpscodeforcescomproblemsetgymproblem101064l">例3 <a href="https://codeforces.com/problemset/gymProblem/101064/L" target="_blank">The Knapsack problem</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个物品，第 $i$ 个物品的大小为 $w_i$，价值为 $c_i$，每个物品有无数个。</p>
+<p>给定一个大小为 $S$ 的背包，求最大价值。</p>
+<p>其中，$n,w_i \in [1,10^3], S,c_i \in [0,10^9]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>完全背包，但是大小为 $10^9$？</p>
+<p>不过我们可以发现：一个大小为 $S$ 的背包的最优解肯定能分成两个大小为 $S_1,S_2$ 的背包，使得：</p>
+<ol>
+<li>$S_1 + S_2 = S$，且</li>
+<li>$|S_1-S_2| \leq \max w_i \leq 1000$</li>
+</ol>
+<p>因为如果 $|S_1-S_2| &gt; 1000$ 的话，那么将大的那个背包，拿出一个元素塞给小的背包，则两者之差会减去 $2000$，这样就会保证 $|S_1-S_2| &lt; 1000$ 了。</p>
+<p>所以要求大小为 $S$ 的背包，不妨分治解决 $S_1,S_2$ 大小的背包，其中</p>
+<p>$$S_1, S_2 \in [\frac{S}{2} - 1000, \frac{S}{2} + 1000]$$</p>
+<p>这样就可以一直分治下去，我们预处理出来 $4000$ 以内的答案，更大的用分治来解决即可。</p>
+<p>• 因为时限只有 1 秒，所以不能用递归。但是注意到每一层需要求出的背包大小是一个连续的区间，如第一层是 $[S,S]$，第二层是 $[\frac{S}{2} - 1000, \frac{S}{2} + 1000]$，每一层都是根据上一层的左右端点 / 2 以后往外延伸。</p>
+<p>这样就不用递归，直接一层一层的处理即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e4+5;
+
+int M = 1000;
+int n, S, w[maxn], c[maxn];
+ll dp[maxn];
+vector&lt;ll&gt; dp2[30];
+int L[30], R[30];
+int main() {
+    cin &gt;&gt; n &gt;&gt; S;
+    for (int i = 1; i &lt;= n; i++) cin &gt;&gt; w[i] &gt;&gt; c[i];
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = w[i]; j &lt;= 4*M; j++) {
+            dp[j] = max(dp[j], dp[j-w[i]] + c[i]);
+        }
+    }
+
+    L[1] = S, R[1] = S;
+
+    int d;
+    for (d = 2; ; d++) {
+        L[d] = max(0, L[d-1] / 2 - M), R[d] = min(S, (R[d-1] + 1) / 2 + M);  
+        // 注意这里是 `R[d] = (R[d-1] + 1)`，保证 R[d] 不会因为整除的问题而导致 dp2[d] 中数量不够
+        if (R[d] &lt;= 4*M) break;
+    }
+
+    for (; d &gt;= 1; d--) {
+        for (int j = L[d]; j &lt;= R[d]; j++) {
+            if (j &lt;= 4*M) dp2[d].push_back(dp[j]);
+            else {
+                ll res = 0;
+                for (int k = max(L[d+1], j/2 - M); k &lt;= min(R[d+1], j/2 + M); k++) {
+                    int i1 = k - L[d+1], i2 = j - k - L[d+1];
+                    res = max(res, dp2[d+1][i1] + dp2[d+1][i2]);
+                }
+                dp2[d].push_back(res);
+            }
+        }
+    }
+    cout &lt;&lt; dp2[1][0] &lt;&lt; endl;
+}
+</code></pre>
+</details>
 
     </div>
 
@@ -455,8 +558,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-11-26 00:31:32 &#43;0000 UTC">2023-11-26</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/1dffe2ba18a6a2705a8e2e6ff812a9376f3d1bdb" title="chore: update CF Problems" target="_blank">(1dffe2b)</a>
+        <span title="2023-11-29 16:37:52 -0600 -0600">2023-11-29</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/6c13bc81eafd33872555b90b845caa49b34494f5" title="add leetcode badge, update many posts, move images from 103 to 102" target="_blank">(6c13bc81)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/039-%e8%83%8c%e5%8c%85.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -554,7 +657,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

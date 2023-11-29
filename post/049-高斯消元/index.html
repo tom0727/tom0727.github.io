@@ -16,14 +16,14 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="介绍 高斯消元是矩阵操作里最基础的一个，主要用于解形如 $a_1x_1 &#43; a_2x_2 &#43; a_3x_3 = b_1$ 之类的线性方程组。 步骤 按 column 进行遍历 遍历到第 $k$ 个 column 时，在这个column中，" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="板子 代码 struct GaussianElimination { int n, m; // n: 行 （方程个数）, m: 列 (变量个数) double A[1002][1002]; GaussianElimination(int n, int m) : n(n), m(m) {} vector&amp;lt;double&amp;gt; solve(int B = (int)1e6) { // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &amp;gt; B || j2-i &amp;gt; B 则任意" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/049-%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83/" />
@@ -31,27 +31,24 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="高斯消元" />
-<meta property="og:description" content="介绍 高斯消元是矩阵操作里最基础的一个，主要用于解形如 $a_1x_1 &#43; a_2x_2 &#43; a_3x_3 = b_1$ 之类的线性方程组。 步骤 按 column 进行遍历 遍历到第 $k$ 个 column 时，在这个column中，" />
+<meta property="og:description" content="板子 代码 struct GaussianElimination { int n, m; // n: 行 （方程个数）, m: 列 (变量个数) double A[1002][1002]; GaussianElimination(int n, int m) : n(n), m(m) {} vector&lt;double&gt; solve(int B = (int)1e6) { // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/049-%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83/" />
+<meta property="og:url" content="https://tom0727.github.io/post/049-%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-09-10T22:00:43+08:00" />
-<meta property="article:modified_time" content="2023-11-26T00:31:32+00:00" />
+<meta property="article:modified_time" content="2023-11-29T16:37:52-06:00" />
+
 <meta itemprop="name" content="高斯消元">
-<meta itemprop="description" content="介绍 高斯消元是矩阵操作里最基础的一个，主要用于解形如 $a_1x_1 &#43; a_2x_2 &#43; a_3x_3 = b_1$ 之类的线性方程组。 步骤 按 column 进行遍历 遍历到第 $k$ 个 column 时，在这个column中，">
-<meta itemprop="datePublished" content="2021-09-10T22:00:43&#43;08:00" />
-<meta itemprop="dateModified" content="2023-11-26T00:31:32&#43;00:00" />
-<meta itemprop="wordCount" content="1578">
-
-
-
+<meta itemprop="description" content="板子 代码 struct GaussianElimination { int n, m; // n: 行 （方程个数）, m: 列 (变量个数) double A[1002][1002]; GaussianElimination(int n, int m) : n(n), m(m) {} vector&lt;double&gt; solve(int B = (int)1e6) { // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意"><meta itemprop="datePublished" content="2021-09-10T22:00:43+08:00" />
+<meta itemprop="dateModified" content="2023-11-29T16:37:52-06:00" />
+<meta itemprop="wordCount" content="5387">
 <meta itemprop="keywords" content="," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="高斯消元"/>
-<meta name="twitter:description" content="介绍 高斯消元是矩阵操作里最基础的一个，主要用于解形如 $a_1x_1 &#43; a_2x_2 &#43; a_3x_3 = b_1$ 之类的线性方程组。 步骤 按 column 进行遍历 遍历到第 $k$ 个 column 时，在这个column中，"/>
+<meta name="twitter:description" content="板子 代码 struct GaussianElimination { int n, m; // n: 行 （方程个数）, m: 列 (变量个数) double A[1002][1002]; GaussianElimination(int n, int m) : n(n), m(m) {} vector&lt;double&gt; solve(int B = (int)1e6) { // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -146,8 +143,19 @@
   <ul>
     <li>
       <ul>
+        <li><a href="#板子">板子</a></li>
         <li><a href="#介绍">介绍</a></li>
         <li><a href="#步骤">步骤</a>
+          <ul>
+            <li><a href="#无解或多解">无解或多解</a></li>
+          </ul>
+        </li>
+        <li><a href="#带状矩阵优化">带状矩阵优化</a>
+          <ul>
+            <li><a href="#带状矩阵的注意事项">带状矩阵的注意事项</a></li>
+          </ul>
+        </li>
+        <li><a href="#01矩阵优化">01矩阵优化</a>
           <ul>
             <li><a href="#模版-p3389-模板高斯消元法httpswwwluogucomcnproblemp3389">模版 <a href="https://www.luogu.com.cn/problem/P3389">P3389 【模板】高斯消元法</a></a></li>
           </ul>
@@ -156,8 +164,12 @@
           <ul>
             <li><a href="#例1-洛谷p2447-sdoi2010外星千足虫httpswwwluogucomcnproblemp2447">例1 <a href="https://www.luogu.com.cn/problem/P2447">洛谷P2447 [SDOI2010]外星千足虫</a></a></li>
             <li><a href="#例2-洛谷p4035-jsoi2008球形空间产生器httpswwwluogucomcnproblemp4035">例2 <a href="https://www.luogu.com.cn/problem/P4035">洛谷P4035 [JSOI2008]球形空间产生器</a></a></li>
+            <li><a href="#例3-naq2016-b-arcadehttpsopenkattiscomproblemsarcadetabmetadata">例3 NAQ2016 B. <a href="https://open.kattis.com/problems/arcade?tab=metadata">Arcade!</a></a></li>
+            <li><a href="#例4-naq2016i-primonimohttpsopenkattiscomproblemsprimonimo">例4 NAQ2016I. <a href="https://open.kattis.com/problems/primonimo">Primonimo</a></a></li>
+            <li><a href="#例5-cf24d-broken-robothttpscodeforcescomproblemsetproblem24d">例5 CF24D <a href="https://codeforces.com/problemset/problem/24/D">Broken robot</a></a></li>
           </ul>
         </li>
+        <li><a href="#参考链接">参考链接</a></li>
       </ul>
     </li>
   </ul>
@@ -165,18 +177,118 @@
   </div>
 </div>
     <div class="post-content">
-      <h2 id="介绍">介绍</h2>
+      <h2 id="板子">板子</h2>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">struct GaussianElimination {
+    int n, m;  // n: 行 （方程个数）, m: 列 (变量个数)
+    double A[1002][1002];
+    GaussianElimination(int n, int m) : n(n), m(m) {}
+    vector&lt;double&gt; solve(int B = (int)1e6) {    
+        // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意 A(i2,j2) = 0；若 B = 1e6 则无此限制
+        // 返回 x_1, x_2, ..., x_m (注意返回的长度为 m+1)，所以 x_1 = ans[1]
+        vector&lt;double&gt; ans(m+1, 0);
+        vector&lt;int&gt; var, free_var;  // 主元，自由元
+
+        int row = 1;
+        for (int col = 1; col &lt;= m; col++) {
+            int maxrow = row;
+            for (int i = row+1; i &lt;= min(n, row+2*B); i++) {
+                if (abs(A[i][col]) &gt; abs(A[maxrow][col])) {  // 在 mod 情况下找到一个非0即可
+                    maxrow = i;
+                }
+            }
+            if (abs(A[maxrow][col]) &lt; eps) {
+                // 自由元, 跳过这个 col，但row不变
+                free_var.push_back(col);
+                continue;
+            } else {  // 主元
+                var.push_back(col);
+            }
+
+            for (int j = max(1, col-2*B); j &lt;= min(m, col+2*B); j++) swap(A[row][j], A[maxrow][j]);
+            swap(A[row][m+1], A[maxrow][m+1]);
+
+            for (int i = row+1; i &lt;= min(n, row+2*B); i++) {
+                if (i == row) continue;
+                double in = A[i][col] / A[row][col];
+                for (int j = max(1, col-2*B); j &lt;= min(m, col+2*B); j++) {
+                    A[i][j] -= (in * A[row][j]);
+                }
+                A[i][m+1] -= (in * A[row][m+1]);
+            }
+            row++;  // 增加 row
+        }
+
+        row--;  // 因为row是从1开始的，所以会多加一次 (现在 [1,row] 代表了主元)
+        assert(row == var.size());
+        if (row &lt; n) {  // 要么无解，要么有无数多个解
+            for (int i = row + 1; i &lt;= n; i++) {
+                if (abs(A[i][m+1]) &gt; eps) return {};  // 无解
+            }
+            // 否则，有无数多个解，将自由元设为 0，输出主元的解
+        } 
+
+        // 有解 和 无数个解 都输出了
+        for (int i = row; i &gt;= 1; i--) {
+            // 此时，主元是 var[i-1]
+            int k = var[i-1];
+            for (int j = k+1; j &lt;= min(m, k+2*B); j++) {
+                A[i][m+1] -= A[i][j] * ans[j];
+                A[i][j] = 0;
+            }
+            ans[k] = A[i][m+1] / A[i][k];
+        }
+        return ans;
+    }
+};
+</code></pre>
+</details>
+<h2 id="介绍">介绍</h2>
 <p>高斯消元是矩阵操作里最基础的一个，主要用于解形如 $a_1x_1 + a_2x_2 + a_3x_3 = b_1$ 之类的线性方程组。</p>
 <h2 id="步骤">步骤</h2>
 <ol>
 <li>按 column 进行遍历</li>
-<li>遍历到第 $k$ 个 column 时，在这个column中，寻找一个 $maxrow$ 使得 $A[maxrow][k]$ 最大。</li>
+<li>遍历到第 $k$ 个 column 时，在这个column中，寻找一个 $maxrow$ 使得 $A[maxrow][k]$ 最大（注意这个 <code>maxrow &gt; k</code>），因为消元时，在 $k$ 行上面的所有行都被消成 unit vector 的形式了。</li>
 <li>将第 $k$ 行 与 第 $maxrow$ 行进行交换。</li>
-<li>交换后，以第 $k$ 行作为pivot，减掉其他所有行，消去第 $k$ 列其他行上的数字。</li>
-<li>最后会得到一个 diagonal matrix，除以对应系数即可得到 $\vec{b}$</li>
+<li>交换后，以第 $k$ 行作为pivot，消去第 $k$ 列它<strong>下方</strong>所有行上的数字。</li>
+<li>最后会得到一个 triangular matrix，左下方的所有值为 $0$，然后从右下方开始回代，即可得到 $\vec{b}$。</li>
 </ol>
 <p>复杂度：$O(n^3)$</p>
-<p>先上板子：</p>
+<p>• 然而上述是针对 $n \times n$ 的矩阵，并且保证有唯一解时的做法。</p>
+<h3 id="无解或多解">无解或多解</h3>
+<p>假设我们给定 $n \times m$ 的矩阵，代表 $n$ 个方程和 $m$ 个变量。</p>
+<p>我们用 <code>row</code> 和 <code>col</code> 来记录当前的行和列。</p>
+<p>如果在第 $2$ 步，找不到 maxrow（即当前行下方的所有行 <code>row</code> 的 <code>col</code> 对应的值 <code>A[row][col]</code> 均为 $0$），则说明无唯一解。</p>
+<p>这个时候，我们保证当前行不变，继续下一列。</p>
+<p>那么最后 <code>row</code> 所在的位置就是 <strong>主元</strong> 的个数，而 $m-row$ 则为自由元的个数。</p>
+<p>这样的话，相当于把所有自由元放在了最后几个全为 $0$ 的空行中。</p>
+<p>例如遇到自由元 $x_3$ 时，跳过第 $3$ 列，保持 <code>row</code> 不变，那么第 $3$ 行保留的主元实际上是 $x_4$，而第 $4$ 行保留的主元是 $x_5$。</p>
+<p>• 最后，在 <code>[row+1, n]</code> 之间的所有行必定为空行，我们只要看这一行的最右侧系数 $c$ 是否均为 $0$，如果均为 $0$ 就是无数个解，否则无解。</p>
+<h2 id="带状矩阵优化">带状矩阵优化</h2>
+<p>在很多题目中（尤其是一些 dp 题），矩阵是带状的，</p>
+<div style='max-width:50%'>
+<p><img src="/images/049/1.png" alt="img"></p>
+</div>
+<p>• 图上用 $d$ 表示了带状矩阵的宽，下文用 $B$ 来表示。</p>
+<p>如图，仅有橙色部分非 $0$。更严谨的定义：</p>
+<p>对于任何 $A_{i,j} \neq 0$，$\forall (i',j')$，若 $|i-i'| &gt; B$，或者 $|j-j'| &gt; B$，则 $A_{i',j'} = 0$。</p>
+<p>对于这样的矩阵，可以注意到在消元时，只需要往上和往下消 $B$ 行即可，同样，在减去一行/交换一行时，也最多只用往左和往右延伸 $B$ 格。</p>
+<p>复杂度：$O(n B^2)$</p>
+<h3 id="带状矩阵的注意事项">带状矩阵的注意事项</h3>
+<ol>
+<li>在换行时，可能会导致带状矩阵的形状被破坏，不过由于换行只会考虑下方的 $B$ 行，将其换上来，所以最坏情况也就是带状矩阵的宽变成了 $2B$，所以实现的时候，需要考虑 $[i-2B, i+2B]$ 的行。</li>
+</ol>
+<div style='max-width:50%'>
+<p><img src="/images/049/2.png" alt="img"></p>
+</div>
+<ol start="2">
+<li>由于带状矩阵的性质，不能用高斯-约旦消元（即，消元时不能往上消，只能往下消），最后得到一个 triangular matrix 再回代才行。</li>
+</ol>
+<h2 id="01矩阵优化">01矩阵优化</h2>
+<p>在矩阵中的值只有 $0,1$ 的情况下，所有的值之间的加法和减法可以统一用 XOR 来表示，这样得到的就是一个异或方程组了。</p>
+<p>所以可以将每一行表示为一个 <code>bitset</code>，然后行之间相减就直接用 <code>bs[i] ^ bs[j]</code> 即可。</p>
+<p>这样的复杂度是 $O(\frac{n^3}{w})$ 的。</p>
+<p>• 注意，在 <code>bitset</code> 中，一行是反过来排列的（index $0$ 从右边开始）。</p>
 <h3 id="模版-p3389-模板高斯消元法httpswwwluogucomcnproblemp3389">模版 <a href="https://www.luogu.com.cn/problem/P3389" target="_blank">P3389 【模板】高斯消元法</a></h3>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
@@ -194,7 +306,7 @@ int n;
 void solve() {
     for (int k = 1; k &lt;= n; k++) {
         int maxrow = k;  // 当前行初始情况下为：当前列对应的行数
-        for (int i = k+1; i &lt;= n; i++) {  // 从当前行往下找
+        for (int i = k+1; i &lt;= n; i++) {  // 从当前行往下找 (因为 i &lt; k 的话，A[i][i] != 0 但其他位置 = 0)
             if (abs(A[i][k]) &gt; abs(A[maxrow][k])) maxrow = i;
         }
         for (int i = 1; i &lt;= n+1; i++) swap(A[k][i], A[maxrow][i]);  //交换两行, 保证A[k][k]最大
@@ -253,36 +365,35 @@ int main() {
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
 using namespace std;
 const int maxn = 1e3+2;
-const int maxm = 7e5+5;
 
 bitset&lt;maxn&gt; A[maxn+maxn];
 int ans;
 int n,m; 
 
 void solve() {
-    for (int k = n; k &gt;= 1; k--) {
-        int maxrow = n-k+1;
-        for (int i = n-k+1; i &lt;= m; i++) {
+    for (int k = 1; k &lt;= n; k++) {
+        int maxrow = k;
+        for (int i = k; i &lt;= m; i++) {
             ans = max(ans, i);
-            if (A[i].test(k)) {
+            if (A[i][n-k+1]) {  // 注意 bitset 是反过来的
                 maxrow = i;
                 break;
             }
         }
-        swap(A[n-k+1], A[maxrow]);
-        if (!A[n-k+1].test(k)) {
+        swap(A[k], A[maxrow]);
+        if (!A[k][n-k+1]) {  // 说明这一列全是 0
             cout &lt;&lt; &quot;Cannot Determine\n&quot;;
             return;
         }
         for (int i = 1; i &lt;= m; i++) {
-            if (i == n-k+1) continue;
-            if (A[i].test(k))
-                A[i] ^= A[n-k+1];
+            if (i == k) continue;
+            if (A[i][n-k+1])
+                A[i] ^= A[k];
         }
     }
     cout &lt;&lt; ans &lt;&lt; endl;
     for (int i = 1; i &lt;= n; i++) {
-        if (A[i].test(0)) cout &lt;&lt; &quot;?y7M#\n&quot;;
+        if (A[i][0]) cout &lt;&lt; &quot;?y7M#\n&quot;;  // 注意bitset是反过来的，所以最右边代表解的那个值，实际上是 A[i][0]
         else cout &lt;&lt; &quot;Earth\n&quot;;
     }
 }
@@ -297,8 +408,8 @@ int main() {
     ans = 1;
 
     for (int i = 1; i &lt;= m; i++) {
-        string s1,s2; cin &gt;&gt; s1 &gt;&gt; s2;
-        A[i] = bitset&lt;maxn&gt;(s1 + s2);
+        string s1,s2; cin &gt;&gt; s1 &gt;&gt; s2;  // input: 01110 1
+        A[i] = bitset&lt;maxn&gt;(s1 + s2);  // 将解放在右边 (A[i][0])
     }
 
     solve();
@@ -383,6 +494,308 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例3-naq2016-b-arcadehttpsopenkattiscomproblemsarcadetabmetadata">例3 NAQ2016 B. <a href="https://open.kattis.com/problems/arcade?tab=metadata" target="_blank">Arcade!</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个金字塔形的棋盘，有 $n$ 行，第 $i$ 行有 $i$ 个洞。</p>
+<p>一个球在一个洞时，有 $p_0,p_1,p_2,p_3$ 的概率分别往左上，右上，左下，右下的洞跳。也有 $p_4$ 的概率掉入当前这个洞，获得 $v_i$ 的收益，并且游戏结束，如果某个操作不合法，那么对应的概率为 $0$。</p>
+<p>从洞 $1$ 出发，求最终的收益期望？</p>
+<p><img src="/images/049/3.png" alt="img"></p>
+<p>其中，$n \leq 32, p_0+p_1+p_2+p_3+p_4 = 1$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>对于一个洞来说，设从它出发的最终收益期望为 $E$，那么有</p>
+<p>$$E = E_0p_0 + E_1p_1 + E_2p_2 + E_3p_3 + vp_4$$</p>
+<p>其中，$E_0$ 到 $E_3$ 分别代表四个方位的最终收益。</p>
+<p>这样，可以列出来一个 $N \times N$ 的方程组，其中 $N = \frac{n(n+1)}{2}$。</p>
+<p>高斯消元即可。</p>
+<p>• 这个只能求收益期望，而不能求出最终掉入每个洞的概率。因为掉入每个洞的概率与 “从哪出发” 有关，所以需要两个维度来表示 dp 的状态（从哪出发 + 掉入哪个洞）。而收益期望仅和 ”从哪出发“ 有关，所以只需要一个维度。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+struct GaussianElimination {
+    int n, m;  // n: 行 （方程个数）, m: 列 (变量个数)
+    double A[531][531];
+    GaussianElimination(int n, int m) : n(n), m(m) {}
+    vector&lt;double&gt; solve(int B = (int)1e6) {    
+        // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意 A(i2,j2) = 0；若 B = 1e6 则无此限制
+        // 返回 x_1, x_2, ..., x_m (注意返回的长度为 m+1)，所以 x_1 = ans[1]
+        vector&lt;double&gt; ans(m+1, 0);
+        vector&lt;int&gt; var, free_var;  // 主元，自由元
+
+        int row = 1;
+        for (int col = 1; col &lt;= m; col++) {
+            int maxrow = row;
+            for (int i = row+1; i &lt;= min(n, row+2*B); i++) {
+                if (abs(A[i][col]) &gt; abs(A[maxrow][col])) {  // 在 mod 情况下找到一个非0即可
+                    maxrow = i;
+                }
+            }
+            if (abs(A[maxrow][col]) &lt; eps) {
+                // 自由元, 跳过这个 col，但row不变
+                free_var.push_back(col);
+                continue;
+            } else {  // 主元
+                var.push_back(col);
+            }
+
+            for (int j = max(1, col-2*B); j &lt;= min(m, col+2*B); j++) swap(A[row][j], A[maxrow][j]);
+            swap(A[row][m+1], A[maxrow][m+1]);
+
+            for (int i = row+1; i &lt;= min(n, row+2*B); i++) {
+                if (i == row) continue;
+                double in = A[i][col] / A[row][col];
+                for (int j = max(1, col-2*B); j &lt;= min(m, col+2*B); j++) {
+                    A[i][j] -= (in * A[row][j]);
+                }
+                A[i][m+1] -= (in * A[row][m+1]);
+            }
+            // printall();
+
+            row++;  // 增加 row
+        }
+
+        row--;  // 因为row是从1开始的，所以会多加一次 (现在 [1,row] 代表了主元)
+        assert(row == var.size());
+        if (row &lt; n) {  // 要么无解，要么有无数多个解
+            for (int i = row + 1; i &lt;= n; i++) {
+                if (abs(A[i][m+1]) &gt; eps) return {};  // 无解
+            }
+            // 否则，有无数多个解，将自由元设为 0，输出主元的解
+        } 
+
+        // 有解 和 无数个解 都输出了
+        for (int i = row; i &gt;= 1; i--) {
+            // 此时，主元是 var[i-1]
+            int k = var[i-1];
+            for (int j = k+1; j &lt;= min(m, k+2*B); j++) {
+                A[i][m+1] -= A[i][j] * ans[j];
+                A[i][j] = 0;
+            }
+            ans[k] = A[i][m+1] / A[i][k];
+        }
+        return ans;
+    }
+};
+
+int n, id[33][33], v[33*33];
+vector&lt;pii&gt; dir {{-1,-1}, {-1,0}, {1,0}, {1,1}};
+
+int main() {
+    cin &gt;&gt; n;
+    int N = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= i; j++) {
+            id[i][j] = ++N;
+            cin &gt;&gt; v[N];
+        }
+    }
+    GaussianElimination ge(N, N);
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= i; j++) {
+            int u = id[i][j];
+
+            for (int o = 0; o &lt; 4; o++) {
+                double p; cin &gt;&gt; p;
+                int pi = i + dir[o].first, pj = j + dir[o].second;
+                if (pi &gt;= 1 &amp;&amp; pi &lt;= n &amp;&amp; pj &gt;= 1 &amp;&amp; pj &lt;= n) {
+                    int v = id[pi][pj];
+                    ge.A[u][v] = p;
+                }
+            }
+            ge.A[u][u] = -1;
+            double p; cin &gt;&gt; p;
+            ge.A[u][N+1] = -p * v[u];
+        }
+    }
+    auto ans = ge.solve(N*2+2);
+    printf(&quot;%.10f\n&quot;, ans[1]);
+}
+</code></pre>
+</details>
+<h3 id="例4-naq2016i-primonimohttpsopenkattiscomproblemsprimonimo">例4 NAQ2016I. <a href="https://open.kattis.com/problems/primonimo" target="_blank">Primonimo</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n \times m$ 的矩阵，和一个质数 $p$。</p>
+<p>矩阵中每一个数在 $[1,p]$ 之间。</p>
+<p>现在可以进行若干次操作，每次操作选择一个位置 $(i,j)$，然后给第 $i$ 行上的所有数字 + 1，并且给第 $j$ 列上的所有数字 + 1，其中 $(i,j)$ 本身也只加一次。</p>
+<p>如果数字 $p$ 再加1，则它会变回 $1$。</p>
+<p>求是否存在一种方案，使得所有的数都变成 $p$，输出这个方案，如果有多种，输出任意方案。</p>
+<p>其中，$n,m \leq 20, p \in [2,97]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>对于每一个格子 $(x,y)$，我们可以知道它需要被加多少次，设它为 $c_{x,y}$。</p>
+<p>我们设 $f_{x,y}$ 为我们需要对位置 $(x,y)$ 进行的操作次数，那么有</p>
+<p>$$\sum\limits_{i=1}^n f_{i,y} + \sum\limits_{j=1}^m f_{x,j} - f_{x,y} = c_{x,y}$$</p>
+<p>这样又可以列出一个 $N \times N$ 的方程，其中 $N= n \times m$。</p>
+<p>• 不过这个方程是在mod意义下的，但不影响，正常来解即可。除法就变成乘逆元。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int P, g[21][21], n, m, id[21][21], cid = 0;
+
+struct GaussianElimination {
+    int n, m;  // n: 行 （方程个数）, m: 列 (变量个数)
+    Z A[403][403];
+    GaussianElimination(int n, int m) : n(n), m(m) {}
+    vector&lt;Z&gt; solve(int B = (int)1e6) {    
+        // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意 A(i2,j2) = 0；若 B = 1e6 则无此限制
+        // 返回 x_1, x_2, ..., x_m (注意返回的长度为 m+1)，所以 x_1 = ans[1]
+        vector&lt;Z&gt; ans(m+1, 0);
+        vector&lt;int&gt; var, free_var;  // 主元，自由元
+
+        int row = 1;
+        for (int col = 1; col &lt;= m; col++) {
+            int maxrow = row;
+            for (int i = row+1; i &lt;= min(n, row+2*B); i++) {
+                if (A[i][col].val()) {  // 在 mod 情况下找到一个非0即可
+                    maxrow = i;
+                    break;
+                }
+            }
+            if (!A[maxrow][col].val()) {
+                // 自由元, 跳过这个 col，但row不变
+                free_var.push_back(col);
+                continue;
+            } else {  // 主元
+                var.push_back(col);
+            }
+
+            for (int j = max(1, col-2*B); j &lt;= min(m, col+2*B); j++) swap(A[row][j], A[maxrow][j]);
+            swap(A[row][m+1], A[maxrow][m+1]);
+
+            for (int i = row+1; i &lt;= min(n, row+2*B); i++) {
+                if (i == row) continue;
+                Z in = A[i][col] / A[row][col];
+                for (int j = max(1, col-2*B); j &lt;= min(m, col+2*B); j++) {
+                    A[i][j] -= (in * A[row][j]);
+                }
+                A[i][m+1] -= (in * A[row][m+1]);
+            }
+
+            row++;  // 增加 row
+        }
+
+        row--;  // 因为row是从1开始的，所以会多加一次 (现在 [1,row] 代表了主元)
+        assert(row == var.size());
+        if (row &lt; n) {  // 要么无解，要么有无数多个解
+            for (int i = row + 1; i &lt;= n; i++) {
+                if (A[i][m+1].val()) return {};  // 无解
+            }
+            // 否则，有无数多个解，将自由元设为 0，输出主元的解
+        } 
+
+        // 有解 和 无数个解 都输出了
+        for (int i = row; i &gt;= 1; i--) {
+            // 此时，主元是 var[i-1]
+            int k = var[i-1];
+            for (int j = k+1; j &lt;= min(m, k+2*B); j++) {
+                A[i][m+1] -= A[i][j] * ans[j];
+                A[i][j] = 0;
+            }
+            ans[k] = A[i][m+1] / A[i][k];
+        }
+
+        return ans;
+    }
+};
+
+int main() {
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; mod;
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = 1; j &lt;= m; j++) {
+            cin &gt;&gt; g[i][j];
+            id[i][j] = ++cid;
+        }
+    }
+    GaussianElimination ge(n*m, n*m);
+
+    cid = 0;
+    for (int a = 1; a &lt;= n; a++) {
+        for (int b = 1; b &lt;= m; b++) {
+            ++cid;
+            for (int i = 1; i &lt;= n; i++) {
+                ge.A[cid][id[i][b]] = 1;
+            }
+            for (int j = 1; j &lt;= m; j++) {
+                ge.A[cid][id[a][j]] = 1;
+            }
+            ge.A[cid][n*m+1] = (Z)(mod - g[a][b]);
+        }
+    }
+    vector&lt;Z&gt; ans = ge.solve();
+    if (!ans.size()) {
+        cout &lt;&lt; -1 &lt;&lt; endl;
+        return 0;
+    }
+    vector&lt;int&gt; res;
+    for (int i = 1; i &lt;= cid; i++) {
+        int j = ans[i].val();
+        while (j--) {
+            res.push_back(i);
+        }
+    }
+    cout &lt;&lt; res.size() &lt;&lt; endl;
+    for (int x : res) cout &lt;&lt; x &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<h3 id="例5-cf24d-broken-robothttpscodeforcescomproblemsetproblem24d">例5 CF24D <a href="https://codeforces.com/problemset/problem/24/D" target="_blank">Broken robot</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个 $n \times m$ 的矩阵，初始在 $(x,y)$，每次等概率的往左，右，下走或原地不动，但不能走出去（非法操作的话概率为 0），问走到最后一行期望的步数。</p>
+<p>其中，$n,m \leq 10^3$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>$n,m \leq 10^3$，不能直接列方程，否则有 $N=10^6$ 个方程，复杂度是 $O(N^3)$ 的。</p>
+<p>不过注意到，只能往下走，不能往上走。所以第 $i$ 行的每个格子的期望只与第 $i+1$ 行有关。</p>
+<p>从下往上推，在 第 $i$ 行时，第 $i+1$ 行都是常量了。</p>
+<p>所以高斯消元只有 $m$ 个变量和 $m$ 个方程，但 $O(m^3)$ 仍然接受不了。</p>
+<p>可以发现这是一个带状矩阵，每个变量只与它附近的两个变量有关，所以 $B=2$，可以 $O(mB^2)$ 进行一次高斯消元。</p>
+<p>要进行 $n$ 次高斯消元，所以总复杂度是 $O(nmB^2)$。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int n, m, x, y;
+double dp[maxn][maxn];
+int main() {
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; x &gt;&gt; y;
+    GaussianElimination ge(m, m);
+    for (int i = n-1; i &gt;= x; i--) {
+        for (int j = 1; j &lt;= m; j++) {
+            ge.A[j][j] = ge.A[j][m+1] = 0;
+        }
+ 
+        if (m &gt; 1) {
+            for (int j = 1; j &lt;= m; j++) {
+                if (j == 1) {
+                    ge.A[j][j] = 2.0 / 3, ge.A[j][j+1] = -1.0 / 3, ge.A[j][m+1] = dp[i+1][j] / 3 + 1;
+                } else if (j == m) {
+                    ge.A[j][j] = 2.0 / 3, ge.A[j][j-1] = -1.0 / 3, ge.A[j][m+1] = dp[i+1][j] / 3 + 1;
+                } else {
+                    ge.A[j][j] = 3.0 / 4, ge.A[j][j-1] = -1.0 / 4, ge.A[j][j+1] = -1.0 / 4, ge.A[j][m+1] = 1.0 / 4 * dp[i+1][j] + 1;
+                }
+            }
+            auto res = ge.solve(2);
+            for (int j = 1; j &lt;= m; j++) dp[i][j] = res[j];
+        } else {
+            dp[i][1] = dp[i+1][1] + 2;
+        }
+ 
+    }
+    printf(&quot;%.10lf\n&quot;, dp[x][y]);
+}
+</code></pre>
+</details>
+<h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://www.tonyyin.top/notes/gauss-elimination/" target="_blank">https://www.tonyyin.top/notes/gauss-elimination/</a></li>
+<li>带状矩阵：<a href="https://www.luogu.com.cn/blog/froggy/qian-tan-gao-si-xiao-yuan-ta-zhan-zhi-band-matrix" target="_blank">https://www.luogu.com.cn/blog/froggy/qian-tan-gao-si-xiao-yuan-ta-zhan-zhi-band-matrix</a></li>
+</ol>
 
     </div>
 
@@ -394,8 +807,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-11-26 00:31:32 &#43;0000 UTC">2023-11-26</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/1dffe2ba18a6a2705a8e2e6ff812a9376f3d1bdb" title="chore: update CF Problems" target="_blank">(1dffe2b)</a>
+        <span title="2023-11-29 16:37:52 -0600 -0600">2023-11-29</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/6c13bc81eafd33872555b90b845caa49b34494f5" title="add leetcode badge, update many posts, move images from 103 to 102" target="_blank">(6c13bc81)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/049-%e9%ab%98%e6%96%af%e6%b6%88%e5%85%83.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -492,7 +905,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

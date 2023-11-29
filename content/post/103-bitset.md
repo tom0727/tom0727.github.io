@@ -323,6 +323,12 @@ for (int i = ans._Find_first(); i < ans.size(); i = ans._Find_next(i)) {
 }
 ```
 
+• 最后提一下：bitset的主要优势在于**带修**，如果只是多模式串匹配的话，可以利用长度和为 $M$ 的模式串的长度种类不超过 $\sqrt M$ 种的特点，直接用以下两种方法之一：
+
+1. 后缀数组（复杂度为 $M \log |S|$），支持在线。
+
+2. 字符串哈希（对于所有模式串哈希，然后从文本串的每个位置开始暴力匹配，只考虑拥有模式串的长度（不超过 $\sqrt M$ 种），即可求出所有模式串在文本串中出现的所有位置），复杂度为 $|S| \sqrt M$，仅支持离线。
+
 ### 例1 CF914F. [Substrings in a String](https://codeforces.com/problemset/problem/914/F)
 
 {{% question 题意 %}}

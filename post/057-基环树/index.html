@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.92.2 with theme even" />
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/057-%E5%9F%BA%E7%8E%AF%E6%A0%91/" />
@@ -31,21 +31,24 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="基环树" />
 <meta property="og:description" content="定义 基环树指的是一个 $n$ 个节点，$n$ 条边的联通图。 叫基环树的原因是：给定一棵树，在这棵树上加上 任意一条边，就可以形成一个基环树了。 基环树的性" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/057-%E5%9F%BA%E7%8E%AF%E6%A0%91/" /><meta property="article:section" content="post" />
+<meta property="og:url" content="https://tom0727.github.io/post/057-%E5%9F%BA%E7%8E%AF%E6%A0%91/" />
 <meta property="article:published_time" content="2021-11-16T15:38:25+08:00" />
-<meta property="article:modified_time" content="2023-02-19T17:26:39-06:00" />
-
+<meta property="article:modified_time" content="2023-11-29T16:37:52-06:00" />
 <meta itemprop="name" content="基环树">
-<meta itemprop="description" content="定义 基环树指的是一个 $n$ 个节点，$n$ 条边的联通图。 叫基环树的原因是：给定一棵树，在这棵树上加上 任意一条边，就可以形成一个基环树了。 基环树的性"><meta itemprop="datePublished" content="2021-11-16T15:38:25+08:00" />
-<meta itemprop="dateModified" content="2023-02-19T17:26:39-06:00" />
-<meta itemprop="wordCount" content="5006">
+<meta itemprop="description" content="定义 基环树指的是一个 $n$ 个节点，$n$ 条边的联通图。 叫基环树的原因是：给定一棵树，在这棵树上加上 任意一条边，就可以形成一个基环树了。 基环树的性">
+<meta itemprop="datePublished" content="2021-11-16T15:38:25&#43;08:00" />
+<meta itemprop="dateModified" content="2023-11-29T16:37:52-06:00" />
+<meta itemprop="wordCount" content="5024">
+
+
+
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="基环树"/>
 <meta name="twitter:description" content="定义 基环树指的是一个 $n$ 个节点，$n$ 条边的联通图。 叫基环树的原因是：给定一棵树，在这棵树上加上 任意一条边，就可以形成一个基环树了。 基环树的性"/>
@@ -284,12 +287,12 @@ int main() {
 <p>所以答案就是</p>
 <p>$$\max_{(u,v)}\{d(u)+d(v)+dis(u,v)\}$$</p>
 <p>但找这样的 $(u,v)$ 是 $O(n^2)$ 的，考虑一下如何优化？</p>
-<p>如果我们将一个环 $1,2,3,&hellip;,n$ 断开，并复制一份，得到 $1,2,3,&hellip;,n,1',2',3',&hellip;,n'$，则我们可以快速的算出 $dis(u,v)$。</p>
+<p>如果我们将一个环 $1,2,3,&hellip;,n$ 断开，并复制一份，得到 $1,2,3,&hellip;,n,1&rsquo;,2&rsquo;,3&rsquo;,&hellip;,n'$，则我们可以快速的算出 $dis(u,v)$。</p>
 <p>不妨设 $u&lt;v$，并且求一个距离的前缀和 $a[]$，其中 $a[i]=a[i-1]+w(i-1,i)$。</p>
 <p>那么</p>
 <p>$$\max_{(u,v)}\{d(u)+d(v)+dis(u,v)\}$$</p>
 <p>就可以写成</p>
-<p>$$\max_{(u,v)}\{d(u)+d(v)+a[v]-a[u]\}, u,v\in[1,n] \cup [1',n'], (v-u) \in [1, n-1]$$</p>
+<p>$$\max_{(u,v)}\{d(u)+d(v)+a[v]-a[u]\}, u,v\in[1,n] \cup [1&rsquo;,n&rsquo;], (v-u) \in [1, n-1]$$</p>
 <p>当 $v$ 确定时，我们要求的实际上就是</p>
 <p>$$\max_u \{d(u) - a[u]\}, u \in [v-n+1,v-1]$$</p>
 <p>这就是个单调队列优化dp。</p>
@@ -910,8 +913,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-02-19 17:26:39 -0600 -0600">2023-02-19</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/281f5081f7c69fd42e2918b7e97d1c7afc1bae47" title="update many posts" target="_blank">(281f5081)</a>
+        <span title="2023-11-29 16:37:52 -0600 -0600">2023-11-29</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/6c13bc81eafd33872555b90b845caa49b34494f5" title="add leetcode badge, update many posts, move images from 103 to 102" target="_blank">(6c13bc8)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/057-%e5%9f%ba%e7%8e%af%e6%a0%91.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -1009,7 +1012,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

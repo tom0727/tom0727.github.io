@@ -16,14 +16,14 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="tom0727" /><meta name="description" content="模版 代码 // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$（指 s[i...n]) 的排名。（第 $i$ 个后缀的" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
+<meta name="author" content="tom0727" /><meta name="description" content="模版 代码(nlogn) // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$（指 s[i...n]) 的排名。" /><meta name="keywords" content="tom0727, blog, huzhenwei, 胡振为" />
 
 
 <meta name="baidu-site-verification" content="tom0727" />
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.69.2 with theme even" />
+<meta name="generator" content="Hugo 0.92.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/102-%E5%90%8E%E7%BC%80%E6%95%B0%E7%BB%84/" />
@@ -31,27 +31,24 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
+<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="后缀数组" />
-<meta property="og:description" content="模版 代码 // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$（指 s[i...n]) 的排名。（第 $i$ 个后缀的" />
+<meta property="og:description" content="模版 代码(nlogn) // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$（指 s[i...n]) 的排名。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/102-%E5%90%8E%E7%BC%80%E6%95%B0%E7%BB%84/" />
+<meta property="og:url" content="https://tom0727.github.io/post/102-%E5%90%8E%E7%BC%80%E6%95%B0%E7%BB%84/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-03-22T11:30:39-05:00" />
-<meta property="article:modified_time" content="2023-12-14T00:29:27+00:00" />
+<meta property="article:modified_time" content="2023-12-15T12:41:11-06:00" />
+
 <meta itemprop="name" content="后缀数组">
-<meta itemprop="description" content="模版 代码 // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$（指 s[i...n]) 的排名。（第 $i$ 个后缀的">
-<meta itemprop="datePublished" content="2023-03-22T11:30:39-05:00" />
-<meta itemprop="dateModified" content="2023-12-14T00:29:27&#43;00:00" />
-<meta itemprop="wordCount" content="6422">
-
-
-
+<meta itemprop="description" content="模版 代码(nlogn) // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$（指 s[i...n]) 的排名。"><meta itemprop="datePublished" content="2023-03-22T11:30:39-05:00" />
+<meta itemprop="dateModified" content="2023-12-15T12:41:11-06:00" />
+<meta itemprop="wordCount" content="10753">
 <meta itemprop="keywords" content=",," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="后缀数组"/>
-<meta name="twitter:description" content="模版 代码 // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$（指 s[i...n]) 的排名。（第 $i$ 个后缀的"/>
+<meta name="twitter:description" content="模版 代码(nlogn) // sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。 // rk[i]：后缀 $i$（指 s[i...n]) 的排名。"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -151,8 +148,12 @@
         <li><a href="#算法">算法</a></li>
         <li><a href="#应用">应用</a>
           <ul>
+            <li><a href="#求不同子串数量">求不同子串数量</a></li>
             <li><a href="#比较字符串中两个子串的大小关系">比较字符串中，两个子串的大小关系</a></li>
             <li><a href="#查询一个多个模式串-t-在文本串-s-中出现的所有位置">查询一个/多个模式串 $T$ 在文本串 $S$ 中出现的所有位置</a></li>
+            <li><a href="#多个字符串的最长公共子串">多个字符串的最长公共子串</a></li>
+            <li><a href="#出现至少-k-次的子串的最大长度">出现至少 $k$ 次的子串的最大长度</a></li>
+            <li><a href="#t-的每一个前缀在-s-中出现的所有位置">$t$ 的每一个前缀在 $s$ 中出现的所有位置</a></li>
           </ul>
         </li>
         <li><a href="#例题">例题</a>
@@ -162,7 +163,10 @@
             <li><a href="#例3-最长公共子串-lcshttpswwwluogucomcnproblemsp1811">例3 <a href="https://www.luogu.com.cn/problem/SP1811">最长公共子串 LCS</a></a></li>
             <li><a href="#例4-noi2015-品酒大会httpswwwluogucomcnproblemp2178">例4 NOI2015 <a href="https://www.luogu.com.cn/problem/P2178">品酒大会</a></a></li>
             <li><a href="#例5-haoi2016-找相同字符httpslojacp2064">例5 HAOI2016 <a href="https://loj.ac/p/2064">找相同字符</a></a></li>
-            <li><a href="#例5-noi2016-优秀的拆分httpslojacp2083">例5 NOI2016 <a href="https://loj.ac/p/2083">优秀的拆分</a></a></li>
+            <li><a href="#例6-noi2016-优秀的拆分httpslojacp2083">例6 NOI2016 <a href="https://loj.ac/p/2083">优秀的拆分</a></a></li>
+            <li><a href="#例7-uva11107-life-formshttpswwwluogucomcnproblemuva11107">例7 UVA11107 <a href="https://www.luogu.com.cn/problem/UVA11107">Life Forms</a></a></li>
+            <li><a href="#例8-洛谷p2852-usaco06dec-milk-patterns-ghttpswwwluogucomcnproblemp2852">例8 洛谷P2852 <a href="https://www.luogu.com.cn/problem/P2852">[USACO06DEC] Milk Patterns G</a></a></li>
+            <li><a href="#例9-cf149e-martian-stringshttpscodeforcescomcontest149probleme">例9 CF149E <a href="https://codeforces.com/contest/149/problem/E">Martian Strings</a></a></li>
           </ul>
         </li>
       </ul>
@@ -173,7 +177,7 @@
 </div>
     <div class="post-content">
       <h2 id="模版">模版</h2>
-<details class="admonition note"><summary class="admonition-title">代码</summary>
+<details class="admonition note"><summary class="admonition-title">代码(nlogn)</summary>
 <pre><code class="language-cpp">// sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。
 // rk[i]：后缀 $i$（指 s[i...n]) 的排名。（第 $i$ 个后缀的排名是 rk[i]）。
 // height[i]: LCP(sa[i-1], sa[i])，即第 $i-1$ 名的后缀和 第 $i$ 名的后缀的最长公共前缀长度
@@ -246,7 +250,66 @@ int main() {
     ll ans = (ll)(n) * (n+1) / 2;
     for (int i = 1; i &lt;= n; i++) ans -= sa.height[i];
     cout &lt;&lt; ans &lt;&lt; &quot;\n&quot;;
+}
+</code></pre>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码(nlog^2 n)</summary>
+<pre><code class="language-cpp">// sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。
+// rk[i]：后缀 $i$（指 s[i...n]) 的排名。（第 $i$ 个后缀的排名是 rk[i]）。
+// height[i]: LCP(sa[i-1], sa[i])，即第 $i-1$ 名的后缀和 第 $i$ 名的后缀的最长公共前缀长度
+struct SA {
+    int n, sa[maxn], rk[maxn&lt;&lt;1], oldrk[maxn&lt;&lt;1], height[maxn];  // 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1]
+    int s[maxn];
+    bool cmp(int i, int j, int w) {
+        return oldrk[i] == oldrk[j] &amp;&amp; oldrk[i+w] == oldrk[j+w];
+    }
+    void init(vector&lt;int&gt;&amp; ss) {   // 不再是普通的字符串，而是 vector&lt;int&gt; 了，注意长度就是 n，不要添加多余的元素！
+        n = ss.size();
+        for (int i = 1; i &lt;= n; i++) s[i] = ss[i-1], rk[i] = s[i], sa[i] = i;
 
+        for (int w = 1; w &lt;= n; w &lt;&lt;= 1) {  // 注意中间没有break的条件
+            sort(sa + 1, sa + n + 1, [&amp;](int x, int y) {
+                return rk[x] == rk[y] ? rk[x + w] &lt; rk[y + w] : rk[x] &lt; rk[y];
+            });
+
+            memcpy(oldrk+1, rk+1, n*sizeof(int));
+            int p = 0;
+            for (int i = 1; i &lt;= n; i++) {
+                rk[sa[i]] = cmp(sa[i], sa[i-1], w) ? p : (++p);
+            }
+            if (p == n) {
+                for (int i = 1; i &lt;= n; i++) sa[rk[i]] = i;
+                break;
+            }
+        }
+
+        // 求 height
+        int k = 0;
+        for (int i = 1; i &lt;= n; i++) {
+            if (rk[i] == 0) continue;
+            if (k &gt; 0) k--;
+            while (s[i+k] == s[sa[rk[i]-1]+k]) k++;
+            height[rk[i]] = k;
+        }
+    }
+
+    void clear() {
+        memset(sa, 0, sizeof(sa));
+        memset(rk, 0, sizeof(rk));
+        memset(oldrk, 0, sizeof(oldrk));
+        memset(height, 0, sizeof(height));
+        memset(s, 0, sizeof(s));
+    }
+} sa;
+
+int n;
+int main() {
+    cin &gt;&gt; n;
+    vector&lt;int&gt; vec;
+    for (int i = 1; i &lt;= n; i++) {
+        int x; cin &gt;&gt; x; vec.push_back(x);
+    }
+    sa.init(vec);
 }
 </code></pre>
 </details>
@@ -271,7 +334,11 @@ int main() {
 <p>双关键字排序后，又可以得到一个排名，然后注意到此时每个排名都代表 $2$ 个字符长度的排名。</p>
 <p>所以两个排名结合起来就对应了 $4$ 个字符长度的排名，于是就可以利用倍增继续双关键字排序，如下：</p>
 <p><img src="/images/102/3.png" alt="img"></p>
+<p>由于字符串值域被ASCII码限制在 $127$ 内，如果用 counting sort，复杂度为 $O(n\log n)$。</p>
+<p>不过在一些情况下，可能需要用 <code>int</code> 来表示一个字符串，这个时候要么扩大值域范围（代码中的 <code>m=127</code>），要么使用 $O(n\log^2 n)$ 的方法。</p>
 <h2 id="应用">应用</h2>
+<h3 id="求不同子串数量">求不同子串数量</h3>
+<p>见 <a href="/post/102-%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84/#%e4%be%8b1-%e6%b4%9b%e8%b0%b7p2408-%e4%b8%8d%e5%90%8c%e5%ad%90%e4%b8%b2%e4%b8%aa%e6%95%b0httpswwwluogucomcnproblemp2408">例1</a>。</p>
 <h3 id="比较字符串中两个子串的大小关系">比较字符串中，两个子串的大小关系</h3>
 <p>如果需要比较 $A = S[a&hellip;b]$ 和 $B = S[c&hellip;d]$ 的大小关系，那么：</p>
 <p>求出后缀 $S[a&hellip;]$ 与 $S[c&hellip;]$ 的 LCP长度，设其为 $L$。</p>
@@ -358,6 +425,20 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="多个字符串的最长公共子串">多个字符串的最长公共子串</h3>
+<p>用 <strong>不同的分隔符</strong> 将这些字符串连在一起，然后利用滑动窗口，保证窗口内每一个来源的后缀都存在时，用 ST 表求窗口的 <code>height[]</code> 最小值即可。</p>
+<p>• 注意需要不同的分隔符，否则会有影响（至于分隔符是比所有字符大还是小都无所谓）。不过需要用 $O(n\log^2 n)$ 版本的算法，保证不受值域影响。</p>
+<p>见 <a href="/post/102-%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84/#%e4%be%8b7-uva11107-life-formshttpswwwluogucomcnproblemuva11107">例7</a>。</p>
+<h3 id="出现至少-k-次的子串的最大长度">出现至少 $k$ 次的子串的最大长度</h3>
+<p>如果一个子串在母串中出现了至少 $k$ 次，设其长度为 $L$。这意味着至少有 $k$ 个后缀的LCP的长度 $\geq L$。</p>
+<p>那么二分这个长度 $L$，然后在 <code>height</code> 数组里观察，是否有连续 $(k-1)$ 个数 $\geq L$ 即可。</p>
+<p>见 <a href="/post/102-%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84/#%e4%be%8b8-%e6%b4%9b%e8%b0%b7p2852-usaco06dec-milk-patterns-ghttpswwwluogucomcnproblemp2852">例8</a>。</p>
+<h3 id="t-的每一个前缀在-s-中出现的所有位置">$t$ 的每一个前缀在 $s$ 中出现的所有位置</h3>
+<p>给定一个字符串 $s$，每次询问给定另外一个字符串 $t$，我们需要知道 $t$ 的每一个前缀 $t[1&hellip;i]$ 在 $s$ 中的哪些位置出现了？</p>
+<p>任何字符串如果出现在 $s$ 中了，那么它出现的位置一定是后缀数组上的一个连续的区间 $[L,R]$。</p>
+<p>假设 $p[1&hellip;i]$ 对应的区间是 $[L,R]$，而 $p[1&hellip;i+1]$ 对应的区间是 $[L',R']$，那么一定有 $[L',R'] \subseteq [L,R]$。</p>
+<p>于是直接枚举前缀长度，从 $1$ 枚举到 $m$，枚举过程中缩小 $[L,R]$ 这个区间，缩小的方式就是比较当前前缀的最后一个字母与 $L,R$ 对应的后缀相应位置的字母的大小（因为我们已经保证了 $p[1&hellip;i]$ 对应的区间是 $[L,R]$，所以只需要比较当前后缀的最后一个字母）。</p>
+<p>见<a href="/post/102-%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84/#%e4%be%8b9-cf149e-martian-stringshttpscodeforcescomcontest149probleme">例9</a>。</p>
 <h2 id="例题">例题</h2>
 <h3 id="例1-洛谷p2408-不同子串个数httpswwwluogucomcnproblemp2408">例1 洛谷P2408 <a href="https://www.luogu.com.cn/problem/P2408" target="_blank">不同子串个数</a></h3>
 <div class="admonition question">
@@ -816,7 +897,7 @@ int main() {
 }
 </code></pre>
 </details>
-<h3 id="例5-noi2016-优秀的拆分httpslojacp2083">例5 NOI2016 <a href="https://loj.ac/p/2083" target="_blank">优秀的拆分</a></h3>
+<h3 id="例6-noi2016-优秀的拆分httpslojacp2083">例6 NOI2016 <a href="https://loj.ac/p/2083" target="_blank">优秀的拆分</a></h3>
 <div class="admonition question">
   <p class="admonition-title">题意</p>
 <p>如果一个字符串可以被拆分为 $\text{AABB}$ 的形式，其中 $\text{A}$ 和 $\text{B}$ 是<strong>非空</strong>字符串，则我们称该字符串的这种拆分是优秀的。</p>
@@ -982,6 +1063,534 @@ int main() {
 }
 </code></pre>
 </details>
+<h3 id="例7-uva11107-life-formshttpswwwluogucomcnproblemuva11107">例7 UVA11107 <a href="https://www.luogu.com.cn/problem/UVA11107" target="_blank">Life Forms</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定 $n$ 个字符串，求最长子串，使得这个子串在超过 $\frac{n}{2}$ 个字符串中出现了。</p>
+<p>其中，$n \leq 100$，所有字符串长度 $\leq 1000$。</p>
+<p>若有多个长度相同的子串满足条件，将它们全部输出。若无答案输出 <code>?</code>。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>将所有字符串连在一起（注意需要使用 <strong>不同的分隔符</strong>！！）</p>
+<p>然后用滑动窗口，保证窗口内的后缀的来源超过 $\frac{n}{2}$ 个字符串即可，然后在滑动的过程中，窗口满足这个条件的话就用ST表求出最长子串。</p>
+<p>• 由于有100个分隔符，只能用 <code>int</code> 而不能用 <code>string</code> 了，并且使用 $O(n\log^2 n)$ 的算法。</p>
+<p>• 注意特判一下 $n=1$ 的情况。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5000;
+
+// sa[i]：所有的后缀排序后，第 $i$ 小的后缀的编号。（排第 $i$ 名的是 sa[i] 这个后缀）。
+// rk[i]：后缀 $i$ 的排名。（第 $i$ 个后缀的排名是 rk[i]）。
+// height[i]: LCP(sa[i-1], sa[i])，即第 $i-1$ 名的后缀和 第 $i$ 名的后缀的最长公共前缀长度
+struct SparseTable {
+    int n;
+    vector&lt;int&gt; a;
+    int st[maxn][18], bin[maxn];
+    int ask_st(int l, int r) {
+        int len = r-l+1;
+        int k = bin[len];
+        return min(st[l][k], st[r-(1&lt;&lt;k)+1][k]);
+    }
+ 
+    void build_st() {
+        bin[1] = 0; bin[2] = 1;
+        for (int i = 3; i &lt; maxn; i++) bin[i] = bin[i&gt;&gt;1] + 1;
+        for (int i = 1; i &lt;= n; i++) st[i][0] = a[i];
+        for (int k = 1; k &lt; 18; k++) {
+            for (int i = 1; i + (1&lt;&lt;k) - 1 &lt;= n; i++)
+                st[i][k] = min(st[i][k-1], st[i+(1&lt;&lt;(k-1))][k-1]);
+        }
+    }
+};
+
+struct SA {
+    SparseTable st;
+    int n, sa[maxn], rk[maxn&lt;&lt;1], oldrk[maxn&lt;&lt;1], height[maxn];  // 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1]
+    int s[maxn];
+    bool cmp(int i, int j, int w) {
+        return oldrk[i] == oldrk[j] &amp;&amp; oldrk[i+w] == oldrk[j+w];
+    }
+    void init(vector&lt;int&gt;&amp; ss) {   // 不再是普通的字符串，而是 vector&lt;int&gt; 了，注意长度就是 n，不要添加多余的元素！
+        n = ss.size();
+        for (int i = 1; i &lt;= n; i++) s[i] = ss[i-1], rk[i] = s[i], sa[i] = i;
+
+        for (int w = 1; w &lt;= n; w &lt;&lt;= 1) {  // 注意中间没有break的条件
+            sort(sa + 1, sa + n + 1, [&amp;](int x, int y) {
+                return rk[x] == rk[y] ? rk[x + w] &lt; rk[y + w] : rk[x] &lt; rk[y];
+            });
+
+            memcpy(oldrk+1, rk+1, n*sizeof(int));
+            int p = 0;
+            for (int i = 1; i &lt;= n; i++) {
+                rk[sa[i]] = cmp(sa[i], sa[i-1], w) ? p : (++p);
+            }
+            if (p == n) {
+                for (int i = 1; i &lt;= n; i++) sa[rk[i]] = i;
+                break;
+            }
+        }
+
+        // 求 height
+        int k = 0;
+        for (int i = 1; i &lt;= n; i++) {
+            if (rk[i] == 0) continue;
+            if (k &gt; 0) k--;
+            while (s[i+k] == s[sa[rk[i]-1]+k]) k++;
+            height[rk[i]] = k;
+        }
+
+        st.n = n;
+        st.a.resize(n+5);
+        for (int i = 1; i &lt;= n; i++) {
+            st.a[i] = height[i];
+        }
+        st.build_st();
+    }
+
+    void clear() {
+        st.n = 0;
+        memset(sa, 0, sizeof(sa));
+        memset(rk, 0, sizeof(rk));
+        memset(oldrk, 0, sizeof(oldrk));
+        memset(height, 0, sizeof(height));
+        memset(s, 0, sizeof(s));
+        memset(st.st, 0, sizeof(st.st));
+        st.a.clear();
+    }
+} sa;
+
+int n, from[maxn], cnt[maxn];
+string s[maxn];
+void solve() {
+    memset(from, 0, sizeof(from));
+    memset(cnt, 0, sizeof(cnt));
+    for (int i = 1; i &lt;= n; i++) s[i] = &quot;&quot;;
+    sa.clear();
+
+    int N = 0; 
+    vector&lt;int&gt; S;
+    for (int i = 1; i &lt;= n; i++) {
+        cin &gt;&gt; s[i];
+        for (int c : s[i]) S.push_back(c);
+        if (i &lt; n) {
+            S.push_back((int)'z' + i);
+        }
+    }
+    if (n == 1) {
+        cout &lt;&lt; s[1] &lt;&lt; &quot;\n&quot;;
+        return;
+    }
+
+    N = S.size();
+    sa.init(S);
+    int len = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        for (int j = len + i; j &lt;= len + i + s[i].size() - 1; j++) {
+            from[sa.rk[j]] = i;
+        }
+        len += s[i].size();
+    }
+
+    int L = 1, R = 0, sum = 0, ans = 0;
+    while (R &lt;= N) {
+        while (R+1 &lt;= N &amp;&amp; sum &lt; n/2 + 1) {
+            if (from[R+1]) {
+                int f = from[R+1];
+                cnt[f]++;
+                if (cnt[f] == 1) sum++;
+            }
+            R++;
+        }
+        while (L+1 &lt;= R &amp;&amp; sum &gt;= n/2 + 1) {
+            if (from[L]) {
+                ans = max(ans, sa.st.ask_st(L+1, R));
+                int f = from[L];
+                cnt[f]--;
+                if (cnt[f] == 0) sum--;
+            }
+            L++;
+        }
+        if (R == N &amp;&amp; sum &lt; n/2 + 1) break;
+    }
+    L = 1, R = 0, sum = 0;
+    memset(cnt, 0, sizeof(cnt));
+
+    set&lt;string&gt; res;
+    while (R &lt;= N) {
+        while (R+1 &lt;= N &amp;&amp; sum &lt; n/2 + 1) {
+            if (from[R+1]) {
+                int f = from[R+1];
+                cnt[f]++;
+                if (cnt[f] == 1) sum++;
+            }
+            R++;
+        }
+
+        while (L+1 &lt;= R &amp;&amp; sum &gt;= n/2 + 1) {
+            if (from[L]) {
+                if (sum &gt;= n/2 + 1 &amp;&amp; ans &amp;&amp; sa.st.ask_st(L+1, R) == ans) {
+                    res.insert(string(S.begin() + sa.sa[R] - 1, S.begin() + sa.sa[R] + ans - 1));
+                }
+                int f = from[L];
+                cnt[f]--;
+                if (cnt[f] == 0) sum--;
+            }
+            L++;
+        }
+        if (R == N &amp;&amp; sum &lt; n/2 + 1) break;
+    }
+    if (res.size()) {
+        for (string x : res) cout &lt;&lt; x &lt;&lt; &quot;\n&quot;;
+    } else cout &lt;&lt; &quot;?\n&quot;;
+}
+
+
+int main() {
+    int T = 0;
+    while (cin &gt;&gt; n &amp;&amp; n) {
+        if (T &gt; 0) cout &lt;&lt; &quot;\n&quot;;
+        T++;
+        solve();
+    }
+}
+</code></pre>
+</details>
+<h3 id="例8-洛谷p2852-usaco06dec-milk-patterns-ghttpswwwluogucomcnproblemp2852">例8 洛谷P2852 <a href="https://www.luogu.com.cn/problem/P2852" target="_blank">[USACO06DEC] Milk Patterns G</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的数组，和一个正整数 $k$。</p>
+<p>求出现了至少 $k$ 次的子数组的最大长度。</p>
+<p>其中，$n \leq 20000, k \in [2,n], a_i \in [0,10^7]$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>由于这个不是 string 了，得用 $O(n\log^2n)$ 的算法。</p>
+<p>剩下的看 <a href="/post/102-%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84/#%e5%87%ba%e7%8e%b0%e8%87%b3%e5%b0%91-k-%e6%ac%a1%e7%9a%84%e5%ad%90%e4%b8%b2%e7%9a%84%e6%9c%80%e5%a4%a7%e9%95%bf%e5%ba%a6">上面</a> 即可。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+struct SA {
+    int n, sa[maxn], rk[maxn&lt;&lt;1], oldrk[maxn&lt;&lt;1], height[maxn];  // 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1]
+    int s[maxn];
+    bool cmp(int i, int j, int w) {
+        return oldrk[i] == oldrk[j] &amp;&amp; oldrk[i+w] == oldrk[j+w];
+    }
+    void init(vector&lt;int&gt;&amp; ss) {   // 不再是普通的字符串，而是 vector&lt;int&gt; 了，注意长度就是 n，不要添加多余的元素！
+        n = ss.size();
+        for (int i = 1; i &lt;= n; i++) s[i] = ss[i-1], rk[i] = s[i], sa[i] = i;
+
+        for (int w = 1; w &lt;= n; w &lt;&lt;= 1) {  // 注意中间没有break的条件
+            sort(sa + 1, sa + n + 1, [&amp;](int x, int y) {
+                return rk[x] == rk[y] ? rk[x + w] &lt; rk[y + w] : rk[x] &lt; rk[y];
+            });
+
+            memcpy(oldrk+1, rk+1, n*sizeof(int));
+            int p = 0;
+            for (int i = 1; i &lt;= n; i++) {
+                rk[sa[i]] = cmp(sa[i], sa[i-1], w) ? p : (++p);
+            }
+            if (p == n) {
+                for (int i = 1; i &lt;= n; i++) sa[rk[i]] = i;
+                break;
+            }
+        }
+
+        // 求 height
+        int k = 0;
+        for (int i = 1; i &lt;= n; i++) {
+            if (rk[i] == 0) continue;
+            if (k &gt; 0) k--;
+            while (s[i+k] == s[sa[rk[i]-1]+k]) k++;
+            height[rk[i]] = k;
+        }
+    }
+
+    void clear() {
+        st.n = 0;
+        memset(sa, 0, sizeof(sa));
+        memset(rk, 0, sizeof(rk));
+        memset(oldrk, 0, sizeof(oldrk));
+        memset(height, 0, sizeof(height));
+        memset(s, 0, sizeof(s));
+        memset(st.st, 0, sizeof(st.st));
+        st.a.clear();
+    }
+} sa;
+
+int n, k;
+bool check(int x) {
+    int cnt = 0;
+    for (int i = 2; i &lt;= n; i++) {
+        if (sa.height[i] &gt;= x) cnt++;
+        else {
+            if (cnt &gt;= k-1) return 1;
+            cnt = 0;
+        }
+    }
+    if (cnt &gt;= k-1) return 1;
+    return 0;
+}
+int main() {
+    cin &gt;&gt; n &gt;&gt; k;
+    vector&lt;int&gt; a;
+    for (int i = 1; i &lt;= n; i++) {
+        int x; cin &gt;&gt; x;
+        a.push_back(x);
+    }
+    sa.init(a);
+
+    int low = 0, high = n, ans = 0;
+    while (low &lt;= high) {
+        int mid = (low + high) &gt;&gt; 1;
+        if (check(mid)) {
+            low = mid+1;
+            ans = mid;
+        } else high = mid-1;
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<h3 id="例9-cf149e-martian-stringshttpscodeforcescomcontest149probleme">例9 CF149E <a href="https://codeforces.com/contest/149/problem/E" target="_blank">Martian Strings</a></h3>
+<div class="admonition question">
+  <p class="admonition-title">题意</p>
+<p>给定一个长度为 $n$ 的字符串 $s$，然后给定 $q$ 个询问，每次询问给一个字符串 $p$，询问是否存在 $1 \leq L_1 \leq R_1 &lt; L_2 \leq R_2 \leq n$ 使得：</p>
+<p>$$s[L_1&hellip;R_1] + s[L_2&hellip;R_2] = p$$</p>
+<p>其中，$n \leq 10^5, q \leq 100, |p_i| \leq 1000$。</p>
+</div>
+<details class="admonition note"><summary class="admonition-title">题解</summary>
+<p>我们思考以下问题：</p>
+<blockquote>
+<p>对于 $p$ 的每一个前缀 $p[1&hellip;i]$，我们是否能找出这个前缀在 $s$ 中出现的所有位置？并找到出现位置中，最靠前的那一个。</p>
+</blockquote>
+<p>如果能解决上述问题，我们可以：</p>
+<ol>
+<li>
+<p>先求出 $p$ 的每一个前缀在 $s$ 中最靠前的位置。</p>
+</li>
+<li>
+<p>将 $s$ 和 $p$ 都反过来得到 $s', p'$，然后求出 $p'$ 的每一个前缀在 $s'$ 中最靠前的位置。</p>
+</li>
+<li>
+<p>枚举 $p$ 的前缀长度 $j$（对应可得到 $p'$ 的前缀长度等于 $m-j$），然后判断一下两个出现位置是否有重叠即可，如果没有说明有解。</p>
+</li>
+</ol>
+<hr>
+<p>于是我们思考怎么解决上述问题。</p>
+<p>首先，由于后缀数组中所有后缀是 sorted 的，所以任何字符串如果出现在 $s$ 中了，那么它出现的位置一定是后缀数组上的一个连续的区间 $[L,R]$，这个特性我们在 <a href="/post/102-%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84/#%e6%9f%a5%e8%af%a2%e4%b8%80%e4%b8%aa%e5%a4%9a%e4%b8%aa%e6%a8%a1%e5%bc%8f%e4%b8%b2-t-%e5%9c%a8%e6%96%87%e6%9c%ac%e4%b8%b2-s-%e4%b8%ad%e5%87%ba%e7%8e%b0%e7%9a%84%e6%89%80%e6%9c%89%e4%bd%8d%e7%bd%ae">利用<strong>二分</strong>来查找子串</a> 中也看到了。</p>
+<p>假设我们知道 $p[1&hellip;i]$ 对应的区间是 $[L,R]$，而 $p[1&hellip;i+1]$ 对应的区间是 $[L',R']$，那么一定有 $[L',R'] \subseteq [L,R]$，因为条件更苛刻了。</p>
+<p>由于这个特性，令 $L=1, R=n$。我们直接枚举前缀长度，从 $1$ 枚举到 $m$，枚举过程中缩小 $[L,R]$ 这个区间，缩小的方式就是比较当前前缀的最后一个字母与 $L,R$ 对应的后缀相应位置的字母的大小（因为我们已经保证了 $p[1&hellip;i]$ 对应的区间是 $[L,R]$，所以只需要比较当前后缀的最后一个字母）。</p>
+<p>这样对于 $p$ 的每一个前缀，就都可以求出它出现在 $s$ 中的所有位置了。</p>
+<p>要找到最靠前的那一个，我们用 ST 表维护 <code>sa.sa[]</code> 这个数组的区间最小值即可。</p>
+<p>复杂度：$O(n\log n + \sum m)$</p>
+<p>• 对于 $|p| = 1$ 的情况直接返回 false 即可。</p>
+<hr>
+<p>KMP做法：</p>
+<p>说到后缀就想到SA，说到前缀那必然是想到 KMP 了。</p>
+<p>KMP虽然无法求出 $p$ 的每一个前缀在 $s$ 中出现的所有位置，但是可以求出每个前缀出现的最靠前位置，在 kmp 的子串匹配中就可以很轻松的做到了。</p>
+</details>
+<details class="admonition note"><summary class="admonition-title">后缀数组代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5+5000;
+ 
+struct SparseTable {
+    int n;
+    vector&lt;int&gt; a;
+    int st[maxn][18], bin[maxn];
+    int ask_st(int l, int r) {
+        int len = r-l+1;
+        int k = bin[len];
+        return min(st[l][k], st[r-(1&lt;&lt;k)+1][k]);
+    }
+ 
+    void build_st() {
+        bin[1] = 0; bin[2] = 1;
+        for (int i = 3; i &lt; maxn; i++) bin[i] = bin[i&gt;&gt;1] + 1;
+        for (int i = 1; i &lt;= n; i++) st[i][0] = a[i];
+        for (int k = 1; k &lt; 18; k++) {
+            for (int i = 1; i + (1&lt;&lt;k) - 1 &lt;= n; i++)
+                st[i][k] = min(st[i][k-1], st[i+(1&lt;&lt;(k-1))][k-1]);
+        }
+    }
+};
+struct SA {
+    SparseTable st;
+    int n, sa[maxn], rk[maxn&lt;&lt;1], oldrk[maxn&lt;&lt;1], cnt[maxn], id[maxn], key1[maxn], height[maxn];  // 注意 rk[maxn&lt;&lt;1] oldrk[maxn&lt;&lt;1]
+    char s[maxn];
+    int m = 127;
+    bool cmp(int i, int j, int w) {
+        return oldrk[i] == oldrk[j] &amp;&amp; oldrk[i+w] == oldrk[j+w];
+    }
+    void init(string&amp; ss) {
+        n = ss.size();
+        for (int i = 1; i &lt;= n; i++) s[i] = ss[i-1];
+        for (int i = 1; i &lt;= n; i++) rk[i] = s[i], cnt[rk[i]]++;
+        for (int i = 1; i &lt;= m; i++) cnt[i] += cnt[i-1];
+        for (int i = n; i &gt;= 1; i--) sa[cnt[rk[i]]--] = i;
+        int p = 0;  // 当前值域
+        for (int w = 1; w &lt;= n; w &lt;&lt;= 1) {  // 注意中间没有break的条件
+            p = 0;
+            for (int i = n; i &gt; n-w; i--) id[++p] = i;
+            for (int i = 1; i &lt;= n; i++) {
+                if (sa[i] &gt; w) id[++p] = sa[i] - w;
+            }
+            memset(cnt, 0, sizeof(cnt));
+            for (int i = 1; i &lt;= n; i++) key1[i] = rk[id[i]], cnt[key1[i]]++;
+            for (int i = 1; i &lt;= m; i++) cnt[i] += cnt[i-1];
+            for (int i = n; i &gt;= 1; i--) sa[cnt[key1[i]]--] = id[i];
+            memcpy(oldrk+1, rk+1, n*sizeof(int));
+            p = 0;
+            for (int i = 1; i &lt;= n; i++) {
+                rk[sa[i]] = cmp(sa[i], sa[i-1], w) ? p : (++p);
+            }
+            if (p == n) {
+                for (int i = 1; i &lt;= n; i++) sa[rk[i]] = i;
+                break;
+            }
+            m = p;
+        }
+        // 求 height
+        int k = 0;
+        for (int i = 1; i &lt;= n; i++) {
+            if (rk[i] == 0) continue;
+            if (k &gt; 0) k--;
+            while (s[i+k] == s[sa[rk[i]-1]+k]) k++;
+            height[rk[i]] = k;
+        }
+        st.n = n;
+        st.a.resize(n+5);
+        for (int i = 1; i &lt;= n; i++) {
+            st.a[i] = sa[i];
+        }
+        st.build_st();
+    }
+} sa, sa2;
+int n;
+ 
+// ans[i]: t[1..i] 出现的最小位置（根据 sa 来决定是正着还是反着）
+vector&lt;int&gt; getans(SA&amp; sa, string t) {
+    int L = 1, R = n;
+    int m = t.size();
+    vector&lt;int&gt; ans(m+1, n+1);
+    ans[0] = 0;
+ 
+    for (int j = 1; j &lt;= m; j++) {
+        // 比较 t[j-1]
+        while (L &lt;= R) {
+            int st = sa.sa[L];
+            if (st + j - 1 &gt; n || sa.s[st+j-1] &lt; t[j-1]) {  // 长度不够了 或者 t 更大
+                L++;
+                continue;
+            }
+            st = sa.sa[R];
+            if (st + j - 1 &gt; n || sa.s[st+j-1] &gt; t[j-1]) {  // 长度不够了 或者 s 更大
+                R--;
+                continue;
+            }
+            break;
+        }
+        if (L &gt; R) break;
+ 
+        ans[j] = sa.st.ask_st(L, R);
+    }
+    return ans;
+}
+ 
+bool solve(string t) {
+    if (t.size() == 1) return 0;
+    string t2 = t; reverse(t2.begin(), t2.end());
+    vector&lt;int&gt; ans1 = getans(sa, t);
+    vector&lt;int&gt; ans2 = getans(sa2, t2);
+    int m = t.size();
+    for (int j = 0; j &lt;= m; j++) {
+        int ed1 = ans1[j] + j - 1;
+        int ed2 = (n-ans2[m-j]+1 - (m-j) + 1);
+        if (ed1 &lt; ed2) {
+            return 1;
+        }
+    }
+    return 0;
+}
+ 
+string s, s2; 
+int main() {
+    cin &gt;&gt; s; sa.init(s);
+    n = s.size();
+    s2 = s; reverse(s2.begin(), s2.end()); sa2.init(s2);
+    int m; cin &gt;&gt; m;
+    int ans = 0;
+    while (m--) {
+        string t; cin &gt;&gt; t;
+        ans += solve(t);
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre>
+</details>
+<details class="admonition note"><summary class="admonition-title">KMP代码</summary>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int n;
+string s, s2;
+ 
+// ans[i]: t[1..i] 出现的最小位置（根据 sa 来决定是正着还是反着）
+vector&lt;int&gt; getans(string&amp; s, string t) {
+    int m = t.size();
+    vector&lt;int&gt; ans(m+1, n+1);
+    ans[0] = 0;
+    vector&lt;int&gt; kmp(m+1, 0);
+    int j = 0;
+    for (int i = 2; i &lt;= m; i++) {
+        while (j &gt; 0 &amp;&amp; t[i-1] != t[j]) j = kmp[j];
+        if (t[i-1] == t[j]) j++;
+        kmp[i] = j;
+    }
+    j = 0;
+    for (int i = 1; i &lt;= n; i++) {
+        while (j &gt; 0 &amp;&amp; s[i-1] != t[j]) j = kmp[j];
+        if (s[i-1] == t[j]) j++;
+        ans[j] = min(ans[j], i-j+1);
+        if (j == m) {
+            j = kmp[j];
+        }
+    }
+    return ans;
+}
+ 
+bool solve(string t) {
+    if (t.size() == 1) return 0;
+    string t2 = t; reverse(t2.begin(), t2.end());
+    vector&lt;int&gt; ans1 = getans(s, t);
+    vector&lt;int&gt; ans2 = getans(s2, t2);
+    int m = t.size();
+    for (int j = 0; j &lt;= m; j++) {
+        int ed1 = ans1[j] + j - 1;
+        int ed2 = (n-ans2[m-j]+1 - (m-j) + 1);
+        if (ed1 &lt; ed2) {
+            return 1;
+        }
+    }
+    return 0;
+}
+ 
+int main() {
+    cin &gt;&gt; s;
+    n = s.size();
+    s2 = s; reverse(s2.begin(), s2.end());
+    int m; cin &gt;&gt; m;
+    int ans = 0;
+    while (m--) {
+        string t; cin &gt;&gt; t;
+        ans += solve(t);
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+</code></pre>
+</details>
 
     </div>
 
@@ -993,8 +1602,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-12-14 00:29:27 &#43;0000 UTC">2023-12-14</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/fc40839a1d9a53e869b7c8f31129ad5fe4f89524" title="chore: update CF Problems" target="_blank">(fc40839)</a>
+        <span title="2023-12-15 12:41:11 -0600 -0600">2023-12-15</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/1455857eef895fdd894acda0f189273750a286b4" title="fix bad link in 102" target="_blank">(1455857e)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/102-%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -1092,7 +1701,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
+<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

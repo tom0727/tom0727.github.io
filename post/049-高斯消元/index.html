@@ -23,7 +23,7 @@
 <meta name="google-site-verification" content="tom0727" />
 
 
-<meta name="generator" content="Hugo 0.92.2 with theme even" />
+<meta name="generator" content="Hugo 0.69.2 with theme even" />
 
 
 <link rel="canonical" href="https://tom0727.github.io/post/049-%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83/" />
@@ -31,21 +31,24 @@
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<link href="/sass/main.min.50774fcc95c5f4c6d28ee22c089932ef952e241ad4f371c9ea963e2b2dcf2bd9.css" rel="stylesheet">
+<link href="/sass/main.min.466b9061d6a0d872b257fe5635e7e3f6e730d230bc4d5573d5bf47280d758499.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="高斯消元" />
 <meta property="og:description" content="板子 代码 struct GaussianElimination { int n, m; // n: 行 （方程个数）, m: 列 (变量个数) double A[1002][1002]; GaussianElimination(int n, int m) : n(n), m(m) {} vector&lt;double&gt; solve(int B = (int)1e6) { // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://tom0727.github.io/post/049-%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83/" /><meta property="article:section" content="post" />
+<meta property="og:url" content="https://tom0727.github.io/post/049-%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83/" />
 <meta property="article:published_time" content="2021-09-10T22:00:43+08:00" />
-<meta property="article:modified_time" content="2023-12-15T12:38:47-06:00" />
-
+<meta property="article:modified_time" content="2023-12-15T12:41:11-06:00" />
 <meta itemprop="name" content="高斯消元">
-<meta itemprop="description" content="板子 代码 struct GaussianElimination { int n, m; // n: 行 （方程个数）, m: 列 (变量个数) double A[1002][1002]; GaussianElimination(int n, int m) : n(n), m(m) {} vector&lt;double&gt; solve(int B = (int)1e6) { // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意"><meta itemprop="datePublished" content="2021-09-10T22:00:43+08:00" />
-<meta itemprop="dateModified" content="2023-12-15T12:38:47-06:00" />
-<meta itemprop="wordCount" content="5392">
+<meta itemprop="description" content="板子 代码 struct GaussianElimination { int n, m; // n: 行 （方程个数）, m: 列 (变量个数) double A[1002][1002]; GaussianElimination(int n, int m) : n(n), m(m) {} vector&lt;double&gt; solve(int B = (int)1e6) { // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意">
+<meta itemprop="datePublished" content="2021-09-10T22:00:43&#43;08:00" />
+<meta itemprop="dateModified" content="2023-12-15T12:41:11-06:00" />
+<meta itemprop="wordCount" content="5404">
+
+
+
 <meta itemprop="keywords" content="," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="高斯消元"/>
 <meta name="twitter:description" content="板子 代码 struct GaussianElimination { int n, m; // n: 行 （方程个数）, m: 列 (变量个数) double A[1002][1002]; GaussianElimination(int n, int m) : n(n), m(m) {} vector&lt;double&gt; solve(int B = (int)1e6) { // B: band 大小，指对于任意 A(i,j) != 0，若 i2-i &gt; B || j2-i &gt; B 则任意"/>
@@ -272,7 +275,7 @@
 <p>• 图上用 $d$ 表示了带状矩阵的宽，下文用 $B$ 来表示。</p>
 <p>如图，仅有橙色部分非 $0$。更严谨的定义：</p>
 <div class='align-center'>
-<p>对于任何 $A_{i,j} \neq 0$，$\forall (i',j')$，若 $|i-i'| &gt; B$，或者 $|j-j'| &gt; B$，则 $A_{i',j'} = 0$。</p>
+<p>对于任何 $A_{i,j} \neq 0$，$\forall (i&rsquo;,j&rsquo;)$，若 $|i-i'| &gt; B$，或者 $|j-j'| &gt; B$，则 $A_{i&rsquo;,j&rsquo;} = 0$。</p>
 </div>
 <p>对于这样的矩阵，可以注意到在消元时，只需要往上和往下消 $B$ 行即可，同样，在减去一行/交换一行时，也最多只用往左和往右延伸 $B$ 格。</p>
 <p>复杂度：$O(n B^2)$</p>
@@ -796,7 +799,7 @@ int main() {
 </details>
 <h2 id="参考链接">参考链接</h2>
 <ol>
-<li><a href="https://www.tonyyin.top/notes/gauss-elimination/" target="_blank">https://www.tonyyin.top/notes/gauss-elimination/</a></li>
+<li><a href="https://www.tonyyin.top/notes/gauss-elimination/">https://www.tonyyin.top/notes/gauss-elimination/</a></li>
 <li>带状矩阵：<a href="https://www.luogu.com.cn/blog/froggy/qian-tan-gao-si-xiao-yuan-ta-zhan-zhi-band-matrix" target="_blank">https://www.luogu.com.cn/blog/froggy/qian-tan-gao-si-xiao-yuan-ta-zhan-zhi-band-matrix</a></li>
 </ol>
 
@@ -810,8 +813,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2023-12-15 12:38:47 -0600 -0600">2023-12-15</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/f104db5562ba2c7c97e9503ef7fc7ea1035875c5" title="update 102" target="_blank">(f104db55)</a>
+        <span title="2023-12-15 12:41:11 -0600 -0600">2023-12-15</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/1455857eef895fdd894acda0f189273750a286b4" title="fix bad link in 102" target="_blank">(1455857)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/049-%e9%ab%98%e6%96%af%e6%b6%88%e5%85%83.md" target="_blank">更新历史</a>
     </span>
   </p>
@@ -908,7 +911,7 @@ int main() {
 
 
 
-<script type="text/javascript" src="/js/main.min.0c88f7cf32f800787806ca95a54b7042728d2798d3002d90604737953385f6f3.js"></script>
+<script type="text/javascript" src="/js/main.min.a97b46e8f6940a9e5434ee4f7eed6f78b15e5336792de56b4ca3b0fb338610ac.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {

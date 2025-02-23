@@ -40,11 +40,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tom0727.github.io/post/118-splay/" />
 <meta property="article:published_time" content="2023-10-16T21:57:15-05:00" />
-<meta property="article:modified_time" content="2025-02-03T00:39:28+00:00" />
+<meta property="article:modified_time" content="2025-02-22T00:37:53+00:00" />
 <meta itemprop="name" content="Splay">
 <meta itemprop="description" content="介绍 Splay 是一种自平衡的 BST（二叉搜索树）。 模版 代码 struct Splay { struct Node { int par, child[2], sz, cnt; ll val, flag; } tr[maxn]; int rt, id = 0; void push_up(int cur) { if (!cur) return; int lc = tr[cur].child[0], rc = tr[cur].child[1]; tr[cur].sz = tr[lc].sz &#43; tr[rc].sz &#43; tr[cur].cnt; } void push_down(int">
 <meta itemprop="datePublished" content="2023-10-16T21:57:15-05:00" />
-<meta itemprop="dateModified" content="2025-02-03T00:39:28&#43;00:00" />
+<meta itemprop="dateModified" content="2025-02-22T00:37:53&#43;00:00" />
 <meta itemprop="wordCount" content="6331">
 
 
@@ -1165,8 +1165,8 @@ int main() {
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        <span title="2025-02-03 00:39:28 &#43;0000 UTC">2025-02-03</span>
-        <a href="https://github.com/tom0727/hugo-blog/commit/bf38ea22729c79c8d782d465f148a957e1775afa" title="chore: update CF Problems" target="_blank">(bf38ea2)</a>
+        <span title="2025-02-22 00:37:53 &#43;0000 UTC">2025-02-22</span>
+        <a href="https://github.com/tom0727/hugo-blog/commit/1d1300a64aea991a264ddf7f664025d0c7ff9375" title="chore: update CF Problems" target="_blank">(1d1300a)</a>
         ，<a href="https://github.com/tom0727/hugo-blog/commits/master/content/post/118-splay.md" target="_blank">更新历史</a>
     </span>
   </p>

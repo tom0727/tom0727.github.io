@@ -2,13 +2,17 @@ name: Update Clicks
 
 on:
   schedule:
-    - cron: "0 0 1 * *"
+    # 每周日 04:17 UTC（北京时间 12:17）。刻意避开整点：
+    # GitHub 在 cron 高峰（尤其 "0 0"）会丢弃排队的定时任务。
+    # 每周跑一次也保证 60 天内有足够多次成功提交，仓库不会被判定为不活跃。
+    - cron: "17 4 * * 0"
+  workflow_dispatch:
 
 jobs:
   update-clicks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -32,7 +36,7 @@ jobs:
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
-          git commit -am "chore: update clicks"
+          git diff --quiet && git diff --staged --quiet || git commit -am "chore: update clicks"
 
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
@@ -40,8 +44,18 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
 
-      - name: Trigger Deploy
-        uses: benc-uk/workflow-dispatch@v1.1
+      # Rebuild and deploy in-place. A push made with GITHUB_TOKEN does not
+      # trigger the Deploy workflow, so the site has to be published here.
+      - name: Build site
+        run: |
+          git config core.quotePath false
+          hugo --minify
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          workflow: Deploy
-          token: ${{ secrets.PERSONAL_TOKEN }}
+          external_repository: tom0727/tom0727.github.io
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: publish
+          commit_message: "chore: update clicks"

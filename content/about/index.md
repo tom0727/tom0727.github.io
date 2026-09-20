@@ -5,10 +5,6 @@ date = 2021-01-31T22:57:58+08:00
 
 ### Hello, this is Tom!
 
-If you have trouble visiting this site (especially for mainland China users), please try visit 
-
-https://tom0727.gitee.io/
-
 # About me
 
 - Undergraduate study **CS @ HKU** (The University of Hong Kong), **Sep 2018 - June 2022**
